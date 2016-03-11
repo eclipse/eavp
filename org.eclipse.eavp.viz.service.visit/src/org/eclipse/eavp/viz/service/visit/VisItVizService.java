@@ -19,7 +19,7 @@ import java.util.Set;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
-import org.eclipse.eavp.viz.service.modeling.IControllerFactory;
+import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.visit.connections.VisItConnectionManager;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -138,33 +138,9 @@ public class VisItVizService extends ConnectionVizService<VisItSwtConnection> {
 	 * @see org.eclipse.eavp.viz.service.IVizService#getFactory()
 	 */
 	@Override
-	public IControllerFactory getFactory() {
+	public IControllerProviderFactory getFactory() {
 		// The VisIt visualization service does not make use of the model
 		// framework, so it has no factory
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.IVizService#getNumAdditionalPages()
-	 */
-	@Override
-	public int getNumAdditionalPages() {
-		return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.IVizService#createAdditionalPage(org.eclipse.
-	 * swt.widgets.Composite, java.net.URI, int)
-	 */
-	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent,
-			IFileEditorInput file, int pageNum) {
-		// No additional pages, so nothing to do
 		return null;
 	}
 }

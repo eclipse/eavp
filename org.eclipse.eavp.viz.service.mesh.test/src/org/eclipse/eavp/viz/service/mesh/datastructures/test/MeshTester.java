@@ -19,12 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
-import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
-import org.eclipse.eavp.viz.service.modeling.EdgeAndVertexFaceMesh;
+import org.eclipse.eavp.viz.service.modeling.BasicController;
+import org.eclipse.eavp.viz.service.modeling.BasicMesh;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.DetailedFaceMesh;
 import org.eclipse.eavp.viz.service.modeling.EdgeController;
 import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.MeshCategory;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.VertexController;
 import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 import org.junit.Test;
@@ -59,8 +63,8 @@ public class MeshTester {
 		 *   This also changes the triangle!
 		 */
 
-		AbstractController mesh = new AbstractController(new AbstractMesh(),
-				new AbstractView());
+		IController mesh = new BasicController(new BasicMesh(),
+				new BasicView());
 		NekPolygonController polygon;
 		ArrayList<VertexController> vertices;
 		VertexController vertex;
@@ -75,34 +79,35 @@ public class MeshTester {
 		// Create the vertices.
 		vertices = new ArrayList<VertexController>();
 		vertices.add(new VertexController(new VertexMesh(0f, 0f, 0f),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(1f, 0f, 0f),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(1f, 0f, 1f),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(0f, 0f, 1f),
-				new AbstractView()));
+				new BasicView()));
 		for (VertexController v : vertices) {
-			v.setProperty("Id", Integer.toString(counter++));
+			v.setProperty(MeshProperty.ID, Integer.toString(counter++));
 		}
 		// Create the edges.
 		edges = new ArrayList<EdgeController>();
 		for (int i = 0; i < 4; i++) {
 			edges.add(new TestEdge(
 					new EdgeMesh(vertices.get(i), vertices.get((i + 1) % 4)),
-					new AbstractView()));
-			edges.get(i).setProperty("Id", Integer.toString(counter++));
+					new BasicView()));
+			edges.get(i).setProperty(MeshProperty.ID,
+					Integer.toString(counter++));
 		}
 		// Create the polygon.
-		polygon = new NekPolygonController(new EdgeAndVertexFaceMesh(),
-				new AbstractView());
+		polygon = new NekPolygonController(new DetailedFaceMesh(),
+				new BasicView());
 		for (EdgeController e : edges) {
-			polygon.addEntityByCategory(e, "Edges");
+			polygon.addEntityToCategory(e, MeshCategory.EDGES);
 		}
 		for (VertexController v : vertices) {
-			polygon.addEntityByCategory(v, "Vertices");
+			polygon.addEntityToCategory(v, MeshCategory.VERTICES);
 		}
-		polygon.setProperty("Id", Integer.toString(counter++));
+		polygon.setProperty(MeshProperty.ID, Integer.toString(counter++));
 
 		// Update the current lists of all edges, vertices, and polygons.
 		allVertices.addAll(vertices);
@@ -120,33 +125,35 @@ public class MeshTester {
 		// Create the vertices.
 		vertices = new ArrayList<VertexController>();
 		vertices.add(new VertexController(new VertexMesh(1f, 0f, 1f),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(2f, 0f, 1f),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(2f, 0f, 2f),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(1f, 0f, 2f),
-				new AbstractView()));
-		vertices.get(0).setProperty("Id", "3");
+				new BasicView()));
+		vertices.get(0).setProperty(MeshProperty.ID, "3");
 		for (int i = 1; i < 4; i++) {
-			vertices.get(i).setProperty("Id", Integer.toString(counter++));
+			vertices.get(i).setProperty(MeshProperty.ID,
+					Integer.toString(counter++));
 		}
 		// Create the edges.
 		edges = new ArrayList<EdgeController>();
 		for (int i = 0; i < 4; i++) {
 			edges.add(new TestEdge(vertices.get(i), vertices.get((i + 1) % 4)));
-			edges.get(i).setProperty("Id", Integer.toString(counter++));
+			edges.get(i).setProperty(MeshProperty.ID,
+					Integer.toString(counter++));
 		}
 		// Create the polygon.
-		polygon = new NekPolygonController(new EdgeAndVertexFaceMesh(),
-				new AbstractView());
+		polygon = new NekPolygonController(new DetailedFaceMesh(),
+				new BasicView());
 		for (EdgeController e : edges) {
-			polygon.addEntityByCategory(e, "Edges");
+			polygon.addEntityToCategory(e, MeshCategory.EDGES);
 		}
 		for (VertexController v : vertices) {
-			polygon.addEntityByCategory(v, "Vertices");
+			polygon.addEntityToCategory(v, MeshCategory.VERTICES);
 		}
-		polygon.setProperty("Id", Integer.toString(counter++));
+		polygon.setProperty(MeshProperty.ID, Integer.toString(counter++));
 
 		// Update the current lists of all edges, vertices, and polygons.
 		for (int i = 0; i < 4; i++) {
@@ -183,32 +190,34 @@ public class MeshTester {
 		// Create the vertices.
 		vertices = new ArrayList<VertexController>();
 		vertices.add(new VertexController(new VertexMesh(1d, 0d, 0d),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(2d, 0d, 1d),
-				new AbstractView()));
+				new BasicView()));
 		vertices.add(new VertexController(new VertexMesh(1d, 0d, 1d),
-				new AbstractView()));
-		vertices.get(0).setProperty("Id", "2");
-		vertices.get(1).setProperty("Id", Integer.toString(counter++));
-		vertices.get(2).setProperty("Id", "3");
+				new BasicView()));
+		vertices.get(0).setProperty(MeshProperty.ID, "2");
+		vertices.get(1).setProperty(MeshProperty.ID,
+				Integer.toString(counter++));
+		vertices.get(2).setProperty(MeshProperty.ID, "3");
 		// Create the edges.
 		edges = new ArrayList<EdgeController>();
 		for (int i = 0; i < 3; i++) {
 			edges.add(new TestEdge(vertices.get(i), vertices.get((i + 1) % 3)));
-			edges.get(i).setProperty("Id", Integer.toString(counter++));
+			edges.get(i).setProperty(MeshProperty.ID,
+					Integer.toString(counter++));
 		}
-		edges.get(2).setProperty("Id", "6");
+		edges.get(2).setProperty(MeshProperty.ID, "6");
 
 		// Create the polygon.
-		polygon = new NekPolygonController(new EdgeAndVertexFaceMesh(),
-				new AbstractView());
+		polygon = new NekPolygonController(new DetailedFaceMesh(),
+				new BasicView());
 		for (EdgeController e : edges) {
-			polygon.addEntityByCategory(e, "Edges");
+			polygon.addEntityToCategory(e, MeshCategory.EDGES);
 		}
 		for (VertexController v : vertices) {
-			polygon.addEntityByCategory(v, "Vertices");
+			polygon.addEntityToCategory(v, MeshCategory.VERTICES);
 		}
-		polygon.setProperty("Id", Integer.toString(counter++));
+		polygon.setProperty(MeshProperty.ID, Integer.toString(counter++));
 
 		// Update the current lists of all edges, vertices, and polygons.
 		allVertices.addAll(vertices);
@@ -233,8 +242,8 @@ public class MeshTester {
 		assertEquals(1d, edges.get(2).getLength(), 1e-5f);
 
 		// Move the vertex.
-		vertex = (VertexController) edges.get(0)
-				.getEntitiesByCategory("Vertices").get(0);
+		vertex = edges.get(0)
+				.getEntitiesFromCategory(MeshCategory.VERTICES, VertexController.class).get(0);
 		vertex.updateLocation(0d, 0d, -1d);
 
 		// Check the length of the first edge. Make sure it's been updated.
@@ -250,7 +259,7 @@ public class MeshTester {
 	}
 
 	/**
-	 * Checks that the contents of the given AbstractController's entity map are
+	 * Checks that the contents of the given IController's entity map are
 	 * exactly equal to the union of the provided three lists of mesh parts.
 	 * 
 	 * @param mesh
@@ -262,30 +271,30 @@ public class MeshTester {
 	 * @param allPolygons
 	 *            The list of faces which should bei n mesh
 	 */
-	public void checkContents(AbstractController mesh,
+	public void checkContents(IController mesh,
 			ArrayList<VertexController> allVertices,
 			ArrayList<EdgeController> allEdges,
 			ArrayList<NekPolygonController> allPolygons) {
 
 		// The list of all child entities in the mesh, sorted by type
-		List<AbstractController> meshPolygons = mesh.getEntities();
-		List<AbstractController> meshEdges = new ArrayList<AbstractController>();
-		List<AbstractController> meshVertices = new ArrayList<AbstractController>();
+		List<IController> meshPolygons = mesh.getEntities();
+		List<IController> meshEdges = new ArrayList<IController>();
+		List<IController> meshVertices = new ArrayList<IController>();
 
 		// Extract the children from each mesh's polygons
-		for (AbstractController face : meshPolygons) {
+		for (IController face : meshPolygons) {
 
 			// Get the edges
-			for (AbstractController edge : face
-					.getEntitiesByCategory("Edges")) {
+			for (IController edge : face
+					.getEntitiesFromCategory(MeshCategory.EDGES)) {
 				if (!meshEdges.contains(edge)) {
 					meshEdges.add(edge);
 				}
 			}
 
 			// Get the vertices
-			for (AbstractController vertex : face
-					.getEntitiesByCategory("Vertices")) {
+			for (IController vertex : face
+					.getEntitiesFromCategory(MeshCategory.VERTICES)) {
 				if (!meshVertices.contains(vertex)) {
 					meshVertices.add(vertex);
 				}

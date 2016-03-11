@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.eavp.viz.service.AbstractVizService;
-import org.eclipse.eavp.viz.service.modeling.IControllerFactory;
+import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.junit.Test;
@@ -264,20 +264,7 @@ public class AbstractVizServiceTester {
 		 * @see org.eclipse.eavp.viz.service.IVizService#getFactory()
 		 */
 		@Override
-		public IControllerFactory getFactory() {
-			return null;
-		}
-
-		@Override
-		public int getNumAdditionalPages() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public String createAdditionalPage(MultiPageEditorPart parent,
-				IFileEditorInput file, int pageNum) {
-			// TODO Auto-generated method stub
+		public IControllerProviderFactory getFactory() {
 			return null;
 		}
 	}

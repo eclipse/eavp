@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
-import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
+import org.eclipse.eavp.viz.service.modeling.BasicMesh;
+import org.eclipse.eavp.viz.service.modeling.IController;
 
 /**
  * A simple AbstractMesh implementation that keeps track of whether it has been
@@ -24,18 +24,18 @@ import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
  * @author Robert Smith
  *
  */
-public class TestMesh extends AbstractMesh {
+public class TestMesh extends BasicMesh {
 
 	/**
 	 * Whether the mesh has received an update since the last time it was
 	 * tested.
 	 */
 	boolean updated = false;
-	
+
 	/**
 	 * The nullary constructor.
 	 */
-	public TestMesh(){
+	public TestMesh() {
 		super();
 	}
 
@@ -45,7 +45,7 @@ public class TestMesh extends AbstractMesh {
 	 * @param entities
 	 *            The list of child entities
 	 */
-	public TestMesh(List<AbstractController> entities) {
+	public TestMesh(List<IController> entities) {
 		super(entities);
 	}
 
@@ -53,8 +53,8 @@ public class TestMesh extends AbstractMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMesh#update(org.eclipse.ice.
-	 * viz.service.datastructures.VizObject.IManagedVizUpdateable,
+	 * org.eclipse.eavp.viz.service.modeling.AbstractMesh#update(org.eclipse.
+	 * ice. viz.service.datastructures.VizObject.IManagedVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])
 	 */

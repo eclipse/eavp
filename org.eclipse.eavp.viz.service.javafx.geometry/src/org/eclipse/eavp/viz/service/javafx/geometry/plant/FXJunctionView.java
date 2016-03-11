@@ -13,13 +13,15 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
-import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
-import org.eclipse.eavp.viz.service.modeling.IWireFramePart;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionView;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
+import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
+import org.eclipse.eavp.viz.service.modeling.IMesh;
+import org.eclipse.eavp.viz.service.modeling.IWireframeView;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -33,28 +35,28 @@ import javafx.scene.shape.DrawMode;
  * @author Robert Smith
  *
  */
-public class FXJunctionView extends JunctionView implements IWireFramePart {
+public class FXJunctionView extends JunctionView implements IWireframeView {
 
 	/**
 	 * The box which represents the Junction part
 	 */
-	Box box;
+	private Box box;
 
 	/**
 	 * The JavaFX node which will contain all shapes for this view
 	 */
-	Group node;
+	private Group node;
 
 	/**
 	 * The material for the shapes in this view
 	 */
-	PhongMaterial material;
+	private PhongMaterial material;
 
 	/**
 	 * Whether or not to display the junction in wireframe mode. It will be in
 	 * wireframe mode if true or drawn regularly if false.
 	 */
-	boolean wireframe;
+	private boolean wireframe;
 
 	/**
 	 * The nullary constructor.
@@ -80,7 +82,7 @@ public class FXJunctionView extends JunctionView implements IWireFramePart {
 
 		// Initialize the data members
 		node = new Group();
-		node.setId(model.getProperty("Name"));
+		node.setId(model.getProperty(MeshProperty.NAME));
 		material = new PhongMaterial(Color.GRAY);
 		wireframe = false;
 
@@ -95,47 +97,46 @@ public class FXJunctionView extends JunctionView implements IWireFramePart {
 	 * @param model
 	 *            The junction which will be rendered
 	 */
-	private void createMesh(AbstractMesh model) {
+	private void createMesh(IMesh model) {
 
 		// A list of the extrema of all pipe ends
 		ArrayList<Extrema> pipeEdges = new ArrayList<Extrema>();
 
 		// Get the bottom end of each input pipe
-		for (AbstractController input : model.getEntitiesByCategory("Input")) {
+		for (PipeController input : model.getEntitiesFromCategory(
+				ReactorMeshCategory.INPUT, PipeController.class)) {
 
 			// Check if the input is has a pipe or is a pipe
-			List<AbstractController> primaryPipe = input
-					.getEntitiesByCategory("Primary Pipe");
+			List<PipeController> primaryPipe = input.getEntitiesFromCategory(
+					ReactorMeshCategory.PRIMARY_PIPE, PipeController.class);
 
 			// If the input is a pipe, add its extrema
 			if (primaryPipe.isEmpty()) {
-				pipeEdges.add(((PipeController) input).getUpperExtrema());
+				pipeEdges.add(input.getUpperExtrema());
 			}
 
 			// Otherwise, get its primary pipe and add that pipe's extrema
 			else {
-				pipeEdges.add(((PipeController) primaryPipe.get(0))
-						.getUpperExtrema());
+				pipeEdges.add(primaryPipe.get(0).getUpperExtrema());
 			}
 		}
 
 		// Get the top end of each output pipe
-		for (AbstractController output : model
-				.getEntitiesByCategory("Output")) {
+		for (PipeController output : model.getEntitiesFromCategory(
+				ReactorMeshCategory.OUTPUT, PipeController.class)) {
 
 			// Check if the output is has a pipe or is a pipe
-			List<AbstractController> primaryPipe = output
-					.getEntitiesByCategory("Primary Pipe");
+			List<PipeController> primaryPipe = output.getEntitiesFromCategory(
+					ReactorMeshCategory.PRIMARY_PIPE, PipeController.class);
 
 			// If the input is a pipe, add its extrema
 			if (primaryPipe.isEmpty()) {
-				pipeEdges.add(((PipeController) output).getLowerExtrema());
+				pipeEdges.add(output.getLowerExtrema());
 			}
 
 			// Otherwise, get its primary pipe and add that pipe's extrema
 			else {
-				pipeEdges.add(((PipeController) primaryPipe.get(0))
-						.getLowerExtrema());
+				pipeEdges.add(primaryPipe.get(0).getLowerExtrema());
 			}
 		}
 
@@ -185,19 +186,19 @@ public class FXJunctionView extends JunctionView implements IWireFramePart {
 	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
-	public Object getRepresentation() {
-		return node;
+	public Representation<Group> getRepresentation() {
+		return new Representation<Group>(node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.ice
-	 * .viz.service.modeling.AbstractMeshComponent)
+	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.
+	 * ice .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
-	public void refresh(AbstractMesh model) {
+	public void refresh(IMesh model) {
 
 		// Remove the old box from the scene
 		node.getChildren().remove(box);

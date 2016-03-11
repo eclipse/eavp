@@ -22,7 +22,7 @@ import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
  * @author Robert Smith
  *
  */
-public class FaceMesh extends AbstractMesh {
+public class FaceMesh extends BasicMesh {
 
 	/**
 	 * The default constructor.
@@ -37,7 +37,7 @@ public class FaceMesh extends AbstractMesh {
 	 * @param entities
 	 *            The child entities comprising the face
 	 */
-	public FaceMesh(List<AbstractController> entities) {
+	public FaceMesh(List<IController> entities) {
 		super(entities);
 	}
 
@@ -63,56 +63,62 @@ public class FaceMesh extends AbstractMesh {
 	 * service.modeling.AbstractMesh)
 	 */
 	@Override
-	public void copy(AbstractMesh otherObject) {
+	public void copy(IMesh otherObject) {
 
 		// Copy only if the other object is an EdgeAndVertexFaceComponent
 		if (otherObject instanceof FaceMesh) {
+
+			// Cast the object
+			FaceMesh castObject = (FaceMesh) otherObject;
 
 			// Queue messages from the new edges added
 			updateManager.enqueue();
 
 			// Create a list of shared vertices for use by the cloned edges
-			List<AbstractController> sharedVertices = new ArrayList<AbstractController>();
+			List<IController> sharedVertices = new ArrayList<IController>();
 
 			// Create clones of all the vertices. This should be done first, so
 			// the copies can be used to construct the edges
-			for (AbstractController edge : otherObject
-					.getEntitiesByCategory("Edges")) {
-				for (AbstractController vertex : edge
-						.getEntitiesByCategory("Vertices")) {
+			for (IController edge : otherObject
+					.getEntitiesFromCategory(MeshCategory.EDGES)) {
+				for (IController vertex : edge
+						.getEntitiesFromCategory(MeshCategory.VERTICES)) {
 					if (!sharedVertices.contains(vertex)) {
 						sharedVertices.add(vertex);
 					}
 				}
+
+				edge.getEntitiesFromCategory(MeshCategory.CHILDREN);
 			}
 
 			// Deep copy each category of child entities
-			for (String category : otherObject.entities.keySet()) {
+			for (IMeshCategory category : castObject.entities.keySet()) {
 
 				// Clone each edge, making use of the vertices clones above as
 				// their endpoints.
-				if ("Edges".equals(category)) {
+				if (MeshCategory.EDGES.equals(category)) {
 
 					// Copy each edge
-					for (AbstractController edge : otherObject
-							.getEntitiesByCategory(category)) {
+					for (IController edge : otherObject
+							.getEntitiesFromCategory(category)) {
 
 						// Create a clone of the edge
-						EdgeController newEdge = (EdgeController) edge.clone();
+						EdgeController newEdge = (EdgeController) ((BasicController) edge)
+								.clone();
 
 						// Get the clone's vertices
-						List<AbstractController> tempVertices = edge
-								.getEntitiesByCategory("Vertices");
+						List<IController> tempVertices = edge
+								.getEntitiesFromCategory(MeshCategory.VERTICES);
 
 						// Remove the vertices from the cloned edge and add an
 						// equivalent one in their place
-						for (AbstractController tempVertex : tempVertices) {
+						for (IController tempVertex : tempVertices) {
 							newEdge.removeEntity(tempVertex);
 
 							// Search the copied vertices from above for the
 							// equivalent vertices which should belong to the
 							// edge.
-							for (AbstractController vertex : sharedVertices)
+							for (IController vertex : sharedVertices)
 								if (tempVertex.equals(vertex)) {
 									newEdge.addEntity(vertex);
 								}
@@ -126,15 +132,17 @@ public class FaceMesh extends AbstractMesh {
 				}
 
 				// Vertices were copied above, so ignore them
-				else if ("Vertices".equals(category)) {
+				else if (MeshCategory.VERTICES.equals(category)) {
 					continue;
 				}
 
 				// For other categories, clone all the child entities
 				else {
-					for (AbstractController entity : otherObject
-							.getEntitiesByCategory(category)) {
-						addEntityByCategory((EdgeController) entity.clone(),
+					for (IController entity : otherObject
+							.getEntitiesFromCategory(category)) {
+						addEntityToCategory(
+								(EdgeController) ((BasicController) entity)
+										.clone(),
 								category);
 					}
 				}
@@ -142,12 +150,12 @@ public class FaceMesh extends AbstractMesh {
 
 			// Copy the rest of the object data
 			// Copy each of the other component's data members
-			type = otherObject.type;
-			properties = new HashMap<String, String>(otherObject.properties);
+			type = castObject.type;
+			properties = new HashMap<IMeshProperty, String>(
+					castObject.properties);
 
 			// Notify listeners of the change
-			SubscriptionType[] eventTypes = {
-					SubscriptionType.ALL };
+			SubscriptionType[] eventTypes = { SubscriptionType.ALL };
 			updateManager.notifyListeners(eventTypes);
 
 			// Fire an update

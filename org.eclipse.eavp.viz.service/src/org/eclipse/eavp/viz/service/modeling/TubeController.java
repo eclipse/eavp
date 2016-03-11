@@ -33,7 +33,7 @@ public class TubeController extends ShapeController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public TubeController(TubeMesh model, AbstractView view) {
+	public TubeController(TubeMesh model, BasicView view) {
 		super(model, view);
 	}
 
@@ -133,20 +133,26 @@ public class TubeController extends ShapeController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.eclipse.
-	 * ice.viz.service.modeling.AbstractController)
+	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.
+	 * eclipse. ice.viz.service.modeling.AbstractController)
 	 */
 	@Override
-	public void copy(AbstractController source) {
+	public void copy(IController source) {
+
+		// Check that the source object is an IController, failing
+		// silently if not and casting it if so
+		if (!(source instanceof TubeController)) {
+			return;
+		}
+		BasicController castObject = (BasicController) source;
 
 		// Create the model and give it a reference to this
 		model = new TubeMesh();
 		model.setController(this);
 
 		// Copy the other object's data members
-		model.copy(source.model);
-		view = (AbstractView) source.view.clone();
+		model.copy(castObject.model);
+		view = (BasicView) castObject.view.clone();
 
 		// Register as a listener to the model and view
 		model.register(this);

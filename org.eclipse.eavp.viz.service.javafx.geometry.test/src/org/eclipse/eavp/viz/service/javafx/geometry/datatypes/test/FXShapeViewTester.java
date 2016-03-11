@@ -13,6 +13,8 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.junit.Test;
 
@@ -41,7 +43,7 @@ public class FXShapeViewTester {
 
 		// Create a cloned view and check that it is identical to the original
 		ShapeMesh mesh = new ShapeMesh();
-		mesh.setProperty("Type", "Cube");
+		mesh.setProperty(MeshProperty.TYPE, "Cube");
 		FXShapeView view = new FXShapeView(mesh);
 		FXShapeView clone = (FXShapeView) view.clone();
 		assertTrue(view.equals(clone));
@@ -55,8 +57,8 @@ public class FXShapeViewTester {
 
 		// Create a cube named "test"
 		ShapeMesh mesh = new ShapeMesh();
-		mesh.setProperty("Name", "test");
-		mesh.setProperty("Type", "Cube");
+		mesh.setProperty(MeshProperty.NAME, "test");
+		mesh.setProperty(MeshProperty.TYPE, "Cube");
 
 		// Create a view for it
 		FXShapeView view = new FXShapeView(mesh);
@@ -66,10 +68,11 @@ public class FXShapeViewTester {
 		boolean boxFound = false;
 
 		// Check that the JavaFX node has the correct name
-		assertTrue("test".equals(((Group) view.getRepresentation()).getId()));
+		Representation<Group> representation = view.getRepresentation();
+		assertTrue("test".equals(representation.getData().getId()));
 
 		// Search all of the node's children
-		for (Node node : ((Group) view.getRepresentation()).getChildren()) {
+		for (Node node : (representation.getData()).getChildren()) {
 
 			// If the child is a 3D shape, it should be in fill mode by default
 			if (node instanceof Shape3D) {
@@ -95,7 +98,7 @@ public class FXShapeViewTester {
 
 		// Create a cube
 		ShapeMesh mesh = new ShapeMesh();
-		mesh.setProperty("Type", "Cube");
+		mesh.setProperty(MeshProperty.TYPE, "Cube");
 
 		// Create a view for it
 		FXShapeView view = new FXShapeView(mesh);
@@ -105,7 +108,8 @@ public class FXShapeViewTester {
 		boolean found = false;
 
 		// Search all of the node's children
-		for (Node node : ((Group) view.getRepresentation()).getChildren()) {
+		Representation<Group> representation = view.getRepresentation();
+		for (Node node : representation.getData().getChildren()) {
 
 			// If the child is a 3D shape, it should be in fill mode by default
 			if (node instanceof Shape3D) {
@@ -119,11 +123,12 @@ public class FXShapeViewTester {
 		}
 
 		// Change the shape to a cylinder
-		mesh.setProperty("Type", "Cylinder");
+		mesh.setProperty(MeshProperty.TYPE, "Cylinder");
 
 		// Search all of the node's children
 		found = false;
-		for (Node node : ((Group) view.getRepresentation()).getChildren()) {
+		representation = view.getRepresentation();
+		for (Node node : representation.getData().getChildren()) {
 
 			// If the child is a 3D shape, it should be in fill mode by default
 			if (node instanceof Shape3D) {
@@ -136,12 +141,13 @@ public class FXShapeViewTester {
 			}
 		}
 
-		mesh.setProperty("Type", "Sphere");
+		mesh.setProperty(MeshProperty.TYPE, "Sphere");
 
 		found = false;
 
 		// Search all of the node's children
-		for (Node node : ((Group) view.getRepresentation()).getChildren()) {
+		representation = view.getRepresentation();
+		for (Node node : representation.getData().getChildren()) {
 
 			// If the child is a 3D shape, it should be in fill mode by default
 			if (node instanceof Shape3D) {
@@ -154,12 +160,13 @@ public class FXShapeViewTester {
 			}
 		}
 
-		mesh.setProperty("Type", "Tube");
+		mesh.setProperty(MeshProperty.TYPE, "Tube");
 
 		found = false;
 
 		// Search all of the node's children
-		for (Node node : ((Group) view.getRepresentation()).getChildren()) {
+		representation = view.getRepresentation();
+		for (Node node : representation.getData().getChildren()) {
 
 			// If the child is a 3D shape, it should be in fill mode by default
 			if (node instanceof Shape3D) {

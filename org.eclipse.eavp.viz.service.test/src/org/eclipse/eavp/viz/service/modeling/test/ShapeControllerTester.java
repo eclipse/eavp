@@ -12,7 +12,8 @@ package org.eclipse.eavp.viz.service.modeling.test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.junit.Test;
@@ -33,8 +34,8 @@ public class ShapeControllerTester {
 
 		// Create a cloned shape and check that it is identical to the original
 		ShapeController shape = new ShapeController(new ShapeMesh(),
-				new AbstractView());
-		shape.setProperty("Test", "Property");
+				new BasicView());
+		shape.setProperty(MeshProperty.DESCRIPTION, "Property");
 		ShapeController clone = (ShapeController) shape.clone();
 		assertTrue(shape.equals(clone));
 	}

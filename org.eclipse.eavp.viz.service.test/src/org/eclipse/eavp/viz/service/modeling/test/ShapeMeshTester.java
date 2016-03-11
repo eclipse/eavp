@@ -15,7 +15,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.MeshCategory;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.junit.Test;
@@ -36,7 +38,7 @@ public class ShapeMeshTester {
 
 		// Clone a mesh and check that the result is identical
 		ShapeMesh mesh = new ShapeMesh();
-		mesh.setProperty("Test", "Property");
+		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
 		ShapeMesh clone = (ShapeMesh) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
@@ -49,11 +51,11 @@ public class ShapeMeshTester {
 
 		// Create a shape to test
 		ShapeMesh shapeModel = new ShapeMesh();
-		TestShape shape = new TestShape(shapeModel, new AbstractView());
+		TestShape shape = new TestShape(shapeModel, new BasicView());
 
 		// Create a parent shape
 		ShapeMesh parentModel1 = new ShapeMesh();
-		TestShape parent1 = new TestShape(parentModel1, new AbstractView());
+		TestShape parent1 = new TestShape(parentModel1, new BasicView());
 
 		// Set the shape's parent
 		shape.setParent(parent1);
@@ -62,17 +64,18 @@ public class ShapeMeshTester {
 		parent1.wasUpdated();
 
 		// The parent category should now contain the parent
-		assertTrue(shape.getEntitiesByCategory("Parent").contains(parent1));
+		assertTrue(shape.getEntitiesFromCategory(MeshCategory.PARENT)
+				.contains(parent1));
 
 		// Trigger an update from the shape and check that the parent received
 		// it
-		shape.setProperty("Id", "1");
+		shape.setProperty(MeshProperty.ID, "1");
 		assertTrue(parent1.wasUpdated());
 
 		// Create a second parent shape
 		ShapeMesh parentModel2 = new ShapeMesh();
-		TestShape parent2 = new TestShape(parentModel2, new AbstractView());
-		parent2.setProperty("Id", "2");
+		TestShape parent2 = new TestShape(parentModel2, new BasicView());
+		parent2.setProperty(MeshProperty.ID, "2");
 
 		// Change the shape's parent
 		shape.setParent(parent2);
@@ -84,20 +87,24 @@ public class ShapeMeshTester {
 		parent1.equals(parent2);
 
 		// The parent category should contain only parent2
-		assertFalse(shape.getEntitiesByCategory("Parent").contains(parent1));
-		assertTrue(shape.getEntitiesByCategory("Parent").contains(parent2));
+		assertFalse(shape.getEntitiesFromCategory(MeshCategory.PARENT)
+				.contains(parent1));
+		assertTrue(shape.getEntitiesFromCategory(MeshCategory.PARENT)
+				.contains(parent2));
 
 		// Trigger an updated. The old parent should not receive it, while the
 		// new parent should
-		shape.setProperty("Id", "2");
+		shape.setProperty(MeshProperty.ID, "2");
 		assertFalse(parent1.wasUpdated());
 		assertTrue(parent2.wasUpdated());
 
 		// Check that trying to change the parent through addEntityByCategory
 		// does not allow adding a second parent
-		shape.addEntityByCategory(parent1, "Parent");
-		assertFalse(shape.getEntitiesByCategory("Parent").contains(parent2));
-		assertTrue(shape.getEntitiesByCategory("Parent").contains(parent1));
+		shape.addEntityToCategory(parent1, MeshCategory.PARENT);
+		assertFalse(shape.getEntitiesFromCategory(MeshCategory.PARENT)
+				.contains(parent2));
+		assertTrue(shape.getEntitiesFromCategory(MeshCategory.PARENT)
+				.contains(parent1));
 
 	}
 
@@ -118,7 +125,7 @@ public class ShapeMeshTester {
 		 * @param model
 		 * @param view
 		 */
-		public TestShape(ShapeMesh model, AbstractView view) {
+		public TestShape(ShapeMesh model, BasicView view) {
 			super(model, view);
 		}
 

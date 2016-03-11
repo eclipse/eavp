@@ -28,7 +28,7 @@ import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
-import org.eclipse.eavp.viz.service.modeling.IControllerFactory;
+import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
@@ -124,6 +124,18 @@ public class ConnectionVizServiceTester {
 						// This shouldn't be called.
 						return null;
 					}
+
+					@Override
+					public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
+						// TODO Auto-generated method stub
+						return null;
+					}
+
+					@Override
+					public int getNumAdditionalPages() {
+						// TODO Auto-generated method stub
+						return 0;
+					}
 				};
 			}
 
@@ -140,20 +152,7 @@ public class ConnectionVizServiceTester {
 			}
 
 			@Override
-			public IControllerFactory getFactory() {
-				return null;
-			}
-
-			@Override
-			public int getNumAdditionalPages() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public String createAdditionalPage(MultiPageEditorPart parent,
-					IFileEditorInput file, int pageNum) {
-				// TODO Auto-generated method stub
+			public IControllerProviderFactory getFactory() {
 				return null;
 			}
 		};

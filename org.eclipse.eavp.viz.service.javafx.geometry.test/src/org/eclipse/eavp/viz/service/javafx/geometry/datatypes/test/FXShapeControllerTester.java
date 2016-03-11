@@ -13,11 +13,16 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
-import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
+import org.eclipse.eavp.viz.service.modeling.BasicController;
+import org.eclipse.eavp.viz.service.modeling.BasicMesh;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.IMesh;
+import org.eclipse.eavp.viz.service.modeling.MeshCategory;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.eclipse.eavp.viz.service.modeling.Transformation;
@@ -46,7 +51,7 @@ public class FXShapeControllerTester {
 		ShapeMesh mesh = new ShapeMesh();
 		FXShapeController shape = new FXShapeController(mesh,
 				new FXShapeView(mesh));
-		shape.setProperty("Test", "Property");
+		shape.setProperty(MeshProperty.INNER_RADIUS, "Property");
 		FXShapeController clone = (FXShapeController) shape.clone();
 		assertTrue(shape.equals(clone));
 	}
@@ -60,55 +65,64 @@ public class FXShapeControllerTester {
 
 		// Create a cube
 		ShapeMesh mesh = new ShapeMesh();
-		mesh.setProperty("Type", "Cube");
+		mesh.setProperty(MeshProperty.TYPE, "Cube");
 		FXShapeView view = new FXShapeView(mesh);
 		FXShapeController shape = new FXShapeController(mesh, view);
 
 		// The JavaFX node should have a reference to the FXShapeController
-		assertTrue(shape == ((Group) shape.getRepresentation()).getProperties()
+		Representation<Group> representation = shape.getRepresentation();
+		assertTrue(shape == representation.getData().getProperties()
 				.get(ShapeController.class));
 
 		// Create a sphere
 		ShapeMesh mesh2 = new ShapeMesh();
-		mesh2.setProperty("Type", "Sphere");
+		mesh2.setProperty(MeshProperty.TYPE, "Sphere");
 		FXShapeView view2 = new FXShapeView(mesh2);
 		FXShapeController shape2 = new FXShapeController(mesh2, view2);
 
 		// Add the sphere shape as a child to the cube shape. The cube JavaFX
 		// node should now have the sphere JavaFX node as a child
 		shape.addEntity(shape2);
-		assertTrue(((Group) shape.getRepresentation()).getChildren()
-				.contains(shape2.getRepresentation()));
+		representation = shape.getRepresentation();
+		Representation<Group> representation2 = shape2.getRepresentation();
+		assertTrue(representation.getData().getChildren()
+				.contains(representation2.getData()));
 
 		// Create a cylinder
 		ShapeMesh mesh3 = new ShapeMesh();
-		mesh2.setProperty("Type", "Cylinder");
+		mesh2.setProperty(MeshProperty.TYPE, "Cylinder");
 		FXShapeView view3 = new FXShapeView(mesh3);
 		FXShapeController shape3 = new FXShapeController(mesh3, view3);
 
 		// Add the cylinder shape as a child to the cube shape. The cube JavaFX
 		// node should now have both JavaFX nodes as children.
 		shape.addEntity(shape3);
-		assertTrue(((Group) shape.getRepresentation()).getChildren()
-				.contains(shape2.getRepresentation()));
-		assertTrue(((Group) shape.getRepresentation()).getChildren()
-				.contains(shape3.getRepresentation()));
+		representation = shape.getRepresentation();
+		Representation<Group> representation3 = shape3.getRepresentation();
+		assertTrue(representation.getData().getChildren()
+				.contains(representation2.getData()));
+		assertTrue(representation.getData().getChildren()
+				.contains(representation3.getData()));
 
 		// Remove the cube from being the sphere's parent. This should remove
 		// its JavaFX node from the cube's JavaFX node's children.
 		shape2.removeEntity(shape);
-		assertFalse(((Group) shape.getRepresentation()).getChildren()
-				.contains(shape2.getRepresentation()));
+		representation = shape.getRepresentation();
+		representation2 = shape2.getRepresentation();
+		assertFalse(representation.getData().getChildren()
+				.contains(representation2.getData()));
 
 		// Remove the cylinder from the sphere's children. This should also
 		// remove its JavaFX node from the cube's JavaFX node's children
 		shape.removeEntity(shape3);
-		assertFalse(((Group) shape.getRepresentation()).getChildren()
-				.contains(shape3.getRepresentation()));
+		representation = shape.getRepresentation();
+		representation3 = shape3.getRepresentation();
+		assertFalse(representation.getData().getChildren()
+				.contains(representation3.getData()));
 
 		// Create a union
 		ShapeMesh unionMesh = new ShapeMesh();
-		unionMesh.setProperty("Operator", "Union");
+		unionMesh.setProperty(GeometryMeshProperty.OPERATOR, "Union");
 		FXShapeView unionView = new FXShapeView(unionMesh);
 		FXShapeController unionShape = new FXShapeController(unionMesh,
 				unionView);
@@ -116,8 +130,11 @@ public class FXShapeControllerTester {
 		// Set the shape's parent as the union. This should add its JavaFX node
 		// to the union's java fxnode's children.
 		shape.setParent(unionShape);
-		assertTrue(((Group) unionShape.getRepresentation()).getChildren()
-				.contains(shape.getRepresentation()));
+		Representation<Group> unionRepresentation = unionShape
+				.getRepresentation();
+		representation = shape.getRepresentation();
+		assertTrue(unionRepresentation.getData().getChildren()
+				.contains(unionRepresentation.getData()));
 	}
 
 	/**
@@ -128,34 +145,34 @@ public class FXShapeControllerTester {
 
 		// Create a cube
 		ShapeMesh mesh = new ShapeMesh();
-		mesh.setProperty("Type", "Cube");
+		mesh.setProperty(MeshProperty.TYPE, "Cube");
 		FXShapeView view = new FXShapeView(mesh);
 		FXShapeController shape = new FXShapeController(mesh, view);
 
 		// Create a test controller to monitor when the shape is updated
 		TestController controller = new TestController(new TestMesh(),
-				new AbstractView());
+				new BasicView());
 		controller.addEntity(shape);
 
 		// Clear the controller's updated state
 		controller.isUpdated();
 
 		// Add a child to the mesh
-		mesh.addEntityByCategory(
-				new AbstractController(new AbstractMesh(), new AbstractView()),
-				"Test");
+		mesh.addEntityToCategory(
+				new BasicController(new BasicMesh(), new BasicView()),
+				MeshCategory.DEFAULT);
 
 		// This should have sent an update to the controller
 		assertTrue(controller.isUpdated());
 
 		// Select the mesh
-		mesh.setProperty("Selected", "True");
+		mesh.setProperty(MeshProperty.SELECTED, "True");
 
 		// The controller should have been updated
 		assertTrue(controller.isUpdated());
 
 		// Change one of the mesh's properties
-		mesh.setProperty("Test", "Property");
+		mesh.setProperty(MeshProperty.INNER_RADIUS, "Property");
 
 		// The controller should not be subscribed to general property messages
 		// from the mesh
@@ -205,7 +222,7 @@ public class FXShapeControllerTester {
 		 * refresh(org.eclipse.eavp.viz.service.modeling.AbstractMesh)
 		 */
 		@Override
-		public void refresh(AbstractMesh model) {
+		public void refresh(IMesh model) {
 			refreshed = true;
 			super.refresh(model);
 		}

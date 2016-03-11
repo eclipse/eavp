@@ -10,12 +10,15 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh;
 
-import org.eclipse.eavp.viz.service.javafx.canvas.AbstractAttachment;
-import org.eclipse.eavp.viz.service.javafx.canvas.AbstractViewer;
+import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
+import org.eclipse.eavp.viz.service.javafx.canvas.BasicViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas;
 import org.eclipse.eavp.viz.service.mesh.datastructures.IMeshVizCanvas;
 import org.eclipse.eavp.viz.service.mesh.properties.MeshSelection;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.MeshCategory;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -37,7 +40,7 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 	 * @param geometry
 	 *            ICE Geometry instance to visualizer in the canvas.
 	 */
-	public FXMeshCanvas(AbstractController mesh) {
+	public FXMeshCanvas(IController mesh) {
 		super(mesh);
 
 	}
@@ -58,7 +61,7 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 	 *             found
 	 */
 	@Override
-	protected AbstractViewer materializeViewer(Composite viewerParent)
+	protected BasicViewer materializeViewer(Composite viewerParent)
 			throws Exception {
 		try {
 			return new FXMeshViewer(viewerParent);
@@ -71,13 +74,12 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.javafx.internal.FXVizCanvas#createAttachment(
-	 * )
+	 * @see org.eclipse.eavp.viz.service.javafx.internal.FXVizCanvas#
+	 * createAttachment( )
 	 */
 	@Override
 	protected void createAttachment() {
-		rootAtachment = (AbstractAttachment) viewer.getRenderer()
+		rootAtachment = (BasicAttachment) viewer.getRenderer()
 				.createAttachment(FXMeshAttachment.class);
 	}
 
@@ -149,18 +151,18 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 	public void deleteSelection() {
 
 		// Check each polygon in the mesh to see if it should be deleted
-		for (AbstractController polygon : root.getEntities()) {
+		for (IController polygon : root.getEntities()) {
 
 			// Whether or not the polygon is completely selected
 			boolean selected = true;
 
 			// Check each of the polygon's vertices
-			for (AbstractController vertex : polygon
-					.getEntitiesByCategory("Vertices")) {
+			for (IController vertex : polygon
+					.getEntitiesFromCategory(MeshCategory.VERTICES)) {
 
 				// If any vertex is not selected, stop and move on to the next
 				// polygon
-				if (!"True".equals(vertex.getProperty("Selected"))) {
+				if (!"True".equals(vertex.getProperty(MeshProperty.SELECTED))) {
 					selected = false;
 					break;
 				}
@@ -187,25 +189,25 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 		((FXMeshViewer) viewer).setInternalSelection(selection);
 
 		// Start by deselecting everything
-		for (AbstractController polygon : root.getEntities()) {
-			polygon.setProperty("Selected", "False");
+		for (IController polygon : root.getEntities()) {
+			polygon.setProperty(MeshProperty.SELECTED, "False");
 		}
 
-		for (AbstractController polygon : root.getEntities()) {
+		for (IController polygon : root.getEntities()) {
 
 			// If a polygon is in the selection, set it as selected. (This will
 			// also select all its children).
 			for (Object meshSelection : selection) {
 				if (((MeshSelection) meshSelection).selectedMeshPart == polygon) {
-					polygon.setProperty("Selected", "True");
+					polygon.setProperty(MeshProperty.SELECTED, "True");
 				}
 
 				// If the polygon wasn't selected, check each of its children to
 				// see if they were.
 				else {
-					for (AbstractController part : polygon.getEntities()) {
+					for (IController part : polygon.getEntities()) {
 						if (((MeshSelection) meshSelection).selectedMeshPart == part) {
-							part.setProperty("Selected", "True");
+							part.setProperty(MeshProperty.SELECTED, "True");
 						}
 					}
 				}

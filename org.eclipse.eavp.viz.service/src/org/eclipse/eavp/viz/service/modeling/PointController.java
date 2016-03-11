@@ -16,7 +16,7 @@ package org.eclipse.eavp.viz.service.modeling;
  * @author Robert Smith
  *
  */
-public class PointController extends AbstractController {
+public class PointController extends BasicController {
 
 	/**
 	 * The nullary constructor.
@@ -33,7 +33,7 @@ public class PointController extends AbstractController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public PointController(PointMesh model, AbstractView view) {
+	public PointController(PointMesh model, BasicView view) {
 		super(model, view);
 	}
 
@@ -138,20 +138,26 @@ public class PointController extends AbstractController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.eclipse.
-	 * ice.viz.service.modeling.AbstractController)
+	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.
+	 * eclipse. ice.viz.service.modeling.AbstractController)
 	 */
 	@Override
-	public void copy(AbstractController otherObject) {
+	public void copy(IController otherObject) {
+
+		// Check that the source object is an AbstractController, failing
+		// silently if not and casting it if so
+		if (!(otherObject instanceof PointController)) {
+			return;
+		}
+		BasicController castObject = (BasicController) otherObject;
 
 		// Create the model and give it a reference to this
 		model = new PointMesh();
 		model.setController(this);
 
 		// Copy the other object's data members
-		model.copy(otherObject.model);
-		view = (AbstractView) otherObject.view.clone();
+		model.copy(castObject.model);
+		view = (BasicView) castObject.view.clone();
 
 		// Register as a listener to the model and view
 		model.register(this);

@@ -15,13 +15,18 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
-import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
-import org.eclipse.eavp.viz.service.modeling.IWireFramePart;
+import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
+import org.eclipse.eavp.viz.service.geometry.shapes.OperatorType;
+import org.eclipse.eavp.viz.service.modeling.BasicMesh;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.IMeshCategory;
+import org.eclipse.eavp.viz.service.modeling.IWireframeController;
+import org.eclipse.eavp.viz.service.modeling.MeshCategory;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
-import org.eclipse.eavp.viz.service.geometry.shapes.OperatorType;
 
 import javafx.scene.Group;
 import javafx.scene.paint.PhongMaterial;
@@ -33,7 +38,7 @@ import javafx.scene.paint.PhongMaterial;
  *
  */
 public class FXShapeController extends ShapeController
-		implements IWireFramePart {
+		implements IWireframeController {
 
 	/**
 	 * THe nullary constructor
@@ -50,13 +55,14 @@ public class FXShapeController extends ShapeController
 	 * @param view
 	 *            The controller's view
 	 */
-	public FXShapeController(ShapeMesh model, AbstractView view) {
+	public FXShapeController(ShapeMesh model, BasicView view) {
 		super(model, view);
 
 		// Associate this controller with the node within the node's internal
 		// data structures
-		((Group) view.getRepresentation()).getProperties()
-				.put(ShapeController.class, this);
+		Representation<Group> representation = view.getRepresentation();
+		representation.getData().getProperties().put(ShapeController.class,
+				this);
 	}
 
 	/**
@@ -69,8 +75,8 @@ public class FXShapeController extends ShapeController
 		refresh();
 
 		// Refresh for child
-		for (AbstractController child : model
-				.getEntitiesByCategory("Children")) {
+		for (IController child : model
+				.getEntitiesFromCategory(MeshCategory.CHILDREN)) {
 			((FXShapeController) child).refreshRecursive();
 		}
 
@@ -95,24 +101,26 @@ public class FXShapeController extends ShapeController
 	 * 
 	 * @see
 	 * org.eclipse.eavp.viz.service.modeling.Shape#removeEntity(org.eclipse.ice.
-	 * viz.service.modeling.AbstractController)
+	 * viz.service.modeling.IController)
 	 */
 	@Override
-	public void removeEntity(AbstractController entity) {
+	public void removeEntity(IController entity) {
 
 		// If the removed entity is a parent FXShape, detach the child's JavaFX
 		// node from the parent group
-		if (model.getEntitiesByCategory("Parent").contains(entity)
-				&& ((Group) entity.getRepresentation()).getChildren()
-						.contains(view.getRepresentation())) {
-			((Group) entity.getRepresentation()).getChildren()
-					.remove(view.getRepresentation());
+		Representation<Group> representation = entity.getRepresentation();
+		if (model.getEntitiesFromCategory(MeshCategory.PARENT).contains(entity)
+				&& representation.getData().getChildren()
+						.contains(view.getRepresentation().getData())) {
+			representation.getData().getChildren()
+					.remove(view.getRepresentation().getData());
 		}
 
 		// Otherwise, remove its representation from this object's JavaFX node
 		else {
-			((Group) view.getRepresentation()).getChildren()
-					.remove(entity.getRepresentation());
+			Representation<Group> viewRepresentation = view.getRepresentation();
+			representation.getData().getChildren()
+					.remove(representation.getData());
 		}
 
 		super.removeEntity(entity);
@@ -122,31 +130,44 @@ public class FXShapeController extends ShapeController
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.Shape#setParent(org.eclipse.eavp.viz.
-	 * service.modeling.Shape)
+	 * org.eclipse.eavp.viz.service.modeling.Shape#setParent(org.eclipse.eavp.
+	 * viz. service.modeling.Shape)
 	 */
 	@Override
-	public void setParent(AbstractController parent) {
+	public void setParent(IController parent) {
 
 		// If the shape already has a parent, remove this shape's JavaFX node
 		// from the parent's JavaFX node. Ignore this step for the root shape,
 		// which has no associated node
-		List<AbstractController> parentList = model
-				.getEntitiesByCategory("Parent");
+		List<IController> parentList = model
+				.getEntitiesFromCategory(MeshCategory.PARENT);
+
 		if (!parentList.isEmpty()
-				&& !"True".equals(parent.getProperty("Root"))) {
-			((Group) parentList.get(0).getRepresentation()).getChildren()
-					.remove(view.getRepresentation());
+				&& !"True".equals(parent.getProperty(MeshProperty.ROOT))) {
+			Representation<Group> representation = parentList.get(0)
+					.getRepresentation();
+			Representation<Group> viewRepresentation = view.getRepresentation();
+			representation.getData().getChildren()
+					.remove(viewRepresentation.getData());
 		}
 
 		// For Union parents, add this part's JavaFX node as a child to the new
 		// parent's JavaFX node.
 		// TODO Implement other kinds of CSG relations
-		String operator = parent.getProperty("Operator");
-		if (operator != null && OperatorType.valueOf(
-				parent.getProperty("Operator")) == OperatorType.Union) {
-			((Group) parent.getRepresentation()).getChildren()
-					.add((Group) view.getRepresentation());
+		String operator = parent.getProperty(GeometryMeshProperty.OPERATOR);
+		if (operator != null && OperatorType.valueOf(parent.getProperty(
+				GeometryMeshProperty.OPERATOR)) == OperatorType.Union) {
+
+			// Get the parent's representation
+			Representation<Group> parentRepresentation = parent
+					.getRepresentation();
+
+			// Get this shape's representation
+			Representation<Group> viewRepresentation = view.getRepresentation();
+
+			// Add the child node to the parent node
+			parentRepresentation.getData().getChildren()
+					.add(viewRepresentation.getData());
 		}
 
 		super.setParent(parent);
@@ -171,15 +192,14 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.eclipse.
-	 * ice.viz.service.modeling.AbstractController)
+	 * @see org.eclipse.eavp.viz.service.modeling.IController#copy(org. eclipse.
+	 * ice.viz.service.modeling.IController)
 	 */
 	@Override
-	public void copy(AbstractController source) {
+	public void copy(IController source) {
 
 		// Create the model and view
-		model = (AbstractMesh) source.getModel().clone();
+		model = (BasicMesh) ((BasicMesh) source.getModel()).clone();
 		view = new FXShapeView((ShapeMesh) model);
 		view.copy(source.getView());
 		view.refresh(model);
@@ -196,17 +216,18 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractController#addEntity(org.
-	 * eclipse.ice.viz.service.modeling.AbstractController)
+	 * @see org.eclipse.eavp.viz.service.modeling.IController#addEntity(org.
+	 * eclipse.ice.viz.service.modeling.IController)
 	 */
 	@Override
-	public void addEntity(AbstractController entity) {
+	public void addEntity(IController entity) {
 		super.addEntity(entity);
 
 		// Add the new child's JavaFX node as a child of this object's node
-		Group node = (Group) view.getRepresentation();
-		Group childNode = (Group) entity.getRepresentation();
+		Representation<Group> representation = view.getRepresentation();
+		Representation<Group> childRepresentation = entity.getRepresentation();
+		Group node = representation.getData();
+		Group childNode = childRepresentation.getData();
 
 		if (!node.getChildren().contains(childNode)) {
 			node.getChildren().add(childNode);
@@ -216,19 +237,21 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#
-	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling.
-	 * AbstractController, java.lang.String)
+	 * @see org.eclipse.eavp.viz.service.modeling.IController#
+	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling. IController,
+	 * java.lang.String)
 	 */
 	@Override
-	public void addEntityByCategory(AbstractController entity,
-			String category) {
-		super.addEntityByCategory(entity, category);
+	public void addEntityToCategory(IController entity,
+			IMeshCategory category) {
+		super.addEntityToCategory(entity, category);
 
 		// For children, add the new child's JavaFX node as a child of this
 		// object's node
-		Group node = (Group) view.getRepresentation();
-		Group childNode = (Group) entity.getRepresentation();
+		Representation<Group> representation = view.getRepresentation();
+		Representation<Group> childRepresentation = entity.getRepresentation();
+		Group node = representation.getData();
+		Group childNode = representation.getData();
 
 		if (!node.getChildren().contains(childNode)) {
 			node.getChildren().add(childNode);
@@ -238,7 +261,7 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#update(org.
+	 * @see org.eclipse.eavp.viz.service.modeling.IController#update(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IVizUpdateable)
 	 */
 	@Override
@@ -289,11 +312,12 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.WireFramePart#setWireFrameMode(
+	 * @see
+	 * org.eclipse.eavp.viz.service.modeling.WireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override
 	public void setWireFrameMode(boolean on) {
-		((IWireFramePart) view).setWireFrameMode(on);
+		((IWireframeController) view).setWireFrameMode(on);
 	}
 }

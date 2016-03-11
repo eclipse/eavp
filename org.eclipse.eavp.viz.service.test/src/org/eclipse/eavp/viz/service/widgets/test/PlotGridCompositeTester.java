@@ -29,7 +29,7 @@ import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.csv.CSVSeries;
 import org.eclipse.eavp.viz.service.internal.VizServiceFactoryHolder;
-import org.eclipse.eavp.viz.service.modeling.IControllerFactory;
+import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.test.FakePlot;
 import org.eclipse.eavp.viz.service.test.FakeSeries;
 import org.eclipse.eavp.viz.service.test.utils.AbstractSWTTester;
@@ -155,20 +155,7 @@ public class PlotGridCompositeTester extends AbstractSWTTester {
 			}
 
 			@Override
-			public IControllerFactory getFactory() {
-				return null;
-			}
-
-			@Override
-			public int getNumAdditionalPages() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public String createAdditionalPage(MultiPageEditorPart parent,
-					IFileEditorInput file, int pageNum) {
-				// TODO Auto-generated method stub
+			public IControllerProviderFactory getFactory() {
 				return null;
 			}
 		};

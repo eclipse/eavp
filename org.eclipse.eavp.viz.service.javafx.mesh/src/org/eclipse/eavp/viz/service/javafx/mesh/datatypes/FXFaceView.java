@@ -10,8 +10,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
-import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.IMesh;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 
 import javafx.scene.Group;
 
@@ -23,12 +24,12 @@ import javafx.scene.Group;
  * @author Robert Smith
  *
  */
-public class FXFaceView extends AbstractView {
+public class FXFaceView extends BasicView {
 
 	/**
 	 * The node which will contain the polygon's children.
 	 */
-	Group node;
+	private Group node;
 
 	/**
 	 * The nullary constructor.
@@ -42,7 +43,7 @@ public class FXFaceView extends AbstractView {
 	 * 
 	 * @param model
 	 */
-	public FXFaceView(AbstractMesh model) {
+	public FXFaceView(IMesh model) {
 		super();
 	}
 
@@ -53,8 +54,8 @@ public class FXFaceView extends AbstractView {
 	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
-	public Object getRepresentation() {
-		return node;
+	public Representation<Group> getRepresentation() {
+		return new Representation<Group>(node);
 	}
 
 	/*

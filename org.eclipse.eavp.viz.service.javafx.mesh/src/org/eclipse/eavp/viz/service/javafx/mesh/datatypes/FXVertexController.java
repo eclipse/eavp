@@ -12,8 +12,10 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
+import org.eclipse.eavp.viz.service.modeling.BasicController;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.eclipse.eavp.viz.service.modeling.VertexController;
 import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 
@@ -44,13 +46,13 @@ public class FXVertexController extends VertexController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public FXVertexController(VertexMesh model, AbstractView view) {
+	public FXVertexController(VertexMesh model, BasicView view) {
 		super(model, view);
 
 		// Add a reference to this controller to the view's JavaFX node
 		// properties
-		((Group) view.getRepresentation()).getProperties()
-				.put(AbstractController.class, this);
+		Representation<Group> representation = view.getRepresentation();
+		representation.getData().getProperties().put(IController.class, this);
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class FXVertexController extends VertexController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#update(org.
+	 * @see org.eclipse.eavp.viz.service.modeling.IController#update(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IManagedVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])
@@ -131,7 +133,14 @@ public class FXVertexController extends VertexController {
 	 *            The object to copy into this one.
 	 */
 	@Override
-	public void copy(AbstractController otherObject) {
+	public void copy(IController otherObject) {
+
+		// Check that the source object is an IController, failing
+		// silently if not and casting it if so
+		if (!(otherObject instanceof FXVertexController)) {
+			return;
+		}
+		BasicController castObject = (BasicController) otherObject;
 
 		// Create the model and give it a reference to this
 		model = new VertexMesh();
@@ -139,7 +148,7 @@ public class FXVertexController extends VertexController {
 
 		// Copy the other object's data members
 		model.copy(otherObject.getModel());
-		view = (AbstractView) otherObject.getView().clone();
+		view = (BasicView) ((BasicView) otherObject.getView()).clone();
 
 		// Register as a listener to the model and view
 		model.register(this);

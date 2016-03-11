@@ -13,9 +13,12 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
-import org.eclipse.eavp.viz.service.modeling.AbstractMesh;
-import org.eclipse.eavp.viz.service.modeling.AbstractView;
+import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
+import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.IMesh;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 
@@ -30,7 +33,7 @@ import javafx.scene.shape.Sphere;
  * @author Robert Smith
  *
  */
-public class FXVertexView extends AbstractView {
+public class FXVertexView extends BasicView {
 
 	/**
 	 * A group containing the shape which represents the part and a gizmo which
@@ -85,7 +88,7 @@ public class FXVertexView extends AbstractView {
 		this();
 
 		// Set the node's name
-		node.setId(model.getProperty("Name"));
+		node.setId(model.getProperty(MeshProperty.NAME));
 
 		// Center the node on the vertex's location
 		transformation.setTranslation(model.getX(), model.getY(), 0);
@@ -121,7 +124,7 @@ public class FXVertexView extends AbstractView {
 	 * @param controller
 	 *            This view's controller
 	 */
-	public void setController(AbstractController controller) {
+	public void setController(IController controller) {
 
 		// Put the controller in the node's data structure
 		node.getProperties().put(ShapeController.class, mesh);
@@ -151,19 +154,19 @@ public class FXVertexView extends AbstractView {
 	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
-	public Object getRepresentation() {
-		return node;
+	public Representation<Group> getRepresentation() {
+		return new Representation<Group>(node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.ice
-	 * .viz.service.modeling.AbstractMeshComponent)
+	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.
+	 * ice .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
-	public void refresh(AbstractMesh model) {
+	public void refresh(IMesh model) {
 
 		// Center the node on the vertex's location
 		transformation.setTranslation(((VertexMesh) model).getX() * scale,
@@ -174,10 +177,11 @@ public class FXVertexView extends AbstractView {
 
 		// If the vertex is under construction, leave the material unchanged,
 		// otherwise set it based on whether or not the vertex is selected
-		if (!"True".equals(model.getProperty("Constructing"))) {
+		if (!"True".equals(
+				model.getProperty(MeshEditorMeshProperty.UNDER_CONSTRUCTION))) {
 
 			// If the part is selected, set the selected material
-			if ("True".equals(model.getProperty("Selected"))) {
+			if ("True".equals(model.getProperty(MeshProperty.SELECTED))) {
 				mesh.setMaterial(selectedMaterial);
 			}
 
@@ -211,8 +215,8 @@ public class FXVertexView extends AbstractView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#update(org.eclipse.ice.
-	 * viz.service.datastructures.VizObject.IVizUpdateable,
+	 * org.eclipse.eavp.viz.service.modeling.AbstractView#update(org.eclipse.
+	 * ice. viz.service.datastructures.VizObject.IVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])
 	 */

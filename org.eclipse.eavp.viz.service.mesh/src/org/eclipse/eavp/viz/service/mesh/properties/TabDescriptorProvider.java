@@ -18,9 +18,11 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
 import org.eclipse.eavp.viz.service.mesh.properties.BoundaryConditionSection.Type;
-import org.eclipse.eavp.viz.service.modeling.AbstractController;
 import org.eclipse.eavp.viz.service.modeling.EdgeController;
 import org.eclipse.eavp.viz.service.modeling.FaceController;
+import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.service.modeling.MeshCategory;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.VertexController;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
@@ -86,7 +88,7 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 	/**
 	 * The mesh for the current selection.
 	 */
-	private AbstractController mesh;
+	private IController mesh;
 
 	/**
 	 * Sets and returns {@link #tabDescriptors} based on the current selection.
@@ -116,8 +118,7 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 			// Create the right collection of tabs based on the part's type
 			if (meshSelection.selectedMeshPart instanceof FaceController) {
 				createTabs((FaceController) meshSelection.selectedMeshPart);
-			} else
-				if (meshSelection.selectedMeshPart instanceof EdgeController) {
+			} else if (meshSelection.selectedMeshPart instanceof EdgeController) {
 				createTabs((EdgeController) meshSelection.selectedMeshPart);
 			} else if (meshSelection.selectedMeshPart instanceof VertexController) {
 				createTabs((VertexController) meshSelection.selectedMeshPart);
@@ -143,8 +144,8 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 
 		// ---- Create a tab for the Polygon's information. ---- //
 		// Create a tab for the Polygon's information.
-		final String polygonTabLabel = polygon.getProperty("Name") + " "
-				+ polygon.getProperty("Id");
+		final String polygonTabLabel = polygon.getProperty(MeshProperty.NAME)
+				+ " " + polygon.getProperty(MeshProperty.ID);
 		AbstractTabDescriptor polygonTab = new AbstractTabDescriptor() {
 			@Override
 			public String getCategory() {
@@ -195,15 +196,16 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 		// ----------------------------------------------------- //
 
 		// ---- Create tabs for each of the edges. ---- //
-		List<AbstractController> edges = polygon.getEntitiesByCategory("Edges");
+		List<IController> edges = polygon
+				.getEntitiesFromCategory(MeshCategory.EDGES);
 		size = edges.size();
 		lastTabId = polygonTabId;
 		for (int i = 0; i < size; i++) {
-			AbstractController edge = edges.get(i);
+			IController edge = edges.get(i);
 
 			// Set the current tab ID.
-			final String tabLabel = edge.getProperty("Name") + " "
-					+ edge.getProperty("Id");
+			final String tabLabel = edge.getProperty(MeshProperty.NAME) + " "
+					+ edge.getProperty(MeshProperty.ID);
 			final String tabId = edgeTabId + i;
 			final String fLastTabId = lastTabId;
 
@@ -315,10 +317,11 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 
 		// Create a list of each unique vertex belonging to any of the face's
 		// edges
-		ArrayList<AbstractController> vertices = new ArrayList<AbstractController>();
-		for (AbstractController edge : polygon.getEntitiesByCategory("Edges")) {
-			for (AbstractController vertex : edge
-					.getEntitiesByCategory("Vertices")) {
+		ArrayList<IController> vertices = new ArrayList<IController>();
+		for (IController edge : polygon
+				.getEntitiesFromCategory(MeshCategory.EDGES)) {
+			for (IController vertex : edge
+					.getEntitiesFromCategory(MeshCategory.VERTICES)) {
 				if (!vertices.contains(vertex)) {
 					vertices.add(vertex);
 				}
@@ -329,8 +332,8 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 			VertexController vertex = (VertexController) vertices.get(i);
 
 			// Set the current tab ID.
-			final String tabLabel = vertex.getProperty("Name") + " "
-					+ vertex.getProperty("Id");
+			final String tabLabel = vertex.getProperty(MeshProperty.NAME) + " "
+					+ vertex.getProperty(MeshProperty.ID);
 			final String tabId = vertexTabId + i;
 			final String fLastTabId = lastTabId;
 
@@ -424,15 +427,15 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 		final String vertexTabId = "vertex";
 		final String conditionsTabId = "conditions";
 
-		int edgeId = Integer.valueOf(edge.getProperty("Id"));
+		int edgeId = Integer.valueOf(edge.getProperty(MeshProperty.ID));
 		AbstractTabDescriptor tabDescriptor;
 		List<ISectionDescriptor> sectionDescriptors;
 		String lastTabId;
 
 		// ---- Create a tab for the Edge's information. ---- //
 		// Create a tab for the edge.
-		final String edgeTabLabel = edge.getProperty("Name") + " "
-				+ edge.getProperty("Id");
+		final String edgeTabLabel = edge.getProperty(MeshProperty.NAME) + " "
+				+ edge.getProperty(MeshProperty.ID);
 		AbstractTabDescriptor edgeTab = new AbstractTabDescriptor() {
 			@Override
 			public String getCategory() {
@@ -483,12 +486,12 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 		// ---- Create tabs for the vertices. ---- //
 		lastTabId = edgeTabId;
 		for (int i = 0; i < 2; i++) {
-			VertexController vertex = (VertexController) edge
-					.getEntitiesByCategory("Vertices").get(i);
+			VertexController vertex = edge.getEntitiesFromCategory(
+					MeshCategory.VERTICES, VertexController.class).get(i);
 
 			// Set the current tab ID.
-			final String tabLabel = vertex.getProperty("Name") + " "
-					+ vertex.getProperty("Id");
+			final String tabLabel = vertex.getProperty(MeshProperty.NAME) + " "
+					+ vertex.getProperty(MeshProperty.ID);
 			final String tabId = vertexTabId + i;
 			final String fLastTabId = lastTabId;
 
@@ -573,14 +576,14 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 		// --------------------------------------- //
 
 		// ---- Create tabs for the BoundaryConditions. ---- //
-		List<AbstractController> polygons = edge.getEntitiesByCategory("Faces");
+		List<NekPolygonController> polygons = edge.getEntitiesFromCategory(
+				MeshCategory.FACES, NekPolygonController.class);
 		for (int i = 0; i < polygons.size(); i++) {
-			NekPolygonController polygon = (NekPolygonController) polygons
-					.get(i);
+			NekPolygonController polygon = polygons.get(i);
 
 			// Set the current tab ID.
 			final String tabLabel = "Boundary Conditions ("
-					+ polygon.getProperty("Id") + ")";
+					+ polygon.getProperty(MeshProperty.ID) + ")";
 			final String tabId = conditionsTabId + i;
 			final String fLastTabId = lastTabId;
 
@@ -672,8 +675,8 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 	public void createTabs(VertexController vertex) {
 
 		// Create a TabDescriptor for the Vertex. We only need one tab!
-		final String tabLabel = vertex.getProperty("Name") + " "
-				+ vertex.getProperty("Id");
+		final String tabLabel = vertex.getProperty(MeshProperty.NAME) + " "
+				+ vertex.getProperty(MeshProperty.ID);
 		AbstractTabDescriptor vertexTab = new AbstractTabDescriptor() {
 			@Override
 			public String getCategory() {

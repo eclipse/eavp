@@ -13,15 +13,17 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerView;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXJunctionView;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeView;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
-import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.junit.Test;
 
 import javafx.scene.Group;
@@ -86,23 +88,26 @@ public class FXHeatExchangerViewTester {
 		FXJunctionView junctionView = new FXJunctionView(junctionMesh);
 		JunctionController junction = new JunctionController(junctionMesh,
 				junctionView);
-		junction.addEntityByCategory(exchanger, "Input");
-		exchanger.addEntityByCategory(junction, "Secondary Output");
-		junction.addEntityByCategory(pipe2, "Output");
-		pipe2.addEntityByCategory(junction, "Input");
+		junction.addEntityToCategory(exchanger, ReactorMeshCategory.INPUT);
+		exchanger.addEntityToCategory(junction,
+				ReactorMeshCategory.SECONDARY_OUTPUT);
+		junction.addEntityToCategory(pipe2, ReactorMeshCategory.OUTPUT);
+		pipe2.addEntityToCategory(junction, ReactorMeshCategory.INPUT);
 
 		JunctionMesh junctionMesh2 = new JunctionMesh();
 		FXJunctionView junctionView2 = new FXJunctionView(junctionMesh2);
 		JunctionController junction2 = new JunctionController(junctionMesh2,
 				junctionView2);
-		junction.addEntityByCategory(exchanger, "Output");
-		exchanger.addEntityByCategory(junction2, "Secondary Input");
-		junction2.addEntityByCategory(pipe2, "Input");
-		pipe2.addEntityByCategory(junction2, "Output");
+		junction.addEntityToCategory(exchanger, ReactorMeshCategory.OUTPUT);
+		exchanger.addEntityToCategory(junction2,
+				ReactorMeshCategory.SECONDARY_INPUT);
+		junction2.addEntityToCategory(pipe2, ReactorMeshCategory.INPUT);
+		pipe2.addEntityToCategory(junction2, ReactorMeshCategory.OUTPUT);
 
 		// Check that the view has all four parts: a central pipe, a box around
 		// it, and two pipes leading to junctions.
-		Group node = (Group) exchanger.getRepresentation();
+		Representation<Group> representation = exchanger.getRepresentation();
+		Group node = representation.getData();
 		assertEquals(4, node.getChildren().size());
 
 		// The number of children of each type found

@@ -14,8 +14,12 @@ import org.eclipse.eavp.viz.service.javafx.geometry.FXGeometryAttachment;
 import org.eclipse.eavp.viz.service.javafx.geometry.FXGeometryAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
+import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.junit.Test;
+
+import javafx.scene.Group;
 
 /**
  * A class to test the functionality of FXGeometryAttachment.
@@ -37,7 +41,7 @@ public class FXGeometryAttachmentTester {
 
 		// Create a sphere shape
 		ShapeMesh mesh = new ShapeMesh();
-		mesh.setProperty("Type", "Sphere");
+		mesh.setProperty(MeshProperty.TYPE, "Sphere");
 		FXShapeController shape = new FXShapeController(mesh,
 				new FXShapeView(mesh));
 
@@ -46,7 +50,7 @@ public class FXGeometryAttachmentTester {
 
 		// The attachment's JavaFX node should now contain the shape's JavaFX
 		// representation
-		attachment.getFxNode().getChildren()
-				.contains(shape.getRepresentation());
+		Representation<Group> representation = shape.getRepresentation();
+		attachment.getFxNode().getChildren().contains(representation.getData());
 	}
 }
