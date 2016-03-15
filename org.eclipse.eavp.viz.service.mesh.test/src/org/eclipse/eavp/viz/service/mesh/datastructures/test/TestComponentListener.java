@@ -18,11 +18,11 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateableListener;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateable;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateableListener;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
+import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 
 /**
  * <p>
@@ -66,7 +66,7 @@ public class TestComponentListener
 	 * </p>
 	 * 
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         True if the listener has been notified of an update, false
 	 *         otherwise.
 	 *         </p>
@@ -133,8 +133,7 @@ public class TestComponentListener
 	}
 
 	@Override
-	public void update(IManagedUpdateable component,
-			SubscriptionType[] type) {
+	public void update(IManagedUpdateable component, SubscriptionType[] type) {
 
 		// Set the flag
 		wasNotified.set(true);

@@ -12,6 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
@@ -20,7 +21,6 @@ import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeView;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXReactorView;
-import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.junit.Test;
 
 import javafx.collections.ObservableList;

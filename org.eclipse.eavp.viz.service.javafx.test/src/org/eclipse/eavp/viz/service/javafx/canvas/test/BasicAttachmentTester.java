@@ -16,14 +16,14 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.junit.Test;
 
 /**
@@ -70,10 +70,10 @@ public class BasicAttachmentTester {
 		};
 
 		// Create some AbstractControllers for the attachment to contain
-		BasicController geometry1 = new BasicController(
-				new BasicMesh(), new BasicView());
-		BasicController geometry2 = new BasicController(
-				new BasicMesh(), new BasicView());
+		BasicController geometry1 = new BasicController(new BasicMesh(),
+				new BasicView());
+		BasicController geometry2 = new BasicController(new BasicMesh(),
+				new BasicView());
 		BasicController shape1 = new BasicController(new BasicMesh(),
 				new BasicView());
 		shape1.setProperty(MeshProperty.NAME, "shape1");

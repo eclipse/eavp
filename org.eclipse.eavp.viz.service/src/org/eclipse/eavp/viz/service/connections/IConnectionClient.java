@@ -11,8 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateableListener;
-
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
 
 /**
  * A connection client is a class that can be associated with a single

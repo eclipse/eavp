@@ -19,12 +19,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.KeyEntryContentProvider;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
 import org.junit.Test;
 
 /**
@@ -155,8 +155,10 @@ public class PortEntryTester {
 		value = parseIntString(entry.getValue());
 		assertEquals(lastValue, value);
 		// Since the set was unsuccessful, there should be an error message.
-		assertEquals("'342' is an unacceptable value. The value "
-				+ "must be between 343 and 43770.", entry.getErrorMessage());
+		assertEquals(
+				"'342' is an unacceptable value. The value "
+						+ "must be between 343 and 43770.",
+				entry.getErrorMessage());
 
 		// Try setting the value to the max valid value.
 		lastValue = max;
@@ -175,8 +177,10 @@ public class PortEntryTester {
 		value = parseIntString(entry.getValue());
 		assertEquals(lastValue, value);
 		// Since the set was unsuccessful, there should be an error message.
-		assertEquals("'43771' is an unacceptable value. The value "
-				+ "must be between 343 and 43770.", entry.getErrorMessage());
+		assertEquals(
+				"'43771' is an unacceptable value. The value "
+						+ "must be between 343 and 43770.",
+				entry.getErrorMessage());
 
 		// ---- Try setting the value to other invalid values. ---- //
 		// Try a null value string.
@@ -186,8 +190,10 @@ public class PortEntryTester {
 		value = parseIntString(entry.getValue());
 		assertEquals(lastValue, value);
 		// Since the set was unsuccessful, there should be an error message.
-		assertEquals("'null' is an unacceptable value. The value "
-				+ "must be between 343 and 43770.", entry.getErrorMessage());
+		assertEquals(
+				"'null' is an unacceptable value. The value "
+						+ "must be between 343 and 43770.",
+				entry.getErrorMessage());
 
 		// Try a non-integer string.
 		changed = entry.setValue("1337.1337");
@@ -196,8 +202,10 @@ public class PortEntryTester {
 		value = parseIntString(entry.getValue());
 		assertEquals(lastValue, value);
 		// Since the set was unsuccessful, there should be an error message.
-		assertEquals("'1337.1337' is an unacceptable value. The value "
-				+ "must be between 343 and 43770.", entry.getErrorMessage());
+		assertEquals(
+				"'1337.1337' is an unacceptable value. The value "
+						+ "must be between 343 and 43770.",
+				entry.getErrorMessage());
 		// -------------------------------------------------------- //
 
 		return;

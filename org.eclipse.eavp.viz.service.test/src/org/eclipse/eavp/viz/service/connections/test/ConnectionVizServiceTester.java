@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
@@ -28,7 +29,6 @@ import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
-import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
@@ -126,7 +126,9 @@ public class ConnectionVizServiceTester {
 					}
 
 					@Override
-					public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
+					public String createAdditionalPage(
+							MultiPageEditorPart parent, IFileEditorInput file,
+							int pageNum) {
 						// TODO Auto-generated method stub
 						return null;
 					}

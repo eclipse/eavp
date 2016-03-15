@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.shapes;
 
-import org.eclipse.eavp.viz.service.modeling.IMeshProperty;
+import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 
 /**
  * Addional IMesh properties for the geometry editor's classes.

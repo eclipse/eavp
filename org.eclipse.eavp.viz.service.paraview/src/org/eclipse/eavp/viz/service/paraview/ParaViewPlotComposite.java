@@ -18,13 +18,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.eavp.viz.datastructures.VizActionTree;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IPlotListener;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
-import org.eclipse.eavp.viz.service.datastructures.VizActionTree;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
 import org.eclipse.eavp.viz.service.paraview.widgets.ParaViewCanvas;
@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 public class ParaViewPlotComposite extends
-		ConnectionPlotComposite<IParaViewWebClient>implements IPlotListener {
+		ConnectionPlotComposite<IParaViewWebClient> implements IPlotListener {
 
 	/**
 	 * The canvas that is used to render the remote ParaView view.
@@ -99,7 +99,10 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#canShowMultipleSeries()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#canShowMultipleSeries(
+	 * )
 	 */
 	@Override
 	protected boolean canShowMultipleSeries() {
@@ -171,7 +174,10 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#createPlotContent(org.eclipse.swt.widgets.Composite, int, org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#
+	 * createPlotContent(org.eclipse.swt.widgets.Composite, int,
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	protected Composite createPlotContent(Composite parent, int style,
@@ -281,7 +287,10 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#disposePlotContent(org.eclipse.swt.widgets.Composite, org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#
+	 * disposePlotContent(org.eclipse.swt.widgets.Composite,
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	protected void disposePlotContent(Composite plotContent,
@@ -300,7 +309,9 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#getConnectionPreferencePageID()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#
+	 * getConnectionPreferencePageID()
 	 */
 	@Override
 	protected String getConnectionPreferencePageID() {
@@ -309,6 +320,7 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#getPlotActions()
 	 */
 	@Override
@@ -323,7 +335,10 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlotListener#plotUpdated(org.eclipse.eavp.viz.service.IPlot, java.lang.String, java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlotListener#plotUpdated(org.eclipse.eavp.
+	 * viz.service.IPlot, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public void plotUpdated(IPlot plot, String key, String value) {
@@ -359,7 +374,10 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#setConnectionPlot(org.eclipse.eavp.viz.service.connections.ConnectionPlot)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#
+	 * setConnectionPlot(org.eclipse.eavp.viz.service.connections.
+	 * ConnectionPlot)
 	 */
 	@Override
 	public boolean setConnectionPlot(ConnectionPlot<IParaViewWebClient> plot) {
@@ -382,7 +400,10 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#showSeries(org.eclipse.eavp.viz.service.ISeries, org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#
+	 * showSeries(org.eclipse.eavp.viz.service.ISeries,
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	protected void showSeries(ISeries series,
@@ -404,7 +425,10 @@ public class ParaViewPlotComposite extends
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#updatePlotContent(org.eclipse.swt.widgets.Composite, org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite#
+	 * updatePlotContent(org.eclipse.swt.widgets.Composite,
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	protected void updatePlotContent(Composite plotContent,

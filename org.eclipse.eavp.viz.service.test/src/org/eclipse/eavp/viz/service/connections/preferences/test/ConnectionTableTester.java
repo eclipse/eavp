@@ -19,8 +19,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -287,7 +287,8 @@ public class ConnectionTableTester {
 		long interval = 50;
 		long threshold = 2000;
 		long sleepTime = 0;
-		while (table.getConnection("Connection1") != null && sleepTime < threshold) {
+		while (table.getConnection("Connection1") != null
+				&& sleepTime < threshold) {
 			try {
 				Thread.sleep(interval);
 				sleepTime += interval;

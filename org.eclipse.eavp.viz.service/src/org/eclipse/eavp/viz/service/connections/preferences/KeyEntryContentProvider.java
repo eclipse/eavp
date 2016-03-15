@@ -14,9 +14,8 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
-
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
 
 /**
  * This class provides an {@link IEntryContentProvider} geared toward
@@ -92,8 +91,8 @@ public class KeyEntryContentProvider extends BasicVizEntryContentProvider
 
 		// Set the default allowed values. This will need to be updated when one
 		// of the key manager's keys is taken or released.
-		super.setAllowedValues((ArrayList<String>) keyManager
-				.getAvailableKeys());
+		super.setAllowedValues(
+				(ArrayList<String>) keyManager.getAvailableKeys());
 
 		// Register with the key manager as a key change listener so we can
 		// update the default value and allowed values when the keys change.
@@ -147,9 +146,8 @@ public class KeyEntryContentProvider extends BasicVizEntryContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ice.datastructures.ICEObject.ICEObject#equals(java.lang.Object
-	 * )
+	 * @see org.eclipse.ice.datastructures.ICEObject.ICEObject#equals(java.lang.
+	 * Object )
 	 */
 	@Override
 	public boolean equals(Object object) {

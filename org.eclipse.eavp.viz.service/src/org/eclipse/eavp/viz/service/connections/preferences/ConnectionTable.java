@@ -18,13 +18,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
-import org.eclipse.eavp.viz.service.datastructures.VizTableComponent;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateable;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.VizTableComponent;
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
 
 /**
  * This class manages a list of uniquely-keyed connections within an ICE
@@ -93,7 +93,9 @@ public class ConnectionTable extends VizTableComponent {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.datastructures.VizTableComponent#addRow()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.datastructures.VizTableComponent#addRow()
 	 */
 	@Override
 	public int addRow() {
@@ -161,35 +163,41 @@ public class ConnectionTable extends VizTableComponent {
 		IVizEntryContentProvider contentProvider;
 
 		// ---- name ---- //
-		KeyEntryContentProvider keyContentProvider = new KeyEntryContentProvider(keyManager);
+		KeyEntryContentProvider keyContentProvider = new KeyEntryContentProvider(
+				keyManager);
 		VizEntry keyEntry = new KeyEntry(keyContentProvider);
 		keyEntry.setName("Name");
-		keyEntry.setDescription("The name of the connection. This must be unique.");
+		keyEntry.setDescription(
+				"The name of the connection. This must be unique.");
 		template.add(keyEntry);
 		// ---- host ---- //
 		contentProvider = new BasicVizEntryContentProvider();
 		contentProvider.setDefaultValue("localhost");
 		VizEntry hostEntry = new VizEntry(contentProvider);
 		hostEntry.setName("Host");
-		hostEntry.setDescription(
-				"The FQDN or IP address of the remote host.%n" + "For local launches, this should be \"localhost\".");
+		hostEntry.setDescription("The FQDN or IP address of the remote host.%n"
+				+ "For local launches, this should be \"localhost\".");
 		template.add(hostEntry);
 		// ---- host port ---- //
 		PortEntryContentProvider portContentProvider = new PortEntryContentProvider();
 		portContentProvider.setDefaultValue("9600");
 		VizEntry hostPortEntry = new PortEntry(portContentProvider);
 		hostPortEntry.setName("Port");
-		hostPortEntry.setDescription("The port on which the host serves the connection.%n"
-				+ "Should be a positive integer within the port range "
-				+ Integer.toString(PortEntryContentProvider.MIN_PORT) + "-"
-				+ Integer.toString(PortEntryContentProvider.MAX_PORT) + ".");
+		hostPortEntry.setDescription(
+				"The port on which the host serves the connection.%n"
+						+ "Should be a positive integer within the port range "
+						+ Integer.toString(PortEntryContentProvider.MIN_PORT)
+						+ "-"
+						+ Integer.toString(PortEntryContentProvider.MAX_PORT)
+						+ ".");
 		template.add(hostPortEntry);
 		// ---- path ---- //
 		contentProvider = new BasicVizEntryContentProvider();
 		contentProvider.setAllowedValueType(VizAllowedValueType.Undefined);
 		VizEntry pathEntry = new VizEntry(contentProvider);
 		pathEntry.setName("Path");
-		pathEntry.setDescription("The full path to the local or remote installation.");
+		pathEntry.setDescription(
+				"The full path to the local or remote installation.");
 		template.add(pathEntry);
 
 		return template;
@@ -240,7 +248,10 @@ public class ConnectionTable extends VizTableComponent {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.datastructures.VizTableComponent#deleteRow(int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.datastructures.VizTableComponent#deleteRow(
+	 * int)
 	 */
 	@Override
 	public boolean deleteRow(int index) {

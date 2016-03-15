@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.internal;
 
+import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
-import org.eclipse.eavp.viz.service.modeling.Transformation;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Group;

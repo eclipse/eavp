@@ -16,11 +16,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
-import org.eclipse.eavp.viz.service.modeling.IController;
 import org.junit.Test;
 
 /**
@@ -69,7 +69,6 @@ public class BasicAttachmentManagerTester {
 						// TODO Auto-generated method stub
 
 					}
-
 				};
 
 				// Add it to the list of active attachments and return it

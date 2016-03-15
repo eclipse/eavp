@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.preferences.AbstractVizPreferencePage;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.eclipse.swt.SWT;
@@ -37,7 +37,8 @@ import org.osgi.service.prefs.BackingStoreException;
  * @author Jordan Deyton
  *
  */
-public abstract class VizConnectionPreferencePage extends AbstractVizPreferencePage {
+public abstract class VizConnectionPreferencePage
+		extends AbstractVizPreferencePage {
 
 	/**
 	 * The {@code ConnectionTable} used by this preference page. It is
@@ -86,8 +87,10 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 
 		// Create a ConnectionComposite to show all of the cached connection
 		// preferences.
-		TableComponentComposite connections = new TableComponentComposite(container, SWT.NONE);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true, gridLayout.numColumns, 1);
+		TableComponentComposite connections = new TableComponentComposite(
+				container, SWT.NONE);
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true,
+				gridLayout.numColumns, 1);
 		connections.setLayoutData(gridData);
 
 		// Set the custom Composite's TableComponent to fill the table.
@@ -98,7 +101,10 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 * 
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors
+	 * ()
 	 */
 	@Override
 	protected void createFieldEditors() {
@@ -124,7 +130,10 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.preferences.AbstractVizPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.preferences.AbstractVizPreferencePage#init(
+	 * org.eclipse.ui.IWorkbench)
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
@@ -152,7 +161,8 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 	private void loadPreferences(ConnectionTable table) {
 		// Get the preference node for connection preferences.
 		CustomScopedPreferenceStore store = (CustomScopedPreferenceStore) getPreferenceStore();
-		IEclipsePreferences node = store.getNode(getConnectionsPreferenceNodeId());
+		IEclipsePreferences node = store
+				.getNode(getConnectionsPreferenceNodeId());
 
 		// Load the current preferences into the table.
 		String[] existingKeys;
@@ -165,7 +175,8 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 				// Update the key/name in the table.
 				row.get(0).setValue(key);
 				// Update the other properties.
-				String[] preferences = unserializeConnectionPreferences(node.get(key, null));
+				String[] preferences = unserializeConnectionPreferences(
+						node.get(key, null));
 				for (int i = 0; i < preferences.length; i++) {
 					row.get(i + 1).setValue(preferences[i]);
 				}
@@ -179,6 +190,7 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performOk()
 	 */
 	@Override
@@ -203,7 +215,8 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 	private void savePreferences(ConnectionTable table) {
 		// Get the preference node for connection preferences.
 		CustomScopedPreferenceStore store = (CustomScopedPreferenceStore) getPreferenceStore();
-		IEclipsePreferences node = store.getNode(getConnectionsPreferenceNodeId());
+		IEclipsePreferences node = store
+				.getNode(getConnectionsPreferenceNodeId());
 
 		// Get a set of connection names from the table. At the end of this
 		// operation, only the connections in the table will be in the
@@ -259,10 +272,10 @@ public abstract class VizConnectionPreferencePage extends AbstractVizPreferenceP
 			preferences += connection.get(1).getValue();
 			// Add all remaining preferences.
 			for (int i = 2; i < connection.size(); i++) {
-				preferences += delimiter + connection.get(i).getValue();			
+				preferences += delimiter + connection.get(i).getValue();
 			}
 		}
-		
+
 		return preferences;
 	}
 

@@ -12,10 +12,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
@@ -37,7 +37,7 @@ public class ShapeTreeLabelProvider extends LabelProvider {
 	 *            An IShape to produce its image
 	 *            </p>
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         The icon associated with the given IShape element
 	 *         </p>
 	 */
@@ -60,7 +60,7 @@ public class ShapeTreeLabelProvider extends LabelProvider {
 	 *            The ICEObject or AbstractShape to produce its text
 	 *            </p>
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         The name associated with the element's ICEObject properties
 	 *         </p>
 	 */

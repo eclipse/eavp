@@ -15,10 +15,10 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -96,8 +96,8 @@ public class FileComboBoxCellEditor extends ComboBoxCellEditor {
 	/**
 	 * The Constructor, takes the items, editing support, and property
 	 */
-	public FileComboBoxCellEditor(Composite parent, String[] items, int style, EntryCellEditingSupport supp,
-			VizEntry element) {
+	public FileComboBoxCellEditor(Composite parent, String[] items, int style,
+			EntryCellEditingSupport supp, VizEntry element) {
 		super(parent, items, style);
 		support = supp;
 		this.element = element;
@@ -167,7 +167,8 @@ public class FileComboBoxCellEditor extends ComboBoxCellEditor {
 						// Import the files
 						entryValue = newValue;
 
-						String[] currentItems = FileComboBoxCellEditor.this.getItems();
+						String[] currentItems = FileComboBoxCellEditor.this
+								.getItems();
 						String[] newItems = new String[currentItems.length + 1];
 						for (int i = 0; i < currentItems.length; i++) {
 							newItems[i] = currentItems[i];
@@ -178,8 +179,10 @@ public class FileComboBoxCellEditor extends ComboBoxCellEditor {
 						doSetValue(new Integer(currentItems.length));
 
 						IVizEntryContentProvider prov = new BasicVizEntryContentProvider();
-						ArrayList<String> valueList = new ArrayList<String>(Arrays.asList(newItems));
-						prov.setAllowedValueType(VizAllowedValueType.Executable);
+						ArrayList<String> valueList = new ArrayList<String>(
+								Arrays.asList(newItems));
+						prov.setAllowedValueType(
+								VizAllowedValueType.Executable);
 
 						// Finish setting the allowed values and default
 						// value
@@ -274,16 +277,20 @@ public class FileComboBoxCellEditor extends ComboBoxCellEditor {
 		}
 
 		@Override
-		public Point computeSize(Composite editor, int wHint, int hHint, boolean force) {
+		public Point computeSize(Composite editor, int wHint, int hHint,
+				boolean force) {
 			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT) {
 				return new Point(wHint, hHint);
 			}
-			Point contentsSize = contents.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
-			Point buttonSize = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, force);
+			Point contentsSize = contents.computeSize(SWT.DEFAULT, SWT.DEFAULT,
+					force);
+			Point buttonSize = button.computeSize(SWT.DEFAULT, SWT.DEFAULT,
+					force);
 			// Just return the button width to ensure the button is not clipped
 			// if the label is long.
 			// The label will just use whatever extra width there is
-			Point result = new Point(buttonSize.x, Math.max(contentsSize.y, buttonSize.y));
+			Point result = new Point(buttonSize.x,
+					Math.max(contentsSize.y, buttonSize.y));
 			return result;
 		}
 	}

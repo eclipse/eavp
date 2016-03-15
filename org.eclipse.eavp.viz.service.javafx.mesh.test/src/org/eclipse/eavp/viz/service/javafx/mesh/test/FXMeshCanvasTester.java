@@ -16,14 +16,14 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicViewer;
 import org.eclipse.eavp.viz.service.javafx.mesh.FXMeshCanvas;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.MeshCategory;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -93,14 +93,14 @@ public class FXMeshCanvasTester {
 				new BasicController(new BasicMesh(), new BasicView()));
 
 		// Create the polygons for the test
-		BasicController neighbor1 = new BasicController(
-				new BasicMesh(), new BasicView());
+		BasicController neighbor1 = new BasicController(new BasicMesh(),
+				new BasicView());
 		neighbor1.setProperty(MeshProperty.NAME, "neighbor1");
-		BasicController neighbor2 = new BasicController(
-				new BasicMesh(), new BasicView());
+		BasicController neighbor2 = new BasicController(new BasicMesh(),
+				new BasicView());
 		neighbor2.setProperty(MeshProperty.NAME, "neighbor2");
-		BasicController independent = new BasicController(
-				new BasicMesh(), new BasicView());
+		BasicController independent = new BasicController(new BasicMesh(),
+				new BasicView());
 		independent.setProperty(MeshProperty.NAME, "independent");
 
 		// Create the points used for the test. These points will be used by

@@ -15,8 +15,8 @@ package org.eclipse.eavp.viz;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.eavp.viz.service.datastructures.resource.IVizResource;
-import org.eclipse.eavp.viz.service.datastructures.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
+import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -133,7 +133,7 @@ public class AddLocalFileAction extends Action {
 					System.err.println("AddLocalFileAction error: Failed to "
 							+ "create an ICEResource for the file at \""
 							+ filePath + "\".");
-					logger.error(getClass().getName() + " Exception!",e);
+					logger.error(getClass().getName() + " Exception!", e);
 				}
 			}
 		} else {

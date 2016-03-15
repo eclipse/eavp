@@ -12,10 +12,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.MeshCategory;
-import org.eclipse.eavp.viz.service.modeling.IController;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -52,7 +52,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 *            The parent IShape element
 	 *            </p>
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         The child IShapes
 	 *         </p>
 	 */
@@ -70,13 +70,15 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 
 			ShapeController parentShape = (ShapeController) parentElement;
 
-			if (parentShape.getProperty(GeometryMeshProperty.OPERATOR) != null) {
+			if (parentShape
+					.getProperty(GeometryMeshProperty.OPERATOR) != null) {
 
 				// IShape is a ComplexShape, so put its children in the
 				// temporary children field
 
 				temporaryChildren = parentShape
-						.getEntitiesFromCategory(MeshCategory.CHILDREN).toArray();
+						.getEntitiesFromCategory(MeshCategory.CHILDREN)
+						.toArray();
 
 				// Use a blank state if there are no children to display
 
@@ -112,7 +114,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 *            The input GeometryComponent
 	 *            </p>
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         The child IShapes
 	 *         </p>
 	 */
@@ -141,7 +143,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 *            The child IShape
 	 *            </p>
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         The parent IShape
 	 *         </p>
 	 */
@@ -175,7 +177,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 *            The IShape to check for children
 	 *            </p>
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         Represents whether the element has children
 	 *         </p>
 	 */

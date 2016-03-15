@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.VizObject;
+import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
 
 /**
  * <p>
@@ -211,8 +211,8 @@ public class BoundaryCondition extends VizObject {
 			BoundaryCondition otherCondition = (BoundaryCondition) otherObject;
 
 			// Check the super class' equality and local values.
-			equal = (super.equals(otherObject) && type == otherCondition.type && values
-					.equals(otherCondition.values));
+			equal = (super.equals(otherObject) && type == otherCondition.type
+					&& values.equals(otherCondition.values));
 		}
 
 		return equal;

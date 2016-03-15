@@ -13,13 +13,13 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.MeshCategory;
 import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.junit.Test;
 
 /**
@@ -65,8 +65,8 @@ public class FXEdgeControllerTester {
 		// Set the Constructing property. This change should be mirrored in the
 		// edge's children.
 		edge.setProperty(MeshEditorMeshProperty.UNDER_CONSTRUCTION, "True");
-		assertTrue("True"
-				.equals(child.getProperty(MeshEditorMeshProperty.UNDER_CONSTRUCTION)));
+		assertTrue("True".equals(
+				child.getProperty(MeshEditorMeshProperty.UNDER_CONSTRUCTION)));
 
 		// Set the Selected property. This changed should be mirrored in the
 		// edge's children
@@ -76,7 +76,7 @@ public class FXEdgeControllerTester {
 		// Set a different property. This change should not be reflected in the
 		// child
 		edge.setProperty(MeshProperty.INNER_RADIUS, "Property");
-		assertFalse(
-				"Property".equals(child.getProperty(MeshProperty.INNER_RADIUS)));
+		assertFalse("Property"
+				.equals(child.getProperty(MeshProperty.INNER_RADIUS)));
 	}
 }

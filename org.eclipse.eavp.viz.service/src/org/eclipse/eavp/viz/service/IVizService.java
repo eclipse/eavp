@@ -15,10 +15,8 @@ package org.eclipse.eavp.viz.service;
 import java.net.URI;
 import java.util.Set;
 
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 
 /**
  * This is a pluggable service interface whereby visualization engines can

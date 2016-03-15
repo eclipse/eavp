@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.VizJAXBHandler;
+import org.eclipse.eavp.viz.datastructures.VizObject.VizJAXBHandler;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryCondition;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryConditionType;
 import org.eclipse.eavp.viz.service.mesh.datastructures.test.TestComponentListener;
@@ -262,13 +262,15 @@ public class BoundaryConditionTester {
 	 * This operation checks the ability of the BoundaryCondition to persist
 	 * itself to XML and to load itself from an XML input stream.
 	 * </p>
-	 * @throws IOException 
-	 * @throws JAXBException 
-	 * @throws NullPointerException 
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 * @throws NullPointerException
 	 * 
 	 */
 	@Test
-	public void checkLoadingFromXML() throws NullPointerException, JAXBException, IOException {
+	public void checkLoadingFromXML()
+			throws NullPointerException, JAXBException, IOException {
 
 		// Local Declarations
 		VizJAXBHandler xmlHandler = new VizJAXBHandler();
@@ -287,7 +289,8 @@ public class BoundaryConditionTester {
 
 		// Load the input stream's contents into a new component.
 		BoundaryCondition loadedCondition = new BoundaryCondition();
-		loadedCondition = (BoundaryCondition) xmlHandler.read(classList, inputStream);
+		loadedCondition = (BoundaryCondition) xmlHandler.read(classList,
+				inputStream);
 
 		// Make sure the two components match.
 		assertTrue(condition.equals(loadedCondition));
@@ -330,7 +333,7 @@ public class BoundaryConditionTester {
 		assertTrue(equalObject.equals(object));
 
 		// Check that equals will fail when it should.
-		assertFalse(object==null);
+		assertFalse(object == null);
 		assertFalse(object.equals(42));
 		assertFalse("just a string".equals(object));
 		assertFalse(object.equals(unequalObject));

@@ -15,8 +15,8 @@ package org.eclipse.eavp.viz;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.eavp.viz.service.datastructures.resource.IVizResource;
-import org.eclipse.eavp.viz.service.datastructures.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
+import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
 import org.eclipse.eavp.viz.visit.VisitEditor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -63,7 +63,8 @@ public class AddRemoteFileAction extends Action {
 	 * @param parentAction
 	 *            The AddFileAction to whom the object of this class belongs.
 	 */
-	public AddRemoteFileAction(ViewPart parentView, AddFileAction parentAction) {
+	public AddRemoteFileAction(ViewPart parentView,
+			AddFileAction parentAction) {
 
 		// Keep track of the viewer and parent Action containing this Action
 		viewer = parentView;
@@ -130,14 +131,15 @@ public class AddRemoteFileAction extends Action {
 			return;
 		}
 		try {
-			IVizResource resource = new VisualizationResource(new File(remoteFile));
+			IVizResource resource = new VisualizationResource(
+					new File(remoteFile));
 			resource.setHost(conn.getHostname());
 			VizFileViewer vizViewer = (VizFileViewer) viewer;
 			vizViewer.addFile(resource);
 		} catch (IOException e) {
 			System.err.println("AddRemoteFileAction error: Failed to create "
 					+ "an ICEResource for the file at \"" + remoteFile + "\".");
-			logger.error(getClass().getName() + " Exception!",e);
+			logger.error(getClass().getName() + " Exception!", e);
 		}
 
 		return;

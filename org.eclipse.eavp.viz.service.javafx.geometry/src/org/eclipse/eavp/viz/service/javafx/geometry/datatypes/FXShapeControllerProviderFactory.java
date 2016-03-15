@@ -10,10 +10,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.datatypes;
 
-import org.eclipse.eavp.viz.service.modeling.BasicControllerProviderFactory;
-import org.eclipse.eavp.viz.service.modeling.BasicControllerProviderFactory;
-import org.eclipse.eavp.viz.service.modeling.IControllerProvider;
-import org.eclipse.eavp.viz.service.modeling.IMesh;
+import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
+import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.eclipse.eavp.viz.service.modeling.TubeMesh;
 
@@ -24,7 +23,8 @@ import org.eclipse.eavp.viz.service.modeling.TubeMesh;
  * @author Robert Smith
  *
  */
-public class FXShapeControllerProviderFactory extends BasicControllerProviderFactory {
+public class FXShapeControllerProviderFactory
+		extends BasicControllerProviderFactory {
 
 	/**
 	 * The default cosntructor.

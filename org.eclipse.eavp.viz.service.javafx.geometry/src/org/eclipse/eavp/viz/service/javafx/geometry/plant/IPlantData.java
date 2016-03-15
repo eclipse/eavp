@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
-import org.eclipse.eavp.viz.service.modeling.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicController;
 
 /**
  * An interface for objects which contain the data which will be set to an

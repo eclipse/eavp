@@ -12,12 +12,11 @@ package org.eclipse.eavp.viz.service.mesh.datastructures;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.modeling.DetailedFaceMesh;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.service.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IMeshCategory;
-import org.eclipse.eavp.viz.service.modeling.MeshCategory;
+import org.eclipse.eavp.viz.service.modeling.DetailedFaceMesh;
 
 /**
  * A component for Faces within the Mesh Editor, making use of FaceEdges to
@@ -67,7 +66,8 @@ public class NekPolygonMesh extends DetailedFaceMesh {
 
 			// If the controller already exists, give a reference to it to the
 			// edge.
-			if (entity instanceof DetailedEdgeController && controller != null) {
+			if (entity instanceof DetailedEdgeController
+					&& controller != null) {
 				entity.addEntityToCategory(controller, MeshCategory.FACES);
 			}
 

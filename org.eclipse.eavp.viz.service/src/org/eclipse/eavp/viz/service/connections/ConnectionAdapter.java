@@ -18,9 +18,9 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateableListener;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.VizObject;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
 
 /**
  * This class provides an adapter that wraps a connection. It provides feedback
@@ -48,9 +48,9 @@ import org.eclipse.eavp.viz.service.datastructures.VizObject.VizObject;
  * @param <T>
  *            The type of the connection object.
  */
-public abstract class ConnectionAdapter<T> extends VizObject implements
-		IConnectionAdapter<T> {
-	
+public abstract class ConnectionAdapter<T> extends VizObject
+		implements IConnectionAdapter<T> {
+
 	/**
 	 * The current connection managed by this adapter.
 	 */
@@ -65,14 +65,13 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 	private ConnectionState state;
 
 	/**
-	 * ConnectionJob is a subclass of the Eclipse Job class that 
-	 * creates a new VizService connection in a manner that is more visible to 
-	 * the end-user. It will launch itself as part of the Eclipse Jobs API 
-	 * and publish vital information about its connecting status to the 
-	 * Status Bar Progress bar and Progress View. If the Job fails, 
-	 * a modal error dialog will be displayed so that the user knows 
-	 * the VisIt tools will not work and can diagnose the problem with the 
-	 * provided connection properties.  
+	 * ConnectionJob is a subclass of the Eclipse Job class that creates a new
+	 * VizService connection in a manner that is more visible to the end-user.
+	 * It will launch itself as part of the Eclipse Jobs API and publish vital
+	 * information about its connecting status to the Status Bar Progress bar
+	 * and Progress View. If the Job fails, a modal error dialog will be
+	 * displayed so that the user knows the VisIt tools will not work and can
+	 * diagnose the problem with the provided connection properties.
 	 * 
 	 * @author Alex McCaskey
 	 *
@@ -80,7 +79,7 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 	protected abstract class ConnectionJob extends Job {
 
 		/**
-		 *  Reference to the connection object
+		 * Reference to the connection object
 		 */
 		protected T connection;
 
@@ -94,8 +93,8 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 		}
 
 		/**
-		 * This method let's the ConnectionAdapter grab the 
-		 * created VizService connection instance. 
+		 * This method let's the ConnectionAdapter grab the created VizService
+		 * connection instance.
 		 * 
 		 * @return
 		 */
@@ -106,12 +105,14 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
+		 * 
+		 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.
+		 * IProgressMonitor)
 		 */
 		@Override
 		protected abstract IStatus run(IProgressMonitor monitor);
 	}
-	
+
 	/**
 	 * The default constructor.
 	 */
@@ -127,7 +128,8 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.connections.IConnectionAdapter#connect()
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IConnectionAdapter#connect()
 	 */
 	@Override
 	public boolean connect() {
@@ -155,21 +157,21 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 
 		String key = getKey();
 
-		logger.info("ConnectionAdapter message: "
-				+ "Attempting to connect to \"" + key
-				+ "\". The calling thread will " + (block ? "" : "not ")
-				+ "be blocked.");
+		logger.info(
+				"ConnectionAdapter message: " + "Attempting to connect to \""
+						+ key + "\". The calling thread will "
+						+ (block ? "" : "not ") + "be blocked.");
 
 		if (state == ConnectionState.Connected) {
 			connected = true;
 
-			logger.info("ConnectionAdapter message: " + "Connection \""
-					+ key + "\" is already connected.");
+			logger.info("ConnectionAdapter message: " + "Connection \"" + key
+					+ "\" is already connected.");
 
 		} else if (state != ConnectionState.Connecting) {
 
-			logger.info("ConnectionAdapter message: " + "Connection \""
-					+ key + "\" is not connected.");
+			logger.info("ConnectionAdapter message: " + "Connection \"" + key
+					+ "\" is not connected.");
 
 			// Create a new thread to open the connection.
 			Thread thread = new Thread() {
@@ -204,7 +206,7 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 					System.err.println("ConnectionAdapter error: "
 							+ "Thread exception while opening connection \""
 							+ key + "\".");
-					logger.error(getClass().getName() + " Exception!",e);
+					logger.error(getClass().getName() + " Exception!", e);
 				}
 			}
 		}
@@ -263,8 +265,8 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 		if (state == ConnectionState.Connected) {
 			connected = true;
 
-			logger.info("ConnectionAdapter message: " + "Connection \""
-					+ key + "\" is connected. It will be disconnected.");
+			logger.info("ConnectionAdapter message: " + "Connection \"" + key
+					+ "\" is connected. It will be disconnected.");
 
 			// Create a new thread to close the connection.
 			Thread thread = new Thread() {
@@ -296,12 +298,12 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 					System.err.println("ConnectionAdapter error: "
 							+ "Thread exception while closing connection \""
 							+ key + "\".");
-					logger.error(getClass().getName() + " Exception!",e);
+					logger.error(getClass().getName() + " Exception!", e);
 				}
 			}
 		} else {
-			logger.info("ConnectionAdapter message: " + "Connection \""
-					+ key + "\" is already disconnected.");
+			logger.info("ConnectionAdapter message: " + "Connection \"" + key
+					+ "\" is already disconnected.");
 		}
 
 		return !connected;
@@ -429,7 +431,8 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.connections.IConnectionAdapter#getHost()
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IConnectionAdapter#getHost()
 	 */
 	@Override
 	public String getHost() {
@@ -439,7 +442,8 @@ public abstract class ConnectionAdapter<T> extends VizObject implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.connections.IConnectionAdapter#getPort()
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IConnectionAdapter#getPort()
 	 */
 	@Override
 	public int getPort() {

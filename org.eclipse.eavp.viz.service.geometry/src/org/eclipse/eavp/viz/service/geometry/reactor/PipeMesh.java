@@ -12,11 +12,11 @@ package org.eclipse.eavp.viz.service.geometry.reactor;
 
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IMeshCategory;
-import org.eclipse.eavp.viz.service.modeling.IMeshProperty;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.TubeMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

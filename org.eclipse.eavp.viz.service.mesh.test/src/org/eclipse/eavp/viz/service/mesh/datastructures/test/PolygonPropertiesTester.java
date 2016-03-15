@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.VizJAXBHandler;
+import org.eclipse.eavp.viz.datastructures.VizObject.VizJAXBHandler;
 import org.eclipse.eavp.viz.service.mesh.datastructures.PolygonProperties;
 import org.junit.Test;
 
@@ -80,13 +80,15 @@ public class PolygonPropertiesTester {
 	 * This operation checks the ability of a PolygonProperties instance to
 	 * persist itself to XML and to load itself from an XML input stream.
 	 * </p>
-	 * @throws IOException 
-	 * @throws JAXBException 
-	 * @throws NullPointerException 
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 * @throws NullPointerException
 	 * 
 	 */
 	@Test
-	public void checkLoadingFromXML() throws NullPointerException, JAXBException, IOException {
+	public void checkLoadingFromXML()
+			throws NullPointerException, JAXBException, IOException {
 
 		// Local Declarations
 		VizJAXBHandler xmlHandler = new VizJAXBHandler();
@@ -106,7 +108,8 @@ public class PolygonPropertiesTester {
 
 		// Load the input stream's contents into a new component.
 		PolygonProperties loadedProperties = new PolygonProperties();
-		loadedProperties = (PolygonProperties) xmlHandler.read(classList, inputStream);
+		loadedProperties = (PolygonProperties) xmlHandler.read(classList,
+				inputStream);
 
 		// Make sure the two components match.
 		assertTrue(properties.equals(loadedProperties));
@@ -129,7 +132,7 @@ public class PolygonPropertiesTester {
 		PolygonProperties equalObject = new PolygonProperties("18z", 3);
 
 		// Check for inequality
-		assertFalse(object==null);
+		assertFalse(object == null);
 		assertFalse("such fake. much deceit. wow.".equals(object));
 		assertFalse(object.equals(unequalObject));
 		assertFalse(unequalObject.equals(equalObject));

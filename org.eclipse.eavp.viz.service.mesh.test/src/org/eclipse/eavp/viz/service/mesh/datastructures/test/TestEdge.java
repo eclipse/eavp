@@ -17,9 +17,9 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.service.modeling.EdgeController;
 import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
 import org.eclipse.eavp.viz.service.modeling.LinearEdgeMesh;
@@ -72,8 +72,7 @@ public class TestEdge extends EdgeController {
 	 *            </p>
 	 */
 	public TestEdge(ArrayList<VertexController> vertices) {
-		super(new EdgeMesh(vertices.get(0), vertices.get(1)),
-				new BasicView());
+		super(new EdgeMesh(vertices.get(0), vertices.get(1)), new BasicView());
 	}
 
 	/**
@@ -100,8 +99,7 @@ public class TestEdge extends EdgeController {
 	 *            </p>
 	 */
 	@Override
-	public void update(IManagedUpdateable component,
-			SubscriptionType[] type) {
+	public void update(IManagedUpdateable component, SubscriptionType[] type) {
 
 		// Call the super's update method and update the flag.
 		super.update(component, type);
@@ -117,7 +115,7 @@ public class TestEdge extends EdgeController {
 	 * </p>
 	 * 
 	 * @return
-	 * 		<p>
+	 *         <p>
 	 *         True if the Edge's update method was called, false otherwise.
 	 *         </p>
 	 */

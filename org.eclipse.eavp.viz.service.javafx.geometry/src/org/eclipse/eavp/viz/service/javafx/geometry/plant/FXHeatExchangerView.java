@@ -12,18 +12,18 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
+import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXTube;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IMesh;
-import org.eclipse.eavp.viz.service.modeling.IWireframeView;
-import org.eclipse.eavp.viz.service.modeling.Representation;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -40,8 +40,7 @@ import javafx.scene.transform.Rotate;
  * @author Robert Smith
  *
  */
-public class FXHeatExchangerView extends BasicView
-		implements IWireframeView {
+public class FXHeatExchangerView extends BasicView implements IWireframeView {
 
 	/**
 	 * A group containing the shape which represents the part.

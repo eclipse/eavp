@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections.preferences;
 
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 
 /**
  * A {@code SecretEntry} is simply an {@link Entry} whose secret flag is set to
@@ -80,6 +80,7 @@ public class SecretEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#clone()
 	 */
 	@Override
@@ -89,7 +90,10 @@ public class SecretEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#equals(java.lang.Object)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.datastructures.VizEntry#equals(java.lang.
+	 * Object)
 	 */
 	@Override
 	public boolean equals(Object object) {
@@ -114,6 +118,7 @@ public class SecretEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#hashCode()
 	 */
 	@Override
