@@ -13,16 +13,16 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
+import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IMesh;
-import org.eclipse.eavp.viz.service.modeling.IWireframeView;
-import org.eclipse.eavp.viz.service.modeling.Representation;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

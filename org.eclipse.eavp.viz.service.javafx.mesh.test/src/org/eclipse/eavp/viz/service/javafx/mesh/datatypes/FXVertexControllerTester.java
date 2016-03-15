@@ -13,11 +13,11 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.IMesh;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 import org.junit.Test;
 
@@ -68,8 +68,7 @@ public class FXVertexControllerTester {
 		assertTrue(view.wasRefreshed());
 
 		// The view should not be refreshed when a child is added
-		mesh.addEntity(
-				new BasicController(new BasicMesh(), new BasicView()));
+		mesh.addEntity(new BasicController(new BasicMesh(), new BasicView()));
 		assertFalse(view.wasRefreshed());
 	}
 

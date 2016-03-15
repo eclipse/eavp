@@ -14,11 +14,11 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.IController;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;

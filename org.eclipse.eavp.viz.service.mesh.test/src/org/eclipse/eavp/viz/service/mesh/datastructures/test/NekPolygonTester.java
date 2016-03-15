@@ -22,18 +22,18 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryCondition;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryConditionType;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonMesh;
 import org.eclipse.eavp.viz.service.mesh.datastructures.PolygonProperties;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
 import org.eclipse.eavp.viz.service.modeling.EdgeController;
 import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
 import org.eclipse.eavp.viz.service.modeling.FaceMesh;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.MeshCategory;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.VertexController;
 import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 import org.junit.Test;
@@ -103,13 +103,14 @@ public class NekPolygonTester {
 
 		// Check the edges.
 		assertNotNull(polygon.getEntitiesFromCategory(MeshCategory.EDGES));
-		assertTrue(polygon.getEntitiesFromCategory(MeshCategory.EDGES).isEmpty());
+		assertTrue(
+				polygon.getEntitiesFromCategory(MeshCategory.EDGES).isEmpty());
 
 		// Check the vertices.
 		assertNotNull(polygon.getEntitiesFromCategory(MeshCategory.VERTICES));
-		assertTrue(
-				polygon.getEntitiesFromCategory(MeshCategory.VERTICES).isEmpty());
-				/* --------------------------------------- */
+		assertTrue(polygon.getEntitiesFromCategory(MeshCategory.VERTICES)
+				.isEmpty());
+		/* --------------------------------------- */
 
 		/* ---- Try a valid polygon. ---- */
 		for (EdgeController e : edges) {
@@ -284,7 +285,7 @@ public class NekPolygonTester {
 		polygon.setOtherBoundaryCondition(edgeId, scalarId, condition);
 		assertEquals(condition,
 				polygon.getOtherBoundaryCondition(edgeId, scalarId));
-				/* -------------------------------------------------- */
+		/* -------------------------------------------------- */
 
 		/* ---- Try getting/setting invalid boundary conditions. ---- */
 		// Try setting a null fluid condition.

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.Representation;
 
 import javafx.scene.Group;
 

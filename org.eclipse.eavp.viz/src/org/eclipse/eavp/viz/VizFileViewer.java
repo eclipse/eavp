@@ -18,16 +18,16 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
+import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.resource.IResource;
+import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
+import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.resource.VizResourceComponent;
 import org.eclipse.eavp.viz.service.PlotEditor;
 import org.eclipse.eavp.viz.service.PlotEditorInput;
 import org.eclipse.eavp.viz.service.csv.CSVPlot;
 import org.eclipse.eavp.viz.service.csv.CSVProxyPlot;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateable;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IVizUpdateableListener;
-import org.eclipse.eavp.viz.service.datastructures.resource.IResource;
-import org.eclipse.eavp.viz.service.datastructures.resource.IVizResource;
-import org.eclipse.eavp.viz.service.datastructures.resource.VisualizationResource;
-import org.eclipse.eavp.viz.service.datastructures.resource.VizResourceComponent;
 import org.eclipse.eavp.viz.visit.VisitPlotViewer;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -63,8 +63,8 @@ import org.slf4j.LoggerFactory;
  * @author Kasper Gammeltoft- Changed functionality to use the
  *         {@link PlotEditor}
  */
-public class VizFileViewer extends ViewPart implements IVizUpdateableListener,
-		ISelectionChangedListener {
+public class VizFileViewer extends ViewPart
+		implements IVizUpdateableListener, ISelectionChangedListener {
 
 	/**
 	 * Logger for handling event messages and other information.
@@ -122,8 +122,8 @@ public class VizFileViewer extends ViewPart implements IVizUpdateableListener,
 
 		// Initialize the ListViewer. Disable multi-selection by specifying the
 		// default style bits except for SWT.MULTI.
-		fileTreeViewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER);
+		fileTreeViewer = new TreeViewer(parent,
+				SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		fileTreeViewer.addSelectionChangedListener(this);
 
 		// Create content and label providers.
@@ -177,8 +177,8 @@ public class VizFileViewer extends ViewPart implements IVizUpdateableListener,
 					if (lastIndex > -1) {
 						IResource resource = resourceComponent.getResources()
 								.get(lastIndex);
-						fileTreeViewer.setSelection(new StructuredSelection(
-								resource), true);
+						fileTreeViewer.setSelection(
+								new StructuredSelection(resource), true);
 					}
 
 				}
@@ -353,12 +353,13 @@ public class VizFileViewer extends ViewPart implements IVizUpdateableListener,
 								childResource.setHost("localhost");
 								children.add(childResource);
 							} catch (IOException e) {
-								System.err
-										.println("AddLocalFileAction error: Failed to "
+								System.err.println(
+										"AddLocalFileAction error: Failed to "
 												+ "create an ICEResource for the file at \""
 												+ filePath + "\".");
-								logger.error(getClass().getName()
-										+ " Exception!", e);
+								logger.error(
+										getClass().getName() + " Exception!",
+										e);
 							}
 						}
 						return children.toArray();
@@ -535,7 +536,8 @@ public class VizFileViewer extends ViewPart implements IVizUpdateableListener,
 							} catch (Exception e) {
 								logger.error(
 										"Could not open editor for CSV file: "
-												+ file.getAbsolutePath(), e);
+												+ file.getAbsolutePath(),
+										e);
 							}
 						}
 						// If the file is something else...
@@ -551,16 +553,17 @@ public class VizFileViewer extends ViewPart implements IVizUpdateableListener,
 								// Get the VisIt Plot Viewer and set its
 								// resource
 								for (IViewReference ref : refs) {
-									if ("VisIt Plot Viewer".equals(ref
-											.getPartName())) {
+									if ("VisIt Plot Viewer"
+											.equals(ref.getPartName())) {
 										VisitPlotViewer view = (VisitPlotViewer) ref
 												.getView(false);
 										view.setResource(vizResource);
 									}
 								}
 							} catch (PartInitException e) {
-								logger.error(getClass().getName()
-										+ " Exception!", e);
+								logger.error(
+										getClass().getName() + " Exception!",
+										e);
 							}
 						}
 					}

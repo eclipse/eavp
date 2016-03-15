@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
-import org.eclipse.eavp.viz.service.modeling.IController;
 import org.eclipse.jface.util.Geometry;
 
 /**
@@ -28,8 +28,7 @@ import org.eclipse.jface.util.Geometry;
  * @author Tony McCrary (tmccrary@l33tlabs.com)
  *
  */
-public abstract class BasicAttachment extends Attachment
-		implements IModelPart {
+public abstract class BasicAttachment extends Attachment implements IModelPart {
 
 	/**
 	 * Geometry that has been added but has not been integrated as the node

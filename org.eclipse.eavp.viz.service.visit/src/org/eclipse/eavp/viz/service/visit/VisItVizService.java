@@ -16,13 +16,11 @@ package org.eclipse.eavp.viz.service.visit;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
-import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.visit.connections.VisItConnectionManager;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 

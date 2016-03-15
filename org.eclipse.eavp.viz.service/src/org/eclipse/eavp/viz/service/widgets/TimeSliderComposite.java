@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.VizActionTree;
+import org.eclipse.eavp.viz.datastructures.VizActionTree;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
@@ -681,6 +681,7 @@ public class TimeSliderComposite extends Composite {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
 	@Override
@@ -914,7 +915,10 @@ public class TimeSliderComposite extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.swt.widgets.Control#setBackground(org.eclipse.swt.graphics.Color)
+	 * 
+	 * @see
+	 * org.eclipse.swt.widgets.Control#setBackground(org.eclipse.swt.graphics.
+	 * Color)
 	 */
 	@Override
 	public void setBackground(Color color) {

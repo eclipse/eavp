@@ -13,9 +13,9 @@ package org.eclipse.eavp.viz.service.connections.preferences.test;
 
 import java.util.ArrayList;
 
+import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.VizTableComponent;
 import org.eclipse.eavp.viz.service.connections.preferences.TableComponentComposite;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
-import org.eclipse.eavp.viz.service.datastructures.VizTableComponent;
 import org.eclipse.eavp.viz.service.test.utils.AbstractSWTTester;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;

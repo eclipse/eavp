@@ -15,6 +15,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.service.geometry.widgets.TransformationView;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicViewer;
@@ -23,9 +26,6 @@ import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantData;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantView;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IWireframeController;
-import org.eclipse.eavp.viz.service.modeling.MeshCategory;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
@@ -213,8 +213,8 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 		target.setWireFrameMode(wireframe);
 
 		// Iterate over each of its children, setting them to the correct mode
-		for (IWireframeController child : target
-				.getEntitiesFromCategory(MeshCategory.CHILDREN, IWireframeController.class)) {
+		for (IWireframeController child : target.getEntitiesFromCategory(
+				MeshCategory.CHILDREN, IWireframeController.class)) {
 			child.setWireFrameMode(wireframe);
 		}
 	}

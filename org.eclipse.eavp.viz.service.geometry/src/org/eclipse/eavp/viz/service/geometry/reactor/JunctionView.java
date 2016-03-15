@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
-import org.eclipse.eavp.viz.service.modeling.BasicView;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
 
 /**
  * An interface for AbstractViews which represent JunctionComponents.
@@ -51,7 +51,7 @@ public class JunctionView extends BasicView {
 		return center;
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

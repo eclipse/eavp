@@ -12,8 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.scene.base;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.modeling.base.IController;
 
 /**
  * <p>

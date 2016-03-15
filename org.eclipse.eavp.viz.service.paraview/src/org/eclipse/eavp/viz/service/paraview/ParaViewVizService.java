@@ -14,19 +14,17 @@ package org.eclipse.eavp.viz.service.paraview;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
-import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.paraview.connections.ParaViewConnection;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyBuilder;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyFactory;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
 
 /**
  * This class is responsible for providing a service to connect to (or launch)

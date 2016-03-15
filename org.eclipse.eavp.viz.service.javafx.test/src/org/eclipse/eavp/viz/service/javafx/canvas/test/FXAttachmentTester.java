@@ -13,13 +13,13 @@ package org.eclipse.eavp.viz.service.javafx.canvas.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
 import org.junit.Test;
 
 /**

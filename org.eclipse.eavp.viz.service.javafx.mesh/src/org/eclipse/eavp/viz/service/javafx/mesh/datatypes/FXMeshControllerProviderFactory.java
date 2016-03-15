@@ -10,14 +10,14 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
+import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
+import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicControllerProviderFactory;
-import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
 import org.eclipse.eavp.viz.service.modeling.DetailedEdgeMesh;
+import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
 import org.eclipse.eavp.viz.service.modeling.FaceMesh;
-import org.eclipse.eavp.viz.service.modeling.IControllerProvider;
-import org.eclipse.eavp.viz.service.modeling.IMesh;
 import org.eclipse.eavp.viz.service.modeling.LinearEdgeMesh;
 import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 
@@ -28,7 +28,8 @@ import org.eclipse.eavp.viz.service.modeling.VertexMesh;
  * @author Robert Smith
  *
  */
-public class FXMeshControllerProviderFactory extends BasicControllerProviderFactory {
+public class FXMeshControllerProviderFactory
+		extends BasicControllerProviderFactory {
 
 	/**
 	 * The default cosntructor.

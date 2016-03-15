@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.BasicVizServiceFactory;
 import org.eclipse.eavp.viz.service.IPlot;
@@ -29,7 +30,6 @@ import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.csv.CSVSeries;
 import org.eclipse.eavp.viz.service.internal.VizServiceFactoryHolder;
-import org.eclipse.eavp.viz.service.modeling.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.test.FakePlot;
 import org.eclipse.eavp.viz.service.test.FakeSeries;
 import org.eclipse.eavp.viz.service.test.utils.AbstractSWTTester;
@@ -42,8 +42,6 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotLabel;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotSpinner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
 import org.junit.Ignore;
 import org.junit.Test;
 

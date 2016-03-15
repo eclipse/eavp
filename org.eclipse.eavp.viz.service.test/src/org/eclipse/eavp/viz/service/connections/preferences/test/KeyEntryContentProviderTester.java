@@ -21,10 +21,10 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
 import org.eclipse.eavp.viz.service.connections.preferences.IKeyManager;
 import org.eclipse.eavp.viz.service.connections.preferences.KeyEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
 import org.junit.Test;
 
 /**
@@ -184,8 +184,8 @@ public class KeyEntryContentProviderTester {
 
 		// ---- Try it with key manager whose key set is restricted. ---- //
 		// Set up the content provider.
-		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou",
-				"Togusa", "Ishikawa", "Saito", "Paz", "Borma");
+		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou", "Togusa",
+				"Ishikawa", "Saito", "Paz", "Borma");
 		contentProvider = new KeyEntryContentProvider(discreteKeys);
 
 		// Check the default value. It should be the same as the next available
@@ -196,8 +196,8 @@ public class KeyEntryContentProviderTester {
 		// Try setting the default value. Nothing should change.
 		// Pick a value besides the default. We have to do it this way because
 		// we aren't guaranteed the same order in the KeyManager.
-		String testDefault = ("Motoko".equals(discreteKeys.getNextKey()) ? "Batou"
-				: "Motoko");
+		String testDefault = ("Motoko".equals(discreteKeys.getNextKey())
+				? "Batou" : "Motoko");
 		contentProvider.setDefaultValue(testDefault);
 		// The default value should equal the next available key, not our
 		// selected default.
@@ -288,8 +288,8 @@ public class KeyEntryContentProviderTester {
 
 		// ---- Try it with key manager whose key set is restricted. ---- //
 		// Set up the content provider.
-		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou",
-				"Togusa", "Ishikawa", "Saito", "Paz", "Borma");
+		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou", "Togusa",
+				"Ishikawa", "Saito", "Paz", "Borma");
 		contentProvider = new KeyEntryContentProvider(discreteKeys);
 
 		// Check the allowed values. Every key specified above should be valid.
@@ -418,8 +418,8 @@ public class KeyEntryContentProviderTester {
 
 		// ---- Try it with key manager whose key set is restricted. ---- //
 		// Set up the content provider.
-		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou",
-				"Togusa", "Ishikawa", "Saito", "Paz", "Borma");
+		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou", "Togusa",
+				"Ishikawa", "Saito", "Paz", "Borma");
 		contentProvider = new KeyEntryContentProvider(discreteKeys);
 
 		// Check the allowed value type. It should be discrete.
@@ -495,8 +495,8 @@ public class KeyEntryContentProviderTester {
 		// keys.
 
 		// Set up the content provider with a simple *discrete* IKeyManager.
-		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou",
-				"Togusa", "Ishikawa", "Saito", "Paz", "Borma");
+		discreteKeys = new SimpleDiscreteKeyManager("Motoko", "Batou", "Togusa",
+				"Ishikawa", "Saito", "Paz", "Borma");
 		contentProvider = new KeyEntryContentProvider(discreteKeys);
 
 		// The default key should be available in both cases.

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.mesh.datastructures;
 
-import org.eclipse.eavp.viz.service.modeling.IMeshProperty;
+import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 
 /**
  * Additional properties for parts from the Mesh Editor

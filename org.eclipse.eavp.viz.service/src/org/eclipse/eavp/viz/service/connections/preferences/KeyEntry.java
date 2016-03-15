@@ -11,10 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections.preferences;
 
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
-
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 
 /**
  * A {@code KeyEntry} is essentially a basic {@link Entry} with a single caveat:
@@ -67,8 +66,8 @@ public class KeyEntry extends VizEntry {
 		// Otherwise, we must throw an exception as this will be in an invalid
 		// state (no KeyEntryContentProvider).
 		else {
-			throw new NullPointerException("KeyEntry error: "
-					+ "Cannot copy null KeyEntry.");
+			throw new NullPointerException(
+					"KeyEntry error: " + "Cannot copy null KeyEntry.");
 		}
 		return;
 	}
@@ -96,8 +95,8 @@ public class KeyEntry extends VizEntry {
 		// Throw an NPE if the content provider is null. A KeyEntry requires a
 		// valid content provider!
 		if (contentProvider == null) {
-			throw new NullPointerException("KeyEntry error: "
-					+ "Content provider cannot be null.");
+			throw new NullPointerException(
+					"KeyEntry error: " + "Content provider cannot be null.");
 		}
 
 		return;
@@ -105,6 +104,7 @@ public class KeyEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#clone()
 	 */
 	@Override
@@ -114,7 +114,10 @@ public class KeyEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#equals(java.lang.Object)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.datastructures.VizEntry#equals(java.lang.
+	 * Object)
 	 */
 	@Override
 	public boolean equals(Object object) {
@@ -140,6 +143,7 @@ public class KeyEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#hashCode()
 	 */
 	@Override

@@ -10,17 +10,16 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IMeshCategory;
-import org.eclipse.eavp.viz.service.modeling.IWireframeController;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 
 /**
  * A controller that manages all the parts present in a Reactor Analyzer. This
@@ -124,8 +123,8 @@ public class FXPlantViewRootController extends BasicController
 			// Add the entity to this, then put all the core channels in it
 			model.addEntityToCategory(entity, ReactorMeshCategory.REACTORS);
 
-			for (IController channel : model
-					.getEntitiesFromCategory(ReactorMeshCategory.CORE_CHANNELS)) {
+			for (IController channel : model.getEntitiesFromCategory(
+					ReactorMeshCategory.CORE_CHANNELS)) {
 				entity.addEntityToCategory(channel,
 						ReactorMeshCategory.CORE_CHANNELS);
 			}

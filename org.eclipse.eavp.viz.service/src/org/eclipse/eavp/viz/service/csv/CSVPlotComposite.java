@@ -14,9 +14,9 @@ package org.eclipse.eavp.viz.service.csv;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.eavp.viz.datastructures.VizActionTree;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.ISeries;
-import org.eclipse.eavp.viz.service.datastructures.VizActionTree;
 import org.eclipse.eavp.viz.service.widgets.PlotComposite;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Composite;
@@ -58,7 +58,10 @@ public class CSVPlotComposite extends PlotComposite {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#createPlotContent(org.eclipse.swt.widgets.Composite, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#createPlotContent(org.
+	 * eclipse.swt.widgets.Composite, int)
 	 */
 	@Override
 	protected Composite createPlotContent(Composite parent, int style)
@@ -77,7 +80,10 @@ public class CSVPlotComposite extends PlotComposite {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#disposePlotContent(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#disposePlotContent(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected void disposePlotContent(Composite plotContent) {
@@ -94,6 +100,7 @@ public class CSVPlotComposite extends PlotComposite {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#getPlotActions()
 	 */
 	@Override
@@ -119,19 +126,24 @@ public class CSVPlotComposite extends PlotComposite {
 
 		return actions;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#hasInterchangeableSeries()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#
+	 * hasInterchangeableSeries()
 	 */
 	@Override
-	protected boolean hasInterchangeableSeries(){
+	protected boolean hasInterchangeableSeries() {
 		return true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#hideSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#hideSeries(org.eclipse
+	 * .eavp.viz.service.ISeries)
 	 */
 	@Override
 	protected void hideSeries(ISeries series) throws Exception {
@@ -147,7 +159,10 @@ public class CSVPlotComposite extends PlotComposite {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#showSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#showSeries(org.eclipse
+	 * .eavp.viz.service.ISeries)
 	 */
 	@Override
 	protected void showSeries(ISeries series) throws Exception {
@@ -162,11 +177,14 @@ public class CSVPlotComposite extends PlotComposite {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#updatePlotContent(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#updatePlotContent(org.
+	 * eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected void updatePlotContent(Composite plotContent) throws Exception {
-		IPlot plot = (IPlot) getPlot();
+		IPlot plot = getPlot();
 
 		// Apply the basic plot features.
 		plotProvider.setPlotTitle(plot.getPlotTitle());

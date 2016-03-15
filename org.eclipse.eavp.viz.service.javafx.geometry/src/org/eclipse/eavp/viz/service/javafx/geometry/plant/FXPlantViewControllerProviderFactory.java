@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
+import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
+import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicControllerProviderFactory;
-import org.eclipse.eavp.viz.service.modeling.IControllerProvider;
-import org.eclipse.eavp.viz.service.modeling.IMesh;
 
 /**
  * A factory for creating JavaFX views and controllers for Reactor Analyzer
@@ -27,7 +27,8 @@ import org.eclipse.eavp.viz.service.modeling.IMesh;
  * @author Robert Smith
  *
  */
-public class FXPlantViewControllerProviderFactory extends BasicControllerProviderFactory {
+public class FXPlantViewControllerProviderFactory
+		extends BasicControllerProviderFactory {
 
 	/**
 	 * The default constructor.

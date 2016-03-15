@@ -15,15 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
-import org.eclipse.eavp.viz.service.datastructures.VizTableComponent;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.VizTableComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * A {@code TableComponentPreferenceAdapter} can marshal a
- * {@link VizTableComponent} to or from a {@link CustomScopedPreferenceStore}. The
- * resulting preferences are stored in an {@link IEclipsePreferences} node,
+ * {@link VizTableComponent} to or from a {@link CustomScopedPreferenceStore}.
+ * The resulting preferences are stored in an {@link IEclipsePreferences} node,
  * whose relative path is "table.name" where "name" is the name of the
  * {@code TableComponent}. This node is a child node of the store's underlying
  * preferences node.
@@ -80,9 +80,9 @@ public class TableComponentPreferenceAdapter {
 	private static final String SEPARATOR = ";";
 
 	/**
-	 * Stores the rows of the specified {@link VizTableComponent} in the specified
-	 * preference store under a node named "table.name", where "name" is the
-	 * table's name.
+	 * Stores the rows of the specified {@link VizTableComponent} in the
+	 * specified preference store under a node named "table.name", where "name"
+	 * is the table's name.
 	 * 
 	 * @param table
 	 *            The source table whose rows should be stored in the preference

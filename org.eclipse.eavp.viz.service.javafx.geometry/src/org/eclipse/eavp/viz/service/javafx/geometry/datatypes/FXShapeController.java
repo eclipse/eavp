@@ -13,18 +13,18 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.IManagedUpdateable;
-import org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.Representation;
+import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
 import org.eclipse.eavp.viz.service.geometry.shapes.OperatorType;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IMeshCategory;
-import org.eclipse.eavp.viz.service.modeling.IWireframeController;
-import org.eclipse.eavp.viz.service.modeling.MeshCategory;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
-import org.eclipse.eavp.viz.service.modeling.Representation;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 

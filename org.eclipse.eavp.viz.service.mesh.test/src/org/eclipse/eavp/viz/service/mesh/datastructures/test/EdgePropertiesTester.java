@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import org.eclipse.eavp.viz.service.datastructures.VizObject.VizJAXBHandler;
+import org.eclipse.eavp.viz.datastructures.VizObject.VizJAXBHandler;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryCondition;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryConditionType;
 import org.eclipse.eavp.viz.service.mesh.datastructures.EdgeProperties;
@@ -99,7 +99,8 @@ public class EdgePropertiesTester {
 		BoundaryCondition defaultCondition = new BoundaryCondition();
 
 		/* ---- Check the initial value. ---- */
-		assertEquals(defaultCondition, properties.getThermalBoundaryCondition());
+		assertEquals(defaultCondition,
+				properties.getThermalBoundaryCondition());
 		/* ---------------------------------- */
 
 		/* ---- Try setting the condition to valid values. ---- */
@@ -235,13 +236,15 @@ public class EdgePropertiesTester {
 	 * This operation checks the ability of the EdgeProperties instance to
 	 * persist itself to XML and to load itself from an XML input stream.
 	 * </p>
-	 * @throws IOException 
-	 * @throws JAXBException 
-	 * @throws NullPointerException 
+	 * 
+	 * @throws IOException
+	 * @throws JAXBException
+	 * @throws NullPointerException
 	 * 
 	 */
 	@Test
-	public void checkLoadingFromXML() throws NullPointerException, JAXBException, IOException {
+	public void checkLoadingFromXML()
+			throws NullPointerException, JAXBException, IOException {
 
 		// Create an object to test.
 		EdgeProperties properties = new EdgeProperties();
@@ -250,10 +253,10 @@ public class EdgePropertiesTester {
 		classList.add(EdgeProperties.class);
 
 		// Add a fluid and passive scalar boundary condition.
-		properties.setFluidBoundaryCondition(new BoundaryCondition(
-				BoundaryConditionType.Flux));
-		properties.setOtherBoundaryCondition(1, new BoundaryCondition(
-				BoundaryConditionType.Wall));
+		properties.setFluidBoundaryCondition(
+				new BoundaryCondition(BoundaryConditionType.Flux));
+		properties.setOtherBoundaryCondition(1,
+				new BoundaryCondition(BoundaryConditionType.Wall));
 
 		// Load it into XML.
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -265,7 +268,8 @@ public class EdgePropertiesTester {
 
 		// Load the input stream's contents into a new component.
 		EdgeProperties loadedProperties = new EdgeProperties();
-		loadedProperties = (EdgeProperties) xmlHandler.read(classList, inputStream);
+		loadedProperties = (EdgeProperties) xmlHandler.read(classList,
+				inputStream);
 
 		// Make sure the two components match.
 		assertTrue(properties.equals(loadedProperties));
@@ -287,16 +291,16 @@ public class EdgePropertiesTester {
 		EdgeProperties object = new EdgeProperties();
 		EdgeProperties equalObject = new EdgeProperties();
 
-		object.setOtherBoundaryCondition(2, new BoundaryCondition(
-				BoundaryConditionType.Internal));
-		equalObject.setOtherBoundaryCondition(2, new BoundaryCondition(
-				BoundaryConditionType.Internal));
+		object.setOtherBoundaryCondition(2,
+				new BoundaryCondition(BoundaryConditionType.Internal));
+		equalObject.setOtherBoundaryCondition(2,
+				new BoundaryCondition(BoundaryConditionType.Internal));
 
 		// Initialize the unequalObject.
 		EdgeProperties unequalObject = new EdgeProperties();
 
-		unequalObject.setOtherBoundaryCondition(2, new BoundaryCondition(
-				BoundaryConditionType.Internal));
+		unequalObject.setOtherBoundaryCondition(2,
+				new BoundaryCondition(BoundaryConditionType.Internal));
 		// Give it a new set of values where only the last one is different.
 		ArrayList<Float> values = new ArrayList<Float>();
 		for (int i = 0; i < 4; i++) {
@@ -316,7 +320,7 @@ public class EdgePropertiesTester {
 		assertTrue(equalObject.equals(object));
 
 		// Check that equals will fail when it should.
-		assertFalse(object==null);
+		assertFalse(object == null);
 		assertFalse(object.equals(42));
 		assertFalse("just a string".equals(object));
 		assertFalse(object.equals(unequalObject));
@@ -346,10 +350,10 @@ public class EdgePropertiesTester {
 		EdgeProperties clone = null;
 
 		// Give the object some data.
-		object.setThermalBoundaryCondition(new BoundaryCondition(
-				BoundaryConditionType.Periodic));
-		object.setOtherBoundaryCondition(5, new BoundaryCondition(
-				BoundaryConditionType.Symmetry));
+		object.setThermalBoundaryCondition(
+				new BoundaryCondition(BoundaryConditionType.Periodic));
+		object.setOtherBoundaryCondition(5,
+				new BoundaryCondition(BoundaryConditionType.Symmetry));
 
 		// Make sure the objects are not equal before copying.
 		assertFalse(object == copy);

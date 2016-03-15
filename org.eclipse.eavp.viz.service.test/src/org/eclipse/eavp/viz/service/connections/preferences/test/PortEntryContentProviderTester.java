@@ -21,9 +21,9 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
 import org.junit.Test;
 
 /**
@@ -444,8 +444,8 @@ public class PortEntryContentProviderTester {
 
 		// Try setting a range below the absolute min port value.
 		allowedValues = new ArrayList<String>(2);
-		allowedValues.add(Integer
-				.toString(PortEntryContentProvider.MIN_PORT - 1));
+		allowedValues
+				.add(Integer.toString(PortEntryContentProvider.MIN_PORT - 1));
 		allowedValues.add(Integer.toString(500));
 		contentProvider.setAllowedValues(allowedValues);
 		// The current allowed values should be the same as before.
@@ -462,8 +462,8 @@ public class PortEntryContentProviderTester {
 		// Try setting a range above the absolute max port value.
 		allowedValues = new ArrayList<String>(2);
 		allowedValues.add(Integer.toString(1000));
-		allowedValues.add(Integer
-				.toString(PortEntryContentProvider.MAX_PORT + 1));
+		allowedValues
+				.add(Integer.toString(PortEntryContentProvider.MAX_PORT + 1));
 		contentProvider.setAllowedValues(allowedValues);
 		// The current allowed values should be the same as before.
 		allowedValues = contentProvider.getAllowedValues();
@@ -478,10 +478,10 @@ public class PortEntryContentProviderTester {
 
 		// Try a range with both an invalid min and max.
 		allowedValues = new ArrayList<String>(2);
-		allowedValues.add(Integer
-				.toString(PortEntryContentProvider.MIN_PORT - 1));
-		allowedValues.add(Integer
-				.toString(PortEntryContentProvider.MAX_PORT + 1));
+		allowedValues
+				.add(Integer.toString(PortEntryContentProvider.MIN_PORT - 1));
+		allowedValues
+				.add(Integer.toString(PortEntryContentProvider.MAX_PORT + 1));
 		contentProvider.setAllowedValues(allowedValues);
 		// The current allowed values should be the same as before.
 		allowedValues = contentProvider.getAllowedValues();

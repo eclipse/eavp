@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 

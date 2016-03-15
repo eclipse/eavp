@@ -14,8 +14,8 @@ package org.eclipse.eavp.viz;
 
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
 
 /**
  * This class provides an IEntryContentProvider for plots, which are stored as
@@ -112,7 +112,8 @@ public class PlotEntryContentProvider implements IVizEntryContentProvider {
 		if (otherProvider != null
 				&& otherProvider instanceof PlotEntryContentProvider) {
 			PlotEntryContentProvider other = (PlotEntryContentProvider) otherProvider;
-			equal = (super.equals(otherProvider) && parent.equals(other.parent));
+			equal = (super.equals(otherProvider)
+					&& parent.equals(other.parent));
 		}
 
 		return equal;

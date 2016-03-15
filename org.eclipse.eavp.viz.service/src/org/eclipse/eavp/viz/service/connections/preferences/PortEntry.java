@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 
 /**
  * This class provides an {@link Entry} that is a "continuous" {@code Entry}
@@ -64,6 +64,7 @@ public class PortEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#clone()
 	 */
 	@Override
@@ -73,7 +74,10 @@ public class PortEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#equals(java.lang.Object)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.datastructures.VizEntry#equals(java.lang.
+	 * Object)
 	 */
 	@Override
 	public boolean equals(Object object) {
@@ -98,6 +102,7 @@ public class PortEntry extends VizEntry {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.datastructures.VizEntry#hashCode()
 	 */
 	@Override

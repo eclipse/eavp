@@ -8,11 +8,11 @@
   <parent>
   	<groupId>org.eclipse.eavp</groupId>
   	<artifactId>org.eclipse.eavp.build</artifactId>
-  	<version>2.1.8.20160208</version>
+  	<version>2.1.8-SNAPSHOT</version>
   	<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
   </parent>
   <modules>
-  	<module>../org.eclipse.ice.target.mars</module>
+  	<module>../org.eclipse.eavp.target.mars</module>
   	<module>../org.eclipse.eavp.viz</module>
   	<module>../org.eclipse.eavp.viz.service</module>
   	<module>../org.eclipse.eavp.viz.service.geometry</module>
@@ -36,5 +36,10 @@
   	<module>../org.eclipse.eavp.parent</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>
+  	<module>../org.eclipse.eavp.viz.datastructures</module>
+  	<module>../org.eclipse.eavp.viz.datastructures.test</module>
+  	<module>../org.eclipse.eavp.viz.modeling</module>
+  	<module>../org.eclipse.eavp.viz.modeling.test</module>
+  	<module>../org.eclipse.eavp.viz.service.javafx.mesh.test</module>
   </modules>
 </project>

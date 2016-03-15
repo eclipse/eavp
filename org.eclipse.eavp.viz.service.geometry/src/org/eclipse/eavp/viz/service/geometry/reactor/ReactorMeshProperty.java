@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
-import org.eclipse.eavp.viz.service.modeling.IMeshProperty;
+import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 
 /**
  * Additional IMesh properties used by Plant View parts.

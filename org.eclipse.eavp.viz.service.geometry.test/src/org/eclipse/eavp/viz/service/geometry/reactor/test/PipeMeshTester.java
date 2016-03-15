@@ -12,8 +12,8 @@ package org.eclipse.eavp.viz.service.geometry.reactor.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.junit.Test;
 
 /**

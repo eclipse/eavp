@@ -13,11 +13,11 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerView;
-import org.eclipse.eavp.viz.service.modeling.IMesh;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.junit.Test;
 
 /**

@@ -21,8 +21,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.eclipse.eavp.viz.service.datastructures.resource.IVizResource;
-import org.eclipse.eavp.viz.service.datastructures.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
+import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -140,15 +140,16 @@ public class AddTimeDependentSILOSetAction extends Action {
 						StandardOpenOption.TRUNCATE_EXISTING);
 
 				for (String name : fileNames) {
-					child = new VisualizationResource(new File(dialog.getFilterPath()
-							+ separator + name));
+					child = new VisualizationResource(new File(
+							dialog.getFilterPath() + separator + name));
 					child.setHost("localhost");
 					children.add(child);
 				}
 
 				// Create the VizResource from it
-				vizResource = new VisualizationResource(new File(visitFileName));// ,
-																		// children);
+				vizResource = new VisualizationResource(
+						new File(visitFileName));// ,
+				// children);
 
 				// Set the host, this should just be local
 				vizResource.setHost("localhost");
@@ -160,7 +161,7 @@ public class AddTimeDependentSILOSetAction extends Action {
 				vizViewer.addFile(vizResource);
 
 			} catch (IOException e) {
-				logger.error(getClass().getName() + " Exception!",e);
+				logger.error(getClass().getName() + " Exception!", e);
 			}
 
 		} else {

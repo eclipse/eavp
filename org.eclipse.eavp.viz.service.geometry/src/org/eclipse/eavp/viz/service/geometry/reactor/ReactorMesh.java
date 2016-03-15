@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IMeshCategory;
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 
 /**

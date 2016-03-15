@@ -14,7 +14,7 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.VizTableComponent;
+import org.eclipse.eavp.viz.datastructures.VizTableComponent;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -56,12 +56,12 @@ public class TableComponentComposite extends Composite {
 	private Action removeRowAction;
 
 	// TODO Add an add wizard action.
-	
+
 	/**
 	 * A list to keep track of selected indices in the {@code TableComponent}.
 	 */
 	private final List<Integer> selectedIndices = new ArrayList<Integer>();
-	
+
 	/**
 	 * The default constructor.
 	 * 
@@ -80,16 +80,16 @@ public class TableComponentComposite extends Composite {
 
 		// Create the TableViewer.
 		tableViewer = createTableViewer(this);
-		tableViewer.getTable().setLayoutData(
-				new GridData(SWT.FILL, SWT.FILL, true, true));
+		tableViewer.getTable()
+				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		// Initialize the Actions.
 		createActions();
 		// Create a Composite to contain the buttons. Use a vertical fill
 		// layout.
 		Composite buttons = new Composite(this, SWT.NONE);
-		buttons.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, false,
-				false));
+		buttons.setLayoutData(
+				new GridData(SWT.FILL, SWT.BEGINNING, false, false));
 		buttons.setLayout(new FillLayout(SWT.VERTICAL));
 		// Create Buttons from the JFace Actions.
 		new ActionContributionItem(addRowAction).fill(buttons);
@@ -200,12 +200,13 @@ public class TableComponentComposite extends Composite {
 			public boolean equals(Object a, Object b) {
 				return a == b;
 			}
+
 			@Override
 			public int hashCode(Object element) {
 				return element.hashCode();
 			}
 		});
-		
+
 		return viewer;
 	}
 

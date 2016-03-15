@@ -13,15 +13,15 @@ package org.eclipse.eavp.viz.service.geometry.reactor.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.eavp.viz.modeling.base.BasicMesh;
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
+import org.eclipse.eavp.viz.modeling.test.utils.TestController;
+import org.eclipse.eavp.viz.modeling.test.utils.TestMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
-import org.eclipse.eavp.viz.service.modeling.BasicController;
-import org.eclipse.eavp.viz.service.modeling.BasicMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
-import org.eclipse.eavp.viz.service.modeling.test.utils.TestController;
-import org.eclipse.eavp.viz.service.modeling.test.utils.TestMesh;
 import org.junit.Test;
 
 /**

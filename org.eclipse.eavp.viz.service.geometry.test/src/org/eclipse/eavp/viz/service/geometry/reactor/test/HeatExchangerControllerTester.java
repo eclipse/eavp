@@ -12,12 +12,12 @@ package org.eclipse.eavp.viz.service.geometry.reactor.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerController;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
-import org.eclipse.eavp.viz.service.modeling.BasicView;
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
 import org.junit.Test;
 
 /**

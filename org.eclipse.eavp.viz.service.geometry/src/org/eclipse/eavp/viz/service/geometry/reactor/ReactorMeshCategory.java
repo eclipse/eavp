@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
-import org.eclipse.eavp.viz.service.modeling.IMeshCategory;
+import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 
 /**
  * An enumeration of additional category types used for modeling reactors.

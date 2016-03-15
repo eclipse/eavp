@@ -21,12 +21,12 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.IKeyManager;
 import org.eclipse.eavp.viz.service.connections.preferences.KeyEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.KeyEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
 import org.junit.Test;
 
 /**
@@ -105,7 +105,8 @@ public class KeyEntryTester {
 		assertNotNull(entry2.getValue());
 		assertEquals(discreteKeys.getNextKey(), entry2.getValue());
 		assertEquals(discreteKeys.getNextKey(), entry2.getDefaultValue());
-		assertEquals(discreteKeys.getAvailableKeys(), entry2.getAllowedValues());
+		assertEquals(discreteKeys.getAvailableKeys(),
+				entry2.getAllowedValues());
 		assertEquals(contentProvider.getAllowedValueType(),
 				entry2.getValueType());
 
@@ -240,7 +241,8 @@ public class KeyEntryTester {
 		// Now we can compare the error message.
 		assertEquals(
 				"'Everest' is an unacceptable value. The value must be one of "
-						+ allowedKeys + ".", entry.getErrorMessage());
+						+ allowedKeys + ".",
+				entry.getErrorMessage());
 
 		// Passing the current value shouldn't change anything, even if the key
 		// is taken.
@@ -257,7 +259,8 @@ public class KeyEntryTester {
 		assertNotNull(entry.getErrorMessage());
 		assertEquals(
 				"'null' is an unacceptable value. The value must be one of "
-						+ allowedKeys + ".", entry.getErrorMessage());
+						+ allowedKeys + ".",
+				entry.getErrorMessage());
 
 		// We should still be able to set the entry's value to a valid key.
 		// Use the next available key.

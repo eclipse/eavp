@@ -14,8 +14,8 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
 
 /**
  * This class provides a basic content provider for {@link PortEntry}s. Some
@@ -98,9 +98,8 @@ public class PortEntryContentProvider extends BasicVizEntryContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ice.datastructures.ICEObject.ICEObject#equals(java.lang.Object
-	 * )
+	 * @see org.eclipse.ice.datastructures.ICEObject.ICEObject#equals(java.lang.
+	 * Object )
 	 */
 	@Override
 	public boolean equals(Object object) {

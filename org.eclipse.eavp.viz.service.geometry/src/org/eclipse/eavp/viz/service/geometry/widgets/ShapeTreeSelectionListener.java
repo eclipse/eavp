@@ -14,7 +14,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.service.modeling.MeshProperty;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;

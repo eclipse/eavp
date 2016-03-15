@@ -12,7 +12,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.mesh.properties;
 
-import org.eclipse.eavp.viz.service.modeling.IController;
+import org.eclipse.eavp.viz.modeling.base.IController;
 
 public class MeshSelection {
 

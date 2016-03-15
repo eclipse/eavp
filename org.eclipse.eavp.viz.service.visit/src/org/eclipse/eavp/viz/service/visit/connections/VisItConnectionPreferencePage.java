@@ -14,14 +14,14 @@ package org.eclipse.eavp.viz.service.visit.connections;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntryContentProvider;
 import org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage;
-import org.eclipse.eavp.viz.service.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.visit.VisItVizService;
 import org.eclipse.ui.IWorkbench;
 
@@ -36,7 +36,9 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage#createConnectionTable()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * VizConnectionPreferencePage#createConnectionTable()
 	 */
 	@Override
 	protected ConnectionTable createConnectionTable() {
@@ -68,26 +70,29 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 				template.add(proxyPortEntry);
 				// ---- visit user ---- //
 				contentProvider = new BasicVizEntryContentProvider();
-				contentProvider.setAllowedValueType(VizAllowedValueType.Undefined);
+				contentProvider
+						.setAllowedValueType(VizAllowedValueType.Undefined);
 				contentProvider.setDefaultValue("");
 				VizEntry visitUserEntry = new VizEntry(contentProvider);
 				visitUserEntry.setName("VisIt User");
 				template.add(visitUserEntry);
-				
+
 				Iterator<VizEntry> it = template.iterator();
 				while (it.hasNext()) {
 					VizEntry entry = it.next();
 					if ("Path".equals(entry.getName())) {
-						String defaultPath = System.getProperty("visit.binpath");
+						String defaultPath = System
+								.getProperty("visit.binpath");
 						if (defaultPath != null) {
 							if (defaultPath.contains("@user.home")) {
-								defaultPath = defaultPath.replace("@user.home", System.getProperty("user.home"));
+								defaultPath = defaultPath.replace("@user.home",
+										System.getProperty("user.home"));
 							}
 							entry.setValue(defaultPath);
 						}
 					}
 				}
-				
+
 				// ---- visit password ---- //
 				// contentProvider = new BasicEntryContentProvider();
 				// contentProvider.setAllowedValueType(AllowedValueType.Undefined);
@@ -103,7 +108,9 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage#getConnectionsPreferenceNodeId()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * VizConnectionPreferencePage#getConnectionsPreferenceNodeId()
 	 */
 	@Override
 	protected String getConnectionsPreferenceNodeId() {
@@ -112,7 +119,9 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * VizConnectionPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	@Override
 	public void init(IWorkbench workbench) {

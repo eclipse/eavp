@@ -14,12 +14,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.javafx.canvas.Attachment;
 import org.eclipse.eavp.viz.service.javafx.scene.base.IGeometry;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
-import org.eclipse.eavp.viz.service.modeling.IController;
-import org.eclipse.eavp.viz.service.modeling.IController;
 import org.eclipse.jface.util.Geometry;
 
 /**

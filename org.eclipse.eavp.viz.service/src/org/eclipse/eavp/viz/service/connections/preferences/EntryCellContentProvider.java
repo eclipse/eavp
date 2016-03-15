@@ -14,8 +14,8 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.service.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.service.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -153,8 +153,8 @@ public class EntryCellContentProvider implements IVizCellContentProvider,
 	 */
 	@Override
 	public boolean requiresCombo(Object element) {
-		return isValid(element)
-				&& ((VizEntry) element).getValueType() == VizAllowedValueType.Discrete;
+		return isValid(element) && ((VizEntry) element)
+				.getValueType() == VizAllowedValueType.Discrete;
 	}
 
 	/**
