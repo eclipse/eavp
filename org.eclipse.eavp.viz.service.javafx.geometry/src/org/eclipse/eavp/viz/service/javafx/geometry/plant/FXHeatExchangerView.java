@@ -318,7 +318,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
+	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -329,7 +329,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
 	 * ice .viz.service.modeling.AbstractMesh)
 	 */
 	@Override
@@ -419,7 +419,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IWireFramePart#setWireFrameMode(
+	 * org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override

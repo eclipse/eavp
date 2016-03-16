@@ -8,85 +8,72 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 
 /**
- * A controller for a shape part, which exposes ShapeComponent functionality.
+ * A controller for a Vertex model part.
  * 
  * @author Robert Smith
  *
  */
-public class ShapeController extends BasicController {
+public class VertexController extends PointController {
 
 	/**
-	 * THe nullary constructor
+	 * The nullary constructor
 	 */
-	public ShapeController() {
+	public VertexController() {
 		super();
 	}
 
 	/**
-	 * The default constructor.
+	 * The default constructor
 	 * 
 	 * @param model
 	 *            The controller's model
 	 * @param view
 	 *            The controller's view
 	 */
-	public ShapeController(ShapeMesh model, BasicView view) {
+	public VertexController(VertexMesh model, BasicView view) {
 		super(model, view);
-	}
-
-	/**
-	 * Set the shape's parent shape. Shapes can have at most one parent, and
-	 * this operation will remove any existing parent.
-	 * 
-	 * @param parent
-	 *            The new shape which serves as this shape's parent.
-	 */
-	public void setParent(IController parent) {
-		((ShapeMesh) model).setParent(parent);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#clone()
+	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public Object clone() {
 
-		// Create a new shape from clones of the model and view
-		ShapeController clone = new ShapeController();
-
-		// Copy any other data into the clone
+		// Create a copy of the model
+		VertexController clone = new VertexController();
 		clone.copy(this);
 
 		return clone;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Deep copy the given object's data into this one.
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#copy(org. eclipse.
-	 * ice.viz.service.modeling.IController)
+	 * @param otherObject
+	 *            The object to copy into this one.
 	 */
 	@Override
-	public void copy(IController source) {
+	public void copy(IController otherObject) {
 
 		// Check that the source object is an IController, failing
 		// silently if not and casting it if so
-		if (!(source instanceof ShapeController)) {
+		if (!(otherObject instanceof VertexController)) {
 			return;
 		}
-		BasicController castObject = (BasicController) source;
+		BasicController castObject = (BasicController) otherObject;
 
 		// Create the model and give it a reference to this
-		model = new ShapeMesh();
+		model = new VertexMesh();
 		model.setController(this);
 
 		// Copy the other object's data members

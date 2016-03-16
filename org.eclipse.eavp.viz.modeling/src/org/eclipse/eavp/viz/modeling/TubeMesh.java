@@ -8,7 +8,7 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 
@@ -144,7 +144,7 @@ public class TubeMesh extends ShapeMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
 	 */
 	@Override
 	public Object clone() {

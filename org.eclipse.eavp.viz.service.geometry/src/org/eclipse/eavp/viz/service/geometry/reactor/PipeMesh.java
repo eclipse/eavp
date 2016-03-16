@@ -13,11 +13,11 @@ package org.eclipse.eavp.viz.service.geometry.reactor;
 import java.util.ArrayList;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.TubeMesh;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.modeling.TubeMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,7 +118,7 @@ public class PipeMesh extends TubeMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.ShapeMesh#addEntityByCategory(org.
+	 * org.eclipse.eavp.viz.modeling.ShapeMesh#addEntityByCategory(org.
 	 * eclipse.ice.viz.service.modeling.AbstractController, java.lang.String)
 	 */
 	@Override
@@ -171,7 +171,7 @@ public class PipeMesh extends TubeMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.ShapeMesh#setProperty(java.lang.
+	 * org.eclipse.eavp.viz.modeling.ShapeMesh#setProperty(java.lang.
 	 * String, java.lang.String)
 	 */
 	@Override
@@ -190,7 +190,7 @@ public class PipeMesh extends TubeMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.TubeComponent#getInnerRadius()
+	 * @see org.eclipse.eavp.viz.modeling.TubeComponent#getInnerRadius()
 	 */
 	@Override
 	public double getInnerRadius() {
@@ -203,7 +203,7 @@ public class PipeMesh extends TubeMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
 	 */
 	@Override
 	public Object clone() {

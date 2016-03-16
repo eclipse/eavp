@@ -46,7 +46,7 @@ public class TestController extends BasicController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#update(org.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#update(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IManagedVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])

@@ -61,7 +61,7 @@ public class TestView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractView#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -79,7 +79,7 @@ public class TestView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractView#equals(java.lang.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#equals(java.lang.
 	 * Object)
 	 */
 	@Override
@@ -105,7 +105,7 @@ public class TestView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
+	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<VizObject> getRepresentation() {
@@ -116,7 +116,7 @@ public class TestView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
 	 * ice .viz.service.modeling.AbstractMesh)
 	 */
 	@Override
@@ -128,7 +128,7 @@ public class TestView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#update(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse.
 	 * ice. viz.service.datastructures.VizObject.IManagedVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])

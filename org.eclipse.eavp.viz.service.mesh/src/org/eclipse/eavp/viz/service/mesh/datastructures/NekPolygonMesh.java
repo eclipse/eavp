@@ -12,11 +12,11 @@ package org.eclipse.eavp.viz.service.mesh.datastructures;
 
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.DetailedEdgeController;
+import org.eclipse.eavp.viz.modeling.DetailedFaceMesh;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.service.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.service.modeling.DetailedFaceMesh;
 
 /**
  * A component for Faces within the Mesh Editor, making use of FaceEdges to
@@ -48,7 +48,7 @@ public class NekPolygonMesh extends DetailedFaceMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#addEntity(
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#addEntity(
 	 * org. eclipse.ice.viz.service.modeling.IController)
 	 */
 	@Override
@@ -84,8 +84,8 @@ public class NekPolygonMesh extends DetailedFaceMesh {
 	 *
 	 * @see
 	 *
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#
-	 * setController( org.eclipse.eavp.viz.service.modeling.IController)
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#
+	 * setController( org.eclipse.eavp.viz.modeling.IController)
 	 */
 	@Override
 	public void setController(IController controller) {
@@ -111,7 +111,7 @@ public class NekPolygonMesh extends DetailedFaceMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
 	 */
 	@Override
 	public Object clone() {

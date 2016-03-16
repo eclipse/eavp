@@ -13,11 +13,11 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.ShapeMesh;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeControllerProviderFactory;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
-import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.junit.Test;
 
 /**
