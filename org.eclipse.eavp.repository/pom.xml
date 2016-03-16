@@ -30,5 +30,5 @@
 		</plugins>
 	</build>
 
-	<version>2.1.8.20160208</version>
+	<version>2.1.8-SNAPSHOT</version>
 </project>

@@ -8,15 +8,13 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
-import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
@@ -24,28 +22,112 @@ import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 
 /**
- * A mesh component representing a polygon.
- * 
- * @author Robert Smith
+ * A Face component which keeps both its Edges and Vertices as its child
+ * entities.
  *
+ * @author Robert Smith
  */
-public class FaceMesh extends BasicMesh {
+public class DetailedFaceMesh extends FaceMesh {
 
 	/**
-	 * The default constructor.
+	 * The default constructor
 	 */
-	public FaceMesh() {
+	public DetailedFaceMesh() {
 		super();
 	}
 
 	/**
-	 * A constructor for specifying the child entities.
+	 * A constructor taking a list of entities.
 	 * 
 	 * @param entities
-	 *            The child entities comprising the face
 	 */
-	public FaceMesh(List<IController> entities) {
+	public DetailedFaceMesh(List<IController> entities) {
 		super(entities);
+	}
+
+	/**
+	 * An implementation of addEntity that adds both the Edge and its Vertices.
+	 * 
+	 */
+	@Override
+	public void addEntityToCategory(IController newEntity,
+			IMeshCategory category) {
+
+		// If the new entity is an edge, add it and its vertices under the
+		// appropriate categories.
+		if (MeshCategory.EDGES.equals(category)) {
+
+			// Queue updates for all the new children
+			updateManager.enqueue();
+
+			// Add the edge under the Edges category
+			super.addEntityToCategory(newEntity, MeshCategory.EDGES);
+
+			// Add each of the edge's vertices under the "Vertices" category
+			for (IController vertex : newEntity
+					.getEntitiesFromCategory(MeshCategory.VERTICES)) {
+				super.addEntityToCategory(vertex, MeshCategory.VERTICES);
+			}
+
+			// Send notifications for all children
+			updateManager.flushQueue();
+		}
+
+		// Otherwise, add the entity normally
+		super.addEntityToCategory(newEntity, category);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMesh#removeEntity(org.
+	 * eclipse.ice.viz.service.modeling.AbstractController)
+	 */
+	@Override
+	public void removeEntity(IController entity) {
+
+		// Ignore requests to remove a vertex, to keep the Vertex category
+		// consistent with the Edges category
+		if (!getEntitiesFromCategory(MeshCategory.VERTICES).contains(entity)) {
+
+			// Queue messages from all the removals
+			updateManager.enqueue();
+
+			// If the entity is an edge, also remove its vertices
+			if (getEntitiesFromCategory(MeshCategory.EDGES).contains(entity)) {
+				for (IController vertex : entity
+						.getEntitiesFromCategory(MeshCategory.VERTICES)) {
+
+					// Whether or not the vertex is incident upon another edge
+					boolean found = false;
+
+					// Search all the other edges to see if any of them have
+					// this vertex
+					for (IController edge : getEntitiesFromCategory(
+							MeshCategory.EDGES)) {
+						if (edge != entity && edge
+								.getEntitiesFromCategory(MeshCategory.VERTICES)
+								.contains(vertex)) {
+							found = true;
+							break;
+						}
+					}
+
+					// If no other edge had this vertex, remove it
+					if (!found) {
+						super.removeEntity(vertex);
+					}
+				}
+			}
+
+			// Remove the entity as normal
+			super.removeEntity(entity);
+
+			// Flush the message queue
+			updateManager.flushQueue();
+		}
+
 	}
 
 	/*
@@ -57,7 +139,7 @@ public class FaceMesh extends BasicMesh {
 	public Object clone() {
 
 		// Create a new component, and make it a copy of this one.
-		FaceMesh clone = new FaceMesh();
+		DetailedFaceMesh clone = new DetailedFaceMesh();
 		clone.copy(this);
 		return clone;
 	}
@@ -73,29 +155,21 @@ public class FaceMesh extends BasicMesh {
 	public void copy(IMesh otherObject) {
 
 		// Copy only if the other object is an EdgeAndVertexFaceComponent
-		if (otherObject instanceof FaceMesh) {
+		if (otherObject instanceof DetailedFaceMesh) {
 
 			// Cast the object
-			FaceMesh castObject = (FaceMesh) otherObject;
+			DetailedFaceMesh castObject = (DetailedFaceMesh) otherObject;
 
 			// Queue messages from the new edges added
 			updateManager.enqueue();
 
-			// Create a list of shared vertices for use by the cloned edges
-			List<IController> sharedVertices = new ArrayList<IController>();
-
 			// Create clones of all the vertices. This should be done first, so
 			// the copies can be used to construct the edges
-			for (IController edge : otherObject
-					.getEntitiesFromCategory(MeshCategory.EDGES)) {
-				for (IController vertex : edge
-						.getEntitiesFromCategory(MeshCategory.VERTICES)) {
-					if (!sharedVertices.contains(vertex)) {
-						sharedVertices.add(vertex);
-					}
-				}
-
-				edge.getEntitiesFromCategory(MeshCategory.CHILDREN);
+			for (IController entity : otherObject
+					.getEntitiesFromCategory(MeshCategory.VERTICES)) {
+				addEntityToCategory(
+						(VertexController) ((BasicController) entity).clone(),
+						MeshCategory.VERTICES);
 			}
 
 			// Deep copy each category of child entities
@@ -125,15 +199,17 @@ public class FaceMesh extends BasicMesh {
 							// Search the copied vertices from above for the
 							// equivalent vertices which should belong to the
 							// edge.
-							for (IController vertex : sharedVertices)
+							for (IController vertex : entities
+									.get(MeshCategory.VERTICES))
 								if (tempVertex.equals(vertex)) {
-									newEdge.addEntity(vertex);
+									newEdge.addEntityToCategory(vertex,
+											MeshCategory.VERTICES);
 								}
 
 						}
 
 						// Save the cloned edge to the map
-						addEntity(newEdge);
+						addEntityToCategory(newEdge, MeshCategory.EDGES);
 
 					}
 				}

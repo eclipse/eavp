@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
+import org.eclipse.eavp.viz.modeling.TubeController;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
-import org.eclipse.eavp.viz.service.modeling.TubeController;
 
 /**
  * A Pipe part for the Reactor Analyzer.

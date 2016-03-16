@@ -10,7 +10,6 @@ Import-Package: javafx.scene;version="2.2.0",
  javafx.scene.paint;version="2.2.0",
  junit.framework;version="4.12.0",
  org.apache.log4j,
- org.eclipse.eavp.viz.service.mesh.datastructures,
- org.eclipse.eavp.viz.service.modeling
+ org.eclipse.eavp.viz.service.mesh.datastructures
 Bundle-Vendor: Oak Ridge National Laboratory
 Export-Package: org.eclipse.eavp.viz.service.mesh.datastructures.test

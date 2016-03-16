@@ -12,6 +12,8 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
@@ -20,8 +22,6 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
-import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.service.modeling.ShapeController;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -114,9 +114,9 @@ public class FXLinearEdgeView extends BasicView {
 						.getApplicationScale();
 
 		// Get the edge's endpoints
-		double[] start = ((org.eclipse.eavp.viz.service.modeling.EdgeController) edgeComponent
+		double[] start = ((org.eclipse.eavp.viz.modeling.EdgeController) edgeComponent
 				.getController()).getStartLocation();
-		double[] end = ((org.eclipse.eavp.viz.service.modeling.EdgeController) edgeComponent
+		double[] end = ((org.eclipse.eavp.viz.modeling.EdgeController) edgeComponent
 				.getController()).getEndLocation();
 
 		for (int i = 0; i < 3; i++) {

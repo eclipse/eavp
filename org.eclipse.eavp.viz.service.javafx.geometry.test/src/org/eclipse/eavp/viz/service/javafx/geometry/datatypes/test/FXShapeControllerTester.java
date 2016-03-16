@@ -13,6 +13,8 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.ShapeController;
+import org.eclipse.eavp.viz.modeling.ShapeMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -26,8 +28,6 @@ import org.eclipse.eavp.viz.modeling.test.utils.TestMesh;
 import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
-import org.eclipse.eavp.viz.service.modeling.ShapeController;
-import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.junit.Test;
 
 import javafx.scene.Group;

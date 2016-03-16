@@ -12,11 +12,11 @@ package org.eclipse.eavp.viz.service.mesh.datastructures;
 
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.DetailedEdgeController;
+import org.eclipse.eavp.viz.modeling.DetailedFaceMesh;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.service.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.service.modeling.DetailedFaceMesh;
 
 /**
  * A component for Faces within the Mesh Editor, making use of FaceEdges to

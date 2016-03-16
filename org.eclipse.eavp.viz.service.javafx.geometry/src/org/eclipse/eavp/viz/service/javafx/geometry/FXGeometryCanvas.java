@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
@@ -26,7 +27,6 @@ import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantData;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantView;
-import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
