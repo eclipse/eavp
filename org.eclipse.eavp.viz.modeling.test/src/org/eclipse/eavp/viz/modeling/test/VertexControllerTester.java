@@ -167,7 +167,7 @@ public class VertexControllerTester {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * org.eclipse.eavp.viz.service.modeling.AbstractController#update(org.
+		 * org.eclipse.eavp.viz.modeling.AbstractController#update(org.
 		 * eclipse.ice.viz.service.datastructures.VizObject.IManagedUpdateable,
 		 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 		 * SubscriptionType [])

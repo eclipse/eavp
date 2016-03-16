@@ -69,8 +69,8 @@ public class EdgeMesh extends BasicMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#
-	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling. IController,
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#
+	 * addEntityByCategory(org.eclipse.eavp.viz.modeling. IController,
 	 * java.lang.String)
 	 */
 	@Override
@@ -124,7 +124,7 @@ public class EdgeMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#register(org.
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#register(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IVizUpdateableListener)
 	 */
 	@Override
@@ -142,8 +142,8 @@ public class EdgeMesh extends BasicMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#
-	 * setController( org.eclipse.eavp.viz.service.modeling.IController)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#
+	 * setController( org.eclipse.eavp.viz.modeling.IController)
 	 */
 	@Override
 	public void setController(IController controller) {
@@ -162,7 +162,7 @@ public class EdgeMesh extends BasicMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -179,7 +179,7 @@ public class EdgeMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#copy(org.
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#copy(org.
 	 * eclipse.ice.viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override

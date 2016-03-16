@@ -219,7 +219,7 @@ public class FXShapeControllerTester {
 		 * 
 		 * @see
 		 * org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView#
-		 * refresh(org.eclipse.eavp.viz.service.modeling.AbstractMesh)
+		 * refresh(org.eclipse.eavp.viz.modeling.AbstractMesh)
 		 */
 		@Override
 		public void refresh(IMesh model) {

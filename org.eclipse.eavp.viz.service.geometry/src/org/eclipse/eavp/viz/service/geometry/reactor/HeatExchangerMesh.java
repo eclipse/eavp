@@ -116,7 +116,7 @@ public class HeatExchangerMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMesh#addEntityByCategory(
+	 * org.eclipse.eavp.viz.modeling.AbstractMesh#addEntityByCategory(
 	 * org .eclipse.ice.viz.service.modeling.AbstractController,
 	 * java.lang.String)
 	 */

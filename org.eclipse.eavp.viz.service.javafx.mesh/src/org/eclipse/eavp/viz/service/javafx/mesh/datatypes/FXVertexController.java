@@ -80,7 +80,7 @@ public class FXVertexController extends VertexController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#update(org.
+	 * @see org.eclipse.eavp.viz.modeling.IController#update(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IManagedVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])

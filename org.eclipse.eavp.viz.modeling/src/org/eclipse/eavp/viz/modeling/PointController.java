@@ -142,7 +142,7 @@ public class PointController extends BasicController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org.
 	 * eclipse. ice.viz.service.modeling.AbstractController)
 	 */
 	@Override

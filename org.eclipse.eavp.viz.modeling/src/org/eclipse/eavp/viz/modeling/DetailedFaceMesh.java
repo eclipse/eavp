@@ -81,7 +81,7 @@ public class DetailedFaceMesh extends FaceMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMesh#removeEntity(org.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMesh#removeEntity(org.
 	 * eclipse.ice.viz.service.modeling.AbstractController)
 	 */
 	@Override
@@ -148,7 +148,7 @@ public class DetailedFaceMesh extends FaceMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.FaceMesh#copy(org.eclipse.eavp.viz.
+	 * org.eclipse.eavp.viz.modeling.FaceMesh#copy(org.eclipse.eavp.viz.
 	 * service.modeling.AbstractMesh)
 	 */
 	@Override

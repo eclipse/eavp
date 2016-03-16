@@ -171,7 +171,7 @@ public class FXLinearEdgeView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
+	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -182,7 +182,7 @@ public class FXLinearEdgeView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
 	 * ice .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
@@ -226,7 +226,7 @@ public class FXLinearEdgeView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractView#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#clone()
 	 */
 	@Override
 	public Object clone() {

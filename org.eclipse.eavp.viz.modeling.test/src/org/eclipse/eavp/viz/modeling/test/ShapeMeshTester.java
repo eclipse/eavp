@@ -133,7 +133,7 @@ public class ShapeMeshTester {
 		 * (non-Javadoc)
 		 * 
 		 * @see
-		 * org.eclipse.eavp.viz.service.modeling.AbstractController#update(org.
+		 * org.eclipse.eavp.viz.modeling.AbstractController#update(org.
 		 * eclipse.ice.viz.service.datastructures.VizObject.IVizUpdateable)
 		 */
 		@Override

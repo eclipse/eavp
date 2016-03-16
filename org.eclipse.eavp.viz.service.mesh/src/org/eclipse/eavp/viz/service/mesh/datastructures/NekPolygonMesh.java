@@ -48,7 +48,7 @@ public class NekPolygonMesh extends DetailedFaceMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#addEntity(
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#addEntity(
 	 * org. eclipse.ice.viz.service.modeling.IController)
 	 */
 	@Override
@@ -84,8 +84,8 @@ public class NekPolygonMesh extends DetailedFaceMesh {
 	 *
 	 * @see
 	 *
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#
-	 * setController( org.eclipse.eavp.viz.service.modeling.IController)
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#
+	 * setController( org.eclipse.eavp.viz.modeling.IController)
 	 */
 	@Override
 	public void setController(IController controller) {
@@ -111,7 +111,7 @@ public class NekPolygonMesh extends DetailedFaceMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
 	 */
 	@Override
 	public Object clone() {

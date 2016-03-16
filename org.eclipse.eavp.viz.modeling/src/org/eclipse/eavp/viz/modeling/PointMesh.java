@@ -236,7 +236,7 @@ public class PointMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#equals(java.
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#equals(java.
 	 * lang.Object)
 	 */
 	@Override

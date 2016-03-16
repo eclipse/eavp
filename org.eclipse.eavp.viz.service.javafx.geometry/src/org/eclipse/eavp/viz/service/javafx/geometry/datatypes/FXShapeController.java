@@ -100,7 +100,7 @@ public class FXShapeController extends ShapeController
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.Shape#removeEntity(org.eclipse.ice.
+	 * org.eclipse.eavp.viz.modeling.Shape#removeEntity(org.eclipse.ice.
 	 * viz.service.modeling.IController)
 	 */
 	@Override
@@ -130,7 +130,7 @@ public class FXShapeController extends ShapeController
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.Shape#setParent(org.eclipse.eavp.
+	 * org.eclipse.eavp.viz.modeling.Shape#setParent(org.eclipse.eavp.
 	 * viz. service.modeling.Shape)
 	 */
 	@Override
@@ -176,7 +176,7 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.Shape#clone()
+	 * @see org.eclipse.eavp.viz.modeling.Shape#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -192,7 +192,7 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#copy(org. eclipse.
+	 * @see org.eclipse.eavp.viz.modeling.IController#copy(org. eclipse.
 	 * ice.viz.service.modeling.IController)
 	 */
 	@Override
@@ -216,7 +216,7 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#addEntity(org.
+	 * @see org.eclipse.eavp.viz.modeling.IController#addEntity(org.
 	 * eclipse.ice.viz.service.modeling.IController)
 	 */
 	@Override
@@ -237,8 +237,8 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#
-	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling. IController,
+	 * @see org.eclipse.eavp.viz.modeling.IController#
+	 * addEntityByCategory(org.eclipse.eavp.viz.modeling. IController,
 	 * java.lang.String)
 	 */
 	@Override
@@ -261,7 +261,7 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#update(org.
+	 * @see org.eclipse.eavp.viz.modeling.IController#update(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IVizUpdateable)
 	 */
 	@Override
@@ -313,7 +313,7 @@ public class FXShapeController extends ShapeController
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.WireFramePart#setWireFrameMode(
+	 * org.eclipse.eavp.viz.modeling.WireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override

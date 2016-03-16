@@ -55,7 +55,7 @@ public class ShapeController extends BasicController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#clone()
+	 * @see org.eclipse.eavp.viz.modeling.IController#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -72,7 +72,7 @@ public class ShapeController extends BasicController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#copy(org. eclipse.
+	 * @see org.eclipse.eavp.viz.modeling.IController#copy(org. eclipse.
 	 * ice.viz.service.modeling.IController)
 	 */
 	@Override

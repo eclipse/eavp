@@ -115,7 +115,7 @@ public class DetailedEdgeControllerTester {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.eavp.viz.service.modeling.AbstractMesh#update(org.
+		 * @see org.eclipse.eavp.viz.modeling.AbstractMesh#update(org.
 		 * eclipse. ice.viz.service.datastructures.VizObject.IManagedUpdateable,
 		 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 		 * SubscriptionType [])

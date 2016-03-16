@@ -106,7 +106,7 @@ public class HeatExchangerController extends BasicController
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IWireFramePart#setWireFrameMode(
+	 * org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override

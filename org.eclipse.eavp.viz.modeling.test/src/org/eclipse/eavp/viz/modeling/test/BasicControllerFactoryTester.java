@@ -92,7 +92,7 @@ public class BasicControllerFactoryTester {
 			 * (non-Javadoc)
 			 * 
 			 * @see
-			 * org.eclipse.eavp.viz.service.modeling.AbstractControllerFactory.
+			 * org.eclipse.eavp.viz.modeling.AbstractControllerFactory.
 			 * IControllerProvider#createController(org.eclipse.eavp.viz.
 			 * service. modeling.AbstractMesh)
 			 */
@@ -115,7 +115,7 @@ public class BasicControllerFactoryTester {
 			 * (non-Javadoc)
 			 * 
 			 * @see
-			 * org.eclipse.eavp.viz.service.modeling.AbstractControllerFactory.
+			 * org.eclipse.eavp.viz.modeling.AbstractControllerFactory.
 			 * IControllerProvider#createController(org.eclipse.eavp.viz.
 			 * service. modeling.AbstractMesh)
 			 */

@@ -145,7 +145,7 @@ public class PipeController extends TubeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -162,7 +162,7 @@ public class PipeController extends TubeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org.
 	 * eclipse. ice.viz.service.modeling.AbstractController)
 	 */
 	@Override

@@ -66,7 +66,7 @@ public class FaceMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.FaceMesh#copy(org.eclipse.eavp.viz.
+	 * org.eclipse.eavp.viz.modeling.FaceMesh#copy(org.eclipse.eavp.viz.
 	 * service.modeling.AbstractMesh)
 	 */
 	@Override

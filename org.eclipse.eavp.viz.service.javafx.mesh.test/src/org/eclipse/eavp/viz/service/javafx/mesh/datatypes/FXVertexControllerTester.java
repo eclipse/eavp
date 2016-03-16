@@ -114,7 +114,7 @@ public class FXVertexControllerTester {
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXVertexView#
-		 * refresh(org.eclipse.eavp.viz.service.modeling.AbstractMesh)
+		 * refresh(org.eclipse.eavp.viz.modeling.AbstractMesh)
 		 */
 		@Override
 		public void refresh(IMesh model) {

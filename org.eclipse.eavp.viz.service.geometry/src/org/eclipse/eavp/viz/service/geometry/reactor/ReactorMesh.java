@@ -33,8 +33,8 @@ public class ReactorMesh extends ShapeMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.ShapeComponent#addEntityByCategory(
-	 * org.eclipse.eavp.viz.service.modeling.AbstractController,
+	 * org.eclipse.eavp.viz.modeling.ShapeComponent#addEntityByCategory(
+	 * org.eclipse.eavp.viz.modeling.AbstractController,
 	 * java.lang.String)
 	 */
 	@Override

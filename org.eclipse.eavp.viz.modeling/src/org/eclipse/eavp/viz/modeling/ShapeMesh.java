@@ -84,7 +84,7 @@ public class ShapeMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#setProperty(
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#setProperty(
 	 * java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -125,8 +125,8 @@ public class ShapeMesh extends BasicMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#
-	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling. IController,
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#
+	 * addEntityByCategory(org.eclipse.eavp.viz.modeling. IController,
 	 * java.lang.String)
 	 */
 	@Override
@@ -160,7 +160,7 @@ public class ShapeMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMesh#setController(org.
+	 * org.eclipse.eavp.viz.modeling.AbstractMesh#setController(org.
 	 * eclipse.ice.viz.service.modeling.IController)
 	 */
 	@Override
@@ -177,7 +177,7 @@ public class ShapeMesh extends BasicMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -193,7 +193,7 @@ public class ShapeMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#copy(org.
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#copy(org.
 	 * eclipse.ice.viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
@@ -232,7 +232,7 @@ public class ShapeMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#equals(java.
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#equals(java.
 	 * lang.Object)
 	 */
 	@Override
@@ -305,7 +305,7 @@ public class ShapeMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#register(org.
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#register(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IVizUpdateableListener)
 	 */
 	@Override

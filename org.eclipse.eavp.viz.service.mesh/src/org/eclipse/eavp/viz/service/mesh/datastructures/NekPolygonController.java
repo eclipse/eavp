@@ -334,7 +334,7 @@ public class NekPolygonController extends FaceController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#setProperty( java.
+	 * @see org.eclipse.eavp.viz.modeling.IController#setProperty( java.
 	 * lang.String, java.lang.String)
 	 */
 	@Override
@@ -382,8 +382,8 @@ public class NekPolygonController extends FaceController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#
-	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling. IController,
+	 * @see org.eclipse.eavp.viz.modeling.IController#
+	 * addEntityByCategory(org.eclipse.eavp.viz.modeling. IController,
 	 * java.lang.String)
 	 */
 	@Override
@@ -401,7 +401,7 @@ public class NekPolygonController extends FaceController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#clone()
+	 * @see org.eclipse.eavp.viz.modeling.IController#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -419,7 +419,7 @@ public class NekPolygonController extends FaceController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#copy(org. eclipse.
+	 * @see org.eclipse.eavp.viz.modeling.IController#copy(org. eclipse.
 	 * ice.viz.service.modeling.IController)
 	 */
 	@Override
