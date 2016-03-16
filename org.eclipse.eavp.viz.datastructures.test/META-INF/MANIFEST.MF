@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EAVP Data Structure Plugin Test Bundle
-Bundle-SymbolicName: org.eclipse.eavp.viz.service.geometry.test
+Bundle-SymbolicName: org.eclipse.eavp.viz.datastructures.test
 Bundle-Version: 2.1.8.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: ca.odell.glazedlists,
