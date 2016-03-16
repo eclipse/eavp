@@ -29,4 +29,53 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>production</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>deploy</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<mkdir dir="${install-dir}" />
+										<delete includeemptydirs="true">
+											<fileset dir="${install-dir}">
+												<include name="**/*" />
+											</fileset>
+										</delete>
+										
+										<!-- Unzip p2 repo into install dir -->
+										<unzip
+											src="${project.build.directory}/${project.build.finalName}.zip"
+											dest="${install-dir}" />
+											
+										<!-- Put copy of master repo zip into install dir -->
+										<copy
+											file="${project.build.directory}/${project.build.finalName}.zip"
+											tofile="${ice-install-dir}/eavp-master-${unqualifiedVersion}.${buildQualifier}.zip" />
+											
+										<!--  Make sure the install dir is writable to the group -->
+										<chmod perm="g+w">
+											<fileset dir="${install-dir}">
+												<include name="**" />
+											</fileset>
+										</chmod>
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
