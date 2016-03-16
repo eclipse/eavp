@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.datatypes;
 
+import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.TubeMesh;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
-import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
-import org.eclipse.eavp.viz.service.modeling.TubeMesh;
 
 /**
  * A factory for creating instances of Shape with FXShapeViews for use with

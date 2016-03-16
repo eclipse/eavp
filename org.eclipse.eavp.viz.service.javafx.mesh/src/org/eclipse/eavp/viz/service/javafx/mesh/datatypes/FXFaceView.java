@@ -51,7 +51,7 @@ public class FXFaceView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
+	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {

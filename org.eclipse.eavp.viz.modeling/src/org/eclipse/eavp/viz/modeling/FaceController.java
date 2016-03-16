@@ -8,41 +8,54 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
+import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 
 /**
- * A controller for an Edge part which maintains a list of polygons it is an
- * edge for.
+ * A controller for a Face part.
  * 
  * @author Robert Smith
  *
  */
-public class DetailedEdgeController extends EdgeController {
+public class FaceController extends BasicController {
 
 	/**
-	 * The default constructor
+	 * The nullary constructor.
 	 */
-	public DetailedEdgeController(DetailedEdgeMesh model, BasicView view) {
+	public FaceController() {
+
+	}
+
+	/**
+	 * The default constructor.
+	 * 
+	 * @param model
+	 *            The model representing this Face internally
+	 * @param view
+	 *            The view representing this Face in the graphics engine
+	 */
+	public FaceController(FaceMesh model, BasicView view) {
 		super(model, view);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#clone()
+	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public Object clone() {
 
-		// Clone the model and view
-		DetailedEdgeMesh modelClone = (DetailedEdgeMesh) model.clone();
-		BasicView viewClone = (BasicView) view.clone();
+		// Create a copy of the model
+		FaceController clone = new FaceController();
+		clone.copy(this);
 
-		// Create a new controller for the clones and return it
-		DetailedEdgeController clone = new DetailedEdgeController(modelClone,
-				viewClone);
+		// Refresh the view to be in sync with the model
+		clone.refresh();
+
 		return clone;
 	}
+
 }

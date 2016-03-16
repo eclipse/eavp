@@ -12,12 +12,12 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.VertexController;
+import org.eclipse.eavp.viz.modeling.VertexMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.Representation;
-import org.eclipse.eavp.viz.service.modeling.VertexController;
-import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 
 import javafx.scene.Group;
 
@@ -80,7 +80,7 @@ public class FXVertexController extends VertexController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#update(org.
+	 * @see org.eclipse.eavp.viz.modeling.IController#update(org.
 	 * eclipse.ice.viz.service.datastructures.VizObject.IManagedVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])

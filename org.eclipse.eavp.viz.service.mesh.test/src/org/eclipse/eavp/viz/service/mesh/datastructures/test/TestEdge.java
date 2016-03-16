@@ -19,11 +19,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.EdgeController;
+import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.LinearEdgeMesh;
+import org.eclipse.eavp.viz.modeling.VertexController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
-import org.eclipse.eavp.viz.service.modeling.EdgeController;
-import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.service.modeling.LinearEdgeMesh;
-import org.eclipse.eavp.viz.service.modeling.VertexController;
 
 /**
  * <p>

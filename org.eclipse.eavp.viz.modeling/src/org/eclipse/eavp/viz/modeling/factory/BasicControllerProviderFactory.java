@@ -41,8 +41,8 @@ public class BasicControllerProviderFactory implements IControllerProviderFactor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IControllerFactory#
-	 * createController( org.eclipse.eavp.viz.service.modeling.AbstractMesh)
+	 * @see org.eclipse.eavp.viz.modeling.IControllerFactory#
+	 * createController( org.eclipse.eavp.viz.modeling.AbstractMesh)
 	 */
 	@Override
 	public IControllerProvider createProvider(IMesh model) {

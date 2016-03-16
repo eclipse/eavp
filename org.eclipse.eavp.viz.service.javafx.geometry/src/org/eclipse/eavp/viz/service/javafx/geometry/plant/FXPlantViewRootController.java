@@ -66,7 +66,7 @@ public class FXPlantViewRootController extends BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#addEntity(org.
+	 * @see org.eclipse.eavp.viz.modeling.IController#addEntity(org.
 	 * eclipse.ice.viz.service.modeling.IController)
 	 */
 	@Override
@@ -106,8 +106,8 @@ public class FXPlantViewRootController extends BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#
-	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling. IController,
+	 * @see org.eclipse.eavp.viz.modeling.IController#
+	 * addEntityByCategory(org.eclipse.eavp.viz.modeling. IController,
 	 * java.lang.String)
 	 */
 	@Override
@@ -165,7 +165,7 @@ public class FXPlantViewRootController extends BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IController#clone()
+	 * @see org.eclipse.eavp.viz.modeling.IController#clone()
 	 */
 	@Override
 	public Object clone() {

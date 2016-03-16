@@ -12,6 +12,8 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.ShapeController;
+import org.eclipse.eavp.viz.modeling.VertexMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
@@ -19,8 +21,6 @@ import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
-import org.eclipse.eavp.viz.service.modeling.ShapeController;
-import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -151,7 +151,7 @@ public class FXVertexView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
+	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -162,7 +162,7 @@ public class FXVertexView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
 	 * ice .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
@@ -199,7 +199,7 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractView#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -215,7 +215,7 @@ public class FXVertexView extends BasicView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#update(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse.
 	 * ice. viz.service.datastructures.VizObject.IVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])

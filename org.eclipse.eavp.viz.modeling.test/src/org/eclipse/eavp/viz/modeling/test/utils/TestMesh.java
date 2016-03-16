@@ -53,7 +53,7 @@ public class TestMesh extends BasicMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMesh#update(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractMesh#update(org.eclipse.
 	 * ice. viz.service.datastructures.VizObject.IManagedVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])

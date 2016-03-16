@@ -73,7 +73,7 @@ public class BasicView
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IView#getTransformation()
+	 * @see org.eclipse.eavp.viz.modeling.IView#getTransformation()
 	 */
 	@Override
 	public Transformation getTransformation() {
@@ -84,7 +84,7 @@ public class BasicView
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IView#setTransformation(org.eclipse
+	 * org.eclipse.eavp.viz.modeling.IView#setTransformation(org.eclipse
 	 * .eavp.viz.service.modeling.Transformation)
 	 */
 	@Override
@@ -105,7 +105,7 @@ public class BasicView
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.IView#getRepresentation()
 	 */
 	@Override
 	public Representation getRepresentation() {
@@ -117,7 +117,7 @@ public class BasicView
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IView#refresh(org.eclipse.eavp.viz.
+	 * org.eclipse.eavp.viz.modeling.IView#refresh(org.eclipse.eavp.viz.
 	 * service.modeling.IMesh)
 	 */
 	@Override
@@ -218,7 +218,7 @@ public class BasicView
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IView#copy(org.eclipse.eavp.viz.
+	 * org.eclipse.eavp.viz.modeling.IView#copy(org.eclipse.eavp.viz.
 	 * service.modeling.AbstractView)
 	 */
 	@Override

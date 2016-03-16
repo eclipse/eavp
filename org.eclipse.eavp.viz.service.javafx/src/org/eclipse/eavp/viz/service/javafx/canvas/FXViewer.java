@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.canvas;
 
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.javafx.internal.model.FXCameraAttachment;
 import org.eclipse.eavp.viz.service.javafx.internal.scene.camera.CenteredCameraController;
 import org.eclipse.eavp.viz.service.javafx.internal.scene.camera.ICameraController;
 import org.eclipse.eavp.viz.service.javafx.scene.base.ICamera;
 import org.eclipse.eavp.viz.service.javafx.viewer.Renderer;
-import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
