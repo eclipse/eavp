@@ -8,7 +8,7 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -142,7 +142,7 @@ public class PointController extends BasicController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org.
 	 * eclipse. ice.viz.service.modeling.AbstractController)
 	 */
 	@Override

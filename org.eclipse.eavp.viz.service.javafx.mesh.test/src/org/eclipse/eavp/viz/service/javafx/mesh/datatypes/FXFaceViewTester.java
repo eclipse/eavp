@@ -12,8 +12,8 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.FaceMesh;
 import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXFaceView;
-import org.eclipse.eavp.viz.service.modeling.FaceMesh;
 import org.junit.Test;
 
 /**

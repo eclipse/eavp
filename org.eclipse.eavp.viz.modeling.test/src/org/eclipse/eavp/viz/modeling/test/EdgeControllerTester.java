@@ -16,16 +16,16 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.EdgeController;
+import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.LinearEdgeMesh;
+import org.eclipse.eavp.viz.modeling.VertexController;
+import org.eclipse.eavp.viz.modeling.VertexMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.modeling.EdgeController;
-import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.service.modeling.LinearEdgeMesh;
-import org.eclipse.eavp.viz.service.modeling.VertexController;
-import org.eclipse.eavp.viz.service.modeling.VertexMesh;
 import org.junit.Test;
 
 /**

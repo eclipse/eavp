@@ -8,7 +8,7 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 
@@ -41,7 +41,7 @@ public class LinearEdgeMesh extends EdgeMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.Edge#calculateLength()
+	 * @see org.eclipse.eavp.viz.modeling.Edge#calculateLength()
 	 */
 	@Override
 	public double calculateLength() {
@@ -70,7 +70,7 @@ public class LinearEdgeMesh extends EdgeMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
 	 */
 	@Override
 	public Object clone() {

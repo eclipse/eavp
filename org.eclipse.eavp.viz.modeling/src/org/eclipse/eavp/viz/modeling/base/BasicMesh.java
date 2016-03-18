@@ -179,7 +179,7 @@ public class BasicMesh
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IMesh#getType()
+	 * @see org.eclipse.eavp.viz.modeling.IMesh#getType()
 	 */
 	@Override
 	public MeshType getType() {
@@ -190,7 +190,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#setType(org.eclipse.eavp.viz.
+	 * org.eclipse.eavp.viz.modeling.IMesh#setType(org.eclipse.eavp.viz.
 	 * service.modeling.MeshType)
 	 */
 	@Override
@@ -210,7 +210,7 @@ public class BasicMesh
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IMesh#getEntities()
+	 * @see org.eclipse.eavp.viz.modeling.IMesh#getEntities()
 	 */
 	@Override
 	public ArrayList<IController> getEntities() {
@@ -231,7 +231,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#getEntitiesByCategory(java.
+	 * org.eclipse.eavp.viz.modeling.IMesh#getEntitiesByCategory(java.
 	 * lang.String)
 	 */
 	@Override
@@ -250,7 +250,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#getEntitiesFromCategory(org.
+	 * org.eclipse.eavp.viz.modeling.IMesh#getEntitiesFromCategory(org.
 	 * eclipse.eavp.viz.service.modeling.IMeshCategory, java.lang.Class)
 	 */
 	@Override
@@ -282,7 +282,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#getProperty(java.lang.String)
+	 * org.eclipse.eavp.viz.modeling.IMesh#getProperty(java.lang.String)
 	 */
 	@Override
 	public String getProperty(IMeshProperty property) {
@@ -293,7 +293,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#setProperty(java.lang.String,
+	 * org.eclipse.eavp.viz.modeling.IMesh#setProperty(java.lang.String,
 	 * java.lang.String)
 	 */
 	@Override
@@ -333,7 +333,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#addEntity(org.eclipse.eavp.
+	 * org.eclipse.eavp.viz.modeling.IMesh#addEntity(org.eclipse.eavp.
 	 * viz.service.modeling.IController)
 	 */
 	@Override
@@ -345,7 +345,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#removeEntity(org.eclipse.eavp
+	 * org.eclipse.eavp.viz.modeling.IMesh#removeEntity(org.eclipse.eavp
 	 * .viz.service.modeling.IController)
 	 */
 	@Override
@@ -384,7 +384,7 @@ public class BasicMesh
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IMesh#addEntityByCategory(org.
+	 * @see org.eclipse.eavp.viz.modeling.IMesh#addEntityByCategory(org.
 	 * eclipse.eavp.viz.service.modeling.IController, java.lang.String)
 	 */
 	@Override
@@ -556,7 +556,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#copy(org.eclipse.eavp.viz.
+	 * org.eclipse.eavp.viz.modeling.IMesh#copy(org.eclipse.eavp.viz.
 	 * service.modeling.IMesh)
 	 */
 	@Override
@@ -594,7 +594,7 @@ public class BasicMesh
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.IMesh#getController()
+	 * @see org.eclipse.eavp.viz.modeling.IMesh#getController()
 	 */
 	@Override
 	public IController getController() {
@@ -605,7 +605,7 @@ public class BasicMesh
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.IMesh#setController(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.IMesh#setController(org.eclipse.
 	 * eavp.viz.service.modeling.IController)
 	 */
 	@Override

@@ -12,10 +12,10 @@ package org.eclipse.eavp.viz.modeling.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.FaceController;
+import org.eclipse.eavp.viz.modeling.FaceMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.modeling.FaceController;
-import org.eclipse.eavp.viz.service.modeling.FaceMesh;
 import org.junit.Test;
 
 /**

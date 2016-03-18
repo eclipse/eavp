@@ -8,7 +8,7 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 
@@ -31,7 +31,7 @@ public class DetailedEdgeController extends EdgeController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#clone()
 	 */
 	@Override
 	public Object clone() {

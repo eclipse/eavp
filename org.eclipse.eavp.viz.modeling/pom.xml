@@ -10,6 +10,6 @@
 		<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
 	</parent>
 	<groupId>org.eclipse.eavp</groupId>
-	<artifactId>org.eclipse.eavp.viz.service</artifactId>
+	<artifactId>org.eclipse.eavp.viz.modeling</artifactId>
 	<packaging>eclipse-plugin</packaging>
 </project>

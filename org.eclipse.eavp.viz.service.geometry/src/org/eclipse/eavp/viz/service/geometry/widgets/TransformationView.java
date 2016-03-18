@@ -12,8 +12,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.Transformation;
-import org.eclipse.eavp.viz.service.modeling.ShapeController;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;

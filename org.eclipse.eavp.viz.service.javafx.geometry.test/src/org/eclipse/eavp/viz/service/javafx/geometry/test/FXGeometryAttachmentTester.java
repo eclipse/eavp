@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.test;
 
+import org.eclipse.eavp.viz.modeling.ShapeMesh;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.FXGeometryAttachment;
 import org.eclipse.eavp.viz.service.javafx.geometry.FXGeometryAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
-import org.eclipse.eavp.viz.service.modeling.ShapeMesh;
 import org.junit.Test;
 
 import javafx.scene.Group;

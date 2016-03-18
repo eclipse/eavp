@@ -12,8 +12,8 @@ package org.eclipse.eavp.viz.modeling.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.PointMesh;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.modeling.PointMesh;
 import org.junit.Test;
 
 /**
