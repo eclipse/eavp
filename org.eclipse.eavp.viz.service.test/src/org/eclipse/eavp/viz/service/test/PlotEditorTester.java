@@ -27,6 +27,7 @@ import org.eclipse.eavp.viz.service.csv.CSVVizService;
 import org.eclipse.eavp.viz.service.internal.VizServiceFactoryHolder;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.junit.AfterClass;
@@ -58,19 +59,8 @@ public class PlotEditorTester {
 		bot = new SWTWorkbenchBot();
 		realFactory = VizServiceFactoryHolder.getFactory();
 
-	}
-
-	/*
-	 * Tests that the plot editor can open a file correctly, and display the
-	 * necessary menus.
-	 */
-	@Test
-	public void testPlotEditor() {
-
-		IVizServiceFactory fakeFactory = new BasicVizServiceFactory();
-		fakeFactory.register(new CSVVizService());
-
-		VizServiceFactoryHolder.setVizServiceFactory(fakeFactory);
+		// Set the bot's timeout
+		SWTBotPreferences.TIMEOUT = 3000;
 
 		// Set up the workspace
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -110,6 +100,20 @@ public class PlotEditorTester {
 			e.printStackTrace();
 			fail();
 		}
+
+	}
+
+	/*
+	 * Tests that the plot editor can open a file correctly, and display the
+	 * necessary menus.
+	 */
+	@Test
+	public void testPlotEditor() {
+
+		IVizServiceFactory fakeFactory = new BasicVizServiceFactory();
+		fakeFactory.register(new CSVVizService());
+
+		VizServiceFactoryHolder.setVizServiceFactory(fakeFactory);
 
 		// Close the initial eclipse welcome window
 		bot.viewByTitle("Welcome").close();

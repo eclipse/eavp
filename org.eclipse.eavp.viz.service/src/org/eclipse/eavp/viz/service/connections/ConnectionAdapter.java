@@ -291,7 +291,7 @@ public abstract class ConnectionAdapter<T> extends VizObject
 				try {
 					thread.join();
 					// The connection is now closed.
-					connected = (state == ConnectionState.Disconnected);
+					connected = (state != ConnectionState.Disconnected);
 				} catch (InterruptedException e) {
 					// In the event the thread has an exception, show an error
 					// and carry on.
