@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
+import org.eclipse.eavp.viz.modeling.TubeController;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
-import org.eclipse.eavp.viz.service.modeling.TubeController;
 
 /**
  * A Pipe part for the Reactor Analyzer.
@@ -145,7 +145,7 @@ public class PipeController extends TubeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#clone()
 	 */
 	@Override
 	public Object clone() {
@@ -162,7 +162,7 @@ public class PipeController extends TubeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractController#copy(org.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org.
 	 * eclipse. ice.viz.service.modeling.AbstractController)
 	 */
 	@Override

@@ -415,7 +415,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#getRepresentation()
+	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -426,7 +426,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.AbstractView#refresh(org.eclipse.
+	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
 	 * ice .viz.service.modeling.AbstractMesh)
 	 */
 	@Override

@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.javafx.scene.model;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.javafx.scene.base.ICamera;
-import org.eclipse.eavp.viz.service.modeling.ShapeController;
 
 /**
  * <p>

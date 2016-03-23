@@ -8,7 +8,7 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.modeling;
+package org.eclipse.eavp.viz.modeling;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +56,7 @@ public class VertexMesh extends PointMesh {
 	 *
 	 * @see
 	 *
-	 * org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#addEntity(
+	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#addEntity(
 	 * org. eclipse.ice.viz.service.modeling.IController)
 	 */
 	@Override
@@ -73,8 +73,8 @@ public class VertexMesh extends PointMesh {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractMeshComponent#
-	 * addEntityByCategory(org.eclipse.eavp.viz.service.modeling. IController,
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#
+	 * addEntityByCategory(org.eclipse.eavp.viz.modeling. IController,
 	 * java.lang.String)
 	 */
 	@Override
@@ -124,7 +124,7 @@ public class VertexMesh extends PointMesh {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.modeling.PointMesh#copy(org.eclipse.eavp.
+	 * org.eclipse.eavp.viz.modeling.PointMesh#copy(org.eclipse.eavp.
 	 * viz. service.modeling.AbstractMesh)
 	 */
 	@Override

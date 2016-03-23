@@ -12,10 +12,10 @@ package org.eclipse.eavp.viz.modeling.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.TubeController;
+import org.eclipse.eavp.viz.modeling.TubeMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.modeling.TubeController;
-import org.eclipse.eavp.viz.service.modeling.TubeMesh;
 import org.junit.Test;
 
 /**

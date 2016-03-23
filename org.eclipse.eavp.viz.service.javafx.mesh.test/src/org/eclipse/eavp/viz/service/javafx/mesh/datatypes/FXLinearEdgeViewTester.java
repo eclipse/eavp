@@ -12,8 +12,8 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.modeling.EdgeMesh;
 import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXLinearEdgeView;
-import org.eclipse.eavp.viz.service.modeling.EdgeMesh;
 import org.junit.Test;
 
 /**

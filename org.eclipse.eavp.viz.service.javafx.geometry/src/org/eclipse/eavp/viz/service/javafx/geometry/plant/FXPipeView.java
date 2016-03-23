@@ -198,7 +198,7 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView#
-	 * refresh (org.eclipse.eavp.viz.service.modeling.AbstractMesh)
+	 * refresh (org.eclipse.eavp.viz.modeling.AbstractMesh)
 	 */
 	@Override
 	public void refresh(IMesh model) {
@@ -225,7 +225,7 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.modeling.AbstractView#clone()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#clone()
 	 */
 	@Override
 	public Object clone() {
