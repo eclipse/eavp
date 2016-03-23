@@ -9,7 +9,6 @@
  *   Jordan Deyton - Initial API and implementation and/or initial documentation
  *
  *******************************************************************************/
-
 package org.eclipse.eavp.viz.service.connections.preferences.test;
 
 import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
