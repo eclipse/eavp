@@ -16,7 +16,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
 import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.EntryCellContentProvider;
 import org.junit.Test;
@@ -102,62 +101,4 @@ public class EntryCellContentProviderTester {
 
 	}
 
-	/**
-	 * A test implementation of VizEntry with preset allowed values and
-	 * convenience methods for setting its attributes.
-	 * 
-	 * @author Robert Smith
-	 *
-	 */
-	private class TestEntry extends VizEntry {
-
-		/**
-		 * The default constructor.
-		 */
-		public TestEntry() {
-			super();
-			allowedValues.add("off");
-			allowedValues.add("on");
-			iEntryContentProvider.setAllowedValues(allowedValues);
-			objectDescription = "tooltip";
-			value = "off";
-		}
-
-		/**
-		 * Set the entry's type to discrete.
-		 */
-		public void setDiscrete() {
-			allowedValueType = VizAllowedValueType.Discrete;
-			iEntryContentProvider
-					.setAllowedValueType(VizAllowedValueType.Discrete);
-		}
-
-		/**
-		 * Set the entry's secret flag.
-		 */
-		public void setSecret() {
-			secretFlag = true;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.eavp.viz.datastructures.VizEntry#getValue()
-		 */
-		@Override
-		public String getValue() {
-			return value;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.eavp.viz.datastructures.VizEntry#getValueType()
-		 */
-		@Override
-		public VizAllowedValueType getValueType() {
-			return allowedValueType;
-		}
-
-	}
 }
