@@ -233,27 +233,12 @@ public class VisItPlotComposite extends
 			@Override
 			public void run() {
 
-				// FIXME We need a way to move to a specific timestep
-				// rather than cycling through them.
-
+				// Send a Python command to the widget, directing it to set the
+				// model to the correct timestep.
 				VisItSwtConnection widget = getConnection().getWidget();
 				ViewerMethods methods = widget.getViewerMethods();
-
-				// Send next or previous timestep requests to the VisIt
-				// widget until it matches the current timestep in the
-				// TimeSliderComposite.
-				int currentStep = renderedTimestep.get();
-				int targetStep;
-				while (currentStep != (targetStep = widgetTimestep.get())) {
-					if (currentStep < targetStep) {
-						methods.animationNextState();
-						currentStep++;
-					} else {
-						methods.animationPreviousState();
-						currentStep--;
-					}
-				}
-				renderedTimestep.set(currentStep);
+				methods.processCommands(
+						"SetTimeSliderState(" + widgetTimestep.get() + ")");
 				return;
 			}
 		};
