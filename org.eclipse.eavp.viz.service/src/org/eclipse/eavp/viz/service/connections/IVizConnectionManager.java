@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections;
 
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.Future;
 
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 
@@ -37,7 +39,7 @@ public interface IVizConnectionManager<T> {
 	 * The default delimiter for connection preferences when they are
 	 * saved/loaded to Eclipse preferences.
 	 */
-	public static final String DEFAULT_CONNECTION_PREFERENCE_DELIMITER = ",";
+	static final String DEFAULT_CONNECTION_PREFERENCE_DELIMITER = ",";
 
 	/**
 	 * Gets the viz connection with the specified name. Names should be
@@ -49,14 +51,14 @@ public interface IVizConnectionManager<T> {
 	 * @return The associated viz connection, or {@code null} if there is no
 	 *         connection for the specified name.
 	 */
-	public IVizConnection<T> getConnection(String name);
+	IVizConnection<T> getConnection(String name);
 
 	/**
 	 * Gets the names of all available connections.
 	 * 
 	 * @return A lexicographically ordered set of available connection names.
 	 */
-	public Set<String> getConnections();
+	Set<String> getConnections();
 
 	/**
 	 * Gets all connections available for the specified host.
@@ -70,7 +72,7 @@ public interface IVizConnectionManager<T> {
 	 * @throws NullPointerException
 	 *             If the specified host is {@code null}.
 	 */
-	public Set<String> getConnectionsForHost(String host) throws NullPointerException;
+	Set<String> getConnectionsForHost(String host) throws NullPointerException;
 
 	/**
 	 * Sets the preference store used by the manager. This will first cause any
@@ -82,11 +84,12 @@ public interface IVizConnectionManager<T> {
 	 * @param preferenceNodeId
 	 *            The ID of the preference node. Connection preferences will be
 	 *            found under this node. Should not be {@code null}.
+	 * @return A list of Future states for each of the connections added to the preference store. 
 	 * @throws NullPointerException
 	 *             If the preference node ID is {@code null} and the store is
 	 *             not.
 	 */
-	public void setPreferenceStore(CustomScopedPreferenceStore store, String preferenceNodeId)
+	ArrayList<Future<ConnectionState>> setPreferenceStore(CustomScopedPreferenceStore store, String preferenceNodeId)
 			throws NullPointerException;
 
 }
