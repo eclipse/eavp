@@ -102,6 +102,35 @@ public class VisItPlotComposite extends
 		// Nothing to do yet.
 	}
 
+	/**
+	 * Reset the composite's displayed widget to its original camera position.
+	 */
+	public void resetWidget() {
+		canvas.getViewerMethods().resetView();
+	}
+
+	/**
+	 * Zoom the composite's displayed widget in or out, according to the input
+	 * string.
+	 * 
+	 * @param direction
+	 *            Zoom the widget in if equal to "in" or out if equal to "out".
+	 *            Method will do nothing if direction is any other value.
+	 */
+	public void zoomWidget(String direction) {
+
+		// If the canvas is valid...
+		if (canvas != null && !canvas.isDisposed()) {
+
+			// ...and the input string is valid
+			if ("in".equals(direction) || "out".equals(direction)) {
+
+				// Zoom the widget
+				canvas.zoom(direction);
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
