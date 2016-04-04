@@ -34,6 +34,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.PlatformUI;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import gov.lbnl.visit.swt.VisItSwtWidget;
@@ -99,7 +102,65 @@ public class VisItPlotComposite extends
 	public VisItPlotComposite(Composite parent, int style) {
 		super(parent, style);
 
-		// Nothing to do yet.
+		// Get a final reference to the parent
+		final Composite finalParent = parent;
+
+		// Register a listener with the page, so that VisIt's input can be
+		// changed based on which editors are currently open.
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.addPartListener(new IPartListener2() {
+
+					@Override
+					public void partActivated(IWorkbenchPartReference partRef) {
+						// When the active part(s) are changed, refresh the
+						// canvas if this composite is visible, so that VisIt
+						// will render this composite's input file.
+						if (finalParent.isVisible()) {
+							refreshCanvas();
+						}
+
+					}
+
+					@Override
+					public void partBroughtToTop(
+							IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partClosed(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partDeactivated(
+							IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partOpened(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partHidden(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partVisible(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partInputChanged(
+							IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+				});
+		;
 	}
 
 	/**
