@@ -22,10 +22,8 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.eavp.viz.service.AbstractSeries;
@@ -38,8 +36,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import visit.java.client.FileInfo;
@@ -305,10 +301,8 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		ArrayList<Action> actions = new ArrayList<Action>();
 
 		// Get the plus icon image
-		Bundle bundle = FrameworkUtil.getBundle(getClass());
-		Path inImagePath = new Path(
-				"icons" + System.getProperty("file.separator") + "add.png");
-		URL inImageURL = FileLocator.find(bundle, inImagePath, null);
+		URL inImageURL = getClass().getResource(
+				"/icons" + System.getProperty("file.separator") + "add.png");
 		ImageDescriptor inDescriptor = ImageDescriptor
 				.createFromURL(inImageURL);
 
@@ -326,9 +320,8 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		actions.add(zoomIn);
 
 		// Get the minus icon image
-		Path outImagePath = new Path("icons"
+		URL outImageURL = getClass().getResource("/icons"
 				+ System.getProperty("file.separator") + "complement.gif");
-		URL outImageURL = FileLocator.find(bundle, outImagePath, null);
 		ImageDescriptor outDescriptor = ImageDescriptor
 				.createFromURL(outImageURL);
 
@@ -346,9 +339,8 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		actions.add(zoomOut);
 
 		// Get the refresh icon image
-		Path resetImagePath = new Path("icons"
+		URL resetImageURL = getClass().getResource("/icons"
 				+ System.getProperty("file.separator") + "iu_update_obj.gif");
-		URL resetImageURL = FileLocator.find(bundle, resetImagePath, null);
 		ImageDescriptor resetDescriptor = ImageDescriptor
 				.createFromURL(resetImageURL);
 

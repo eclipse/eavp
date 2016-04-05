@@ -37,6 +37,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import gov.lbnl.visit.swt.VisItSwtWidget;
@@ -62,6 +64,12 @@ public class VisItPlotComposite extends
 	 * The current category used to render the plot.
 	 */
 	private String category;
+
+	/**
+	 * Logger for handling event messages and other information.
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(VisItPlotComposite.class);
 
 	/**
 	 * The current representation used to render the plot.
@@ -112,10 +120,12 @@ public class VisItPlotComposite extends
 
 					@Override
 					public void partActivated(IWorkbenchPartReference partRef) {
+
 						// When the active part(s) are changed, refresh the
 						// canvas if this composite is visible, so that VisIt
 						// will render this composite's input file.
-						if (finalParent.isVisible()) {
+						if (!finalParent.isDisposed()
+								&& finalParent.isVisible()) {
 							refreshCanvas();
 						}
 
@@ -409,26 +419,38 @@ public class VisItPlotComposite extends
 	 * the current plot {@link #representation} and {@link #type}.
 	 */
 	private void refreshCanvas() {
-		// Draw the specified plot on the Canvas.
-		ViewerMethods widget = canvas.getViewerMethods();
 
-		// Get the source path from the VisItPlot class. We can't,
-		// unfortunately, use the URI as specified.
-		VisItPlot plot = (VisItPlot) getPlot();
-		String sourcePath = plot.getSourcePath(plot.getDataSource());
+		// First, check that the canvas exists and is not disposed
+		if (canvas != null && !canvas.isDisposed()) {
 
-		// Make sure the Canvas is activated.
-		canvas.activate();
+			// Draw the specified plot on the Canvas.
+			ViewerMethods widget = canvas.getViewerMethods();
 
-		// Remove all existing plots.
-		widget.deleteActivePlots();
+			// Get the source path from the VisItPlot class. We can't,
+			// unfortunately, use the URI as specified.
+			VisItPlot plot = (VisItPlot) getPlot();
+			String sourcePath = plot.getSourcePath(plot.getDataSource());
 
-		// FIXME How do we handle invalid paths?
-		widget.openDatabase(sourcePath);
-		widget.addPlot(representation, type);
-		widget.drawPlots();
+			// Make sure the Canvas is activated.
+			canvas.activate();
 
-		return;
+			// Remove all existing plots.
+			widget.deleteActivePlots();
+
+			// FIXME How do we handle invalid paths?
+			try {
+				widget.openDatabase(sourcePath);
+				widget.addPlot(representation, type);
+				widget.drawPlots();
+			} catch (NullPointerException e) {
+				logger.error(
+						"Null pointer exception while VisItPlotComposite was "
+								+ "communicating with VisItSWTWidget. This is likely "
+								+ "because the VisIt instance has not yet enabled the "
+								+ "widget's window ID.");
+			}
+
+		}
 	}
 
 	/*
