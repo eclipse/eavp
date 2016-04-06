@@ -11,6 +11,12 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.paraview.connections;
 
+import java.util.ArrayList;
+
+import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
 import org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage;
 import org.eclipse.eavp.viz.service.paraview.ParaViewVizService;
 import org.eclipse.ui.IWorkbench;
@@ -22,11 +28,51 @@ import org.eclipse.ui.IWorkbench;
  * @author Jordan Deyton
  *
  */
-public class ParaViewConnectionPreferencePage extends VizConnectionPreferencePage {
+public class ParaViewConnectionPreferencePage
+		extends VizConnectionPreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage#getConnectionsPreferenceNodeId()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * VizConnectionPreferencePage#createConnectionTable()
+	 */
+	@Override
+	protected ConnectionTable createConnectionTable() {
+		return new ConnectionTable() {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.eavp.viz.service.connections.preferences.
+			 * ConnectionTable#createConnectionTemplate()
+			 */
+			@Override
+			protected ArrayList<VizEntry> createConnectionTemplate() {
+
+				// Create a default template
+				ArrayList<VizEntry> template = super.createConnectionTemplate();
+
+				// Create a provider for arbitrary strings
+				IVizEntryContentProvider provider = new BasicVizEntryContentProvider();
+				provider.setDefaultValue("");
+
+				// Create an entry for the path to the server script
+				VizEntry entry = new VizEntry(provider);
+				entry.setName("Server Script Path");
+
+				// Add the custom entry to the template and return it
+				template.add(entry);
+				return template;
+			}
+		};
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * VizConnectionPreferencePage#getConnectionsPreferenceNodeId()
 	 */
 	@Override
 	protected String getConnectionsPreferenceNodeId() {
@@ -35,7 +81,9 @@ public class ParaViewConnectionPreferencePage extends VizConnectionPreferencePag
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * VizConnectionPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	@Override
 	public void init(IWorkbench workbench) {

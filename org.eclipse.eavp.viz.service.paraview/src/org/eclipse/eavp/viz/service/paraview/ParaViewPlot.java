@@ -60,6 +60,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	 * Whether or not the data is currently being loaded.
 	 */
 	private boolean loading = false;
+
 	/**
 	 * A lock used to synchronize load requests, as the data should only be
 	 * reloaded one at a time, and data should not be reloaded simultaneously.
@@ -177,7 +178,11 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#connectionStateChanged(org.eclipse.eavp.viz.service.connections.IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#
+	 * connectionStateChanged(org.eclipse.eavp.viz.service.connections.
+	 * IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState,
+	 * java.lang.String)
 	 */
 	@Override
 	public void connectionStateChanged(
@@ -191,7 +196,9 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#createPlotComposite(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#
+	 * createPlotComposite(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected ConnectionPlotComposite<IParaViewWebClient> createPlotComposite(
@@ -230,6 +237,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getCategories()
 	 */
 	@Override
@@ -239,7 +247,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getDependentSeries(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.AbstractPlot#getDependentSeries(java.lang.
+	 * String)
 	 */
 	@Override
 	public List<ISeries> getDependentSeries(String category) {
@@ -373,7 +384,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#setConnection(org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.ConnectionPlot#setConnection(org
+	 * .eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	public boolean setConnection(IVizConnection<IParaViewWebClient> connection)
@@ -388,7 +402,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#setDataSource(java.net.URI)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.ConnectionPlot#setDataSource(
+	 * java.net.URI)
 	 */
 	@Override
 	public boolean setDataSource(URI uri) throws Exception {
@@ -402,7 +419,9 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.
+	 * eclipse.eavp.viz.service.ISeries)
 	 */
 	@Override
 	public void setIndependentSeries(ISeries series) {
@@ -427,16 +446,21 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.
+	 * part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
 	 */
 	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
-		//No additional pages, so nothing to do
+	public String createAdditionalPage(MultiPageEditorPart parent,
+			IFileEditorInput file, int pageNum) {
+		// No additional pages, so nothing to do
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
 	 */
 	@Override
