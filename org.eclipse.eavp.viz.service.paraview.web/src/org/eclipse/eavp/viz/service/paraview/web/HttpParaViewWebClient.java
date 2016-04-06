@@ -143,6 +143,10 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 				boolean connected = false;
 
+				//Keep trying to connect
+				//TODO Put a time out on this loop
+				while(!connected){
+					
 				// ---- Send a HEAD request. ---- //
 				URL url = new URL(baseEndPointURL);
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -150,6 +154,7 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 				connection.setDoInput(true);
 				connection.setDoOutput(true);
 				// ------------------------------ //
+
 
 				// ---- Get the response. ---- //
 				// Note: We let the ExecutorService handle the timeout.
@@ -163,6 +168,7 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 					}
 				} catch (IOException e) {
 					// There was an error. The connection failed.
+				}
 				}
 				// --------------------------- //
 

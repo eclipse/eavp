@@ -11,7 +11,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.paraview.connections;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -84,25 +87,31 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 		}
 
 		// Run the process that will launch the http server in ParaView Python
-		try {
-			Process process = new ProcessBuilder(path + osPath
+		try {			
+			Process process = Runtime.getRuntime().exec(path + osPath
 					+ "/bin/pvpython " + getProperty("serverPath")
-					+ "/http_pvw_server.py --host " + host + " --port " + port)
-							.start();
+					+ "/http_pvw_server.py --host " + host + " --port " + port);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			logger.error("Failed to execute ParaView process.");
 		}
 
+		
 		// Try to create and connect to a ParaView web client.
 		boolean connected = false;
 		try {
+			
+			
 			// Create an HTTP implementation of the ParaView web client..
 			client = new HttpParaViewWebClient();
 			// Set up the HTTP URL
 			String url = "http://" + host + ":" + port + "/rpc-http/";
+			
+			//while(!connected){
+				System.out.println("Here");
 			// Try to connect.
 			connected = client.connect(url).get();
+			//}
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
@@ -116,7 +125,7 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 
 		return client;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
