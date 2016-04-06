@@ -409,7 +409,7 @@ public class VisItPlotComposite extends
 	@Override
 	public void plotUpdated(IPlot plot, String key, String value) {
 		// The only notification sent by the plot is that the data has loaded.
-		if (plot == getPlot()) {
+		if (!isDisposed() && plot == getPlot()) {
 			refresh();
 		}
 	}
