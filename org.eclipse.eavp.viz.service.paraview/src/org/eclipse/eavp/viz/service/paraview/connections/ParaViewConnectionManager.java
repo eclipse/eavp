@@ -27,10 +27,22 @@ public class ParaViewConnectionManager
 
 	/**
 	 * The index for the path to the server script in the row template for the
-	 * ParaView preference pages.
+	 * ParaView preference page.
 	 */
 	final static int SERVER_PATH_INDEX = 3;
 
+	/**
+	 * The index for the port number for the web visualizer in the row template
+	 * for the ParaView preference page.
+	 */
+	final static int VISUALIZER_PORT_INDEX = 4;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnectionManager#
+	 * createConnection(java.lang.String, java.lang.String)
+	 */
 	@Override
 	protected VizConnection<IParaViewWebClient> createConnection(String name,
 			String preferences) {
@@ -44,11 +56,13 @@ public class ParaViewConnectionManager
 				-1);
 
 		try {
-			// Get the server path property
-			String serverPath = split[3];
+			// Get the additional connection properties
+			String serverPath = split[SERVER_PATH_INDEX];
+			String visualizerPort = split[VISUALIZER_PORT_INDEX];
 
 			// Set the connection's properties.
 			connection.setProperty("serverPath", serverPath);
+			connection.setProperty("visualizerPort", visualizerPort);
 
 		} catch (IndexOutOfBoundsException | NullPointerException
 				| NumberFormatException e) {

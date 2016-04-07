@@ -77,8 +77,10 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 			url = new URL(fullUrl);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Content-Type", "application/octetstream");
-			connection.setRequestProperty("Content-Length", Integer.toString(content.entrySet().size()));
+			connection.setRequestProperty("Content-Type",
+					"application/octetstream");
+			connection.setRequestProperty("Content-Length",
+					Integer.toString(content.entrySet().size()));
 			connection.setRequestProperty("Content-Language", "en-US");
 
 			connection.setUseCaches(false);
@@ -128,7 +130,10 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#connect(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#connect(java
+	 * .lang.String)
 	 */
 	@Override
 	public Future<Boolean> connect(String url) {
@@ -143,32 +148,39 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 				boolean connected = false;
 
-				//Keep trying to connect
-				//TODO Put a time out on this loop
-				while(!connected){
-					
-				// ---- Send a HEAD request. ---- //
-				URL url = new URL(baseEndPointURL);
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("HEAD");
-				connection.setDoInput(true);
-				connection.setDoOutput(true);
-				// ------------------------------ //
+				// Number of connection attempts so far
+				int i = 0;
 
+				// Keep trying to connect until the limit of connection attempts
+				// is reached
+				while (!connected && i < 40) {
 
-				// ---- Get the response. ---- //
-				// Note: We let the ExecutorService handle the timeout.
+					// ---- Send a HEAD request. ---- //
+					URL url = new URL(baseEndPointURL);
+					HttpURLConnection connection = (HttpURLConnection) url
+							.openConnection();
+					connection.setRequestMethod("HEAD");
+					connection.setDoInput(true);
+					connection.setDoOutput(true);
+					// ------------------------------ //
 
-				// Determine the connection code from the request.
-				int code = -1;
-				try {
-					code = connection.getResponseCode();
-					if (code == HttpURLConnection.HTTP_OK) {
-						connected = true;
+					// ---- Get the response. ---- //
+					// Note: We let the ExecutorService handle the timeout.
+
+					// Determine the connection code from the request.
+					int code = -1;
+					try {
+						code = connection.getResponseCode();
+						if (code == HttpURLConnection.HTTP_OK) {
+							connected = true;
+						}
+					} catch (IOException e) {
+						// There was an error. The connection failed.
 					}
-				} catch (IOException e) {
-					// There was an error. The connection failed.
-				}
+
+					// Increment the number of attempts
+					i++;
+					Thread.sleep(500);
 				}
 				// --------------------------- //
 
@@ -179,16 +191,19 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#disconnect()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#disconnect()
 	 */
 	@Override
 	public Future<Boolean> disconnect() {
-		Future<Boolean> future = requestExecutor.submit(new Callable<Boolean>() {
-			@Override
-			public Boolean call() throws Exception {
-				return true;
-			}
-		});
+		Future<Boolean> future = requestExecutor
+				.submit(new Callable<Boolean>() {
+					@Override
+					public Boolean call() throws Exception {
+						return true;
+					}
+				});
 		// Stop and unset the worker thread.
 		requestExecutor.shutdown();
 		requestExecutor = null;
@@ -197,10 +212,14 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#render(int, int, int, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#render(int,
+	 * int, int, int)
 	 */
 	@Override
-	public Future<JsonObject> render(int viewId, int quality, int width, int height) {
+	public Future<JsonObject> render(int viewId, int quality, int width,
+			int height) {
 		if (requestExecutor == null) {
 			return null;
 		}
@@ -225,6 +244,7 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 		mainObj.add("args", args);
 
 		Callable<JsonObject> request = new Callable<JsonObject>() {
+			@Override
 			public JsonObject call() throws Exception {
 				return makeRequest("viewport.image.render", mainObj);
 			}
@@ -234,10 +254,14 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#event(int, double, double, java.lang.String, boolean[])
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#event(int,
+	 * double, double, java.lang.String, boolean[])
 	 */
 	@Override
-	public Future<JsonObject> event(int viewId, double x, double y, String action, boolean[] mouseState) {
+	public Future<JsonObject> event(int viewId, double x, double y,
+			String action, boolean[] mouseState) {
 		if (requestExecutor == null) {
 			return null;
 		}
@@ -264,6 +288,7 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 		mainObj.add("args", args);
 
 		Callable<JsonObject> request = new Callable<JsonObject>() {
+			@Override
 			public JsonObject call() throws Exception {
 				return makeRequest("viewport.mouse.interaction", mainObj);
 			}
@@ -273,7 +298,10 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#call(java.lang.String, com.google.gson.JsonArray)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient#call(java.
+	 * lang.String, com.google.gson.JsonArray)
 	 */
 	@Override
 	public Future<JsonObject> call(String method, JsonArray args) {
@@ -286,6 +314,7 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 		reqObj.add("args", args);
 		Callable<JsonObject> request = new Callable<JsonObject>() {
+			@Override
 			public JsonObject call() throws Exception {
 				return makeRequest(methodRef, reqObj);
 			}

@@ -17,6 +17,8 @@ import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
 import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
 import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
+import org.eclipse.eavp.viz.service.connections.preferences.PortEntry;
+import org.eclipse.eavp.viz.service.connections.preferences.PortEntryContentProvider;
 import org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage;
 import org.eclipse.eavp.viz.service.paraview.ParaViewVizService;
 import org.eclipse.ui.IWorkbench;
@@ -57,12 +59,21 @@ public class ParaViewConnectionPreferencePage
 				IVizEntryContentProvider provider = new BasicVizEntryContentProvider();
 				provider.setDefaultValue("");
 
+				// Create a port provider
+				PortEntryContentProvider portProvider = new PortEntryContentProvider();
+				portProvider.setDefaultValue("9601");
+
 				// Create an entry for the path to the server script
-				VizEntry entry = new VizEntry(provider);
-				entry.setName("Server Script Path");
+				VizEntry serverEntry = new VizEntry(provider);
+				serverEntry.setName("Server Script Path");
+
+				// Create an entry for the web visualizer port
+				VizEntry portEntry = new PortEntry(portProvider);
+				portEntry.setName("Visualizer Port");
 
 				// Add the custom entry to the template and return it
-				template.add(entry);
+				template.add(serverEntry);
+				template.add(portEntry);
 				return template;
 			}
 		};
