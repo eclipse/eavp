@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.paraview;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -527,15 +528,61 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				// installation path.
 				String osPath = "";
 
-				// Check the operating system and set the path
+				// The builder which will create a process to open the web
+				// visualizer
+				ProcessBuilder builder = null;
+
+				// Check the operating system and set the paths
 				// accordingly.
 				// TODO Add support for windows here
 				String OS = System.getProperty("os.name", "generic")
 						.toLowerCase(Locale.ENGLISH);
+
+				// Set the paths for mac
 				if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
 
 					// For Mac, go inside the application's contents
 					osPath = "/paraview.app/Contents";
+					builder = new ProcessBuilder(
+							path + osPath + "/bin/pvpython",
+							path + osPath
+									+ "/Python/paraview/web/pv_web_visualizer.py",
+							"--content", path + osPath + "/www",
+							"--data-dir", ResourcesPlugin.getWorkspace()
+									.getRoot().getLocation().toString(),
+							"--port", port);
+				}
+
+				// Otherwise, set the paths for Linux. The osPath should stay as
+				// the empty string
+				else {
+
+					// The name of the paraview version. This is expected to be
+					// of the form "paraview-" followed by a decimal version
+					// number. "paraview-5.0" for example.
+					String version = "";
+
+					// One copy of a folder with this name should be in the /lib
+					// directory.
+					File lib = new File(path + osPath + "/lib");
+
+					// Search /lib for a folder with the correct name
+					for (String name : lib.list()) {
+						if (name.matches("paraview-(.*)")) {
+							version = name;
+							break;
+						}
+					}
+
+					builder = new ProcessBuilder(
+							path + osPath + "/bin/pvpython",
+							path + osPath + "/lib/" + version
+									+ "/site-packages/paraview/web/pv_web_visualizer.py",
+							"--content",
+							path + osPath + "/share/" + version + "/www",
+							"--data-dir", ResourcesPlugin.getWorkspace()
+									.getRoot().getLocation().toString(),
+							"--port", port);
 				}
 
 				// The system delimiter for directories
@@ -545,16 +592,6 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				if (path.endsWith(delimiter)) {
 					path = path.substring(0, path.length() - 1);
 				}
-
-				// Create the builder that will launch the web visualizer script
-				ProcessBuilder builder = new ProcessBuilder(
-						path + osPath + "/bin/pvpython",
-						path + osPath
-								+ "/Python/paraview/web/pv_web_visualizer.py",
-						"--content", path + osPath + "/www", "--data-dir",
-						ResourcesPlugin.getWorkspace().getRoot().getLocation()
-								.toString(),
-						"--port", port);
 
 				// Try to create the process and start a thread to consume the
 				// processe's input
