@@ -153,7 +153,7 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 				// Keep trying to connect until the limit of connection attempts
 				// is reached
-				while (!connected && i < 40) {
+				while (!connected && i < 60) {
 
 					// ---- Send a HEAD request. ---- //
 					URL url = new URL(baseEndPointURL);
@@ -180,7 +180,7 @@ public class HttpParaViewWebClient implements IParaViewWebClient {
 
 					// Increment the number of attempts
 					i++;
-					Thread.sleep(500);
+					Thread.sleep(2000);
 				}
 				// --------------------------- //
 

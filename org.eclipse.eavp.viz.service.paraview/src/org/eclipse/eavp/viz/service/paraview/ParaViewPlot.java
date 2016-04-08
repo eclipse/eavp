@@ -11,15 +11,21 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.paraview;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -32,10 +38,18 @@ import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
+import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.browser.WebBrowserView;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is responsible for embedding ParaView-supported graphics inside
@@ -66,6 +80,12 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	 * reloaded one at a time, and data should not be reloaded simultaneously.
 	 */
 	private final Lock loadLock = new ReentrantLock();
+
+	/**
+	 * Logger for handling event messages and other information.
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(ParaViewPlot.class);
 
 	/**
 	 * A map containing all categories and types (dependent series), keyed on
@@ -456,6 +476,218 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 			IFileEditorInput file, int pageNum) {
 		// No additional pages, so nothing to do
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getCustomActions()
+	 */
+	@Override
+	public ArrayList<Action> getCustomActions() {
+
+		// Add an action that will launch the web visualizer
+		Action launchWeb = new Action("Launch in web visualizer") {
+
+			@Override
+			public void run() {
+
+				// Get the connection parameters
+				String port = connection.getProperty("visualizerPort");
+				String urlString = "http://localhost:" + port
+						+ "/apps/Visualizer/";
+				String path = connection.getPath();
+
+				// Whether or not we need to launch the visualizer before trying
+				// to open it in the browser
+				boolean launch = true;
+
+				// Test if the server is already running
+				try {
+
+					// Attempt to connect to the server
+					URL url = new URL(urlString);
+					HttpURLConnection test = (HttpURLConnection) url
+							.openConnection();
+					test.setRequestMethod("HEAD");
+					if (test.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+						// If the server is already running, don't launch
+						// another
+						launch = false;
+					}
+				} catch (IOException e) {
+					// An exception is expected to be thrown here if the
+					// connection was refused (because the server wasn't running
+					// yet) so there is nothing to do.
+				}
+
+				// The OS specific string that describes the path to
+				// ParaView from the base ParaView directory given the ParaView
+				// installation path.
+				String osPath = "";
+
+				// Check the operating system and set the path
+				// accordingly.
+				// TODO Add support for windows here
+				String OS = System.getProperty("os.name", "generic")
+						.toLowerCase(Locale.ENGLISH);
+				if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
+
+					// For Mac, go inside the application's contents
+					osPath = "/paraview.app/Contents";
+				}
+
+				// The system delimiter for directories
+				String delimiter = System.getProperty("file.separator");
+
+				// If the path ends with the delimiter, remove it
+				if (path.endsWith(delimiter)) {
+					path = path.substring(0, path.length() - 1);
+				}
+
+				// Create the builder that will launch the web visualizer script
+				ProcessBuilder builder = new ProcessBuilder(
+						path + osPath + "/bin/pvpython",
+						path + osPath
+								+ "/Python/paraview/web/pv_web_visualizer.py",
+						"--content", path + osPath + "/www", "--data-dir",
+						ResourcesPlugin.getWorkspace().getRoot().getLocation()
+								.toString(),
+						"--port", port);
+
+				// Try to create the process and start a thread to consume the
+				// processe's input
+				try {
+
+					// Redirect the process's error stream to its output
+					// stream so we only have to deal with one
+					final Process process = builder.redirectErrorStream(true)
+							.start();
+
+					// Create a thread to consume the process's output
+					// ourselves, or else the process will freeze once its IO
+					// buffer is
+					// full.
+					new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+
+							// While the process is alive, keep reading and
+							// discarding its output
+							while (process.isAlive()) {
+								try {
+									process.getInputStream().read();
+								} catch (IOException e) {
+									logger.error("Error while handling ParaView"
+											+ "web viewer process's output "
+											+ "stream.");
+								}
+							}
+						}
+					}).start();
+				} catch (IOException e) {
+					logger.error("Problem while starting the ParaView web"
+							+ " visualizer server.");
+				}
+
+				// A non-final reference to the opened browser
+				WebBrowserView tempBrowser = null;
+
+				// Try to open the internal web browser and maximize it.
+				try {
+					IWorkbenchPage page = PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getActivePage();
+					tempBrowser = (WebBrowserView) page
+							.showView("org.eclipse.ui.browser.view");
+					page.toggleZoom(page
+							.findViewReference("org.eclipse.ui.browser.view"));
+				} catch (PartInitException e) {
+					logger.error(
+							"Error attempting to open internal web browser");
+				}
+
+				// The URL from which the visualizer is reachable
+				final String webURL = "http://localhost:" + port
+						+ "/apps/Visualizer/";
+
+				// Get a final reference to the web browser.
+				final WebBrowserView browser = tempBrowser;
+
+				// Start a thread to set the browser to the right page when the
+				// server is ready
+				new Thread() {
+
+					@Override
+					public void run() {
+
+						// The URL for the web visualizer
+						URL url = null;
+						try {
+							url = new URL(webURL);
+						} catch (MalformedURLException e1) {
+							logger.error(
+									"Error parsing the url for the ParaView "
+											+ "web visualizer");
+						}
+
+						// The number of connection attempts made;
+						int i = 0;
+
+						// Keep trying to connect until the maximum number of
+						// tries have elapsed.
+						while (i < 40) {
+							try {
+
+								// A test connection to the server
+								HttpURLConnection test = (HttpURLConnection) url
+										.openConnection();
+								test.setRequestMethod("HEAD");
+
+								// Check if the server is reachable
+								if (test.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+									// If it is, create a thread to send it to
+									// the visualizer's url
+									Display.getDefault()
+											.asyncExec(new Runnable() {
+
+												@Override
+												public void run() {
+													browser.setURL(webURL);
+												}
+
+											});
+									return;
+								}
+							} catch (IOException e) {
+								// An exception is expected to be thrown here
+								// when the server is not yet running, so
+								// there's nothing to do
+							}
+
+							// Increment the number of attempts and wait two
+							// seconds before trying again.
+							i++;
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								logger.error("The ParaView web browser setting "
+										+ "thread was interupted unexpectedly.");
+							}
+						}
+
+					}
+				}.start();
+
+			}
+		};
+
+		// Create a list of the actions and return it
+		ArrayList<Action> actions = new ArrayList<Action>();
+		actions.add(launchWeb);
+		return actions;
 	}
 
 	/*
