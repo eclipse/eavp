@@ -40,6 +40,7 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -50,6 +51,9 @@ import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
 
 /**
  * This class is responsible for embedding ParaView-supported graphics inside
@@ -88,6 +92,11 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 			.getLogger(ParaViewPlot.class);
 
 	/**
+	 * The plot composite in which this plot is being displayed.
+	 */
+	private ParaViewPlotComposite plotComposite;
+
+	/**
 	 * A map containing all categories and types (dependent series), keyed on
 	 * the categories. This is populated based on the {@link #proxy} at load
 	 * time.
@@ -117,6 +126,18 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	 */
 	public ParaViewPlot(ParaViewVizService vizService) {
 		this.vizService = vizService;
+	}
+
+	/**
+	 * Gets the current, normalized zoom based on the current scroll count.
+	 * 
+	 * @param y
+	 *            The current scroll count. Should be the current or recent
+	 *            value of {@link #scrollCount}.
+	 * @return A normalized zoom value between 0 and 1.
+	 */
+	private double getNormalizedZoom(double y) {
+		return Math.atan(0.005 * y) / Math.PI + 0.5;
 	}
 
 	/**
@@ -223,7 +244,8 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	@Override
 	protected ConnectionPlotComposite<IParaViewWebClient> createPlotComposite(
 			Composite parent) {
-		return new ParaViewPlotComposite(parent, SWT.NONE);
+		plotComposite = new ParaViewPlotComposite(parent, SWT.NONE);
+		return plotComposite;
 	}
 
 	/**
@@ -486,6 +508,129 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	@Override
 	public ArrayList<Action> getCustomActions() {
 
+		// Get the plus icon image
+		URL inImageURL = getClass().getResource(
+				"/icons" + System.getProperty("file.separator") + "add.png");
+		ImageDescriptor inDescriptor = ImageDescriptor
+				.createFromURL(inImageURL);
+
+		// The action to zoom the camera in
+		Action zoomIn = new Action("Zoom In", inDescriptor) {
+			@Override
+			public void run() {
+
+				// The state for the left mouse button and control key being
+				// down, to create a zoom
+				boolean[] state = new boolean[] { true, false, false, false,
+						true, false, false };
+
+				// The state with all buttons up, for the final mouse release at
+				// the end of the action
+				boolean[] endState = new boolean[] { false, false, false, false,
+						false, false, false };
+
+				// Simulate a mouse drag to zoom the camera
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(0), "down", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(-50), "move", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(-50), "up", endState);
+
+				// Redraw the composite from the new camera position
+				plotComposite.refresh();
+
+			}
+		};
+
+		// Get the plus icon image
+		URL outImageURL = getClass().getResource("/icons"
+				+ System.getProperty("file.separator") + "complement.gif");
+		ImageDescriptor outDescriptor = ImageDescriptor
+				.createFromURL(outImageURL);
+
+		// The action to zoom the camera out
+		Action zoomOut = new Action("Zoom Out", outDescriptor) {
+			@Override
+			public void run() {
+
+				// The state for the left mouse button and control key being
+				// down, to create a zoom
+				boolean[] state = new boolean[] { true, false, false, false,
+						true, false, false };
+
+				// The state with all buttons up, for the final mouse release at
+				// the end of the action
+				boolean[] endState = new boolean[] { false, false, false, false,
+						false, false, false };
+
+				// Simulate a mouse drag to zoom the camera
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(0), "down", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(50), "move", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(50), "up", endState);
+
+				// Redraw the composite from the new camera position
+				plotComposite.refresh();
+
+			}
+		};
+
+		// Get the plus icon image
+		URL resetImageURL = getClass().getResource("/icons"
+				+ System.getProperty("file.separator") + "iu_update_obj.gif");
+		ImageDescriptor resetDescriptor = ImageDescriptor
+				.createFromURL(resetImageURL);
+
+		// The action to zoom the camera in
+		Action resetCamera = new Action("Reset Camera", resetDescriptor) {
+			@Override
+			public void run() {
+
+				// The array of arguments to the camera update function
+				JsonArray args = new JsonArray();
+
+				// Add the view id
+				JsonPrimitive view = new JsonPrimitive(proxy.getViewId());
+				args.add(view);
+
+				// Create a JsonPrimitive representation of zero for repeated
+				// use
+				JsonPrimitive zero = new JsonPrimitive(0);
+
+				// Set the camera's focal point to the origin
+				JsonArray focalPoint = new JsonArray();
+				focalPoint.add(zero);
+				focalPoint.add(zero);
+				focalPoint.add(zero);
+				args.add(focalPoint);
+
+				// Set the camera to have the Y axis pointing upwards
+				JsonArray viewUp = new JsonArray();
+				viewUp.add(zero);
+				viewUp.add(new JsonPrimitive(1));
+				viewUp.add(zero);
+				args.add(viewUp);
+
+				// Set the camera back to its default spatial position: (0, 0,
+				// 67)
+				JsonArray position = new JsonArray();
+				position.add(zero);
+				position.add(zero);
+				position.add(new JsonPrimitive(67));
+				args.add(position);
+
+				// INvoke the camera update method from ParaView
+				connection.getWidget().call("viewport.camera.update", args);
+
+				// Redraw the composite from the new camera position
+				plotComposite.refresh();
+
+			}
+		};
+
 		// Add an action that will launch the web visualizer
 		Action launchWeb = new Action("Launch in web visualizer") {
 
@@ -731,6 +876,9 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 		// Create a list of the actions and return it
 		ArrayList<Action> actions = new ArrayList<Action>();
+		actions.add(zoomIn);
+		actions.add(zoomOut);
+		actions.add(resetCamera);
 		actions.add(launchWeb);
 		return actions;
 	}
