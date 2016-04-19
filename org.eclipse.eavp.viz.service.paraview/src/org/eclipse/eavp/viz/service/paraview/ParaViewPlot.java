@@ -44,10 +44,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.browser.WebBrowserView;
+import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -630,16 +629,12 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				}
 
 				// A non-final reference to the opened browser
-				WebBrowserView tempBrowser = null;
+				IWebBrowser tempBrowser = null;
 
 				// Try to open the internal web browser and maximize it.
 				try {
-					IWorkbenchPage page = PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getActivePage();
-					tempBrowser = (WebBrowserView) page
-							.showView("org.eclipse.ui.browser.view");
-					page.toggleZoom(page
-							.findViewReference("org.eclipse.ui.browser.view"));
+					tempBrowser = PlatformUI.getWorkbench().getBrowserSupport()
+							.createBrowser("ParaView Web Visualizer");
 				} catch (PartInitException e) {
 					logger.error(
 							"Error attempting to open internal web browser");
@@ -650,7 +645,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 						+ "/apps/Visualizer/";
 
 				// Get a final reference to the web browser.
-				final WebBrowserView browser = tempBrowser;
+				final IWebBrowser browser = tempBrowser;
 
 				// Start a thread to set the browser to the right page when the
 				// server is ready
@@ -685,6 +680,9 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 								// Check if the server is reachable
 								if (test.getResponseCode() == HttpURLConnection.HTTP_OK) {
 
+									// Get a final reference to the url
+									final URL finalURL = new URL(webURL);
+
 									// If it is, create a thread to send it to
 									// the visualizer's url
 									Display.getDefault()
@@ -692,7 +690,17 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 												@Override
 												public void run() {
-													browser.setURL(webURL);
+
+													// Try to open the url in
+													// the browser
+													try {
+														browser.openURL(
+																finalURL);
+													} catch (PartInitException e) {
+														logger.error(
+																"Error attempting to open url: "
+																		+ finalURL);
+													}
 												}
 
 											});

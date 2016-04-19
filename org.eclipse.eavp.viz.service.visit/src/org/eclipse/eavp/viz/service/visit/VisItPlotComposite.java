@@ -118,15 +118,26 @@ public class VisItPlotComposite extends
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.addPartListener(new IPartListener2() {
 
+					// Whether this is the first time the part has been activated.
+					boolean initialized = false;
+					
 					@Override
 					public void partActivated(IWorkbenchPartReference partRef) {
 
+						//Skip the refresh the first time the part is activated
+						if(initialized){
+						
 						// When the active part(s) are changed, refresh the
 						// canvas if this composite is visible, so that VisIt
 						// will render this composite's input file.
 						if (!finalParent.isDisposed()
 								&& finalParent.isVisible()) {
 							refreshCanvas();
+						}
+						}
+						
+						else{
+							initialized = true;
 						}
 
 					}
@@ -409,7 +420,7 @@ public class VisItPlotComposite extends
 	@Override
 	public void plotUpdated(IPlot plot, String key, String value) {
 		// The only notification sent by the plot is that the data has loaded.
-		if (plot == getPlot()) {
+		if (!isDisposed() && plot == getPlot()) {
 			refresh();
 		}
 	}
