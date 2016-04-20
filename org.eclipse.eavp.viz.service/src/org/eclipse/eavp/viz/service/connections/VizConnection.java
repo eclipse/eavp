@@ -102,6 +102,13 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	private String statusMessage;
 
 	/**
+	 * A holder for extra information provided by sub-classes when the
+	 * connection failed. It will be added to the statusMessage the next time it
+	 * is set.
+	 */
+	private String errorMessage;
+
+	/**
 	 * The map of properties, keyed on their [user-friendly] property names.
 	 */
 	private final Map<String, String> properties;
@@ -226,6 +233,9 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 		// Create the lock for accessing certain connection thread variables.
 		connectionLock = new ReentrantLock(true);
 
+		// Initialize the additionalMessage
+		errorMessage = "";
+
 		return;
 	}
 
@@ -248,6 +258,16 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 			}
 		}
 		return added;
+	}
+
+	/**
+	 * Append the given string to the connection's status message.
+	 * 
+	 * @param suffix
+	 *            The string to append to the message
+	 */
+	protected void addErrorMessage(String suffix) {
+		errorMessage += suffix + " ";
 	}
 
 	/**
@@ -505,7 +525,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 		// If the executor service exists, submit a job requesting the state
 		if (executorService != null) {
-			executorService.submit(new Callable<ConnectionState>() {
+			return executorService.submit(new Callable<ConnectionState>() {
 				@Override
 				public ConnectionState call() throws Exception {
 					return state;
@@ -515,7 +535,9 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 		// If there is no executor service, create a future from the current
 		// state
-		return createInstantFuture(state);
+		else {
+			return createInstantFuture(state);
+		}
 	}
 
 	/**
@@ -790,6 +812,10 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 				if (endState == ConnectionState.Disconnected
 						|| endState == ConnectionState.Failed) {
 					statusFlag = Status.ERROR;
+
+					// Append additional information to the message
+					message += " " + errorMessage;
+					errorMessage = "";
 					message += "\nPlease check the settings for \""
 							+ VizConnection.this.getName()
 							+ "\" under Windows > Preferences > Vizualization.";
@@ -830,6 +856,8 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 				} else {
 					threadState = ConnectionState.Failed;
 					statusMessage = "The connection failed to connect.";
+					statusMessage += " " + errorMessage;
+					errorMessage = "";
 				}
 
 				// Updating the state variable must be done with
@@ -951,6 +979,8 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 						} else {
 							state = ConnectionState.Failed;
 							statusMessage = "The connection failed while disconnecting.";
+							statusMessage += " " + errorMessage;
+							errorMessage = "";
 						}
 						threadState = state;
 					} finally {
