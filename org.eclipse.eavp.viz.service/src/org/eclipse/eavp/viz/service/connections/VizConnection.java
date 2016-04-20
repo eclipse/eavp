@@ -495,18 +495,27 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * Hooks into the existing connection task started by calling
 	 * {@link #startConnectThread()} by submitting a new task to the
 	 * {@link #executorService}. The submitted task simply returns the current
-	 * connection state.
+	 * connection state. If there is no current connection thread, then this
+	 * will simply return the current state.
 	 * 
 	 * @return The future task after which the connection will either be
 	 *         connected or failed.
 	 */
 	private Future<ConnectionState> hookIntoConnectThread() {
-		return executorService.submit(new Callable<ConnectionState>() {
-			@Override
-			public ConnectionState call() throws Exception {
-				return state;
-			}
-		});
+
+		// If the executor service exists, submit a job requesting the state
+		if (executorService != null) {
+			executorService.submit(new Callable<ConnectionState>() {
+				@Override
+				public ConnectionState call() throws Exception {
+					return state;
+				}
+			});
+		}
+
+		// If there is no executor service, create a future from the current
+		// state
+		return createInstantFuture(state);
 	}
 
 	/**

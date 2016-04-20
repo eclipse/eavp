@@ -99,10 +99,11 @@ public abstract class VizConnectionManager<T>
 	 * @param preferences
 	 *            The preference value for the connection. This value should
 	 *            come straight from the {@link #preferenceStore}.
-	 *            
+	 * 
 	 * @return The Future state of the connection being added.
 	 */
-	private Future<ConnectionState> addConnection(String name, String preferences) {
+	private Future<ConnectionState> addConnection(String name,
+			String preferences) {
 		logger.debug("VizConnectionManager message: " + "Adding connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
@@ -114,9 +115,10 @@ public abstract class VizConnectionManager<T>
 		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
 				-1);
 
-		//A future reference to the connection's state after the attempted operation is completed
+		// A future reference to the connection's state after the attempted
+		// operation is completed
 		Future<ConnectionState> state = null;
-		
+
 		try {
 			// Ensure the connection's basic preferences are set.
 			connection.setName(name);
@@ -206,7 +208,9 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#getConnection(java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * getConnection(java.lang.String)
 	 */
 	@Override
 	public IVizConnection<T> getConnection(String name) {
@@ -225,7 +229,9 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#getConnections()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * getConnections()
 	 */
 	@Override
 	public Set<String> getConnections() {
@@ -234,7 +240,9 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#getConnectionsForHost(java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * getConnectionsForHost(java.lang.String)
 	 */
 	@Override
 	public Set<String> getConnectionsForHost(String host)
@@ -265,6 +273,9 @@ public abstract class VizConnectionManager<T>
 		// Remove the associated connection from the map of connections by name.
 		VizConnection<T> connection = connectionsByName.remove(name);
 
+		// Disconnect
+		connection.disconnect();
+
 		// Remove the connection from the map of connections by host.
 		String host = connection.getHost();
 		Set<String> connections = connectionsByHost.get(host);
@@ -279,11 +290,15 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#setPreferenceStore(org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * setPreferenceStore(org.eclipse.eavp.viz.service.preferences.
+	 * CustomScopedPreferenceStore, java.lang.String)
 	 */
 	@Override
-	public ArrayList<Future<ConnectionState>> setPreferenceStore(CustomScopedPreferenceStore store,
-			String preferenceNodeId) throws NullPointerException {
+	public ArrayList<Future<ConnectionState>> setPreferenceStore(
+			CustomScopedPreferenceStore store, String preferenceNodeId)
+			throws NullPointerException {
 		// Throw an exception if the preference node ID is null. We must have a
 		// valid node ID if we have a store.
 		if (store != null && preferenceNodeId == null) {
@@ -291,9 +306,10 @@ public abstract class VizConnectionManager<T>
 					+ "Preference node ID cannot be null.");
 		}
 
-		//A list of future references to conenction states of all attempted connections for the manager
+		// A list of future references to conenction states of all attempted
+		// connections for the manager
 		ArrayList<Future<ConnectionState>> states = new ArrayList<Future<ConnectionState>>();
-		
+
 		if (store != preferenceStore
 				|| !preferenceNodeId.equals(connectionsNodeId)) {
 			// If the old store/node ID is valid, unregister the preferences
