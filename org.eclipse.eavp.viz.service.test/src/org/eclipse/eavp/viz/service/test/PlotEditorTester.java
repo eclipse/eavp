@@ -26,6 +26,7 @@ import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.csv.CSVVizService;
 import org.eclipse.eavp.viz.service.internal.VizServiceFactoryHolder;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
@@ -59,8 +60,9 @@ public class PlotEditorTester {
 		bot = new SWTWorkbenchBot();
 		realFactory = VizServiceFactoryHolder.getFactory();
 
-		// Set the bot's timeout
+		// Set the bot's timeout and playback rate
 		SWTBotPreferences.TIMEOUT = 3000;
+		SWTBotPreferences.PLAYBACK_DELAY = 250;
 
 		// Set up the workspace
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -115,8 +117,13 @@ public class PlotEditorTester {
 
 		VizServiceFactoryHolder.setVizServiceFactory(fakeFactory);
 
-		// Close the initial eclipse welcome window
-		bot.viewByTitle("Welcome").close();
+		// Close the initial eclipse welcome view, if one exists
+		try {
+			bot.viewByTitle("Welcome").close();
+		} catch (WidgetNotFoundException e) {
+			// We expect that the SWTBot will throw an exception if Eclipse
+			// doesn't start with a welcome view, so there is nothing to do here
+		}
 
 		// Open the project explorer
 		bot.menu("Window").menu("Show View").menu("Project Explorer").click();
