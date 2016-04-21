@@ -827,7 +827,7 @@ public class VizConnectionTester {
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			fail("VizConnection error: "
-					+ "Failure while performing connect operation.");
+					+ "Failure while performing connect operation. ");
 		}
 		// Check the "connecting" status update.
 		assertTrue(fakeListener1.wasNotified());
@@ -852,7 +852,7 @@ public class VizConnectionTester {
 		try {
 			assertSame(connection, notificationQueue.poll());
 			assertEquals(ConnectionState.Failed, notificationQueue.poll());
-			assertEquals("The connection failed to connect.",
+			assertEquals("The connection failed to connect. ",
 					notificationQueue.poll());
 			assertTrue(notificationQueue.isEmpty());
 		} finally {
@@ -944,7 +944,7 @@ public class VizConnectionTester {
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			fail("VizConnection error: "
-					+ "Failure while performing connect operation.");
+					+ "Failure while performing connect operation. ");
 		}
 
 		// ---- Ignore the Connecting and Connected notifications. ---- //
@@ -969,7 +969,7 @@ public class VizConnectionTester {
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			fail("VizConnection error: "
-					+ "Failure while performing disconnect operation.");
+					+ "Failure while performing disconnect operation. ");
 		}
 
 		// Wait for the listener to be notified.
@@ -980,7 +980,7 @@ public class VizConnectionTester {
 		try {
 			assertSame(connection, notificationQueue.poll());
 			assertEquals(ConnectionState.Failed, notificationQueue.poll());
-			assertEquals("The connection failed while disconnecting.",
+			assertEquals("The connection failed while disconnecting. ",
 					notificationQueue.poll());
 			assertTrue(notificationQueue.isEmpty());
 		} finally {
