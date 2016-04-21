@@ -49,16 +49,20 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 	/**
 	 * The current connection associated with this plot.
 	 */
-	private IVizConnection<T> connection;
+	protected IVizConnection<T> connection;
 
 	/**
 	 * The composite in which this plot is rendered.
 	 */
-	private ConnectionPlotComposite<T> plotComposite;
+	protected ConnectionPlotComposite<T> plotComposite;
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionListener#connectionStateChanged(org.eclipse.eavp.viz.service.connections.IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionListener#
+	 * connectionStateChanged(org.eclipse.eavp.viz.service.connections.
+	 * IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState,
+	 * java.lang.String)
 	 */
 	@Override
 	public void connectionStateChanged(IVizConnection<T> connection,
@@ -79,7 +83,10 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#draw(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.AbstractPlot#draw(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
 	@Override
 	public Composite draw(Composite parent) throws Exception {
@@ -194,7 +201,9 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setDataSource(java.net.URI)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.AbstractPlot#setDataSource(java.net.URI)
 	 */
 	@Override
 	public boolean setDataSource(URI uri) throws Exception {
@@ -240,8 +249,6 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 		}
 		return;
 	}
-
-
 
 	// -------- Methods for VisIt Plot --------//
 

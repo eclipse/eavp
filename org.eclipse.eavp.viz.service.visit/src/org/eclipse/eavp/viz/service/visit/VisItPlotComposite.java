@@ -34,6 +34,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import gov.lbnl.visit.swt.VisItSwtWidget;
@@ -59,6 +64,12 @@ public class VisItPlotComposite extends
 	 * The current category used to render the plot.
 	 */
 	private String category;
+
+	/**
+	 * Logger for handling event messages and other information.
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(VisItPlotComposite.class);
 
 	/**
 	 * The current representation used to render the plot.
@@ -99,7 +110,107 @@ public class VisItPlotComposite extends
 	public VisItPlotComposite(Composite parent, int style) {
 		super(parent, style);
 
-		// Nothing to do yet.
+		// Get a final reference to the parent
+		final Composite finalParent = parent;
+
+		// Register a listener with the page, so that VisIt's input can be
+		// changed based on which editors are currently open.
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.addPartListener(new IPartListener2() {
+
+					// Whether this is the first time the part has been activated.
+					boolean initialized = false;
+					
+					@Override
+					public void partActivated(IWorkbenchPartReference partRef) {
+
+						//Skip the refresh the first time the part is activated
+						if(initialized){
+						
+						// When the active part(s) are changed, refresh the
+						// canvas if this composite is visible, so that VisIt
+						// will render this composite's input file.
+						if (!finalParent.isDisposed()
+								&& finalParent.isVisible()) {
+							refreshCanvas();
+						}
+						}
+						
+						else{
+							initialized = true;
+						}
+
+					}
+
+					@Override
+					public void partBroughtToTop(
+							IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partClosed(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partDeactivated(
+							IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partOpened(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partHidden(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partVisible(IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+					@Override
+					public void partInputChanged(
+							IWorkbenchPartReference partRef) {
+						// Nothing to do
+					}
+
+				});
+		;
+	}
+
+	/**
+	 * Reset the composite's displayed widget to its original camera position.
+	 */
+	public void resetWidget() {
+		canvas.getViewerMethods().resetView();
+	}
+
+	/**
+	 * Zoom the composite's displayed widget in or out, according to the input
+	 * string.
+	 * 
+	 * @param direction
+	 *            Zoom the widget in if equal to "in" or out if equal to "out".
+	 *            Method will do nothing if direction is any other value.
+	 */
+	public void zoomWidget(String direction) {
+
+		// If the canvas is valid...
+		if (canvas != null && !canvas.isDisposed()) {
+
+			// ...and the input string is valid
+			if ("in".equals(direction) || "out".equals(direction)) {
+
+				// Zoom the widget
+				canvas.zoom(direction);
+			}
+		}
 	}
 
 	/*
@@ -204,27 +315,12 @@ public class VisItPlotComposite extends
 			@Override
 			public void run() {
 
-				// FIXME We need a way to move to a specific timestep
-				// rather than cycling through them.
-
+				// Send a Python command to the widget, directing it to set the
+				// model to the correct timestep.
 				VisItSwtConnection widget = getConnection().getWidget();
 				ViewerMethods methods = widget.getViewerMethods();
-
-				// Send next or previous timestep requests to the VisIt
-				// widget until it matches the current timestep in the
-				// TimeSliderComposite.
-				int currentStep = renderedTimestep.get();
-				int targetStep;
-				while (currentStep != (targetStep = widgetTimestep.get())) {
-					if (currentStep < targetStep) {
-						methods.animationNextState();
-						currentStep++;
-					} else {
-						methods.animationPreviousState();
-						currentStep--;
-					}
-				}
-				renderedTimestep.set(currentStep);
+				methods.processCommands(
+						"SetTimeSliderState(" + widgetTimestep.get() + ")");
 				return;
 			}
 		};
@@ -324,7 +420,7 @@ public class VisItPlotComposite extends
 	@Override
 	public void plotUpdated(IPlot plot, String key, String value) {
 		// The only notification sent by the plot is that the data has loaded.
-		if (plot == getPlot()) {
+		if (!isDisposed() && plot == getPlot()) {
 			refresh();
 		}
 	}
@@ -334,26 +430,38 @@ public class VisItPlotComposite extends
 	 * the current plot {@link #representation} and {@link #type}.
 	 */
 	private void refreshCanvas() {
-		// Draw the specified plot on the Canvas.
-		ViewerMethods widget = canvas.getViewerMethods();
 
-		// Get the source path from the VisItPlot class. We can't,
-		// unfortunately, use the URI as specified.
-		VisItPlot plot = (VisItPlot) getPlot();
-		String sourcePath = plot.getSourcePath(plot.getDataSource());
+		// First, check that the canvas exists and is not disposed
+		if (canvas != null && !canvas.isDisposed()) {
 
-		// Make sure the Canvas is activated.
-		canvas.activate();
+			// Draw the specified plot on the Canvas.
+			ViewerMethods widget = canvas.getViewerMethods();
 
-		// Remove all existing plots.
-		widget.deleteActivePlots();
+			// Get the source path from the VisItPlot class. We can't,
+			// unfortunately, use the URI as specified.
+			VisItPlot plot = (VisItPlot) getPlot();
+			String sourcePath = plot.getSourcePath(plot.getDataSource());
 
-		// FIXME How do we handle invalid paths?
-		widget.openDatabase(sourcePath);
-		widget.addPlot(representation, type);
-		widget.drawPlots();
+			// Make sure the Canvas is activated.
+			canvas.activate();
 
-		return;
+			// Remove all existing plots.
+			widget.deleteActivePlots();
+
+			// FIXME How do we handle invalid paths?
+			try {
+				widget.openDatabase(sourcePath);
+				widget.addPlot(representation, type);
+				widget.drawPlots();
+			} catch (NullPointerException e) {
+				logger.error(
+						"Null pointer exception while VisItPlotComposite was "
+								+ "communicating with VisItSWTWidget. This is likely "
+								+ "because the VisIt instance has not yet enabled the "
+								+ "widget's window ID.");
+			}
+
+		}
 	}
 
 	/*

@@ -18,10 +18,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
@@ -97,7 +100,7 @@ public class VizConnectionManagerTester {
 
 		return;
 	}
-	
+
 	/**
 	 * Checks the default connections (empty).
 	 */
@@ -460,7 +463,8 @@ public class VizConnectionManagerTester {
 				+ connection2Path);
 
 		// Set the preference store using the first node.
-		manager.setPreferenceStore(store, nodeId1);
+		ArrayList<Future<ConnectionState>> states = manager
+				.setPreferenceStore(store, nodeId1);
 
 		// Make sure that the first connection was added to the manager.
 		// Check getConnections()
@@ -498,6 +502,17 @@ public class VizConnectionManagerTester {
 			}
 			sleepTime += interval;
 		}
+
+		// For each of the connections, wait until their states are resolved.
+		for (int i = 0; i < states.size(); i++) {
+			try {
+				states.get(i).get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+				fail("Failed while attempting to get the value of future connection state.");
+			}
+		}
+
 		assertEquals(ConnectionState.Connected, connection1.getState());
 
 		// Add the listener to the first connection.

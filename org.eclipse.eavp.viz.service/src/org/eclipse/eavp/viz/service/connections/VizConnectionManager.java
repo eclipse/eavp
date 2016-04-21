@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -98,8 +99,10 @@ public abstract class VizConnectionManager<T>
 	 * @param preferences
 	 *            The preference value for the connection. This value should
 	 *            come straight from the {@link #preferenceStore}.
+	 *            
+	 * @return The Future state of the connection being added.
 	 */
-	private void addConnection(String name, String preferences) {
+	private Future<ConnectionState> addConnection(String name, String preferences) {
 		logger.debug("VizConnectionManager message: " + "Adding connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
@@ -111,6 +114,9 @@ public abstract class VizConnectionManager<T>
 		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
 				-1);
 
+		//A future reference to the connection's state after the attempted operation is completed
+		Future<ConnectionState> state = null;
+		
 		try {
 			// Ensure the connection's basic preferences are set.
 			connection.setName(name);
@@ -132,14 +138,14 @@ public abstract class VizConnectionManager<T>
 			connections.add(name);
 
 			// Try to connect.
-			connection.connect();
+			state = connection.connect();
 
 		} catch (IndexOutOfBoundsException | NullPointerException
 				| NumberFormatException e) {
 			// Cannot add the connection.
 		}
 
-		return;
+		return state;
 	}
 
 	/**
@@ -276,7 +282,7 @@ public abstract class VizConnectionManager<T>
 	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#setPreferenceStore(org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore, java.lang.String)
 	 */
 	@Override
-	public void setPreferenceStore(CustomScopedPreferenceStore store,
+	public ArrayList<Future<ConnectionState>> setPreferenceStore(CustomScopedPreferenceStore store,
 			String preferenceNodeId) throws NullPointerException {
 		// Throw an exception if the preference node ID is null. We must have a
 		// valid node ID if we have a store.
@@ -285,6 +291,9 @@ public abstract class VizConnectionManager<T>
 					+ "Preference node ID cannot be null.");
 		}
 
+		//A list of future references to conenction states of all attempted connections for the manager
+		ArrayList<Future<ConnectionState>> states = new ArrayList<Future<ConnectionState>>();
+		
 		if (store != preferenceStore
 				|| !preferenceNodeId.equals(connectionsNodeId)) {
 			// If the old store/node ID is valid, unregister the preferences
@@ -310,7 +319,7 @@ public abstract class VizConnectionManager<T>
 					String[] connectionNames = node.keys();
 					for (String connection : connectionNames) {
 						String preferences = node.get(connection, null);
-						addConnection(connection, preferences);
+						states.add(addConnection(connection, preferences));
 					}
 				} catch (BackingStoreException e) {
 					e.printStackTrace();
@@ -325,7 +334,7 @@ public abstract class VizConnectionManager<T>
 			connectionsNodeId = preferenceNodeId;
 		}
 
-		return;
+		return states;
 	}
 
 	/**

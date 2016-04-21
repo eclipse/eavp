@@ -22,6 +22,7 @@ import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.csv.CSVSeries;
 import org.eclipse.eavp.viz.service.widgets.PlotGridComposite;
+import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
@@ -273,6 +274,12 @@ public class FakePlot implements IPlot {
 	public void saveAs() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ArrayList<Action> getCustomActions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
