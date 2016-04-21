@@ -13,6 +13,7 @@ package org.eclipse.eavp.viz.service.visit.connections;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
 import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
@@ -81,15 +82,30 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 				while (it.hasNext()) {
 					VizEntry entry = it.next();
 					if ("Path".equals(entry.getName())) {
-						String defaultPath = System
-								.getProperty("visit.binpath");
-						if (defaultPath != null) {
-							if (defaultPath.contains("@user.home")) {
-								defaultPath = defaultPath.replace("@user.home",
-										System.getProperty("user.home"));
-							}
-							entry.setValue(defaultPath);
+
+						// The default path for the VisIt installation
+						String defaultPath = "";
+
+						// Get the system name
+						String os = System.getProperty("os.name", "generic")
+								.toLowerCase(Locale.ENGLISH);
+
+						// Set the path to VisIt based on default/common paths
+						// for each operating system
+						if ((os.indexOf("mac") >= 0)
+								|| (os.indexOf("darwin") >= 0)) {
+							defaultPath = "/Applications/VisIt";
+						} else if (os.indexOf("win") >= 0) {
+							defaultPath = "C:\\Users\\"
+									+ System.getProperty("user.name")
+									+ "\\AppData\\Local\\Programs\\LLNL";
+						} else if (os.indexOf("nux") >= 0) {
+							defaultPath = System.getProperty("user.home");
 						}
+
+						// Set the value of the path entry to the default
+						entry.setValue(defaultPath);
+
 					}
 				}
 

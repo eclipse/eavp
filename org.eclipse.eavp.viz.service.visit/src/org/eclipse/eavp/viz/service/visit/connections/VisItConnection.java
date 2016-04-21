@@ -11,6 +11,14 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.visit.connections;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -18,6 +26,8 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import gov.lbnl.visit.swt.VisItSwtConnectionManager;
@@ -30,6 +40,12 @@ import gov.lbnl.visit.swt.VisItSwtConnectionManager;
  *
  */
 public class VisItConnection extends VizConnection<VisItSwtConnection> {
+
+	/**
+	 * Logger for handling event messages and other information.
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(VisItConnection.class);
 
 	/**
 	 * The default constructor.
@@ -129,7 +145,9 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#connectToWidget()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.VizConnection#connectToWidget()
 	 */
 	@Override
 	protected VisItSwtConnection connectToWidget() {
@@ -142,6 +160,96 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 		properties.put("isLaunch", "true");
 		properties.put("useTunneling",
 				"localhost".equals(getHost()) ? "false" : "true");
+
+		try {
+
+			// Check the host name to see if this is a local launch
+			InetAddress host = InetAddress.getByName(properties.get("url"));
+			if (host.isAnyLocalAddress() || host.isLoopbackAddress()
+					|| NetworkInterface.getByInetAddress(host) != null) {
+
+				// Get the specified directory
+				File dir = new File(properties.get("visDir"));
+
+				// If the directory exists, search inside it
+				if (dir.exists()) {
+
+					// Get the system name
+					String os = System.getProperty("os.name", "generic")
+							.toLowerCase(Locale.ENGLISH);
+
+					// Check inside the directory, looking for visit. The visit
+					// directory will have different structures on different
+					// operation systems, requiring that different places be
+					// checked in each case. If the file cannot be found, give
+					// an error message
+					if ((os.indexOf("mac") >= 0)
+							|| (os.indexOf("darwin") >= 0)) {
+						if (!new File(
+								dir + "/VisIt.app/Contents/Resources/bin/visit")
+										.exists()
+								&& !new File(dir + "/visit").exists()) {
+							addErrorMessage(
+									"Could not find VisIt in directory \"" + dir
+											+ "\".");
+						}
+					} else if (os.indexOf("win") >= 0) {
+						if (!new File(dir + "/visit.exe").exists()) {
+							addErrorMessage(
+									"Could not find VisIt in directory \"" + dir
+											+ "\".");
+						}
+					} else if (os.indexOf("nux") >= 0) {
+						if (!new File(dir + "/bin/visit").exists()
+								&& !new File(dir + "/visit").exists()) {
+							addErrorMessage(
+									"Could not find VisIt in directory \"" + dir
+											+ "\".");
+						}
+					}
+				}
+
+				else {
+					// If the directory doesn't exist, give an error message
+					addErrorMessage(
+							"Could not find directory \"" + dir + "\".");
+				}
+
+				// A test socket for checking the port
+				Socket s = null;
+				try {
+
+					// Try to open a port to the given number
+					s = new Socket("localhost",
+							Integer.parseInt(properties.get("port")));
+
+					// If something responded, then the port is already in use.
+					addErrorMessage("Port number " + properties.get("port")
+							+ " is in use.");
+				} catch (NumberFormatException | IOException e) {
+					// We expect an IOException here if the port is not
+					// currently being used, so there is nothing to do
+				} finally {
+
+					// Close the socket, if one was made
+					if (s != null) {
+						try {
+							s.close();
+						} catch (IOException e) {
+							logger.error(
+									"Error while closing the test socket.");
+						}
+					}
+				}
+
+			}
+		} catch (UnknownHostException | SocketException e) {
+
+			// If a problem occurred while trying to resolve the host name, warn
+			// the user
+			addErrorMessage("Could not find server with host name \""
+					+ properties.get("url") + "\"");
+		}
 
 		return VisItSwtConnectionManager.createConnection(key, shell,
 				properties);
@@ -189,7 +297,9 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#disconnectFromWidget(java.lang.Object)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#
+	 * disconnectFromWidget(java.lang.Object)
 	 */
 	@Override
 	protected boolean disconnectFromWidget(VisItSwtConnection widget) {
@@ -203,7 +313,9 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#getDescription()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.VizConnection#getDescription()
 	 */
 	@Override
 	public String getDescription() {
@@ -212,6 +324,7 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#getHost()
 	 */
 	@Override
@@ -221,6 +334,7 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#getName()
 	 */
 	@Override
@@ -241,22 +355,23 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 		// working as expected. For now, just return 1. A bug ticket has been
 		// filed.
 		int windowId = 1;
-//		if (getState() == ConnectionState.Connected) {
-//			// The order of the returned list is not guaranteed. Throw it into
-//			// an ordered set and get the lowest positive ID not in the set.
-//			Set<Integer> ids = new HashSet<Integer>(getWidget().getWindowIds());
-//			// Find the first integer not in the set.
-//			while (ids.contains(windowId)) {
-//				windowId++;
-//			}
-//		} else {
-//			windowId = -1;
-//		}
+		// if (getState() == ConnectionState.Connected) {
+		// // The order of the returned list is not guaranteed. Throw it into
+		// // an ordered set and get the lowest positive ID not in the set.
+		// Set<Integer> ids = new HashSet<Integer>(getWidget().getWindowIds());
+		// // Find the first integer not in the set.
+		// while (ids.contains(windowId)) {
+		// windowId++;
+		// }
+		// } else {
+		// windowId = -1;
+		// }
 		return windowId;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#getPath()
 	 */
 	@Override
@@ -266,6 +381,7 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#getPort()
 	 */
 	@Override
@@ -275,7 +391,10 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#setDescription(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.VizConnection#setDescription(
+	 * java.lang.String)
 	 */
 	@Override
 	public boolean setDescription(String description) {
@@ -284,7 +403,10 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#setHost(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.VizConnection#setHost(java.lang.
+	 * String)
 	 */
 	@Override
 	public boolean setHost(String host) {
@@ -293,7 +415,10 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#setName(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.VizConnection#setName(java.lang.
+	 * String)
 	 */
 	@Override
 	public boolean setName(String name) {
@@ -302,7 +427,10 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#setPath(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.VizConnection#setPath(java.lang.
+	 * String)
 	 */
 	@Override
 	public boolean setPath(String path) {
@@ -311,6 +439,7 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#setPort(int)
 	 */
 	@Override
