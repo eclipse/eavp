@@ -8,4 +8,5 @@
          This category contains the feature and plugins for the Eclipse Advanced Visualization Project.
       </description>
    </category-def>
+   <repository-reference location="http://download.eclipse.org/technology/nebula/archives/Q42015/release" enabled="true" />
 </site>
