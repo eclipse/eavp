@@ -108,7 +108,19 @@ public abstract class VizConnectionManager<T>
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
 
-		VizConnection<T> connection = createConnection(name, preferences);
+		// The connection to be added
+		VizConnection<T> connection = null;
+
+		if (!connectionsByName.keySet().contains(name)) {
+
+			// If a connection by the given name does not exist, create one
+			connection = createConnection(name, preferences);
+		} else {
+
+			// If this is a recognized connection being re-added to the table
+			// after being removed, retrieve the old reference from the map.
+			connection = connectionsByName.get(name);
+		}
 
 		// Split the string using the delimiter. The -1 is necessary to include
 		// empty values from the split.
@@ -270,8 +282,8 @@ public abstract class VizConnectionManager<T>
 		logger.debug("VizConnectionManager message: " + "Removing connection \""
 				+ name + "\".");
 
-		// Remove the associated connection from the map of connections by name.
-		VizConnection<T> connection = connectionsByName.remove(name);
+		// Get the specified connection
+		VizConnection<T> connection = connectionsByName.get(name);
 
 		// Disconnect
 		connection.disconnect();
