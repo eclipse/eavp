@@ -102,6 +102,13 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	private String statusMessage;
 
 	/**
+	 * A holder for extra information provided by sub-classes when the
+	 * connection failed. It will be added to the statusMessage the next time it
+	 * is set.
+	 */
+	private String errorMessage;
+
+	/**
 	 * The map of properties, keyed on their [user-friendly] property names.
 	 */
 	private final Map<String, String> properties;
@@ -226,12 +233,18 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 		// Create the lock for accessing certain connection thread variables.
 		connectionLock = new ReentrantLock(true);
 
+		// Initialize the additionalMessage
+		errorMessage = "";
+
 		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#addListener(org.eclipse.eavp.viz.service.connections.IVizConnectionListener)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#addListener(org.
+	 * eclipse.eavp.viz.service.connections.IVizConnectionListener)
 	 */
 	@Override
 	public boolean addListener(IVizConnectionListener<T> listener) {
@@ -245,6 +258,16 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 			}
 		}
 		return added;
+	}
+
+	/**
+	 * Append the given string to the connection's status message.
+	 * 
+	 * @param suffix
+	 *            The string to append to the message
+	 */
+	protected void addErrorMessage(String suffix) {
+		errorMessage += suffix + " ";
 	}
 
 	/**
@@ -384,7 +407,9 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getDescription()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#getDescription()
 	 */
 	@Override
 	public String getDescription() {
@@ -393,6 +418,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getHost()
 	 */
 	@Override
@@ -402,6 +428,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getName()
 	 */
 	@Override
@@ -411,6 +438,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getPath()
 	 */
 	@Override
@@ -420,6 +448,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getPort()
 	 */
 	@Override
@@ -429,7 +458,9 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getProperties()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#getProperties()
 	 */
 	@Override
 	public Map<String, String> getProperties() {
@@ -438,14 +469,19 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getProperty(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#getProperty(java.
+	 * lang.String)
 	 */
+	@Override
 	public String getProperty(String value) {
 		return properties.get(value);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getState()
 	 */
 	@Override
@@ -455,7 +491,10 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getStatusMessage()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#getStatusMessage(
+	 * )
 	 */
 	@Override
 	public String getStatusMessage() {
@@ -464,6 +503,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#getWidget()
 	 */
 	@Override
@@ -475,18 +515,29 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * Hooks into the existing connection task started by calling
 	 * {@link #startConnectThread()} by submitting a new task to the
 	 * {@link #executorService}. The submitted task simply returns the current
-	 * connection state.
+	 * connection state. If there is no current connection thread, then this
+	 * will simply return the current state.
 	 * 
 	 * @return The future task after which the connection will either be
 	 *         connected or failed.
 	 */
 	private Future<ConnectionState> hookIntoConnectThread() {
-		return executorService.submit(new Callable<ConnectionState>() {
-			@Override
-			public ConnectionState call() throws Exception {
-				return state;
-			}
-		});
+
+		// If the executor service exists, submit a job requesting the state
+		if (executorService != null) {
+			return executorService.submit(new Callable<ConnectionState>() {
+				@Override
+				public ConnectionState call() throws Exception {
+					return state;
+				}
+			});
+		}
+
+		// If there is no executor service, create a future from the current
+		// state
+		else {
+			return createInstantFuture(state);
+		}
 	}
 
 	/**
@@ -573,7 +624,10 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#removeListener(org.eclipse.eavp.viz.service.connections.IVizConnectionListener)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#removeListener(
+	 * org.eclipse.eavp.viz.service.connections.IVizConnectionListener)
 	 */
 	@Override
 	public boolean removeListener(IVizConnectionListener<T> listener) {
@@ -743,9 +797,25 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 				// Return the result.
 				int statusFlag = Status.OK;
 				message = VizConnection.this.getStatusMessage();
+
+				// Wait for the connection thread to end, then get its final
+				// state.
+				ConnectionState endState = null;
+				try {
+					endState = hookIntoConnectThread().get();
+				} catch (InterruptedException | ExecutionException e) {
+					logger.error("An error occurred while waiting for the "
+							+ "connection thread to finish.");
+				}
+
 				// Add a helpful message if the connection attempt failed.
-				if (state != ConnectionState.Connected) {
+				if (endState == ConnectionState.Disconnected
+						|| endState == ConnectionState.Failed) {
 					statusFlag = Status.ERROR;
+
+					// Append additional information to the message
+					message += " " + errorMessage;
+					errorMessage = "";
 					message += "\nPlease check the settings for \""
 							+ VizConnection.this.getName()
 							+ "\" under Windows > Preferences > Vizualization.";
@@ -786,6 +856,8 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 				} else {
 					threadState = ConnectionState.Failed;
 					statusMessage = "The connection failed to connect.";
+					statusMessage += " " + errorMessage;
+					errorMessage = "";
 				}
 
 				// Updating the state variable must be done with
@@ -907,6 +979,8 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 						} else {
 							state = ConnectionState.Failed;
 							statusMessage = "The connection failed while disconnecting.";
+							statusMessage += " " + errorMessage;
+							errorMessage = "";
 						}
 						threadState = state;
 					} finally {

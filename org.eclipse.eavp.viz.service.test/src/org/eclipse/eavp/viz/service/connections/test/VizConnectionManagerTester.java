@@ -274,6 +274,9 @@ public class VizConnectionManagerTester {
 		path = "/home/music/different/path";
 		node.put(connection2, host + "," + port + "," + path);
 
+		// Get the reference for the first connection
+		IVizConnection<FakeClient> conn1 = manager.getConnection(connection1);
+
 		// Both have been added.
 		assertNotNull(manager.getConnection(connection1));
 		assertNotNull(manager.getConnection(connection2));
@@ -307,6 +310,22 @@ public class VizConnectionManagerTester {
 		assertEquals(0, manager.getConnectionsForHost(host).size());
 		assertFalse(manager.getConnectionsForHost(host).contains(connection1));
 		assertFalse(manager.getConnectionsForHost(host).contains(connection2));
+
+		// Add a connection with a duplicate name
+		String duplicate = "magic sword";
+		host = "duplicate host";
+		port = 9002;
+		path = "duplicate/path";
+		node.put(duplicate, host + "," + port + "," + path);
+
+		// The only connection in the manager should be conn1, with its
+		// properties updated to those of the duplicate connection
+		assertEquals(1, manager.getConnections().size());
+		assertTrue(conn1 == manager.getConnection(duplicate));
+		assertTrue(manager.getConnections().contains(duplicate));
+		assertEquals(1, manager.getConnectionsForHost(host).size());
+		assertEquals(0, manager.getConnectionsForHost("electrodungeon").size());
+		assertTrue(manager.getConnectionsForHost(host).contains(duplicate));
 
 		return;
 	}
