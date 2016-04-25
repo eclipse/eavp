@@ -20,6 +20,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
@@ -265,12 +267,18 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 			String url = "http://" + host + ":" + port + "/rpc-http/";
 
 			// Try to connect.
-			connected = client.connect(url).get();
+			connected = client.connect(url).get(1, TimeUnit.MINUTES);
 
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			logger.error(
+					"Error occurred while attempting to connect to ParaView client.");
 		} catch (ExecutionException e) {
-			e.printStackTrace();
+			logger.error(
+					"Error occurred while attempting to connect to ParaView client.");
+		} catch (TimeoutException e) {
+
+			// The connection timed out
+			connected = false;
 		}
 
 		// If the connection was not successful, we should return null.
