@@ -61,11 +61,18 @@ public abstract class VizConnectionManager<T>
 	 * unique.
 	 */
 	private final Map<String, VizConnection<T>> connectionsByName;
+
 	/**
 	 * A map of the viz connection names keyed on the hosts. Multiple
 	 * connections can be configured per host.
 	 */
 	private final Map<String, Set<String>> connectionsByHost;
+
+	/**
+	 * A map of connection names to connections, for those connections which
+	 * have been previously opened in this session then removed.
+	 */
+	private final Map<String, VizConnection<T>> oldConnections;
 
 	/**
 	 * The current preference store associated with this manager. Connections
@@ -82,9 +89,10 @@ public abstract class VizConnectionManager<T>
 	 * The default constructor.
 	 */
 	public VizConnectionManager() {
-		// Create the two maps.
+		// Create the maps.
 		connectionsByName = new HashMap<String, VizConnection<T>>();
 		connectionsByHost = new HashMap<String, Set<String>>();
+		oldConnections = new HashMap<String, VizConnection<T>>();
 
 		// Create the preference listener.
 		preferenceListener = createPreferenceListener();
@@ -111,7 +119,7 @@ public abstract class VizConnectionManager<T>
 		// The connection to be added
 		VizConnection<T> connection = null;
 
-		if (!connectionsByName.keySet().contains(name)) {
+		if (!oldConnections.keySet().contains(name)) {
 
 			// If a connection by the given name does not exist, create one
 			connection = createConnection(name, preferences);
@@ -119,7 +127,7 @@ public abstract class VizConnectionManager<T>
 
 			// If this is a recognized connection being re-added to the table
 			// after being removed, retrieve the old reference from the map.
-			connection = connectionsByName.get(name);
+			connection = oldConnections.get(name);
 		}
 
 		// Split the string using the delimiter. The -1 is necessary to include
@@ -283,7 +291,10 @@ public abstract class VizConnectionManager<T>
 				+ name + "\".");
 
 		// Get the specified connection
-		VizConnection<T> connection = connectionsByName.get(name);
+		VizConnection<T> connection = connectionsByName.remove(name);
+
+		// Store the connection in the map of old connections
+		oldConnections.put(name, connection);
 
 		// Disconnect
 		connection.disconnect();
