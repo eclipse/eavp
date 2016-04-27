@@ -48,7 +48,7 @@ public class DetailedFaceMeshTester {
 		DetailedFaceMesh face = new DetailedFaceMesh(entities);
 
 		// The children should start out empty.
-		assertEquals(0, face.getEntities().size());
+		assertEquals(0, face.getAllEntities().size());
 
 		// Create an edge and add it to the face
 		VertexController vertex1 = new VertexController(new VertexMesh(0, 0, 0),

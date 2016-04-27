@@ -40,7 +40,7 @@ public class ShapeMesh extends BasicMesh {
 	public ShapeMesh() {
 		super();
 		type = MeshType.CONSTRUCTIVE;
-		getProperties().put(MeshProperty.TYPE, "None");
+		getPropertyMap().put(MeshProperty.TYPE, "None");
 	}
 
 	/**
@@ -222,7 +222,7 @@ public class ShapeMesh extends BasicMesh {
 		// Copy each of the other component's data members
 		type = castObject.type;
 		properties = new HashMap<IMeshProperty, String>(
-				castObject.getProperties());
+				castObject.getPropertyMap());
 		// Notify listeners of the change
 		SubscriptionType[] eventTypes = { SubscriptionType.ALL };
 		updateManager.notifyListeners(eventTypes);
@@ -252,7 +252,7 @@ public class ShapeMesh extends BasicMesh {
 
 		// Check the types, properties, and entity category for equality
 		if (type != castObject.getType()
-				|| !getProperties().equals(castObject.getProperties())
+				|| !getPropertyMap().equals(castObject.getPropertyMap())
 				|| !entities.keySet()
 						.equals(castObject.getEntityCategories())) {
 			return false;
@@ -297,7 +297,7 @@ public class ShapeMesh extends BasicMesh {
 				}
 			}
 		}
-		hash += 31 * getProperties().hashCode();
+		hash += 31 * getPropertyMap().hashCode();
 		return hash;
 	}
 

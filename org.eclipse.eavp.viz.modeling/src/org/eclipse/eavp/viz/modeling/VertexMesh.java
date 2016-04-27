@@ -141,7 +141,7 @@ public class VertexMesh extends PointMesh {
 		// Copy each of the other component's data members
 		type = castObject.type;
 		properties = new HashMap<IMeshProperty, String>(
-				castObject.getProperties());
+				castObject.getPropertyMap());
 
 		// Copy the coordinates
 		x = ((PointMesh) otherObject).getX();

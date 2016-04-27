@@ -209,7 +209,7 @@ public class EdgeMesh extends BasicMesh {
 		// Copy each of the other component's data members
 		type = castObject.type;
 		properties = new HashMap<IMeshProperty, String>(
-				castObject.getProperties());
+				castObject.getPropertyMap());
 
 		// Calculate the new length
 		calculateLength();

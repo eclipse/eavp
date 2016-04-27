@@ -157,7 +157,7 @@ public class FXPlantViewRootController extends BasicController
 		wireframe = on;
 
 		// Set all the children to the proper wireframe mode
-		for (IController child : model.getEntities()) {
+		for (IController child : model.getAllEntities()) {
 			((IWireframeController) child).setWireFrameMode(on);
 		}
 	}
