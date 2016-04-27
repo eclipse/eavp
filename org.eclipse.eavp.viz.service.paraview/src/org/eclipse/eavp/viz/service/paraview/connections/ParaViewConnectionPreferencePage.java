@@ -12,6 +12,7 @@
 package org.eclipse.eavp.viz.service.paraview.connections;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
 import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
@@ -57,7 +58,7 @@ public class ParaViewConnectionPreferencePage
 
 				// Create a provider for arbitrary strings
 				IVizEntryContentProvider provider = new BasicVizEntryContentProvider();
-				provider.setDefaultValue("");
+				provider.setDefaultValue(System.getProperty("user.home"));
 
 				// Create a port provider
 				PortEntryContentProvider portProvider = new PortEntryContentProvider();
@@ -70,6 +71,32 @@ public class ParaViewConnectionPreferencePage
 				// Create an entry for the web visualizer port
 				VizEntry portEntry = new PortEntry(portProvider);
 				portEntry.setName("Visualizer Port");
+
+				for (VizEntry entry : template) {
+					if ("Path".equals(entry.getName())) {
+
+						// The default path for the ParaView installation
+						String defaultPath = "";
+
+						// Get the name of the operating system
+						String os = System.getProperty("os.name", "generic")
+								.toLowerCase(Locale.ENGLISH);
+
+						// Set the default path to a standard installation
+						// directory for that kind of OS
+						if (os.indexOf("darwin") >= 0
+								|| os.indexOf("mac") >= 0) {
+							defaultPath = "/Applications";
+						} else if (os.indexOf("win") >= 0) {
+							// TODO Find the default windows ParaView
+							// installation location
+						} else if (os.indexOf("nux") >= 0) {
+							defaultPath = System.getProperty("user.home");
+						}
+
+						entry.setValue(defaultPath);
+					}
+				}
 
 				// Add the custom entry to the template and return it
 				template.add(serverEntry);

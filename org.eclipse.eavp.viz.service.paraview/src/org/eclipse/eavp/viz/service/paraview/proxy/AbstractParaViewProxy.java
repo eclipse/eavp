@@ -253,7 +253,9 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getFeatureCategories()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#
+	 * getFeatureCategories()
 	 */
 	@Override
 	public Set<String> getFeatureCategories() {
@@ -263,7 +265,10 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getFeatures(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getFeatures(
+	 * java.lang.String)
 	 */
 	@Override
 	public Set<String> getFeatures(String category) {
@@ -275,7 +280,9 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getFileId()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getFileId()
 	 */
 	@Override
 	public int getFileId() {
@@ -284,7 +291,10 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getProperties()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getProperties(
+	 * )
 	 */
 	@Override
 	public Map<String, String> getProperties() {
@@ -299,7 +309,10 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getProperty(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getProperty(
+	 * java.lang.String)
 	 */
 	@Override
 	public String getProperty(String name) {
@@ -309,7 +322,9 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getPropertyAllowedValues(java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#
+	 * getPropertyAllowedValues(java.lang.String)
 	 */
 	@Override
 	public Set<String> getPropertyAllowedValues(String name) {
@@ -340,15 +355,20 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getRepresentationId()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#
+	 * getRepresentationId()
 	 */
+	@Override
 	public int getRepresentationId() {
 		return repId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getTimesteps()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getTimesteps()
 	 */
 	@Override
 	public List<Double> getTimesteps() {
@@ -357,6 +377,7 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getURI()
 	 */
 	@Override
@@ -366,7 +387,9 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getViewId()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#getViewId()
 	 */
 	@Override
 	public int getViewId() {
@@ -375,7 +398,9 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#open(org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#open(org.
+	 * eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	public Future<Boolean> open(IVizConnection<IParaViewWebClient> connection) {
@@ -597,7 +622,10 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setFeature(java.lang.String, java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setFeature(
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
 	public Future<Boolean> setFeature(String category, String feature) {
@@ -677,7 +705,10 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setProperties(java.util.Map)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setProperties(
+	 * java.util.Map)
 	 */
 	@Override
 	public Future<Integer> setProperties(Map<String, String> properties) {
@@ -723,7 +754,10 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setProperty(java.lang.String, java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setProperty(
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
 	public Future<Boolean> setProperty(String name, String value) {
@@ -757,7 +791,10 @@ public class AbstractParaViewProxy implements IParaViewProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setTimestep(int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy#setTimestep(
+	 * int)
 	 */
 	@Override
 	public Future<Boolean> setTimestep(int step) {
