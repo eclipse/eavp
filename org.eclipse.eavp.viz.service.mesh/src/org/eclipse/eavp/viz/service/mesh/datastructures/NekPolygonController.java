@@ -157,6 +157,15 @@ public class NekPolygonController extends FaceController
 	}
 
 	/**
+	 * Getter method for the map of edge properties.
+	 * 
+	 * @return A map from edge ID numbers to that edge's edge properties.
+	 */
+	public HashMap<Integer, EdgeProperties> getEdgeProperties() {
+		return edgeProperties;
+	}
+
+	/**
 	 * <p>
 	 * Gets the fluid boundary condition for an edge of the polygon.
 	 * </p>
