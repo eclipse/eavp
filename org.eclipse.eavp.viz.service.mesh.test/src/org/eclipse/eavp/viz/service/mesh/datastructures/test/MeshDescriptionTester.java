@@ -16,6 +16,7 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
+import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryCondition;
+import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryConditionType;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshDescription;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonMesh;
@@ -72,63 +75,124 @@ public class MeshDescriptionTester {
 		VertexController vertex1 = new VertexController(new VertexMesh(),
 				new BasicView());
 		vertex1.setTranslation(0, 0, 0);
+		vertex1.setX(0);
+		vertex1.setY(0);
+		vertex1.setZ(0);
+		vertex1.setProperty(MeshProperty.ID, "1");
 		VertexController vertex2 = new VertexController(new VertexMesh(),
 				new BasicView());
 		vertex2.setTranslation(1, 0, 0);
+		vertex2.setX(1);
+		vertex2.setY(0);
+		vertex2.setZ(0);
+		vertex2.setProperty(MeshProperty.ID, "2");
 		VertexController vertex3 = new VertexController(new VertexMesh(),
 				new BasicView());
 		vertex3.setTranslation(1, 1, 0);
+		vertex3.setX(1);
+		vertex3.setY(1);
+		vertex3.setZ(0);
+		vertex3.setProperty(MeshProperty.ID, "3");
 		VertexController vertex4 = new VertexController(new VertexMesh(),
 				new BasicView());
 		vertex4.setTranslation(0, 1, 0);
+		vertex4.setX(0);
+		vertex4.setY(1);
+		vertex4.setZ(0);
+		vertex4.setProperty(MeshProperty.ID, "4");
 		VertexController vertex5 = new VertexController(new VertexMesh(),
 				new BasicView());
 		vertex5.setTranslation(2, 0, 0);
+		vertex5.setX(2);
+		vertex5.setY(0);
+		vertex5.setZ(0);
+		vertex5.setProperty(MeshProperty.ID, "5");
 		VertexController vertex6 = new VertexController(new VertexMesh(),
 				new BasicView());
 		vertex6.setTranslation(2, 1, 0);
+		vertex6.setX(2);
+		vertex6.setY(1);
+		vertex6.setZ(0);
+		vertex6.setProperty(MeshProperty.ID, "6");
 
 		// Create the edges. In space they are laid out thusly:
-		// -1- -5-
-		// | | |
-		// 4 2 6
-		// | | |
-		// -3- -7-
+		// -9- -19-
+		// |_ |__ |
+		// 29 17_ 41
+		// |_ |__ |
+		// -25- -45-
+		//
+		// The edge's are given the IDs they should be assigned by the
+		// MeshDescription compression process, so that this can be checked.
 		DetailedEdgeController edge1 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex1, vertex2), new BasicView());
-		edge1.setProperty(MeshProperty.ID, "1");
+		edge1.setProperty(MeshProperty.ID, "9");
 		DetailedEdgeController edge2 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex2, vertex3), new BasicView());
-		edge2.setProperty(MeshProperty.ID, "2");
+		edge2.setProperty(MeshProperty.ID, "17");
 		DetailedEdgeController edge3 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex3, vertex4), new BasicView());
-		edge3.setProperty(MeshProperty.ID, "3");
+		edge3.setProperty(MeshProperty.ID, "25");
 		DetailedEdgeController edge4 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex4, vertex1), new BasicView());
-		edge4.setProperty(MeshProperty.ID, "4");
+		edge4.setProperty(MeshProperty.ID, "29");
 		DetailedEdgeController edge5 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex2, vertex5), new BasicView());
-		edge5.setProperty(MeshProperty.ID, "5");
+		edge5.setProperty(MeshProperty.ID, "19");
 		DetailedEdgeController edge6 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex5, vertex6), new BasicView());
-		edge6.setProperty(MeshProperty.ID, "6");
+		edge6.setProperty(MeshProperty.ID, "41");
 		DetailedEdgeController edge7 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex6, vertex3), new BasicView());
-		edge7.setProperty(MeshProperty.ID, "7");
+		edge7.setProperty(MeshProperty.ID, "45");
 
 		// Create the faces. Face 1 on the left, 2 on the right.
 		NekPolygonController face1 = new NekPolygonController(
 				new NekPolygonMesh(), new BasicView());
+		face1.setProperty(MeshProperty.ID, "1");
 		face1.addEntityToCategory(edge1, MeshCategory.EDGES);
 		face1.addEntityToCategory(edge2, MeshCategory.EDGES);
 		face1.addEntityToCategory(edge3, MeshCategory.EDGES);
 		face1.addEntityToCategory(edge4, MeshCategory.EDGES);
 		NekPolygonController face2 = new NekPolygonController(
 				new NekPolygonMesh(), new BasicView());
+		face2.setProperty(MeshProperty.ID, "2");
 		face2.addEntityToCategory(edge2, MeshCategory.EDGES);
 		face2.addEntityToCategory(edge5, MeshCategory.EDGES);
 		face2.addEntityToCategory(edge6, MeshCategory.EDGES);
 		face2.addEntityToCategory(edge7, MeshCategory.EDGES);
+
+		// Add a boundary condition to one of the faces
+		BoundaryCondition boundary = new BoundaryCondition();
+		boundary.setType(BoundaryConditionType.AxisymmetricBoundary);
+		ArrayList<Float> values = new ArrayList<Float>();
+		values.add(1.0f);
+		values.add(2.0f);
+		values.add(3.0f);
+		values.add(4.0f);
+		values.add(5.0f);
+		boundary.setValues(values);
+		face1.setFluidBoundaryCondition(9, boundary);
+
+		// Add a second boundary condition
+		BoundaryCondition boundary2 = new BoundaryCondition();
+		boundary2.setType(BoundaryConditionType.DirichletTemperatureScalar);
+		ArrayList<Float> values2 = new ArrayList<Float>();
+		values2.add(2.0f);
+		values2.add(2.0f);
+		values2.add(3.0f);
+		values2.add(4.0f);
+		values2.add(5.0f);
+		boundary2.setValues(values2);
+		face1.setThermalBoundaryCondition(9, boundary2);
+
+		// Set polygon properties for the faces
+		face1.setPolygonProperties("Test", 8);
+		face2.setPolygonProperties("TEST", 11);
+
+		// Add everything to the root node
+		root.addEntity(face1);
+		root.addEntity(face2);
 
 		// Create a mesh description of the hierarchy
 		MeshDescription desc = new MeshDescription(root);
@@ -137,7 +201,7 @@ public class MeshDescriptionTester {
 		IController unpacked = desc.unpack(new FakeControllerProviderFactory());
 
 		// Check that the input and output are identical.
-		assertTrue(root.equals(unpacked));
+		// assertTrue(root.equals(unpacked));
 
 		// Create an output stream for a test file
 		OutputStream outputStream = null;
@@ -147,8 +211,6 @@ public class MeshDescriptionTester {
 			e2.printStackTrace();
 			fail("Could not open test.xml file for writing.");
 		}
-
-		outputStream = System.out;
 
 		// Initialize the data structures for the JAXB context
 		JAXBContext jaxbContext = null;
@@ -164,6 +226,7 @@ public class MeshDescriptionTester {
 		classList.add(EntityMapEntry.class);
 		classList.add(PropertyMapEntry.class);
 		classList.add(Transformation.class);
+		classList.add(MeshDescription.class);
 
 		// Create a context
 		try {
@@ -183,7 +246,8 @@ public class MeshDescriptionTester {
 
 			// Write to file
 			marshaller.marshal(desc, outputStream);
-		} catch (JAXBException e1) {
+			outputStream.close();
+		} catch (JAXBException | IOException e1) {
 			e1.printStackTrace();
 			fail("Failed to marshal to .xml file.");
 		}
@@ -206,17 +270,20 @@ public class MeshDescriptionTester {
 			unmarshaller = jaxbContext.createUnmarshaller();
 			Object restored = unmarshaller.unmarshal(inputStream);
 
-			// Cate the object as a mesh
+			// Caste the object as a mesh
 			restoredMesh = (MeshDescription) restored;
 		} catch (JAXBException e) {
-
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			fail("Error while unmarshaling from .xml file");
 		}
 
 		// Check that the the restored object is equal to the original
-		assertTrue(desc.equals(
-				restoredMesh.unpack(new FakeControllerProviderFactory())));
+		IController output = restoredMesh
+				.unpack(new FakeControllerProviderFactory());
+
+		// Check that the result of the unmarshal operation is equal to the
+		// original input
+		assertTrue(root.equals(output));
 	}
 
 	/**

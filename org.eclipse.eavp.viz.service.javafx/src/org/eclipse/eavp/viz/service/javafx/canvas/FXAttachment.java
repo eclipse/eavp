@@ -170,10 +170,12 @@ public class FXAttachment extends BasicAttachment {
 				}
 			});
 
+			// Add the geometry to the list of known parts
+			knownParts.add(geom);
+
 			// Have the geometry refreshed when it is added
 			handleUpdate(geom);
 
-			knownParts.add(geom);
 		}
 	}
 

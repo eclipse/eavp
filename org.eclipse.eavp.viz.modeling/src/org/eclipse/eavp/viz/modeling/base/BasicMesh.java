@@ -56,13 +56,13 @@ public class BasicMesh
 	 * A list of other mesh components which are connected to this one, such as
 	 * children.
 	 */
-	@XmlTransient
+	@XmlJavaTypeAdapter(EntityMapAdapter.class)
 	protected Map<IMeshCategory, ArrayList<IController>> entities;
 
 	/**
 	 * A map of properties for the component.
 	 */
-	@XmlTransient
+	@XmlJavaTypeAdapter(PropertyMapAdapter.class)
 	protected Map<IMeshProperty, String> properties;
 
 	/**
@@ -493,7 +493,7 @@ public class BasicMesh
 			return false;
 		}
 
-		// If this object has and child entities, check them for equality with
+		// If this object has any child entities, check them for equality with
 		// the other object's
 		if (!entities.keySet().isEmpty()) {
 
@@ -516,8 +516,7 @@ public class BasicMesh
 					}
 
 					// If the second object has something in this category, the
-					// two
-					// are not equal
+					// two are not equal
 					else {
 						return false;
 					}
@@ -691,7 +690,7 @@ public class BasicMesh
 	// @XmlElementWrapper
 	// @XmlAnyElement(lax = true)
 	// @XmlElement(name = "Entities")
-	@XmlJavaTypeAdapter(EntityMapAdapter.class)
+	// @XmlJavaTypeAdapter(EntityMapAdapter.class)
 	public Map<IMeshCategory, ArrayList<IController>> getEntities() {
 		return entities;
 	}
@@ -700,7 +699,7 @@ public class BasicMesh
 	// @XmlElementWrapper
 	// @XmlAnyElement(lax = true)
 	// @XmlElement(name = "Properties")
-	@XmlJavaTypeAdapter(PropertyMapAdapter.class)
+	// @XmlJavaTypeAdapter(PropertyMapAdapter.class)
 	public Map<IMeshProperty, String> getProperties() {
 		return properties;
 	}

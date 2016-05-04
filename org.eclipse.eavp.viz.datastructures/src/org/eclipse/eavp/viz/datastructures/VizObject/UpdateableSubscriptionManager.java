@@ -118,11 +118,11 @@ public class UpdateableSubscriptionManager {
 				// Empty the queue
 				messageQueue.clear();
 			}
+		}
 
-			// If there is a parent, release its queue as well
-			if (parent != null) {
-				parent.flushQueue();
-			}
+		// If there is a parent, release its queue as well
+		if (parent != null) {
+			parent.flushQueue();
 		}
 	}
 
@@ -174,7 +174,7 @@ public class UpdateableSubscriptionManager {
 					match = true;
 				}
 
-				else
+				else {
 
 					// Check each event type to see if one matches
 					for (SubscriptionType eventType : eventTypes) {
@@ -184,6 +184,7 @@ public class UpdateableSubscriptionManager {
 							break;
 						}
 					}
+				}
 
 				// If one of the event types is relevant to this subscription
 				// list, broadcast the message

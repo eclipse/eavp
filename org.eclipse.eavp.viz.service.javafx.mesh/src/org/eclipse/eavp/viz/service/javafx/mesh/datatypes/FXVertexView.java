@@ -150,8 +150,7 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -161,9 +160,8 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMeshComponent)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
 	public void refresh(IMesh model) {
@@ -214,9 +212,8 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse.
-	 * ice. viz.service.datastructures.VizObject.IVizUpdateable,
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse. ice.
+	 * viz.service.datastructures.VizObject.IVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])
 	 */

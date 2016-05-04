@@ -7,9 +7,11 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.eavp.viz.datastructures.VizObject,
  org.eclipse.eavp.viz.modeling,
  org.eclipse.eavp.viz.modeling.base,
+ org.eclipse.eavp.viz.modeling.factory,
  org.eclipse.eavp.viz.modeling.properties,
  org.eclipse.eavp.viz.service,
- org.eclipse.ui.views.properties.tabbed
+ org.eclipse.ui.views.properties.tabbed,
+ org.slf4j;version="1.7.2"
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui
 Bundle-Vendor: Oak Ridge National Laboratory
