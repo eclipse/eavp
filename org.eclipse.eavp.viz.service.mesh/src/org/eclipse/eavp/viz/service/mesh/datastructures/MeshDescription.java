@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -325,8 +325,7 @@ public class MeshDescription {
 	 * @return An array of global ids for the edges, along with their endpoints
 	 *         as indices into the vertices array
 	 */
-	@XmlElement
-	@XmlList
+	@XmlTransient
 	public int[] getEdges() {
 		return edges;
 	}
@@ -337,7 +336,7 @@ public class MeshDescription {
 	 * @return An array of global ids for the faces, along with their
 	 *         constituent edges as indices into the edges array
 	 */
-	@XmlJavaTypeAdapter(FacesBlockAdapter.class)
+	@XmlTransient
 	public int[] getFaces() {
 		return faces;
 	}
@@ -348,7 +347,7 @@ public class MeshDescription {
 	 * @return A list of maps between integer ids for edges and their edge
 	 *         properties, one for each face in the faces array
 	 */
-	@XmlJavaTypeAdapter(EdgePropertiesAdapter.class)
+	@XmlTransient
 	public ArrayList<HashMap<Integer, EdgeProperties>> getEdgeProperties() {
 		return edgeProperties;
 	}
@@ -359,7 +358,7 @@ public class MeshDescription {
 	 * @return A list of all the PolygonProperties in the hierarchy in the same
 	 *         order as their corresponding polygons in the faces array
 	 */
-	@XmlJavaTypeAdapter(PolygonPropertiesAdapter.class)
+	@XmlTransient
 	public ArrayList<PolygonProperties> getPolygonProperties() {
 		return polygonProperties;
 	}
@@ -373,7 +372,7 @@ public class MeshDescription {
 	 *         directions for each of the four attributes (rotation, scale,
 	 *         skew, and translation).
 	 */
-	@XmlJavaTypeAdapter(TransformationBlockAdapter.class)
+	@XmlTransient
 	public double[][] getTransformations() {
 		return transformations;
 	}
@@ -383,8 +382,7 @@ public class MeshDescription {
 	 * 
 	 * @return An array of global ids for the vertices
 	 */
-	@XmlElement
-	@XmlList
+	@XmlTransient
 	public int[] getVertices() {
 		return vertices;
 	}
@@ -684,348 +682,342 @@ public class MeshDescription {
 
 	}
 
-	public double[][] getVerticesBlock() {
+	/**
+	 * Get the information about the mesh's faces formatted into a list of
+	 * FaceLines.
+	 * 
+	 * This method is used for persistence by JAXB and is not intended to be
+	 * called.
+	 * 
+	 * @return A list of all the lines in an xml block defininf the faces
+	 */
+	@XmlJavaTypeAdapter(FacesBlockAdapter.class)
+	public ArrayList<FaceLine> getFacesBlock() {
 
+		// The full list of all faces information
+		ArrayList<FaceLine> block = new ArrayList<FaceLine>();
+
+		// Whether or not the current value is a face ID. If false, then the
+		// current value is either an edge or a special delimiter value
+		boolean currID = true;
+
+		// The ordinal number of the current polygon being converted
+		int currPolygon = 0;
+
+		// The line currently under construction
+		FaceLine line = null;
+
+		// Iterate through each value of the faces array
+		for (int i = 0; i < faces.length; i++) {
+
+			// If this is a face ID, create a new face
+			if (currID) {
+				line = new FaceLine();
+				line.FaceID = faces[i];
+
+				// Get the face's corresponding properties and set them
+				PolygonProperties props = polygonProperties.get(currPolygon);
+				line.GroupNum = props.getGroupNum();
+				line.MaterialID = props.getMaterialId();
+
+				// The next number will be an edge ID
+				currID = false;
+			} else {
+
+				// Get the current value from the array
+				int curr = faces[i];
+
+				// If it is not -1, then it is an edge ID
+				if (curr != -1) {
+
+					// Create a new edge with this ID
+					EdgeLine edge = new EdgeLine();
+					edge.EdgeID = curr;
+
+					// Get the properties of edge curr for polygon i
+					EdgeProperties props = edgeProperties.get(currPolygon)
+							.get(curr);
+
+					String boundary = "";
+
+					// If a boundary condition is set, convert it to a string
+					// and add it to the edge
+					if (props != null) {
+						String fluid = props.getFluidBoundaryCondition()
+								.toString();
+						if (fluid.startsWith("None")) {
+							fluid = fluid.replaceFirst("None ", "");
+						}
+						if (fluid.endsWith("0.0 0.0 0.0 0.0 0.0")) {
+							fluid = fluid.replaceFirst("0.0 0.0 0.0 0.0 0.0",
+									"");
+						}
+
+						String thermal = props.getThermalBoundaryCondition()
+								.toString();
+						if (thermal.startsWith("None")) {
+							thermal = thermal.replaceFirst("None ", "");
+						}
+						if (thermal.endsWith("0.0 0.0 0.0 0.0 0.0")) {
+							thermal = thermal
+									.replaceFirst("0.0 0.0 0.0 0.0 0.0", "");
+						}
+
+						boundary += fluid + "," + thermal;
+					}
+
+					// Othewise add two commas to show the empty conditions
+					else {
+						boundary += ",";
+					}
+
+					edge.BoundaryConditions.add(boundary);
+
+					// Add the finished edge to the face
+					line.Edges.add(edge);
+				}
+
+				// If the values is -1, the face is finished
+				else {
+
+					// The next value will be a face's ID
+					currID = true;
+
+					// Increment the polygon index
+					currPolygon++;
+
+					// And the finished line to the block
+					block.add(line);
+				}
+			}
+		}
+
+		return block;
 	}
 
 	/**
-	 * This class serves as a JAXB adapter for the list of EdgeProperties maps
-	 * belonging to the mesh's faces. It allows the data structures of an
-	 * ArrayList of HashMaps from integer edgeIDs to corresponding
-	 * EdgeProperties to be persisted to and from xml.
+	 * Set the information about the mesh's faces formatted into a block of
+	 * FaceLines.
 	 * 
-	 * @author Robert Smith
-	 *
-	 */
-	private static class EdgePropertiesAdapter extends
-			XmlAdapter<String, ArrayList<HashMap<Integer, EdgeProperties>>> {
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.
-		 * Object)
-		 */
-		@Override
-		public String marshal(ArrayList<HashMap<Integer, EdgeProperties>> v)
-				throws Exception {
-
-			// Start the output by pushing the first row to a new line
-			String output = "\n";
-
-			// Consider each map, which represents the properties for a single
-			// face
-			for (HashMap<Integer, EdgeProperties> map : v) {
-
-				// Each key in the map represents a single edge
-				for (int i : map.keySet()) {
-
-					// Write the edge's id
-					output += i + " ";
-
-					// Write the fluid and thermal boundary conditions,
-					// separated by commas
-					EdgeProperties properties = map.get(i);
-
-					// Get the string representation of the fluid boundary,
-					// separating its type and values
-					String fluid = properties.getFluidBoundaryCondition()
-							.toString();
-					int j = fluid.indexOf(' ');
-					String fluidType = fluid.substring(0, j);
-					String fluidValues = fluid.substring(j);
-
-					// If the type is a non-default value, add it to the string
-					if (!"None".equals(fluidType)) {
-						output += fluidType;
-					}
-
-					// If the values are not the default, add them to the string
-					if (!" 0.0 0.0 0.0 0.0 0.0".equals(fluidValues)) {
-						output += fluidValues;
-					}
-
-					// Place a comma to signal the end of the boundary condition
-					output += " , ";
-
-					// Get the string representation of the fluid boundary,
-					// separating its type and values
-					String thermal = properties.getThermalBoundaryCondition()
-							.toString();
-					j = thermal.indexOf(' ');
-					String thermalType = thermal.substring(0, j);
-					String thermalValues = thermal.substring(j);
-
-					// If the type is a non-default value, add it to the string
-					if (!"None".equals(thermalType)) {
-						output += thermalType;
-					}
-
-					// If the values are not the default, add them to the string
-					if (!" 0.0 0.0 0.0 0.0 0.0".equals(thermalValues)) {
-						output += thermalValues;
-					}
-
-					// Place a comma to signal the end of the boundary condition
-					output += " , ";
-
-					// Write each additional condition, if any
-					for (BoundaryCondition condition : properties
-							.getOtherBoundaryConditions()) {
-						output += condition.toString() + " ";
-					}
-
-					// Mark the end of this edge's properties with a semicolon
-					output += "; ";
-				}
-
-				// All edges are handled, so this polygon is done. Start the
-				// next polygon on a new line
-				output += '\n';
-			}
-
-			return output;
-
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.
-		 * Object)
-		 */
-		@Override
-		public ArrayList<HashMap<Integer, EdgeProperties>> unmarshal(String v)
-				throws Exception {
-
-			// Ignoring the initial linebreak at the start of the text, replace
-			// linebreaks with a special internal delimiter value and split the
-			// input by whitespace
-			String[] input = v.substring(1).replace("\n", "/ ").split("\\s+");
-
-			// The list of properties
-			ArrayList<HashMap<Integer, EdgeProperties>> output = new ArrayList<HashMap<Integer, EdgeProperties>>();
-
-			// The map currently under construction
-			HashMap<Integer, EdgeProperties> map = new HashMap<Integer, EdgeProperties>();
-
-			// The properties set currently under construction
-			EdgeProperties properties = null;
-
-			// A regular expression that matches numerical values
-			String regex = "[\\x00-\\x20]*[+-]?(((((\\p{Digit}+)(\\.)?((\\p{Digit}+)?)([eE][+-]?(\\p{Digit}+))?)|(\\.((\\p{Digit}+))([eE][+-]?(\\p{Digit}+))?)|(((0[xX](\\p{XDigit}+)(\\.)?)|(0[xX](\\p{XDigit}+)?(\\.)(\\p{XDigit}+)))[pP][+-]?(\\p{Digit}+)))[fFdD]?))[\\x00-\\x20]*";
-
-			// Whether or not the next value marks the start of a new edge
-			boolean newEdge = true;
-
-			// The ID of the edge currently under construction
-			int currID = 0;
-
-			// The BoundaryCondition currently under construction
-			BoundaryCondition currCondition = null;
-
-			// Whether or not currCondition is a thermal boundary. If false,
-			// then currCondition is a fluid boundary instead
-			boolean thermal = false;
-
-			// The list of values for the current boundary condition
-			ArrayList<Float> currValues = new ArrayList<Float>();
-
-			// Process each token in the string
-			for (String curr : input) {
-
-				// If this is the start of a new edge, curr is the edge's ID.
-				if (newEdge) {
-
-					// For non-empty lines, begin creating the edge's properties
-					if (!"/".equals(curr)) {
-
-						// Create new properties for the edge
-						properties = new EdgeProperties();
-
-						// Set the current ID
-						currID = Integer.parseInt(curr);
-						newEdge = false;
-					}
-
-					// Empty lines represent the default values, so just add
-					// null to the list
-					else {
-
-						// Add the current map to the output
-						output.add(cloneMap(map));
-
-						// Clear the working copy
-						map = new HashMap<Integer, EdgeProperties>();
-					}
-				}
-
-				// Otherwise, if curr is a number, it must be a value for the
-				// current boundary condition
-				else if (curr.matches(regex)) {
-					currValues.add(Float.parseFloat(curr));
-				}
-
-				// A , represents the end of a boundary condition
-				else if (",".equals(curr)) {
-
-					// If a condition has not been created, make one now
-					if (currCondition == null) {
-						currCondition = new BoundaryCondition();
-					}
-
-					// Save the array of values and clear the working copy
-					currCondition.setValues(currValues);
-					currValues = new ArrayList<Float>();
-
-					// Set the condition as the thermal boundary
-					if (thermal) {
-						properties.setThermalBoundaryCondition(currCondition);
-
-						// The next condition will be a fluid boundary
-						thermal = false;
-					}
-
-					// Otherwise, set the condition as a fluid boundary
-					else {
-						properties.setFluidBoundaryCondition(currCondition);
-
-						// The next condition will be a thermal boundary
-						thermal = true;
-					}
-
-					// Clear the working copy of the condition
-					currCondition = null;
-				}
-
-				// A ; marks the end of an edge's properties
-				else if (";".equals(curr)) {
-
-					// Save the current properties with the edge's ID.
-					map.put(currID, properties);
-
-					// The next value will start a new edge
-					newEdge = true;
-				}
-
-				// A / marks the end of a polygon's properties
-				else if ("/".equals(curr)) {
-
-					// Add the current map to the output
-					output.add(cloneMap(map));
-
-					// Clear the working copy
-					map = new HashMap<Integer, EdgeProperties>();
-				}
-
-				// Other non-numerical values must be boundary condition types
-				else {
-
-					// Create a new condition of the given type
-					currCondition = new BoundaryCondition(
-							BoundaryConditionType.valueOf(curr));
-				}
-			}
-
-			return output;
-		}
-	}
-
-	/**
-	 * This class serves as a JAXB adapter for the faces block of a
-	 * MeshDescription's xml representation. It will convert an array of doubles
-	 * with "-1" delimiting the end of a face's description into a block of
-	 * arbitrarily length rows, removing the "-1" values and placing each face
-	 * on its own line.
+	 * This method is used for persistence with JAXB and is not intended to be
+	 * called
 	 * 
-	 * @author Robert Smith
-	 *
+	 * @param block
+	 *            A list of all lines in the xml block defining the faces
 	 */
-	private static class FacesBlockAdapter extends XmlAdapter<String, int[]> {
+	public void setFacesBlock(ArrayList<FaceLine> block) {
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.
-		 * Object)
-		 */
-		@Override
-		public String marshal(int[] v) throws Exception {
+		// A temporary ArrayList version of the faces array
+		ArrayList<Integer> tempFacesArray = new ArrayList<Integer>();
 
-			// Start the output by pushing the first row to a new line
-			String output = "\n";
+		// A temporary unsorted ArrayList version of the edges array
+		ArrayList<Integer> edges = new ArrayList<Integer>();
 
-			// Iterate through the 2D, * x 3 sized block
-			for (int i = 0; i < v.length; i++) {
+		// Iterate through each line
+		for (int i = 0; i < block.size(); i++) {
+			FaceLine line = block.get(i);
 
-				// After each number, insert a space
-				if (v[i] != -1) {
-					output += v[i] + " ";
+			// Add the face ID to the faces array
+			tempFacesArray.add(line.FaceID);
+
+			// Create a new map from edge IDs to EdgeProperties
+			HashMap<Integer, EdgeProperties> edgeMap = new HashMap<Integer, EdgeProperties>();
+
+			// Handle each edge's description
+			for (EdgeLine edgeLine : line.Edges) {
+
+				// Add this edge's id to the face
+				tempFacesArray.add(edgeLine.EdgeID);
+
+				// Add the ID to the list of IDs if it hasn't been seen before
+				if (!edges.contains(edgeLine.EdgeID)) {
+					edges.add(edgeLine.EdgeID);
 				}
 
-				// Replace -1 with a linebreak
-				else {
-					output += '\n';
+				// Create a new EdgeProperties for this edge
+				EdgeProperties properties = new EdgeProperties();
+
+				// Handle each boundary condition in the edge
+				for (int j = 0; j < edgeLine.BoundaryConditions.size(); j++) {
+					String boundaryCondition = edgeLine.BoundaryConditions
+							.get(j);
+					BoundaryCondition boundary = new BoundaryCondition();
+
+					// Split the boundary condition description on whitespace
+					String[] props = boundaryCondition.split("\\s+");
+
+					// The properties will be 1 or 6 tokens long depending on
+					// whether or not type and/or values are specified
+					if (props.length == 6) {
+
+						// If the first string isn't empty, it's a condition
+						// type
+						if (!props[0].isEmpty()) {
+							boundary.setType(
+									BoundaryConditionType.valueOf(props[0]));
+						}
+
+						// Regardless of the first value, the next 5 will always
+						// be the condition's values
+						ArrayList<Float> values = new ArrayList<Float>();
+						values.add(Float.parseFloat(props[1]));
+						values.add(Float.parseFloat(props[2]));
+						values.add(Float.parseFloat(props[3]));
+						values.add(Float.parseFloat(props[4]));
+						values.add(Float.parseFloat(props[5]));
+						boundary.setValues(values);
+					}
+
+					// If there is only one token, check whether or not it is
+					// empty
+					else if (!props[0].isEmpty()) {
+
+						// Set the condition type if it is not
+						boundary.setType(
+								BoundaryConditionType.valueOf(props[0]));
+					}
+
+					// The first condition will be for fluids
+					if (j == 0) {
+						properties.setFluidBoundaryCondition(boundary);
+					}
+
+					// The second will be a thermal boundary
+					else {
+						properties.setThermalBoundaryCondition(boundary);
+					}
+
+					// else if(!props[0])
+
+					// else{
+					// values.add(Float.parseFloat(props[0]));
+					// values.add(Float.parseFloat(props[1]));
+					// values.add(Float.parseFloat(props[2]));
+					// values.add(Float.parseFloat(props[3]));
+					// values.add(Float.parseFloat(props[4]));
+					//
+					// boundary.setValues(values);
+					// }
 				}
+
+				// Put edge's the properties in the map
+				edgeMap.put(edgeLine.EdgeID, properties);
+
 			}
 
-			return output;
+			// Put the face's properties in the map
+			edgeProperties.add(edgeMap);
 
-		}
+			// Add a "-1" to show where the face ends
+			tempFacesArray.add(-1);
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.
-		 * Object)
-		 */
-		@Override
-		public int[] unmarshal(String v) throws Exception {
-
-			// Ignoring the initial linebreak at the start of the text, replace
-			// linebreaks with "-1" and split the input by whitespace
-			String[] input = v.substring(1).replace("\n", "-1 ").split("\\s+");
-
-			// The new faces array
-			int[] output;
-
-			// A face must be comprised of an ID and some number EdgeIDs. An
-			// input length of 1 means that the faces tag was empty in the xml
-			if (input.length > 1) {
-
-				// The array which will hold the coordinates, sized * x 3
-				output = new int[input.length];
-
-				// Convert each string to a double and put it in the array
-				for (int i = 0; i < input.length; i++) {
-					output[i] = Integer.parseInt(input[i]);
-				}
-
+			// If the polygon has non-default properties, set them
+			if (line.GroupNum != 0 || !"nul1".equals(line.MaterialID)) {
+				polygonProperties.add(
+						new PolygonProperties(line.MaterialID, line.GroupNum));
 			}
 
-			// If the tag was empty, create an empty array
+			// Otherwise, add null to signify the default values
 			else {
-				output = new int[0];
+				polygonProperties.add(null);
 			}
 
-			return output;
+		}
+
+		// After reading in the entire face block, convert the faces'
+		// information into an array
+		faces = new int[tempFacesArray.size()];
+		for (int i = 0; i < tempFacesArray.size(); i++) {
+			faces[i] = tempFacesArray.get(i);
+		}
+
+		// Do the same for the edges
+		this.edges = new int[edges.size()];
+		for (int i = 0; i < edges.size(); i++) {
+			this.edges[i] = edges.get(i);
 		}
 	}
 
 	/**
-	 * This class serves as a JAXB adapter for the PolygonProperties block of a
-	 * MeshDescription's xml representation. It will output the
-	 * PolygonProperties as two tokens each, a Material ID and a Group Number,
-	 * with the properties for each polygon separated on a new line, in the
-	 * order the faces are defined in the faces block.
+	 * Get the information about the mesh's vertices formatted into a block of
+	 * VertexLines.
+	 * 
+	 * This method is used for persistence with JAXB and is not intended to be
+	 * called.
+	 * 
+	 * @return A list of all the lines in the xml block defining the vertices
+	 */
+	@XmlElement(name = "vertices")
+	@XmlJavaTypeAdapter(VerticesBlockAdapter.class)
+	public ArrayList<VertexLine> getVerticesBlock() {
+
+		// The full vertex block
+		ArrayList<VertexLine> block = new ArrayList<VertexLine>();
+
+		// Add each vertex as its own line
+		for (int i = 0; i < vertices.length; i++) {
+			VertexLine line = new VertexLine();
+
+			// Get the id and coordinates
+			line.ID = vertices[i];
+			line.x = transformations[i][0];
+			line.y = transformations[i][1];
+			line.z = transformations[i][2];
+
+			// Add the line to the block
+			block.add(line);
+		}
+
+		return block;
+	}
+
+	/**
+	 * Set the information about the mesh's vertices formatted into a block of
+	 * VertexLines.
+	 * 
+	 * This method is used for persistence with JAXB and is not intended to be
+	 * called
+	 * 
+	 * @param block
+	 *            A list of all lines in the xml block defining the vertices
+	 */
+	public void setVerticesBlock(ArrayList<VertexLine> block) {
+
+		// There is one vertex per line in the block
+		int vertexNum = block.size();
+
+		// Initialize the arrays
+		vertices = new int[vertexNum];
+		transformations = new double[vertexNum][3];
+
+		// Iterate through the block one line at a time
+		for (int i = 0; i < vertexNum; i++) {
+
+			// Get the current line
+			VertexLine line = block.get(i);
+
+			// Put the ID field into the vertices array
+			vertices[i] = line.ID;
+
+			// Put the coordinates into the transformations array
+			transformations[i][0] = line.x;
+			transformations[i][1] = line.y;
+			transformations[i][2] = line.z;
+		}
+
+	}
+
+	/**
+	 * This class serves as a JAXB adapter for the vertices block of a
+	 * MeshDescription's xml representation. It will convert an ArrayList of
+	 * VertexLines into a a string of xml code, with each vertex's information
+	 * on a new line, with the vertex id followed by the three coordinates.
 	 * 
 	 * @author Robert Smith
 	 *
 	 */
-	private static class PolygonPropertiesAdapter
-			extends XmlAdapter<String, ArrayList<PolygonProperties>> {
+	private static class FacesBlockAdapter
+			extends XmlAdapter<String, ArrayList<FaceLine>> {
 
 		/*
 		 * (non-Javadoc)
@@ -1034,117 +1026,50 @@ public class MeshDescription {
 		 * Object)
 		 */
 		@Override
-		public String marshal(ArrayList<PolygonProperties> v) throws Exception {
+		public String marshal(ArrayList<FaceLine> v) throws Exception {
 
 			// Start the output by pushing the first row to a new line
 			String output = "\n";
 
-			// Iterate through the list, making each properties list into its
-			// own line with the group number and material ID separated by a
-			// space
-			for (PolygonProperties props : v) {
-				String temp = props.getGroupNum() + " " + props.getMaterialId();
+			// Iterate through the list, writing each line
+			for (FaceLine line : v) {
 
-				// If the properties are the default, save space by writing an
-				// empty line
-				if (!"0 nul1".equals(temp)) {
-					output += temp;
+				// Start the line with the face's id
+				output += line.FaceID + ",";
+
+				// Add the group number if it is non-default
+				if (line.GroupNum != 0) {
+					output += line.GroupNum;
 				}
 
-				// End the line for the current polygon
-				output += '\n';
-			}
-			return output;
+				output += ",";
 
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.
-		 * Object)
-		 */
-		@Override
-		public ArrayList<PolygonProperties> unmarshal(String v)
-				throws Exception {
-
-			// Split the input into an array of numbers
-			String[] input = v.substring(1).replace("\n", " ; ").split("\\s+");
-
-			// The list of all polygon properties
-			ArrayList<PolygonProperties> output = new ArrayList<PolygonProperties>();
-
-			// The current index in the array of input tokens
-			int i = 1;
-
-			// Traverse the array
-			while (i < input.length) {
-
-				// If the input is a number, set the polygon properties
-				if (!(input[i].equals(";") || input[i].isEmpty())) {
-
-					// The properties are defined by the current and next
-					// numbers in the input
-					output.add(new PolygonProperties(input[i + 1],
-							Integer.parseInt(input[i])));
-
-					// Skip two numbers for the properties, then one more for
-					// the semicolon that ends the line
-					i = i + 3;
+				// Add the material ID if it is non-default
+				if (!"nul1".equals(line.MaterialID)) {
+					output += line.MaterialID;
 				}
 
-				// If the input is a semicolon, this is an empty line
-				else {
+				// Write a ; to signal the end of the face's properties
+				output += ";";
 
-					// Add null the signify that there are no polygon properties
-					// for this polygon
-					output.add(null);
+				// Handle each edge in the face
+				for (EdgeLine edge : line.Edges) {
 
-					// This line is only one token long, so move along to the
-					// next token
-					i++;
-				}
-			}
+					// Start with the edge's ID
+					output += edge.EdgeID + ",";
 
-			return output;
-		}
-	}
+					// Write each boundary condition, seperated by commas
+					for (String boundary : edge.BoundaryConditions) {
+						output += boundary + ",";
+					}
 
-	/**
-	 * This class serves as a JAXB adapter for the transformations block of a
-	 * MeshDescription's xml representation. It will convert a two dimensional
-	 * array of doubles into a table of three doubles on each row, corresponding
-	 * to a single vertex's location in three dimensional space.
-	 * 
-	 * @author Robert Smith
-	 *
-	 */
-	private static class TransformationBlockAdapter
-			extends XmlAdapter<String, double[][]> {
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.
-		 * Object)
-		 */
-		@Override
-		public String marshal(double[][] v) throws Exception {
-
-			// Start the output by pushing the first row to a new line
-			String output = "\n";
-
-			// Iterate through the 2D, * x 3 sized block
-			for (int i = 0; i < v.length; i++) {
-				for (int j = 0; j < 3; j++) {
-
-					// After each number, insert a space
-					output += v[i][j] + " ";
+					// Write a ; to signal the end of the edge's properties
+					output += ";";
 				}
 
-				// After each third number, end the line
+				// Start a new line for the new polygon.
 				output += "\n";
+
 			}
 
 			return output;
@@ -1159,17 +1084,61 @@ public class MeshDescription {
 		 * Object)
 		 */
 		@Override
-		public double[][] unmarshal(String v) throws Exception {
+		public ArrayList<FaceLine> unmarshal(String v) throws Exception {
 
-			// Split the input by whitespace
-			String[] input = v.split("\\s+");
+			// Split the input by new line
+			String[] input = v.split("\\r?\\n");
 
-			// The array which will hold the coordinates, sized * x 3
-			double[][] output = new double[input.length / 3][3];
+			// The full list of faces
+			ArrayList<FaceLine> output = new ArrayList<FaceLine>();
 
-			// Convert each string to a double and put it in the array
-			for (int i = 0; i < input.length - 1; i++) {
-				output[i / 3][i % 3] = Double.parseDouble(input[i + 1]);
+			// Iterate through each face
+			for (int i = 1; i < input.length; i++) {
+
+				// Create a face line to hold this line's information
+				FaceLine face = new FaceLine();
+
+				// Split the information in the line by the edge it refers to
+				String[] edges = input[i].split(";");
+
+				// The first "edge" is a special section with information for
+				// the face, deliminated by commas
+				String[] faceProps = edges[0].split(",");
+
+				// Get the face's ID
+				face.FaceID = Integer.parseInt(faceProps[0]);
+
+				// If the first segment is not empty, set the group number
+				if (!faceProps[1].isEmpty()) {
+					face.GroupNum = Integer.parseInt(faceProps[1]);
+				}
+
+				// If the second segment is not empty, set the material ID
+				if (!faceProps[2].isEmpty()) {
+					face.MaterialID = faceProps[2];
+				}
+
+				// Iterate through the edges
+				for (int j = 1; j < edges.length; j++) {
+					EdgeLine edge = new EdgeLine();
+
+					// Split each edge into its boundary conditions
+					String[] edgeProps = edges[j].split(",");
+
+					// The first segment is the edgeID
+					edge.EdgeID = Integer.parseInt(edgeProps[0]);
+
+					// Add all other segments as boundary conditions
+					for (int k = 1; k < edgeProps.length; k++) {
+						edge.BoundaryConditions.add(edgeProps[k]);
+					}
+
+					// Add the finished edge
+					face.Edges.add(edge);
+				}
+
+				// Add the finished face
+				output.add(face);
 			}
 
 			return output;
@@ -1177,16 +1146,16 @@ public class MeshDescription {
 	}
 
 	/**
-	 * This class serves as a JAXB adapter for the transformations block of a
-	 * MeshDescription's xml representation. It will convert a two dimensional
-	 * array of doubles into a table of three doubles on each row, corresponding
-	 * to a single vertex's location in three dimensional space.
+	 * This class serves as a JAXB adapter for the vertices block of a
+	 * MeshDescription's xml representation. It will convert an ArrayList of
+	 * VertexLines into a a string of xml code, with each vertex's information
+	 * on a new line, with the vertex id followed by the three coordinates.
 	 * 
 	 * @author Robert Smith
 	 *
 	 */
 	private static class VerticesBlockAdapter
-			extends XmlAdapter<String, double[][]> {
+			extends XmlAdapter<String, ArrayList<VertexLine>> {
 
 		/*
 		 * (non-Javadoc)
@@ -1195,21 +1164,17 @@ public class MeshDescription {
 		 * Object)
 		 */
 		@Override
-		public String marshal(double[][] v) throws Exception {
+		public String marshal(ArrayList<VertexLine> v) throws Exception {
 
 			// Start the output by pushing the first row to a new line
 			String output = "\n";
 
-			// Iterate through the 2D, * x 4 sized block
-			for (int i = 0; i < v.length; i++) {
-				for (int j = 0; j < 4; j++) {
+			// Iterate through the list, writing each line
+			for (VertexLine line : v) {
 
-					// After each number, insert a space
-					output += v[i][j] + " ";
-				}
-
-				// After each fourth number, end the line
-				output += "\n";
+				// Format the line as "ID x y z"
+				output += line.ID + " " + line.x + " " + line.y + " " + line.z
+						+ '\n';
 			}
 
 			return output;
@@ -1224,35 +1189,111 @@ public class MeshDescription {
 		 * Object)
 		 */
 		@Override
-		public double[][] unmarshal(String v) throws Exception {
+		public ArrayList<VertexLine> unmarshal(String v) throws Exception {
 
-			// Split the input by whitespace
-			String[] input = v.split("\\s+");
+			// Split the input by new line
+			String[] input = v.split("\\r?\\n");
 
-			// The array which will hold the coordinates, sized * x 4
-			double[][] output = new double[input.length / 4][4];
+			ArrayList<VertexLine> output = new ArrayList<VertexLine>();
 
 			// Convert each string to a double and put it in the array
-			for (int i = 0; i < input.length - 1; i++) {
-				output[i / 4][i % 4] = Double.parseDouble(input[i + 1]);
+			for (int i = 1; i < input.length; i++) {
+
+				// Split the line into tokens
+				String[] inputLine = input[i].split("\\s+");
+
+				// Convert the tokens into a vertex's information
+				VertexLine line = new VertexLine();
+				line.ID = Integer.parseInt(inputLine[0]);
+				line.x = Double.parseDouble(inputLine[1]);
+				line.y = Double.parseDouble(inputLine[2]);
+				line.z = Double.parseDouble(inputLine[3]);
+
+				// Save the line to the output array
+				output.add(line);
 			}
 
 			return output;
 		}
 	}
 
-	private class VertexLine {
+	/**
+	 * A temporary internal representation of a line of the vertices xml block
+	 * 
+	 * @author Robert Smith
+	 *
+	 */
+	public static class VertexLine {
 
 		/**
-		 * This vertex's ID
+		 * This vertex's unique global ID
 		 */
 		public int ID;
 
+		/**
+		 * The x coordinate
+		 */
 		public double x;
 
+		/**
+		 * The y coordinate
+		 */
 		public double y;
 
+		/**
+		 * The z coordinate
+		 */
 		public double z;
 	}
 
+	/**
+	 * A temporary internal representation of a line of the faces xml block
+	 * 
+	 * @author Robert Smith
+	 *
+	 */
+	public static class FaceLine {
+
+		/**
+		 * The face's unique global ID
+		 */
+		public int FaceID;
+
+		/**
+		 * The face's group number.
+		 */
+		public int GroupNum = 0;
+
+		/**
+		 * The face's material ID.
+		 */
+		public String MaterialID = "None";
+
+		/**
+		 * A list of all the edges contained in the face
+		 */
+		public ArrayList<EdgeLine> Edges = new ArrayList<EdgeLine>();
+	}
+
+	/**
+	 * A temporary internal representation of a segment of a FaceLine defining
+	 * an Edge.
+	 * 
+	 * @author Robert Smith
+	 *
+	 */
+	public static class EdgeLine {
+
+		/**
+		 * The edge's unique global ID. See the documentation for
+		 * MeshDescription for information on how this relates to the edge's
+		 * vertices
+		 */
+		public int EdgeID;
+
+		/**
+		 * A list of all the types for the boundary conditions on the edge.
+		 */
+		public ArrayList<String> BoundaryConditions = new ArrayList<String>();
+	}
 }

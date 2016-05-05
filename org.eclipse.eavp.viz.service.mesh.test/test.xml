@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Mesh>
-    <edgeProperties>
-17  ,  , ; 9 AxisymmetricBoundary 1.0 2.0 3.0 4.0 5.0 , DirichletTemperatureScalar 2.0 2.0 3.0 4.0 5.0 , ; 25  ,  , ; 29  ,  , ; 
-17  ,  , ; 19  ,  , ; 41  ,  , ; 45  ,  , ; 
-</edgeProperties>
-    <edges>9 17 25 29 19 41 45</edges>
-    <faces>
-1 9 17 25 29 
-2 17 19 41 45 
-</faces>
-    <polygonProperties>
-8 Test
-11 TEST
-</polygonProperties>
-    <transformations>
-0.0 0.0 0.0 
-1.0 0.0 0.0 
-1.0 1.0 0.0 
-0.0 1.0 0.0 
-2.0 0.0 0.0 
-2.0 1.0 0.0 
-</transformations>
-    <vertices>1 2 3 4 5 6</vertices>
+    <facesBlock>
+1,8,Test;9,AxisymmetricBoundary 1.0 2.0 3.0 4.0 5.0,DirichletTemperatureScalar 2.0 2.0 3.0 4.0 5.0,;17,,,;25,,,;29,,,;
+2,11,TEST;17,,,;19,,,;41,,,;45,,,;
+</facesBlock>
+    <vertices>
+1 0.0 0.0 0.0
+2 1.0 0.0 0.0
+3 1.0 1.0 0.0
+4 0.0 1.0 0.0
+5 2.0 0.0 0.0
+6 2.0 1.0 0.0
+</vertices>
 </Mesh>
