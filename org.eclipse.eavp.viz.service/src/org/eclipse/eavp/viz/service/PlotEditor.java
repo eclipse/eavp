@@ -255,6 +255,11 @@ public class PlotEditor extends MultiPageEditorPart {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.MultiPageEditorPart#isDirty()
+	 */
 	@Override
 	public boolean isDirty() {
 

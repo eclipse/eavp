@@ -550,6 +550,9 @@ public class MeshDescription {
 			mesh.setProperty(MeshProperty.ID, Integer.toString(vertices[i]));
 			VertexController vertex = vertexProvider.createController(mesh);
 
+			// Set the vertex's name
+			vertex.setProperty(MeshProperty.NAME, "Vertex");
+
 			// TODO remove this section when transformations are moved to the
 			// IMesh
 			vertex.setX(transformations[i][0]);
@@ -572,6 +575,9 @@ public class MeshDescription {
 			DetailedEdgeMesh mesh = new DetailedEdgeMesh();
 			mesh.setProperty(MeshProperty.ID, Integer.toString(edges[i]));
 			IController edge = edgeProvider.createController(mesh);
+
+			// Set the edge's name
+			edge.setProperty(MeshProperty.NAME, "Edge");
 
 			// Calculate the endpoints' IDs based on the edge ID
 			int endpoint1 = edges[i] / (vertices.length + 1);
@@ -1109,12 +1115,12 @@ public class MeshDescription {
 				face.FaceID = Integer.parseInt(faceProps[0]);
 
 				// If the first segment is not empty, set the group number
-				if (!faceProps[1].isEmpty()) {
+				if (faceProps.length >= 2 && !faceProps[1].isEmpty()) {
 					face.GroupNum = Integer.parseInt(faceProps[1]);
 				}
 
 				// If the second segment is not empty, set the material ID
-				if (!faceProps[2].isEmpty()) {
+				if (faceProps.length >= 3 && !faceProps[2].isEmpty()) {
 					face.MaterialID = faceProps[2];
 				}
 
