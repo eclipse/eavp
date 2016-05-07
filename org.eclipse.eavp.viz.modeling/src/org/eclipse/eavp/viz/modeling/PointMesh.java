@@ -210,7 +210,7 @@ public class PointMesh extends BasicMesh {
 		// Copy each of the other component's data members
 		type = castObject.type;
 		properties = new HashMap<IMeshProperty, String>(
-				castObject.getProperties());
+				castObject.getPropertyMap());
 
 		// Copy the coordinates
 		x = ((PointMesh) otherObject).getX();
@@ -256,7 +256,7 @@ public class PointMesh extends BasicMesh {
 
 		// Check the types and properties for equality
 		if (type != castObject.type
-				|| !getProperties().equals(castObject.getProperties())) {
+				|| !getPropertyMap().equals(castObject.getPropertyMap())) {
 			return false;
 		}
 
@@ -312,7 +312,7 @@ public class PointMesh extends BasicMesh {
 				hash += 31 * entity.hashCode();
 			}
 		}
-		hash += 31 * getProperties().hashCode();
+		hash += 31 * getPropertyMap().hashCode();
 		hash += 31 * x;
 		hash += 31 * y;
 		hash += 31 * z;

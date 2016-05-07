@@ -12,6 +12,10 @@ package org.eclipse.eavp.viz.modeling.base;
 
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateableListener;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
@@ -25,6 +29,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Robert Smith
  */
+@XmlRootElement(name = "BasicView")
 public class BasicView
 		implements IManagedUpdateableListener, IManagedUpdateable, IView {
 
@@ -38,22 +43,26 @@ public class BasicView
 	/**
 	 * The last transformation which was applied by the rendering engine.
 	 */
+	@XmlElement
 	private Transformation previousTransformation;
 
 	/**
 	 * The list of listeners observing this object.
 	 */
+	@XmlTransient
 	private ArrayList<IVizUpdateableListener> listeners;
 
 	/**
 	 * Logger for handling event messages and other information.
 	 */
+	@XmlTransient
 	private static final Logger logger = LoggerFactory
 			.getLogger(BasicController.class);
 
 	/**
 	 * The listeners registered for updates from this object.
 	 */
+	@XmlTransient
 	protected UpdateableSubscriptionManager updateManager = new UpdateableSubscriptionManager(
 			this);
 
@@ -83,8 +92,7 @@ public class BasicView
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IView#setTransformation(org.eclipse
+	 * @see org.eclipse.eavp.viz.modeling.IView#setTransformation(org.eclipse
 	 * .eavp.viz.service.modeling.Transformation)
 	 */
 	@Override
@@ -116,8 +124,7 @@ public class BasicView
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IView#refresh(org.eclipse.eavp.viz.
+	 * @see org.eclipse.eavp.viz.modeling.IView#refresh(org.eclipse.eavp.viz.
 	 * service.modeling.IMesh)
 	 */
 	@Override
@@ -217,8 +224,7 @@ public class BasicView
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IView#copy(org.eclipse.eavp.viz.
+	 * @see org.eclipse.eavp.viz.modeling.IView#copy(org.eclipse.eavp.viz.
 	 * service.modeling.AbstractView)
 	 */
 	@Override

@@ -216,8 +216,8 @@ public class NekPolygonTester {
 			edges.add(edge);
 		}
 
-		NekPolygonController polygon = new NekPolygonController(new FaceMesh(),
-				new BasicView());
+		NekPolygonController polygon = new NekPolygonController(
+				new NekPolygonMesh(), new BasicView());
 		for (EdgeController e : edges) {
 			polygon.addEntityToCategory(e, MeshCategory.EDGES);
 		}
@@ -360,8 +360,8 @@ public class NekPolygonTester {
 	public void checkPolygonProperites() {
 
 		// Create a Polygon and PolygonProperties for testing
-		NekPolygonController polygon = new NekPolygonController(new FaceMesh(),
-				new BasicView());
+		NekPolygonController polygon = new NekPolygonController(
+				new NekPolygonMesh(), new BasicView());
 		PolygonProperties defaultProps = new PolygonProperties();
 		PolygonProperties customProps = new PolygonProperties("54g", 9000);
 
@@ -429,8 +429,8 @@ public class NekPolygonTester {
 			edges.add(edge);
 		}
 
-		NekPolygonController polygon = new NekPolygonController(new FaceMesh(),
-				new BasicView());
+		NekPolygonController polygon = new NekPolygonController(
+				new NekPolygonMesh(), new BasicView());
 		for (EdgeController e : edges) {
 			polygon.addEntityToCategory(e, MeshCategory.EDGES);
 		}
@@ -664,6 +664,21 @@ public class NekPolygonTester {
 		assertFalse("just a string".equals(object));
 		assertFalse(object.equals(unequalObject));
 		assertFalse(unequalObject.equals(object));
+
+		// Check that changing a boundary condition will make the polygons
+		// unequal
+		NekPolygonController changedEdgeProperties = (NekPolygonController) equalObject
+				.clone();
+		BoundaryCondition boundary = new BoundaryCondition();
+		boundary.setType(BoundaryConditionType.AxisymmetricBoundary);
+		changedEdgeProperties.setFluidBoundaryCondition(1, boundary);
+		assertFalse(object.equals(changedEdgeProperties));
+
+		// Check that changing the properties will make the polygons equal
+		NekPolygonController changedPolygonProperties = (NekPolygonController) equalObject
+				.clone();
+		changedPolygonProperties.setPolygonProperties("different id", 8);
+		assertFalse(object.equals(changedPolygonProperties));
 
 		// Check the hash codes.
 		assertTrue(object.hashCode() == object.hashCode());

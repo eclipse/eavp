@@ -18,6 +18,7 @@ import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.base.Representation;
+import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
@@ -150,8 +151,7 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -161,19 +161,19 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMeshComponent)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
 	public void refresh(IMesh model) {
 
 		// Center the node on the vertex's location
-		transformation.setTranslation(((VertexMesh) model).getX() * scale,
+		Transformation temp = (Transformation) transformation.clone();
+		temp.setTranslation(((VertexMesh) model).getX() * scale,
 				((VertexMesh) model).getY() * scale, 0);
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms().setAll(Util.convertTransformation(temp));
 
 		// If the vertex is under construction, leave the material unchanged,
 		// otherwise set it based on whether or not the vertex is selected
@@ -214,9 +214,8 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse.
-	 * ice. viz.service.datastructures.VizObject.IVizUpdateable,
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse. ice.
+	 * viz.service.datastructures.VizObject.IVizUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * UpdateableSubscriptionType[])
 	 */

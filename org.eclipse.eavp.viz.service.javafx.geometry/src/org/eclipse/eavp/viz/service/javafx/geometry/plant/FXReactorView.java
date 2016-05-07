@@ -124,7 +124,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 		ArrayList<Extrema> extrema = new ArrayList<Extrema>();
 
 		// Check all the reactor's children for core channels
-		for (IController channel : model.getEntities()) {
+		for (IController channel : model.getAllEntities()) {
 			if ("True".equals(
 					channel.getProperty(ReactorMeshProperty.CORE_CHANNEL))) {
 

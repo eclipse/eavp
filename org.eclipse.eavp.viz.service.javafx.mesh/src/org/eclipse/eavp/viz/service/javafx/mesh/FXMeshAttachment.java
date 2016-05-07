@@ -53,11 +53,23 @@ public class FXMeshAttachment extends FXAttachment {
 		background.setMaterial(backgroundMaterial);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment#handleUpdate(org.
+	 * eclipse.eavp.viz.modeling.base.IController)
+	 */
 	@Override
 	protected void handleUpdate(IController source) {
 
 		// On update, refresh the list of top level nodes
 		fxAttachmentNode.getChildren().clear();
+
+		// Add the source if it is unrecognized
+		if (!knownParts.contains(source)) {
+			addGeometry(source);
+		}
 
 		// For each group which has been added to the attachment
 		for (IController group : knownParts) {

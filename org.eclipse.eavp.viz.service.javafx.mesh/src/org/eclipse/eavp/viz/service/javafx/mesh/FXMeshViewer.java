@@ -79,7 +79,7 @@ public class FXMeshViewer extends FXViewer {
 	/**
 	 * The number of units long each side of the squares in the grid will be
 	 */
-	final protected double SCALE = 3d;
+	final protected int SCALE = 3;
 
 	/**
 	 * A handler which places new polygons on the screen based on mouse clicks.
@@ -320,6 +320,7 @@ public class FXMeshViewer extends FXViewer {
 				handleMouseMoved(event);
 			}
 		});
+
 	}
 
 	/**
@@ -452,6 +453,27 @@ public class FXMeshViewer extends FXViewer {
 	}
 
 	/**
+	 * Set all the objects in the model to the viewer's scale
+	 */
+	public void scale() {
+
+		// Get each of the polygons originally in the hierarchy
+		for (IController polygon : ((FXMeshAttachment) attachmentManager
+				.getAttachments().get(1)).getKnownParts().get(0)
+						.getEntities()) {
+
+			// Get each of the vertices in the polygon
+			for (FXVertexController vertex : polygon.getEntitiesFromCategory(
+					MeshCategory.VERTICES, FXVertexController.class)) {
+
+				// Set them to work for an application with the mesh editor's
+				// scale
+				vertex.setApplicationScale(SCALE);
+			}
+		}
+	}
+
+	/**
 	 * The function called whenever the user clicks the mouse in Add Mode.
 	 */
 	private void handleAddModeEvent(MouseEvent event) {
@@ -522,7 +544,7 @@ public class FXMeshViewer extends FXViewer {
 					.createController(tempComponent);
 
 			// Set the vertex's scale, name, and ID
-			tempVertex.setApplicationScale((int) SCALE);
+			tempVertex.setApplicationScale(SCALE);
 			tempVertex.setProperty(MeshProperty.NAME, "Vertex");
 			tempVertex.setProperty(MeshProperty.ID,
 					String.valueOf(nextVertexID));

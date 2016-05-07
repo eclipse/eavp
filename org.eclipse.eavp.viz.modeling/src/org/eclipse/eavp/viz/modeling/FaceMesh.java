@@ -159,7 +159,7 @@ public class FaceMesh extends BasicMesh {
 			// Copy each of the other component's data members
 			type = castObject.type;
 			properties = new HashMap<IMeshProperty, String>(
-					castObject.getProperties());
+					castObject.getPropertyMap());
 
 			// Notify listeners of the change
 			SubscriptionType[] eventTypes = { SubscriptionType.ALL };

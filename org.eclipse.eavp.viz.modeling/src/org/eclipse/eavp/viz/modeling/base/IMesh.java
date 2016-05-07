@@ -46,7 +46,7 @@ public interface IMesh extends IManagedUpdateable, IManagedUpdateableListener {
 	 * 
 	 * @return All related entities.
 	 */
-	ArrayList<IController> getEntities();
+	ArrayList<IController> getAllEntities();
 
 	/**
 	 * Return all of the part's children entities of a given category.
@@ -94,7 +94,7 @@ public interface IMesh extends IManagedUpdateable, IManagedUpdateableListener {
 	 * 
 	 * @return The map of all properties.
 	 */
-	Map<IMeshProperty, String> getProperties();
+	Map<IMeshProperty, String> getPropertyMap();
 
 	/**
 	 * Add a new entity to the part. A convenience method which allows for the
@@ -159,5 +159,42 @@ public interface IMesh extends IManagedUpdateable, IManagedUpdateableListener {
 	 * @return The set of all categories in the mesh's entities map.
 	 */
 	Set<IMeshCategory> getEntityCategories();
+
+	/**
+	 * Get the entities map in the form of an array of map entries. This method
+	 * is intended for use by the JAXB marshaler.
+	 * 
+	 * @return An array of map entries, each with an IMeshCategory and all
+	 *         IControllers in that category.
+	 */
+	public Map<IMeshCategory, ArrayList<IController>> getEntities();
+
+	/**
+	 * Get the properties map in the form of an array of map entries. This
+	 * method is inteded for use by the JAXB marshaler. Clients should call
+	 * getProperyMap() instead.
+	 * 
+	 * @return An array of map entries, each with an IMeshProperty and its
+	 *         associated setting.
+	 */
+	public Map<IMeshProperty, String> getProperties();
+
+	/**
+	 * Set the mesh's map of entities to be equal to the provided map. This will
+	 * be equivalent to clearing the map with removeEntity() calls and adding
+	 * each individual member of newEntities as if by invoking
+	 * addEntityToCategory().
+	 * 
+	 * @param entities
+	 */
+	void setEntities(Map<IMeshCategory, ArrayList<IController>> entities);
+
+	/**
+	 * Set the mesh's properties according to the given map.
+	 * 
+	 * @param properties
+	 *            The new map of properties for the mesh.
+	 */
+	void setProperties(Map<IMeshProperty, String> properties);
 
 }

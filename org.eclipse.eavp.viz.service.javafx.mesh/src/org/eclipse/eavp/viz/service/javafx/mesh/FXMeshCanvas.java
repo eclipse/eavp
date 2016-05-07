@@ -215,4 +215,17 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas#loadPart(org.
+	 * eclipse.eavp.viz.modeling.base.IController)
+	 */
+	@Override
+	protected void loadPart(IController root) {
+		super.loadPart(root);
+
+		// Scale the loaded parts correctly
+		((FXMeshViewer) viewer).scale();
+	}
 }

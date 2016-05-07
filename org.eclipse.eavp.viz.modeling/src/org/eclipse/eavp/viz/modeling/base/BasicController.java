@@ -11,7 +11,12 @@
 package org.eclipse.eavp.viz.modeling.base;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateableListener;
@@ -28,6 +33,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Robert Smith
  */
+
+@XmlRootElement(name = "BasicController")
 public class BasicController
 		implements IManagedUpdateable, IManagedUpdateableListener, IController {
 
@@ -44,16 +51,19 @@ public class BasicController
 	/**
 	 * A flag for whether or not the part has been disposed.
 	 */
+	@XmlTransient
 	private AtomicBoolean disposed;
 
 	/**
 	 * The manager for the part's updates.
 	 */
+	@XmlTransient
 	protected UpdateableSubscriptionManager updateManager;
 
 	/**
 	 * Logger for handling event messages and other information.
 	 */
+	@XmlTransient
 	private static final Logger logger = LoggerFactory
 			.getLogger(IController.class);
 
@@ -120,8 +130,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#setDisposed(boolean)
+	 * @see org.eclipse.eavp.viz.modeling.IController#setDisposed(boolean)
 	 */
 	@Override
 	public void setDisposed(boolean newDisposed) {
@@ -140,6 +149,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getModel()
 	 */
 	@Override
+	@XmlAnyElement()
 	public IMesh getModel() {
 		return model;
 	}
@@ -150,6 +160,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getView()
 	 */
 	@Override
+	@XmlAnyElement()
 	public BasicView getView() {
 		return view;
 	}
@@ -157,8 +168,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#setView(org.eclipse.
+	 * @see org.eclipse.eavp.viz.modeling.IController#setView(org.eclipse.
 	 * eavp.viz.service.modeling.AbstractView)
 	 */
 	@Override
@@ -176,8 +186,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#addEntity(org.eclipse.
+	 * @see org.eclipse.eavp.viz.modeling.IController#addEntity(org.eclipse.
 	 * eavp.viz.service.modeling.IController)
 	 */
 	@Override
@@ -202,14 +211,13 @@ public class BasicController
 	 */
 	@Override
 	public ArrayList<IController> getEntities() {
-		return model.getEntities();
+		return model.getAllEntities();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#getEntitiesByCategory(
+	 * @see org.eclipse.eavp.viz.modeling.IController#getEntitiesByCategory(
 	 * java.lang.String)
 	 */
 	@Override
@@ -221,8 +229,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#getEntitiesFromCategory
+	 * @see org.eclipse.eavp.viz.modeling.IController#getEntitiesFromCategory
 	 * (org.eclipse.eavp.viz.modeling.IMeshCategory, java.lang.Class)
 	 */
 	@Override
@@ -234,8 +241,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#getProperty(java.lang.
+	 * @see org.eclipse.eavp.viz.modeling.IController#getProperty(java.lang.
 	 * String)
 	 */
 	@Override
@@ -246,10 +252,10 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.IController#getRepresentation()
 	 */
 	@Override
+	@XmlTransient
 	public Representation getRepresentation() {
 		return view.getRepresentation();
 	}
@@ -260,6 +266,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getRotation()
 	 */
 	@Override
+	@XmlTransient
 	public double[] getRotation() {
 		return view.getTransformation().getRotation();
 	}
@@ -270,6 +277,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getScale()
 	 */
 	@Override
+	@XmlTransient
 	public double[] getScale() {
 		return view.getTransformation().getScale();
 	}
@@ -280,6 +288,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getSize()
 	 */
 	@Override
+	@XmlTransient
 	public double getSize() {
 		return view.getTransformation().getSize();
 	}
@@ -290,6 +299,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getSkew()
 	 */
 	@Override
+	@XmlTransient
 	public double[] getSkew() {
 		return view.getTransformation().getSkew();
 	}
@@ -297,10 +307,10 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#getTransformation()
+	 * @see org.eclipse.eavp.viz.modeling.IController#getTransformation()
 	 */
 	@Override
+	@XmlTransient
 	public Transformation getTransformation() {
 		return view.getTransformation();
 	}
@@ -311,6 +321,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getTranslation()
 	 */
 	@Override
+	@XmlTransient
 	public double[] getTranslation() {
 		return view.getTransformation().getTranslation();
 	}
@@ -329,8 +340,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#setProperty(java.lang.
+	 * @see org.eclipse.eavp.viz.modeling.IController#setProperty(java.lang.
 	 * String, java.lang.String)
 	 */
 	@Override
@@ -341,8 +351,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#setRotation(double,
+	 * @see org.eclipse.eavp.viz.modeling.IController#setRotation(double,
 	 * double, double)
 	 */
 	@Override
@@ -353,8 +362,8 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.modeling.IController#setScale(double,
-	 * double, double)
+	 * @see org.eclipse.eavp.viz.modeling.IController#setScale(double, double,
+	 * double)
 	 */
 	@Override
 	public void setScale(double x, double y, double z) {
@@ -374,8 +383,8 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.modeling.IController#setSkew(double,
-	 * double, double)
+	 * @see org.eclipse.eavp.viz.modeling.IController#setSkew(double, double,
+	 * double)
 	 */
 	@Override
 	public void setSkew(double x, double y, double z) {
@@ -385,8 +394,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#setTransformation(org.
+	 * @see org.eclipse.eavp.viz.modeling.IController#setTransformation(org.
 	 * eclipse.eavp.viz.service.modeling.Transformation)
 	 */
 	@Override
@@ -397,8 +405,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#setTranslation(double,
+	 * @see org.eclipse.eavp.viz.modeling.IController#setTranslation(double,
 	 * double, double)
 	 */
 	@Override
@@ -409,8 +416,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#addEntityByCategory(org
+	 * @see org.eclipse.eavp.viz.modeling.IController#addEntityByCategory(org
 	 * .eclipse.eavp.viz.service.modeling.IController, java.lang.String)
 	 */
 	@Override
@@ -425,6 +431,7 @@ public class BasicController
 	 * @see org.eclipse.eavp.viz.modeling.IController#getUpdateManager()
 	 */
 	@Override
+	@XmlTransient
 	public UpdateableSubscriptionManager getUpdateManager() {
 		return updateManager;
 	}
@@ -480,8 +487,7 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#copy(org.eclipse.eavp.
+	 * @see org.eclipse.eavp.viz.modeling.IController#copy(org.eclipse.eavp.
 	 * viz.service.modeling.IController)
 	 */
 	@Override
@@ -613,9 +619,33 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IController#setEntities(java.util.Map)
+	 */
+	@Override
+	public void setEntities(EntityMapEntry[] newEntities) {
+		// model.setEntities(newEntities);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IController#setProperties(java.util.
+	 * Map)
+	 */
+	@Override
+	public void setProperties(Map<IMeshProperty, String> properties) {
+		model.setProperties(properties);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.modeling.IController#setRoot(boolean)
 	 */
 	@Override
+	@XmlTransient
 	public void setRoot(boolean root) {
 
 		// Set the model's root property to a string representation of the
@@ -630,10 +660,10 @@ public class BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IController#setSelected(boolean)
+	 * @see org.eclipse.eavp.viz.modeling.IController#setSelected(boolean)
 	 */
 	@Override
+	@XmlTransient
 	public void setSelected(boolean selected) {
 
 		// Set the model's selected property to a string representation of the

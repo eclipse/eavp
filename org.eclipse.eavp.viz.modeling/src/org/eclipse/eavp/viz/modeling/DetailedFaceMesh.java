@@ -74,7 +74,10 @@ public class DetailedFaceMesh extends FaceMesh {
 		}
 
 		// Otherwise, add the entity normally
-		super.addEntityToCategory(newEntity, category);
+		else {
+			super.addEntityToCategory(newEntity, category);
+		}
+		;
 
 	}
 
@@ -147,8 +150,7 @@ public class DetailedFaceMesh extends FaceMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.FaceMesh#copy(org.eclipse.eavp.viz.
+	 * @see org.eclipse.eavp.viz.modeling.FaceMesh#copy(org.eclipse.eavp.viz.
 	 * service.modeling.AbstractMesh)
 	 */
 	@Override
@@ -235,7 +237,7 @@ public class DetailedFaceMesh extends FaceMesh {
 			// Copy each of the other component's data members
 			type = castObject.type;
 			properties = new HashMap<IMeshProperty, String>(
-					castObject.getProperties());
+					castObject.getPropertyMap());
 
 			// Notify listeners of the change
 			SubscriptionType[] eventTypes = { SubscriptionType.ALL };

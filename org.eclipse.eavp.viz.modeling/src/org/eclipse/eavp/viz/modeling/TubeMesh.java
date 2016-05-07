@@ -25,7 +25,7 @@ public class TubeMesh extends ShapeMesh {
 	 */
 	public TubeMesh() {
 		super();
-		getProperties().put(MeshProperty.TYPE, "Tube");
+		getPropertyMap().put(MeshProperty.TYPE, "Tube");
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class TubeMesh extends ShapeMesh {
 	public int getAxialSamples() {
 
 		// If the property is not set, return 0
-		String axialSamples = getProperties().get(MeshProperty.RESOLUTION);
+		String axialSamples = getPropertyMap().get(MeshProperty.RESOLUTION);
 		if (axialSamples == null) {
 			return 0;
 		}
@@ -65,7 +65,7 @@ public class TubeMesh extends ShapeMesh {
 	public double getLength() {
 
 		// If the property is not set, return 0
-		String length = getProperties().get(MeshProperty.LENGTH);
+		String length = getPropertyMap().get(MeshProperty.LENGTH);
 		if (length == null) {
 			return 0;
 		}
@@ -80,7 +80,7 @@ public class TubeMesh extends ShapeMesh {
 	public double getRadius() {
 
 		// If the property is not set, return 0
-		String radius = getProperties().get(MeshProperty.RADIUS);
+		String radius = getPropertyMap().get(MeshProperty.RADIUS);
 		if (radius == null) {
 			return 0;
 		}
@@ -94,7 +94,7 @@ public class TubeMesh extends ShapeMesh {
 	 */
 	public double getInnerRadius() {
 		// If the property is not set, return 0
-		String radius = getProperties().get(MeshProperty.INNER_RADIUS);
+		String radius = getPropertyMap().get(MeshProperty.INNER_RADIUS);
 		if (radius == null) {
 			return 0;
 		}

@@ -165,7 +165,7 @@ public class DetailedEdgeMesh extends EdgeMesh {
 
 		// Check the types, properties, and entity category for equality
 		if (type != castObject.getType()
-				|| !properties.equals(castObject.getProperties())) {
+				|| !properties.equals(castObject.getPropertyMap())) {
 			return false;
 		}
 

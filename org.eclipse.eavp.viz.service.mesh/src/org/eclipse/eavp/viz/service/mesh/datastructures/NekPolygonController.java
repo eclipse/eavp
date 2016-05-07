@@ -14,18 +14,11 @@ package org.eclipse.eavp.viz.service.mesh.datastructures;
 
 import java.util.HashMap;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-
-import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
-import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
-import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.FaceController;
 import org.eclipse.eavp.viz.modeling.FaceMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -38,39 +31,13 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
  * @author Robert Smith
  *
  */
-public class NekPolygonController extends FaceController
-		implements IVizUpdateableListener {
-	/**
-	 * <p>
-	 * The properties for each polygon defined in the MESH DATA section of a Nek
-	 * reafile. Contains a String representing the material ID, and an integer
-	 * representing the group number of the polygon.
-	 * </p>
-	 * 
-	 */
-	@XmlElement(name = "PolygonProperties")
-	protected PolygonProperties polygonProperties;
-
-	/**
-	 * <p>
-	 * A map of edge properties for each edge, keyed on the edge IDs.
-	 * </p>
-	 * 
-	 */
-	@XmlElementWrapper(name = "EdgeProperties")
-	private HashMap<Integer, EdgeProperties> edgeProperties;
+public class NekPolygonController extends FaceController {
 
 	/**
 	 * The nullary constructor
 	 */
 	public NekPolygonController() {
 		super();
-
-		// Initialize the boundary condition containers.
-		edgeProperties = new HashMap<Integer, EdgeProperties>();
-
-		// Initialize the polygon properties
-		polygonProperties = new PolygonProperties();
 	}
 
 	/**
@@ -79,45 +46,10 @@ public class NekPolygonController extends FaceController
 	public NekPolygonController(FaceMesh model, BasicView view) {
 		super(model, view);
 
-		// Initialize the boundary condition containers.
-		edgeProperties = new HashMap<Integer, EdgeProperties>();
-
-		// Initialize the polygon properties
-		polygonProperties = new PolygonProperties();
-
 		// Set the default name, id, and description.
 		model.setProperty(MeshProperty.NAME, "Polygon");
 		model.setProperty(MeshProperty.DESCRIPTION, "");
 
-		// Initialize the polygon's relationship to each edge property and
-		// boundary condition
-		for (IController edge : model
-				.getEntitiesFromCategory(MeshCategory.EDGES)) {
-			initializeBoundaryConditions(edge);
-		}
-
-	}
-
-	/**
-	 * Create a set of edge properties for the given edge and place them in the
-	 * properties, keyed by that edge's id.
-	 * 
-	 * @param edge
-	 *            The edge for which boundary conditions are being created
-	 */
-	public void initializeBoundaryConditions(IController edge) {
-		// Create an entry for the edge in the map of edge properties.
-		EdgeProperties properties = new EdgeProperties();
-		edgeProperties.put(Integer.valueOf(edge.getProperty(MeshProperty.ID)),
-				properties);
-
-		// Register with all of the boundary conditions in the properties.
-		properties.getFluidBoundaryCondition().register(this);
-		properties.getThermalBoundaryCondition().register(this);
-		for (BoundaryCondition condition : properties
-				.getOtherBoundaryConditions()) {
-			condition.register(this);
-		}
 	}
 
 	/**
@@ -132,28 +64,16 @@ public class NekPolygonController extends FaceController
 	 */
 	public void setFluidBoundaryCondition(int edgeId,
 			BoundaryCondition condition) {
+		((NekPolygonMesh) model).setFluidBoundaryCondition(edgeId, condition);
+	}
 
-		// First, check that the edgeId is valid by performing a map lookup.
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (condition != null && properties != null) {
-			// If the edgeId is valid, try to set the new condition. If the new
-			// condition is set, we need to register with the new condition and
-			// notify listeners of the change.
-			BoundaryCondition oldCondition = properties
-					.getFluidBoundaryCondition();
-			if (properties.setFluidBoundaryCondition(condition)) {
-				// Unregister from the old condition and register with the new.
-				oldCondition.unregister(this);
-				condition.register(this);
-
-				// Notify listeners of the change.
-				SubscriptionType[] eventType = new SubscriptionType[1];
-				eventType[0] = SubscriptionType.PROPERTY;
-				updateManager.notifyListeners(eventType);
-			}
-		}
-
-		return;
+	/**
+	 * Getter method for the map of edge properties.
+	 * 
+	 * @return A map from edge ID numbers to that edge's edge properties.
+	 */
+	public HashMap<Integer, EdgeProperties> getEdgeProperties() {
+		return ((NekPolygonMesh) model).getEdgeProperties();
 	}
 
 	/**
@@ -168,14 +88,18 @@ public class NekPolygonController extends FaceController
 	 */
 	public BoundaryCondition getFluidBoundaryCondition(int edgeId) {
 
-		// If the edgeId is valid, we can pull the property from the
-		// EdgeProperty instance.
-		BoundaryCondition condition = null;
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (properties != null) {
-			condition = properties.getFluidBoundaryCondition();
-		}
-		return condition;
+		return ((NekPolygonMesh) model).getFluidBoundaryCondition(edgeId);
+	}
+
+	/**
+	 * Setter method for the map of edge properties.
+	 * 
+	 * @param edgeProperties
+	 *            A map from edge ID numbers to that edge's edge properties.
+	 */
+	public void setEdgeProperties(
+			HashMap<Integer, EdgeProperties> edgeProperties) {
+		((NekPolygonMesh) model).setEdgeProperties(edgeProperties);
 	}
 
 	/**
@@ -190,28 +114,7 @@ public class NekPolygonController extends FaceController
 	 */
 	public void setThermalBoundaryCondition(int edgeId,
 			BoundaryCondition condition) {
-
-		// First, check that the edgeId is valid by performing a map lookup.
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (condition != null && properties != null) {
-			// If the edgeId is valid, try to set the new condition. If the new
-			// condition is set, we need to register with the new condition and
-			// notify listeners of the change.
-			BoundaryCondition oldCondition = properties
-					.getThermalBoundaryCondition();
-			if (properties.setThermalBoundaryCondition(condition)) {
-				// Unregister from the old condition and register with the new.
-				oldCondition.unregister(this);
-				condition.register(this);
-
-				// Notify listeners of the change.
-				SubscriptionType[] eventType = new SubscriptionType[1];
-				eventType[0] = SubscriptionType.PROPERTY;
-				updateManager.notifyListeners(eventType);
-			}
-		}
-
-		return;
+		((NekPolygonMesh) model).setThermalBoundaryCondition(edgeId, condition);
 	}
 
 	/**
@@ -225,15 +128,7 @@ public class NekPolygonController extends FaceController
 	 *         edge ID is invalid.
 	 */
 	public BoundaryCondition getThermalBoundaryCondition(int edgeId) {
-
-		// If the edgeId is valid, we can pull the property from the
-		// EdgeProperty instance.
-		BoundaryCondition condition = null;
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (properties != null) {
-			condition = properties.getThermalBoundaryCondition();
-		}
-		return condition;
+		return ((NekPolygonMesh) model).getThermalBoundaryCondition(edgeId);
 	}
 
 	/**
@@ -251,31 +146,8 @@ public class NekPolygonController extends FaceController
 	 */
 	public void setOtherBoundaryCondition(int edgeId, int otherId,
 			BoundaryCondition condition) {
-
-		// First, check that the edgeId is valid by performing a map lookup.
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (condition != null && properties != null) {
-			// If the edgeId is valid, try to set the new condition. If the new
-			// condition is set, we need to register with the new condition and
-			// notify listeners of the change.
-			BoundaryCondition oldCondition = properties
-					.getOtherBoundaryCondition(otherId);
-			if (properties.setOtherBoundaryCondition(otherId, condition)) {
-				// Unregister from the old condition and register with the new.
-				// We need a null check because the scalar index ID may be new.
-				if (oldCondition != null) {
-					oldCondition.unregister(this);
-				}
-				condition.register(this);
-
-				// Notify listeners of the change.
-				SubscriptionType[] eventType = new SubscriptionType[1];
-				eventType[0] = SubscriptionType.PROPERTY;
-				updateManager.notifyListeners(eventType);
-			}
-		}
-
-		return;
+		((NekPolygonMesh) model).setOtherBoundaryCondition(edgeId, otherId,
+				condition);
 	}
 
 	/**
@@ -293,15 +165,8 @@ public class NekPolygonController extends FaceController
 	 */
 	public BoundaryCondition getOtherBoundaryCondition(int edgeId,
 			int otherId) {
-
-		// If the edgeId is valid, we can pull the property from the
-		// EdgeProperty instance.
-		BoundaryCondition condition = null;
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (properties != null) {
-			condition = properties.getOtherBoundaryCondition(otherId);
-		}
-		return condition;
+		return ((NekPolygonMesh) model).getOtherBoundaryCondition(edgeId,
+				otherId);
 	}
 
 	/**
@@ -315,9 +180,7 @@ public class NekPolygonController extends FaceController
 	 *            The group number of the current polygon.
 	 */
 	public void setPolygonProperties(String materialId, int group) {
-		polygonProperties = new PolygonProperties(materialId, group);
-
-		return;
+		((NekPolygonMesh) model).setPolygonProperties(materialId, group);
 	}
 
 	/**
@@ -328,7 +191,7 @@ public class NekPolygonController extends FaceController
 	 * @return The properties for the current polygon.
 	 */
 	public PolygonProperties getPolygonProperties() {
-		return polygonProperties;
+		return ((NekPolygonMesh) model).getPolygonProperties();
 	}
 
 	/*
@@ -359,43 +222,6 @@ public class NekPolygonController extends FaceController
 		}
 
 		super.setProperty(property, value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.datastructures.VizObject.
-	 * IVizUpdateableListener#update(org.eclipse.eavp.viz.service.
-	 * datastructures. VizObject.IVizUpdateable)
-	 */
-	@Override
-	public void update(IVizUpdateable component) {
-
-		// This is the IVizUpdateable update method, which will only be
-		// triggered by boundary conditions. Thus, this should trigger a
-		// Property type update for the part's own listeners
-		SubscriptionType[] eventType = new SubscriptionType[1];
-		eventType[0] = SubscriptionType.PROPERTY;
-		updateManager.notifyListeners(eventType);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.modeling.IController#
-	 * addEntityByCategory(org.eclipse.eavp.viz.modeling. IController,
-	 * java.lang.String)
-	 */
-	@Override
-	public void addEntityToCategory(IController entity,
-			IMeshCategory category) {
-
-		// When edges are added, create boundary conditions for them.
-		if (MeshCategory.EDGES.equals(category)) {
-			initializeBoundaryConditions(entity);
-		}
-
-		super.addEntityToCategory(entity, category);
 	}
 
 	/*

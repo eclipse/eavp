@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateableListener;
@@ -89,6 +90,7 @@ public class Transformation extends VizObject implements IManagedUpdateable {
 	 * The manager for filtering event notifications from this object to
 	 * subscribed listeners.
 	 */
+	@XmlTransient
 	private UpdateableSubscriptionManager updateManager = new UpdateableSubscriptionManager(
 			this);
 
