@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.EdgeController;
 import org.eclipse.eavp.viz.modeling.EdgeMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -43,20 +44,20 @@ public class FXEdgeController extends EdgeController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractController#setProperty(
-	 * java. lang.String, java.lang.String)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#setProperty( java.
+	 * lang.String, java.lang.String)
 	 */
 	@Override
 	public void setProperty(IMeshProperty property, String value) {
+
+		// Lock notifications from changing own vertices
+		updateManager.enqueue();
 
 		// If the Edge's constructing or selected properties are being changed,
 		// propagate that change to its vertices
 		if (MeshEditorMeshProperty.UNDER_CONSTRUCTION.equals(property)
 				|| MeshProperty.SELECTED.equals(property)) {
 
-			// Lock notifications from changing own vertices
-			updateManager.enqueue();
 			for (IController vertex : model
 					.getEntitiesFromCategory(MeshCategory.VERTICES)) {
 				vertex.setProperty(property, value);
@@ -64,6 +65,12 @@ public class FXEdgeController extends EdgeController {
 		}
 
 		super.setProperty(property, value);
+
+		// Remove any property notifications from the edge's construction being
+		// finished
+		if (MeshEditorMeshProperty.UNDER_CONSTRUCTION.equals(property)) {
+			updateManager.removeMesaage(SubscriptionType.PROPERTY);
+		}
 
 		// Empty the queue
 		updateManager.flushQueue();

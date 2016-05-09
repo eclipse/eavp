@@ -469,6 +469,7 @@ public class FXMeshViewer extends FXViewer {
 				// Set them to work for an application with the mesh editor's
 				// scale
 				vertex.setApplicationScale(SCALE);
+				vertex.refresh();
 			}
 		}
 	}
@@ -729,10 +730,6 @@ public class FXMeshViewer extends FXViewer {
 		PickResult pickResult = event.getPickResult();
 		Node intersectedNode = pickResult.getIntersectedNode();
 
-		// The drag has started, so continue dragging even if the
-		// mouse has moved off a shape
-		dragStarted = true;
-
 		// Resolve the parent
 		Group nodeParent = (Group) intersectedNode.getParent();
 
@@ -742,6 +739,21 @@ public class FXMeshViewer extends FXViewer {
 
 		// If the user has selected a vertex, drag it
 		if (selectedVertices.contains(modelShape) || dragStarted) {
+
+			// If something other than the background box is found, set it as
+			// transparent temporarily. This allows us to always use the
+			// box's coordinate system, instead of whatever vertex the mouse
+			// is over
+			if (!(intersectedNode instanceof Box)
+					&& (!selectedVertices.contains(modelShape)
+							|| dragStarted)) {
+				intersectedNode.setMouseTransparent(true);
+				tempTransparant.add(intersectedNode);
+
+				if (dragStarted) {
+					return;
+				}
+			}
 
 			// If the vertex markers have not yet been made,
 			// create them
@@ -762,16 +774,18 @@ public class FXMeshViewer extends FXViewer {
 					// Place it at the vertex's position
 					double[] position = ((VertexController) vertex)
 							.getTranslation();
-					marker.setTranslateX(position[0]);
-					marker.setTranslateY(position[1]);
+					marker.setTranslateX(position[0] * SCALE);
+					marker.setTranslateY(position[1] * SCALE);
 
 					// Add it to the list
 					vertexMarkers.add(marker);
 
 					// Get the relative position of this vertex from
 					// the vertex being dragged
-					relativeXCords.add(position[0] - cursorLocation[0]);
-					relativeYCords.add(position[1] - cursorLocation[1]);
+					relativeXCords
+							.add((position[0] - cursorLocation[0]) * SCALE);
+					relativeYCords
+							.add((position[1] - cursorLocation[1]) * SCALE);
 
 					((FXAttachment) attachmentManager.getAttachments().get(1))
 							.getFxNode().getChildren().add(marker);
@@ -779,57 +793,54 @@ public class FXMeshViewer extends FXViewer {
 				}
 			}
 
-			// Move each vertex
-			for (int i = 0; i < vertexMarkers.size(); i++) {
+			// Move each vertex if they weren't just created
+			if (dragStarted) {
+				for (int i = 0; i < vertexMarkers.size(); i++) {
 
-				// If something other than the backgroun box is found, set it as
-				// transparant temporarily. This allows us to always use the
-				// box's coordinate system, instead of whatever vertex the mouse
-				// is over
-				if (!(intersectedNode instanceof Box)) {
-					intersectedNode.setMouseTransparent(true);
-					tempTransparant.add(intersectedNode);
-				}
+					// Get the vertex marker for this index
+					Sphere marker = vertexMarkers.get(i);
 
-				// Get the vertex marker for this index
-				Sphere marker = vertexMarkers.get(i);
+					// The adjustments to the markers needed to keep them inside
+					// the grid
+					double xAdjust = 0;
+					double yAdjust = 0;
 
-				// The adjustments to the markers needed to keep them inside
-				// the grid
-				double xAdjust = 0;
-				double yAdjust = 0;
-
-				// Set the xAdjust so that all coordinates are within the
-				// bounds of the grid, adjusted for drawing scale
-				for (Double x : relativeXCords) {
-					if (x + mousePosX + xAdjust < -16d * SCALE) {
-						xAdjust = -16d * SCALE - x - mousePosX;
-					} else if (x + mousePosX + xAdjust > 16d * SCALE) {
-						xAdjust = 16d * SCALE - x - mousePosX;
+					// Set the xAdjust so that all coordinates are within the
+					// bounds of the grid, adjusted for drawing scale
+					for (Double x : relativeXCords) {
+						if (x + mousePosX + xAdjust < -16d * SCALE) {
+							xAdjust = -16d * SCALE - x - mousePosX;
+						} else if (x + mousePosX + xAdjust > 16d * SCALE) {
+							xAdjust = 16d * SCALE - x - mousePosX;
+						}
 					}
-				}
 
-				// Set the yAdjust so that all coordinates are within the
-				// bounds of the grid, adjusted for drawing scale
-				for (Double y : relativeYCords) {
-					if (y + mousePosY + yAdjust < -8d * SCALE) {
-						yAdjust = -8d * SCALE - y - mousePosY;
-					} else if (y + mousePosY + yAdjust > 8d * SCALE) {
-						yAdjust = 8d * SCALE - y - mousePosY;
+					// Set the yAdjust so that all coordinates are within the
+					// bounds of the grid, adjusted for drawing scale
+					for (Double y : relativeYCords) {
+						if (y + mousePosY + yAdjust < -8d * SCALE) {
+							yAdjust = -8d * SCALE - y - mousePosY;
+						} else if (y + mousePosY + yAdjust > 8d * SCALE) {
+							yAdjust = 8d * SCALE - y - mousePosY;
+						}
 					}
+
+					// Move the vertex to the mouse's current
+					// position, offset by the original distance
+					// between the vertices and adjusted to lay within the
+					// bounds of the grid.
+					marker.setTranslateX(
+							relativeXCords.get(i) + mousePosX + xAdjust);
+					marker.setTranslateY(
+							relativeYCords.get(i) + mousePosY + yAdjust);
 				}
 
-				// Move the vertex to the mouse's current
-				// position, offset by the original distance
-				// between the vertices and adjusted to lay within the
-				// bounds of the grid.
-				marker.setTranslateX(
-						relativeXCords.get(i) + mousePosX + xAdjust);
-				marker.setTranslateY(
-						relativeYCords.get(i) + mousePosY + yAdjust);
 			}
-
 		}
+
+		// The drag has started, so continue dragging even if the
+		// mouse has moved off a shape
+		dragStarted = true;
 	}
 
 	/**

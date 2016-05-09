@@ -272,17 +272,20 @@ public class BasicMesh
 		ArrayList<T> temp = new ArrayList<T>();
 
 		// Add each of the entities in category to the list
-		for (IController entity : entities.get(category)) {
-			try {
-				temp.add((T) entity);
-			}
+		if (entities.get(category) != null) {
+			for (IController entity : entities.get(category)) {
+				try {
+					temp.add((T) entity);
+				}
 
-			// If an entity could not be cast to T, log an error and return an
-			// empty list.
-			catch (ClassCastException e) {
-				logger.error(
-						"IMesh attempted to cast entity, but entity was not a subtype of the specified return type. Returning empty list instead.");
-				return new ArrayList<T>();
+				// If an entity could not be cast to T, log an error and return
+				// an
+				// empty list.
+				catch (ClassCastException e) {
+					logger.error(
+							"IMesh attempted to cast entity, but entity was not a subtype of the specified return type. Returning empty list instead.");
+					return new ArrayList<T>();
+				}
 			}
 		}
 
