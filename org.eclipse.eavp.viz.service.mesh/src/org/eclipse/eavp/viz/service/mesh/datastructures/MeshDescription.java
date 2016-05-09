@@ -49,26 +49,38 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
  * The XML output from a persisted MeshDescription will be in the following
  * format:
  * 
- * <Mesh> <edgeProperties> EdgeID BoundaryConditionType BoundaryConditionValue1
- * ... BoundaryConditionValue5 , BoundaryConditionType ... ; EdgeID ... EdgeID
- * BoundaryConditionType BoundaryConditionValue1 ... BoundaryConditionValue5 ,
- * BoundaryConditionType ... ; EdgeID ... ... </edgeProperties> <edges> EdgeID
- * EdgeID ... </edges> <faces> FaceID EdgeID EdgeID EdgeID FaceID EdgeID EdgeID
- * EdgeID ... </faces> <polygonProperties> GroupNumber MaterialID
+ * <Mesh>
  * 
- * GroupNumber MaterialID GroupNumber MaterialID ... </polygonProperties>
- * <transformations> CoordinateX CoordinateY CoordinateZ CoordinateX CoordinateY
- * CoordinateZ ... </transformations> <vertices>VertexID VertexID
- * ...</vertices> </Mesh>
+ * <facesBlock>
  * 
- * The edgeProperties block is formatted with each polygon's <edgeProperties> on
- * its own line. Each edge's properties on a line are separated by semicolons.
- * Each edge is given an ID followed by two BoundaryConditions separated by
- * commas. A BoundaryCondition is specified by a string indicating a
- * BoundaryConditionType followed by five floating point numbers specifying its
- * values. If the BoundaryConditionType is left blank in the XML, it will count
- * as BoundaryConditionType.None. If the values are left blank, this will
- * signify that the values are all 0.
+ * FaceID, GroupNumber, MaterialID; EdgeID1, BoundaryConditionType1
+ * BoundaryConditionValues1, BoundaryConditionType2 BoundaryConditionValues2;
+ * EdgeID2, BoundaryConditionType...
+ * 
+ * FaceID, GroupNumber, MaterialID; EdgeID1, BoundaryConditionType1
+ * BoundaryConditionValues1, BoundaryConditionType2 BoundaryConditionValues2;
+ * EdgeID2, BoundaryConditionType...
+ * 
+ * ...
+ * 
+ * </facesBlock>
+ * 
+ * <verticesBlock>
+ * 
+ * VertexID X Y Z
+ * 
+ * VertexID X Y Z
+ * 
+ * ...
+ * 
+ * </verticesBlock>
+ * 
+ * </Mesh>
+ * 
+ * The facesBlock will be formatted with each face on its own line. The first
+ * segment will have information about the entire face and end with a semicolon.
+ * Each other segment, all delimited by semicolons, will have information on a
+ * single edge. These segments will start with the EdgeID.
  * 
  * An Edge's ID will be set such that
  * 
@@ -78,19 +90,16 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
  * 
  * For non-directed meshes, an Edge will have the lower of its two possible IDs.
  * 
- * Each face will be specified on its own line in the <faces> block. The line
- * will start with the face's ID, the same one specified in the original data
- * structure, and will be followed by some number of edge IDs which specify
- * which edges are included in the polygon.
+ * The EdgeID will be followed by segments delimited by commas. These will
+ * feature the type of the BoundaryCondition (or empty space to denote the
+ * default type of "None") and a list of five floats separated by spaces (or
+ * empty space to denote the default value of five zeroes.). The first of the
+ * boundary conditions will be the fluid boundary condition, and the second will
+ * be the thermal boundary condition.
  * 
- * Each face will have a corresponding line in the <polygonProperties> block,
- * specifying its GroupNumber and MeaterialID. If the line is blank, this
- * signifies the default values of "nul1" and "0". respectively.
- * 
- * Each vertex will have a corresponding line in the transformations block,
- * giving its X, Y, and Z coordinates.
- * 
- * The <vertices> block will simply contain all the IDs for the vertices.
+ * The verticesBlock will be formatted with each vertex on its own line. Each
+ * line will have four numbers: the vertexID followed by its x, y, and z
+ * coordinates as doubles, all separated by spaces.
  * 
  * The intended use for this class is for a hierarchy of objects for a Mesh
  * Editor, collected under a single root node represented by a BasicController,
@@ -103,7 +112,7 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
  *
  */
 @XmlRootElement(name = "Mesh")
-public class MeshDescription {
+public class MeshDescription implements IMeshDescription {
 
 	/**
 	 * A list of vertices by global ID
@@ -319,130 +328,131 @@ public class MeshDescription {
 		return clone;
 	}
 
-	/**
-	 * Getter method for the edges.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return An array of global ids for the edges, along with their endpoints
-	 *         as indices into the vertices array
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getEdges()
 	 */
+	@Override
 	@XmlTransient
 	public int[] getEdges() {
 		return edges;
 	}
 
-	/**
-	 * Getter method for the faces.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return An array of global ids for the faces, along with their
-	 *         constituent edges as indices into the edges array
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getFaces()
 	 */
+	@Override
 	@XmlTransient
 	public int[] getFaces() {
 		return faces;
 	}
 
-	/**
-	 * Getter method for the edge properties.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return A list of maps between integer ids for edges and their edge
-	 *         properties, one for each face in the faces array
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getEdgeProperties()
 	 */
+	@Override
 	@XmlTransient
 	public ArrayList<HashMap<Integer, EdgeProperties>> getEdgeProperties() {
 		return edgeProperties;
 	}
 
-	/**
-	 * Getter method for the polygon properties
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return A list of all the PolygonProperties in the hierarchy in the same
-	 *         order as their corresponding polygons in the faces array
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getPolygonProperties()
 	 */
+	@Override
 	@XmlTransient
 	public ArrayList<PolygonProperties> getPolygonProperties() {
 		return polygonProperties;
 	}
 
-	/**
-	 * Getter method for the transformation.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return An array of numbers representing the spatial data for a modeling
-	 *         object. Each object's data begins at location (12 * their global
-	 *         ID) and is stored as three values representing the x, y, and z
-	 *         directions for each of the four attributes (rotation, scale,
-	 *         skew, and translation).
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getTransformations()
 	 */
+	@Override
 	@XmlTransient
 	public double[][] getTransformations() {
 		return transformations;
 	}
 
-	/**
-	 * Getter method for the vertices.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return An array of global ids for the vertices
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getVertices()
 	 */
+	@Override
 	@XmlTransient
 	public int[] getVertices() {
 		return vertices;
 	}
 
-	/**
-	 * Setter method for the edges.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param edges
-	 *            An array of global ids for the edges, along with their
-	 *            endpoints as indices into the vertices array
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * setEdges(int[])
 	 */
+	@Override
 	public void setEdges(int[] edges) {
 		this.edges = edges;
 	}
 
-	/**
-	 * Setter method for the faces.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param faces
-	 *            An array of global ids for the faces, along with their
-	 *            constituent edges as indices into the edges array
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * setFaces(int[])
 	 */
+	@Override
 	public void setFaces(int[] faces) {
 		this.faces = faces;
 	}
 
-	/**
-	 * Setter method for the edge properties.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param properties
-	 *            A list of maps between integer ids for edges and their edge
-	 *            properties, one for each face in the faces array
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * setEdgeProperties(java.util.ArrayList)
 	 */
+	@Override
 	public void setEdgeProperties(
 			ArrayList<HashMap<Integer, EdgeProperties>> properties) {
 		this.edgeProperties = properties;
 	}
 
-	/**
-	 * Setter method for the polygon properties.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param polygonProperties
-	 *            A list of the PolygonProperties in the mesh, in the same order
-	 *            as their corresponding polygons are in the faces array.
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * setPolygonProperties(java.util.ArrayList)
 	 */
+	@Override
 	public void setPolygonProperties(
 			ArrayList<PolygonProperties> polygonProperties) {
 		this.polygonProperties = polygonProperties;
 	}
 
-	/**
-	 * Setter method for the transformations.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param transformations
-	 *            An array of numbers representing the spatial data for a
-	 *            modeling object. Each object's data begins at location (12 *
-	 *            their global ID) and is stored as three values representing
-	 *            the x, y, and z directions for each of the four attributes
-	 *            (rotation, scale, skew, and translation).
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * setTransformations(double[][])
 	 */
+	@Override
 	public void setTransformations(double[][] transformations) {
 		this.transformations = transformations;
 	}
@@ -513,17 +523,14 @@ public class MeshDescription {
 		}
 	}
 
-	/**
-	 * Unpack the condensed representation into a full set of modeling data
-	 * objects.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param factory
-	 *            The factory that will create the rendering engine appropriate
-	 *            IControllers for the meshes.
-	 * @return The root node of a data structure containing the mesh represented
-	 *         by this object, in the form of a collection of IControllers,
-	 *         IMeshes, and IView
+	 * @see
+	 * org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#unpack(
+	 * org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory)
 	 */
+	@Override
 	public IController unpack(IControllerProviderFactory factory) {
 
 		// Create a root for the hierarchy
@@ -685,18 +692,15 @@ public class MeshDescription {
 		}
 
 		return root;
-
 	}
 
-	/**
-	 * Get the information about the mesh's faces formatted into a list of
-	 * FaceLines.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * This method is used for persistence by JAXB and is not intended to be
-	 * called.
-	 * 
-	 * @return A list of all the lines in an xml block defininf the faces
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getFacesBlock()
 	 */
+	@Override
 	@XmlJavaTypeAdapter(FacesBlockAdapter.class)
 	public ArrayList<FaceLine> getFacesBlock() {
 
@@ -801,16 +805,13 @@ public class MeshDescription {
 		return block;
 	}
 
-	/**
-	 * Set the information about the mesh's faces formatted into a block of
-	 * FaceLines.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * This method is used for persistence with JAXB and is not intended to be
-	 * called
-	 * 
-	 * @param block
-	 *            A list of all lines in the xml block defining the faces
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * setFacesBlock(java.util.ArrayList)
 	 */
+	@Override
 	public void setFacesBlock(ArrayList<FaceLine> block) {
 
 		// A temporary ArrayList version of the faces array
@@ -892,18 +893,6 @@ public class MeshDescription {
 					else {
 						properties.setThermalBoundaryCondition(boundary);
 					}
-
-					// else if(!props[0])
-
-					// else{
-					// values.add(Float.parseFloat(props[0]));
-					// values.add(Float.parseFloat(props[1]));
-					// values.add(Float.parseFloat(props[2]));
-					// values.add(Float.parseFloat(props[3]));
-					// values.add(Float.parseFloat(props[4]));
-					//
-					// boundary.setValues(values);
-					// }
 				}
 
 				// Put edge's the properties in the map
@@ -944,15 +933,13 @@ public class MeshDescription {
 		}
 	}
 
-	/**
-	 * Get the information about the mesh's vertices formatted into a block of
-	 * VertexLines.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * This method is used for persistence with JAXB and is not intended to be
-	 * called.
-	 * 
-	 * @return A list of all the lines in the xml block defining the vertices
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * getVerticesBlock()
 	 */
+	@Override
 	@XmlElement(name = "vertices")
 	@XmlJavaTypeAdapter(VerticesBlockAdapter.class)
 	public ArrayList<VertexLine> getVerticesBlock() {
@@ -977,16 +964,13 @@ public class MeshDescription {
 		return block;
 	}
 
-	/**
-	 * Set the information about the mesh's vertices formatted into a block of
-	 * VertexLines.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * This method is used for persistence with JAXB and is not intended to be
-	 * called
-	 * 
-	 * @param block
-	 *            A list of all lines in the xml block defining the vertices
+	 * @see org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#
+	 * setVerticesBlock(java.util.ArrayList)
 	 */
+	@Override
 	public void setVerticesBlock(ArrayList<VertexLine> block) {
 
 		// There is one vertex per line in the block
@@ -1011,6 +995,207 @@ public class MeshDescription {
 			transformations[i][2] = line.z;
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+
+		// Create a new mesh description
+		IMeshDescription clone = new MeshDescription();
+
+		// Copy this object's data into the clone and return it
+		clone.copy(this);
+		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription#copy(
+	 * org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription)
+	 */
+	@Override
+	public void copy(IMeshDescription source) {
+
+		// Copy the array data members
+		edges = source.getEdges();
+		faces = source.getFaces();
+		transformations = source.getTransformations();
+		vertices = source.getVertices();
+
+		// Create a new list of edge properties
+		edgeProperties = new ArrayList<HashMap<Integer, EdgeProperties>>();
+
+		// Copy each map from the source
+		for (HashMap<Integer, EdgeProperties> sourceMap : source
+				.getEdgeProperties()) {
+
+			// Create a new map for this object
+			HashMap<Integer, EdgeProperties> map = new HashMap<Integer, EdgeProperties>();
+
+			// For each edge ID in the source map, create a copy of its
+			// properties and put them in this object's map
+			for (Integer i : sourceMap.keySet()) {
+				map.put(i, (EdgeProperties) sourceMap.get(i).clone());
+			}
+
+			// Add the finished map to this object's list
+			edgeProperties.add(map);
+		}
+
+		// Create a new list of properties
+		polygonProperties = new ArrayList<PolygonProperties>();
+
+		// Create a deep copy of the source's list of polygon properties
+		for (PolygonProperties properties : source.getPolygonProperties()) {
+			polygonProperties.add((PolygonProperties) properties.clone());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object otherObject) {
+
+		// If the other object is not of the same type, they are not equal
+		if (!(otherObject instanceof MeshDescription)) {
+			return false;
+		}
+
+		// Cast the other object
+		MeshDescription castObject = (MeshDescription) otherObject;
+
+		// If any of the arrays/lists are of different sizes, then the objects
+		// are not equal.
+		if (vertices.length != castObject.vertices.length
+				|| edges.length != castObject.edges.length
+				|| faces.length != castObject.faces.length
+				|| transformations.length != castObject.transformations.length) {
+			return false;
+		}
+
+		// If any of the vertex IDs are different, the objects are not equal
+		for (int i = 0; i < vertices.length; i++) {
+			if (vertices[i] != castObject.vertices[i]) {
+				return false;
+			}
+		}
+
+		// If any of the edges are different, the objects are not equal
+		for (int i = 0; i < edges.length; i++) {
+			if (edges[i] != castObject.edges[i]) {
+				return false;
+			}
+		}
+
+		// If any of the faces are different, the objects are not equal
+		for (int i = 0; i < faces.length; i++) {
+			if (faces[i] != castObject.faces[i]) {
+				return false;
+			}
+		}
+
+		// If any of the vertex coordinates are different, the objects are not
+		// equal
+		for (int i = 0; i < transformations.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (transformations[i][j] != castObject.transformations[i][j]) {
+					return false;
+				}
+			}
+		}
+
+		// Check each map in the list of edge properties
+		for (int i = 0; i < edgeProperties.size(); i++) {
+
+			// Get the maps from both objects
+			HashMap<Integer, EdgeProperties> map = edgeProperties.get(i);
+			HashMap<Integer, EdgeProperties> otherMap = castObject.edgeProperties
+					.get(i);
+
+			// If the maps don't have the same edges, the object is not equal
+			if (!map.keySet().equals(otherMap.keySet())) {
+				return false;
+			}
+			;
+
+			// If the edge's properties are not equal, this object is also not
+			// equal
+			for (Integer j : map.keySet()) {
+				if (!map.get(j).equals(otherMap.get(j))) {
+					return false;
+				}
+			}
+		}
+
+		// Check each PolygonProperties in order. If any are inequal, then these
+		// objects are inequal
+		for (int i = 0; i < polygonProperties.size(); i++) {
+			if (!polygonProperties.get(i)
+					.equals(castObject.polygonProperties.get(i))) {
+				return false;
+			}
+		}
+
+		// All checks passed, so these objects are equal
+		return true;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+
+		// The hash value
+		int hash = 31 * 31;
+
+		// Add each vertex id to the hash
+		for (int i : vertices) {
+			hash += i;
+		}
+		hash = hash * 31;
+
+		// Add each number in the edges to the hash
+		for (int i : edges) {
+			hash += i * 9;
+		}
+		hash = hash * 31;
+
+		// Add each number in the faces to the hash
+		for (int i : faces) {
+			hash += i;
+		}
+		hash = hash * 31;
+
+		// Add each of the coordinates to the hash
+		for (double[] i : transformations) {
+			for (double j : i) {
+				hash += j;
+			}
+		}
+		hash = hash * 31;
+
+		// Add the edgeProperties's hash
+		hash += edgeProperties.hashCode();
+		hash = hash * 31;
+
+		// Add the polygonProperties's hash
+		hash += polygonProperties.hashCode();
+
+		return hash;
 	}
 
 	/**
