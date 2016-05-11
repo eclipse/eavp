@@ -436,7 +436,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 		createShape((ReactorMesh) model);
 
 		// Set the transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));
 	}
 
 	/*

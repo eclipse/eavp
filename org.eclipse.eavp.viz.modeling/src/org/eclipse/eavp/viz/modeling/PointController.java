@@ -99,14 +99,6 @@ public class PointController extends BasicController {
 	}
 
 	/**
-	 * Returns a vector describing the point's location in three dimensional
-	 * space
-	 */
-	public double[] getLocation() {
-		return ((PointMesh) model).getLocation();
-	}
-
-	/**
 	 * Set the point's location. This a convenience method for setting the x, y,
 	 * and z coordinates with a single function.
 	 * 

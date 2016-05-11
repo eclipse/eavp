@@ -143,10 +143,8 @@ public class VertexMesh extends PointMesh {
 		properties = new HashMap<IMeshProperty, String>(
 				castObject.getPropertyMap());
 
-		// Copy the coordinates
-		x = ((PointMesh) otherObject).getX();
-		y = ((PointMesh) otherObject).getY();
-		z = ((PointMesh) otherObject).getZ();
+		// Copy the transformation
+		transformation = castObject.getTransformation();
 
 		// Clone each child entity
 		for (IMeshCategory category : castObject.entities.keySet()) {

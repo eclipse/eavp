@@ -30,30 +30,10 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 public class PointMesh extends BasicMesh {
 
 	/**
-	 * The point's x coordinate
-	 */
-	protected double x;
-
-	/**
-	 * The point's y coordinate
-	 */
-	protected double y;
-
-	/**
-	 * The point's z coordinate
-	 */
-	protected double z;
-
-	/**
 	 * The basic constructor
 	 */
 	public PointMesh() {
 		super();
-
-		// Initialize the location to the origin.
-		x = 0;
-		y = 0;
-		z = 0;
 	}
 
 	/**
@@ -69,9 +49,8 @@ public class PointMesh extends BasicMesh {
 	public PointMesh(double x, double y, double z) {
 		super();
 
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		//Set the point's location
+		transformation.setTranslation(x, y, z);
 	}
 
 	/**
@@ -80,7 +59,7 @@ public class PointMesh extends BasicMesh {
 	 * @return The x coordinate
 	 */
 	public double getX() {
-		return x;
+		return transformation.getTranslation()[0];
 	}
 
 	/**
@@ -90,7 +69,7 @@ public class PointMesh extends BasicMesh {
 	 *            The point's new x coordinate
 	 */
 	public void setX(double x) {
-		this.x = x;
+		transformation.setTranslation(x, getY(), getZ());
 
 		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
 		updateManager.notifyListeners(eventTypes);
@@ -102,7 +81,7 @@ public class PointMesh extends BasicMesh {
 	 * @return The y coordinate
 	 */
 	public double getY() {
-		return y;
+		return transformation.getTranslation()[1];
 	}
 
 	/**
@@ -112,7 +91,7 @@ public class PointMesh extends BasicMesh {
 	 *            The new y coordinate
 	 */
 	public void setY(double y) {
-		this.y = y;
+		transformation.setTranslation(getX(), y, getZ());
 
 		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
 		updateManager.notifyListeners(eventTypes);
@@ -124,7 +103,7 @@ public class PointMesh extends BasicMesh {
 	 * @return The z coordinate
 	 */
 	public double getZ() {
-		return z;
+		return transformation.getTranslation()[2];
 	}
 
 	/**
@@ -134,21 +113,10 @@ public class PointMesh extends BasicMesh {
 	 *            The new z coordinate
 	 */
 	public void setZ(double z) {
-		this.z = z;
+		transformation.setTranslation(getX(), getY(), z);;
 
 		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
 		updateManager.notifyListeners(eventTypes);
-	}
-
-	/**
-	 * Returns a vector describing the point's location in three dimensional
-	 * space
-	 */
-	public double[] getLocation() {
-
-		// Create a list of the x, y, and z coordinates.
-		double location[] = { x, y, z };
-		return location;
 	}
 
 	/**
@@ -190,48 +158,6 @@ public class PointMesh extends BasicMesh {
 		return clone;
 	}
 
-	/**
-	 * Copies the contents of another AbstractMeshComponent into this one.
-	 * 
-	 * @param otherObject
-	 *            The object which will be copied into this.
-	 */
-	@Override
-	public void copy(IMesh otherObject) {
-
-		// If the other object is not a PointMesh, fail silently
-		if (!(otherObject instanceof PointMesh)) {
-			return;
-		}
-
-		// Cast the other object
-		PointMesh castObject = (PointMesh) otherObject;
-
-		// Copy each of the other component's data members
-		type = castObject.type;
-		properties = new HashMap<IMeshProperty, String>(
-				castObject.getPropertyMap());
-
-		// Copy the coordinates
-		x = ((PointMesh) otherObject).getX();
-		y = ((PointMesh) otherObject).getY();
-		z = ((PointMesh) otherObject).getZ();
-
-		// Clone each child entity
-		for (IMeshCategory category : castObject.entities.keySet()) {
-			for (IController entity : otherObject
-					.getEntitiesFromCategory(category)) {
-				addEntityToCategory(
-						(BasicController) ((BasicController) entity).clone(),
-						category);
-			}
-		}
-
-		// Notify listeners of the change
-		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
-		updateManager.notifyListeners(eventTypes);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -259,6 +185,11 @@ public class PointMesh extends BasicMesh {
 				|| !getPropertyMap().equals(castObject.getPropertyMap())) {
 			return false;
 		}
+		
+		//If the transformations are not equal, the points are not equal
+		if(!transformation.equals(castObject.getTransformation())){
+			return false;
+		}
 
 		// Get the categories of the entities map, disregarding edges
 		Set<IMeshCategory> categories = entities.keySet();
@@ -268,12 +199,6 @@ public class PointMesh extends BasicMesh {
 
 		// If the vertices have different categories, they are not equal
 		if (!categories.equals(newCategories)) {
-			return false;
-		}
-
-		// Check that the positions are equal
-		if (x != castObject.getX() || y != castObject.getY()
-				|| z != castObject.getZ()) {
 			return false;
 		}
 
@@ -313,9 +238,8 @@ public class PointMesh extends BasicMesh {
 			}
 		}
 		hash += 31 * getPropertyMap().hashCode();
-		hash += 31 * x;
-		hash += 31 * y;
-		hash += 31 * z;
+		hash += 31 * transformation.hashCode();
+		
 		return hash;
 	}
 }

@@ -11,6 +11,7 @@
 package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
 import org.eclipse.eavp.viz.service.geometry.reactor.IPipeView;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
@@ -29,6 +30,11 @@ import javafx.scene.paint.PhongMaterial;
 public class FXPipeView extends FXShapeView implements IPipeView {
 
 	/**
+	 * The transformation from the PipeMesh, which provides information about this view's position in three dimensional space
+	 */
+	Transformation meshTransformation;
+	
+	/**
 	 * The nullary constructor
 	 */
 	public FXPipeView() {
@@ -44,6 +50,9 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	 */
 	public FXPipeView(PipeMesh model) {
 		super(model);
+		
+		//Save the model's transformation
+		meshTransformation = model.getTransformation();
 
 		// Pipes are cyan by default
 		if (!"True"
@@ -100,11 +109,11 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	private Extrema calculateExtrema(float[] points) {
 
 		// Get the transformation's parameters
-		double[] rotation = transformation.getRotation();
-		double[] scale = transformation.getScale();
-		double size = transformation.getSize();
-		double[] skew = transformation.getSkew();
-		double[] translation = transformation.getTranslation();
+		double[] rotation = meshTransformation.getRotation();
+		double[] scale = meshTransformation.getScale();
+		double size = meshTransformation.getSize();
+		double[] skew = meshTransformation.getSkew();
+		double[] translation = meshTransformation.getTranslation();
 
 		// Consider each point one at a time
 		for (int i = 0; i < points.length / 3; i++) {
@@ -203,6 +212,9 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	@Override
 	public void refresh(IMesh model) {
 
+		//Get the model's transformation
+		meshTransformation = model.getTransformation();
+		
 		// Pipes are cyan by default
 		if (!"True"
 				.equals(model.getProperty(ReactorMeshProperty.CORE_CHANNEL))) {
@@ -233,7 +245,7 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 		clone.copy(this);
 
 		// Force an update from the transformation
-		clone.transformation.setSize(clone.transformation.getSize());
+		clone.meshTransformation.setSize(clone.meshTransformation.getSize());
 		return clone;
 	}
 

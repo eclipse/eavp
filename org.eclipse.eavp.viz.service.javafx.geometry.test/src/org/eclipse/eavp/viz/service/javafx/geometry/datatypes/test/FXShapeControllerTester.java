@@ -183,8 +183,8 @@ public class FXShapeControllerTester {
 				new FXTestView());
 		shape.addEntity(child);
 
-		// Update the view's transformation
-		view.setTransformation(new Transformation());
+		// Update the mesh's transformation
+		mesh.setTransformation(new Transformation());
 
 		// The controller should have been updated
 		assertTrue(controller.isUpdated());

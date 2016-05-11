@@ -1013,6 +1013,99 @@ public class MeshDescription {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object otherObject) {
+
+		// If the other object is not of the same type, they are not equal
+		if (!(otherObject instanceof MeshDescription)) {
+			return false;
+		}
+
+		// Cast the other object
+		MeshDescription castObject = (MeshDescription) otherObject;
+
+		// If any of the arrays/lists are of different sizes, then the objects
+		// are not equal.
+		if (vertices.length != castObject.vertices.length
+				|| edges.length != castObject.edges.length
+				|| faces.length != castObject.faces.length
+				|| transformations.length != castObject.transformations.length) {
+			return false;
+		}
+
+		// If any of the vertex IDs are different, the objects are not equal
+		for (int i = 0; i < vertices.length; i++) {
+			if (vertices[i] != castObject.vertices[i]) {
+				return false;
+			}
+		}
+
+		// If any of the edges are different, the objects are not equal
+		for (int i = 0; i < edges.length; i++) {
+			if (edges[i] != castObject.edges[i]) {
+				return false;
+			}
+		}
+
+		// If any of the faces are different, the objects are not equal
+		for (int i = 0; i < faces.length; i++) {
+			if (faces[i] != castObject.faces[i]) {
+				return false;
+			}
+		}
+
+		// If any of the vertex coordinates are different, the objects are not
+		// equal
+		for (int i = 0; i < transformations.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (transformations[i][j] != castObject.transformations[i][j]) {
+					return false;
+				}
+			}
+		}
+
+		// Check each map in the list of edge properties
+		for (int i = 0; i < edgeProperties.size(); i++) {
+
+			// Get the maps from both objects
+			HashMap<Integer, EdgeProperties> map = edgeProperties.get(i);
+			HashMap<Integer, EdgeProperties> otherMap = castObject.edgeProperties
+					.get(i);
+
+			// If the maps don't have the same edges, the object is not equal
+			if (!map.keySet().equals(otherMap.keySet())) {
+				return false;
+			}
+			;
+
+			// If the edge's properties are not equal, this object is also not
+			// equal
+			for (Integer j : map.keySet()) {
+				if (!map.get(j).equals(otherMap.get(j))) {
+					return false;
+				}
+			}
+		}
+
+		// Check each PolygonProperties in order. If any are inequal, then these
+		// objects are inequal
+		for (int i = 0; i < polygonProperties.size(); i++) {
+			if (!polygonProperties.get(i)
+					.equals(castObject.polygonProperties.get(i))) {
+				return false;
+			}
+		}
+
+		// All checks passed, so these objects are equal
+		return true;
+
+	}
+
 	/**
 	 * This class serves as a JAXB adapter for the vertices block of a
 	 * MeshDescription's xml representation. It will convert an ArrayList of

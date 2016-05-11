@@ -63,7 +63,7 @@ public class PointMeshTester {
 
 		// Check setting the location
 		point.updateLocation(0, 1, 2);
-		double[] location = point.getLocation();
+		double[] location = point.getTranslation();
 		assertTrue(Double.compare(0, location[0]) <= .1);
 
 	}

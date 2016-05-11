@@ -112,7 +112,7 @@ public class VertexSection extends AbstractPropertySection {
 		xListener = new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				double[] location = vertex.getLocation();
+				double[] location = vertex.getTranslation();
 				// Try to parse the number and set it as the vertex's x
 				// coordinate.
 				try {
@@ -133,7 +133,7 @@ public class VertexSection extends AbstractPropertySection {
 		yListener = new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
-				double[] location = vertex.getLocation();
+				double[] location = vertex.getTranslation();
 				// Try to parse the number and set it as the vertex's x
 				// coordinate.
 				Double y;
@@ -294,7 +294,7 @@ public class VertexSection extends AbstractPropertySection {
 	public void refresh() {
 		if (vertex != null) {
 			// Update the Text fields with their appropriate coordinates.
-			double[] location = vertex.getLocation();
+			double[] location = vertex.getTranslation();
 			xText.setText(Double.toString(location[0]));
 			yText.setText(Double.toString(location[1]));
 

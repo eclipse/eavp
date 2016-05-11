@@ -77,6 +77,13 @@ public class BasicMesh
 	protected IController controller;
 
 	/**
+	 * The transformation representing the part's intended state. This may not
+	 * reflect how the graphics program is currently displaying the part. For
+	 * that, see previousTransformation.
+	 */
+	protected Transformation transformation;
+
+	/**
 	 * Logger for handling event messages and other information.
 	 */
 	@XmlTransient
@@ -90,8 +97,12 @@ public class BasicMesh
 		// Instantiate the class variables
 		entities = new HashMap<IMeshCategory, ArrayList<IController>>();
 		properties = new HashMap<IMeshProperty, String>();
+		transformation = new Transformation();
 		type = MeshType.SIMPLE;
 		updateManager = new UpdateableSubscriptionManager(this);
+
+		// Register as a listener to the part's transformation.
+		transformation.register(this);
 	}
 
 	/**
@@ -115,6 +126,8 @@ public class BasicMesh
 	 *            The list of initial entities.
 	 */
 	public BasicMesh(List<IController> entities) {
+		this();
+
 		// Create a map of entities
 		this.entities = new HashMap<IMeshCategory, ArrayList<IController>>();
 
@@ -122,11 +135,6 @@ public class BasicMesh
 		for (IController entity : entities) {
 			addEntity(entity);
 		}
-
-		// Instantiate the class variables
-		properties = new HashMap<IMeshProperty, String>();
-		type = MeshType.SIMPLE;
-		updateManager = new UpdateableSubscriptionManager(this);
 	}
 
 	/**
@@ -138,15 +146,14 @@ public class BasicMesh
 	 *            The mesh's type
 	 */
 	public BasicMesh(ArrayList<IController> entities, MeshType type) {
-		// Create a list of entities
-		this.entities = new HashMap<IMeshCategory, ArrayList<IController>>();
+		this();
 
+		// Create a map of entitites and put the list in it
+		this.entities = new HashMap<IMeshCategory, ArrayList<IController>>();
 		this.entities.put(MeshCategory.DEFAULT, entities);
 
 		// Instantiate the class variables
-		properties = new HashMap<IMeshProperty, String>();
 		this.type = type;
-		updateManager = new UpdateableSubscriptionManager(this);
 	}
 
 	/**
@@ -188,6 +195,16 @@ public class BasicMesh
 						(ArrayList<IController>) input.get(category));
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#getTransformation()
+	 */
+	@Override
+	public Transformation getTransformation() {
+		return transformation;
 	}
 
 	/*
@@ -496,6 +513,11 @@ public class BasicMesh
 			return false;
 		}
 
+		// Check that the transformations are equal
+		if (!(transformation.equals(castObject.getTransformation()))) {
+			return false;
+		}
+
 		// If this object has any child entities, check them for equality with
 		// the other object's
 		if (!entities.keySet().isEmpty()) {
@@ -587,6 +609,7 @@ public class BasicMesh
 		type = castObject.type;
 		properties = new HashMap<IMeshProperty, String>(
 				castObject.getPropertyMap());
+		transformation = (Transformation) castObject.transformation.clone();
 
 		// Clone each child entity
 		for (IMeshCategory category : castObject.entities.keySet()) {
@@ -637,6 +660,34 @@ public class BasicMesh
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IMesh#setTransformation(org.eclipse.
+	 * eavp.viz.modeling.base.Transformation)
+	 */
+	@Override
+	public void setTransformation(Transformation newTransformation) {
+
+		// If the transformation is null, log an error and fail silently
+		if (newTransformation == null) {
+			logger.error("A BasicMesh's transformation must not be null.");
+		}
+
+		// Unregister from the old transformation and register with the current
+		// one
+		transformation.unregister(this);
+		newTransformation.register(this);
+
+		// Set the new transformation
+		transformation = newTransformation;
+
+		// Notify own listeners of the change
+		SubscriptionType[] eventTypes = { SubscriptionType.TRANSFORMATION };
+		updateManager.notifyListeners(eventTypes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.datastructures.VizObject.
 	 * IManagedVizUpdateable#register(org.eclipse.eavp.viz.service.
 	 * datastructures .VizObject.IManagedVizUpdateableListener)
@@ -676,6 +727,7 @@ public class BasicMesh
 			}
 		}
 		hash += 31 * getPropertyMap().hashCode();
+		hash += 31 * transformation.hashCode();
 		return hash;
 	}
 
@@ -689,6 +741,11 @@ public class BasicMesh
 		return entities.keySet();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#getEntities()
+	 */
 	@Override
 	// @XmlElementWrapper
 	// @XmlAnyElement(lax = true)
@@ -707,6 +764,11 @@ public class BasicMesh
 		return properties;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#setEntities(java.util.Map)
+	 */
 	@Override
 	public void setEntities(
 			Map<IMeshCategory, ArrayList<IController>> newEntities) {
@@ -714,97 +776,65 @@ public class BasicMesh
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IMesh#setProperties(java.util.Map)
+	 */
 	@Override
 	public void setProperties(Map<IMeshProperty, String> properties) {
 		this.properties = properties;
 
 	}
 
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see org.eclipse.eavp.viz.modeling.base.IMesh#getEntities()
-	// */
-	// @Override
-	// @XmlElementWrapper(name = "EntityTable")
-	// @XmlAnyElement(lax = true)
-	// public EntityMapEntry[] getEntities() {
-	//
-	// // The full list of map entries that make up the entities map
-	// ArrayList<EntityMapEntry> list = new ArrayList<EntityMapEntry>();
-	//
-	// // From each category, create a MapEntry containing its associated
-	// // entities from the map
-	// for (IMeshCategory category : entities.keySet()) {
-	// list.add(new EntityMapEntry(category, entities.get(category)));
-	// }
-	//
-	// // Convert the list to an array and return it
-	// return list.toArray(new EntityMapEntry[list.size()]);
-	// }
-	//
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see org.eclipse.eavp.viz.modeling.base.IMesh#getProperties()
-	// */
-	// @Override
-	// @XmlElementWrapper(name = "PropertyTable")
-	// @XmlAnyElement(lax = true)
-	// public PropertyMapEntry[] getProperties() {
-	//
-	// // The full list of map entries that make up the properties map
-	// ArrayList<PropertyMapEntry> list = new ArrayList<PropertyMapEntry>();
-	//
-	// // From each category, create a MapEntry containing its associated
-	// // entities from the map
-	// for (IMeshProperty property : properties.keySet()) {
-	// list.add(new PropertyMapEntry(property, properties.get(property)));
-	// }
-	//
-	// // Convert the list to an array and return it
-	// return list.toArray(new PropertyMapEntry[list.size()]);
-	// }
-	//
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// org.eclipse.eavp.viz.modeling.base.IMesh#setEntities(java.util.Map)
-	// */
-	// @Override
-	// public void setEntities(EntityMapEntry[] newEntities) {
-	//
-	// // Hold all updates for the removals/additions required to replace the
-	// // map
-	// updateManager.enqueue();
-	//
-	// // Remove all entities in the map
-	// for (IController entity : getAllEntities()) {
-	// removeEntity(entity);
-	// }
-	//
-	// // Get the list of entities under each category
-	// for (EntityMapEntry entry : newEntities) {
-	//
-	// // Add each entity in the category to the map.
-	// for (IController entity : entry.getValues()) {
-	// addEntityToCategory(entity, entry.getCategory());
-	// }
-	// }
-	//
-	// // Flush the queue of messages
-	// updateManager.flushQueue();
-	// }
-	//
-	// @Override
-	// public void setProperties(Map<IMeshProperty, String> properties) {
-	// this.properties = properties;
-	//
-	// // Notify listeners of the change in all properties
-	// SubscriptionType[] eventTypes = new SubscriptionType[] {
-	// SubscriptionType.PROPERTY, SubscriptionType.SELECTION,
-	// SubscriptionType.WIREFRAME };
-	// updateManager.notifyListeners(eventTypes);
-	// }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#getRotation()
+	 */
+	@Override
+	public double[] getRotation() {
+		return transformation.getRotation();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#getScale()
+	 */
+	@Override
+	public double[] getScale() {
+		return transformation.getScale();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#getSize()
+	 */
+	@Override
+	public double getSize() {
+		return transformation.getSize();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#getSkew()
+	 */
+	@Override
+	public double[] getSkew() {
+		return transformation.getSkew();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IMesh#getTranslation()
+	 */
+	@Override
+	public double[] getTranslation() {
+		return transformation.getTranslation();
+	}
 }

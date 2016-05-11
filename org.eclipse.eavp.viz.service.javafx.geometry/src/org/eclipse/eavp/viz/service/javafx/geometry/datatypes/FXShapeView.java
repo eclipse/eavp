@@ -117,7 +117,8 @@ public class FXShapeView extends BasicView implements IWireframeView {
 		node.setId(model.getProperty(MeshProperty.NAME));
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 
 		// Create a gizmo with axis for the root node
 		if ("True".equals(model.getProperty(MeshProperty.ROOT))) {
@@ -334,8 +335,7 @@ public class FXShapeView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -345,15 +345,15 @@ public class FXShapeView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMeshComponent)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
 	public void refresh(IMesh model) {
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 
 		// Complex shapes have nothing else to refresh, as their children will
 		// handle their own views.
@@ -364,26 +364,15 @@ public class FXShapeView extends BasicView implements IWireframeView {
 					ShapeType.valueOf(model.getProperty(MeshProperty.TYPE)));
 
 			// Convert the model's selected property to a boolean
-			Boolean newSelected = "True"
-					.equals(model.getProperty(MeshProperty.SELECTED));
+			if ("True".equals(model.getProperty(MeshProperty.SELECTED))) {
+				// Set the material and activate the gizmo if selected
+				shape.setMaterial(selectedMaterial);
+				gizmo.setVisible(true);
+			} else {
 
-			// If the selected property has changed, update
-			if (selected != newSelected) {
-
-				// Save the selected value
-				selected = newSelected;
-
-				if (selected) {
-
-					// Set the material and activate the gizmo if selected
-					shape.setMaterial(selectedMaterial);
-					gizmo.setVisible(true);
-				} else {
-
-					// Set the material and deactivate the gizmo if selected
-					shape.setMaterial(defaultMaterial);
-					gizmo.setVisible(false);
-				}
+				// Set the material and deactivate the gizmo if selected
+				shape.setMaterial(defaultMaterial);
+				gizmo.setVisible(false);
 			}
 
 		}
@@ -398,39 +387,27 @@ public class FXShapeView extends BasicView implements IWireframeView {
 	public Object clone() {
 		FXShapeView clone = new FXShapeView();
 		clone.copy(this);
-
-		// Force an update from the transformation
-		clone.transformation.setSize(clone.transformation.getSize());
 		return clone;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse.
-	 * ice. viz.service.datastructures.VizObject.IManagedUpdateable,
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse. ice.
+	 * viz.service.datastructures.VizObject.IManagedUpdateable,
 	 * org.eclipse.eavp.viz.service.datastructures.VizObject.SubscriptionType[])
 	 */
 	@Override
 	public void update(IManagedUpdateable component, SubscriptionType[] type) {
 
-		// If the transformation updated, update the JavaFX transformation
-		if (component == transformation) {
-
-			// Set the node's transformation
-			node.getTransforms()
-					.setAll(Util.convertTransformation(transformation));
-		}
-
+		// Notify own listeners of update
 		updateManager.notifyListeners(type);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.WireFramePart#setWireFrameMode(
+	 * @see org.eclipse.eavp.viz.modeling.WireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override

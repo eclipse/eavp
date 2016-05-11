@@ -231,7 +231,7 @@ public class EdgeMesh extends BasicMesh {
 		List<IController> vertices = getEntitiesFromCategory(
 				MeshCategory.VERTICES);
 		return (vertices != null && !vertices.isEmpty())
-				? ((VertexController) vertices.get(0)).getLocation()
+				? ((VertexController) vertices.get(0)).getTranslation()
 				: new double[3];
 	}
 
@@ -244,7 +244,7 @@ public class EdgeMesh extends BasicMesh {
 		List<IController> vertices = getEntitiesFromCategory(
 				MeshCategory.VERTICES);
 		return (vertices != null && vertices.size() > 1)
-				? ((VertexController) vertices.get(1)).getLocation()
+				? ((VertexController) vertices.get(1)).getTranslation()
 				: new double[3];
 	}
 }

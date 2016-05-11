@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
-import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
-import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.EdgeMesh;
 import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -91,7 +89,8 @@ public class FXLinearEdgeView extends BasicView {
 		node.setId(model.getProperty(MeshProperty.NAME));
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 
 	}
 
@@ -114,10 +113,8 @@ public class FXLinearEdgeView extends BasicView {
 						.getApplicationScale();
 
 		// Get the edge's endpoints
-		double[] start = ((org.eclipse.eavp.viz.modeling.EdgeController) edgeComponent
-				.getController()).getStartLocation();
-		double[] end = ((org.eclipse.eavp.viz.modeling.EdgeController) edgeComponent
-				.getController()).getEndLocation();
+		double[] start = edgeComponent.getStartLocation();
+		double[] end = edgeComponent.getEndLocation();
 
 		for (int i = 0; i < 3; i++) {
 			start[i] = start[i] * scale;
@@ -170,8 +167,7 @@ public class FXLinearEdgeView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -181,15 +177,15 @@ public class FXLinearEdgeView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMeshComponent)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
 	public void refresh(IMesh model) {
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 
 		// Clear the current shapes
 		node.getChildren().clear();
@@ -232,22 +228,6 @@ public class FXLinearEdgeView extends BasicView {
 	public Object clone() {
 		FXLinearEdgeView clone = new FXLinearEdgeView();
 		clone.copy(this);
-
-		// Force an update from the transformation
-		clone.transformation.setSize(clone.transformation.getSize());
 		return clone;
-	}
-
-	@Override
-	public void update(IManagedUpdateable component, SubscriptionType[] type) {
-
-		// If the transformation updated, update the JavaFX transformation
-		if (component == transformation) {
-			// Set the node's transformation
-			node.getTransforms()
-					.setAll(Util.convertTransformation(transformation));
-		}
-
-		super.update(component, type);
 	}
 }

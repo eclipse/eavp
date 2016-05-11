@@ -12,7 +12,6 @@ package org.eclipse.eavp.viz.modeling.base;
 
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -32,19 +31,6 @@ import org.slf4j.LoggerFactory;
 @XmlRootElement(name = "BasicView")
 public class BasicView
 		implements IManagedUpdateableListener, IManagedUpdateable, IView {
-
-	/**
-	 * The transformation representing the part's intended state. This may not
-	 * reflect how the graphics program is currently displaying the part. For
-	 * that, see previousTransformation.
-	 */
-	protected Transformation transformation;
-
-	/**
-	 * The last transformation which was applied by the rendering engine.
-	 */
-	@XmlElement
-	private Transformation previousTransformation;
 
 	/**
 	 * The list of listeners observing this object.
@@ -71,43 +57,8 @@ public class BasicView
 	 */
 	public BasicView() {
 		// Initialize the class variables
-		transformation = new Transformation();
-		previousTransformation = new Transformation();
 		listeners = new ArrayList<IVizUpdateableListener>();
 
-		// Register as a listener to the part's transformation.
-		transformation.register(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.modeling.IView#getTransformation()
-	 */
-	@Override
-	public Transformation getTransformation() {
-		return transformation;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.modeling.IView#setTransformation(org.eclipse
-	 * .eavp.viz.service.modeling.Transformation)
-	 */
-	@Override
-	public void setTransformation(Transformation newTransformation) {
-
-		// If the transformation is null, log an error and fail silently
-		if (newTransformation == null) {
-			logger.error("An AbstractView's transformation must not be null.");
-		}
-
-		transformation = newTransformation;
-
-		// Notify own listeners of the change
-		SubscriptionType[] eventTypes = { SubscriptionType.TRANSFORMATION };
-		updateManager.notifyListeners(eventTypes);
 	}
 
 	/*
@@ -179,10 +130,28 @@ public class BasicView
 			return false;
 		}
 
-		// Check that the transformations are equal
-		if (!(transformation
-				.equals(((IView) otherObject).getTransformation()))) {
-			return false;
+		Representation rep = getRepresentation();
+		Representation otherRep = getRepresentation();
+
+		// If otherRep exists while rep doesn't, the two are not equal
+		if (rep == null) {
+			if (otherRep != null) {
+				return false;
+			}
+		}
+
+		else {
+			// If otherRep doesn't exist after rep did, the two are not equal
+			if (otherRep == null) {
+				return false;
+			}
+
+			// Check that the other object's representation is equal to this
+			// one's.
+			if (!getRepresentation()
+					.equals(((IView) otherObject).getRepresentation())) {
+				return false;
+			}
 		}
 
 		// If all checks passed, the objects are equal
@@ -237,11 +206,6 @@ public class BasicView
 		}
 		BasicView castObject = (BasicView) otherObject;
 
-		// Copy the other view's data members
-		transformation = (Transformation) castObject.transformation.clone();
-		previousTransformation = (Transformation) castObject.previousTransformation
-				.clone();
-
 		// Notify own listeners of the change
 		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
 		updateManager.notifyListeners(eventTypes);
@@ -270,8 +234,6 @@ public class BasicView
 	@Override
 	public int hashCode() {
 		int hash = 9;
-		hash += 31 * transformation.hashCode();
-		hash += 31 * previousTransformation.hashCode();
 		return hash;
 	}
 }

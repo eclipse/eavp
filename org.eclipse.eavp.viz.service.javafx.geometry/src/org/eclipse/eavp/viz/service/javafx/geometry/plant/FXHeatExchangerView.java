@@ -236,7 +236,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 		// Create a rotation to restore the tube to the default position after
 		// the Pipe's transformation is applied, so that the rotation calculated
 		// above will rotate it correctly
-		double[] nodeRotation = transformation.getRotation();
+		double[] nodeRotation = model.getRotation();
 		Rotate reverseRotation = Util.eulerToRotate(nodeRotation[0] * -1d,
 				nodeRotation[0] * -1d, nodeRotation[0] * -1d);
 
@@ -278,39 +278,6 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 				intersection[2] + (normalizedDirect[2] * length / 2));
 
 		return tube;
-
-		// //Calculate the vector of the line from the intersection point to the
-		// target
-		// double[] newAxis = new double[3];
-		// newAxis[0] = point[0] - intersection[0];
-		// newAxis[1] = point[1] - intersection[1];
-		// newAxis[2] = point[2] - intersection[2];
-		//
-		// //Take the cross product of the desired axis with the y axis
-		// double[] crossProduct = new double[3];
-		// crossProduct[0] = newAxis[2] * -1d;
-		// crossProduct[1] = 0;
-		// crossProduct[2] = newAxis[0];
-		//
-		// //Get the magnitude of the cross produce
-		// double crossMag = Math.pow(crossProduct[0], 2) +
-		// Math.pow(crossProduct[2], 2);
-		//
-		// //Normalize the cross product
-		// double[] normal = new double[3];
-		// normal[0] = crossProduct[0] / crossMag;
-		// normal[1] = 0;
-		// normal[2] = crossProduct[2] / crossMag;
-		//
-		// dotProduct[0] =
-		//
-		// // Calculate the number of degrees to rotate about the axis.
-		// double rotationAmount = Math
-		// .acos(angle.normalize().dotProduct(0, 1, 0));
-		//
-		// // Apply the rotation to the cylinder
-		// Rotate rotation = new Rotate(-Math.toDegrees(rotationAmount), axis);
-		// edge.getTransforms().addAll(rotation);
 
 	}
 
@@ -374,7 +341,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 			wall.setDrawMode(DrawMode.LINE);
 		}
 		node.getChildren().add(wall);
-		wall.getTransforms().setAll(Util.convertTransformation(transformation));
+		wall.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));
 
 		// Get the secondary input junction
 		List<IController> secondaryInputList = model
