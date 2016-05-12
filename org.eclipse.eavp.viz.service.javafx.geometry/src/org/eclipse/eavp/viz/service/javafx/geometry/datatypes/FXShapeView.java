@@ -363,18 +363,22 @@ public class FXShapeView extends BasicView implements IWireframeView {
 			createShape(model,
 					ShapeType.valueOf(model.getProperty(MeshProperty.TYPE)));
 
-			// Convert the model's selected property to a boolean
-			if ("True".equals(model.getProperty(MeshProperty.SELECTED))) {
-				// Set the material and activate the gizmo if selected
-				shape.setMaterial(selectedMaterial);
-				gizmo.setVisible(true);
-			} else {
+			// If a shape was created, set its material based on whether or not
+			// it is selected
+			if (shape != null) {
 
-				// Set the material and deactivate the gizmo if selected
-				shape.setMaterial(defaultMaterial);
-				gizmo.setVisible(false);
+				// Convert the model's selected property to a boolean
+				if ("True".equals(model.getProperty(MeshProperty.SELECTED))) {
+					// Set the material and activate the gizmo if selected
+					shape.setMaterial(selectedMaterial);
+					gizmo.setVisible(true);
+				} else {
+
+					// Set the material and deactivate the gizmo if selected
+					shape.setMaterial(defaultMaterial);
+					gizmo.setVisible(false);
+				}
 			}
-
 		}
 	}
 

@@ -41,7 +41,7 @@ public class FXShapeController extends ShapeController
 		implements IWireframeController {
 
 	/**
-	 * THe nullary constructor
+	 * The nullary constructor
 	 */
 	public FXShapeController() {
 		super();

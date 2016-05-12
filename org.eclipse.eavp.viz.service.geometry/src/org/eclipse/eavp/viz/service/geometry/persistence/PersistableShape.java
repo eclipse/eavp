@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -225,6 +227,12 @@ public class PersistableShape {
 	 * @return The list of the shape's children
 	 */
 	@XmlAnyElement
+	@XmlElementRefs({ @XmlElementRef(type = PersistableCube.class),
+			@XmlElementRef(type = PersistableCylinder.class),
+			@XmlElementRef(type = PersistableShape.class),
+			@XmlElementRef(type = PersistableSphere.class),
+			@XmlElementRef(type = PersistableTube.class),
+			@XmlElementRef(type = PersistableUnion.class) })
 	public ArrayList<PersistableShape> getChildren() {
 		return children;
 	}
@@ -388,9 +396,11 @@ public class PersistableShape {
 		}
 
 		// Also compress all of its children
-		for (PersistableShape child : children) {
-			shape.addEntityToCategory(child.unpack(factory),
-					MeshCategory.CHILDREN);
+		if (children != null) {
+			for (PersistableShape child : children) {
+				shape.addEntityToCategory(child.unpack(factory),
+						MeshCategory.CHILDREN);
+			}
 		}
 
 		return shape;
