@@ -431,11 +431,6 @@ public class BasicMesh
 			catList = new ArrayList<IController>();
 		}
 
-		// Prevent a part from being added multiple times
-		else if (catList.contains(newEntity)) {
-			return;
-		}
-
 		// If the entity is already present in this category, don't add a second
 		// entry for it
 		else

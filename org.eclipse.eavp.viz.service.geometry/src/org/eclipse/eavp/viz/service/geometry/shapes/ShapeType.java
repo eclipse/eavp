@@ -12,6 +12,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.shapes;
 
+import javax.xml.bind.annotation.XmlEnum;
+
 /**
  * <p>
  * Represents types of primitive solids
@@ -19,49 +21,55 @@ package org.eclipse.eavp.viz.service.geometry.shapes;
  * 
  * @author Jay Jay Billings
  */
+@XmlEnum
 public enum ShapeType {
-    /**
-     * <p>
-     * Default shape type
-     * </p>
-     * <p>
-     * When rendering, None should be taken to mean "invisible". A
-     * PrimitiveShape with this type should have no effect on its parent.
-     * </p>
-     * 
-     */
-    None, /**
-           * <p>
-           * A "half-unit" sphere with a radius of 0.5 (diameter of 1) with its
-           * origin at its center
-           * </p>
-           * 
-           */
-    Sphere, /**
-             * <p>
-             * A 1x1x1 cube with its origin at its center (0.5, 0.5, 0.5)
-             * </p>
-             * 
-             */
-    Cube, /**
-           * <p>
-           * A cylinder with a radius of 0.5 (diameter of 1), a height of 1, and
-           * its origin at its center (0.5, 0.5, 0.5)
-           * </p>
-           * 
-           */
-    Cylinder, /**
-               * <p>
-               * A circular cone with a diameter of 1, height of 1, and its
-               * center at (0.5, 0.5, 0.5)
-               * </p>
-               * 
-               */
-    Cone, /**
-           * <p>
-           * A cylinder with an inner and outer radius, an extruded annulus
-           * </p>
-           * 
-           */
-    Tube
+	/**
+	 * <p>
+	 * Default shape type
+	 * </p>
+	 * <p>
+	 * When rendering, None should be taken to mean "invisible". A
+	 * PrimitiveShape with this type should have no effect on its parent.
+	 * </p>
+	 * 
+	 */
+	None,
+	/**
+	 * <p>
+	 * A "half-unit" sphere with a radius of 0.5 (diameter of 1) with its origin
+	 * at its center
+	 * </p>
+	 * 
+	 */
+	Sphere,
+	/**
+	 * <p>
+	 * A 1x1x1 cube with its origin at its center (0.5, 0.5, 0.5)
+	 * </p>
+	 * 
+	 */
+	Cube,
+	/**
+	 * <p>
+	 * A cylinder with a radius of 0.5 (diameter of 1), a height of 1, and its
+	 * origin at its center (0.5, 0.5, 0.5)
+	 * </p>
+	 * 
+	 */
+	Cylinder,
+	/**
+	 * <p>
+	 * A circular cone with a diameter of 1, height of 1, and its center at
+	 * (0.5, 0.5, 0.5)
+	 * </p>
+	 * 
+	 */
+	Cone,
+	/**
+	 * <p>
+	 * A cylinder with an inner and outer radius, an extruded annulus
+	 * </p>
+	 * 
+	 */
+	Tube
 }
