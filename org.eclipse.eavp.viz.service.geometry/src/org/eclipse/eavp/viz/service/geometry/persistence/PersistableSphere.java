@@ -30,6 +30,10 @@ public class PersistableSphere extends PersistableShape {
 	 */
 	public PersistableSphere() {
 		super();
+
+		// Set the default type and name
+		shapeType = ShapeType.Sphere;
+		name = "Sphere";
 	}
 
 	/**

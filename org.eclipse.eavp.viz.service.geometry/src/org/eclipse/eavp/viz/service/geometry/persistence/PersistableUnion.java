@@ -30,6 +30,10 @@ public class PersistableUnion extends PersistableShape {
 	 */
 	public PersistableUnion() {
 		super();
+
+		// Set the default type and name
+		operatorType = OperatorType.Union;
+		name = "Union";
 	}
 
 	/**

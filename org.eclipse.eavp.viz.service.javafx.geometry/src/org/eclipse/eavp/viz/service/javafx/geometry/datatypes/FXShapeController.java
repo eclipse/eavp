@@ -249,7 +249,7 @@ public class FXShapeController extends ShapeController
 		Representation<Group> representation = view.getRepresentation();
 		Representation<Group> childRepresentation = entity.getRepresentation();
 		Group node = representation.getData();
-		Group childNode = representation.getData();
+		Group childNode = childRepresentation.getData();
 
 		if (!node.getChildren().contains(childNode)) {
 			node.getChildren().add(childNode);

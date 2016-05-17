@@ -30,6 +30,10 @@ public class PersistableTube extends PersistableShape {
 	 */
 	public PersistableTube() {
 		super();
+
+		// Set the default type and name
+		shapeType = ShapeType.Tube;
+		name = "Tube";
 	}
 
 	/**

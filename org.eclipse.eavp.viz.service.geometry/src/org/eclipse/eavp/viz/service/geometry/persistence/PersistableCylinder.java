@@ -30,6 +30,10 @@ public class PersistableCylinder extends PersistableShape {
 	 */
 	public PersistableCylinder() {
 		super();
+
+		// Set the default type and name
+		shapeType = ShapeType.Cylinder;
+		name = "Cylinder";
 	}
 
 	/**

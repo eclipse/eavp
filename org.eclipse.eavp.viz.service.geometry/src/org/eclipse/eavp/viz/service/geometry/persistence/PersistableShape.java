@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.TubeMesh;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
@@ -358,7 +359,20 @@ public class PersistableShape {
 	public ShapeController unpack(IControllerProviderFactory factory) {
 
 		// Create a mesh
-		ShapeMesh mesh = new ShapeMesh();
+		ShapeMesh mesh;
+
+		// Tubes have their own custom mesh type
+		if (!ShapeType.Tube.equals(shapeType)) {
+			mesh = new ShapeMesh();
+		} else {
+			mesh = new TubeMesh();
+
+			// Set the tube to the geometry editor's defaults
+			((TubeMesh) mesh).setAxialSamples(3);
+			((TubeMesh) mesh).setInnerRadius(40);
+			((TubeMesh) mesh).setLength(50);
+			((TubeMesh) mesh).setRadius(50);
+		}
 
 		// Assign it a controller and view
 		IControllerProvider<ShapeController> provider = factory

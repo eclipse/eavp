@@ -30,6 +30,10 @@ public class PersistableCube extends PersistableShape {
 	 */
 	public PersistableCube() {
 		super();
+
+		// Set the default type and name
+		shapeType = ShapeType.Cube;
+		name = "Cube";
 	}
 
 	/**

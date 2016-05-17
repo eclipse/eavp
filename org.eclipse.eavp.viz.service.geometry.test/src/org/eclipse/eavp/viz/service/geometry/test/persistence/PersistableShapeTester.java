@@ -28,6 +28,8 @@ import javax.xml.bind.Unmarshaller;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.TubeController;
+import org.eclipse.eavp.viz.modeling.TubeMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
@@ -235,18 +237,30 @@ public class PersistableShapeTester {
 		union2.setProperty(GeometryMeshProperty.OPERATOR, "Union");
 
 		// Create a tube
-		ShapeController tube = new ShapeController(new ShapeMesh(),
+		TubeController tube = new TubeController(new TubeMesh(),
 				new BasicView());
 		tube.setProperty(MeshProperty.NAME, "Tube");
 		tube.setProperty(MeshProperty.ID, "1");
 		tube.setProperty(MeshProperty.TYPE, "Tube");
 
+		// Set the tube to the default values for the geometry editor
+		tube.setAxialSamples(3);
+		tube.setInnerRadius(40);
+		tube.setLength(50);
+		tube.setRadius(50);
+
 		// Create a second tube
-		ShapeController tube2 = new ShapeController(new ShapeMesh(),
+		TubeController tube2 = new TubeController(new TubeMesh(),
 				new BasicView());
 		tube2.setProperty(MeshProperty.NAME, "Tube");
 		tube2.setProperty(MeshProperty.ID, "2");
 		tube2.setProperty(MeshProperty.TYPE, "Tube");
+
+		// Set the tube to the default values for the geometry editor
+		tube2.setAxialSamples(3);
+		tube2.setInnerRadius(40);
+		tube2.setLength(50);
+		tube2.setRadius(50);
 
 		// Structure the unions by having union as the parent to sphere and
 		// union2, which is itself parent to tube and tube2
@@ -281,7 +295,7 @@ public class PersistableShapeTester {
 		public FakeControllerProviderFactory() {
 			super();
 
-			// Set the EdgeMesh provider
+			// Set the ShapeMesh provider
 			typeMap.put(ShapeMesh.class,
 					new IControllerProvider<ShapeController>() {
 						@Override
@@ -294,6 +308,18 @@ public class PersistableShapeTester {
 						}
 					});
 
+			// Set the TubeMesh provider
+			typeMap.put(TubeMesh.class,
+					new IControllerProvider<ShapeController>() {
+						@Override
+						public ShapeController createController(IMesh model) {
+
+							// If the model is an edge component, create an edge
+							// with a basic view
+							BasicView view = new BasicView();
+							return new ShapeController((ShapeMesh) model, view);
+						}
+					});
 		}
 	}
 }
