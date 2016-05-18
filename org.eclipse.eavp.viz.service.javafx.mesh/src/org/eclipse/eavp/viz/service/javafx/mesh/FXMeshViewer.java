@@ -164,7 +164,7 @@ public class FXMeshViewer extends FXViewer {
 			new BasicView());
 
 	/**
-	 * A list of displayed circles to show the user the location that selectice
+	 * A list of displayed circles to show the user the location that selected
 	 * vertices are being dragged to.
 	 */
 	private ArrayList<Sphere> vertexMarkers;
@@ -374,6 +374,7 @@ public class FXMeshViewer extends FXViewer {
 		wireSelectionHandling();
 
 		fxCanvas.setScene(scene);
+		
 
 		// Get the current key handler from the camera
 		final EventHandler<? super KeyEvent> handler = scene.getOnKeyPressed();
@@ -453,9 +454,9 @@ public class FXMeshViewer extends FXViewer {
 	}
 
 	/**
-	 * Set all the objects in the model to the viewer's scale
+	 * Initialize the viewer and any pre-loaded objects from the attachment manager. This sets all the objects from the first attachment to the viewer's scale and sets the viewer to start assigning ID numbers higher than what are currently in the mesh.
 	 */
-	public void scale() {
+	public void initializePreloaded() {
 
 		// Get each of the polygons originally in the hierarchy
 		for (IController polygon : ((FXMeshAttachment) attachmentManager
@@ -470,6 +471,33 @@ public class FXMeshViewer extends FXViewer {
 				// scale
 				vertex.setApplicationScale(SCALE);
 				vertex.refresh();
+			}
+		}
+		
+		//Read the current polygons to set the next IDs to use
+		for(IController face : ((FXAttachment) attachmentManager.getAttachments().get(1))
+		.getKnownParts().get(0).getEntities()){
+			
+			//Set the next polygon's ID higher than the face's, if neccesary
+			int faceID = Integer.parseInt(face.getProperty(MeshProperty.ID));
+			if(faceID > nextPolygonID){
+				nextPolygonID = faceID + 1;
+			}
+			
+			//Check each edge, setting the next ID higher than the highest seen
+			for(IController edge : face.getEntitiesFromCategory(MeshCategory.EDGES)){
+				int edgeID = Integer.parseInt(edge.getProperty(MeshProperty.ID));
+				if(edgeID > nextEdgeID){
+					nextEdgeID = edgeID + 1;
+				}
+			}
+			
+			//Check each vertex, setting the next ID higher than the highest seen
+			for(IController vertex : face.getEntitiesFromCategory(MeshCategory.VERTICES)){
+				int vertexID = Integer.parseInt(vertex.getProperty(MeshProperty.ID));
+				if(vertexID > nextVertexID){
+					nextVertexID = vertexID + 1;
+				}
 			}
 		}
 	}
@@ -520,6 +548,7 @@ public class FXMeshViewer extends FXViewer {
 			((FXAttachment) attachmentManager.getAttachments().get(1))
 					.getKnownParts().get(0).addEntity(newFace);
 
+			
 			// Empty the lists of temporary constructs
 			clearSelection();
 			selectedVertices = new ArrayList<IController>();

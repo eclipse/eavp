@@ -49,21 +49,6 @@ import org.eclipse.eavp.viz.service.geometry.shapes.ShapeType;
 public class PersistableShape {
 
 	/**
-	 * The index for the rotation values in the transformation array
-	 */
-	private final int ROTATION = 0;
-
-	/**
-	 * The index for the scale values in the transformation array
-	 */
-	private final int SCALE = 1;
-
-	/**
-	 * The index for the translation values in the transformation array.
-	 */
-	private final int TRANSLATION = 2;
-
-	/**
 	 * The OperatorType used by ShapeMeshes compressed by this object. It is
 	 * intended that each subclass will be responsible for setthing this
 	 * correctly.
@@ -92,11 +77,21 @@ public class PersistableShape {
 	 * its default name
 	 */
 	protected String name;
+	
+	/**
+	 * The shape's rotation in the x, y, and z directions. A null value represents a default rotation of 0 on all axes.
+	 */
+	protected double[] rotation;
 
 	/**
-	 * Array containing the rotation, scale, and translation information.
+	 * The shape's scale in the x, y, and z directions. A null value represents a default rotation of 1 on all axes.
 	 */
-	private double[][] transformation;
+	protected double[] scale;
+	
+	/**
+	 * The shape's translation in the x, y, and z directions. A null value represents a default rotation of 0 on all axes.
+	 */
+	protected double[] translation;
 
 	/**
 	 * The nullary constructor. This is a simple constructor only intended for
@@ -109,7 +104,9 @@ public class PersistableShape {
 		shapeType = null;
 		ID = null;
 		name = null;
-		transformation = null;
+		rotation = null;
+		scale = null;
+		translation = null;
 		children = null;
 	}
 
@@ -127,22 +124,26 @@ public class PersistableShape {
 		// Get the shape's attributes
 		ID = source.getProperty(MeshProperty.ID);
 		name = source.getProperty(MeshProperty.NAME);
-		transformation = new double[3][3];
-		transformation[ROTATION] = source.getRotation();
-		transformation[SCALE] = source.getScale();
-		transformation[TRANSLATION] = source.getTranslation();
+		rotation = source.getRotation();
+		scale = source.getScale();
+		translation = source.getTranslation();
+		
+		double size = source.getSize();
+		if(source.getSize() != 1.0){
+			scale[0] = scale[0] * size;
+			scale[1] = scale[1] * size;
+			scale[2] = scale[2] * size;
+		}
 
-		// If the transformation is the default, don't bother storing it
-		if (transformation[ROTATION][0] == 0.0
-				&& transformation[ROTATION][1] == 0.0
-				&& transformation[ROTATION][2] == 0.0
-				&& transformation[SCALE][0] == 1.0
-				&& transformation[SCALE][1] == 1.0
-				&& transformation[SCALE][2] == 1.0
-				&& transformation[TRANSLATION][0] == 0.0
-				&& transformation[TRANSLATION][1] == 0.0
-				&& transformation[TRANSLATION][2] == 0.0) {
-			transformation = null;
+		// If the rotation, scale, or translation is the default, don't bother storing it
+		if(rotation[0] == 0.0 && rotation[1] == 0.0 && rotation[2] == 0.0){
+			rotation = null;
+		}
+		if(scale[0] == 1.0 && scale[1] == 1.0 && scale[2] == 1.0){
+			scale = null;
+		}
+		if(translation[0] == 0.0 && translation[1] == 0.0 && translation[2] == 0.0){
+			translation = null;
 		}
 
 		// Convert all children
@@ -280,15 +281,36 @@ public class PersistableShape {
 	}
 
 	/**
-	 * Getter method for the transformation
+	 * Getter method for the rotation.
 	 * 
-	 * @return The shape's operator type, or null if the transformation is the
-	 *         default
+	 * @return The shape's rotation in the three directions, or null if the rotation is the default.
 	 */
 	@XmlAttribute(required = false)
 	@XmlJavaTypeAdapter(TransformationAdapter.class)
-	public double[][] getTransformation() {
-		return transformation;
+	public double[] getRotation() {
+		return rotation;
+	}
+	
+	/**
+	 * Getter method for the scale.
+	 * 
+	 * @return The shape's scale in the three directions, or null if the scale is the default.
+	 */
+	@XmlAttribute(required = false)
+	@XmlJavaTypeAdapter(TransformationAdapter.class)
+	public double[] getScale() {
+		return scale;
+	}
+	
+	/**
+	 * Getter method for the translation.
+	 * 
+	 * @return The shape's translation in the three directions, or null if the translation is the default.
+	 */
+	@XmlAttribute(required = false)
+	@XmlJavaTypeAdapter(TransformationAdapter.class)
+	public double[] getTranslation() {
+		return translation;
 	}
 
 	/**
@@ -333,17 +355,32 @@ public class PersistableShape {
 	public void setOperatorType(OperatorType operatorType) {
 		this.operatorType = operatorType;
 	}
-
+	
 	/**
-	 * Setter method for the transformation.
+	 * Setter method for the rotation.
 	 * 
-	 * @param transformation
-	 *            The shape's new transformation. Null will be interpreted as
-	 *            the default transformation of all 0s for rotation and
-	 *            translation and all 1s for scale.
+	 * @param rotation The shape's new rotation.
 	 */
-	public void setTransformation(double[][] transformation) {
-		this.transformation = transformation;
+	public void setRotation(double[] rotation){
+		this.rotation = rotation;
+	}
+	
+	/**
+	 * Setter method for the scale.
+	 * 
+	 * @param scale The shape's new scale.
+	 */
+	public void setScale(double[] scale){
+		this.scale = scale;
+	}
+	
+	/**
+	 * Setter method for the translation.
+	 * 
+	 * @param translation The shape's new translation.
+	 */
+	public void setTranslation(double[] translation){
+		this.translation = translation;
 	}
 
 	/**
@@ -359,15 +396,16 @@ public class PersistableShape {
 	public ShapeController unpack(IControllerProviderFactory factory) {
 
 		// Create a mesh
-		ShapeMesh mesh;
-
-		// Tubes have their own custom mesh type
-		if (!ShapeType.Tube.equals(shapeType)) {
+		ShapeMesh mesh; 
+		
+		//If the shape isn't a tube, create a tube mesh
+		if(!ShapeType.Tube.equals(shapeType)){
 			mesh = new ShapeMesh();
-		} else {
+		}
+		
+		//If it is, create the tube and set it up with the Geometry Editor defaults
+		else {
 			mesh = new TubeMesh();
-
-			// Set the tube to the geometry editor's defaults
 			((TubeMesh) mesh).setAxialSamples(3);
 			((TubeMesh) mesh).setInnerRadius(40);
 			((TubeMesh) mesh).setLength(50);
@@ -383,14 +421,14 @@ public class PersistableShape {
 		if (ID != null) {
 			shape.setProperty(MeshProperty.ID, ID);
 		}
-		if (transformation != null) {
-			shape.setRotation(transformation[ROTATION][0],
-					transformation[ROTATION][1], transformation[ROTATION][2]);
-			shape.setScale(transformation[SCALE][0], transformation[SCALE][1],
-					transformation[SCALE][2]);
-			shape.setTranslation(transformation[TRANSLATION][0],
-					transformation[TRANSLATION][1],
-					transformation[TRANSLATION][2]);
+		if(rotation != null){
+			shape.setRotation(rotation[0], rotation[1], rotation[2]);
+		}
+		if(scale != null){
+			shape.setScale(scale[0], scale[1], scale[2]);
+		}
+		if(translation != null){
+			shape.setTranslation(translation[0], translation[1], translation[2]);
 		}
 		if (shapeType != null && !ShapeType.None.equals(shapeType)) {
 			shape.setProperty(MeshProperty.TYPE, shapeType.toString());
@@ -421,8 +459,8 @@ public class PersistableShape {
 	}
 
 	/**
-	 * An adapter for the transformation data member of the PersistableShape
-	 * class. It will convert the 2D array of doubles sized 3 x 3 to and from a
+	 * An adapter for the transformation data members of the PersistableShape
+	 * class. It will convert the length 3 array of doubles to and from a
 	 * String of comma separated values so that it can be marshaled as an
 	 * attribute instead of an element.
 	 * 
@@ -430,7 +468,7 @@ public class PersistableShape {
 	 *
 	 */
 	private static class TransformationAdapter
-			extends XmlAdapter<String, double[][]> {
+			extends XmlAdapter<String, double[]> {
 
 		/*
 		 * (non-Javadoc)
@@ -439,15 +477,13 @@ public class PersistableShape {
 		 * Object)
 		 */
 		@Override
-		public String marshal(double[][] arg0) throws Exception {
+		public String marshal(double[] arg0) throws Exception {
 
 			if (arg0 != null) {
 				// Add each of the values to the string, in order, separated by
 				// commas
 				String output = "";
-				output += arg0[0][0] + "," + arg0[0][1] + "," + arg0[0][2] + ","
-						+ arg0[1][0] + "," + arg0[1][1] + "," + arg0[1][2] + ","
-						+ arg0[2][0] + "," + arg0[2][1] + "," + arg0[2][2];
+				output += arg0[0] + "," + arg0[1] + "," + arg0[2];
 				return output;
 			}
 
@@ -463,7 +499,7 @@ public class PersistableShape {
 		 * Object)
 		 */
 		@Override
-		public double[][] unmarshal(String arg0) throws Exception {
+		public double[] unmarshal(String arg0) throws Exception {
 
 			if (arg0 != null) {
 				// Obtain the values for the transformation variables by
@@ -472,14 +508,12 @@ public class PersistableShape {
 				String[] values = arg0.split(",");
 
 				// Create a new output array to populate
-				double[][] output = new double[3][3];
+				double[] output = new double[3];
 
 				// For each cell in the array, get the corresponding value and
 				// convert it into a double
 				for (int i = 0; i < 3; i++) {
-					for (int j = 0; j < 3; j++) {
-						output[i][j] = Double.parseDouble(values[i * 3 + j]);
-					}
+						output[i] = Double.parseDouble(values[i]);
 				}
 
 				return output;

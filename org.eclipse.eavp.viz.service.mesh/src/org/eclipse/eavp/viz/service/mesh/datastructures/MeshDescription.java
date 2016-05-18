@@ -217,6 +217,13 @@ public class MeshDescription {
 					.parseInt(edgeVertices.get(0).getProperty(MeshProperty.ID));
 			int endpoint2 = Integer
 					.parseInt(edgeVertices.get(1).getProperty(MeshProperty.ID));
+			
+			//Sort the endpoints
+			if(endpoint2 < endpoint1){
+				int temp = endpoint1;
+				endpoint1 = endpoint2;
+				endpoint2 = temp;
+			}
 
 			// Calculate the edge's ID and add it to the array
 			edges[edgeIndex] = endpoint1 * maxVertex + endpoint2;
