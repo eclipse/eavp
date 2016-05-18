@@ -92,6 +92,9 @@ public class FXLinearEdgeView extends BasicView {
 
 		// Set the node's transformation
 		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		
+		//Initialize the view
+		refresh(model);
 
 	}
 
@@ -114,10 +117,8 @@ public class FXLinearEdgeView extends BasicView {
 						.getApplicationScale();
 
 		// Get the edge's endpoints
-		double[] start = ((org.eclipse.eavp.viz.modeling.EdgeController) edgeComponent
-				.getController()).getStartLocation();
-		double[] end = ((org.eclipse.eavp.viz.modeling.EdgeController) edgeComponent
-				.getController()).getEndLocation();
+		double[] start = edgeComponent.getStartLocation();
+		double[] end = edgeComponent.getEndLocation();
 
 		for (int i = 0; i < 3; i++) {
 			start[i] = start[i] * scale;
