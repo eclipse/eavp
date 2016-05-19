@@ -33,12 +33,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshType;
  * @author Robert Smith
  *
  */
-public class ShapeMesh extends BasicMesh {
+public class Shape extends BasicMesh {
 
 	/**
 	 * The default constructor.
 	 */
-	public ShapeMesh() {
+	public Shape() {
 		super();
 		type = MeshType.CONSTRUCTIVE;
 		getPropertyMap().put(MeshProperty.TYPE, "None");
@@ -182,7 +182,7 @@ public class ShapeMesh extends BasicMesh {
 	public Object clone() {
 
 		// Make a new shape component and copy the data into it
-		ShapeMesh clone = new ShapeMesh();
+		Shape clone = new Shape();
 		clone.copy(this);
 
 		return clone;
@@ -198,12 +198,12 @@ public class ShapeMesh extends BasicMesh {
 	public void copy(IMesh source) {
 
 		// If the other object is not a ShapeMesh, fail silently
-		if (!(source instanceof ShapeMesh)) {
+		if (!(source instanceof Shape)) {
 			return;
 		}
 
 		// Cast the object
-		ShapeMesh castObject = (ShapeMesh) source;
+		Shape castObject = (Shape) source;
 
 		// Copy the map of entities
 		entities = new HashMap<IMeshCategory, ArrayList<IController>>();

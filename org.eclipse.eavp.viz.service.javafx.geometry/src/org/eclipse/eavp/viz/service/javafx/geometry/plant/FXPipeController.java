@@ -11,7 +11,7 @@
 package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 
 import javafx.scene.paint.PhongMaterial;
 
@@ -39,7 +39,7 @@ public class FXPipeController extends PipeController {
 	 * @param view
 	 *            The graphical representation of the part.
 	 */
-	public FXPipeController(PipeMesh model, FXPipeView view) {
+	public FXPipeController(Pipe model, FXPipeView view) {
 		super(model, view);
 	}
 

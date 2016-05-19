@@ -17,10 +17,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.eclipse.eavp.viz.modeling.EdgeController;
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.modeling.LinearEdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
+import org.eclipse.eavp.viz.modeling.LinearEdge;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -43,7 +43,7 @@ public class EdgeControllerTester {
 	public void checkVertices() {
 
 		// Create the edge
-		EdgeMesh edgeMesh = new LinearEdgeMesh();
+		Edge edgeMesh = new LinearEdge();
 		EdgeController edge = new EdgeController(edgeMesh, new BasicView());
 
 		// The edge should initially have length 0
@@ -55,11 +55,11 @@ public class EdgeControllerTester {
 				edge.getEntitiesFromCategory(MeshCategory.DEFAULT).size());
 
 		// Create some vertices
-		VertexController vertex1 = new VertexController(new VertexMesh(0, 0, 0),
+		VertexController vertex1 = new VertexController(new Vertex(0, 0, 0),
 				new BasicView());
-		VertexController vertex2 = new VertexController(new VertexMesh(1, 1, 1),
+		VertexController vertex2 = new VertexController(new Vertex(1, 1, 1),
 				new BasicView());
-		VertexController vertex3 = new VertexController(new VertexMesh(2, 2, 2),
+		VertexController vertex3 = new VertexController(new Vertex(2, 2, 2),
 				new BasicView());
 
 		// Add all three vertices to the edge.
@@ -95,7 +95,7 @@ public class EdgeControllerTester {
 	public void checkClone() {
 
 		// Create an edge
-		EdgeController edge = new EdgeController(new EdgeMesh(),
+		EdgeController edge = new EdgeController(new Edge(),
 				new BasicView());
 		edge.setProperty(MeshProperty.DESCRIPTION, "Property");
 

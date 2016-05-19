@@ -15,9 +15,9 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
-import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
-public class ReactorMeshTester {
+public class ReactorTester {
 
 	/**
 	 * Test that the Reactor sets itself as the parent to any core channel which
@@ -37,9 +37,9 @@ public class ReactorMeshTester {
 	public void checkPipes() {
 
 		// Create a reactor and pipe
-		ReactorController reactor = new ReactorController(new ReactorMesh(),
+		ReactorController reactor = new ReactorController(new Reactor(),
 				new BasicView());
-		PipeController pipe = new PipeController(new PipeMesh(),
+		PipeController pipe = new PipeController(new Pipe(),
 				new BasicView());
 
 		// Add the pipe as a core channel

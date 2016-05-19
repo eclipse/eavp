@@ -27,9 +27,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.TubeController;
-import org.eclipse.eavp.viz.modeling.TubeMesh;
+import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
@@ -65,7 +65,7 @@ public class PersistableShapeTester {
 
 		// Create a mesh description of the hierarchy
 		PersistableShape compressed = PersistableShape
-				.compress((ShapeMesh) root.getModel());
+				.compress((Shape) root.getModel());
 
 		// Retrieve the data structures from the description
 		ShapeController unpacked = compressed
@@ -87,7 +87,7 @@ public class PersistableShapeTester {
 
 		// Create a mesh description of the hierarchy
 		PersistableShape compressed = PersistableShape
-				.compress((ShapeMesh) root.getModel());
+				.compress((Shape) root.getModel());
 
 		// Create an output stream for a test file
 		OutputStream outputStream = null;
@@ -177,25 +177,25 @@ public class PersistableShapeTester {
 	public ShapeController createGeometry() {
 
 		// The root of the new hierarchy
-		ShapeController root = new ShapeController(new ShapeMesh(),
+		ShapeController root = new ShapeController(new Shape(),
 				new BasicView());
 
 		// Create a cube
-		ShapeController cube = new ShapeController(new ShapeMesh(),
+		ShapeController cube = new ShapeController(new Shape(),
 				new BasicView());
 		cube.setProperty(MeshProperty.NAME, "Cube");
 		cube.setProperty(MeshProperty.ID, "1");
 		cube.setProperty(MeshProperty.TYPE, "Cube");
 
 		// Create a second cube with a new ID number
-		ShapeController cube2 = new ShapeController(new ShapeMesh(),
+		ShapeController cube2 = new ShapeController(new Shape(),
 				new BasicView());
 		cube2.setProperty(MeshProperty.NAME, "Cube");
 		cube2.setProperty(MeshProperty.ID, "2");
 		cube2.setProperty(MeshProperty.TYPE, "Cube");
 
 		// Create a cylinder
-		ShapeController cylinder = new ShapeController(new ShapeMesh(),
+		ShapeController cylinder = new ShapeController(new Shape(),
 				new BasicView());
 		cylinder.setProperty(MeshProperty.NAME, "Cylinder");
 		cylinder.setProperty(MeshProperty.ID, "1");
@@ -203,7 +203,7 @@ public class PersistableShapeTester {
 
 		// Create a second cylinder with the same ID number, as if were a copy
 		// of the first
-		ShapeController cylinder2 = new ShapeController(new ShapeMesh(),
+		ShapeController cylinder2 = new ShapeController(new Shape(),
 				new BasicView());
 		cylinder2.setProperty(MeshProperty.NAME, "Cylinder");
 		cylinder2.setProperty(MeshProperty.ID, "1");
@@ -211,7 +211,7 @@ public class PersistableShapeTester {
 		cylinder2.setRotation(1.0, 2.0, 3.0);
 
 		// Create a union
-		ShapeController union = new ShapeController(new ShapeMesh(),
+		ShapeController union = new ShapeController(new Shape(),
 				new BasicView());
 		union.setProperty(MeshProperty.NAME, "Union");
 		union.setProperty(MeshProperty.ID, "2");
@@ -221,7 +221,7 @@ public class PersistableShapeTester {
 
 		// Create a sphere with an ID number missing from those assigned to
 		// spheres, as though a previously created sphere had been deleted
-		ShapeController sphere = new ShapeController(new ShapeMesh(),
+		ShapeController sphere = new ShapeController(new Shape(),
 				new BasicView());
 		sphere.setProperty(MeshProperty.NAME, "Sphere");
 		sphere.setProperty(MeshProperty.ID, "2");
@@ -229,7 +229,7 @@ public class PersistableShapeTester {
 
 		// Create a union named Replication, as though created by the replicate
 		// function
-		ShapeController union2 = new ShapeController(new ShapeMesh(),
+		ShapeController union2 = new ShapeController(new Shape(),
 				new BasicView());
 		union2.setProperty(MeshProperty.NAME, "Replication");
 		union2.setProperty(MeshProperty.ID, "1");
@@ -237,7 +237,7 @@ public class PersistableShapeTester {
 		union2.setProperty(GeometryMeshProperty.OPERATOR, "Union");
 
 		// Create a tube
-		TubeController tube = new TubeController(new TubeMesh(),
+		TubeController tube = new TubeController(new Tube(),
 				new BasicView());
 		tube.setProperty(MeshProperty.NAME, "Tube");
 		tube.setProperty(MeshProperty.ID, "1");
@@ -250,7 +250,7 @@ public class PersistableShapeTester {
 		tube.setRadius(50);
 
 		// Create a second tube
-		TubeController tube2 = new TubeController(new TubeMesh(),
+		TubeController tube2 = new TubeController(new Tube(),
 				new BasicView());
 		tube2.setProperty(MeshProperty.NAME, "Tube");
 		tube2.setProperty(MeshProperty.ID, "2");
@@ -296,7 +296,7 @@ public class PersistableShapeTester {
 			super();
 
 			// Set the ShapeMesh provider
-			typeMap.put(ShapeMesh.class,
+			typeMap.put(Shape.class,
 					new IControllerProvider<ShapeController>() {
 						@Override
 						public ShapeController createController(IMesh model) {
@@ -304,12 +304,12 @@ public class PersistableShapeTester {
 							// If the model is an edge component, create an edge
 							// with a basic view
 							BasicView view = new BasicView();
-							return new ShapeController((ShapeMesh) model, view);
+							return new ShapeController((Shape) model, view);
 						}
 					});
 
 			// Set the TubeMesh provider
-			typeMap.put(TubeMesh.class,
+			typeMap.put(Tube.class,
 					new IControllerProvider<ShapeController>() {
 						@Override
 						public ShapeController createController(IMesh model) {
@@ -317,7 +317,7 @@ public class PersistableShapeTester {
 							// If the model is an edge component, create an edge
 							// with a basic view
 							BasicView view = new BasicView();
-							return new ShapeController((ShapeMesh) model, view);
+							return new ShapeController((Shape) model, view);
 						}
 					});
 		}

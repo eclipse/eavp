@@ -14,10 +14,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.base.Representation;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerView;
@@ -46,7 +46,7 @@ public class FXHeatExchangerViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		HeatExchangerMesh mesh = new HeatExchangerMesh();
+		HeatExchanger mesh = new HeatExchanger();
 		FXHeatExchangerView view = new FXHeatExchangerView(mesh);
 		FXHeatExchangerView clone = (FXHeatExchangerView) view.clone();
 		assertTrue(view.equals(clone));
@@ -59,7 +59,7 @@ public class FXHeatExchangerViewTester {
 	public void checkView() {
 
 		// Create a pipe for the HeatExchanger to contain
-		PipeMesh pipeMesh = new PipeMesh();
+		Pipe pipeMesh = new Pipe();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(25);
 		pipeMesh.setRadius(25);
@@ -68,14 +68,14 @@ public class FXHeatExchangerViewTester {
 		FXPipeController pipe = new FXPipeController(pipeMesh, pipeView);
 
 		// Create a heat exchanger
-		HeatExchangerMesh mesh = new HeatExchangerMesh();
+		HeatExchanger mesh = new HeatExchanger();
 		FXHeatExchangerView view = new FXHeatExchangerView(mesh);
 		FXHeatExchangerController exchanger = new FXHeatExchangerController(
 				mesh, view);
 		exchanger.setPrimaryPipe(pipe);
 
 		// Create a second pipe and two junctions to connect it to the exchanger
-		PipeMesh pipeMesh2 = new PipeMesh();
+		Pipe pipeMesh2 = new Pipe();
 		pipeMesh2.setLength(100);
 		pipeMesh2.setInnerRadius(25);
 		pipeMesh2.setRadius(25);
@@ -84,7 +84,7 @@ public class FXHeatExchangerViewTester {
 		FXPipeController pipe2 = new FXPipeController(pipeMesh2, pipeView2);
 		pipe2.setTranslation(50, 0, 0);
 
-		JunctionMesh junctionMesh = new JunctionMesh();
+		Junction junctionMesh = new Junction();
 		FXJunctionView junctionView = new FXJunctionView(junctionMesh);
 		JunctionController junction = new JunctionController(junctionMesh,
 				junctionView);
@@ -94,7 +94,7 @@ public class FXHeatExchangerViewTester {
 		junction.addEntityToCategory(pipe2, ReactorMeshCategory.OUTPUT);
 		pipe2.addEntityToCategory(junction, ReactorMeshCategory.INPUT);
 
-		JunctionMesh junctionMesh2 = new JunctionMesh();
+		Junction junctionMesh2 = new Junction();
 		FXJunctionView junctionView2 = new FXJunctionView(junctionMesh2);
 		JunctionController junction2 = new JunctionController(junctionMesh2,
 				junctionView2);

@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -48,7 +48,7 @@ public class FXVertexController extends VertexController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public FXVertexController(VertexMesh model, BasicView view) {
+	public FXVertexController(Vertex model, BasicView view) {
 		super(model, view);
 
 		// Add a reference to this controller to the view's JavaFX node
@@ -171,7 +171,7 @@ public class FXVertexController extends VertexController {
 		BasicController castObject = (BasicController) otherObject;
 
 		// Create the model and give it a reference to this
-		model = new VertexMesh();
+		model = new Vertex();
 		model.setController(this);
 
 		// Copy the other object's data members

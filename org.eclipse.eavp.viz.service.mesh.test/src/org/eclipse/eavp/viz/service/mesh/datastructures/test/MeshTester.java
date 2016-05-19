@@ -18,11 +18,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.modeling.DetailedFaceMesh;
+import org.eclipse.eavp.viz.modeling.DetailedFace;
 import org.eclipse.eavp.viz.modeling.EdgeController;
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -77,13 +77,13 @@ public class MeshTester {
 		/* ---- Add a new polygon. ---- */
 		// Create the vertices.
 		vertices = new ArrayList<VertexController>();
-		vertices.add(new VertexController(new VertexMesh(0f, 0f, 0f),
+		vertices.add(new VertexController(new Vertex(0f, 0f, 0f),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(1f, 0f, 0f),
+		vertices.add(new VertexController(new Vertex(1f, 0f, 0f),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(1f, 0f, 1f),
+		vertices.add(new VertexController(new Vertex(1f, 0f, 1f),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(0f, 0f, 1f),
+		vertices.add(new VertexController(new Vertex(0f, 0f, 1f),
 				new BasicView()));
 		for (VertexController v : vertices) {
 			v.setProperty(MeshProperty.ID, Integer.toString(counter++));
@@ -92,13 +92,13 @@ public class MeshTester {
 		edges = new ArrayList<EdgeController>();
 		for (int i = 0; i < 4; i++) {
 			edges.add(new TestEdge(
-					new EdgeMesh(vertices.get(i), vertices.get((i + 1) % 4)),
+					new Edge(vertices.get(i), vertices.get((i + 1) % 4)),
 					new BasicView()));
 			edges.get(i).setProperty(MeshProperty.ID,
 					Integer.toString(counter++));
 		}
 		// Create the polygon.
-		polygon = new NekPolygonController(new DetailedFaceMesh(),
+		polygon = new NekPolygonController(new DetailedFace(),
 				new BasicView());
 		for (EdgeController e : edges) {
 			polygon.addEntityToCategory(e, MeshCategory.EDGES);
@@ -123,13 +123,13 @@ public class MeshTester {
 		/* ---- Add another polygon. ---- */
 		// Create the vertices.
 		vertices = new ArrayList<VertexController>();
-		vertices.add(new VertexController(new VertexMesh(1f, 0f, 1f),
+		vertices.add(new VertexController(new Vertex(1f, 0f, 1f),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(2f, 0f, 1f),
+		vertices.add(new VertexController(new Vertex(2f, 0f, 1f),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(2f, 0f, 2f),
+		vertices.add(new VertexController(new Vertex(2f, 0f, 2f),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(1f, 0f, 2f),
+		vertices.add(new VertexController(new Vertex(1f, 0f, 2f),
 				new BasicView()));
 		vertices.get(0).setProperty(MeshProperty.ID, "3");
 		for (int i = 1; i < 4; i++) {
@@ -144,7 +144,7 @@ public class MeshTester {
 					Integer.toString(counter++));
 		}
 		// Create the polygon.
-		polygon = new NekPolygonController(new DetailedFaceMesh(),
+		polygon = new NekPolygonController(new DetailedFace(),
 				new BasicView());
 		for (EdgeController e : edges) {
 			polygon.addEntityToCategory(e, MeshCategory.EDGES);
@@ -188,11 +188,11 @@ public class MeshTester {
 		/* ---- Add another polygon. ---- */
 		// Create the vertices.
 		vertices = new ArrayList<VertexController>();
-		vertices.add(new VertexController(new VertexMesh(1d, 0d, 0d),
+		vertices.add(new VertexController(new Vertex(1d, 0d, 0d),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(2d, 0d, 1d),
+		vertices.add(new VertexController(new Vertex(2d, 0d, 1d),
 				new BasicView()));
-		vertices.add(new VertexController(new VertexMesh(1d, 0d, 1d),
+		vertices.add(new VertexController(new Vertex(1d, 0d, 1d),
 				new BasicView()));
 		vertices.get(0).setProperty(MeshProperty.ID, "2");
 		vertices.get(1).setProperty(MeshProperty.ID,
@@ -208,7 +208,7 @@ public class MeshTester {
 		edges.get(2).setProperty(MeshProperty.ID, "6");
 
 		// Create the polygon.
-		polygon = new NekPolygonController(new DetailedFaceMesh(),
+		polygon = new NekPolygonController(new DetailedFace(),
 				new BasicView());
 		for (EdgeController e : edges) {
 			polygon.addEntityToCategory(e, MeshCategory.EDGES);

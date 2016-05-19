@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXLinearEdgeView;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class FXLinearEdgeViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		EdgeMesh mesh = new EdgeMesh();
+		Edge mesh = new Edge();
 		FXLinearEdgeView view = new FXLinearEdgeView(mesh);
 		FXLinearEdgeView clone = (FXLinearEdgeView) view.clone();
 		assertTrue(view.equals(clone));

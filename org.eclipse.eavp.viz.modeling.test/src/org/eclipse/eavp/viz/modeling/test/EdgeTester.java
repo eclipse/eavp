@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
@@ -31,7 +31,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
-public class EdgeMeshTester {
+public class EdgeTester {
 
 	/**
 	 * Checks that the edge correctly manages its vertices
@@ -40,17 +40,17 @@ public class EdgeMeshTester {
 	public void checkVertices() {
 
 		// Create the edge
-		EdgeMesh edge = new EdgeMesh();
+		Edge edge = new Edge();
 
 		// The edge should initially have length 0
 		assertEquals(0, Double.compare(edge.getLength(), 0d));
 
 		// Create some vertices
-		VertexController vertex1 = new VertexController(new VertexMesh(0, 0, 0),
+		VertexController vertex1 = new VertexController(new Vertex(0, 0, 0),
 				new BasicView());
-		VertexController vertex2 = new VertexController(new VertexMesh(1, 1, 1),
+		VertexController vertex2 = new VertexController(new Vertex(1, 1, 1),
 				new BasicView());
-		VertexController vertex3 = new VertexController(new VertexMesh(2, 2, 2),
+		VertexController vertex3 = new VertexController(new Vertex(2, 2, 2),
 				new BasicView());
 
 		// Add all three vertices to the edge.
@@ -86,9 +86,9 @@ public class EdgeMeshTester {
 	public void checkClone() {
 
 		// Clone a mesh and check that the result is identical
-		EdgeMesh mesh = new EdgeMesh();
+		Edge mesh = new Edge();
 		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
-		EdgeMesh clone = (EdgeMesh) mesh.clone();
+		Edge clone = (Edge) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
 }

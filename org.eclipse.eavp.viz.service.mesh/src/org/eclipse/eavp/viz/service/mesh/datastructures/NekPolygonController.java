@@ -15,7 +15,7 @@ package org.eclipse.eavp.viz.service.mesh.datastructures;
 import java.util.HashMap;
 
 import org.eclipse.eavp.viz.modeling.FaceController;
-import org.eclipse.eavp.viz.modeling.FaceMesh;
+import org.eclipse.eavp.viz.modeling.Face;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -43,7 +43,7 @@ public class NekPolygonController extends FaceController {
 	/**
 	 * The default constructor
 	 */
-	public NekPolygonController(FaceMesh model, BasicView view) {
+	public NekPolygonController(Face model, BasicView view) {
 		super(model, view);
 
 		// Set the default name, id, and description.
@@ -64,7 +64,7 @@ public class NekPolygonController extends FaceController {
 	 */
 	public void setFluidBoundaryCondition(int edgeId,
 			BoundaryCondition condition) {
-		((NekPolygonMesh) model).setFluidBoundaryCondition(edgeId, condition);
+		((NekPolygon) model).setFluidBoundaryCondition(edgeId, condition);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class NekPolygonController extends FaceController {
 	 * @return A map from edge ID numbers to that edge's edge properties.
 	 */
 	public HashMap<Integer, EdgeProperties> getEdgeProperties() {
-		return ((NekPolygonMesh) model).getEdgeProperties();
+		return ((NekPolygon) model).getEdgeProperties();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class NekPolygonController extends FaceController {
 	 */
 	public BoundaryCondition getFluidBoundaryCondition(int edgeId) {
 
-		return ((NekPolygonMesh) model).getFluidBoundaryCondition(edgeId);
+		return ((NekPolygon) model).getFluidBoundaryCondition(edgeId);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class NekPolygonController extends FaceController {
 	 */
 	public void setEdgeProperties(
 			HashMap<Integer, EdgeProperties> edgeProperties) {
-		((NekPolygonMesh) model).setEdgeProperties(edgeProperties);
+		((NekPolygon) model).setEdgeProperties(edgeProperties);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class NekPolygonController extends FaceController {
 	 */
 	public void setThermalBoundaryCondition(int edgeId,
 			BoundaryCondition condition) {
-		((NekPolygonMesh) model).setThermalBoundaryCondition(edgeId, condition);
+		((NekPolygon) model).setThermalBoundaryCondition(edgeId, condition);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class NekPolygonController extends FaceController {
 	 *         edge ID is invalid.
 	 */
 	public BoundaryCondition getThermalBoundaryCondition(int edgeId) {
-		return ((NekPolygonMesh) model).getThermalBoundaryCondition(edgeId);
+		return ((NekPolygon) model).getThermalBoundaryCondition(edgeId);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class NekPolygonController extends FaceController {
 	 */
 	public void setOtherBoundaryCondition(int edgeId, int otherId,
 			BoundaryCondition condition) {
-		((NekPolygonMesh) model).setOtherBoundaryCondition(edgeId, otherId,
+		((NekPolygon) model).setOtherBoundaryCondition(edgeId, otherId,
 				condition);
 	}
 
@@ -165,7 +165,7 @@ public class NekPolygonController extends FaceController {
 	 */
 	public BoundaryCondition getOtherBoundaryCondition(int edgeId,
 			int otherId) {
-		return ((NekPolygonMesh) model).getOtherBoundaryCondition(edgeId,
+		return ((NekPolygon) model).getOtherBoundaryCondition(edgeId,
 				otherId);
 	}
 
@@ -180,7 +180,7 @@ public class NekPolygonController extends FaceController {
 	 *            The group number of the current polygon.
 	 */
 	public void setPolygonProperties(String materialId, int group) {
-		((NekPolygonMesh) model).setPolygonProperties(materialId, group);
+		((NekPolygon) model).setPolygonProperties(materialId, group);
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class NekPolygonController extends FaceController {
 	 * @return The properties for the current polygon.
 	 */
 	public PolygonProperties getPolygonProperties() {
-		return ((NekPolygonMesh) model).getPolygonProperties();
+		return ((NekPolygon) model).getPolygonProperties();
 	}
 
 	/*
@@ -259,7 +259,7 @@ public class NekPolygonController extends FaceController {
 		BasicController castObject = (BasicController) otherObject;
 
 		// Create the model and give it a reference to this
-		model = new NekPolygonMesh();
+		model = new NekPolygon();
 		model.setController(this);
 
 		// Copy the other object's data members

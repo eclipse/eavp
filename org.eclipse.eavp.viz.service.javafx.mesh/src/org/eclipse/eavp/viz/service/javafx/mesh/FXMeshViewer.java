@@ -13,12 +13,12 @@ package org.eclipse.eavp.viz.service.javafx.mesh;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.modeling.DetailedEdgeMesh;
+import org.eclipse.eavp.viz.modeling.DetailedEdge;
 import org.eclipse.eavp.viz.modeling.EdgeController;
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.FaceController;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -38,7 +38,7 @@ import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXVertexController;
 import org.eclipse.eavp.viz.service.javafx.scene.base.ICamera;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
-import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonMesh;
+import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygon;
 import org.eclipse.eavp.viz.service.mesh.properties.MeshSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -268,9 +268,9 @@ public class FXMeshViewer extends FXViewer {
 		tempTransparant = new ArrayList<Node>();
 
 		// Get the controller providers from the factory
-		edgeProvider = factory.createProvider(new EdgeMesh());
-		faceProvider = factory.createProvider(new NekPolygonMesh());
-		vertexProvider = factory.createProvider(new VertexMesh());
+		edgeProvider = factory.createProvider(new Edge());
+		faceProvider = factory.createProvider(new NekPolygon());
+		vertexProvider = factory.createProvider(new Vertex());
 
 		// Create the handler for add mode
 		addHandler = new EventHandler<MouseEvent>() {
@@ -519,7 +519,7 @@ public class FXMeshViewer extends FXViewer {
 		if (selectedVertices.size() == 4) {
 
 			// Create a face out of all the edges
-			NekPolygonMesh faceComponent = new NekPolygonMesh();
+			NekPolygon faceComponent = new NekPolygon();
 			NekPolygonController newFace = faceProvider
 					.createController(faceComponent);
 
@@ -564,7 +564,7 @@ public class FXMeshViewer extends FXViewer {
 			// Create a new vertex at that point, divided by SCALE so that the
 			// internal representation is kept separate from the size things are
 			// being drawn at
-			VertexMesh tempComponent = new VertexMesh(
+			Vertex tempComponent = new Vertex(
 					event.getPickResult().getIntersectedPoint().getX() / SCALE,
 					event.getPickResult().getIntersectedPoint().getY() / SCALE,
 					0);
@@ -1128,7 +1128,7 @@ public class FXMeshViewer extends FXViewer {
 		}
 
 		// If there is not already an edge, create a new one
-		DetailedEdgeMesh tempComponent = new DetailedEdgeMesh(start, end);
+		DetailedEdge tempComponent = new DetailedEdge(start, end);
 		tempComponent.setProperty(MeshEditorMeshProperty.UNDER_CONSTRUCTION,
 				"True");
 		EdgeController tempEdge = edgeProvider.createController(tempComponent);

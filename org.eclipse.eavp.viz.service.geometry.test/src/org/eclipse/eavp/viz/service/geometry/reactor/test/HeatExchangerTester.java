@@ -8,32 +8,34 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
+package org.eclipse.eavp.viz.service.geometry.reactor.test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.Vertex;
-import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXVertexView;
+import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.junit.Test;
 
 /**
- * A class to test the functionality of the FXVertexView.
+ * A class to test the functionality of the HeatExchangerMesh.
  * 
  * @author Robert Smith
  *
  */
-public class FXVertexViewTester {
+public class HeatExchangerTester {
 
 	/**
-	 * Test that FXLinearViews are cloned correctly
+	 * Check that the part is cloned correctly.
 	 */
 	@Test
 	public void checkClone() {
 
-		// Create a cloned view and check that it is identical to the original
-		Vertex mesh = new Vertex();
-		FXVertexView view = new FXVertexView(mesh);
-		FXVertexView clone = (FXVertexView) view.clone();
-		assertTrue(view.equals(clone));
+		// Create an exchanger
+		HeatExchanger exchanger = new HeatExchanger();
+		exchanger.setProperty(MeshProperty.INNER_RADIUS, "Property");
+
+		// Clone it and check that they are identical
+		HeatExchanger clone = (HeatExchanger) exchanger.clone();
+		assertTrue(exchanger.equals(clone));
 	}
 }

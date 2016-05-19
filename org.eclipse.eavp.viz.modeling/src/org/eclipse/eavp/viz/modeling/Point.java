@@ -27,12 +27,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
  * 
  * @Author Robert Smith
  */
-public class PointMesh extends BasicMesh {
+public class Point extends BasicMesh {
 
 	/**
 	 * The basic constructor
 	 */
-	public PointMesh() {
+	public Point() {
 		super();
 	}
 
@@ -46,7 +46,7 @@ public class PointMesh extends BasicMesh {
 	 * @param z
 	 *            The point's z coordinate
 	 */
-	public PointMesh(double x, double y, double z) {
+	public Point(double x, double y, double z) {
 		super();
 
 		//Set the point's location
@@ -153,7 +153,7 @@ public class PointMesh extends BasicMesh {
 	public Object clone() {
 
 		// Create a new component, and make it a copy of this one.
-		PointMesh clone = new PointMesh();
+		Point clone = new Point();
 		clone.copy(this);
 		return clone;
 	}
@@ -174,11 +174,11 @@ public class PointMesh extends BasicMesh {
 		}
 
 		// Check if the other object is an AbstractMeshComponent and cast it
-		if (!(otherObject instanceof PointMesh)) {
+		if (!(otherObject instanceof Point)) {
 			return false;
 		}
 
-		PointMesh castObject = (PointMesh) otherObject;
+		Point castObject = (Point) otherObject;
 
 		// Check the types and properties for equality
 		if (type != castObject.type

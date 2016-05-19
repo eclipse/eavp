@@ -36,7 +36,7 @@ public class FaceController extends BasicController {
 	 * @param view
 	 *            The view representing this Face in the graphics engine
 	 */
-	public FaceController(FaceMesh model, BasicView view) {
+	public FaceController(Face model, BasicView view) {
 		super(model, view);
 	}
 

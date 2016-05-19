@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.modeling.test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.PointMesh;
+import org.eclipse.eavp.viz.modeling.Point;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
-public class PointMeshTester {
+public class PointTester {
 
 	/**
 	 * Test that the PointMesh is cloned correctly
@@ -31,9 +31,9 @@ public class PointMeshTester {
 	public void checkClone() {
 
 		// Clone a mesh and check that the result is identical
-		PointMesh mesh = new PointMesh();
+		Point mesh = new Point();
 		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
-		PointMesh clone = (PointMesh) mesh.clone();
+		Point clone = (Point) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
 
@@ -44,7 +44,7 @@ public class PointMeshTester {
 	public void checkLocation() {
 
 		// Create a point and check that its coordinates are correct.
-		PointMesh point = new PointMesh(0, 1, 2);
+		Point point = new Point(0, 1, 2);
 		assertTrue(Double.compare(0, point.getX()) <= .1);
 		assertTrue(Double.compare(1, point.getY()) <= .1);
 		assertTrue(Double.compare(2, point.getZ()) <= .1);

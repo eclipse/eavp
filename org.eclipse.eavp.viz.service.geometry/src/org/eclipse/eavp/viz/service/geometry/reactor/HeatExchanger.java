@@ -24,12 +24,12 @@ import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
  * @author Robert Smith
  *
  */
-public class HeatExchangerMesh extends BasicMesh {
+public class HeatExchanger extends BasicMesh {
 
 	/**
 	 * The nullary constructor.
 	 */
-	public HeatExchangerMesh() {
+	public HeatExchanger() {
 		super();
 	}
 
@@ -174,7 +174,7 @@ public class HeatExchangerMesh extends BasicMesh {
 	public Object clone() {
 
 		// Create a new component, and make it a copy of this one.
-		HeatExchangerMesh clone = new HeatExchangerMesh();
+		HeatExchanger clone = new HeatExchanger();
 		clone.copy(this);
 		return clone;
 	}

@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
-import org.eclipse.eavp.viz.modeling.TubeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
@@ -115,7 +115,7 @@ public class PersistableShape {
 	 * 
 	 * @param source
 	 */
-	public PersistableShape(ShapeMesh source) {
+	public PersistableShape(Shape source) {
 
 		// The default values for the types are both null
 		operatorType = null;
@@ -151,7 +151,7 @@ public class PersistableShape {
 		for (ShapeController child : source.getEntitiesFromCategory(
 				MeshCategory.CHILDREN, ShapeController.class)) {
 			children.add(
-					PersistableShape.compress((ShapeMesh) child.getModel()));
+					PersistableShape.compress((Shape) child.getModel()));
 		}
 	}
 
@@ -165,7 +165,7 @@ public class PersistableShape {
 	 *         ShapeMesh, which represents that ShapeMesh's information in a
 	 *         more compact format.
 	 */
-	public static PersistableShape compress(ShapeMesh source) {
+	public static PersistableShape compress(Shape source) {
 
 		// Get the shape's type, interpreting an unset value as "None".
 		String sourceShapeType = source.getProperty(MeshProperty.TYPE);
@@ -396,20 +396,20 @@ public class PersistableShape {
 	public ShapeController unpack(IControllerProviderFactory factory) {
 
 		// Create a mesh
-		ShapeMesh mesh; 
+		Shape mesh; 
 		
 		//If the shape isn't a tube, create a tube mesh
 		if(!ShapeType.Tube.equals(shapeType)){
-			mesh = new ShapeMesh();
+			mesh = new Shape();
 		}
 		
 		//If it is, create the tube and set it up with the Geometry Editor defaults
 		else {
-			mesh = new TubeMesh();
-			((TubeMesh) mesh).setAxialSamples(3);
-			((TubeMesh) mesh).setInnerRadius(40);
-			((TubeMesh) mesh).setLength(50);
-			((TubeMesh) mesh).setRadius(50);
+			mesh = new Tube();
+			((Tube) mesh).setAxialSamples(3);
+			((Tube) mesh).setInnerRadius(40);
+			((Tube) mesh).setLength(50);
+			((Tube) mesh).setRadius(50);
 		}
 
 		// Assign it a controller and view

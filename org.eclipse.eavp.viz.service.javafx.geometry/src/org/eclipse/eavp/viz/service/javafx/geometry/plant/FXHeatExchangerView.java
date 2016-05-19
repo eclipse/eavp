@@ -19,7 +19,7 @@ import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXTube;
@@ -134,7 +134,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	 *            solid.
 	 * @return A new tube mesh adhering to the above specifications
 	 */
-	private FXTube createTubeToPoint(double[] point, HeatExchangerMesh model,
+	private FXTube createTubeToPoint(double[] point, HeatExchanger model,
 			MeshView view, boolean wireframe) {
 
 		// Get the primary tube's start point
@@ -312,12 +312,12 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 
 		// The heat exchanger cannot be drawn without a central pipe to
 		// contain.
-		if (((HeatExchangerMesh) model).getPrimaryPipe() == null) {
+		if (((HeatExchanger) model).getPrimaryPipe() == null) {
 			return;
 		}
 
 		// Get a reference to the primary pipe
-		FXPipeController primaryPipeController = (FXPipeController) ((HeatExchangerMesh) model)
+		FXPipeController primaryPipeController = (FXPipeController) ((HeatExchanger) model)
 				.getPrimaryPipe();
 
 		// Set the primary pipe to the same wireframe mode as this object
@@ -354,7 +354,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 					ReactorMeshCategory.SECONDARY_INPUT).get(0);
 			secondaryInlet = createTubeToPoint(
 					((JunctionController) inletJunction).getCenter(),
-					(HeatExchangerMesh) model, inletView, wireframe);
+					(HeatExchanger) model, inletView, wireframe);
 
 			// Add the secondary pipes to the scene
 			inletView = new MeshView(secondaryInlet.getMesh());
@@ -373,7 +373,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 					ReactorMeshCategory.SECONDARY_OUTPUT).get(0);
 			secondaryOutlet = createTubeToPoint(
 					((JunctionController) outletJunction).getCenter(),
-					(HeatExchangerMesh) model, outletView, wireframe);
+					(HeatExchanger) model, outletView, wireframe);
 
 			// Add the secondary pipes to the scene
 			outletView = new MeshView(secondaryOutlet.getMesh());

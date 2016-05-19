@@ -37,7 +37,7 @@ public class TubeController extends ShapeController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public TubeController(TubeMesh model, BasicView view) {
+	public TubeController(Tube model, BasicView view) {
 		super(model, view);
 	}
 
@@ -47,7 +47,7 @@ public class TubeController extends ShapeController {
 	 * @return The tube's length
 	 */
 	public int getAxialSamples() {
-		return ((TubeMesh) model).getAxialSamples();
+		return ((Tube) model).getAxialSamples();
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class TubeController extends ShapeController {
 	 * @return The tube's length
 	 */
 	public double getLength() {
-		return ((TubeMesh) model).getLength();
+		return ((Tube) model).getLength();
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class TubeController extends ShapeController {
 	 * @return The tube's radius
 	 */
 	public double getRadius() {
-		return ((TubeMesh) model).getRadius();
+		return ((Tube) model).getRadius();
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class TubeController extends ShapeController {
 	 * @return The tube's radius
 	 */
 	public double getInnerRadius() {
-		return ((TubeMesh) model).getInnerRadius();
+		return ((Tube) model).getInnerRadius();
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class TubeController extends ShapeController {
 	 *            The tube's new axial samples
 	 */
 	public void setAxialSamples(int axialSamples) {
-		((TubeMesh) model).setAxialSamples(axialSamples);
+		((Tube) model).setAxialSamples(axialSamples);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class TubeController extends ShapeController {
 	 *            The tube's new length
 	 */
 	public void setLength(double length) {
-		((TubeMesh) model).setLength(length);
+		((Tube) model).setLength(length);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class TubeController extends ShapeController {
 	 *            The tube's new radius
 	 */
 	public void setRadius(double radius) {
-		((TubeMesh) model).setRadius(radius);
+		((Tube) model).setRadius(radius);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class TubeController extends ShapeController {
 	 *            The tube's new radius
 	 */
 	public void setInnerRadius(double radius) {
-		((TubeMesh) model).setInnerRadius(radius);
+		((Tube) model).setInnerRadius(radius);
 	}
 
 	/*
@@ -151,7 +151,7 @@ public class TubeController extends ShapeController {
 		BasicController castObject = (BasicController) source;
 
 		// Create the model and give it a reference to this
-		model = new TubeMesh();
+		model = new Tube();
 		model.setController(this);
 
 		// Copy the other object's data members

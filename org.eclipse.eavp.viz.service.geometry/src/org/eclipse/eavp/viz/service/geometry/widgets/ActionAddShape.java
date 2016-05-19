@@ -17,8 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
-import org.eclipse.eavp.viz.modeling.TubeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -299,17 +299,17 @@ public class ActionAddShape extends Action {
 		if (shapeType != null && operatorType == null) {
 
 			// Instantiate a PrimitiveShape and set its name and ID
-			ShapeMesh shapeComponent;
+			Shape shapeComponent;
 
 			// Tubes require a tubemesh instead of a generic shapemesh
 			if (shapeType != ShapeType.Tube) {
-				shapeComponent = new ShapeMesh();
+				shapeComponent = new Shape();
 			} else {
-				shapeComponent = new TubeMesh();
-				((TubeMesh) shapeComponent).setAxialSamples(3);
-				((TubeMesh) shapeComponent).setInnerRadius(40);
-				((TubeMesh) shapeComponent).setLength(50);
-				((TubeMesh) shapeComponent).setRadius(50);
+				shapeComponent = new Tube();
+				((Tube) shapeComponent).setAxialSamples(3);
+				((Tube) shapeComponent).setInnerRadius(40);
+				((Tube) shapeComponent).setLength(50);
+				((Tube) shapeComponent).setRadius(50);
 			}
 			shape = (ShapeController) view.getFactory()
 					.createProvider(shapeComponent)
@@ -327,7 +327,7 @@ public class ActionAddShape extends Action {
 
 			// Instantiate a ComplexShape and set its name
 
-			ShapeMesh shapeComponent = new ShapeMesh();
+			Shape shapeComponent = new Shape();
 			shape = (ShapeController) view.getFactory()
 					.createProvider(shapeComponent)
 					.createController(shapeComponent);

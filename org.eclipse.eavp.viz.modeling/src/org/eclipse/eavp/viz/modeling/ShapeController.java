@@ -37,7 +37,7 @@ public class ShapeController extends BasicController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public ShapeController(ShapeMesh model, BasicView view) {
+	public ShapeController(Shape model, BasicView view) {
 		super(model, view);
 	}
 
@@ -49,7 +49,7 @@ public class ShapeController extends BasicController {
 	 *            The new shape which serves as this shape's parent.
 	 */
 	public void setParent(IController parent) {
-		((ShapeMesh) model).setParent(parent);
+		((Shape) model).setParent(parent);
 	}
 
 	/*
@@ -86,7 +86,7 @@ public class ShapeController extends BasicController {
 		BasicController castObject = (BasicController) source;
 
 		// Create the model and give it a reference to this
-		model = new ShapeMesh();
+		model = new Shape();
 		model.setController(this);
 
 		// Copy the other object's data members

@@ -38,7 +38,7 @@ public class PipeController extends TubeController
 	 * @param model
 	 * @param view
 	 */
-	public PipeController(PipeMesh model, BasicView view) {
+	public PipeController(Pipe model, BasicView view) {
 		super(model, view);
 	}
 
@@ -58,7 +58,7 @@ public class PipeController extends TubeController
 	 * @return The number of rods in a SubChannel pipe
 	 */
 	public int getNumRods() {
-		return ((PipeMesh) model).getNumRods();
+		return ((Pipe) model).getNumRods();
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class PipeController extends TubeController
 	 * @return The pipe's pitch
 	 */
 	public double getPitch() {
-		return ((PipeMesh) model).getPitch();
+		return ((Pipe) model).getPitch();
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class PipeController extends TubeController
 	 *         of uniform size.
 	 */
 	public double getRodDiameter() {
-		return ((PipeMesh) model).getRodDiameter();
+		return ((Pipe) model).getRodDiameter();
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class PipeController extends TubeController
 	 *            The number of rods in the SubChannel
 	 */
 	public void setNumRods(int numRods) {
-		((PipeMesh) model).setNumRods(numRods);
+		((Pipe) model).setNumRods(numRods);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class PipeController extends TubeController
 	 * @param pitch
 	 */
 	public void setPitch(double pitch) {
-		((PipeMesh) model).setPitch(pitch);
+		((Pipe) model).setPitch(pitch);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class PipeController extends TubeController
 	 *            The pipe's rod diameter
 	 */
 	public void setRodDiameter(double rodDiameter) {
-		((PipeMesh) model).setRodDiameter(rodDiameter);
+		((Pipe) model).setRodDiameter(rodDiameter);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class PipeController extends TubeController
 	 *            The pipe's length
 	 */
 	public void setLength(Double length) {
-		((PipeMesh) model).setLength(length);
+		((Pipe) model).setLength(length);
 
 	}
 
@@ -176,7 +176,7 @@ public class PipeController extends TubeController
 		BasicController castObject = (BasicController) source;
 
 		// Create the model and give it a reference to this
-		model = new PipeMesh();
+		model = new Pipe();
 		model.setController(this);
 
 		// Copy the other object's data members

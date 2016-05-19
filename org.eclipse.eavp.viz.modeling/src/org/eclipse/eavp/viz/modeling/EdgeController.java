@@ -31,7 +31,7 @@ public class EdgeController extends BasicController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public EdgeController(EdgeMesh model, BasicView view) {
+	public EdgeController(Edge model, BasicView view) {
 		super(model, view);
 	}
 
@@ -41,7 +41,7 @@ public class EdgeController extends BasicController {
 	 * @return A list of the vertex's 3D coordinates
 	 */
 	public double[] getStartLocation() {
-		return ((EdgeMesh) model).getStartLocation();
+		return ((Edge) model).getStartLocation();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class EdgeController extends BasicController {
 	 * @return A list of the vertex's 3D coordinates
 	 */
 	public double[] getEndLocation() {
-		return ((EdgeMesh) model).getEndLocation();
+		return ((Edge) model).getEndLocation();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class EdgeController extends BasicController {
 	 * @return The edge's length
 	 */
 	public double getLength() {
-		return ((EdgeMesh) model).getLength();
+		return ((Edge) model).getLength();
 	}
 
 	/*
@@ -75,7 +75,7 @@ public class EdgeController extends BasicController {
 		// If the vertices were changed, recalculate the edge's length
 		for (SubscriptionType event : type) {
 			if (event == SubscriptionType.CHILD) {
-				((EdgeMesh) model).calculateLength();
+				((Edge) model).calculateLength();
 			}
 		}
 
@@ -91,7 +91,7 @@ public class EdgeController extends BasicController {
 	public Object clone() {
 
 		// Clone the model and view
-		EdgeMesh modelClone = (EdgeMesh) model.clone();
+		Edge modelClone = (Edge) model.clone();
 		BasicView viewClone = (BasicView) view.clone();
 
 		// Create a new controller for the clones and return it

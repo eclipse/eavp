@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
@@ -84,7 +84,7 @@ public class FXVertexView extends BasicView {
 	 * @param model
 	 *            The model which this view will display
 	 */
-	public FXVertexView(VertexMesh model) {
+	public FXVertexView(Vertex model) {
 		this();
 
 		// Set the node's name
@@ -169,8 +169,8 @@ public class FXVertexView extends BasicView {
 		// Center the node on the vertex's location
 		Transformation temp = (Transformation) model.getTransformation()
 				.clone();
-		temp.setTranslation(((VertexMesh) model).getX() * scale,
-				((VertexMesh) model).getY() * scale, 0);
+		temp.setTranslation(((Vertex) model).getX() * scale,
+				((Vertex) model).getY() * scale, 0);
 
 		// Set the node's transformation
 		node.getTransforms().setAll(Util.convertTransformation(temp));

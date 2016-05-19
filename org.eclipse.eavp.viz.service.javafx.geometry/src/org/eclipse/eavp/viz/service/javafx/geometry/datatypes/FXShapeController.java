@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -55,7 +55,7 @@ public class FXShapeController extends ShapeController
 	 * @param view
 	 *            The controller's view
 	 */
-	public FXShapeController(ShapeMesh model, BasicView view) {
+	public FXShapeController(Shape model, BasicView view) {
 		super(model, view);
 
 		// Associate this controller with the node within the node's internal
@@ -198,7 +198,7 @@ public class FXShapeController extends ShapeController
 
 		// Create the model and view
 		model = (BasicMesh) ((BasicMesh) source.getModel()).clone();
-		view = new FXShapeView((ShapeMesh) model);
+		view = new FXShapeView((Shape) model);
 		view.copy(source.getView());
 		view.refresh(model);
 

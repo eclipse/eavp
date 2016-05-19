@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -82,7 +82,7 @@ public class FXLinearEdgeView extends BasicView {
 	 * @param model
 	 *            The model which this view will display
 	 */
-	public FXLinearEdgeView(EdgeMesh model) {
+	public FXLinearEdgeView(Edge model) {
 		this();
 
 		// Initialize the JavaFX node
@@ -99,7 +99,7 @@ public class FXLinearEdgeView extends BasicView {
 	 * 
 	 * @return A JavaFX Cylinder representing the given LinearEdgeComponent
 	 */
-	private Cylinder createShape(EdgeMesh edgeComponent) {
+	private Cylinder createShape(Edge edgeComponent) {
 
 		// If the edge does not have two vertices, a new shape cannot be created
 		if (edgeComponent.getEntitiesFromCategory(MeshCategory.VERTICES)
@@ -194,7 +194,7 @@ public class FXLinearEdgeView extends BasicView {
 		if (model.getEntitiesFromCategory(MeshCategory.VERTICES).size() == 2) {
 
 			// Create a shape based on the model and set it as the node's child
-			mesh = createShape(((EdgeMesh) model));
+			mesh = createShape(((Edge) model));
 			node.getChildren().add(mesh);
 
 			// If the vertex is under construction, leave the material

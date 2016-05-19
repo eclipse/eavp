@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.FaceMesh;
+import org.eclipse.eavp.viz.modeling.Face;
 import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXFaceView;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class FXFaceViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		FaceMesh mesh = new FaceMesh();
+		Face mesh = new Face();
 		FXFaceView view = new FXFaceView(mesh);
 		FXFaceView clone = (FXFaceView) view.clone();
 		assertTrue(view.equals(clone));

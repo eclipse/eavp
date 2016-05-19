@@ -25,7 +25,7 @@ import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.modeling.DetailedFaceMesh;
+import org.eclipse.eavp.viz.modeling.DetailedFace;
 import org.eclipse.eavp.viz.modeling.EdgeController;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
@@ -40,7 +40,7 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
  * @author Robert Smith
  *
  */
-public class NekPolygonMesh extends DetailedFaceMesh
+public class NekPolygon extends DetailedFace
 		implements IVizUpdateableListener {
 
 	/**
@@ -66,7 +66,7 @@ public class NekPolygonMesh extends DetailedFaceMesh
 	/**
 	 * The default constructor
 	 */
-	public NekPolygonMesh() {
+	public NekPolygon() {
 		super();
 
 		// Initialize the boundary condition containers.
@@ -82,7 +82,7 @@ public class NekPolygonMesh extends DetailedFaceMesh
 	 * @param entities
 	 *            The child entities comprising the face
 	 */
-	public NekPolygonMesh(List<IController> entities) {
+	public NekPolygon(List<IController> entities) {
 		super(entities);
 
 		// Initialize the boundary condition containers.
@@ -480,7 +480,7 @@ public class NekPolygonMesh extends DetailedFaceMesh
 	@Override
 	public Object clone() {
 		// Create a new component, and make it a copy of this one.
-		NekPolygonMesh clone = new NekPolygonMesh();
+		NekPolygon clone = new NekPolygon();
 		clone.copy(this);
 		return clone;
 	}
@@ -497,8 +497,8 @@ public class NekPolygonMesh extends DetailedFaceMesh
 		super.copy(otherObject);
 
 		// If the source is a NekPolygonMesh, also copy its Nek properties
-		if (otherObject instanceof NekPolygonMesh) {
-			NekPolygonMesh castObject = (NekPolygonMesh) otherObject;
+		if (otherObject instanceof NekPolygon) {
+			NekPolygon castObject = (NekPolygon) otherObject;
 			edgeProperties = (HashMap<Integer, EdgeProperties>) castObject.edgeProperties
 					.clone();
 			polygonProperties = (PolygonProperties) castObject.polygonProperties
@@ -518,7 +518,7 @@ public class NekPolygonMesh extends DetailedFaceMesh
 		// If the objects were equal otherwise, check the Nek specific data
 		boolean equal = super.equals(otherObject);
 		if (equal) {
-			NekPolygonMesh castObject = (NekPolygonMesh) otherObject;
+			NekPolygon castObject = (NekPolygon) otherObject;
 
 			// If the Nek data is not equal, the objects are not equal
 			if (!edgeProperties.equals(castObject.edgeProperties)

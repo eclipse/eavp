@@ -37,7 +37,7 @@ public class VertexController extends PointController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public VertexController(VertexMesh model, BasicView view) {
+	public VertexController(Vertex model, BasicView view) {
 		super(model, view);
 	}
 
@@ -73,7 +73,7 @@ public class VertexController extends PointController {
 		BasicController castObject = (BasicController) otherObject;
 
 		// Create the model and give it a reference to this
-		model = new VertexMesh();
+		model = new Vertex();
 		model.setController(this);
 
 		// Copy the other object's data members

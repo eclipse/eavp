@@ -17,9 +17,9 @@ import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
-import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeController;
@@ -49,14 +49,14 @@ public class FXPlantViewRootControllerTester {
 		// Create objects for testing
 		FXPlantViewRootController root = new FXPlantViewRootController(
 				new BasicMesh(), new BasicView());
-		PipeMesh pipeMesh = new PipeMesh();
+		Pipe pipeMesh = new Pipe();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(5);
 		pipeMesh.setRadius(5);
 		pipeMesh.setAxialSamples(3);
 		FXPipeView pipeView = new FXPipeView(pipeMesh);
 		FXPipeController pipe = new FXPipeController(pipeMesh, pipeView);
-		PipeMesh pipeMesh2 = new PipeMesh();
+		Pipe pipeMesh2 = new Pipe();
 		pipeMesh2.setLength(100);
 		pipeMesh2.setInnerRadius(5);
 		pipeMesh2.setRadius(5);
@@ -64,7 +64,7 @@ public class FXPlantViewRootControllerTester {
 		FXPipeView pipeView2 = new FXPipeView(pipeMesh2);
 		FXPipeController core = new FXPipeController(pipeMesh2, pipeView2);
 		core.setProperty(ReactorMeshProperty.CORE_CHANNEL, "True");
-		ReactorController reactor = new ReactorController(new ReactorMesh(),
+		ReactorController reactor = new ReactorController(new Reactor(),
 				new FXReactorView());
 
 		// Add the reactor and two pipes to the root
@@ -80,12 +80,12 @@ public class FXPlantViewRootControllerTester {
 		// Create a second set of objects
 		FXPlantViewRootController root2 = new FXPlantViewRootController(
 				new BasicMesh(), new BasicView());
-		FXPipeController pipe2 = new FXPipeController(new PipeMesh(),
+		FXPipeController pipe2 = new FXPipeController(new Pipe(),
 				new FXPipeView());
-		FXPipeController core2 = new FXPipeController(new PipeMesh(),
+		FXPipeController core2 = new FXPipeController(new Pipe(),
 				new FXPipeView());
 		core2.setProperty(ReactorMeshProperty.CORE_CHANNEL, "True");
-		ReactorController reactor2 = new ReactorController(new ReactorMesh(),
+		ReactorController reactor2 = new ReactorController(new Reactor(),
 				new FXReactorView());
 
 		// Add the pipes then the reactor.
@@ -127,7 +127,7 @@ public class FXPlantViewRootControllerTester {
 		// Create some objects for testing
 		FXPlantViewRootController root = new FXPlantViewRootController(
 				new BasicMesh(), new BasicView());
-		PipeMesh pipeMesh = new PipeMesh();
+		Pipe pipeMesh = new Pipe();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(5);
 		pipeMesh.setRadius(5);
@@ -148,7 +148,7 @@ public class FXPlantViewRootControllerTester {
 				.getDrawMode() == DrawMode.LINE);
 
 		// Create another pipe
-		PipeMesh pipeMesh2 = new PipeMesh();
+		Pipe pipeMesh2 = new Pipe();
 		pipeMesh2.setLength(100);
 		pipeMesh2.setInnerRadius(5);
 		pipeMesh2.setRadius(5);

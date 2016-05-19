@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.geometry.persistence;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.service.geometry.shapes.ShapeType;
 
 /**
@@ -42,7 +42,7 @@ public class PersistableCylinder extends PersistableShape {
 	 * @param mesh
 	 *            The mesh to be compressed
 	 */
-	public PersistableCylinder(ShapeMesh mesh) {
+	public PersistableCylinder(Shape mesh) {
 		super(mesh);
 
 		// This shape is a cube

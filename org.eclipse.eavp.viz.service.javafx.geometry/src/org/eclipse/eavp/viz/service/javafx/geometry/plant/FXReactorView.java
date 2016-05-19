@@ -20,7 +20,7 @@ import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
-import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 
@@ -93,7 +93,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	/**
 	 * The default constructor
 	 */
-	public FXReactorView(ReactorMesh model) {
+	public FXReactorView(Reactor model) {
 		super();
 
 		// Initialize the nodes
@@ -117,7 +117,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	 * @param model
 	 *            The model which will be graphically represented by the mesh
 	 */
-	private void createShape(ReactorMesh model) {
+	private void createShape(Reactor model) {
 
 		// A list of all the extrema of all core channels contained by the
 		// reactor
@@ -433,7 +433,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	public void refresh(IMesh model) {
 
 		// Redraw the mesh
-		createShape((ReactorMesh) model);
+		createShape((Reactor) model);
 
 		// Set the transformation
 		node.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));

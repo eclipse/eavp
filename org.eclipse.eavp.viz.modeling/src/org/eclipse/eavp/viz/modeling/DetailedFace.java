@@ -27,12 +27,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
  *
  * @author Robert Smith
  */
-public class DetailedFaceMesh extends FaceMesh {
+public class DetailedFace extends Face {
 
 	/**
 	 * The default constructor
 	 */
-	public DetailedFaceMesh() {
+	public DetailedFace() {
 		super();
 	}
 
@@ -41,7 +41,7 @@ public class DetailedFaceMesh extends FaceMesh {
 	 * 
 	 * @param entities
 	 */
-	public DetailedFaceMesh(List<IController> entities) {
+	public DetailedFace(List<IController> entities) {
 		super(entities);
 	}
 
@@ -142,7 +142,7 @@ public class DetailedFaceMesh extends FaceMesh {
 	public Object clone() {
 
 		// Create a new component, and make it a copy of this one.
-		DetailedFaceMesh clone = new DetailedFaceMesh();
+		DetailedFace clone = new DetailedFace();
 		clone.copy(this);
 		return clone;
 	}
@@ -157,10 +157,10 @@ public class DetailedFaceMesh extends FaceMesh {
 	public void copy(IMesh otherObject) {
 
 		// Copy only if the other object is an EdgeAndVertexFaceComponent
-		if (otherObject instanceof DetailedFaceMesh) {
+		if (otherObject instanceof DetailedFace) {
 
 			// Cast the object
-			DetailedFaceMesh castObject = (DetailedFaceMesh) otherObject;
+			DetailedFace castObject = (DetailedFace) otherObject;
 
 			// Queue messages from the new edges added
 			updateManager.enqueue();

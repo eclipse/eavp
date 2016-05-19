@@ -12,28 +12,28 @@ package org.eclipse.eavp.viz.modeling.test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.FaceMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.junit.Test;
 
 /**
- * A class for testing the functionality of FaceMesh.
+ * A class for testing the functionality of VertexMesh.
  * 
  * @author Robert Smith
  *
  */
-public class FaceMeshTester {
+public class VertexTester {
 
 	/**
-	 * Check that FaceMeshes are cloned correctly.
+	 * Check that TubeMeshes are cloned correctly.
 	 */
 	@Test
 	public void checkClone() {
 
 		// Clone a mesh and check that the result is identical
-		FaceMesh mesh = new FaceMesh();
+		Vertex mesh = new Vertex();
 		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
-		FaceMesh clone = (FaceMesh) mesh.clone();
+		Vertex clone = (Vertex) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
 }

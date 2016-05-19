@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.geometry.reactor;
 import java.util.ArrayList;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.modeling.TubeMesh;
+import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
@@ -27,18 +27,18 @@ import org.slf4j.LoggerFactory;
  * @author Robert Smith
  *
  */
-public class PipeMesh extends TubeMesh {
+public class Pipe extends Tube {
 
 	/**
 	 * Logger for handling event messages and other information.
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger(PipeMesh.class);
+			.getLogger(Pipe.class);
 
 	/**
 	 * The default constructor.
 	 */
-	public PipeMesh() {
+	public Pipe() {
 		super();
 	}
 
@@ -50,7 +50,7 @@ public class PipeMesh extends TubeMesh {
 	 * @param radius
 	 *            The pipe's radius
 	 */
-	public PipeMesh(double length, double radius) {
+	public Pipe(double length, double radius) {
 		super(length, radius);
 	}
 
@@ -209,7 +209,7 @@ public class PipeMesh extends TubeMesh {
 	public Object clone() {
 
 		// Make a new shape component and copy the data into it
-		PipeMesh clone = new PipeMesh();
+		Pipe clone = new Pipe();
 		clone.copy(this);
 
 		return clone;

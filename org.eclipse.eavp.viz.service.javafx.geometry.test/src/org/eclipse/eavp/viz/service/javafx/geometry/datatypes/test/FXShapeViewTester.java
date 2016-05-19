@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
@@ -42,7 +42,7 @@ public class FXShapeViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.TYPE, "Cube");
 		FXShapeView view = new FXShapeView(mesh);
 		FXShapeView clone = (FXShapeView) view.clone();
@@ -56,7 +56,7 @@ public class FXShapeViewTester {
 	public void checkConstruction() {
 
 		// Create a cube named "test"
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.NAME, "test");
 		mesh.setProperty(MeshProperty.TYPE, "Cube");
 
@@ -97,7 +97,7 @@ public class FXShapeViewTester {
 	public void checkRefresh() {
 
 		// Create a cube
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.TYPE, "Cube");
 
 		// Create a view for it

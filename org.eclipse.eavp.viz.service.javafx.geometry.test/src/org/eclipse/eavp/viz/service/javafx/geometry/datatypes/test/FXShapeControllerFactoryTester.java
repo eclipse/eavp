@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeControllerProviderFactory;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
@@ -39,7 +39,7 @@ public class FXShapeControllerFactoryTester {
 		FXShapeControllerProviderFactory factory = new FXShapeControllerProviderFactory();
 
 		// Create a mesh and send it to the factory
-		ShapeMesh shapeMesh = new ShapeMesh();
+		Shape shapeMesh = new Shape();
 		FXShapeController shapeController = (FXShapeController) factory
 				.createProvider(shapeMesh).createController(shapeMesh);
 
@@ -49,7 +49,7 @@ public class FXShapeControllerFactoryTester {
 		assertTrue(shapeController.getView() instanceof FXShapeView);
 
 		// Try to send an unrecognized input mesh to the factory
-		EdgeMesh edgeMesh = new EdgeMesh();
+		Edge edgeMesh = new Edge();
 		assertNull(factory.createProvider(edgeMesh));
 
 	}

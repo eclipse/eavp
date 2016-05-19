@@ -18,12 +18,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
  * @author Robert Smith
  *
  */
-public class LinearEdgeMesh extends EdgeMesh {
+public class LinearEdge extends Edge {
 
 	/**
 	 * The default constructor.
 	 */
-	public LinearEdgeMesh() {
+	public LinearEdge() {
 		super();
 	}
 
@@ -34,7 +34,7 @@ public class LinearEdgeMesh extends EdgeMesh {
 	 * @param start
 	 * @param end
 	 */
-	public LinearEdgeMesh(VertexController start, VertexController end) {
+	public LinearEdge(VertexController start, VertexController end) {
 		super(start, end);
 	}
 
@@ -76,7 +76,7 @@ public class LinearEdgeMesh extends EdgeMesh {
 	public Object clone() {
 
 		// Create a new object
-		LinearEdgeMesh clone = new LinearEdgeMesh();
+		LinearEdge clone = new LinearEdge();
 
 		// Make it a copy of this and return it
 		clone.copy(this);

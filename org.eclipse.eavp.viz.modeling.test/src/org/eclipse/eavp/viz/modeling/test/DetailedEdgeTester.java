@@ -16,11 +16,11 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.modeling.DetailedEdgeMesh;
+import org.eclipse.eavp.viz.modeling.DetailedEdge;
 import org.eclipse.eavp.viz.modeling.FaceController;
-import org.eclipse.eavp.viz.modeling.FaceMesh;
+import org.eclipse.eavp.viz.modeling.Face;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -32,7 +32,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
-public class DetailedEdgeMeshTester {
+public class DetailedEdgeTester {
 
 	/**
 	 * Test that FaceEdgeMeshes can be correctly cloned.
@@ -41,9 +41,9 @@ public class DetailedEdgeMeshTester {
 	public void checkClone() {
 
 		// Clone a mesh and check that the result is identical
-		DetailedEdgeMesh mesh = new DetailedEdgeMesh();
+		DetailedEdge mesh = new DetailedEdge();
 		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
-		DetailedEdgeMesh clone = (DetailedEdgeMesh) mesh.clone();
+		DetailedEdge clone = (DetailedEdge) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
 
@@ -56,10 +56,10 @@ public class DetailedEdgeMeshTester {
 
 		// Create an edge
 		TestEdge edge = new TestEdge();
-		VertexMesh vertexMesh1 = new VertexMesh(0, 0, 0);
+		Vertex vertexMesh1 = new Vertex(0, 0, 0);
 		VertexController vertex1 = new VertexController(vertexMesh1,
 				new BasicView());
-		VertexMesh vertexMesh2 = new VertexMesh(1, 1, 1);
+		Vertex vertexMesh2 = new Vertex(1, 1, 1);
 		VertexController vertex2 = new VertexController(vertexMesh2,
 				new BasicView());
 		edge.addEntityToCategory(vertex1, MeshCategory.VERTICES);
@@ -73,7 +73,7 @@ public class DetailedEdgeMeshTester {
 		assertTrue(edge.wasUpdated());
 
 		// Add a face to the edge
-		FaceMesh faceMesh = new FaceMesh();
+		Face faceMesh = new Face();
 		FaceController face = new FaceController(faceMesh, new BasicView());
 		edge.addEntityToCategory(face, MeshCategory.FACES);
 
@@ -89,11 +89,11 @@ public class DetailedEdgeMeshTester {
 	public void checkEquality() {
 
 		// Create two identical edges
-		DetailedEdgeMesh edgeMesh1 = new DetailedEdgeMesh();
+		DetailedEdge edgeMesh1 = new DetailedEdge();
 		DetailedEdgeController edge1 = new DetailedEdgeController(edgeMesh1,
 				new BasicView());
 		edge1.setProperty(MeshProperty.DESCRIPTION, "True");
-		DetailedEdgeMesh edgeMesh2 = new DetailedEdgeMesh();
+		DetailedEdge edgeMesh2 = new DetailedEdge();
 		DetailedEdgeController edge2 = new DetailedEdgeController(edgeMesh2,
 				new BasicView());
 		edge2.setProperty(MeshProperty.DESCRIPTION, "True");
@@ -102,10 +102,10 @@ public class DetailedEdgeMeshTester {
 		assertTrue(edge1.equals(edge2));
 
 		// Create two unequal faces
-		FaceMesh faceMesh1 = new FaceMesh();
+		Face faceMesh1 = new Face();
 		faceMesh1.setProperty(MeshProperty.DESCRIPTION, "1");
 		FaceController face1 = new FaceController(faceMesh1, new BasicView());
-		FaceMesh faceMesh2 = new FaceMesh();
+		Face faceMesh2 = new Face();
 		faceMesh2.setProperty(MeshProperty.DESCRIPTION, "2");
 		FaceController face2 = new FaceController(faceMesh2, new BasicView());
 
@@ -124,7 +124,7 @@ public class DetailedEdgeMeshTester {
 	 * @author Robert Smith
 	 *
 	 */
-	private class TestEdge extends DetailedEdgeMesh {
+	private class TestEdge extends DetailedEdge {
 
 		/**
 		 * Whether this class has received an update since the last time it was

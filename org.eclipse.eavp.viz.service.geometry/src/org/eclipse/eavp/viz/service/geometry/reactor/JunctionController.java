@@ -36,7 +36,7 @@ public class JunctionController extends BasicController
 	 * @param model
 	 * @param view
 	 */
-	public JunctionController(JunctionMesh model, BasicView view) {
+	public JunctionController(Junction model, BasicView view) {
 		super(model, view);
 	}
 

@@ -37,7 +37,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 	    </pluginRepository>
-	    		<!-- Provide a reference to the official Maven repository. -->
+	    <!-- Provide a reference to the official Maven repository. -->
 		<pluginRepository>
 			<id>tycho</id>
 			<url>${tycho-repo.url}</url>

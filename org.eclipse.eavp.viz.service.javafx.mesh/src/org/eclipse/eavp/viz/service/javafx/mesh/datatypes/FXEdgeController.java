@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.EdgeController;
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
@@ -37,7 +37,7 @@ public class FXEdgeController extends EdgeController {
 	 * @param view
 	 *            The edge's view
 	 */
-	public FXEdgeController(EdgeMesh model, BasicView view) {
+	public FXEdgeController(Edge model, BasicView view) {
 		super(model, view);
 	}
 
@@ -85,7 +85,7 @@ public class FXEdgeController extends EdgeController {
 	public Object clone() {
 
 		// Clone the model and view
-		EdgeMesh modelClone = (EdgeMesh) model.clone();
+		Edge modelClone = (Edge) model.clone();
 		BasicView viewClone = (BasicView) view.clone();
 
 		// Create a new controller for the clones and return it

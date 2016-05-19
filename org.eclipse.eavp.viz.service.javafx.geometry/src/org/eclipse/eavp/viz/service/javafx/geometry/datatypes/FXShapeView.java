@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
-import org.eclipse.eavp.viz.modeling.TubeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
@@ -109,7 +109,7 @@ public class FXShapeView extends BasicView implements IWireframeView {
 	 * @param model
 	 *            The model which this view will display
 	 */
-	public FXShapeView(ShapeMesh model) {
+	public FXShapeView(Shape model) {
 		super();
 
 		// Initialize the JavaFX node
@@ -238,7 +238,7 @@ public class FXShapeView extends BasicView implements IWireframeView {
 			}
 
 			// Cast the model as a PipeComponent and get the parameters
-			TubeMesh pipe = (TubeMesh) model;
+			Tube pipe = (Tube) model;
 			int axialSamples = pipe.getAxialSamples();
 			double height = pipe.getLength();
 			double outerRadius = pipe.getRadius();

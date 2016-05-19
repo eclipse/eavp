@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -37,7 +37,7 @@ public class FXVertexControllerTester {
 
 		// Create a cloned FXVertex and check that it is identical to the
 		// original
-		VertexMesh mesh = new VertexMesh();
+		Vertex mesh = new Vertex();
 		FXVertexController vertex = new FXVertexController(mesh,
 				new FXVertexView(mesh));
 		vertex.setProperty(MeshProperty.INNER_RADIUS, "Property");
@@ -52,7 +52,7 @@ public class FXVertexControllerTester {
 	public void checkRefresh() {
 
 		// Create a vertex
-		VertexMesh mesh = new VertexMesh();
+		Vertex mesh = new Vertex();
 		TestVertexView view = new TestVertexView(mesh);
 		FXVertexController vertex = new FXVertexController(mesh, view);
 
@@ -93,7 +93,7 @@ public class FXVertexControllerTester {
 		 * @param model
 		 *            The model that this view will represent.
 		 */
-		public TestVertexView(VertexMesh model) {
+		public TestVertexView(Vertex model) {
 			super(model);
 		}
 

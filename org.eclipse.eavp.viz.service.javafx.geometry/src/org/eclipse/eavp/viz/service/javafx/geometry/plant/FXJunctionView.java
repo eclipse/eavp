@@ -18,7 +18,7 @@ import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
-import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionView;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
@@ -77,7 +77,7 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	 *            The internal model on which this view's representation will be
 	 *            based
 	 */
-	public FXJunctionView(JunctionMesh model) {
+	public FXJunctionView(Junction model) {
 		super();
 
 		// Initialize the data members
