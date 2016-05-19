@@ -154,7 +154,7 @@ public class ConnectionVizServiceTester {
 			}
 
 			@Override
-			public IControllerProviderFactory getFactory() {
+			public IControllerProviderFactory getControllerProviderFactory() {
 				return null;
 			}
 		};

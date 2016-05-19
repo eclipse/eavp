@@ -106,7 +106,7 @@ public class FakeVizService implements IVizService {
 	 * @see org.eclipse.eavp.viz.service.IVizService#getFactory()
 	 */
 	@Override
-	public IControllerProviderFactory getFactory() {
+	public IControllerProviderFactory getControllerProviderFactory() {
 		return null;
 	}
 

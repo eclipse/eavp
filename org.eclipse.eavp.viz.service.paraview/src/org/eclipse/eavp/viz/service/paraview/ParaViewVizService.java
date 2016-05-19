@@ -179,7 +179,7 @@ public class ParaViewVizService
 	 * @see org.eclipse.eavp.viz.service.IVizService#getFactory()
 	 */
 	@Override
-	public IControllerProviderFactory getFactory() {
+	public IControllerProviderFactory getControllerProviderFactory() {
 		// The ParaView visualization service does not make use of the model
 		// framework, so it has no factory
 		return null;

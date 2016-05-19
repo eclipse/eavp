@@ -65,7 +65,7 @@ public interface IVizService {
 	 * @return A factory that will create controllers compatible with this
 	 *         service
 	 */
-	public IControllerProviderFactory getFactory();
+	public IControllerProviderFactory getControllerProviderFactory();
 
 	/**
 	 * This operation returns the name of the service. The name should be
