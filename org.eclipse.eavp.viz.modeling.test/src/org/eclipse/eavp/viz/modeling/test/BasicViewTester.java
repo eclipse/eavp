@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IView;
+import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.eavp.viz.modeling.test.utils.TestController;
 import org.eclipse.eavp.viz.modeling.test.utils.TestMesh;
@@ -71,8 +72,12 @@ public class BasicViewTester {
 	@Test
 	public void testUpdateNotification() {
 
+		//Register the view to listen to a test object
+		Transformation source = new Transformation();
+		source.register(view);
+		
 		// Update the transformation
-		view.getTransformation().setSize(2);
+		source.setSize(2);
 
 		// Wait for the notification thread
 		try {
@@ -84,12 +89,6 @@ public class BasicViewTester {
 		// Check that the view was notified
 		assertTrue(view.isUpdated());
 
-		// Set a new transformation
-		view.setTransformation(new Transformation());
-
-		// Check that the view sent a notification
-		assertTrue(controller.isUpdated());
-
 	}
 
 	/**
@@ -99,14 +98,9 @@ public class BasicViewTester {
 	public void checkEquality() {
 
 		// Create objects for testing
-		IView object = new BasicView();
-		IView equalObject = new BasicView();
-		IView unequalObject = new BasicView();
-
-		// Give one view a different transformation
-		Transformation transformation = new Transformation();
-		transformation.setSize(2);
-		unequalObject.setTransformation(transformation);
+		IView object = new TestRepresentationView(0);
+		IView equalObject = new TestRepresentationView(0);
+		IView unequalObject = new TestRepresentationView(1);
 
 		// An object should equal itself
 		assertTrue(object.equals(object));
@@ -117,5 +111,39 @@ public class BasicViewTester {
 
 		// Check that a comparison of two unequal objects returns false
 		assertFalse(object.equals(unequalObject));
+	}
+	
+	/**
+	 * An extension of BasicView that allows the setting of a simple Representation to the view for testing purposes.
+	 * 
+	 * @author Robert Smith
+	 *
+	 */
+	private class TestRepresentationView extends BasicView{
+		
+		/**
+		 * The data to return for this view's representation
+		 */
+		int data;
+		
+		/**
+		 * The default constructor.
+		 * 
+		 * @param i The number to return as this view's representation
+		 */
+		public TestRepresentationView(Integer i){
+			super();
+			data = i;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.eavp.viz.modeling.base.BasicView#getRepresentation()
+		 */
+		public Representation<Integer> getRepresentation(){
+			
+			//Create a new representation for the data
+			return new Representation<Integer>(data);
+		}
 	}
 }

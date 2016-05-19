@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.test;
 
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.FXGeometryAttachment;
@@ -40,7 +40,7 @@ public class FXGeometryAttachmentTester {
 				new FXGeometryAttachmentManager());
 
 		// Create a sphere shape
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.TYPE, "Sphere");
 		FXShapeController shape = new FXShapeController(mesh,
 				new FXShapeView(mesh));

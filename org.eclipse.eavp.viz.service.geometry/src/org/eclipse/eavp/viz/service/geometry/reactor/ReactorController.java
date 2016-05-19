@@ -40,7 +40,7 @@ public class ReactorController extends BasicController
 	 * @param view
 	 *            The graphical representation of the reactor
 	 */
-	public ReactorController(ReactorMesh model, BasicView view) {
+	public ReactorController(Reactor model, BasicView view) {
 		super(model, view);
 	}
 

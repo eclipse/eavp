@@ -24,28 +24,13 @@ public interface IView<T>
 		extends IManagedUpdateable, IManagedUpdateableListener {
 
 	/**
-	 * Getter function for the part's transformation.
-	 * 
-	 * @return The part's current transformation.
-	 */
-	Transformation getTransformation();
-
-	/**
-	 * Setter function for the part's transformation.
-	 * 
-	 * @param newTransformation
-	 *            The transformation to apply to this part.
-	 */
-	void setTransformation(Transformation newTransformation);
-
-	/**
 	 * Creates a representation wrapping an object which represents the part's
 	 * model in a native data type for the application associated with this
 	 * view.
 	 * 
 	 */
 	Representation<T> getRepresentation();
-
+	
 	/**
 	 * Refreshes the representation of the model.
 	 * 
@@ -54,6 +39,11 @@ public interface IView<T>
 	 */
 	void refresh(IMesh model);
 
+	/**
+	 * Copy another IView's data into this, making it a copy.
+	 * 
+	 * @param otherObject The object of which this object will become a copy.
+	 */
 	void copy(IView<T> otherObject);
 
 }

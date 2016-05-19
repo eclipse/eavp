@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Mesh>
     <facesBlock>
-1,8,Test;9,AxisymmetricBoundary 1.0 2.0 3.0 4.0 5.0,DirichletTemperatureScalar 2.0 2.0 3.0 4.0 5.0,;17,,,;25,,,;29,,,;
-2,11,TEST;17,,,;19,,,;41,,,;45,,,;
+1,8,Test;9,AxisymmetricBoundary 1.0 2.0 3.0 4.0 5.0,DirichletTemperatureScalar 2.0 2.0 3.0 4.0 5.0,;17,,,;25,,,;11,,,;
+2,11,TEST;17,,,;19,,,;41,,,;27,,,;
 </facesBlock>
     <vertices>
 1 0.0 0.0 0.0

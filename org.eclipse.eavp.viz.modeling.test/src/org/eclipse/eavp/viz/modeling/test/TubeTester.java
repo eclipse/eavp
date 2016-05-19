@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.modeling.test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.TubeMesh;
+import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
-public class TubeMeshTester {
+public class TubeTester {
 
 	/**
 	 * Check that TubeMeshes are cloned correctly.
@@ -31,9 +31,9 @@ public class TubeMeshTester {
 	public void checkClone() {
 
 		// Clone a mesh and check that the result is identical
-		TubeMesh mesh = new TubeMesh();
+		Tube mesh = new Tube();
 		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
-		TubeMesh clone = (TubeMesh) mesh.clone();
+		Tube clone = (Tube) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
 }

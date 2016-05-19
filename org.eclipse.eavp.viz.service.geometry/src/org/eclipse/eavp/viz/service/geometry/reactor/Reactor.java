@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 
@@ -20,12 +20,12 @@ import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
  * @author Robert Smith
  *
  */
-public class ReactorMesh extends ShapeMesh {
+public class Reactor extends Shape {
 
 	/**
 	 * The default constructor
 	 */
-	public ReactorMesh() {
+	public Reactor() {
 		super();
 	}
 

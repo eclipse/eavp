@@ -28,10 +28,10 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.eclipse.eavp.viz.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.modeling.DetailedEdgeMesh;
-import org.eclipse.eavp.viz.modeling.FaceMesh;
+import org.eclipse.eavp.viz.modeling.DetailedEdge;
+import org.eclipse.eavp.viz.modeling.Face;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -49,7 +49,7 @@ import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryConditionType;
 import org.eclipse.eavp.viz.service.mesh.datastructures.IMeshDescription;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshDescription;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
-import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonMesh;
+import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygon;
 import org.junit.Test;
 
 /**
@@ -235,7 +235,7 @@ public class MeshDescriptionTester {
 		// Create the vertices. In space they are laid out thusly:
 		// 1 2 5
 		// 4 3 6
-		VertexController vertex1 = new VertexController(new VertexMesh(),
+		VertexController vertex1 = new VertexController(new Vertex(),
 				new BasicView());
 		vertex1.setTranslation(0, 0, 0);
 		vertex1.setX(0);
@@ -243,7 +243,7 @@ public class MeshDescriptionTester {
 		vertex1.setZ(0);
 		vertex1.setProperty(MeshProperty.ID, "1");
 		vertex1.setProperty(MeshProperty.NAME, "Vertex");
-		VertexController vertex2 = new VertexController(new VertexMesh(),
+		VertexController vertex2 = new VertexController(new Vertex(),
 				new BasicView());
 		vertex2.setTranslation(1, 0, 0);
 		vertex2.setX(1);
@@ -251,7 +251,7 @@ public class MeshDescriptionTester {
 		vertex2.setZ(0);
 		vertex2.setProperty(MeshProperty.ID, "2");
 		vertex2.setProperty(MeshProperty.NAME, "Vertex");
-		VertexController vertex3 = new VertexController(new VertexMesh(),
+		VertexController vertex3 = new VertexController(new Vertex(),
 				new BasicView());
 		vertex3.setTranslation(1, 1, 0);
 		vertex3.setX(1);
@@ -259,7 +259,7 @@ public class MeshDescriptionTester {
 		vertex3.setZ(0);
 		vertex3.setProperty(MeshProperty.ID, "3");
 		vertex3.setProperty(MeshProperty.NAME, "Vertex");
-		VertexController vertex4 = new VertexController(new VertexMesh(),
+		VertexController vertex4 = new VertexController(new Vertex(),
 				new BasicView());
 		vertex4.setTranslation(0, 1, 0);
 		vertex4.setX(0);
@@ -267,7 +267,7 @@ public class MeshDescriptionTester {
 		vertex4.setZ(0);
 		vertex4.setProperty(MeshProperty.ID, "4");
 		vertex4.setProperty(MeshProperty.NAME, "Vertex");
-		VertexController vertex5 = new VertexController(new VertexMesh(),
+		VertexController vertex5 = new VertexController(new Vertex(),
 				new BasicView());
 		vertex5.setTranslation(2, 0, 0);
 		vertex5.setX(2);
@@ -275,7 +275,7 @@ public class MeshDescriptionTester {
 		vertex5.setZ(0);
 		vertex5.setProperty(MeshProperty.ID, "5");
 		vertex5.setProperty(MeshProperty.NAME, "Vertex");
-		VertexController vertex6 = new VertexController(new VertexMesh(),
+		VertexController vertex6 = new VertexController(new Vertex(),
 				new BasicView());
 		vertex6.setTranslation(2, 1, 0);
 		vertex6.setX(2);
@@ -287,51 +287,51 @@ public class MeshDescriptionTester {
 		// Create the edges. In space they are laid out thusly:
 		// -9- -19-
 		// |_ |__ |
-		// 29 17_ 41
+		// 11 17_ 41
 		// |_ |__ |
-		// -25- -45-
+		// -25- -27-
 		//
 		// The edge's are given the IDs they should be assigned by the
 		// MeshDescription compression process, so that this can be checked.
 		DetailedEdgeController edge1 = new DetailedEdgeController(
-				new DetailedEdgeMesh(vertex1, vertex2), new BasicView());
+				new DetailedEdge(vertex1, vertex2), new BasicView());
 		edge1.setProperty(MeshProperty.ID, "9");
 		edge1.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge2 = new DetailedEdgeController(
-				new DetailedEdgeMesh(vertex2, vertex3), new BasicView());
+				new DetailedEdge(vertex2, vertex3), new BasicView());
 		edge2.setProperty(MeshProperty.ID, "17");
 		edge2.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge3 = new DetailedEdgeController(
-				new DetailedEdgeMesh(vertex3, vertex4), new BasicView());
+				new DetailedEdge(vertex3, vertex4), new BasicView());
 		edge3.setProperty(MeshProperty.ID, "25");
 		edge3.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge4 = new DetailedEdgeController(
-				new DetailedEdgeMesh(vertex4, vertex1), new BasicView());
-		edge4.setProperty(MeshProperty.ID, "29");
+				new DetailedEdge(vertex4, vertex1), new BasicView());
+		edge4.setProperty(MeshProperty.ID, "11");
 		edge4.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge5 = new DetailedEdgeController(
-				new DetailedEdgeMesh(vertex2, vertex5), new BasicView());
+				new DetailedEdge(vertex2, vertex5), new BasicView());
 		edge5.setProperty(MeshProperty.ID, "19");
 		edge5.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge6 = new DetailedEdgeController(
-				new DetailedEdgeMesh(vertex5, vertex6), new BasicView());
+				new DetailedEdge(vertex5, vertex6), new BasicView());
 		edge6.setProperty(MeshProperty.ID, "41");
 		edge6.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge7 = new DetailedEdgeController(
-				new DetailedEdgeMesh(vertex6, vertex3), new BasicView());
-		edge7.setProperty(MeshProperty.ID, "45");
+				new DetailedEdge(vertex6, vertex3), new BasicView());
+		edge7.setProperty(MeshProperty.ID, "27");
 		edge7.setProperty(MeshProperty.NAME, "Edge");
 
 		// Create the faces. Face 1 on the left, 2 on the right.
 		NekPolygonController face1 = new NekPolygonController(
-				new NekPolygonMesh(), new BasicView());
+				new NekPolygon(), new BasicView());
 		face1.setProperty(MeshProperty.ID, "1");
 		face1.addEntityToCategory(edge1, MeshCategory.EDGES);
 		face1.addEntityToCategory(edge2, MeshCategory.EDGES);
 		face1.addEntityToCategory(edge3, MeshCategory.EDGES);
 		face1.addEntityToCategory(edge4, MeshCategory.EDGES);
 		NekPolygonController face2 = new NekPolygonController(
-				new NekPolygonMesh(), new BasicView());
+				new NekPolygon(), new BasicView());
 		face2.setProperty(MeshProperty.ID, "2");
 		face2.addEntityToCategory(edge2, MeshCategory.EDGES);
 		face2.addEntityToCategory(edge5, MeshCategory.EDGES);
@@ -390,7 +390,7 @@ public class MeshDescriptionTester {
 			super();
 
 			// Set the EdgeMesh provider
-			typeMap.put(DetailedEdgeMesh.class,
+			typeMap.put(DetailedEdge.class,
 					new IControllerProvider<DetailedEdgeController>() {
 						@Override
 						public DetailedEdgeController createController(
@@ -400,12 +400,12 @@ public class MeshDescriptionTester {
 							// with a basic view
 							BasicView view = new BasicView();
 							return new DetailedEdgeController(
-									(DetailedEdgeMesh) model, view);
+									(DetailedEdge) model, view);
 						}
 					});
 
 			// Set the NekPolygonMesh provider
-			typeMap.put(NekPolygonMesh.class,
+			typeMap.put(NekPolygon.class,
 					new IControllerProvider<NekPolygonController>() {
 						@Override
 						public NekPolygonController createController(
@@ -413,20 +413,20 @@ public class MeshDescriptionTester {
 
 							// Create a NekPolygonController with a basic view
 							BasicView view = new BasicView();
-							return new NekPolygonController((FaceMesh) model,
+							return new NekPolygonController((Face) model,
 									view);
 						}
 					});
 
 			// Set the VertexMesh provider
-			typeMap.put(VertexMesh.class,
+			typeMap.put(Vertex.class,
 					new IControllerProvider<VertexController>() {
 						@Override
 						public VertexController createController(IMesh model) {
 
 							// Create a vertex controller
 							BasicView view = new BasicView();
-							return new VertexController((VertexMesh) model,
+							return new VertexController((Vertex) model,
 									view);
 						}
 					});

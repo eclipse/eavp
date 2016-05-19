@@ -10,10 +10,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
-import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
@@ -85,20 +84,20 @@ public class FXVertexView extends BasicView {
 	 * @param model
 	 *            The model which this view will display
 	 */
-	public FXVertexView(VertexMesh model) {
+	public FXVertexView(Vertex model) {
 		this();
 
 		// Set the node's name
 		node.setId(model.getProperty(MeshProperty.NAME));
 
-		// Center the node on the vertex's location
-		transformation.setTranslation(model.getX(), model.getY(), 0);
+		// Get the model's transformation
+		Transformation localTransform = model.getTransformation();
 
 		// Flatten the sphere into a circle
-		transformation.setScale(1, 1, 0.75);
+		localTransform.setScale(1, 1, 0.75);
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms().setAll(Util.convertTransformation(localTransform));
 
 		// Create a Shape3D for the model
 		mesh = new Sphere(1);
@@ -168,9 +167,10 @@ public class FXVertexView extends BasicView {
 	public void refresh(IMesh model) {
 
 		// Center the node on the vertex's location
-		Transformation temp = (Transformation) transformation.clone();
-		temp.setTranslation(((VertexMesh) model).getX() * scale,
-				((VertexMesh) model).getY() * scale, 0);
+		Transformation temp = (Transformation) model.getTransformation()
+				.clone();
+		temp.setTranslation(((Vertex) model).getX() * scale,
+				((Vertex) model).getY() * scale, 0);
 
 		// Set the node's transformation
 		node.getTransforms().setAll(Util.convertTransformation(temp));
@@ -205,31 +205,6 @@ public class FXVertexView extends BasicView {
 	public Object clone() {
 		FXVertexView clone = new FXVertexView();
 		clone.copy(this);
-
-		// Force an update from the transformation
-		clone.transformation.setSize(clone.transformation.getSize());
 		return clone;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse. ice.
-	 * viz.service.datastructures.VizObject.IVizUpdateable,
-	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
-	 * UpdateableSubscriptionType[])
-	 */
-	@Override
-	public void update(IManagedUpdateable component, SubscriptionType[] type) {
-
-		// If the transformation updated, update the JavaFX transformation
-		if (component == transformation) {
-			// Set the node's transformation
-			node.getTransforms()
-					.setAll(Util.convertTransformation(transformation));
-		}
-
-		super.update(component, type);
-
 	}
 }

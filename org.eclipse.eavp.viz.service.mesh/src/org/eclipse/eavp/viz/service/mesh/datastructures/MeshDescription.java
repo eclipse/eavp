@@ -19,9 +19,9 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.eclipse.eavp.viz.modeling.DetailedEdgeMesh;
+import org.eclipse.eavp.viz.modeling.DetailedEdge;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -226,6 +226,13 @@ public class MeshDescription implements IMeshDescription {
 					.parseInt(edgeVertices.get(0).getProperty(MeshProperty.ID));
 			int endpoint2 = Integer
 					.parseInt(edgeVertices.get(1).getProperty(MeshProperty.ID));
+			
+			//Sort the endpoints
+			if(endpoint2 < endpoint1){
+				int temp = endpoint1;
+				endpoint1 = endpoint2;
+				endpoint2 = temp;
+			}
 
 			// Calculate the edge's ID and add it to the array
 			edges[edgeIndex] = endpoint1 * maxVertex + endpoint2;
@@ -543,17 +550,17 @@ public class MeshDescription implements IMeshDescription {
 
 		// Get controller providers for the necessary classes
 		IControllerProvider<VertexController> vertexProvider = factory
-				.createProvider(new VertexMesh());
+				.createProvider(new Vertex());
 		IControllerProvider edgeProvider = factory
-				.createProvider(new DetailedEdgeMesh());
+				.createProvider(new DetailedEdge());
 		IControllerProvider<NekPolygonController> faceProvider = factory
-				.createProvider(new NekPolygonMesh());
+				.createProvider(new NekPolygon());
 
 		// For each id in the vertices array
 		for (int i = 0; i < vertices.length; i++) {
 
 			// Create a vertex with the given id
-			VertexMesh mesh = new VertexMesh();
+			Vertex mesh = new Vertex();
 			mesh.setProperty(MeshProperty.ID, Integer.toString(vertices[i]));
 			VertexController vertex = vertexProvider.createController(mesh);
 
@@ -579,7 +586,7 @@ public class MeshDescription implements IMeshDescription {
 		for (int i = 0; i < edges.length; i++) {
 
 			// Create a new edge with the correct ID
-			DetailedEdgeMesh mesh = new DetailedEdgeMesh();
+			DetailedEdge mesh = new DetailedEdge();
 			mesh.setProperty(MeshProperty.ID, Integer.toString(edges[i]));
 			IController edge = edgeProvider.createController(mesh);
 
@@ -666,7 +673,7 @@ public class MeshDescription implements IMeshDescription {
 			if (newPolygon) {
 
 				// Create a mesh with the given ID
-				NekPolygonMesh mesh = new NekPolygonMesh();
+				NekPolygon mesh = new NekPolygon();
 				mesh.setProperty(MeshProperty.ID, Integer.toString(faces[i]));
 				face = faceProvider.createController(mesh);
 
@@ -1000,6 +1007,7 @@ public class MeshDescription implements IMeshDescription {
 	/*
 	 * (non-Javadoc)
 	 * 
+<<<<<<< HEAD
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

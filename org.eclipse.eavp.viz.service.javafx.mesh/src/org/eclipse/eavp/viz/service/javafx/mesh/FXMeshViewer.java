@@ -13,12 +13,12 @@ package org.eclipse.eavp.viz.service.javafx.mesh;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.modeling.DetailedEdgeMesh;
+import org.eclipse.eavp.viz.modeling.DetailedEdge;
 import org.eclipse.eavp.viz.modeling.EdgeController;
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.FaceController;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -38,7 +38,7 @@ import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXVertexController;
 import org.eclipse.eavp.viz.service.javafx.scene.base.ICamera;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
-import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonMesh;
+import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygon;
 import org.eclipse.eavp.viz.service.mesh.properties.MeshSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -164,7 +164,7 @@ public class FXMeshViewer extends FXViewer {
 			new BasicView());
 
 	/**
-	 * A list of displayed circles to show the user the location that selectice
+	 * A list of displayed circles to show the user the location that selected
 	 * vertices are being dragged to.
 	 */
 	private ArrayList<Sphere> vertexMarkers;
@@ -268,9 +268,9 @@ public class FXMeshViewer extends FXViewer {
 		tempTransparant = new ArrayList<Node>();
 
 		// Get the controller providers from the factory
-		edgeProvider = factory.createProvider(new EdgeMesh());
-		faceProvider = factory.createProvider(new NekPolygonMesh());
-		vertexProvider = factory.createProvider(new VertexMesh());
+		edgeProvider = factory.createProvider(new Edge());
+		faceProvider = factory.createProvider(new NekPolygon());
+		vertexProvider = factory.createProvider(new Vertex());
 
 		// Create the handler for add mode
 		addHandler = new EventHandler<MouseEvent>() {
@@ -374,6 +374,7 @@ public class FXMeshViewer extends FXViewer {
 		wireSelectionHandling();
 
 		fxCanvas.setScene(scene);
+		
 
 		// Get the current key handler from the camera
 		final EventHandler<? super KeyEvent> handler = scene.getOnKeyPressed();
@@ -453,9 +454,9 @@ public class FXMeshViewer extends FXViewer {
 	}
 
 	/**
-	 * Set all the objects in the model to the viewer's scale
+	 * Initialize the viewer and any pre-loaded objects from the attachment manager. This sets all the objects from the first attachment to the viewer's scale and sets the viewer to start assigning ID numbers higher than what are currently in the mesh.
 	 */
-	public void scale() {
+	public void initializePreloaded() {
 
 		// Get each of the polygons originally in the hierarchy
 		for (IController polygon : ((FXMeshAttachment) attachmentManager
@@ -469,6 +470,34 @@ public class FXMeshViewer extends FXViewer {
 				// Set them to work for an application with the mesh editor's
 				// scale
 				vertex.setApplicationScale(SCALE);
+				vertex.refresh();
+			}
+		}
+		
+		//Read the current polygons to set the next IDs to use
+		for(IController face : ((FXAttachment) attachmentManager.getAttachments().get(1))
+		.getKnownParts().get(0).getEntities()){
+			
+			//Set the next polygon's ID higher than the face's, if neccesary
+			int faceID = Integer.parseInt(face.getProperty(MeshProperty.ID));
+			if(faceID > nextPolygonID){
+				nextPolygonID = faceID + 1;
+			}
+			
+			//Check each edge, setting the next ID higher than the highest seen
+			for(IController edge : face.getEntitiesFromCategory(MeshCategory.EDGES)){
+				int edgeID = Integer.parseInt(edge.getProperty(MeshProperty.ID));
+				if(edgeID > nextEdgeID){
+					nextEdgeID = edgeID + 1;
+				}
+			}
+			
+			//Check each vertex, setting the next ID higher than the highest seen
+			for(IController vertex : face.getEntitiesFromCategory(MeshCategory.VERTICES)){
+				int vertexID = Integer.parseInt(vertex.getProperty(MeshProperty.ID));
+				if(vertexID > nextVertexID){
+					nextVertexID = vertexID + 1;
+				}
 			}
 		}
 	}
@@ -490,7 +519,7 @@ public class FXMeshViewer extends FXViewer {
 		if (selectedVertices.size() == 4) {
 
 			// Create a face out of all the edges
-			NekPolygonMesh faceComponent = new NekPolygonMesh();
+			NekPolygon faceComponent = new NekPolygon();
 			NekPolygonController newFace = faceProvider
 					.createController(faceComponent);
 
@@ -519,6 +548,7 @@ public class FXMeshViewer extends FXViewer {
 			((FXAttachment) attachmentManager.getAttachments().get(1))
 					.getKnownParts().get(0).addEntity(newFace);
 
+			
 			// Empty the lists of temporary constructs
 			clearSelection();
 			selectedVertices = new ArrayList<IController>();
@@ -534,7 +564,7 @@ public class FXMeshViewer extends FXViewer {
 			// Create a new vertex at that point, divided by SCALE so that the
 			// internal representation is kept separate from the size things are
 			// being drawn at
-			VertexMesh tempComponent = new VertexMesh(
+			Vertex tempComponent = new Vertex(
 					event.getPickResult().getIntersectedPoint().getX() / SCALE,
 					event.getPickResult().getIntersectedPoint().getY() / SCALE,
 					0);
@@ -729,10 +759,6 @@ public class FXMeshViewer extends FXViewer {
 		PickResult pickResult = event.getPickResult();
 		Node intersectedNode = pickResult.getIntersectedNode();
 
-		// The drag has started, so continue dragging even if the
-		// mouse has moved off a shape
-		dragStarted = true;
-
 		// Resolve the parent
 		Group nodeParent = (Group) intersectedNode.getParent();
 
@@ -742,6 +768,21 @@ public class FXMeshViewer extends FXViewer {
 
 		// If the user has selected a vertex, drag it
 		if (selectedVertices.contains(modelShape) || dragStarted) {
+
+			// If something other than the background box is found, set it as
+			// transparent temporarily. This allows us to always use the
+			// box's coordinate system, instead of whatever vertex the mouse
+			// is over
+			if (!(intersectedNode instanceof Box)
+					&& (!selectedVertices.contains(modelShape)
+							|| dragStarted)) {
+				intersectedNode.setMouseTransparent(true);
+				tempTransparant.add(intersectedNode);
+
+				if (dragStarted) {
+					return;
+				}
+			}
 
 			// If the vertex markers have not yet been made,
 			// create them
@@ -762,16 +803,18 @@ public class FXMeshViewer extends FXViewer {
 					// Place it at the vertex's position
 					double[] position = ((VertexController) vertex)
 							.getTranslation();
-					marker.setTranslateX(position[0]);
-					marker.setTranslateY(position[1]);
+					marker.setTranslateX(position[0] * SCALE);
+					marker.setTranslateY(position[1] * SCALE);
 
 					// Add it to the list
 					vertexMarkers.add(marker);
 
 					// Get the relative position of this vertex from
 					// the vertex being dragged
-					relativeXCords.add(position[0] - cursorLocation[0]);
-					relativeYCords.add(position[1] - cursorLocation[1]);
+					relativeXCords
+							.add((position[0] - cursorLocation[0]) * SCALE);
+					relativeYCords
+							.add((position[1] - cursorLocation[1]) * SCALE);
 
 					((FXAttachment) attachmentManager.getAttachments().get(1))
 							.getFxNode().getChildren().add(marker);
@@ -779,57 +822,54 @@ public class FXMeshViewer extends FXViewer {
 				}
 			}
 
-			// Move each vertex
-			for (int i = 0; i < vertexMarkers.size(); i++) {
+			// Move each vertex if they weren't just created
+			if (dragStarted) {
+				for (int i = 0; i < vertexMarkers.size(); i++) {
 
-				// If something other than the backgroun box is found, set it as
-				// transparant temporarily. This allows us to always use the
-				// box's coordinate system, instead of whatever vertex the mouse
-				// is over
-				if (!(intersectedNode instanceof Box)) {
-					intersectedNode.setMouseTransparent(true);
-					tempTransparant.add(intersectedNode);
-				}
+					// Get the vertex marker for this index
+					Sphere marker = vertexMarkers.get(i);
 
-				// Get the vertex marker for this index
-				Sphere marker = vertexMarkers.get(i);
+					// The adjustments to the markers needed to keep them inside
+					// the grid
+					double xAdjust = 0;
+					double yAdjust = 0;
 
-				// The adjustments to the markers needed to keep them inside
-				// the grid
-				double xAdjust = 0;
-				double yAdjust = 0;
-
-				// Set the xAdjust so that all coordinates are within the
-				// bounds of the grid, adjusted for drawing scale
-				for (Double x : relativeXCords) {
-					if (x + mousePosX + xAdjust < -16d * SCALE) {
-						xAdjust = -16d * SCALE - x - mousePosX;
-					} else if (x + mousePosX + xAdjust > 16d * SCALE) {
-						xAdjust = 16d * SCALE - x - mousePosX;
+					// Set the xAdjust so that all coordinates are within the
+					// bounds of the grid, adjusted for drawing scale
+					for (Double x : relativeXCords) {
+						if (x + mousePosX + xAdjust < -16d * SCALE) {
+							xAdjust = -16d * SCALE - x - mousePosX;
+						} else if (x + mousePosX + xAdjust > 16d * SCALE) {
+							xAdjust = 16d * SCALE - x - mousePosX;
+						}
 					}
-				}
 
-				// Set the yAdjust so that all coordinates are within the
-				// bounds of the grid, adjusted for drawing scale
-				for (Double y : relativeYCords) {
-					if (y + mousePosY + yAdjust < -8d * SCALE) {
-						yAdjust = -8d * SCALE - y - mousePosY;
-					} else if (y + mousePosY + yAdjust > 8d * SCALE) {
-						yAdjust = 8d * SCALE - y - mousePosY;
+					// Set the yAdjust so that all coordinates are within the
+					// bounds of the grid, adjusted for drawing scale
+					for (Double y : relativeYCords) {
+						if (y + mousePosY + yAdjust < -8d * SCALE) {
+							yAdjust = -8d * SCALE - y - mousePosY;
+						} else if (y + mousePosY + yAdjust > 8d * SCALE) {
+							yAdjust = 8d * SCALE - y - mousePosY;
+						}
 					}
+
+					// Move the vertex to the mouse's current
+					// position, offset by the original distance
+					// between the vertices and adjusted to lay within the
+					// bounds of the grid.
+					marker.setTranslateX(
+							relativeXCords.get(i) + mousePosX + xAdjust);
+					marker.setTranslateY(
+							relativeYCords.get(i) + mousePosY + yAdjust);
 				}
 
-				// Move the vertex to the mouse's current
-				// position, offset by the original distance
-				// between the vertices and adjusted to lay within the
-				// bounds of the grid.
-				marker.setTranslateX(
-						relativeXCords.get(i) + mousePosX + xAdjust);
-				marker.setTranslateY(
-						relativeYCords.get(i) + mousePosY + yAdjust);
 			}
-
 		}
+
+		// The drag has started, so continue dragging even if the
+		// mouse has moved off a shape
+		dragStarted = true;
 	}
 
 	/**
@@ -1088,7 +1128,7 @@ public class FXMeshViewer extends FXViewer {
 		}
 
 		// If there is not already an edge, create a new one
-		DetailedEdgeMesh tempComponent = new DetailedEdgeMesh(start, end);
+		DetailedEdge tempComponent = new DetailedEdge(start, end);
 		tempComponent.setProperty(MeshEditorMeshProperty.UNDER_CONSTRUCTION,
 				"True");
 		EdgeController tempEdge = edgeProvider.createController(tempComponent);

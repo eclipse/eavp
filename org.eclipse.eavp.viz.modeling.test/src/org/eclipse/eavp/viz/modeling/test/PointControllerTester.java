@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.modeling.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.PointController;
-import org.eclipse.eavp.viz.modeling.PointMesh;
+import org.eclipse.eavp.viz.modeling.Point;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class PointControllerTester {
 	public void checkClone() {
 
 		// Create a cloned point and check that it is identical to the original
-		PointController point = new PointController(new PointMesh(),
+		PointController point = new PointController(new Point(),
 				new BasicView());
 		point.setProperty(MeshProperty.DESCRIPTION, "Property");
 		PointController clone = (PointController) point.clone();

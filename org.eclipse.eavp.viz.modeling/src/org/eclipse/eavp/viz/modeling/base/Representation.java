@@ -49,4 +49,27 @@ public class Representation<T> {
 	public T getData() {
 		return data;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object otherObject) {
+
+		// If the other object is not a representation, they are not equal
+		if (!(otherObject instanceof Representation)) {
+			return false;
+		}
+
+		// If the other object's data is not equal to this object's they are not
+		// equal
+		if (!data.equals(((Representation) otherObject).getData())) {
+			return false;
+		}
+
+		// All tests passed, so the two are equal
+		return true;
+	}
 }

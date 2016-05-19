@@ -15,7 +15,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.net.URL;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
@@ -102,7 +102,7 @@ public class ActionReplicateShape extends Action {
 
 		// Get the provider from the factory if it is currently null
 		if (provider == null) {
-			provider = view.getFactory().createProvider(new ShapeMesh());
+			provider = view.getFactory().createProvider(new Shape());
 		}
 
 		IController geometry = (IController) view.treeViewer.getInput();
@@ -168,7 +168,7 @@ public class ActionReplicateShape extends Action {
 
 		// Create a new parent union shape
 
-		ShapeMesh replicateUnionComponent = new ShapeMesh();
+		Shape replicateUnionComponent = new Shape();
 		ShapeController replicateUnion = (ShapeController) provider
 				.createController(replicateUnionComponent);
 		replicateUnion.setProperty(GeometryMeshProperty.OPERATOR, "Union");

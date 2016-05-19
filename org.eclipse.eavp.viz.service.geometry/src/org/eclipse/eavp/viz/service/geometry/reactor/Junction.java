@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,18 +20,18 @@ import org.slf4j.LoggerFactory;
  * @author Robert Smith
  *
  */
-public class JunctionMesh extends ShapeMesh {
+public class Junction extends Shape {
 
 	/**
 	 * Logger for handling event messages and other information.
 	 */
 	private static final Logger logger = LoggerFactory
-			.getLogger(JunctionMesh.class);
+			.getLogger(Junction.class);
 
 	/**
 	 * The default constructor.
 	 */
-	public JunctionMesh() {
+	public Junction() {
 		super();
 	}
 
@@ -101,7 +101,7 @@ public class JunctionMesh extends ShapeMesh {
 	public Object clone() {
 
 		// Create a new component, and make it a copy of this one.
-		JunctionMesh clone = new JunctionMesh();
+		Junction clone = new Junction();
 		clone.copy(this);
 		return clone;
 	}

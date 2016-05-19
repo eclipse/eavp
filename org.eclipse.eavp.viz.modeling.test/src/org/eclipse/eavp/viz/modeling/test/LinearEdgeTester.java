@@ -13,9 +13,9 @@ package org.eclipse.eavp.viz.modeling.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.LinearEdgeMesh;
+import org.eclipse.eavp.viz.modeling.LinearEdge;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -27,7 +27,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
-public class LinearEdgeMeshTester {
+public class LinearEdgeTester {
 
 	/**
 	 * Check that LinearEdgeMeshes are cloned correctly.
@@ -36,9 +36,9 @@ public class LinearEdgeMeshTester {
 	public void checkClone() {
 
 		// Clone a mesh and check that the result is identical
-		LinearEdgeMesh mesh = new LinearEdgeMesh();
+		LinearEdge mesh = new LinearEdge();
 		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
-		LinearEdgeMesh clone = (LinearEdgeMesh) mesh.clone();
+		LinearEdge clone = (LinearEdge) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
 
@@ -48,17 +48,17 @@ public class LinearEdgeMeshTester {
 	@Test
 	public void checkLength() {
 		// Create the edge
-		LinearEdgeMesh edge = new LinearEdgeMesh();
+		LinearEdge edge = new LinearEdge();
 
 		// The edge should initially have length 0
 		assertEquals(0, Double.compare(edge.getLength(), 0d));
 
 		// Create some vertices
-		VertexController vertex1 = new VertexController(new VertexMesh(0, 0, 0),
+		VertexController vertex1 = new VertexController(new Vertex(0, 0, 0),
 				new BasicView());
-		VertexController vertex2 = new VertexController(new VertexMesh(1, 1, 1),
+		VertexController vertex2 = new VertexController(new Vertex(1, 1, 1),
 				new BasicView());
-		VertexController vertex3 = new VertexController(new VertexMesh(2, 2, 2),
+		VertexController vertex3 = new VertexController(new Vertex(2, 2, 2),
 				new BasicView());
 
 		// Add the first two vertices to the edge.

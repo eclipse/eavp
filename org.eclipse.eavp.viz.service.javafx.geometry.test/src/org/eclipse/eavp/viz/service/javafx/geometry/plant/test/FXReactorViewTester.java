@@ -13,9 +13,9 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.base.Representation;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
-import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeController;
@@ -45,7 +45,7 @@ public class FXReactorViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		ReactorMesh mesh = new ReactorMesh();
+		Reactor mesh = new Reactor();
 		FXReactorView view = new FXReactorView(mesh);
 		FXReactorView clone = (FXReactorView) view.clone();
 		assertTrue(view.equals(clone));
@@ -59,12 +59,12 @@ public class FXReactorViewTester {
 	public void checkWireFrame() {
 
 		// Create a reactor
-		ReactorMesh mesh = new ReactorMesh();
+		Reactor mesh = new Reactor();
 		ReactorController reactor = new ReactorController(mesh,
 				new FXReactorView(mesh));
 
 		// Create a pipe
-		PipeMesh pipeMesh = new PipeMesh();
+		Pipe pipeMesh = new Pipe();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(5);
 		pipeMesh.setRadius(5);

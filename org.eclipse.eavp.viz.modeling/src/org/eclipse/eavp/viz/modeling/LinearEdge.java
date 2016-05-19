@@ -18,12 +18,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
  * @author Robert Smith
  *
  */
-public class LinearEdgeMesh extends EdgeMesh {
+public class LinearEdge extends Edge {
 
 	/**
 	 * The default constructor.
 	 */
-	public LinearEdgeMesh() {
+	public LinearEdge() {
 		super();
 	}
 
@@ -34,7 +34,7 @@ public class LinearEdgeMesh extends EdgeMesh {
 	 * @param start
 	 * @param end
 	 */
-	public LinearEdgeMesh(VertexController start, VertexController end) {
+	public LinearEdge(VertexController start, VertexController end) {
 		super(start, end);
 	}
 
@@ -51,9 +51,9 @@ public class LinearEdgeMesh extends EdgeMesh {
 
 			// Calculate the distance between the start and end points
 			double[] startPoint = ((VertexController) entities
-					.get(MeshCategory.VERTICES).get(0)).getLocation();
+					.get(MeshCategory.VERTICES).get(0)).getTranslation();
 			double[] endPoint = ((VertexController) entities
-					.get(MeshCategory.VERTICES).get(1)).getLocation();
+					.get(MeshCategory.VERTICES).get(1)).getTranslation();
 			length = Math.sqrt(Math.pow(startPoint[0] - endPoint[0], 2)
 					+ Math.pow(startPoint[1] - endPoint[1], 2)
 					+ Math.pow(startPoint[2] - endPoint[2], 2));
@@ -76,7 +76,7 @@ public class LinearEdgeMesh extends EdgeMesh {
 	public Object clone() {
 
 		// Create a new object
-		LinearEdgeMesh clone = new LinearEdgeMesh();
+		LinearEdge clone = new LinearEdge();
 
 		// Make it a copy of this and return it
 		clone.copy(this);

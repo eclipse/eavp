@@ -19,7 +19,7 @@ import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXTube;
@@ -134,7 +134,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	 *            solid.
 	 * @return A new tube mesh adhering to the above specifications
 	 */
-	private FXTube createTubeToPoint(double[] point, HeatExchangerMesh model,
+	private FXTube createTubeToPoint(double[] point, HeatExchanger model,
 			MeshView view, boolean wireframe) {
 
 		// Get the primary tube's start point
@@ -236,7 +236,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 		// Create a rotation to restore the tube to the default position after
 		// the Pipe's transformation is applied, so that the rotation calculated
 		// above will rotate it correctly
-		double[] nodeRotation = transformation.getRotation();
+		double[] nodeRotation = model.getRotation();
 		Rotate reverseRotation = Util.eulerToRotate(nodeRotation[0] * -1d,
 				nodeRotation[0] * -1d, nodeRotation[0] * -1d);
 
@@ -279,39 +279,6 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 
 		return tube;
 
-		// //Calculate the vector of the line from the intersection point to the
-		// target
-		// double[] newAxis = new double[3];
-		// newAxis[0] = point[0] - intersection[0];
-		// newAxis[1] = point[1] - intersection[1];
-		// newAxis[2] = point[2] - intersection[2];
-		//
-		// //Take the cross product of the desired axis with the y axis
-		// double[] crossProduct = new double[3];
-		// crossProduct[0] = newAxis[2] * -1d;
-		// crossProduct[1] = 0;
-		// crossProduct[2] = newAxis[0];
-		//
-		// //Get the magnitude of the cross produce
-		// double crossMag = Math.pow(crossProduct[0], 2) +
-		// Math.pow(crossProduct[2], 2);
-		//
-		// //Normalize the cross product
-		// double[] normal = new double[3];
-		// normal[0] = crossProduct[0] / crossMag;
-		// normal[1] = 0;
-		// normal[2] = crossProduct[2] / crossMag;
-		//
-		// dotProduct[0] =
-		//
-		// // Calculate the number of degrees to rotate about the axis.
-		// double rotationAmount = Math
-		// .acos(angle.normalize().dotProduct(0, 1, 0));
-		//
-		// // Apply the rotation to the cylinder
-		// Rotate rotation = new Rotate(-Math.toDegrees(rotationAmount), axis);
-		// edge.getTransforms().addAll(rotation);
-
 	}
 
 	/*
@@ -345,12 +312,12 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 
 		// The heat exchanger cannot be drawn without a central pipe to
 		// contain.
-		if (((HeatExchangerMesh) model).getPrimaryPipe() == null) {
+		if (((HeatExchanger) model).getPrimaryPipe() == null) {
 			return;
 		}
 
 		// Get a reference to the primary pipe
-		FXPipeController primaryPipeController = (FXPipeController) ((HeatExchangerMesh) model)
+		FXPipeController primaryPipeController = (FXPipeController) ((HeatExchanger) model)
 				.getPrimaryPipe();
 
 		// Set the primary pipe to the same wireframe mode as this object
@@ -374,7 +341,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 			wall.setDrawMode(DrawMode.LINE);
 		}
 		node.getChildren().add(wall);
-		wall.getTransforms().setAll(Util.convertTransformation(transformation));
+		wall.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));
 
 		// Get the secondary input junction
 		List<IController> secondaryInputList = model
@@ -387,7 +354,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 					ReactorMeshCategory.SECONDARY_INPUT).get(0);
 			secondaryInlet = createTubeToPoint(
 					((JunctionController) inletJunction).getCenter(),
-					(HeatExchangerMesh) model, inletView, wireframe);
+					(HeatExchanger) model, inletView, wireframe);
 
 			// Add the secondary pipes to the scene
 			inletView = new MeshView(secondaryInlet.getMesh());
@@ -406,7 +373,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 					ReactorMeshCategory.SECONDARY_OUTPUT).get(0);
 			secondaryOutlet = createTubeToPoint(
 					((JunctionController) outletJunction).getCenter(),
-					(HeatExchangerMesh) model, outletView, wireframe);
+					(HeatExchanger) model, outletView, wireframe);
 
 			// Add the secondary pipes to the scene
 			outletView = new MeshView(secondaryOutlet.getMesh());

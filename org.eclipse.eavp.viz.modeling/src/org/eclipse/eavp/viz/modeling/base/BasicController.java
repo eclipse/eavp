@@ -268,7 +268,7 @@ public class BasicController
 	@Override
 	@XmlTransient
 	public double[] getRotation() {
-		return view.getTransformation().getRotation();
+		return model.getTransformation().getRotation().clone();
 	}
 
 	/*
@@ -279,7 +279,7 @@ public class BasicController
 	@Override
 	@XmlTransient
 	public double[] getScale() {
-		return view.getTransformation().getScale();
+		return model.getTransformation().getScale().clone();
 	}
 
 	/*
@@ -290,7 +290,7 @@ public class BasicController
 	@Override
 	@XmlTransient
 	public double getSize() {
-		return view.getTransformation().getSize();
+		return model.getTransformation().getSize();
 	}
 
 	/*
@@ -301,7 +301,7 @@ public class BasicController
 	@Override
 	@XmlTransient
 	public double[] getSkew() {
-		return view.getTransformation().getSkew();
+		return model.getTransformation().getSkew().clone();
 	}
 
 	/*
@@ -312,7 +312,7 @@ public class BasicController
 	@Override
 	@XmlTransient
 	public Transformation getTransformation() {
-		return view.getTransformation();
+		return model.getTransformation();
 	}
 
 	/*
@@ -323,7 +323,7 @@ public class BasicController
 	@Override
 	@XmlTransient
 	public double[] getTranslation() {
-		return view.getTransformation().getTranslation();
+		return model.getTransformation().getTranslation().clone();
 	}
 
 	/*
@@ -356,7 +356,7 @@ public class BasicController
 	 */
 	@Override
 	public void setRotation(double x, double y, double z) {
-		view.getTransformation().setRotation(x, y, z);
+		model.getTransformation().setRotation(x, y, z);
 	}
 
 	/*
@@ -367,7 +367,7 @@ public class BasicController
 	 */
 	@Override
 	public void setScale(double x, double y, double z) {
-		view.getTransformation().setScale(x, y, z);
+		model.getTransformation().setScale(x, y, z);
 	}
 
 	/*
@@ -377,7 +377,7 @@ public class BasicController
 	 */
 	@Override
 	public void setSize(double newSize) {
-		view.getTransformation().setSize(newSize);
+		model.getTransformation().setSize(newSize);
 	}
 
 	/*
@@ -388,7 +388,7 @@ public class BasicController
 	 */
 	@Override
 	public void setSkew(double x, double y, double z) {
-		view.getTransformation().setSkew(x, y, z);
+		model.getTransformation().setSkew(x, y, z);
 	}
 
 	/*
@@ -399,7 +399,7 @@ public class BasicController
 	 */
 	@Override
 	public void setTransformation(Transformation newTransformation) {
-		view.setTransformation(newTransformation);
+		model.setTransformation(newTransformation);
 	}
 
 	/*
@@ -410,7 +410,7 @@ public class BasicController
 	 */
 	@Override
 	public void setTranslation(double x, double y, double z) {
-		view.getTransformation().setTranslation(x, y, z);
+		model.getTransformation().setTranslation(x, y, z);
 	}
 
 	/*

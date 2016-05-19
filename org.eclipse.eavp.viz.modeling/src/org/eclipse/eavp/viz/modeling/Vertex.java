@@ -28,12 +28,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
  * @author Robert Smith
  *
  */
-public class VertexMesh extends PointMesh {
+public class Vertex extends Point {
 
 	/**
 	 * The default constructor
 	 */
-	public VertexMesh() {
+	public Vertex() {
 		super();
 	}
 
@@ -47,7 +47,7 @@ public class VertexMesh extends PointMesh {
 	 * @param z
 	 *            The vertex's z coordinate
 	 */
-	public VertexMesh(double x, double y, double z) {
+	public Vertex(double x, double y, double z) {
 		super(x, y, z);
 	}
 
@@ -115,7 +115,7 @@ public class VertexMesh extends PointMesh {
 	public Object clone() {
 
 		// Create a new component, and make it a copy of this one.
-		VertexMesh clone = new VertexMesh();
+		Vertex clone = new Vertex();
 		clone.copy(this);
 		return clone;
 	}
@@ -131,22 +131,20 @@ public class VertexMesh extends PointMesh {
 	public void copy(IMesh otherObject) {
 
 		// Fail silently if the other object is not a VertexMesh
-		if (!(otherObject instanceof VertexMesh)) {
+		if (!(otherObject instanceof Vertex)) {
 			return;
 		}
 
 		// Cast the object
-		VertexMesh castObject = (VertexMesh) otherObject;
+		Vertex castObject = (Vertex) otherObject;
 
 		// Copy each of the other component's data members
 		type = castObject.type;
 		properties = new HashMap<IMeshProperty, String>(
 				castObject.getPropertyMap());
 
-		// Copy the coordinates
-		x = ((PointMesh) otherObject).getX();
-		y = ((PointMesh) otherObject).getY();
-		z = ((PointMesh) otherObject).getZ();
+		// Copy the transformation
+		transformation = castObject.getTransformation();
 
 		// Clone each child entity
 		for (IMeshCategory category : castObject.entities.keySet()) {

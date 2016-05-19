@@ -301,6 +301,15 @@ public class UpdateableSubscriptionManager {
 	}
 
 	/**
+	 * Remove a pending message from the manager. This should be used only when
+	 * it is unavoidable that some child object has triggered an update that is
+	 * known to not be relevant to any higher part of the hierarchy.
+	 */
+	public void removeMesaage(SubscriptionType type) {
+		messageQueue.remove(type);
+	}
+
+	/**
 	 * Setter method for the manager's parent.
 	 * 
 	 * @param parent

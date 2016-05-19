@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -28,7 +28,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
-public class ShapeMeshTester {
+public class ShapeTester {
 
 	/**
 	 * Test that the mesh is correctly cloned
@@ -37,9 +37,9 @@ public class ShapeMeshTester {
 	public void checkClone() {
 
 		// Clone a mesh and check that the result is identical
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.DESCRIPTION, "Property");
-		ShapeMesh clone = (ShapeMesh) mesh.clone();
+		Shape clone = (Shape) mesh.clone();
 		assertTrue(mesh.equals(clone));
 	}
 
@@ -50,11 +50,11 @@ public class ShapeMeshTester {
 	public void checkParent() {
 
 		// Create a shape to test
-		ShapeMesh shapeModel = new ShapeMesh();
+		Shape shapeModel = new Shape();
 		TestShape shape = new TestShape(shapeModel, new BasicView());
 
 		// Create a parent shape
-		ShapeMesh parentModel1 = new ShapeMesh();
+		Shape parentModel1 = new Shape();
 		TestShape parent1 = new TestShape(parentModel1, new BasicView());
 
 		// Set the shape's parent
@@ -73,7 +73,7 @@ public class ShapeMeshTester {
 		assertTrue(parent1.wasUpdated());
 
 		// Create a second parent shape
-		ShapeMesh parentModel2 = new ShapeMesh();
+		Shape parentModel2 = new Shape();
 		TestShape parent2 = new TestShape(parentModel2, new BasicView());
 		parent2.setProperty(MeshProperty.ID, "2");
 
@@ -125,7 +125,7 @@ public class ShapeMeshTester {
 		 * @param model
 		 * @param view
 		 */
-		public TestShape(ShapeMesh model, BasicView view) {
+		public TestShape(Shape model, BasicView view) {
 			super(model, view);
 		}
 

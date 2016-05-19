@@ -144,6 +144,13 @@ public interface IMesh extends IManagedUpdateable, IManagedUpdateableListener {
 	 * @return The IController which manages this component
 	 */
 	IController getController();
+	
+	/**
+	 * Getter function for the part's transformation.
+	 * 
+	 * @return The part's current transformation.
+	 */
+	Transformation getTransformation();
 
 	/**
 	 * Setter method for the controller.
@@ -196,5 +203,48 @@ public interface IMesh extends IManagedUpdateable, IManagedUpdateableListener {
 	 *            The new map of properties for the mesh.
 	 */
 	void setProperties(Map<IMeshProperty, String> properties);
+	
+	/**
+	 * Setter function for the part's transformation.
+	 * 
+	 * @param newTransformation
+	 *            The transformation to apply to this part.
+	 */
+	void setTransformation(Transformation newTransformation);
+	
+	/**
+	 * Get the part's rotation in the x, y, and z directions
+	 * 
+	 * @generated NOT
+	 */
+	double[] getRotation();
+
+	/**
+	 * Get the part's scale in the x, y, and z directions.
+	 * 
+	 * @generated NOT
+	 */
+	double[] getScale();
+
+	/**
+	 * Get the part's size.
+	 * 
+	 * @generated NOT
+	 */
+	double getSize();
+
+	/**
+	 * Get the part's skew in the x, y, and z directions
+	 * 
+	 * @generated NOT
+	 */
+	double[] getSkew();
+
+	/**
+	 * Get the part's translation in the x, y, and z directions
+	 * 
+	 * @generated NOT
+	 */
+	double[] getTranslation();
 
 }

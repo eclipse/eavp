@@ -15,6 +15,8 @@
 		<install-dir>/home/data/httpd/download.eclipse.org/eavp/builds/${releaseName}</install-dir>
 		<!-- Repo for released versions of CBI -->
     	<eclipse-repo.url>https://repo.eclipse.org/content/repositories/cbi/</eclipse-repo.url>
+    	<!-- Repo for Tycho Maven plugins -->
+    	<tycho-repo.url>https://repo1.maven.org/maven2/</tycho-repo.url>
 	</properties>
 
 	<!-- This is the parent POM from which all ICE modules inherit common settings -->
@@ -35,6 +37,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 	    </pluginRepository>
+	    
 	    <!--  Plugin repos for jboss repository-utils support -->
 	    <pluginRepository>
 			<id>jboss-public-repository-group</id>
@@ -46,6 +49,13 @@
 			<name>JBoss Snapshots Repository</name>
 			<url>http://repository.jboss.org/nexus/content/repositories/snapshots/</url>
 		</pluginRepository>
+
+	    <!-- Provide a reference to the official Maven repository. -->
+		<pluginRepository>
+			<id>tycho</id>
+			<url>${tycho-repo.url}</url>
+		</pluginRepository>
+		
 	</pluginRepositories>
 
 	<profiles>

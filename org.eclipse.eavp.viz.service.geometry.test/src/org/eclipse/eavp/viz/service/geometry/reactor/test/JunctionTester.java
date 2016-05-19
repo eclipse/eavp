@@ -13,16 +13,38 @@ package org.eclipse.eavp.viz.service.geometry.reactor.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
 import org.junit.Test;
 
 /**
- * A class to test the functionality of the HeatExchangerMesh.
+ * A class to test the functionality of the JunctionMesh
  * 
  * @author Robert Smith
  *
  */
-public class HeatExchangerMeshTester {
+public class JunctionTester {
+
+	/**
+	 * Check the convenience methods for the JunctionMesh's properties.
+	 */
+	@Test
+	public void checkProperties() {
+
+		// The junction for testing
+		Junction junction = new Junction();
+
+		// Check the height functions
+		junction.setHeight(1d);
+		assertTrue(junction.getHeight() == 1d);
+
+		// Check the z in functions
+		junction.setZIn(2d);
+		assertTrue(junction.getZIn() == 2d);
+
+		// Check the z out functions
+		junction.setZOut(3d);
+		assertTrue(junction.getZOut() == 3d);
+	}
 
 	/**
 	 * Check that the part is cloned correctly.
@@ -30,12 +52,12 @@ public class HeatExchangerMeshTester {
 	@Test
 	public void checkClone() {
 
-		// Create an exchanger
-		HeatExchangerMesh exchanger = new HeatExchangerMesh();
-		exchanger.setProperty(MeshProperty.INNER_RADIUS, "Property");
+		// Create a junction
+		Junction junction = new Junction();
+		junction.setProperty(MeshProperty.INNER_RADIUS, "Property");
 
 		// Clone it and check that they are identical
-		HeatExchangerMesh clone = (HeatExchangerMesh) exchanger.clone();
-		assertTrue(exchanger.equals(clone));
+		Junction clone = (Junction) junction.clone();
+		assertTrue(junction.equals(clone));
 	}
 }

@@ -38,7 +38,7 @@ public class HeatExchangerController extends BasicController
 	 * @param view
 	 *            The part's graphical representation in the rendering program.
 	 */
-	public HeatExchangerController(HeatExchangerMesh model, BasicView view) {
+	public HeatExchangerController(HeatExchanger model, BasicView view) {
 		super(model, view);
 	}
 
@@ -49,7 +49,7 @@ public class HeatExchangerController extends BasicController
 	 *         one.
 	 */
 	public PipeController getPrimaryPipe() {
-		return ((HeatExchangerMesh) model).getPrimaryPipe();
+		return ((HeatExchanger) model).getPrimaryPipe();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class HeatExchangerController extends BasicController
 	 *         one.
 	 */
 	public PipeController getSecondaryPipe() {
-		return ((HeatExchangerMesh) model).getSecondaryPipe();
+		return ((HeatExchanger) model).getSecondaryPipe();
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class HeatExchangerController extends BasicController
 	 *            The Heat Exchanger's new primary pipe.
 	 */
 	public void setPrimaryPipe(PipeController pipe) {
-		((HeatExchangerMesh) model).setPrimaryPipe(pipe);
+		((HeatExchanger) model).setPrimaryPipe(pipe);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class HeatExchangerController extends BasicController
 	 *            The Heat Exchanger's new secondary pipe.
 	 */
 	public void setSecondaryPipe(PipeController pipe) {
-		((HeatExchangerMesh) model).setSecondaryPipe(pipe);
+		((HeatExchanger) model).setSecondaryPipe(pipe);
 	}
 
 	/*

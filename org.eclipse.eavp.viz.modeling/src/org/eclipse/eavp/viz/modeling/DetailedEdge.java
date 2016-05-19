@@ -30,12 +30,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
  * @author Robert Smith
  *
  */
-public class DetailedEdgeMesh extends EdgeMesh {
+public class DetailedEdge extends Edge {
 
 	/**
 	 * The default constructor.
 	 */
-	public DetailedEdgeMesh() {
+	public DetailedEdge() {
 		super();
 	}
 
@@ -46,7 +46,7 @@ public class DetailedEdgeMesh extends EdgeMesh {
 	 * @param start
 	 * @param end
 	 */
-	public DetailedEdgeMesh(VertexController start, VertexController end) {
+	public DetailedEdge(VertexController start, VertexController end) {
 		super(start, end);
 	}
 
@@ -95,7 +95,7 @@ public class DetailedEdgeMesh extends EdgeMesh {
 	public Object clone() {
 
 		// Create a new object
-		DetailedEdgeMesh clone = new DetailedEdgeMesh();
+		DetailedEdge clone = new DetailedEdge();
 
 		// Make it a copy of this and return it
 		clone.copy(this);
@@ -115,7 +115,7 @@ public class DetailedEdgeMesh extends EdgeMesh {
 		// Queue messages from all the vertices being added
 		updateManager.enqueue();
 
-		DetailedEdgeMesh castObject = (DetailedEdgeMesh) otherObject;
+		DetailedEdge castObject = (DetailedEdge) otherObject;
 
 		// Clone each child entity
 		for (IMeshCategory category : castObject.entities.keySet()) {
@@ -157,7 +157,7 @@ public class DetailedEdgeMesh extends EdgeMesh {
 		}
 
 		// Check if the other object is an AbstractMeshComponent and cast it
-		if (!(otherObject instanceof DetailedEdgeMesh)) {
+		if (!(otherObject instanceof DetailedEdge)) {
 			return false;
 		}
 

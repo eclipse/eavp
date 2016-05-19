@@ -14,7 +14,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -48,7 +48,7 @@ public class FXShapeControllerTester {
 
 		// Create a cloned FXShape and check that it is identical to the
 		// original
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		FXShapeController shape = new FXShapeController(mesh,
 				new FXShapeView(mesh));
 		shape.setProperty(MeshProperty.INNER_RADIUS, "Property");
@@ -64,7 +64,7 @@ public class FXShapeControllerTester {
 	public void checkNodes() {
 
 		// Create a cube
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.TYPE, "Cube");
 		FXShapeView view = new FXShapeView(mesh);
 		FXShapeController shape = new FXShapeController(mesh, view);
@@ -75,7 +75,7 @@ public class FXShapeControllerTester {
 				.get(ShapeController.class));
 
 		// Create a sphere
-		ShapeMesh mesh2 = new ShapeMesh();
+		Shape mesh2 = new Shape();
 		mesh2.setProperty(MeshProperty.TYPE, "Sphere");
 		FXShapeView view2 = new FXShapeView(mesh2);
 		FXShapeController shape2 = new FXShapeController(mesh2, view2);
@@ -89,7 +89,7 @@ public class FXShapeControllerTester {
 				.contains(representation2.getData()));
 
 		// Create a cylinder
-		ShapeMesh mesh3 = new ShapeMesh();
+		Shape mesh3 = new Shape();
 		mesh2.setProperty(MeshProperty.TYPE, "Cylinder");
 		FXShapeView view3 = new FXShapeView(mesh3);
 		FXShapeController shape3 = new FXShapeController(mesh3, view3);
@@ -121,7 +121,7 @@ public class FXShapeControllerTester {
 				.contains(representation3.getData()));
 
 		// Create a union
-		ShapeMesh unionMesh = new ShapeMesh();
+		Shape unionMesh = new Shape();
 		unionMesh.setProperty(GeometryMeshProperty.OPERATOR, "Union");
 		FXShapeView unionView = new FXShapeView(unionMesh);
 		FXShapeController unionShape = new FXShapeController(unionMesh,
@@ -144,7 +144,7 @@ public class FXShapeControllerTester {
 	public void checkUpdates() {
 
 		// Create a cube
-		ShapeMesh mesh = new ShapeMesh();
+		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.TYPE, "Cube");
 		FXShapeView view = new FXShapeView(mesh);
 		FXShapeController shape = new FXShapeController(mesh, view);
@@ -179,12 +179,12 @@ public class FXShapeControllerTester {
 		assertFalse(controller.isUpdated());
 
 		// Add a second child to the controller.
-		FXShapeController child = new FXShapeController(new ShapeMesh(),
+		FXShapeController child = new FXShapeController(new Shape(),
 				new FXTestView());
 		shape.addEntity(child);
 
-		// Update the view's transformation
-		view.setTransformation(new Transformation());
+		// Update the mesh's transformation
+		mesh.setTransformation(new Transformation());
 
 		// The controller should have been updated
 		assertTrue(controller.isUpdated());

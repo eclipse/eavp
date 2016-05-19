@@ -18,12 +18,12 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
  * @author Robert Smith
  *
  */
-public class TubeMesh extends ShapeMesh {
+public class Tube extends Shape {
 
 	/**
 	 * The default constructor.
 	 */
-	public TubeMesh() {
+	public Tube() {
 		super();
 		getPropertyMap().put(MeshProperty.TYPE, "Tube");
 	}
@@ -36,7 +36,7 @@ public class TubeMesh extends ShapeMesh {
 	 * @param radius
 	 *            The tube's radius
 	 */
-	public TubeMesh(double length, double radius) {
+	public Tube(double length, double radius) {
 		this();
 		setLength(length);
 		setRadius(radius);
@@ -150,7 +150,7 @@ public class TubeMesh extends ShapeMesh {
 	public Object clone() {
 
 		// Make a new shape component and copy the data into it
-		TubeMesh clone = new TubeMesh();
+		Tube clone = new Tube();
 		clone.copy(this);
 
 		return clone;

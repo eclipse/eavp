@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -38,7 +38,7 @@ public class FXEdgeControllerTester {
 
 		// Create a cloned FXShape and check that it is identical to the
 		// original
-		EdgeMesh mesh = new EdgeMesh();
+		Edge mesh = new Edge();
 		FXEdgeController edge = new FXEdgeController(mesh,
 				new FXLinearEdgeView(mesh));
 		edge.setProperty(MeshProperty.INNER_RADIUS, "Property");
@@ -54,7 +54,7 @@ public class FXEdgeControllerTester {
 	public void checkProperties() {
 
 		// Create an edge for testing
-		EdgeMesh mesh = new EdgeMesh();
+		Edge mesh = new Edge();
 		FXEdgeController edge = new FXEdgeController(mesh, new BasicView());
 
 		// Give a child entity to the edge

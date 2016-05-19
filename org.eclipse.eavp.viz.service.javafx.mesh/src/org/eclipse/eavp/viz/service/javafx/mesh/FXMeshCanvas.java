@@ -226,6 +226,6 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 		super.loadPart(root);
 
 		// Scale the loaded parts correctly
-		((FXMeshViewer) viewer).scale();
+		((FXMeshViewer) viewer).initializePreloaded();
 	}
 }

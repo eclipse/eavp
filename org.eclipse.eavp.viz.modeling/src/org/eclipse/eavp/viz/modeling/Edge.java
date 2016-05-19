@@ -28,7 +28,7 @@ import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
  * 
  * @author Robert Smith
  */
-public class EdgeMesh extends BasicMesh {
+public class Edge extends BasicMesh {
 
 	/**
 	 * The edge's length.
@@ -38,7 +38,7 @@ public class EdgeMesh extends BasicMesh {
 	/**
 	 * The default constructor.
 	 */
-	public EdgeMesh() {
+	public Edge() {
 		super();
 	}
 
@@ -49,7 +49,7 @@ public class EdgeMesh extends BasicMesh {
 	 * @param start
 	 * @param end
 	 */
-	public EdgeMesh(VertexController start, VertexController end) {
+	public Edge(VertexController start, VertexController end) {
 		super();
 
 		// Add the vertices to the list of entities.
@@ -168,7 +168,7 @@ public class EdgeMesh extends BasicMesh {
 	public Object clone() {
 
 		// Create a new object
-		EdgeMesh clone = new EdgeMesh();
+		Edge clone = new Edge();
 
 		// Make it a copy of this and return it
 		clone.copy(this);
@@ -186,12 +186,12 @@ public class EdgeMesh extends BasicMesh {
 	public void copy(IMesh otherObject) {
 
 		// If the other object is not an EdgeMesh, fail silently
-		if (!(otherObject instanceof EdgeMesh)) {
+		if (!(otherObject instanceof Edge)) {
 			return;
 		}
 
 		// Cast the object
-		EdgeMesh castObject = (EdgeMesh) otherObject;
+		Edge castObject = (Edge) otherObject;
 
 		// Queue messages from all the vertices being added
 		updateManager.enqueue();
@@ -231,7 +231,7 @@ public class EdgeMesh extends BasicMesh {
 		List<IController> vertices = getEntitiesFromCategory(
 				MeshCategory.VERTICES);
 		return (vertices != null && !vertices.isEmpty())
-				? ((VertexController) vertices.get(0)).getLocation()
+				? ((VertexController) vertices.get(0)).getTranslation()
 				: new double[3];
 	}
 
@@ -244,7 +244,7 @@ public class EdgeMesh extends BasicMesh {
 		List<IController> vertices = getEntitiesFromCategory(
 				MeshCategory.VERTICES);
 		return (vertices != null && vertices.size() > 1)
-				? ((VertexController) vertices.get(1)).getLocation()
+				? ((VertexController) vertices.get(1)).getTranslation()
 				: new double[3];
 	}
 }
