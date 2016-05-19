@@ -239,9 +239,9 @@ public class MeshDescriptionTester {
 		// Create the edges. In space they are laid out thusly:
 		// -9- -19-
 		// |_ |__ |
-		// 29 17_ 41
+		// 11 17_ 41
 		// |_ |__ |
-		// -25- -45-
+		// -25- -27-
 		//
 		// The edge's are given the IDs they should be assigned by the
 		// MeshDescription compression process, so that this can be checked.
@@ -259,7 +259,7 @@ public class MeshDescriptionTester {
 		edge3.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge4 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex4, vertex1), new BasicView());
-		edge4.setProperty(MeshProperty.ID, "29");
+		edge4.setProperty(MeshProperty.ID, "11");
 		edge4.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge5 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex2, vertex5), new BasicView());
@@ -271,7 +271,7 @@ public class MeshDescriptionTester {
 		edge6.setProperty(MeshProperty.NAME, "Edge");
 		DetailedEdgeController edge7 = new DetailedEdgeController(
 				new DetailedEdgeMesh(vertex6, vertex3), new BasicView());
-		edge7.setProperty(MeshProperty.ID, "45");
+		edge7.setProperty(MeshProperty.ID, "27");
 		edge7.setProperty(MeshProperty.NAME, "Edge");
 
 		// Create the faces. Face 1 on the left, 2 on the right.
