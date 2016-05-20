@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.eclipse.eavp.viz.modeling.DetailedEdge;
-import org.eclipse.eavp.viz.modeling.VertexController;
 import org.eclipse.eavp.viz.modeling.Vertex;
+import org.eclipse.eavp.viz.modeling.VertexController;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -226,9 +226,9 @@ public class MeshDescription implements IMeshDescription {
 					.parseInt(edgeVertices.get(0).getProperty(MeshProperty.ID));
 			int endpoint2 = Integer
 					.parseInt(edgeVertices.get(1).getProperty(MeshProperty.ID));
-			
-			//Sort the endpoints
-			if(endpoint2 < endpoint1){
+
+			// Sort the endpoints
+			if (endpoint2 < endpoint1) {
 				int temp = endpoint1;
 				endpoint1 = endpoint2;
 				endpoint2 = temp;
@@ -855,7 +855,7 @@ public class MeshDescription implements IMeshDescription {
 				for (int j = 0; j < edgeLine.BoundaryConditions.size(); j++) {
 					String boundaryCondition = edgeLine.BoundaryConditions
 							.get(j);
-					BoundaryCondition boundary = new BoundaryCondition();
+					BoundaryCondition boundary = new BoundaryCondition("");
 
 					// Split the boundary condition description on whitespace
 					String[] props = boundaryCondition.split("\\s+");
@@ -1007,7 +1007,8 @@ public class MeshDescription implements IMeshDescription {
 	/*
 	 * (non-Javadoc)
 	 * 
-<<<<<<< HEAD
+	 * <<<<<<< HEAD
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

@@ -58,22 +58,11 @@ public class BoundaryConditionSection extends AbstractPropertySection {
 	 */
 	private BoundaryCondition condition;
 
-	/**
-	 * This is an enum for supported types of BoundaryConditions, e.g., Fluid,
-	 * Thermal, or Other (passive scalar).
-	 * 
-	 * @author Jordan
-	 * 
-	 */
-	protected enum Type {
-		Fluid, Thermal, Other;
-	}
-
 	// ---- Section configuration ---- //
 	/**
 	 * The type of boundary condition, e.g., fluid, thermal, or passive scalar.
 	 */
-	private final Type type;
+	private final String type;
 	/**
 	 * The index of the boundary condition if the type is other (passive
 	 * scalar).
@@ -138,11 +127,11 @@ public class BoundaryConditionSection extends AbstractPropertySection {
 	 *            The ID of the associated Polygon or the index of the
 	 *            associated Edge in the selected polygon.
 	 */
-	public BoundaryConditionSection(Type type, int otherIndex, int id) {
+	public BoundaryConditionSection(String type, int otherIndex, int id) {
 		// Set the necessary settings for this BoundaryConditionSection. These
 		// will be used in the setInput section to determine the appropriate
 		// BoundaryCondition instance to expose.
-		this.type = (type != null ? type : Type.Fluid);
+		this.type = (type != null ? type : "Fluid");
 		this.otherIndex = (otherIndex >= 0 ? otherIndex : 0);
 		this.id = (id >= 0 ? id : 0);
 
@@ -239,11 +228,7 @@ public class BoundaryConditionSection extends AbstractPropertySection {
 		// Create the header label, e.g. "Fluid Boundary Condition".
 		Label label = new Label(composite, SWT.LEFT);
 		disposableControls.add(label);
-		if (type == Type.Other) {
-			label.setText("Passive Scalar Boundary Condition " + otherIndex);
-		} else {
-			label.setText(type.toString() + " Boundary Condition");
-		}
+		label.setText(type + " Boundary Condition");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		label.setBackground(bg);
 		// ---------------------------------- //
@@ -392,16 +377,7 @@ public class BoundaryConditionSection extends AbstractPropertySection {
 
 						// Now get the condition based on the type of boundary
 						// condition we are displaying.
-						if (type == Type.Fluid) {
-							condition = polygon
-									.getFluidBoundaryCondition(edgeId);
-						} else if (type == Type.Thermal) {
-							condition = polygon
-									.getThermalBoundaryCondition(edgeId);
-						} else {
-							condition = polygon.getOtherBoundaryCondition(
-									edgeId, otherIndex);
-						}
+						condition = polygon.getBoundaryCondition(edgeId, type);
 					}
 				}
 
@@ -421,16 +397,7 @@ public class BoundaryConditionSection extends AbstractPropertySection {
 
 						// Now get the condition based on the type of
 						// boundary condition we are displaying.
-						if (type == Type.Fluid) {
-							condition = polygon
-									.getFluidBoundaryCondition(edgeId);
-						} else if (type == Type.Thermal) {
-							condition = polygon
-									.getThermalBoundaryCondition(edgeId);
-						} else {
-							condition = polygon.getOtherBoundaryCondition(
-									edgeId, otherIndex);
-						}
+						polygon.getBoundaryCondition(edgeId, type);
 					}
 				}
 

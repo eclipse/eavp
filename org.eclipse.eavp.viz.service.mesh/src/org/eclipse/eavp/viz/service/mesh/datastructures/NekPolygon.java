@@ -25,7 +25,6 @@ import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.modeling.DetailedFace;
 import org.eclipse.eavp.viz.modeling.EdgeController;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
@@ -40,7 +39,7 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
  * @author Robert Smith
  *
  */
-public class NekPolygon extends DetailedFace
+public class NekPolygon extends FiniteElementFace
 		implements IVizUpdateableListener {
 
 	/**
@@ -106,10 +105,7 @@ public class NekPolygon extends DetailedFace
 				properties);
 
 		// Register with all of the boundary conditions in the properties.
-		properties.getFluidBoundaryCondition().register(this);
-		properties.getThermalBoundaryCondition().register(this);
-		for (BoundaryCondition condition : properties
-				.getOtherBoundaryConditions()) {
+		for (BoundaryCondition condition : properties.getBoundaryConditions()) {
 			condition.register(this);
 		}
 	}
@@ -125,48 +121,25 @@ public class NekPolygon extends DetailedFace
 
 	/**
 	 * <p>
-	 * Gets the fluid boundary condition for an edge of the polygon.
+	 * Gets a boundary condition for an edge of the polygon.
 	 * </p>
 	 * 
 	 * @param edgeId
 	 *            The ID of the edge that has a BoundaryCondition.
+	 * @param variable
+	 *            The name of the field variable whose BoundaryCondition is
+	 *            sought.
 	 * @return The edge's BoundaryCondition for this polygon, or null if the
 	 *         edge ID is invalid.
 	 */
-	public BoundaryCondition getFluidBoundaryCondition(int edgeId) {
+	public BoundaryCondition getBoundaryCondition(int edgeId, String variable) {
 
 		// If the edgeId is valid, we can pull the property from the
 		// EdgeProperty instance.
 		BoundaryCondition condition = null;
 		EdgeProperties properties = edgeProperties.get(edgeId);
 		if (properties != null) {
-			condition = properties.getFluidBoundaryCondition();
-		}
-		return condition;
-	}
-
-	/**
-	 * <p>
-	 * Gets a passive scalar boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that has a BoundaryCondition.
-	 * @param otherId
-	 *            The ID or index of the set of passive scalar boundary
-	 *            conditions.
-	 * @return The edge's BoundaryCondition for this polygon, or null if the
-	 *         edge ID is invalid.
-	 */
-	public BoundaryCondition getOtherBoundaryCondition(int edgeId,
-			int otherId) {
-
-		// If the edgeId is valid, we can pull the property from the
-		// EdgeProperty instance.
-		BoundaryCondition condition = null;
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (properties != null) {
-			condition = properties.getOtherBoundaryCondition(otherId);
+			condition = properties.getBoundaryCondition(variable);
 		}
 		return condition;
 	}
@@ -183,28 +156,6 @@ public class NekPolygon extends DetailedFace
 	}
 
 	/**
-	 * <p>
-	 * Gets the thermal boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that has a BoundaryCondition.
-	 * @return The edge's BoundaryCondition for this polygon, or null if the
-	 *         edge ID is invalid.
-	 */
-	public BoundaryCondition getThermalBoundaryCondition(int edgeId) {
-
-		// If the edgeId is valid, we can pull the property from the
-		// EdgeProperty instance.
-		BoundaryCondition condition = null;
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (properties != null) {
-			condition = properties.getThermalBoundaryCondition();
-		}
-		return condition;
-	}
-
-	/**
 	 * Setter method for the map of edge properties.
 	 * 
 	 * @param edgeProperties
@@ -217,54 +168,18 @@ public class NekPolygon extends DetailedFace
 
 	/**
 	 * <p>
-	 * Sets a fluid boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that will have the new BoundaryCondition.
-	 * @param condition
-	 *            The new BoundaryCondition.
-	 */
-	public void setFluidBoundaryCondition(int edgeId,
-			BoundaryCondition condition) {
-
-		// First, check that the edgeId is valid by performing a map lookup.
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (condition != null && properties != null) {
-			// If the edgeId is valid, try to set the new condition. If the new
-			// condition is set, we need to register with the new condition and
-			// notify listeners of the change.
-			BoundaryCondition oldCondition = properties
-					.getFluidBoundaryCondition();
-			if (properties.setFluidBoundaryCondition(condition)) {
-				// Unregister from the old condition and register with the new.
-				oldCondition.unregister(this);
-				condition.register(this);
-
-				// Notify listeners of the change.
-				SubscriptionType[] eventType = new SubscriptionType[1];
-				eventType[0] = SubscriptionType.PROPERTY;
-				updateManager.notifyListeners(eventType);
-			}
-		}
-
-		return;
-	}
-
-	/**
-	 * <p>
 	 * Sets a passive scalar boundary condition for an edge of the polygon.
 	 * </p>
 	 * 
 	 * @param edgeId
 	 *            The ID of the edge that will have the new BoundaryCondition.
-	 * @param otherId
-	 *            The ID or index of the set of passive scalar boundary
-	 *            conditions.
+	 * @param variable
+	 *            The name of the field variable whose boundary condition is
+	 *            being set
 	 * @param condition
 	 *            The new BoundaryCondition.
 	 */
-	public void setOtherBoundaryCondition(int edgeId, int otherId,
+	public void setBoundaryCondition(int edgeId, String variable,
 			BoundaryCondition condition) {
 
 		// First, check that the edgeId is valid by performing a map lookup.
@@ -274,8 +189,8 @@ public class NekPolygon extends DetailedFace
 			// condition is set, we need to register with the new condition and
 			// notify listeners of the change.
 			BoundaryCondition oldCondition = properties
-					.getOtherBoundaryCondition(otherId);
-			if (properties.setOtherBoundaryCondition(otherId, condition)) {
+					.getBoundaryCondition(variable);
+			if (properties.setBoundaryCondition(variable, condition)) {
 				// Unregister from the old condition and register with the new.
 				// We need a null check because the scalar index ID may be new.
 				if (oldCondition != null) {
@@ -305,42 +220,6 @@ public class NekPolygon extends DetailedFace
 	 */
 	public void setPolygonProperties(String materialId, int group) {
 		polygonProperties = new PolygonProperties(materialId, group);
-
-		return;
-	}
-
-	/**
-	 * <p>
-	 * Sets a thermal boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that will have the new BoundaryCondition.
-	 * @param condition
-	 *            The new BoundaryCondition.
-	 */
-	public void setThermalBoundaryCondition(int edgeId,
-			BoundaryCondition condition) {
-
-		// First, check that the edgeId is valid by performing a map lookup.
-		EdgeProperties properties = edgeProperties.get(edgeId);
-		if (condition != null && properties != null) {
-			// If the edgeId is valid, try to set the new condition. If the new
-			// condition is set, we need to register with the new condition and
-			// notify listeners of the change.
-			BoundaryCondition oldCondition = properties
-					.getThermalBoundaryCondition();
-			if (properties.setThermalBoundaryCondition(condition)) {
-				// Unregister from the old condition and register with the new.
-				oldCondition.unregister(this);
-				condition.register(this);
-
-				// Notify listeners of the change.
-				SubscriptionType[] eventType = new SubscriptionType[1];
-				eventType[0] = SubscriptionType.PROPERTY;
-				updateManager.notifyListeners(eventType);
-			}
-		}
 
 		return;
 	}

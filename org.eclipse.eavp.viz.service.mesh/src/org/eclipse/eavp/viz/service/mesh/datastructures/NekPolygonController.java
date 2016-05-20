@@ -14,8 +14,8 @@ package org.eclipse.eavp.viz.service.mesh.datastructures;
 
 import java.util.HashMap;
 
-import org.eclipse.eavp.viz.modeling.FaceController;
 import org.eclipse.eavp.viz.modeling.Face;
+import org.eclipse.eavp.viz.modeling.FaceController;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -53,42 +53,12 @@ public class NekPolygonController extends FaceController {
 	}
 
 	/**
-	 * <p>
-	 * Sets a fluid boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that will have the new BoundaryCondition.
-	 * @param condition
-	 *            The new BoundaryCondition.
-	 */
-	public void setFluidBoundaryCondition(int edgeId,
-			BoundaryCondition condition) {
-		((NekPolygon) model).setFluidBoundaryCondition(edgeId, condition);
-	}
-
-	/**
 	 * Getter method for the map of edge properties.
 	 * 
 	 * @return A map from edge ID numbers to that edge's edge properties.
 	 */
 	public HashMap<Integer, EdgeProperties> getEdgeProperties() {
 		return ((NekPolygon) model).getEdgeProperties();
-	}
-
-	/**
-	 * <p>
-	 * Gets the fluid boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that has a BoundaryCondition.
-	 * @return The edge's BoundaryCondition for this polygon, or null if the
-	 *         edge ID is invalid.
-	 */
-	public BoundaryCondition getFluidBoundaryCondition(int edgeId) {
-
-		return ((NekPolygon) model).getFluidBoundaryCondition(edgeId);
 	}
 
 	/**
@@ -104,31 +74,20 @@ public class NekPolygonController extends FaceController {
 
 	/**
 	 * <p>
-	 * Sets a thermal boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that will have the new BoundaryCondition.
-	 * @param condition
-	 *            The new BoundaryCondition.
-	 */
-	public void setThermalBoundaryCondition(int edgeId,
-			BoundaryCondition condition) {
-		((NekPolygon) model).setThermalBoundaryCondition(edgeId, condition);
-	}
-
-	/**
-	 * <p>
-	 * Gets the thermal boundary condition for an edge of the polygon.
+	 * Gets a boundary condition for an edge of the polygon.
 	 * </p>
 	 * 
 	 * @param edgeId
 	 *            The ID of the edge that has a BoundaryCondition.
+	 * @param variable
+	 *            The name of the field variable whose BoundaryCondition is
+	 *            sought.
 	 * @return The edge's BoundaryCondition for this polygon, or null if the
 	 *         edge ID is invalid.
 	 */
-	public BoundaryCondition getThermalBoundaryCondition(int edgeId) {
-		return ((NekPolygon) model).getThermalBoundaryCondition(edgeId);
+	public void setBoundaryCondition(int edgeId, String variable,
+			BoundaryCondition condition) {
+		((NekPolygon) model).setBoundaryCondition(edgeId, variable, condition);
 	}
 
 	/**
@@ -138,35 +97,14 @@ public class NekPolygonController extends FaceController {
 	 * 
 	 * @param edgeId
 	 *            The ID of the edge that will have the new BoundaryCondition.
-	 * @param otherId
-	 *            The ID or index of the set of passive scalar boundary
-	 *            conditions.
+	 * @param variable
+	 *            The name of the field variable whose boundary condition is
+	 *            being set
 	 * @param condition
 	 *            The new BoundaryCondition.
 	 */
-	public void setOtherBoundaryCondition(int edgeId, int otherId,
-			BoundaryCondition condition) {
-		((NekPolygon) model).setOtherBoundaryCondition(edgeId, otherId,
-				condition);
-	}
-
-	/**
-	 * <p>
-	 * Gets a passive scalar boundary condition for an edge of the polygon.
-	 * </p>
-	 * 
-	 * @param edgeId
-	 *            The ID of the edge that has a BoundaryCondition.
-	 * @param otherId
-	 *            The ID or index of the set of passive scalar boundary
-	 *            conditions.
-	 * @return The edge's BoundaryCondition for this polygon, or null if the
-	 *         edge ID is invalid.
-	 */
-	public BoundaryCondition getOtherBoundaryCondition(int edgeId,
-			int otherId) {
-		return ((NekPolygon) model).getOtherBoundaryCondition(edgeId,
-				otherId);
+	public BoundaryCondition getBoundaryCondition(int edgeId, String variable) {
+		return ((NekPolygon) model).getBoundaryCondition(edgeId, variable);
 	}
 
 	/**

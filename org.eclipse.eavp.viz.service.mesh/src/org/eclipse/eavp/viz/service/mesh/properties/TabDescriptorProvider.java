@@ -23,7 +23,6 @@ import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
-import org.eclipse.eavp.viz.service.mesh.properties.BoundaryConditionSection.Type;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -271,7 +270,7 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 
 				@Override
 				public ISection getSectionClass() {
-					return new BoundaryConditionSection(Type.Fluid, 0, fi);
+					return new BoundaryConditionSection("Fluid", 0, fi);
 				}
 
 				@Override
@@ -293,7 +292,7 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 
 				@Override
 				public ISection getSectionClass() {
-					return new BoundaryConditionSection(Type.Thermal, 0, fi);
+					return new BoundaryConditionSection("Thermal", 0, fi);
 				}
 
 				@Override
@@ -628,7 +627,7 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 
 				@Override
 				public ISection getSectionClass() {
-					return new BoundaryConditionSection(Type.Fluid, 0, fi);
+					return new BoundaryConditionSection("Fluid", 0, fi);
 				}
 
 				@Override
@@ -650,7 +649,7 @@ public class TabDescriptorProvider implements ITabDescriptorProvider {
 
 				@Override
 				public ISection getSectionClass() {
-					return new BoundaryConditionSection(Type.Thermal, 0, fi);
+					return new BoundaryConditionSection("Thermal", 0, fi);
 				}
 
 				@Override

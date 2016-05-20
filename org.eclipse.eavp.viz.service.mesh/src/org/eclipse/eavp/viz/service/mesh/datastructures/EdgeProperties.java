@@ -13,10 +13,10 @@
 package org.eclipse.eavp.viz.service.mesh.datastructures;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -42,29 +42,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class EdgeProperties {
 
 	/**
-	 * <p>
-	 * The fluid boundary condition for this edge in a polygon.
-	 * </p>
-	 * 
+	 * A map of BoundaryConditions for the edge from the name of the field
+	 * variable they are associated with.
 	 */
-	@XmlElement(name = "fluidCondition")
-	private BoundaryCondition fluidBoundaryCondition;
-	/**
-	 * <p>
-	 * The thermal boundary condition for this edge in a polygon.
-	 * </p>
-	 * 
-	 */
-	@XmlElement(name = "thermalCondition")
-	private BoundaryCondition thermalBoundaryCondition;
-	/**
-	 * <p>
-	 * A list of passive scalar boundary condition for this edge in a polygon.
-	 * </p>
-	 * 
-	 */
-	@XmlElement(name = "otherCondition")
-	private ArrayList<BoundaryCondition> otherBoundaryConditions;
+	HashMap<String, BoundaryCondition> boundaryConditions;
 
 	/**
 	 * <p>
@@ -76,127 +57,34 @@ public class EdgeProperties {
 	public EdgeProperties() {
 
 		// Initialize the boundary condition fields.
-		fluidBoundaryCondition = new BoundaryCondition();
-		thermalBoundaryCondition = new BoundaryCondition();
-		otherBoundaryConditions = new ArrayList<BoundaryCondition>();
+		boundaryConditions = new HashMap<String, BoundaryCondition>();
 
 		return;
 	}
 
 	/**
 	 * <p>
-	 * Sets the fluid boundary condition for the edge.
+	 * Sets the specified boundary condition for the edge.
 	 * </p>
 	 * 
+	 * @param fieldVariable
+	 *            The field variable for which this boundary condition applies.
 	 * @param condition
 	 *            The new BoundaryCondition.
 	 * @return True if the new condition was successfully set, false otherwise.
 	 */
-	public boolean setFluidBoundaryCondition(BoundaryCondition condition) {
-
-		boolean changed = false;
-
-		// Only set the boundary condition if:
-		// The new condition is not null
-		// The new condition is not the same one as the old one
-		if (condition != null && condition != fluidBoundaryCondition) {
-			fluidBoundaryCondition = condition;
-			changed = true;
-		}
-
-		return changed;
-	}
-
-	/**
-	 * <p>
-	 * Gets the fluid boundary condition for the edge.
-	 * </p>
-	 * 
-	 * @return The edge's BoundaryCondition. This should never be null.
-	 */
-	public BoundaryCondition getFluidBoundaryCondition() {
-		return fluidBoundaryCondition;
-	}
-
-	/**
-	 * <p>
-	 * Sets the thermal boundary condition for the edge.
-	 * </p>
-	 * 
-	 * @param condition
-	 *            The new BoundaryCondition.
-	 * @return True if the new condition was successfully set, false otherwise.
-	 */
-	public boolean setThermalBoundaryCondition(BoundaryCondition condition) {
-
-		boolean changed = false;
-
-		// Only set the boundary condition if:
-		// The new condition is not null
-		// The new condition is not the same one as the old one
-		if (condition != null && condition != thermalBoundaryCondition) {
-			thermalBoundaryCondition = condition;
-			changed = true;
-		}
-
-		return changed;
-	}
-
-	/**
-	 * <p>
-	 * Gets the thermal boundary condition for the edge.
-	 * </p>
-	 * 
-	 * @return The edge's BoundaryCondition. This should never be null.
-	 */
-	public BoundaryCondition getThermalBoundaryCondition() {
-		return thermalBoundaryCondition;
-	}
-
-	/**
-	 * <p>
-	 * Sets a passive scalar boundary condition for the edge.
-	 * </p>
-	 * 
-	 * @param otherId
-	 *            The ID or index of the set of passive scalar boundary
-	 *            conditions.
-	 * @param condition
-	 *            The new BoundaryCondition.
-	 * @return True if the new condition was successfully set, false otherwise.
-	 */
-	public boolean setOtherBoundaryCondition(int otherId,
+	public boolean setBoundaryCondition(String fieldVariable,
 			BoundaryCondition condition) {
 
 		boolean changed = false;
 
-		// The new boundary condition will only be added if:
+		// Only set the boundary condition if:
 		// The new condition is not null
-		// The otherId (index of the passive scalar set) is valid (non-negative)
-		if (condition != null && otherId >= 0) {
-			// Get the size of the list of passive scalar conditions.
-			int size = otherBoundaryConditions.size();
-
-			// We only need to make any changes if:
-			// The new passive scalar index is too big (we need to add more
-			// default conditions to the list)
-			// The new condition is not the same one as the old one
-
-			// If necessary, add new, default BoundaryConditions to the list,
-			// then add the new condition to the end of the list.
-			if (otherId >= size) {
-				for (int i = size; i < otherId; i++) {
-					otherBoundaryConditions.add(new BoundaryCondition());
-				}
-				otherBoundaryConditions.add(condition);
-				changed = true;
-			}
-			// If the index is already valid, compare the new condition with the
-			// one in the list and update it if necessary.
-			else if (condition != otherBoundaryConditions.get(otherId)) {
-				otherBoundaryConditions.set(otherId, condition);
-				changed = true;
-			}
+		// The new condition is not the same one as the old one
+		if (condition != null
+				&& condition != boundaryConditions.get(fieldVariable)) {
+			boundaryConditions.put(fieldVariable, condition);
+			changed = true;
 		}
 
 		return changed;
@@ -204,39 +92,33 @@ public class EdgeProperties {
 
 	/**
 	 * <p>
-	 * Gets a passive scalar boundary condition from the edge.
+	 * Gets the edge's boundary condition for the specified field variable.
 	 * </p>
 	 * 
-	 * @param otherId
-	 *            The ID or index of the set of passive scalar boundary
-	 *            conditions.
-	 * @return The edge's BoundaryCondition, or null if the passive scalar index
-	 *         is invalid.
+	 * @return The edge's BoundaryCondition. This should never be null.
 	 */
-	public BoundaryCondition getOtherBoundaryCondition(int otherId) {
-
-		// The default return value
-		BoundaryCondition condition = null;
-
-		// Check the index before trying to retrieve the boundary condition.
-		if (otherId >= 0 && otherId < otherBoundaryConditions.size()) {
-			condition = otherBoundaryConditions.get(otherId);
-		}
-
-		return condition;
+	public BoundaryCondition getBoundaryCondition(String fieldVariable) {
+		return boundaryConditions.get(fieldVariable);
 	}
 
 	/**
 	 * <p>
-	 * Gets all passive scalar boundary conditions for the edge.
+	 * Gets boundary conditions for the edge.
 	 * </p>
 	 * 
-	 * @return An ArrayList of all passive scalar boundary conditions for the
-	 *         edge. If no passive scalar boundary conditions exist, this will
-	 *         be an empty list.
+	 * @return An ArrayList of all boundary conditions for the edge. If boundary
+	 *         conditions exist, this will be an empty list.
 	 */
-	public ArrayList<BoundaryCondition> getOtherBoundaryConditions() {
-		return new ArrayList<BoundaryCondition>(otherBoundaryConditions);
+	public ArrayList<BoundaryCondition> getBoundaryConditions() {
+
+		// The list of all boundary conditions
+		ArrayList<BoundaryCondition> conditions = new ArrayList<BoundaryCondition>();
+
+		// Get each boundary condition from the map and add it to the list
+		for (BoundaryCondition condition : boundaryConditions.values()) {
+			conditions.add(condition);
+		}
+		return conditions;
 	}
 
 	/**
@@ -253,9 +135,7 @@ public class EdgeProperties {
 		int hash = 31;
 
 		// Add local hashes.
-		hash = 31 * hash + fluidBoundaryCondition.hashCode();
-		hash = 31 * hash + thermalBoundaryCondition.hashCode();
-		hash = 31 * hash + otherBoundaryConditions.hashCode();
+		hash = 31 * hash + boundaryConditions.hashCode();
 
 		return hash;
 	}
@@ -286,12 +166,25 @@ public class EdgeProperties {
 			// We can now cast the other object.
 			EdgeProperties conditions = (EdgeProperties) otherObject;
 
-			// Compare the values between the two objects.
-			equals = (fluidBoundaryCondition
-					.equals(conditions.fluidBoundaryCondition)
-					&& thermalBoundaryCondition
-							.equals(conditions.thermalBoundaryCondition) && otherBoundaryConditions
-					.equals(conditions.otherBoundaryConditions));
+			// Check that the they have the same kinds of boundary conditions
+			if (boundaryConditions.keySet()
+					.equals(conditions.boundaryConditions)) {
+
+				// Assume they are equal until proven otherwise
+				equals = true;
+
+				// Check each boundary condition for equality
+				for (String variable : boundaryConditions.keySet()) {
+					if (!boundaryConditions.get(variable).equals(
+							conditions.boundaryConditions.get(variable))) {
+
+						// If two boundary conditions are not equal, the
+						// conditions as a whole are not equal
+						equals = false;
+						break;
+					}
+				}
+			}
 		}
 
 		return equals;
@@ -313,25 +206,16 @@ public class EdgeProperties {
 			return;
 		}
 
-		/* ---- Deep copy the boundary conditions. ---- */
-		// Clone the fluid boundary condition.
-		fluidBoundaryCondition = (BoundaryCondition) properties.fluidBoundaryCondition
-				.clone();
+		// Remove the current map of boundary conditions
+		boundaryConditions = new HashMap<String, BoundaryCondition>();
 
-		// Clone the thermal boundary condition.
-		thermalBoundaryCondition = (BoundaryCondition) properties.thermalBoundaryCondition
-				.clone();
-
-		// Clone and add each of the passive scalar boundary conditions.
-		otherBoundaryConditions.clear();
-		for (BoundaryCondition condition : properties.otherBoundaryConditions) {
-			// Clone non-null boundary conditions.
-			if (condition != null) {
-				condition = (BoundaryCondition) condition.clone();
-			}
-			otherBoundaryConditions.add(condition);
+		// For each field variable in the other properties, but a clone of that
+		// variable's boundary condition in the map
+		for (String variable : properties.boundaryConditions.keySet()) {
+			boundaryConditions.put(variable,
+					(BoundaryCondition) properties.boundaryConditions
+							.get(variable).clone());
 		}
-		/* -------------------------------------------- */
 
 		return;
 	}
@@ -355,5 +239,5 @@ public class EdgeProperties {
 		// Return the newly instantiated object.
 		return object;
 	}
-	
+
 }

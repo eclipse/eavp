@@ -37,6 +37,12 @@ import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
 @XmlRootElement(name = "BoundaryCondition")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BoundaryCondition extends VizObject {
+
+	/**
+	 * The name of the field variable associated with this boundary condition.
+	 */
+	private String name;
+
 	/**
 	 * <p>
 	 * The type of this BoundaryCondition.
@@ -65,6 +71,7 @@ public class BoundaryCondition extends VizObject {
 	public BoundaryCondition() {
 
 		// Set the default type and values.
+		name = "";
 		type = BoundaryConditionType.None;
 		values = new ArrayList<Float>();
 		for (int i = 0; i < 5; i++) { // Five default values of zero
@@ -79,6 +86,18 @@ public class BoundaryCondition extends VizObject {
 	}
 
 	/**
+	 * A constructor that allows the setting of the condition's name.
+	 * 
+	 * @param name
+	 *            The name of the field variable associated with the boundary
+	 *            condition.
+	 */
+	public BoundaryCondition(String name) {
+		this();
+		this.name = name;
+	}
+
+	/**
 	 * <p>
 	 * Constructs a BoundaryCondition with the specified BoundaryConditionType.
 	 * Every other feature of the BoundaryCondition is set to its default value.
@@ -87,16 +106,34 @@ public class BoundaryCondition extends VizObject {
 	 * @param type
 	 *            The initial BoundaryConditionType.
 	 */
-	public BoundaryCondition(BoundaryConditionType type) {
+	public BoundaryCondition(String name, BoundaryConditionType type) {
 
 		// Call the nullary constructor to initialize defaults.
-		this();
+		this(name);
 
 		// Set the type if it is valid.
 		if (type != null) {
 			this.type = type;
 		}
 		return;
+	}
+
+	/**
+	 * Getter method for the name of the field parameter associated with this
+	 * boundary condition.
+	 */
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Setter method for the name of the field parameters associated with this
+	 * boundary condition.
+	 */
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
