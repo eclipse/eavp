@@ -11,18 +11,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.paraview.connections;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -30,6 +25,7 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.paraview.web.HttpParaViewWebClient;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
+import org.eclipse.eavp.viz.service.widgets.RemoteConnectionUserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +33,6 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.jcraft.jsch.UserInfo;
 
 /**
  * Provides an {@link IVizConnection} for connecting to
@@ -105,7 +100,8 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 
 			// Check the host name to see if this is a local launch
 			InetAddress hostAddr = InetAddress.getByName(host);
-			if (hostAddr.isAnyLocalAddress() || hostAddr.isLoopbackAddress() || NetworkInterface.getByInetAddress(hostAddr) != null) {
+			if (hostAddr.isAnyLocalAddress() || hostAddr.isLoopbackAddress()
+					|| NetworkInterface.getByInetAddress(hostAddr) != null) {
 
 				// Get the system name
 				String os = System.getProperty("os.name", "generic")
@@ -218,13 +214,14 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 						}
 					}
 				}
-				
+
 				ProcessBuilder serverBuilder = new ProcessBuilder(
 						path + osPath + "/bin/pvpython",
-						getProperty("serverPath") + "/http_pvw_server.py", "--host",
-						host, "--port", port);
+						getProperty("serverPath") + "/http_pvw_server.py",
+						"--host", host, "--port", port);
 
-				// Redirect the process's error stream to its output stream so we
+				// Redirect the process's error stream to its output stream so
+				// we
 				// only have to deal with one
 				final Process process = serverBuilder.redirectErrorStream(true)
 						.start();
@@ -236,7 +233,8 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					@Override
 					public void run() {
 
-						// While the process is alive, keep reading and discarding
+						// While the process is alive, keep reading and
+						// discarding
 						// its output
 						while (process.isAlive()) {
 							try {
@@ -251,112 +249,108 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 				}).start();
 
 			}
-			
-			//Otherwise, if the host is a valid remote machine, try to launch paraview on it
+
+			// Otherwise, if the host is a remote machine, try to launch
+			// paraview on it
 			else {
 
-				 //If a username is not specified, assume that it is the same as the one used on the current machine
-			     String username = System.getProperty("user.name");
-			     
-//			        proxyInfo[0] = username;
-//			        proxyInfo[1] = host;
-//
-//			        if (host.contains("@")) {
-//			            proxyInfo = host.split("@");
-//			        }
-			        
-					String mGateway = host;
-					String mGatewayUser = "";
+				// If a username is not specified, assume that it is the same as
+				// the one used on the current machine
+				String username = System.getProperty("user.name");
 
-					if (mGateway.indexOf("@") > 0) {
-						mGatewayUser = username;
-						mGateway = host.substring(host.indexOf("@"));
-					}
+				// proxyInfo[0] = username;
+				// proxyInfo[1] = host;
+				//
+				// if (host.contains("@")) {
+				// proxyInfo = host.split("@");
+				// }
 
-					//TODO Let the user choose this port
-					int mGatewayPort = 22;
-			        
-					UserInfo ui = new UserInfo(){
+				String mGateway = host;
+				String mGatewayUser = "";
 
-						@Override
-						public String getPassphrase() {
-							// TODO Auto-generated method stub
-							return null;
-						}
+				// If the host has a @, then it is split into a username and
+				// host machine.
+				if (mGateway.indexOf("@") > 0) {
+					mGatewayUser = username;
+					mGateway = host.substring(host.indexOf("@"));
+				}
 
-						@Override
-						public String getPassword() {
-							// TODO Auto-generated method stub
-							return null;
-						}
+				// TODO Let the user choose this port
+				int mGatewayPort = 22;
 
-						@Override
-						public boolean promptPassword(String message) {
-							// TODO Auto-generated method stub
-							return false;
-						}
+				// The user info object to be set to the sessions
+				RemoteConnectionUserInfo ui = new RemoteConnectionUserInfo();
 
-						@Override
-						public boolean promptPassphrase(String message) {
-							// TODO Auto-generated method stub
-							return false;
-						}
+				// // Instantiate the info
+				// PlatformUI.getWorkbench().getDisplay().syncExec(new
+				// Runnable() {
+				//
+				// /*
+				// * (non-Javadoc)
+				// *
+				// * @see java.lang.Runnable#run()
+				// */
+				// @Override
+				// public void run() {
+				// ui = new RemoteConnectionUserInfo();
+				// }
+				//
+				// });
 
-						@Override
-						public boolean promptYesNo(String message) {
-							// TODO Auto-generated method stub
-							return false;
-						}
+				try {
 
-						@Override
-						public void showMessage(String message) {
-							// TODO Auto-generated method stub
-							
-						}
-						
-					};
-					
-			        try {
-						Session gateway = new JSch().getSession(mGatewayUser.length() == 0 ? username
-						        : mGatewayUser, mGateway);
-						
-						new JSch()
-						
-						gateway.setUserInfo(ui);
-						gateway.connect();
+					// Connect to the specified remote host
+					Session session = new JSch()
+							.getSession(mGatewayUser.length() == 0 ? username
+									: mGatewayUser, mGateway);
 
-						// forward ssh to mGatewayPort..
-						gateway.setPortForwardingL(mGatewayPort, host, 22);
-						
-						Session session;
-						
+					session.setUserInfo(ui);
+					session.connect();
 
-							// connect to localhost
-							session = new JSch().getSession(mGatewayUser, "localhost", mGatewayPort);
-							session.setUserInfo(ui);
-							session.connect();
-							session.setPortForwardingL(Integer.parseInt(port), "localhost", Integer.parseInt(port));
+					// forward ssh to mGatewayPort.
+					session.setPortForwardingL(mGatewayPort, host, 22);
 
-						
-						ChannelExec channel = (ChannelExec) session.openChannel("exec");
+					// Session session;
+					//
+					// // connect to localhost
+					// session = new JSch().getSession(mGatewayUser,
+					// "localhost",
+					// mGatewayPort);
+					// session.setUserInfo(ui);
+					// session.connect();
+					// session.setPortForwardingL(Integer.parseInt(port),
+					// "localhost", Integer.parseInt(port));
 
-						String commandString = path + "/bin/pvpython " +
-						getProperty("serverPath") + " /http_pvw_server.py " + "--host " +
-						host + " --port " + port;
-						
-						channel.setCommand(commandString);
-						channel.setInputStream(System.in, true);
+					// A channel used to execute the paraview launch command
+					ChannelExec channel = (ChannelExec) session
+							.openChannel("exec");
 
-						BufferedReader input = new BufferedReader(
-								new InputStreamReader(channel.getExtInputStream()));
+					// A shell command that will launch the server on ParaView
+					// Python using the specified host and port, with its own x
+					// display
+					String commandString = "DISPLAY=:0 " + path + "/pvpython "
+							+ getProperty("serverPath") + "/http_pvw_server.py "
+							+ "--host " + host + " --port " + port;
 
-						channel.connect();
-						
+					// Run the command
+					channel.setCommand(commandString);
+					channel.setInputStream(System.in, true);
+					channel.connect();
 
-					} catch (JSchException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					// BufferedReader input = new BufferedReader(
+					// new InputStreamReader(channel.getExtInputStream()));
+
+					// String next = input.readLine();
+					//
+					// while (next != null) {
+					// System.out.println(next);
+					// next = input.readLine();
+					// }
+
+				} catch (JSchException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} catch (IOException e) {
 
