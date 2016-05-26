@@ -37,6 +37,18 @@ public class ParaViewConnectionManager
 	 */
 	final static int VISUALIZER_PORT_INDEX = 4;
 
+	/**
+	 * The index for the name of the remote operating system in the row template
+	 * for the ParaView preference page.
+	 */
+	final static int REMOTE_OS_INDEX = 5;
+
+	/**
+	 * The index for the version number of the remote ParaView installation in
+	 * the row template for the ParaView preference page.
+	 */
+	final static int REMOTE_VERSION_NUMBER_INDEX = 6;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -59,10 +71,14 @@ public class ParaViewConnectionManager
 			// Get the additional connection properties
 			String serverPath = split[SERVER_PATH_INDEX];
 			String visualizerPort = split[VISUALIZER_PORT_INDEX];
+			String os = split[REMOTE_OS_INDEX];
+			String version = split[REMOTE_VERSION_NUMBER_INDEX];
 
 			// Set the connection's properties.
 			connection.setProperty("serverPath", serverPath);
 			connection.setProperty("visualizerPort", visualizerPort);
+			connection.setProperty("remoteOS", os);
+			connection.setProperty("remoteVersion", version);
 
 		} catch (IndexOutOfBoundsException | NullPointerException
 				| NumberFormatException e) {

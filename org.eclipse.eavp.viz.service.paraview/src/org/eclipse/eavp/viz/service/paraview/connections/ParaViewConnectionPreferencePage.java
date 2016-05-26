@@ -64,6 +64,21 @@ public class ParaViewConnectionPreferencePage
 				PortEntryContentProvider portProvider = new PortEntryContentProvider();
 				portProvider.setDefaultValue("9601");
 
+				// Create a provider for operating system names
+				IVizEntryContentProvider osProvider = new BasicVizEntryContentProvider();
+				provider.setDefaultValue("");
+				ArrayList<String> osNames = new ArrayList<String>();
+				osNames.add("");
+				osNames.add("Linux");
+				osNames.add("OSx");
+				osNames.add("Windows");
+				osProvider.setAllowedValues(osNames);
+
+				// Create a provider for arbitrary strings with the latest
+				// paraview version as the default value
+				IVizEntryContentProvider versionProvider = new BasicVizEntryContentProvider();
+				versionProvider.setDefaultValue("5.0");
+
 				// Create an entry for the path to the server script
 				VizEntry serverEntry = new VizEntry(provider);
 				serverEntry.setName("Server Script Path");
@@ -71,6 +86,14 @@ public class ParaViewConnectionPreferencePage
 				// Create an entry for the web visualizer port
 				VizEntry portEntry = new PortEntry(portProvider);
 				portEntry.setName("Visualizer Port");
+
+				// Create an entry for the remote OS
+				VizEntry osEntry = new VizEntry(osProvider);
+				osEntry.setName("Remote OS");
+
+				// Create an entry for the version number
+				VizEntry versionEntry = new VizEntry(versionProvider);
+				versionEntry.setName("Remote ParaView Version Number");
 
 				for (VizEntry entry : template) {
 					if ("Path".equals(entry.getName())) {
@@ -101,6 +124,8 @@ public class ParaViewConnectionPreferencePage
 				// Add the custom entry to the template and return it
 				template.add(serverEntry);
 				template.add(portEntry);
+				template.add(osEntry);
+				template.add(versionEntry);
 				return template;
 			}
 		};

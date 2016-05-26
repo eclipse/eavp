@@ -45,10 +45,27 @@ import com.jcraft.jsch.Session;
 public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 
 	/**
+	 * The current remote session this connection is using.
+	 */
+	private Session session = null;
+
+	/**
 	 * Logger for handling event messages and other information.
 	 */
 	private static final Logger logger = LoggerFactory
 			.getLogger(ParaViewConnection.class);
+
+	/**
+	 * Get the JSch session this connection is maintaining to the remote
+	 * ParaView host machine.
+	 * 
+	 * @return The connection's session with the remote machine, or null if
+	 *         ParaView is hosted on the local machine or there is no current
+	 *         connection.
+	 */
+	public Session getSession() {
+		return session;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -221,8 +238,7 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 						"--host", host, "--port", port);
 
 				// Redirect the process's error stream to its output stream so
-				// we
-				// only have to deal with one
+				// we only have to deal with one
 				final Process process = serverBuilder.redirectErrorStream(true)
 						.start();
 
@@ -254,24 +270,43 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 			// paraview on it
 			else {
 
+				// Get the operating system
+				String os = getProperty("remoteOS");
+
+				// The ParaView directory will have different structures on
+				// different
+				// operating systems, requiring that different places be
+				// checked in each case.
+				if ((os.indexOf("mac") >= 0) || (os.indexOf("darwin") >= 0)
+						|| os.indexOf("OSx") >= 0) {
+					osPath = "/paraview.app/Contents/bin";
+				} else if (os.indexOf("win") >= 0) {
+					// TODO Specify where pvpython is inside a Windows
+					// install
+				} else if (os.indexOf("nux") >= 0) {
+					osPath = "/bin";
+				}
+
+				// If the remote OS is not recognized, log an error
+				else {
+					addErrorMessage("Remote operating system \"" + os
+							+ "\" was not recognized. Try setting \"Linux\", \"Windows\", or \"OSx\" in the Preferences menu.");
+				}
+
 				// If a username is not specified, assume that it is the same as
 				// the one used on the current machine
 				String username = System.getProperty("user.name");
 
-				// proxyInfo[0] = username;
-				// proxyInfo[1] = host;
-				//
-				// if (host.contains("@")) {
-				// proxyInfo = host.split("@");
-				// }
-
+				// The hostname to connect to
 				String mGateway = host;
+
+				// The user, if any, specified in the hostname
 				String mGatewayUser = "";
 
 				// If the host has a @, then it is split into a username and
 				// host machine.
 				if (mGateway.indexOf("@") > 0) {
-					mGatewayUser = username;
+					mGatewayUser = host.substring(0, host.indexOf('@'));
 					mGateway = host.substring(host.indexOf("@"));
 				}
 
@@ -281,45 +316,16 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 				// The user info object to be set to the sessions
 				RemoteConnectionUserInfo ui = new RemoteConnectionUserInfo();
 
-				// // Instantiate the info
-				// PlatformUI.getWorkbench().getDisplay().syncExec(new
-				// Runnable() {
-				//
-				// /*
-				// * (non-Javadoc)
-				// *
-				// * @see java.lang.Runnable#run()
-				// */
-				// @Override
-				// public void run() {
-				// ui = new RemoteConnectionUserInfo();
-				// }
-				//
-				// });
-
 				try {
 
 					// Connect to the specified remote host
-					Session session = new JSch()
-							.getSession(mGatewayUser.length() == 0 ? username
-									: mGatewayUser, mGateway);
-
+					session = new JSch().getSession(mGatewayUser.length() == 0
+							? username : mGatewayUser, mGateway);
 					session.setUserInfo(ui);
 					session.connect();
 
 					// forward ssh to mGatewayPort.
 					session.setPortForwardingL(mGatewayPort, host, 22);
-
-					// Session session;
-					//
-					// // connect to localhost
-					// session = new JSch().getSession(mGatewayUser,
-					// "localhost",
-					// mGatewayPort);
-					// session.setUserInfo(ui);
-					// session.connect();
-					// session.setPortForwardingL(Integer.parseInt(port),
-					// "localhost", Integer.parseInt(port));
 
 					// A channel used to execute the paraview launch command
 					ChannelExec channel = (ChannelExec) session
@@ -328,28 +334,20 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					// A shell command that will launch the server on ParaView
 					// Python using the specified host and port, with its own x
 					// display
-					String commandString = "DISPLAY=:0 " + path + "/pvpython "
-							+ getProperty("serverPath") + "/http_pvw_server.py "
-							+ "--host " + host + " --port " + port;
+					String commandString = "DISPLAY=:0 " + path + osPath
+							+ "/pvpython " + getProperty("serverPath")
+							+ "/http_pvw_server.py " + "--host " + host
+							+ " --port " + port;
 
 					// Run the command
 					channel.setCommand(commandString);
 					channel.setInputStream(System.in, true);
 					channel.connect();
 
-					// BufferedReader input = new BufferedReader(
-					// new InputStreamReader(channel.getExtInputStream()));
-
-					// String next = input.readLine();
-					//
-					// while (next != null) {
-					// System.out.println(next);
-					// next = input.readLine();
-					// }
-
 				} catch (JSchException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					logger.error(
+							"A JSch exception was raised during an attempt to launch and connect to ParaView on remote host "
+									+ mGateway);
 				}
 			}
 		} catch (IOException e) {

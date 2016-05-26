@@ -14,9 +14,13 @@ package org.eclipse.eavp.viz.service.paraview;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URI;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +41,10 @@ import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
+import org.eclipse.eavp.viz.service.paraview.connections.ParaViewConnection;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
+import org.eclipse.eavp.viz.service.widgets.RemoteConnectionUserInfo;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -54,6 +60,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 
 /**
  * This class is responsible for embedding ParaView-supported graphics inside
@@ -639,9 +648,27 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 				// Get the connection parameters
 				String port = connection.getProperty("visualizerPort");
-				String urlString = "http://localhost:" + port
-						+ "/apps/Visualizer/";
+				String host = connection.getHost();
 				String path = connection.getPath();
+
+				// The username for the remote machine
+				String username = null;
+
+				// If the host contains a username, split it off from the host
+				if (host.contains("@")) {
+					String[] tokens = host.split("@");
+					username = tokens[0];
+					host = tokens[1];
+				}
+
+				// Otherwise, use the current machine's username
+				else {
+					username = System.getProperty("user.name");
+				}
+
+				// The url where the visualizer can be accessed
+				String urlString = "http://" + host + ":" + port
+						+ "/apps/Visualizer/";
 
 				// Whether or not we need to launch the visualizer before trying
 				// to open it in the browser
@@ -667,112 +694,240 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 					// yet) so there is nothing to do.
 				}
 
-				// The OS specific string that describes the path to
-				// ParaView from the base ParaView directory given the ParaView
-				// installation path.
-				String osPath = "";
+				// If we did not get a response from the server, try to launch
+				// it
+				if (launch) {
 
-				// The builder which will create a process to open the web
-				// visualizer
-				ProcessBuilder builder = null;
-
-				// Check the operating system and set the paths
-				// accordingly.
-				// TODO Add support for windows here
-				String OS = System.getProperty("os.name", "generic")
-						.toLowerCase(Locale.ENGLISH);
-
-				// Set the paths for mac
-				if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
-
-					// For Mac, go inside the application's contents
-					osPath = "/paraview.app/Contents";
-					builder = new ProcessBuilder(
-							path + osPath + "/bin/pvpython",
-							path + osPath
-									+ "/Python/paraview/web/pv_web_visualizer.py",
-							"--content", path + osPath + "/www",
-							"--data-dir", ResourcesPlugin.getWorkspace()
-									.getRoot().getLocation().toString(),
-							"--port", port);
-				}
-
-				// Otherwise, set the paths for Linux. The osPath should stay as
-				// the empty string
-				else {
-
-					// The name of the paraview version. This is expected to be
-					// of the form "paraview-" followed by a decimal version
-					// number. "paraview-5.0" for example.
-					String version = "";
-
-					// One copy of a folder with this name should be in the /lib
-					// directory.
-					File lib = new File(path + osPath + "/lib");
-
-					// Search /lib for a folder with the correct name
-					for (String name : lib.list()) {
-						if (name.matches("paraview-(.*)")) {
-							version = name;
-							break;
-						}
+					// Get the host's address
+					InetAddress hostAddr = null;
+					try {
+						hostAddr = InetAddress.getByName(host);
+					} catch (UnknownHostException e1) {
+						logger.error(
+								"ParaView Plot Editor could not identify host "
+										+ host + "\"");
 					}
 
-					builder = new ProcessBuilder(
-							path + osPath + "/bin/pvpython",
-							path + osPath + "/lib/" + version
-									+ "/site-packages/paraview/web/pv_web_visualizer.py",
-							"--content",
-							path + osPath + "/share/" + version + "/www",
-							"--data-dir", ResourcesPlugin.getWorkspace()
-									.getRoot().getLocation().toString(),
-							"--port", port);
-				}
+					try {
 
-				// The system delimiter for directories
-				String delimiter = System.getProperty("file.separator");
+						// The OS specific string that describes the path to
+						// ParaView from the base ParaView directory given
+						// the ParaView installation path.
+						String osPath = "";
 
-				// If the path ends with the delimiter, remove it
-				if (path.endsWith(delimiter)) {
-					path = path.substring(0, path.length() - 1);
-				}
+						// If it is the localhost, then launch the server
+						// locally
+						if (hostAddr.isAnyLocalAddress()
+								|| hostAddr.isLoopbackAddress()
+								|| NetworkInterface
+										.getByInetAddress(hostAddr) != null) {
 
-				// Try to create the process and start a thread to consume the
-				// processe's input
-				try {
+							// The builder which will create a process to open
+							// the web visualizer
+							ProcessBuilder builder = null;
 
-					// Redirect the process's error stream to its output
-					// stream so we only have to deal with one
-					final Process process = builder.redirectErrorStream(true)
-							.start();
+							// Check the operating system and set the paths
+							// accordingly.
+							// TODO Add support for windows here
+							String OS = System.getProperty("os.name", "generic")
+									.toLowerCase(Locale.ENGLISH);
 
-					// Create a thread to consume the process's output
-					// ourselves, or else the process will freeze once its IO
-					// buffer is
-					// full.
-					new Thread(new Runnable() {
+							// Set the paths for mac
+							if ((OS.indexOf("mac") >= 0)
+									|| (OS.indexOf("darwin") >= 0)) {
 
-						@Override
-						public void run() {
+								// For Mac, go inside the application's contents
+								osPath = "/paraview.app/Contents";
+								builder = new ProcessBuilder(
+										path + osPath + "/bin/pvpython",
+										path + osPath
+												+ "/Python/paraview/web/pv_web_visualizer.py",
+										"--content", path + osPath + "/www",
+										"--data-dir",
+										ResourcesPlugin.getWorkspace().getRoot()
+												.getLocation().toString(),
+										"--port", port);
+							}
 
-							// While the process is alive, keep reading and
-							// discarding its output
-							while (process.isAlive()) {
-								try {
-									process.getInputStream().read();
-								} catch (IOException e) {
-									logger.error("Error while handling ParaView"
-											+ "web viewer process's output "
-											+ "stream.");
+							// Otherwise, set the paths for Linux. The osPath
+							// should stay as the empty string
+							else {
+
+								// The name of the paraview version. This is
+								// expected to be of the form "paraview-"
+								// followed by a decimal version number.
+								// "paraview-5.0" for example.
+								String version = "";
+
+								// One copy of a folder with this name should be
+								// in the lib directory.
+								File lib = new File(path + osPath + "/lib");
+
+								// Search /lib for a folder with the correct
+								// name
+								for (String name : lib.list()) {
+									if (name.matches("paraview-(.*)")) {
+										version = name;
+										break;
+									}
 								}
+
+								builder = new ProcessBuilder(
+										path + osPath + "/bin/pvpython",
+										path + osPath + "/lib/" + version
+												+ "/site-packages/paraview/web/pv_web_visualizer.py",
+										"--content",
+										path + osPath + "/share/" + version
+												+ "/www",
+										"--data-dir",
+										ResourcesPlugin.getWorkspace().getRoot()
+												.getLocation().toString(),
+										"--port", port);
+							}
+
+							// The system delimiter for directories
+							String delimiter = System
+									.getProperty("file.separator");
+
+							// If the path ends with the delimiter, remove it
+							if (path.endsWith(delimiter)) {
+								path = path.substring(0, path.length() - 1);
+							}
+
+							// Try to create the process and start a thread to
+							// consume the processe's input
+							try {
+
+								// Redirect the process's error stream to its
+								// output stream so we only have to deal with
+								// one
+								final Process process = builder
+										.redirectErrorStream(true).start();
+
+								// Create a thread to consume the process's
+								// output ourselves, or else the process will
+								// freeze once its IO buffer is full.
+								new Thread(new Runnable() {
+
+									@Override
+									public void run() {
+
+										// While the process is alive, keep
+										// reading
+										// and
+										// discarding its output
+										while (process.isAlive()) {
+											try {
+												process.getInputStream().read();
+											} catch (IOException e) {
+												logger.error(
+														"Error while handling ParaView"
+																+ "web viewer process's output "
+																+ "stream.");
+											}
+										}
+									}
+								}).start();
+							} catch (IOException e) {
+								logger.error(
+										"Problem while starting the ParaView web"
+												+ " visualizer server.");
 							}
 						}
-					}).start();
-				} catch (IOException e) {
-					logger.error("Problem while starting the ParaView web"
-							+ " visualizer server.");
-				}
 
+						// If the host is not local, then try to launch the
+						// server on the remote machine
+						else {
+
+							// Get the remote os
+							String os = connection.getProperty("remoteOS");
+
+							// The command to be executed on the remote server
+							String command = null;
+
+							// Set the paths for mac
+							if ((os.indexOf("mac") >= 0)
+									|| (os.indexOf("darwin") >= 0)
+									|| os.indexOf("OSx") >= 0) {
+
+								// For Mac, go inside the application's contents
+								osPath = "/paraview.app/Contents";
+								command = path + osPath + "/bin/pvpython "
+										+ path + osPath
+										+ "/Python/paraview/web/pv_web_visualizer.py "
+										+ "--content " + path + osPath + "/www "
+										+ "--data-dir " + "/Users/" + username
+										+ " --port " + port;
+							}
+
+							// Otherwise, set the paths for Linux.
+							else {
+
+								// For Linux, look in the bin folder
+								osPath = "/bin";
+
+								// The name of the paraview version.
+								String version = "paraview-" + connection
+										.getProperty("remoteVersion");
+
+								command = path + osPath + "/pvpython " + path
+										+ "/lib/" + version
+										+ "/site-packages/paraview/web/pv_web_visualizer.py "
+										+ "--content " + path + osPath
+										+ "/share/" + version + "/www "
+										+ "--data-dir " + "/home/" + username
+										+ " --port " + port;
+							}
+
+							// The hostname to connect to
+							String mGateway = host;
+
+							// The user, if any, specified in the hostname
+							String mGatewayUser = "";
+
+							// If the host has a @, then it is split into a
+							// username and
+							// host machine.
+							if (mGateway.indexOf("@") > 0) {
+								mGatewayUser = host.substring(0,
+										host.indexOf('@'));
+								mGateway = host.substring(host.indexOf("@"));
+							}
+
+							// TODO Let the user choose this port
+							int mGatewayPort = 22;
+
+							// The user info object to be set to the sessions
+							RemoteConnectionUserInfo ui = new RemoteConnectionUserInfo();
+
+							try {
+
+								// Connect to the specified remote host
+								Session session = ((ParaViewConnection) connection)
+										.getSession();
+
+								// A channel used to execute the paraview launch
+								// command
+								ChannelExec channel = (ChannelExec) session
+										.openChannel("exec");
+
+								// Run the command
+								channel.setCommand(command);
+								channel.setInputStream(System.in, true);
+								channel.connect();
+
+							} catch (JSchException e) {
+								logger.error(
+										"A JSch exception was raised during an attempt to launch and connect to "
+												+ "the ParaView Web Visualizer on remote host "
+												+ mGateway);
+							}
+						}
+					} catch (SocketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				// A non-final reference to the opened browser
 				IWebBrowser tempBrowser = null;
 
@@ -785,9 +940,9 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 							"Error attempting to open internal web browser");
 				}
 
-				// The URL from which the visualizer is reachable
-				final String webURL = "http://localhost:" + port
-						+ "/apps/Visualizer/";
+				// A final reference to the URL from which the visualizer is
+				// reachable
+				final String webURL = urlString;
 
 				// Get a final reference to the web browser.
 				final IWebBrowser browser = tempBrowser;
