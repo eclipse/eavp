@@ -322,6 +322,8 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					session = new JSch().getSession(mGatewayUser.length() == 0
 							? username : mGatewayUser, mGateway);
 					session.setUserInfo(ui);
+					session.setConfig("PreferredAuthentications",
+							"privatekey,password,gssapi-with-mic,publickey,keyboard-interactive");
 					session.connect();
 
 					// forward ssh to mGatewayPort.
@@ -337,7 +339,7 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					String commandString = "DISPLAY=:0 " + path + osPath
 							+ "/pvpython " + getProperty("serverPath")
 							+ "/http_pvw_server.py " + "--host " + host
-							+ " --port " + port;
+							+ " --port " + port + " &";
 
 					// Run the command
 					channel.setCommand(commandString);

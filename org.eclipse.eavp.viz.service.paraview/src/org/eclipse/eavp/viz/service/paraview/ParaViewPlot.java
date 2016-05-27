@@ -44,7 +44,6 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.paraview.connections.ParaViewConnection;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
-import org.eclipse.eavp.viz.service.widgets.RemoteConnectionUserInfo;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -646,6 +645,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 			@Override
 			public void run() {
 
+				// Get the path to the folder containing the file.
+				String folder = uri.getPath();
+				folder = folder.substring(0, folder.lastIndexOf("/"));
+
 				// Get the connection parameters
 				String port = connection.getProperty("visualizerPort");
 				String host = connection.getHost();
@@ -738,6 +741,13 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 								// For Mac, go inside the application's contents
 								osPath = "/paraview.app/Contents";
+
+								// On an X display, open pvpython, run the web
+								// visualizer server, and set the folder
+								// containing the web visualizer, the directory
+								// where the files to be visualized are located,
+								// and the port number for the server to listen
+								// to
 								builder = new ProcessBuilder(
 										path + osPath + "/bin/pvpython",
 										path + osPath
@@ -772,6 +782,12 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 									}
 								}
 
+								// Create a process builder that will open
+								// pvpython, run the web visualizer server, and
+								// set the folder containing the web visualizer,
+								// the directory where the files to be
+								// visualized are located, and the port number
+								// for the server to listen to
 								builder = new ProcessBuilder(
 										path + osPath + "/bin/pvpython",
 										path + osPath + "/lib/" + version
@@ -795,7 +811,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 							}
 
 							// Try to create the process and start a thread to
-							// consume the processe's input
+							// consume the processes's input
 							try {
 
 								// Redirect the process's error stream to its
@@ -852,12 +868,19 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 								// For Mac, go inside the application's contents
 								osPath = "/paraview.app/Contents";
-								command = path + osPath + "/bin/pvpython "
-										+ path + osPath
+
+								// On an X display, open pvpython, run the web
+								// visualizer server, and set the folder
+								// containing the web visualizer, the directory
+								// where the files to be visualized are located,
+								// and the port number for the server to listen
+								// to
+								command = "DISPLAY:=0 " + path + osPath
+										+ "/bin/pvpython " + path + osPath
 										+ "/Python/paraview/web/pv_web_visualizer.py "
 										+ "--content " + path + osPath + "/www "
-										+ "--data-dir " + "/Users/" + username
-										+ " --port " + port;
+										+ "--data-dir " + folder + " --port "
+										+ port;
 							}
 
 							// Otherwise, set the paths for Linux.
@@ -870,35 +893,30 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 								String version = "paraview-" + connection
 										.getProperty("remoteVersion");
 
-								command = path + osPath + "/pvpython " + path
-										+ "/lib/" + version
+								// On an X display, open pvpython, run the web
+								// visualizer server, and set the folder
+								// containing the web visualizer, the directory
+								// where the files to be visualized are located,
+								// and the port number for the server to listen
+								// to
+								command = "DISPLAY=:0 " + path + osPath
+										+ "/pvpython " + path + "/lib/"
+										+ version
 										+ "/site-packages/paraview/web/pv_web_visualizer.py "
-										+ "--content " + path + osPath
-										+ "/share/" + version + "/www "
-										+ "--data-dir " + "/home/" + username
-										+ " --port " + port;
+										+ "--content " + path + "/share/"
+										+ version + "/www " + "--data-dir "
+										+ folder + " --port " + port;
 							}
 
 							// The hostname to connect to
 							String mGateway = host;
 
-							// The user, if any, specified in the hostname
-							String mGatewayUser = "";
-
 							// If the host has a @, then it is split into a
 							// username and
 							// host machine.
 							if (mGateway.indexOf("@") > 0) {
-								mGatewayUser = host.substring(0,
-										host.indexOf('@'));
 								mGateway = host.substring(host.indexOf("@"));
 							}
-
-							// TODO Let the user choose this port
-							int mGatewayPort = 22;
-
-							// The user info object to be set to the sessions
-							RemoteConnectionUserInfo ui = new RemoteConnectionUserInfo();
 
 							try {
 
