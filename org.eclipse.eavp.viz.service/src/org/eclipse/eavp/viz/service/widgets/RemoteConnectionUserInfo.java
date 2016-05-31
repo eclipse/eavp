@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import com.jcraft.jsch.UIKeyboardInteractive;
 import com.jcraft.jsch.UserInfo;
 
 /**
@@ -36,7 +37,8 @@ import com.jcraft.jsch.UserInfo;
  * @author Robert Smith
  *
  */
-public class RemoteConnectionUserInfo implements UserInfo {
+public class RemoteConnectionUserInfo
+		implements UIKeyboardInteractive, UserInfo {
 
 	/**
 	 * The parent shell used to prompt the user.
@@ -63,6 +65,11 @@ public class RemoteConnectionUserInfo implements UserInfo {
 	 * The default constructor.
 	 */
 	public RemoteConnectionUserInfo() {
+
+		// Initialize the data members
+		passphrase = null;
+		password = null;
+		selection = null;
 
 		// Create a new shell
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
@@ -360,6 +367,33 @@ public class RemoteConnectionUserInfo implements UserInfo {
 		// Create a message dialog with the given text
 		MessageBox messageBox = new MessageBox(parent, SWT.OK);
 		messageBox.setText(message);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jcraft.jsch.UIKeyboardInteractive#promptKeyboardInteractive(java.lang
+	 * .String, java.lang.String, java.lang.String, java.lang.String[],
+	 * boolean[])
+	 */
+	@Override
+	public String[] promptKeyboardInteractive(String destination, String name,
+			String instruction, String[] prompt, boolean[] echo) {
+
+		// Simply ignore all input and redirect to password authentication
+		promptPassword("Enter password");
+
+		// If a password was provided, return it
+		if (password != null) {
+			return new String[] { password };
+		}
+
+		// If no password was given, return an empty array
+		else {
+			return new String[] {};
+		}
+
 	}
 
 }

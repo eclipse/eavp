@@ -323,7 +323,7 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 							? username : mGatewayUser, mGateway);
 					session.setUserInfo(ui);
 					session.setConfig("PreferredAuthentications",
-							"privatekey,password,gssapi-with-mic,publickey,keyboard-interactive");
+							"privatekey,password,keyboard-interactive");
 					session.connect();
 
 					// forward ssh to mGatewayPort.
