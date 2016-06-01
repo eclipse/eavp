@@ -79,8 +79,7 @@ public abstract class ConnectionVizService<T> extends AbstractVizService {
 
 		// TODO Provide a way to specify which of the available connections should be used.
 		// Get the host from the URI.
-		//String host = uri.getHost();
-		String host = manager.getConnection(manager.getConnections().iterator().next()).getHost();
+		String host = uri.getHost();
 		
 		if (host == null) {
 			host = "localhost";
