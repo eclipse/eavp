@@ -310,9 +310,6 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					mGateway = host.substring(host.indexOf("@"));
 				}
 
-				// TODO Let the user choose this port
-				int mGatewayPort = 22;
-
 				// The user info object to be set to the sessions
 				RemoteConnectionUserInfo ui = new RemoteConnectionUserInfo();
 
@@ -325,9 +322,6 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					session.setConfig("PreferredAuthentications",
 							"privatekey,password,keyboard-interactive");
 					session.connect();
-
-					// forward ssh to mGatewayPort.
-					session.setPortForwardingL(mGatewayPort, host, 22);
 
 					// A channel used to execute the paraview launch command
 					ChannelExec channel = (ChannelExec) session
@@ -347,6 +341,8 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					channel.connect();
 
 				} catch (JSchException e) {
+					logger.error(e.getMessage());
+					e.getStackTrace();
 					logger.error(
 							"A JSch exception was raised during an attempt to launch and connect to ParaView on remote host "
 									+ mGateway);
