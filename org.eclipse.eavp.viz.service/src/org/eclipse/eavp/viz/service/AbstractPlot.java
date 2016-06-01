@@ -71,7 +71,7 @@ public abstract class AbstractPlot implements IPlot {
 	/**
 	 * The current data source.
 	 */
-	private URI uri;
+	protected URI uri;
 
 	/**
 	 * Adds the specified listener to the plot to receive updates. The same

@@ -60,7 +60,7 @@ public class ProxyPlotTester {
 	/**
 	 * The data source for the source plot.
 	 */
-	private URI uri;
+	public URI uri;
 	/**
 	 * The dependent series for the source plot.
 	 */
@@ -93,8 +93,15 @@ public class ProxyPlotTester {
 			}
 		};
 
+		//Get a final references to this
+		final ProxyPlotTester self = this;
+		
 		// Create a basic plot.
 		source = new AbstractPlot() {
+			
+			//The parent proxyplottester
+			ProxyPlotTester parent = self;
+			
 			@Override
 			public List<String> getCategories() {
 				return new ArrayList<String>(sourceSeries.keySet());
@@ -102,7 +109,7 @@ public class ProxyPlotTester {
 
 			@Override
 			public URI getDataSource() {
-				return uri;
+				return parent.uri;
 			}
 
 			@Override

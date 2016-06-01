@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +25,14 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.paraview.web.HttpParaViewWebClient;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
+import org.eclipse.eavp.viz.service.widgets.RemoteConnectionUserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 
 /**
  * Provides an {@link IVizConnection} for connecting to
@@ -41,10 +45,27 @@ import org.slf4j.LoggerFactory;
 public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 
 	/**
+	 * The current remote session this connection is using.
+	 */
+	private Session session = null;
+
+	/**
 	 * Logger for handling event messages and other information.
 	 */
 	private static final Logger logger = LoggerFactory
 			.getLogger(ParaViewConnection.class);
+
+	/**
+	 * Get the JSch session this connection is maintaining to the remote
+	 * ParaView host machine.
+	 * 
+	 * @return The connection's session with the remote machine, or null if
+	 *         ParaView is hosted on the local machine or there is no current
+	 *         connection.
+	 */
+	public Session getSession() {
+		return session;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -211,50 +232,128 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					}
 				}
 
+				ProcessBuilder serverBuilder = new ProcessBuilder(
+						path + osPath + "/bin/pvpython",
+						getProperty("serverPath") + "/http_pvw_server.py",
+						"--host", host, "--port", port);
+
+				// Redirect the process's error stream to its output stream so
+				// we only have to deal with one
+				final Process process = serverBuilder.redirectErrorStream(true)
+						.start();
+
+				// Create a thread to consume the process's output ourselves, or
+				// else the process will freeze once its IO buffer is full.
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+
+						// While the process is alive, keep reading and
+						// discarding
+						// its output
+						while (process.isAlive()) {
+							try {
+								process.getInputStream().read();
+							} catch (IOException e) {
+								logger.error(
+										"Error while handling ParaView process's "
+												+ "output stream.");
+							}
+						}
+					}
+				}).start();
+
 			}
-		} catch (UnknownHostException | SocketException e) {
+
+			// Otherwise, if the host is a remote machine, try to launch
+			// paraview on it
+			else {
+
+				// Get the operating system
+				String os = getProperty("remoteOS");
+
+				// The ParaView directory will have different structures on
+				// different
+				// operating systems, requiring that different places be
+				// checked in each case.
+				if ((os.indexOf("mac") >= 0) || (os.indexOf("darwin") >= 0)
+						|| os.indexOf("OSx") >= 0) {
+					osPath = "/paraview.app/Contents/bin";
+				} else if (os.indexOf("win") >= 0) {
+					// TODO Specify where pvpython is inside a Windows
+					// install
+				} else if (os.indexOf("nux") >= 0) {
+					osPath = "/bin";
+				}
+
+				// If the remote OS is not recognized, log an error
+				else {
+					addErrorMessage("Remote operating system \"" + os
+							+ "\" was not recognized. Try setting \"Linux\", \"Windows\", or \"OSx\" in the Preferences menu.");
+				}
+
+				// If a username is not specified, assume that it is the same as
+				// the one used on the current machine
+				String username = System.getProperty("user.name");
+
+				// The hostname to connect to
+				String mGateway = host;
+
+				// The user, if any, specified in the hostname
+				String mGatewayUser = "";
+
+				// If the host has a @, then it is split into a username and
+				// host machine.
+				if (mGateway.indexOf("@") > 0) {
+					mGatewayUser = host.substring(0, host.indexOf('@'));
+					mGateway = host.substring(host.indexOf("@"));
+				}
+
+				// The user info object to be set to the sessions
+				RemoteConnectionUserInfo ui = new RemoteConnectionUserInfo();
+
+				try {
+
+					// Connect to the specified remote host
+					session = new JSch().getSession(mGatewayUser.length() == 0
+							? username : mGatewayUser, mGateway);
+					session.setUserInfo(ui);
+					session.setConfig("PreferredAuthentications",
+							"privatekey,password,keyboard-interactive");
+					session.connect();
+
+					// A channel used to execute the paraview launch command
+					ChannelExec channel = (ChannelExec) session
+							.openChannel("exec");
+
+					// A shell command that will launch the server on ParaView
+					// Python using the specified host and port, with its own x
+					// display
+					String commandString = "DISPLAY=:0 " + path + osPath
+							+ "/pvpython " + getProperty("serverPath")
+							+ "/http_pvw_server.py " + "--host " + host
+							+ " --port " + port + " &";
+
+					// Run the command
+					channel.setCommand(commandString);
+					channel.setInputStream(System.in, true);
+					channel.connect();
+
+				} catch (JSchException e) {
+					logger.error(e.getMessage());
+					e.getStackTrace();
+					logger.error(
+							"A JSch exception was raised during an attempt to launch and connect to ParaView on remote host "
+									+ mGateway);
+				}
+			}
+		} catch (IOException e) {
 
 			// If a problem occurred while trying to resolve the host name, warn
 			// the user
 			addErrorMessage(
 					"Could not find server with host name \"" + host + "\"");
-		}
-
-		// Run the process that will launch the http server in ParaView Python
-		try {
-			ProcessBuilder serverBuilder = new ProcessBuilder(
-					path + osPath + "/bin/pvpython",
-					getProperty("serverPath") + "/http_pvw_server.py", "--host",
-					host, "--port", port);
-
-			// Redirect the process's error stream to its output stream so we
-			// only have to deal with one
-			final Process process = serverBuilder.redirectErrorStream(true)
-					.start();
-
-			// Create a thread to consume the process's output ourselves, or
-			// else the process will freeze once its IO buffer is full.
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-
-					// While the process is alive, keep reading and discarding
-					// its output
-					while (process.isAlive()) {
-						try {
-							process.getInputStream().read();
-						} catch (IOException e) {
-							logger.error(
-									"Error while handling ParaView process's "
-											+ "output stream.");
-						}
-					}
-				}
-			}).start();
-
-		} catch (IOException e1) {
-			logger.error("Failed to execute ParaView process.");
 		}
 
 		// Try to create and connect to a ParaView web client.

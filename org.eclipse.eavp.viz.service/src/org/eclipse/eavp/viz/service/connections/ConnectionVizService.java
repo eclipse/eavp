@@ -77,9 +77,10 @@ public abstract class ConnectionVizService<T> extends AbstractVizService {
 		// Check for a null URI and an unsupported extension.
 		super.createPlot(uri);
 
-		// TODO Change this to use the IP address for the lookup.
+		// TODO Provide a way to specify which of the available connections should be used.
 		// Get the host from the URI.
 		String host = uri.getHost();
+		
 		if (host == null) {
 			host = "localhost";
 		}
