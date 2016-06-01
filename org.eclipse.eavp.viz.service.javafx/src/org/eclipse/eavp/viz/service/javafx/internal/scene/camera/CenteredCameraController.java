@@ -145,11 +145,15 @@ public class CenteredCameraController extends BasicCameraController {
 					}
 
 					// If control is down, zoom
-					zoom(mouseDeltaY);
+					else {
+						zoom(mouseDeltaY);
+					}
 				}
 
 				// If shift is down, change the center
-				affine.appendTranslation(mouseDeltaX, mouseDeltaY, 0);
+				else {
+					affine.appendTranslation(mouseDeltaX, mouseDeltaY, 0);
+				}
 			}
 		}
 
