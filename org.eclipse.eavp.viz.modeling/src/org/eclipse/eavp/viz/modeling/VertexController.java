@@ -13,6 +13,9 @@ package org.eclipse.eavp.viz.modeling;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * A controller for a Vertex model part.
@@ -20,7 +23,8 @@ import org.eclipse.eavp.viz.modeling.base.IController;
  * @author Robert Smith
  *
  */
-public class VertexController extends PointController {
+public class VertexController extends PointController
+		implements ITransparentController, IWireframeController {
 
 	/**
 	 * The nullary constructor
@@ -83,5 +87,52 @@ public class VertexController extends PointController {
 		// Register as a listener to the model and view
 		model.register(this);
 		view.register(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#isWireframe()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return ((IWireframeView) view).isWireframe();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#setWireframeMode(
+	 * boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		((IWireframeView) view).setWireframeMode(on);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentController#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentController#
+	 * setTransparentMode(boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		// TODO Auto-generated method stub
+
 	}
 }

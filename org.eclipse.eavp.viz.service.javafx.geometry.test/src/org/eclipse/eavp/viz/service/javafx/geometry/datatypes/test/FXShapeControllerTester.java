@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -191,6 +191,10 @@ public class FXShapeControllerTester {
 
 		// The controller should have recursively refreshed all childrens' views
 		assertTrue(((FXTestView) child.getView()).isRefreshed());
+	}
+
+	public void checkTransparency() {
+
 	}
 
 	private class FXTestView extends FXShapeView {
