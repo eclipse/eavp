@@ -18,8 +18,11 @@ import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
@@ -58,6 +61,11 @@ public class TransformationView extends ViewPart {
 	 * 
 	 */
 	private RealSpinner[] translateSpinners = new RealSpinner[3];
+
+	/**
+	 * A combo box listing the options for how to display the shape.
+	 */
+	private Combo opacityCombo;
 
 	/**
 	 * <p>
@@ -201,6 +209,19 @@ public class TransformationView extends ViewPart {
 		// skewSpinners[i].setEnabled(false);
 		// }
 
+		// Create a label for the opacity combo
+		Label opacityLabel = new Label(realParent, SWT.NONE);
+		opacityLabel.setLayoutData(
+				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		opacityLabel.setText("Opacity:");
+
+		// Initialize the opacity combo box
+		opacityCombo = new Combo(realParent, SWT.READ_ONLY);
+		opacityCombo.setLayoutData(
+				new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		opacityCombo
+				.setItems(new String[] { "Solid", "Wireframe", "Transparent" });
+
 		// Set the initial shape
 		createListeners();
 		setShape(null);
@@ -243,6 +264,16 @@ public class TransformationView extends ViewPart {
 			transformation = new Transformation();
 		} else {
 			transformation = shape.getTransformation();
+
+			// Set the opacity combo's value based on the shape's transparency
+			// and wireframe status
+			if (shape.isTransparent()) {
+				opacityCombo.select(2);
+			} else if (shape.isWireframe()) {
+				opacityCombo.select(1);
+			} else {
+				opacityCombo.select(0);
+			}
 		}
 
 		// Set the spinner values
@@ -277,7 +308,7 @@ public class TransformationView extends ViewPart {
 		// shape parameter is null
 
 		setSpinnersEnabled(shape != null);
-
+		opacityCombo.setEnabled(shape != null);
 	}
 
 	/**
@@ -353,6 +384,42 @@ public class TransformationView extends ViewPart {
 		for (RealSpinner spinner : translateSpinners) {
 			spinner.listen(listener);
 		}
+
+		// Add a listener for the combo that will set the shape's opacity
+		opacityCombo.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				// Get the combo's contents
+				String selection = opacityCombo.getText();
+
+				// If it is opaque, set both properties to false
+				if ("Solid".equals(selection)) {
+					currentShape.setTransparentMode(false);
+					currentShape.setWireframeMode(false);
+				}
+
+				// If it is transparent, set it to transparent, leaving its
+				// wireframe value alone
+				else if ("Transparent".equals(selection)) {
+					currentShape.setTransparentMode(true);
+				}
+
+				// If it is wireframe, set transparency off but wireframe on
+				else {
+					currentShape.setTransparentMode(false);
+					currentShape.setWireframeMode(true);
+				}
+
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do
+			}
+
+		});
 	}
 
 	@Override

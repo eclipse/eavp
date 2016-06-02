@@ -368,7 +368,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 				(bounds.getMaxZ() - bounds.getMinZ()) / 2 + bounds.getMinZ());
 
 		// Set the shapes to the correct rendering mode
-		setWireFrameMode(wireframe);
+		setWireframeMode(wireframe);
 	}
 
 	/**
@@ -414,8 +414,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -425,9 +424,8 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMesh)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMesh)
 	 */
 	@Override
 	public void refresh(IMesh model) {
@@ -436,7 +434,8 @@ public class FXReactorView extends BasicView implements IWireframeView {
 		createShape((Reactor) model);
 
 		// Set the transformation
-		node.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));
+		node.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 	}
 
 	/*
@@ -446,7 +445,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	 * setWireFrameMode(boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the new state
 		wireframe = on;
@@ -489,5 +488,15 @@ public class FXReactorView extends BasicView implements IWireframeView {
 		clone.copy(this);
 
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#getWireFrameMode()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
 	}
 }

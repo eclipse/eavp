@@ -92,7 +92,7 @@ public class FXReactorViewTester {
 		}
 
 		// Set the reactor to draw in wireframe mode
-		reactor.setWireFrameMode(true);
+		reactor.setWireframeMode(true);
 
 		// Get the current list of children
 		representation = reactor.getRepresentation();
@@ -110,7 +110,7 @@ public class FXReactorViewTester {
 		}
 
 		// Set the reactor back to normal mode
-		reactor.setWireFrameMode(false);
+		reactor.setWireframeMode(false);
 
 		// Get the current list of children
 		representation = reactor.getRepresentation();

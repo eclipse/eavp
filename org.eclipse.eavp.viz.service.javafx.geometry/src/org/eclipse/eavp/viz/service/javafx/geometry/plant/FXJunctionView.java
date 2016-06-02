@@ -182,8 +182,7 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -193,9 +192,8 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMeshComponent)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
 	public void refresh(IMesh model) {
@@ -214,7 +212,7 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	 * setWireFrameMode(boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the new state
 		wireframe = on;
@@ -240,5 +238,15 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 		clone.copy(this);
 
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#getWireFrameMode()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.eavp.viz.service.geometry.reactor;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * A Junction part for the Reactor Analyzer.
@@ -57,8 +58,8 @@ public class JunctionController extends BasicController
 	 * setWireFrameMode(boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
-		((IWireframeController) view).setWireFrameMode(on);
+	public void setWireframeMode(boolean on) {
+		((IWireframeController) view).setWireframeMode(on);
 	}
 
 	/*
@@ -77,5 +78,17 @@ public class JunctionController extends BasicController
 		clone.refresh();
 
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#getWireFrameMode(
+	 * )
+	 */
+	@Override
+	public boolean isWireframe() {
+		return ((IWireframeView) view).isWireframe();
 	}
 }

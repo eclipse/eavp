@@ -157,14 +157,14 @@ public class FXJunctionViewTester {
 
 		// Set the junction to wireframe mode and check that the box is drawn
 		// correctly
-		junction.setWireFrameMode(true);
+		junction.setWireframeMode(true);
 		representation = junction.getRepresentation();
 		assertTrue(((Shape3D) representation.getData().getChildren().get(0))
 				.getDrawMode() == DrawMode.LINE);
 
 		// Turn off wireframe mode and check that the box has been returned to
 		// normal
-		junction.setWireFrameMode(false);
+		junction.setWireframeMode(false);
 		representation = junction.getRepresentation();
 		assertTrue(((Shape3D) representation.getData().getChildren().get(0))
 				.getDrawMode() == DrawMode.FILL);

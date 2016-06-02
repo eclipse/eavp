@@ -62,7 +62,7 @@ public class FXHeatExchangerControllerTester {
 		view.wasRefreshed();
 
 		// Set the view to wireframe mode
-		view.setWireFrameMode(true);
+		view.setWireframeMode(true);
 
 		// This should have signaled the controller to perform a refresh
 		assertTrue(view.wasRefreshed());
@@ -80,7 +80,7 @@ public class FXHeatExchangerControllerTester {
 		view.wasRefreshed();
 
 		// Set the child's view to wireframe mode
-		view2.setWireFrameMode(true);
+		view2.setWireframeMode(true);
 
 		// Since the wireframe message was not received from the controller's
 		// view, it should not cause the controller to refresh the view.

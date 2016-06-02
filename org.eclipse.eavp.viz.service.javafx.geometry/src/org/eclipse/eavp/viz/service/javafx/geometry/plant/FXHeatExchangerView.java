@@ -284,8 +284,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -295,9 +294,8 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMesh)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMesh)
 	 */
 	@Override
 	public void refresh(IMesh model) {
@@ -321,7 +319,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 				.getPrimaryPipe();
 
 		// Set the primary pipe to the same wireframe mode as this object
-		primaryPipeController.setWireFrameMode(wireframe);
+		primaryPipeController.setWireframeMode(wireframe);
 
 		// Recolor the primary pipe to blue and add its mesh to the node
 		primaryPipeController.setMaterial(new PhongMaterial(Color.BLUE));
@@ -341,7 +339,8 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 			wall.setDrawMode(DrawMode.LINE);
 		}
 		node.getChildren().add(wall);
-		wall.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));
+		wall.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 
 		// Get the secondary input junction
 		List<IController> secondaryInputList = model
@@ -385,12 +384,11 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
+	 * @see org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the wireframe state
 		wireframe = on;
@@ -434,6 +432,11 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 		clone.copy(this);
 
 		return clone;
+	}
+
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
 	}
 
 }

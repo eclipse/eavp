@@ -138,8 +138,8 @@ public class PipeController extends TubeController
 	 * setWireFrameMode(boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
-		((IWireframeController) view).setWireFrameMode(on);
+	public void setWireframeMode(boolean on) {
+		((IWireframeController) view).setWireframeMode(on);
 	}
 
 	/*

@@ -12,12 +12,13 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -45,7 +46,8 @@ import javafx.scene.shape.TriangleMesh;
  * @author Tony McCrary, Robert Smith
  *
  */
-public class FXShapeView extends BasicView implements IWireframeView {
+public class FXShapeView extends BasicView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * A group containing the shape which represents the part and a gizmo which
@@ -83,6 +85,12 @@ public class FXShapeView extends BasicView implements IWireframeView {
 	private boolean selected;
 
 	/**
+	 * Whether the shape is being displayed transparently. The shape will be
+	 * fully transparent (and thus invisible) if true, or visible if false.
+	 */
+	private boolean transparent;
+
+	/**
 	 * Whether the shape is displaying in wireframe mode. The shape will be a
 	 * wireframe if true, or solid if false.
 	 */
@@ -99,7 +107,8 @@ public class FXShapeView extends BasicView implements IWireframeView {
 		gizmo = new TransformGizmo(0);
 		gizmo.setVisible(false);
 		node.getChildren().add(gizmo);
-		wireframe = true;
+		wireframe = false;
+		transparent = false;
 
 	}
 
@@ -282,6 +291,13 @@ public class FXShapeView extends BasicView implements IWireframeView {
 			shape.setDrawMode(DrawMode.FILL);
 		}
 
+		// Set the correct opacity
+		if (transparent) {
+			shape.setOpacity(0d);
+		} else {
+			shape.setOpacity(100d);
+		}
+
 		// If the function didn't return, a change has occurred. Replace the old
 		// shape with the new shape in the group
 		if (prevShape != null) {
@@ -411,11 +427,38 @@ public class FXShapeView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+
+		// Save the new state
+		this.transparent = transparent;
+
+		// Set the current shape to the correct opacity
+		if (shape != null) {
+			if (transparent) {
+				shape.setOpacity(0d);
+			} else {
+				shape.setOpacity(100d);
+			}
+		}
+
+		// Notify listeners of the change
+		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
+		updateManager.notifyListeners(eventTypes);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.modeling.WireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the new state
 		wireframe = on;
@@ -434,4 +477,24 @@ public class FXShapeView extends BasicView implements IWireframeView {
 		updateManager.notifyListeners(eventTypes);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#getWireFrameMode()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#getTransparentMode()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
 }
