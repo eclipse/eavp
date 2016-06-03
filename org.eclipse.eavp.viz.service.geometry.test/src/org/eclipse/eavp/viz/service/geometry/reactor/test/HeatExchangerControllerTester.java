@@ -51,7 +51,6 @@ public class HeatExchangerControllerTester {
 		// Check that the primary pipe can be set
 		exchanger.setPrimaryPipe(primary);
 		assertTrue(primary == exchanger.getPrimaryPipe());
-
 	}
 
 	/**
