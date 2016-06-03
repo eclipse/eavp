@@ -7,9 +7,11 @@
   <foreignModel>geometry.ecore</foreignModel>
   <genPackages prefix="Geometry" disposableProviderFactory="true" ecorePackage="geometry.ecore#/">
     <genClasses ecoreClass="geometry.ecore#//Shape">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//Shape/T"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/triangles"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/center"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Shape/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Shape/view"/>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Triangle">
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Triangle/vertices"/>
@@ -31,8 +33,35 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Cylinder/height"/>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Geometry">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Geometry/shapes"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Geometry/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Geometry/nodes"/>
     </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//View">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//View/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//View/transparency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//View/wireframe"/>
+      <genOperations ecoreOperation="geometry.ecore#//View/getRepresentation"/>
+      <genOperations ecoreOperation="geometry.ecore#//View/refresh">
+        <genParameters ecoreParameter="geometry.ecore#//View/refresh/triangles"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//Tube">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/innerRadius"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/radius"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//INode">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//INode/T"/>
+      <genOperations ecoreOperation="geometry.ecore#//INode/getView"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//Operator">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//Operator/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Operator/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Operator/view"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Operator/children"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//Union"/>
+    <genClasses ecoreClass="geometry.ecore#//Intersection"/>
+    <genClasses ecoreClass="geometry.ecore#//Complement"/>
   </genPackages>
 </genmodel:GenModel>
