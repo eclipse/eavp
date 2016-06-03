@@ -77,6 +77,7 @@ public class ShapeTreeView extends ViewPart
 	private ArrayList<ShapeController> selectedShapes = new ArrayList<ShapeController>();
 
 	// The actions for manipulating shapes
+	private DropdownAction importGeometry;
 	private DropdownAction addPrimitiveShapes;
 	private DropdownAction addComplexShapes;
 	private Action duplicateShapes;
@@ -131,11 +132,18 @@ public class ShapeTreeView extends ViewPart
 
 		IActionBars actionBars = getViewSite().getActionBars();
 		IToolBarManager toolbarManager = actionBars.getToolBarManager();
+		
+		// Create the import drop down menu
+		importGeometry = new DropdownAction("Import");
 
 		// Create the add shapes menu managers
 
 		addPrimitiveShapes = new DropdownAction("Add Primitives");
 		addComplexShapes = new DropdownAction("Add Complex");
+		
+		// Add the import options
+		Action importstl = new ActionImportSTL(this);
+		importGeometry.addAction(importstl);
 
 		// Add the PrimitiveShape actions
 
@@ -179,6 +187,7 @@ public class ShapeTreeView extends ViewPart
 		deleteShape = new ActionDeleteShape(this);
 
 		// Add the top level menus to the toolbar
+		toolbarManager.add(importGeometry);
 		toolbarManager.add(addPrimitiveShapes);
 		toolbarManager.add(addComplexShapes);
 		toolbarManager.add(duplicateShapes);
