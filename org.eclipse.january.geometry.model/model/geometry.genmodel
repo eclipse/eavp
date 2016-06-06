@@ -6,10 +6,10 @@
     operationReflection="true" importOrganizing="true">
   <foreignModel>geometry.ecore</foreignModel>
   <genPackages prefix="Geometry" disposableProviderFactory="true" ecorePackage="geometry.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="geometry.ecore#//ShapeChangeEvent">
-      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEvent/NameChange"/>
-      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEvent/PropChange"/>
-      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEvent/ShapeChange"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="geometry.ecore#//ShapeChangeEventType">
+      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEventType/NameChange"/>
+      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEventType/PropChange"/>
+      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEventType/ShapeChange"/>
     </genEnums>
     <genClasses ecoreClass="geometry.ecore#//Shape">
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/triangles"/>
@@ -79,5 +79,9 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Material"/>
+    <genClasses ecoreClass="geometry.ecore#//ShapeChangeEvent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ShapeChangeEvent/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ShapeChangeEvent/value"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
