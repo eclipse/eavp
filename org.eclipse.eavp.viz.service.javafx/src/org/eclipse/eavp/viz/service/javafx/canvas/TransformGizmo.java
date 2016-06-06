@@ -81,7 +81,7 @@ public class TransformGizmo extends Group {
 			handleY.setDepthTest(DepthTest.DISABLE);
 			handleY.setMaterial(handleMaterial);
 			handleY.setTranslateX(0);
-			handleY.setTranslateY(-axisSize);
+			handleY.setTranslateY(axisSize);
 			handleY.setTranslateZ(0);
 
 			axisY = new Box(axisWidth, axisSize, axisWidth);
@@ -103,7 +103,7 @@ public class TransformGizmo extends Group {
 			axisZ.setMaterial(axisZMaterial);
 			axisZ.setTranslateX(0);
 			axisZ.setTranslateY(0);
-			axisZ.setTranslateZ(-axisSize / 2f);
+			axisZ.setTranslateZ(axisSize / 2f);
 
 			ObservableList<Node> children = getChildren();
 
