@@ -22,8 +22,10 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.eavp.viz.service.AbstractSeries;
@@ -36,6 +38,8 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import visit.java.client.FileInfo;
@@ -301,8 +305,14 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		ArrayList<Action> actions = new ArrayList<Action>();
 
 		// Get the plus icon image
-		URL inImageURL = getClass().getResource(
-				"/icons" + System.getProperty("file.separator") + "add.png");
+		String separator = System.getProperty("file.separator");
+		URL inImageURL = getClass().getResource(separator + 
+				"icons" + separator + "add.png");
+		if(inImageURL == null){
+			Bundle bundle = FrameworkUtil.getBundle(getClass());
+			Path inImagePath = new Path("/icons" + System.getProperty("file.separator") + "add.png");
+			inImageURL = FileLocator.find(bundle, inImagePath, null);
+		}
 		ImageDescriptor inDescriptor = ImageDescriptor
 				.createFromURL(inImageURL);
 
@@ -320,8 +330,13 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		actions.add(zoomIn);
 
 		// Get the minus icon image
-		URL outImageURL = getClass().getResource("/icons"
-				+ System.getProperty("file.separator") + "complement.gif");
+		URL outImageURL = getClass().getResource(separator + "icons"
+				+ separator + "complement.gif");
+		if(outImageURL == null){
+			Bundle bundle = FrameworkUtil.getBundle(getClass());
+			Path outImagePath = new Path("/icons" + System.getProperty("file.separator") + "complement.gif");
+			outImageURL = FileLocator.find(bundle, outImagePath, null);
+		}
 		ImageDescriptor outDescriptor = ImageDescriptor
 				.createFromURL(outImageURL);
 
@@ -339,8 +354,13 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		actions.add(zoomOut);
 
 		// Get the refresh icon image
-		URL resetImageURL = getClass().getResource("/icons"
-				+ System.getProperty("file.separator") + "iu_update_obj.gif");
+		URL resetImageURL = getClass().getResource(separator + "icons"
+				+ separator + "iu_update_obj.gif");
+		if(resetImageURL == null){
+			Bundle bundle = FrameworkUtil.getBundle(getClass());
+			Path resetImagePath = new Path("/icons" + System.getProperty("file.separator") + "iu_update_obj.gif");
+			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
+		}
 		ImageDescriptor resetDescriptor = ImageDescriptor
 				.createFromURL(resetImageURL);
 
