@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="geometry" nsURI="http://www.eclipse.org/" nsPrefix="january">
-  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//NamedNode">
+  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//NamedNode #//ISubjectShape">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="This class defines a shape as a collection of triangles and a center, or origin, of the space. This is also a base class for common and complex shapes. Common shapes are commonly known shapes like spheres, cubes, cylinders and others that form the basis of Constructive Solid Geometry packages. Complex shapes are common shapes that have been combined using boolean operations such as unions and intersections."/>
     </eAnnotations>
+    <eOperations name="getPropertyNames" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the names of all properties set for this shape."/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Get the value for one of the shape's properties."/>
+      </eAnnotations>
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The name of the property whose value is to be returned."/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+    <eOperations name="setProperty">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set one of the Shape's properties."/>
+      </eAnnotations>
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The name of the property whose value is being set."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The property's new value."/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="triangles" upperBound="-1"
         eType="#//Triangle" containment="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -17,6 +47,13 @@
         <details key="documentation" value="Each shape is centered on a special vertex."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedSetVisibility" value="&quot;true&quot;"/>
+        <details key="documentation" value="A string representing the type of geometry this Shape is in a human readable way. Examples include &quot;cube&quot; or &quot;sphere.&quot;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="material" eType="#//Material"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Triangle">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -143,5 +180,75 @@
         <details key="documentation" value="An optional node id to identify the node numerically."/>
       </eAnnotations>
     </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ISubjectShape" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
+    <eOperations name="register">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+      <eParameters name="observer" eType="#//IShapeObserver">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The observer which will listen to this object."/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+    <eOperations name="unregister">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Remove an IShapeObserver from the list of registered listeners, so that it will no longer receive updates from this object."/>
+      </eAnnotations>
+      <eParameters name="observer" eType="#//IShapeObserver">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The observer which will no longer listen to this object."/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IShapeObserver" abstract="true" interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An interface for objects which listen to an ISubjectShape as part of the observer pattern."/>
+    </eAnnotations>
+    <eOperations name="update">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Notify the observer that a change has taken place in one of the ISubjectShapes to which it is listening."/>
+      </eAnnotations>
+      <eParameters name="event" eType="#//ShapeChangeEvent">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The type of event which prompted the update."/>
+        </eAnnotations>
+      </eParameters>
+      <eParameters name="source" eType="#//ISubjectShape">
+        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+          <details key="documentation" value="The shape from which the update originated."/>
+        </eAnnotations>
+      </eParameters>
+    </eOperations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ShapeChangeEvent">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
+    <eLiterals name="NameChange">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="PropChange" value="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="An event fired by a change in one or more of the ISubjectShape's properties."/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="ShapeChange" value="2">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value=""/>
+      </eAnnotations>
+    </eLiterals>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Material">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value=""/>
+    </eAnnotations>
   </eClassifiers>
 </ecore:EPackage>

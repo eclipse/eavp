@@ -6,9 +6,24 @@
     operationReflection="true" importOrganizing="true">
   <foreignModel>geometry.ecore</foreignModel>
   <genPackages prefix="Geometry" disposableProviderFactory="true" ecorePackage="geometry.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="geometry.ecore#//ShapeChangeEvent">
+      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEvent/NameChange"/>
+      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEvent/PropChange"/>
+      <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEvent/ShapeChange"/>
+    </genEnums>
     <genClasses ecoreClass="geometry.ecore#//Shape">
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/triangles"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/center"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Shape/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/material"/>
+      <genOperations ecoreOperation="geometry.ecore#//Shape/getPropertyNames"/>
+      <genOperations ecoreOperation="geometry.ecore#//Shape/getProperty">
+        <genParameters ecoreParameter="geometry.ecore#//Shape/getProperty/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//Shape/setProperty">
+        <genParameters ecoreParameter="geometry.ecore#//Shape/setProperty/property"/>
+        <genParameters ecoreParameter="geometry.ecore#//Shape/setProperty/value"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Triangle">
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Triangle/vertices"/>
@@ -49,5 +64,20 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//NamedNode/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//NamedNode/id"/>
     </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//ISubjectShape">
+      <genOperations ecoreOperation="geometry.ecore#//ISubjectShape/register">
+        <genParameters ecoreParameter="geometry.ecore#//ISubjectShape/register/observer"/>
+      </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//ISubjectShape/unregister">
+        <genParameters ecoreParameter="geometry.ecore#//ISubjectShape/unregister/observer"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//IShapeObserver">
+      <genOperations ecoreOperation="geometry.ecore#//IShapeObserver/update">
+        <genParameters ecoreParameter="geometry.ecore#//IShapeObserver/update/event"/>
+        <genParameters ecoreParameter="geometry.ecore#//IShapeObserver/update/source"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//Material"/>
   </genPackages>
 </genmodel:GenModel>
