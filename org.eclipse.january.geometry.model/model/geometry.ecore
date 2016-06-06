@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="geometry" nsURI="http://www.eclipse.org/" nsPrefix="january">
-  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//INode">
+  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//NamedNode">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="This class defines a shape as a collection of triangles and a center, or origin, of the space. This is also a base class for common and complex shapes. Common shapes are commonly known shapes like spheres, cubes, cylinders and others that form the basis of Constructive Solid Geometry packages. Complex shapes are common shapes that have been combined using boolean operations such as unions and intersections."/>
     </eAnnotations>
-    <eTypeParameters name="T">
-      <eBounds eClassifier="#//View">
-        <eTypeArguments/>
-      </eBounds>
-    </eTypeParameters>
     <eStructuralFeatures xsi:type="ecore:EReference" name="triangles" upperBound="-1"
         eType="#//Triangle" containment="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -21,17 +16,6 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Each shape is centered on a special vertex."/>
       </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The name of the shape."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="view">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The view that will contain and manage the rendering engine specific data object that represent this shape."/>
-      </eAnnotations>
-      <eGenericType eTypeParameter="#//Shape/T"/>
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Triangle">
@@ -110,37 +94,8 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A Geometry is a collection of shapes that form a complex, three dimensional object."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The name of the geometry."/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
-        eType="#//INode" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="View">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A View is responsible for managing the graphical representation of a shape, using the rendering engine's native data types."/>
-    </eAnnotations>
-    <eTypeParameters name="T">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The rendering engine specific object which represents the view's geometry. "/>
-      </eAnnotations>
-    </eTypeParameters>
-    <eOperations name="getRepresentation">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details value="Get the representation of this view's associated shape, as modeled by the native data type T of the view's rendering engine."/>
-      </eAnnotations>
-      <eGenericType eTypeParameter="#//View/T"/>
-    </eOperations>
-    <eOperations name="refresh">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Create a new representation of the shape based on its current geometry."/>
-      </eAnnotations>
-      <eParameters name="triangles" upperBound="-1" eType="#//Triangle"/>
-    </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="transparency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wireframe" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        eType="#//NamedNode" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Tube" eSuperTypes="#//Shape">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -167,38 +122,26 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="INode" abstract="true" interface="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="An INode represents a single node in a constructive solid geometry (CSG) tree."/>
+      <details key="documentation" value="An INode represents a single node in a geometry tree."/>
     </eAnnotations>
-    <eTypeParameters name="T">
-      <eBounds eClassifier="#//View">
-        <eTypeArguments/>
-      </eBounds>
-    </eTypeParameters>
-    <eOperations name="getView">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Get the View which represents this node. This class will contain the rendering engine specific data object which can be used to visualize this node."/>
-      </eAnnotations>
-      <eGenericType eTypeParameter="#//INode/T"/>
-    </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Operator" eSuperTypes="#//INode">
-    <eTypeParameters name="T">
-      <eBounds eClassifier="#//View">
-        <eTypeArguments/>
-      </eBounds>
-    </eTypeParameters>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="view">
-      <eGenericType eTypeParameter="#//Operator/T"/>
-    </eStructuralFeatures>
+  <eClassifiers xsi:type="ecore:EClass" name="Operator" eSuperTypes="#//NamedNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
-        containment="true">
-      <eGenericType eClassifier="#//INode">
-        <eTypeArguments/>
-      </eGenericType>
-    </eStructuralFeatures>
+        eType="#//NamedNode" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Union" eSuperTypes="#//Operator"/>
   <eClassifiers xsi:type="ecore:EClass" name="Intersection" eSuperTypes="#//Operator"/>
   <eClassifiers xsi:type="ecore:EClass" name="Complement" eSuperTypes="#//Operator"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedNode" eSuperTypes="#//INode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The name of the node."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="An optional node id to identify the node numerically."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
 </ecore:EPackage>
