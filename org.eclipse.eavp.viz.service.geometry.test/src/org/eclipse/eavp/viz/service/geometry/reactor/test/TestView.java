@@ -15,25 +15,28 @@ import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
- * An IView that keeps track of its transparency and wireframe status, for use in testing the ITransparencyControllers and IWireframeControllers.
+ * An IView that keeps track of its transparency and wireframe status, for use
+ * in testing the ITransparencyControllers and IWireframeControllers.
  * 
  * @author Robert Smith
  *
  */
-public class TestView extends BasicView implements ITransparentView, IWireframeView{
+public class TestView extends BasicView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * Whether the view is currently transparent.
 	 */
 	boolean transparent = false;
-	
+
 	/**
 	 * Whether the view is currently a wireframe
 	 */
 	boolean wireframe = false;
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#isWireframe()
 	 */
 	@Override
@@ -43,25 +46,37 @@ public class TestView extends BasicView implements ITransparentView, IWireframeV
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#setWireframeMode(boolean)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#setWireframeMode(
+	 * boolean)
 	 */
 	@Override
 	public void setWireframeMode(boolean on) {
-		// TODO Auto-generated method stub
-		
+		wireframe = on;
+
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentView#isTransparent()
+	 */
 	@Override
 	public boolean isTransparent() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
 	@Override
 	public void setTransparentMode(boolean transparent) {
-		// TODO Auto-generated method stub
-		
+		this.transparent = transparent;
+
 	}
 
-	
 }

@@ -15,6 +15,7 @@ import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * A Pipe part for the Reactor Analyzer.
@@ -139,7 +140,7 @@ public class PipeController extends TubeController
 	 */
 	@Override
 	public void setWireframeMode(boolean on) {
-		((IWireframeController) view).setWireframeMode(on);
+		((IWireframeView) view).setWireframeMode(on);
 	}
 
 	/*
@@ -162,8 +163,8 @@ public class PipeController extends TubeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org.
-	 * eclipse. ice.viz.service.modeling.AbstractController)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org. eclipse.
+	 * ice.viz.service.modeling.AbstractController)
 	 */
 	@Override
 	public void copy(IController source) {

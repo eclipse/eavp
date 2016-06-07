@@ -12,6 +12,8 @@ package org.eclipse.eavp.viz.service.geometry.reactor;
 
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
@@ -22,7 +24,7 @@ import org.eclipse.eavp.viz.modeling.base.IWireframeView;
  *
  */
 public class JunctionController extends BasicController
-		implements IWireframeController {
+		implements ITransparentController, IWireframeController {
 
 	/**
 	 * The nullary constructor
@@ -59,7 +61,7 @@ public class JunctionController extends BasicController
 	 */
 	@Override
 	public void setWireframeMode(boolean on) {
-		((IWireframeController) view).setWireframeMode(on);
+		((IWireframeView) view).setWireframeMode(on);
 	}
 
 	/*
@@ -90,5 +92,27 @@ public class JunctionController extends BasicController
 	@Override
 	public boolean isWireframe() {
 		return ((IWireframeView) view).isWireframe();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentController#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return ((ITransparentView) view).isTransparent();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentController#
+	 * setTransparentMode(boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		((ITransparentView) view).setTransparentMode(transparent);
 	}
 }

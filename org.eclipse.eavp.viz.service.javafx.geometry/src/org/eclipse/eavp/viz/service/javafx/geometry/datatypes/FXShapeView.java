@@ -88,13 +88,13 @@ public class FXShapeView extends BasicView
 	 * Whether the shape is being displayed transparently. The shape will be
 	 * fully transparent (and thus invisible) if true, or visible if false.
 	 */
-	private boolean transparent;
+	protected boolean transparent;
 
 	/**
 	 * Whether the shape is displaying in wireframe mode. The shape will be a
 	 * wireframe if true, or solid if false.
 	 */
-	private boolean wireframe;
+	protected boolean wireframe;
 
 	/**
 	 * The nullary constructor.

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -35,7 +36,8 @@ import javafx.scene.shape.DrawMode;
  * @author Robert Smith
  *
  */
-public class FXJunctionView extends JunctionView implements IWireframeView {
+public class FXJunctionView extends JunctionView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * The box which represents the Junction part
@@ -59,6 +61,12 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	private boolean wireframe;
 
 	/**
+	 * Whether or not to display the junction visibly. It will be invisible if
+	 * true or visible if false.
+	 */
+	private boolean transparent;
+
+	/**
 	 * The nullary constructor.
 	 */
 	public FXJunctionView() {
@@ -67,6 +75,7 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 		// Initialize the date members
 		node = new Group();
 		material = new PhongMaterial(Color.GRAY);
+		transparent = false;
 		wireframe = false;
 	}
 
@@ -84,6 +93,7 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 		node = new Group();
 		node.setId(model.getProperty(MeshProperty.NAME));
 		material = new PhongMaterial(Color.GRAY);
+		transparent = false;
 		wireframe = false;
 
 		// Initialize the mesh
@@ -177,6 +187,13 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 		} else {
 			box.setDrawMode(DrawMode.FILL);
 		}
+
+		// Set the box to the correct transparency mode
+		if (transparent) {
+			box.setOpacity(0d);
+		} else {
+			box.setOpacity(100d);
+		}
 	}
 
 	/*
@@ -248,5 +265,38 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	@Override
 	public boolean isWireframe() {
 		return wireframe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentView#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+
+		// Save the transparency state
+		this.transparent = transparent;
+
+		// If the box exists, set it to the correct opacity
+		if (box != null) {
+			if (transparent) {
+				box.setOpacity(0d);
+			} else {
+				box.setOpacity(100d);
+			}
+		}
 	}
 }

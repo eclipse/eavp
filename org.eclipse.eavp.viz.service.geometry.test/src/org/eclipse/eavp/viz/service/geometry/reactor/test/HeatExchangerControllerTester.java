@@ -36,7 +36,7 @@ public class HeatExchangerControllerTester {
 
 		// Create a heat exchanger and some pipes
 		HeatExchangerController exchanger = new HeatExchangerController(
-				new HeatExchanger(), new BasicView());
+				new HeatExchanger(), new TestView());
 
 		// Create pipes for the exchanger
 		PipeController primary = new PipeController(new Pipe(),
@@ -61,7 +61,7 @@ public class HeatExchangerControllerTester {
 
 		// Create a face
 		HeatExchangerController exchanger = new HeatExchangerController(
-				new HeatExchanger(), new BasicView());
+				new HeatExchanger(), new TestView());
 		exchanger.setProperty(MeshProperty.INNER_RADIUS, "Property");
 
 		// Clone it and check that they are identical
@@ -69,4 +69,6 @@ public class HeatExchangerControllerTester {
 				.clone();
 		assertTrue(exchanger.equals(clone));
 	}
+	
+	
 }

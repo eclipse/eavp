@@ -16,6 +16,7 @@ import java.util.Collections;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
@@ -39,7 +40,8 @@ import javafx.scene.transform.Rotate;
  * @author Robert Smith
  *
  */
-public class FXReactorView extends BasicView implements IWireframeView {
+public class FXReactorView extends BasicView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * The JavaFX node containing the reactor's mesh
@@ -77,6 +79,12 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	 * wireframe if true, or solid if false.
 	 */
 	private boolean wireframe;
+
+	/**
+	 * Whether or not the reactor will be displayed. If true, the reactor will
+	 * be invisible, otherwise it will be visible.
+	 */
+	private boolean transparent;
 
 	/**
 	 * The nullary constructor.
@@ -369,6 +377,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 
 		// Set the shapes to the correct rendering mode
 		setWireframeMode(wireframe);
+		setTransparentMode(transparent);
 	}
 
 	/**
@@ -498,5 +507,53 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	@Override
 	public boolean isWireframe() {
 		return wireframe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentView#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+
+		// Save the new state
+		this.transparent = transparent;
+
+		// Set each of the reactor's parts to line mode
+		if (transparent) {
+
+			// If side1 exists, the other objects should too
+			if (side1 != null) {
+				side1.setOpacity(0d);
+				side2.setOpacity(0d);
+				lowerArch.setOpacity(0d);
+				upperArch.setOpacity(0d);
+			}
+		}
+
+		// Set each of the reactor's parts to fill mode
+		else {
+
+			// If side1 exists, the other objects should too
+			if (side1 != null) {
+				side1.setOpacity(100d);
+				side2.setOpacity(100d);
+				lowerArch.setOpacity(100d);
+				upperArch.setOpacity(100d);
+			}
+		}
 	}
 }
