@@ -16,7 +16,15 @@ package org.eclipse.eavp.viz.modeling.base;
  * @author Robert Smith
  *
  */
-public interface IWireframeView {
+public interface IWireframeView extends IView {
+
+	/**
+	 * Method to check whether or not the controller is currently in wireframe
+	 * mode.
+	 * 
+	 * @return True if the part is displayed as a wireframe. False otherwise.
+	 */
+	public boolean isWireframe();
 
 	/**
 	 * Set the view to display in either wireframe or filled mode
@@ -25,5 +33,5 @@ public interface IWireframeView {
 	 *            If true, sets the view to display its mesh in wireframe mode.
 	 *            If false, sets the view to display its mesh normally.
 	 */
-	public void setWireFrameMode(boolean on);
+	public void setWireframeMode(boolean on);
 }

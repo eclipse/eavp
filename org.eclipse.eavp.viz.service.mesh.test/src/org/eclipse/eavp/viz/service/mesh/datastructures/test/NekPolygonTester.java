@@ -22,19 +22,20 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.modeling.EdgeController;
 import org.eclipse.eavp.viz.modeling.Edge;
+import org.eclipse.eavp.viz.modeling.EdgeController;
 import org.eclipse.eavp.viz.modeling.Face;
-import org.eclipse.eavp.viz.modeling.VertexController;
 import org.eclipse.eavp.viz.modeling.Vertex;
+import org.eclipse.eavp.viz.modeling.VertexController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
+import org.eclipse.eavp.viz.service.geometry.reactor.test.TestView;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryCondition;
 import org.eclipse.eavp.viz.service.mesh.datastructures.BoundaryConditionType;
-import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygon;
+import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
 import org.eclipse.eavp.viz.service.mesh.datastructures.PolygonProperties;
 import org.junit.Test;
 
@@ -67,12 +68,12 @@ public class NekPolygonTester {
 
 		// For our test, we'll just make a triangle with one point at the origin
 		// and the other two on the x and z axes at a distance of 5.
-		vertices.add(new VertexController(new Vertex(0f, 0f, 0f),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(5f, 0f, 0f),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(0f, 0f, 5f),
-				new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0f, 0f, 0f), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(5f, 0f, 0f), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0f, 0f, 5f), new BasicView()));
 
 		// Set the IDs for the vertices.
 		for (int i = 0; i < vertices.size(); i++) {
@@ -190,12 +191,12 @@ public class NekPolygonTester {
 
 		// For our test, we'll just make a triangle with one point at the origin
 		// and the other two on the x and z axes at a distance of 5.
-		vertices.add(new VertexController(new Vertex(0d, 0d, 0d),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(5d, 0d, 5d),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(0d, 0d, 5d),
-				new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0d, 0d, 0d), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(5d, 0d, 5d), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0d, 0d, 5d), new BasicView()));
 
 		// Set the IDs for the vertices.
 		for (int i = 0; i < vertices.size(); i++) {
@@ -376,6 +377,144 @@ public class NekPolygonTester {
 	}
 
 	/**
+	 * Check that the NekPolygon will set its edges and vertices to the correct
+	 * transparency levels.
+	 */
+	public void checkTransparency() {
+
+		// Create a polygon for testing
+		NekPolygonController polygon = new NekPolygonController(
+				new NekPolygon(), new BasicView());
+
+		// Create some vertices and edges.
+		VertexController v1 = new VertexController(new Vertex(),
+				new TestView());
+		VertexController v2 = new VertexController(new Vertex(),
+				new TestView());
+		VertexController v3 = new VertexController(new Vertex(),
+				new TestView());
+		EdgeController e1 = new EdgeController(new Edge(), new TestView());
+		EdgeController e2 = new EdgeController(new Edge(), new TestView());
+		EdgeController e3 = new EdgeController(new Edge(), new TestView());
+
+		// Add the parts to the polygon
+		polygon.addEntityToCategory(v1, MeshCategory.VERTICES);
+		polygon.addEntityToCategory(e1, MeshCategory.EDGES);
+		polygon.addEntityToCategory(v2, MeshCategory.VERTICES);
+		polygon.addEntityToCategory(e2, MeshCategory.EDGES);
+		polygon.addEntityToCategory(v3, MeshCategory.VERTICES);
+		polygon.addEntityToCategory(e3, MeshCategory.EDGES);
+
+		// Add a child entity to the polygon
+		NekPolygonController child = new NekPolygonController(new NekPolygon(),
+				new BasicView());
+		polygon.addEntity(child);
+
+		// Set the polygon to transparent
+		polygon.setTransparentMode(true);
+
+		// Check that the polygon and all of its vertices and edges are now
+		// transparent
+		assertTrue(polygon.isTransparent());
+		assertTrue(v1.isTransparent());
+		assertTrue(v2.isTransparent());
+		assertTrue(v3.isTransparent());
+		assertTrue(e1.isTransparent());
+		assertTrue(e2.isTransparent());
+		assertTrue(e3.isTransparent());
+
+		// The child is neither a vertex nor an edge, so it should not be
+		// transparent
+		assertFalse(child.isTransparent());
+
+		// Reset the polygon to make it visible
+		polygon.setTransparentMode(false);
+
+		// Check that the polygon and all of its vertices and edges are now
+		// opaque
+		assertFalse(polygon.isTransparent());
+		assertFalse(v1.isTransparent());
+		assertFalse(v2.isTransparent());
+		assertFalse(v3.isTransparent());
+		assertFalse(e1.isTransparent());
+		assertFalse(e2.isTransparent());
+		assertFalse(e3.isTransparent());
+
+		// The child is neither a vertex nor an edge, so it should not be
+		// transparent
+		assertFalse(child.isTransparent());
+	}
+
+	/**
+	 * Check that the NekPolygon will set its edges and vertices to the
+	 * wireframe draw mode.
+	 */
+	public void checkWireframe() {
+
+		// Create a polygon for testing
+		NekPolygonController polygon = new NekPolygonController(
+				new NekPolygon(), new BasicView());
+
+		// Create some vertices and edges.
+		VertexController v1 = new VertexController(new Vertex(),
+				new TestView());
+		VertexController v2 = new VertexController(new Vertex(),
+				new TestView());
+		VertexController v3 = new VertexController(new Vertex(),
+				new TestView());
+		EdgeController e1 = new EdgeController(new Edge(), new TestView());
+		EdgeController e2 = new EdgeController(new Edge(), new TestView());
+		EdgeController e3 = new EdgeController(new Edge(), new TestView());
+
+		// Add the parts to the polygon
+		polygon.addEntityToCategory(v1, MeshCategory.VERTICES);
+		polygon.addEntityToCategory(e1, MeshCategory.EDGES);
+		polygon.addEntityToCategory(v2, MeshCategory.VERTICES);
+		polygon.addEntityToCategory(e2, MeshCategory.EDGES);
+		polygon.addEntityToCategory(v3, MeshCategory.VERTICES);
+		polygon.addEntityToCategory(e3, MeshCategory.EDGES);
+
+		// Add a child entity to the polygon
+		NekPolygonController child = new NekPolygonController(new NekPolygon(),
+				new BasicView());
+		polygon.addEntity(child);
+
+		// Set the polygon to transparent
+		polygon.setWireframeMode(true);
+
+		// Check that the polygon and all of its vertices and edges are now
+		// transparent
+		assertTrue(polygon.isWireframe());
+		assertTrue(v1.isWireframe());
+		assertTrue(v2.isWireframe());
+		assertTrue(v3.isWireframe());
+		assertTrue(e1.isWireframe());
+		assertTrue(e2.isWireframe());
+		assertTrue(e3.isWireframe());
+
+		// The child is neither a vertex nor an edge, so it should not be
+		// transparent
+		assertFalse(child.isWireframe());
+
+		// Reset the polygon to make it visible
+		polygon.setWireframeMode(false);
+
+		// Check that the polygon and all of its vertices and edges are now
+		// opaque
+		assertFalse(polygon.isWireframe());
+		assertFalse(v1.isWireframe());
+		assertFalse(v2.isWireframe());
+		assertFalse(v3.isWireframe());
+		assertFalse(e1.isWireframe());
+		assertFalse(e2.isWireframe());
+		assertFalse(e3.isWireframe());
+
+		// The child is neither a vertex nor an edge, so it should not be
+		// transparent
+		assertFalse(child.isWireframe());
+	}
+
+	/**
 	 * <p>
 	 * This operation ensures that notifications are sent out to listeners if
 	 * the polygon's properties have been changed.
@@ -403,12 +542,12 @@ public class NekPolygonTester {
 
 		// For our test, we'll just make a triangle with one point at the origin
 		// and the other two on the x and z axes at a distance of 5.
-		vertices.add(new VertexController(new Vertex(0d, 0d, 0d),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(5d, 0d, 0d),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(0d, 0d, 5d),
-				new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0d, 0d, 0d), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(5d, 0d, 0d), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0d, 0d, 5d), new BasicView()));
 
 		// Set the IDs for the vertices.
 		for (int i = 0; i < vertices.size(); i++) {
@@ -577,12 +716,12 @@ public class NekPolygonTester {
 
 		// For our test, we'll just make a triangle with one point at the origin
 		// and the other two on the x and z axes at a distance of 5.
-		vertices.add(new VertexController(new Vertex(0f, 0f, 0f),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(5f, 0f, 0f),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(0f, 0f, 5f),
-				new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0f, 0f, 0f), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(5f, 0f, 0f), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0f, 0f, 5f), new BasicView()));
 
 		// Set the IDs for the vertices.
 		for (int i = 0; i < vertices.size(); i++) {
@@ -612,8 +751,8 @@ public class NekPolygonTester {
 		for (VertexController v : vertices) {
 			object.addEntityToCategory(v, MeshCategory.VERTICES);
 		}
-		NekPolygonController equalObject = new NekPolygonController(
-				new Face(), new BasicView());
+		NekPolygonController equalObject = new NekPolygonController(new Face(),
+				new BasicView());
 		for (EdgeController e : edges) {
 			equalObject.addEntityToCategory(e, MeshCategory.EDGES);
 		}
@@ -622,8 +761,8 @@ public class NekPolygonTester {
 		}
 
 		// Change one of the vertices.
-		vertices.set(2, new VertexController(new Vertex(0d, 0d, 6d),
-				new BasicView()));
+		vertices.set(2,
+				new VertexController(new Vertex(0d, 0d, 6d), new BasicView()));
 		vertices.get(2).setProperty(MeshProperty.ID, "3");
 		// Update the corresponding edges.
 		for (int i = 0; i < size; i++) {
@@ -704,12 +843,12 @@ public class NekPolygonTester {
 
 		// For our test, we'll just make a triangle with one point at the origin
 		// and the other two on the x and z axes at a distance of 5.
-		vertices.add(new VertexController(new Vertex(0f, 0f, 0f),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(5f, 0f, 0f),
-				new BasicView()));
-		vertices.add(new VertexController(new Vertex(0f, 0f, 5f),
-				new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0f, 0f, 0f), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(5f, 0f, 0f), new BasicView()));
+		vertices.add(
+				new VertexController(new Vertex(0f, 0f, 5f), new BasicView()));
 
 		// Set the IDs for the vertices.
 		for (int i = 0; i < vertices.size(); i++) {
@@ -731,22 +870,22 @@ public class NekPolygonTester {
 		}
 
 		// Create a Polygon to test.
-		NekPolygonController object = new NekPolygonController(
-				new NekPolygon(), new BasicView());
+		NekPolygonController object = new NekPolygonController(new NekPolygon(),
+				new BasicView());
 		for (EdgeController e : edges) {
 			object.addEntityToCategory(e, MeshCategory.EDGES);
 		}
 
-		NekPolygonController copy = new NekPolygonController(
-				new NekPolygon(), new BasicView());
+		NekPolygonController copy = new NekPolygonController(new NekPolygon(),
+				new BasicView());
 		for (EdgeController e : edges) {
 			EdgeController temp = (EdgeController) e.clone();
 			temp.setProperty(MeshProperty.ID, "2");
 			copy.addEntity(temp);
 		}
 
-		NekPolygonController clone = new NekPolygonController(
-				new NekPolygon(), new BasicView());
+		NekPolygonController clone = new NekPolygonController(new NekPolygon(),
+				new BasicView());
 		for (EdgeController e : edges) {
 			EdgeController temp = (EdgeController) e.clone();
 			temp.setProperty(MeshProperty.ID, "3");

@@ -13,6 +13,10 @@ package org.eclipse.eavp.viz.modeling;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * A controller for a Point model part.
@@ -20,7 +24,8 @@ import org.eclipse.eavp.viz.modeling.base.IController;
  * @author Robert Smith
  *
  */
-public class PointController extends BasicController {
+public class PointController extends BasicController
+		implements ITransparentController, IWireframeController {
 
 	/**
 	 * The nullary constructor.
@@ -134,8 +139,8 @@ public class PointController extends BasicController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org.
-	 * eclipse. ice.viz.service.modeling.AbstractController)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org. eclipse.
+	 * ice.viz.service.modeling.AbstractController)
 	 */
 	@Override
 	public void copy(IController otherObject) {
@@ -158,5 +163,50 @@ public class PointController extends BasicController {
 		// Register as a listener to the model and view
 		model.register(this);
 		view.register(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#isWireframe()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return ((IWireframeView) view).isWireframe();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#setWireframeMode(
+	 * boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		((IWireframeView) view).setWireframeMode(on);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentController#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return ((ITransparentView) view).isTransparent();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentController#
+	 * setTransparentMode(boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		((ITransparentView) view).setTransparentMode(transparent);
 	}
 }

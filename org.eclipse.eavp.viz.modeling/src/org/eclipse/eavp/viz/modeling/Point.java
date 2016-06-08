@@ -10,16 +10,12 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.modeling;
 
-import java.util.HashMap;
 import java.util.Set;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
-import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 
 /**
@@ -49,7 +45,7 @@ public class Point extends BasicMesh {
 	public Point(double x, double y, double z) {
 		super();
 
-		//Set the point's location
+		// Set the point's location
 		transformation.setTranslation(x, y, z);
 	}
 
@@ -69,10 +65,16 @@ public class Point extends BasicMesh {
 	 *            The point's new x coordinate
 	 */
 	public void setX(double x) {
-		transformation.setTranslation(x, getY(), getZ());
 
-		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
-		updateManager.notifyListeners(eventTypes);
+		// Only make the change if the values are not equal
+		if (x != getX()) {
+
+			transformation.setTranslation(x, getY(), getZ());
+
+			// Fire an update
+			SubscriptionType[] eventTypes = { SubscriptionType.TRANSFORMATION };
+			updateManager.notifyListeners(eventTypes);
+		}
 	}
 
 	/**
@@ -91,10 +93,15 @@ public class Point extends BasicMesh {
 	 *            The new y coordinate
 	 */
 	public void setY(double y) {
-		transformation.setTranslation(getX(), y, getZ());
 
-		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
-		updateManager.notifyListeners(eventTypes);
+		// Only make a change if the value is new
+		if (y != getY()) {
+			transformation.setTranslation(getX(), y, getZ());
+
+			// Fire an update
+			SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
+			updateManager.notifyListeners(eventTypes);
+		}
 	}
 
 	/**
@@ -113,10 +120,14 @@ public class Point extends BasicMesh {
 	 *            The new z coordinate
 	 */
 	public void setZ(double z) {
-		transformation.setTranslation(getX(), getY(), z);;
 
-		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
-		updateManager.notifyListeners(eventTypes);
+		// Only make a change if the value is new
+		if (z != getZ()) {
+			transformation.setTranslation(getX(), getY(), z);
+
+			SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
+			updateManager.notifyListeners(eventTypes);
+		}
 	}
 
 	/**
@@ -161,8 +172,7 @@ public class Point extends BasicMesh {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractMeshComponent#equals(java.
+	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#equals(java.
 	 * lang.Object)
 	 */
 	@Override
@@ -185,9 +195,9 @@ public class Point extends BasicMesh {
 				|| !getPropertyMap().equals(castObject.getPropertyMap())) {
 			return false;
 		}
-		
-		//If the transformations are not equal, the points are not equal
-		if(!transformation.equals(castObject.getTransformation())){
+
+		// If the transformations are not equal, the points are not equal
+		if (!transformation.equals(castObject.getTransformation())) {
 			return false;
 		}
 
@@ -239,7 +249,7 @@ public class Point extends BasicMesh {
 		}
 		hash += 31 * getPropertyMap().hashCode();
 		hash += 31 * transformation.hashCode();
-		
+
 		return hash;
 	}
 }
