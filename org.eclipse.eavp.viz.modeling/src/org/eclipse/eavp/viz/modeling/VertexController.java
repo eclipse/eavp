@@ -14,6 +14,7 @@ import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
@@ -120,8 +121,7 @@ public class VertexController extends PointController
 	 */
 	@Override
 	public boolean isTransparent() {
-		// TODO Auto-generated method stub
-		return false;
+		return ((ITransparentView) view).isTransparent();
 	}
 
 	/*
@@ -132,7 +132,6 @@ public class VertexController extends PointController
 	 */
 	@Override
 	public void setTransparentMode(boolean transparent) {
-		// TODO Auto-generated method stub
-
+		((ITransparentView) view).setTransparentMode(transparent);
 	}
 }
