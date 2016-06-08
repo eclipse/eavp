@@ -2,23 +2,40 @@
  */
 package geometry.impl;
 
+import geometry.ASCIISTLGeometryImporter;
+import geometry.Complement;
 import geometry.Cube;
 import geometry.Cylinder;
 import geometry.Geometry;
 import geometry.GeometryFactory;
 import geometry.GeometryPackage;
+import geometry.IGeometryImporter;
+import geometry.INode;
+import geometry.IShapeObserver;
+import geometry.ISubjectShape;
+import geometry.Intersection;
+import geometry.Material;
+import geometry.NamedNode;
+import geometry.Operator;
 import geometry.Shape;
+import geometry.ShapeChangeEvent;
+import geometry.ShapeChangeEventType;
 import geometry.Sphere;
 import geometry.Triangle;
+import geometry.Tube;
+import geometry.Union;
 import geometry.Vertex;
 
+import java.nio.file.Path;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -77,6 +94,111 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	private EClass geometryEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass tubeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operatorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass unionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass intersectionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass complementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass namedNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iSubjectShapeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iShapeObserverEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass materialEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass shapeChangeEventEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iGeometryImporterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass asciistlGeometryImporterEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum shapeChangeEventTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType pathEDataType = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -121,9 +243,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		GeometryPackageImpl theGeometryPackage = (GeometryPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof GeometryPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new GeometryPackageImpl());
 
 		isInited = true;
-
-		// Initialize simple dependencies
-		XMLTypePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theGeometryPackage.createPackageContents();
@@ -172,8 +291,44 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getShape_Name() {
+	public EAttribute getShape_Type() {
 		return (EAttribute)shapeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getShape_Material() {
+		return (EReference)shapeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getShape__GetPropertyNames() {
+		return shapeEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getShape__GetProperty__String() {
+		return shapeEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getShape__SetProperty__String_double() {
+		return shapeEClass.getEOperations().get(2);
 	}
 
 	/**
@@ -191,7 +346,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * @generated
 	 */
 	public EReference getTriangle_Vertices() {
-		return (EReference)triangleEClass.getEStructuralFeatures().get(0);
+		return (EReference)triangleEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -199,8 +354,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTriangle_Normal() {
-		return (EAttribute)triangleEClass.getEStructuralFeatures().get(1);
+	public EReference getTriangle_Normal() {
+		return (EReference)triangleEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -316,7 +471,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getGeometry_Shapes() {
+	public EReference getGeometry_Nodes() {
 		return (EReference)geometryEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -325,8 +480,260 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGeometry_Name() {
-		return (EAttribute)geometryEClass.getEStructuralFeatures().get(1);
+	public EClass getTube() {
+		return tubeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTube_Height() {
+		return (EAttribute)tubeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTube_InnerRadius() {
+		return (EAttribute)tubeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTube_Radius() {
+		return (EAttribute)tubeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getINode() {
+		return iNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperator() {
+		return operatorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperator_Children() {
+		return (EReference)operatorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUnion() {
+		return unionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIntersection() {
+		return intersectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getComplement() {
+		return complementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNamedNode() {
+		return namedNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNamedNode_Name() {
+		return (EAttribute)namedNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNamedNode_Id() {
+		return (EAttribute)namedNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getISubjectShape() {
+		return iSubjectShapeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getISubjectShape__Register__IShapeObserver() {
+		return iSubjectShapeEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getISubjectShape__Unregister__IShapeObserver() {
+		return iSubjectShapeEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIShapeObserver() {
+		return iShapeObserverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getIShapeObserver__Update__ShapeChangeEvent_ISubjectShape() {
+		return iShapeObserverEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMaterial() {
+		return materialEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getShapeChangeEvent() {
+		return shapeChangeEventEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getShapeChangeEvent_Type() {
+		return (EAttribute)shapeChangeEventEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getShapeChangeEvent_Value() {
+		return (EAttribute)shapeChangeEventEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIGeometryImporter() {
+		return iGeometryImporterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIGeometryImporter_FileTypes() {
+		return (EAttribute)iGeometryImporterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIGeometryImporter_Description() {
+		return (EAttribute)iGeometryImporterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getIGeometryImporter__Load__Path() {
+		return iGeometryImporterEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getASCIISTLGeometryImporter() {
+		return asciistlGeometryImporterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getShapeChangeEventType() {
+		return shapeChangeEventTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getPath() {
+		return pathEDataType;
 	}
 
 	/**
@@ -360,11 +767,15 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		shapeEClass = createEClass(SHAPE);
 		createEReference(shapeEClass, SHAPE__TRIANGLES);
 		createEReference(shapeEClass, SHAPE__CENTER);
-		createEAttribute(shapeEClass, SHAPE__NAME);
+		createEAttribute(shapeEClass, SHAPE__TYPE);
+		createEReference(shapeEClass, SHAPE__MATERIAL);
+		createEOperation(shapeEClass, SHAPE___GET_PROPERTY_NAMES);
+		createEOperation(shapeEClass, SHAPE___GET_PROPERTY__STRING);
+		createEOperation(shapeEClass, SHAPE___SET_PROPERTY__STRING_DOUBLE);
 
 		triangleEClass = createEClass(TRIANGLE);
+		createEReference(triangleEClass, TRIANGLE__NORMAL);
 		createEReference(triangleEClass, TRIANGLE__VERTICES);
-		createEAttribute(triangleEClass, TRIANGLE__NORMAL);
 
 		vertexEClass = createEClass(VERTEX);
 		createEAttribute(vertexEClass, VERTEX__X);
@@ -382,8 +793,53 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEAttribute(cylinderEClass, CYLINDER__HEIGHT);
 
 		geometryEClass = createEClass(GEOMETRY);
-		createEReference(geometryEClass, GEOMETRY__SHAPES);
-		createEAttribute(geometryEClass, GEOMETRY__NAME);
+		createEReference(geometryEClass, GEOMETRY__NODES);
+
+		tubeEClass = createEClass(TUBE);
+		createEAttribute(tubeEClass, TUBE__HEIGHT);
+		createEAttribute(tubeEClass, TUBE__INNER_RADIUS);
+		createEAttribute(tubeEClass, TUBE__RADIUS);
+
+		iNodeEClass = createEClass(INODE);
+
+		operatorEClass = createEClass(OPERATOR);
+		createEReference(operatorEClass, OPERATOR__CHILDREN);
+
+		unionEClass = createEClass(UNION);
+
+		intersectionEClass = createEClass(INTERSECTION);
+
+		complementEClass = createEClass(COMPLEMENT);
+
+		namedNodeEClass = createEClass(NAMED_NODE);
+		createEAttribute(namedNodeEClass, NAMED_NODE__NAME);
+		createEAttribute(namedNodeEClass, NAMED_NODE__ID);
+
+		iSubjectShapeEClass = createEClass(ISUBJECT_SHAPE);
+		createEOperation(iSubjectShapeEClass, ISUBJECT_SHAPE___REGISTER__ISHAPEOBSERVER);
+		createEOperation(iSubjectShapeEClass, ISUBJECT_SHAPE___UNREGISTER__ISHAPEOBSERVER);
+
+		iShapeObserverEClass = createEClass(ISHAPE_OBSERVER);
+		createEOperation(iShapeObserverEClass, ISHAPE_OBSERVER___UPDATE__SHAPECHANGEEVENT_ISUBJECTSHAPE);
+
+		materialEClass = createEClass(MATERIAL);
+
+		shapeChangeEventEClass = createEClass(SHAPE_CHANGE_EVENT);
+		createEAttribute(shapeChangeEventEClass, SHAPE_CHANGE_EVENT__TYPE);
+		createEAttribute(shapeChangeEventEClass, SHAPE_CHANGE_EVENT__VALUE);
+
+		iGeometryImporterEClass = createEClass(IGEOMETRY_IMPORTER);
+		createEAttribute(iGeometryImporterEClass, IGEOMETRY_IMPORTER__FILE_TYPES);
+		createEAttribute(iGeometryImporterEClass, IGEOMETRY_IMPORTER__DESCRIPTION);
+		createEOperation(iGeometryImporterEClass, IGEOMETRY_IMPORTER___LOAD__PATH);
+
+		asciistlGeometryImporterEClass = createEClass(ASCIISTL_GEOMETRY_IMPORTER);
+
+		// Create enums
+		shapeChangeEventTypeEEnum = createEEnum(SHAPE_CHANGE_EVENT_TYPE);
+
+		// Create data types
+		pathEDataType = createEDataType(PATH);
 	}
 
 	/**
@@ -409,27 +865,44 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
-		// Obtain other dependent packages
-		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
-
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		shapeEClass.getESuperTypes().add(this.getNamedNode());
+		shapeEClass.getESuperTypes().add(this.getISubjectShape());
 		sphereEClass.getESuperTypes().add(this.getShape());
 		cubeEClass.getESuperTypes().add(this.getShape());
 		cylinderEClass.getESuperTypes().add(this.getShape());
+		geometryEClass.getESuperTypes().add(this.getNamedNode());
+		tubeEClass.getESuperTypes().add(this.getShape());
+		operatorEClass.getESuperTypes().add(this.getNamedNode());
+		unionEClass.getESuperTypes().add(this.getOperator());
+		intersectionEClass.getESuperTypes().add(this.getOperator());
+		complementEClass.getESuperTypes().add(this.getOperator());
+		namedNodeEClass.getESuperTypes().add(this.getINode());
+		asciistlGeometryImporterEClass.getESuperTypes().add(this.getIGeometryImporter());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(shapeEClass, Shape.class, "Shape", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getShape_Triangles(), this.getTriangle(), null, "triangles", null, 0, -1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_Center(), this.getVertex(), null, "center", null, 1, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getShape_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getShape_Type(), ecorePackage.getEString(), "type", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getShape_Material(), this.getMaterial(), null, "material", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getShape__GetPropertyNames(), ecorePackage.getEString(), "getPropertyNames", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		EOperation op = initEOperation(getShape__GetProperty__String(), ecorePackage.getEDouble(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getShape__SetProperty__String_double(), null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDouble(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(triangleEClass, Triangle.class, "Triangle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTriangle_Vertices(), this.getVertex(), null, "vertices", null, 3, 3, Triangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTriangle_Normal(), ecorePackage.getEBigDecimal(), "normal", null, 3, 3, Triangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTriangle_Normal(), this.getVertex(), null, "normal", null, 0, 1, Triangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTriangle_Vertices(), this.getVertex(), null, "vertices", null, 0, 3, Triangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(vertexEClass, Vertex.class, "Vertex", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVertex_X(), ecorePackage.getEDouble(), "x", null, 0, 1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -447,8 +920,65 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEAttribute(getCylinder_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, Cylinder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(geometryEClass, Geometry.class, "Geometry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGeometry_Shapes(), this.getShape(), null, "shapes", null, 0, -1, Geometry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGeometry_Name(), ecorePackage.getEString(), "name", null, 0, 1, Geometry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGeometry_Nodes(), this.getNamedNode(), null, "nodes", null, 0, -1, Geometry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(tubeEClass, Tube.class, "Tube", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTube_Height(), ecorePackage.getEDouble(), "height", "0.0", 0, 1, Tube.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTube_InnerRadius(), ecorePackage.getEDouble(), "innerRadius", "0.0", 0, 1, Tube.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTube_Radius(), ecorePackage.getEDouble(), "radius", "0.0", 0, 1, Tube.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iNodeEClass, INode.class, "INode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperator_Children(), this.getNamedNode(), null, "children", null, 0, -1, Operator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(unionEClass, Union.class, "Union", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(intersectionEClass, Intersection.class, "Intersection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(complementEClass, Complement.class, "Complement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(namedNodeEClass, NamedNode.class, "NamedNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNamedNode_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNamedNode_Id(), ecorePackage.getELong(), "id", null, 0, 1, NamedNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iSubjectShapeEClass, ISubjectShape.class, "ISubjectShape", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		op = initEOperation(getISubjectShape__Register__IShapeObserver(), null, "register", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIShapeObserver(), "observer", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getISubjectShape__Unregister__IShapeObserver(), null, "unregister", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getIShapeObserver(), "observer", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(iShapeObserverEClass, IShapeObserver.class, "IShapeObserver", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		op = initEOperation(getIShapeObserver__Update__ShapeChangeEvent_ISubjectShape(), null, "update", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getShapeChangeEvent(), "event", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getISubjectShape(), "source", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(materialEClass, Material.class, "Material", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(shapeChangeEventEClass, ShapeChangeEvent.class, "ShapeChangeEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getShapeChangeEvent_Type(), this.getShapeChangeEventType(), "type", null, 0, 1, ShapeChangeEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getShapeChangeEvent_Value(), ecorePackage.getEString(), "value", null, 0, 1, ShapeChangeEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(iGeometryImporterEClass, IGeometryImporter.class, "IGeometryImporter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIGeometryImporter_FileTypes(), ecorePackage.getEString(), "fileTypes", null, 1, -1, IGeometryImporter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIGeometryImporter_Description(), ecorePackage.getEString(), "description", null, 0, 1, IGeometryImporter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = initEOperation(getIGeometryImporter__Load__Path(), this.getGeometry(), "load", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getPath(), "path", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(asciistlGeometryImporterEClass, ASCIISTLGeometryImporter.class, "ASCIISTLGeometryImporter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		// Initialize enums and add enum literals
+		initEEnum(shapeChangeEventTypeEEnum, ShapeChangeEventType.class, "ShapeChangeEventType");
+		addEEnumLiteral(shapeChangeEventTypeEEnum, ShapeChangeEventType.NAME_CHANGE);
+		addEEnumLiteral(shapeChangeEventTypeEEnum, ShapeChangeEventType.PROP_CHANGE);
+		addEEnumLiteral(shapeChangeEventTypeEEnum, ShapeChangeEventType.SHAPE_CHANGE);
+
+		// Initialize data types
+		initEDataType(pathEDataType, Path.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

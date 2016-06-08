@@ -11,11 +11,12 @@
       <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEventType/PropChange"/>
       <genEnumLiterals ecoreEnumLiteral="geometry.ecore#//ShapeChangeEventType/ShapeChange"/>
     </genEnums>
+    <genDataTypes ecoreDataType="geometry.ecore#//Path"/>
     <genClasses ecoreClass="geometry.ecore#//Shape">
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/triangles"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/center"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Shape/type"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/material"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/material"/>
       <genOperations ecoreOperation="geometry.ecore#//Shape/getPropertyNames"/>
       <genOperations ecoreOperation="geometry.ecore#//Shape/getProperty">
         <genParameters ecoreParameter="geometry.ecore#//Shape/getProperty/property"/>
@@ -26,8 +27,8 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Triangle">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Triangle/normal"/>
       <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Triangle/vertices"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Triangle/normal"/>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Vertex">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Vertex/x"/>
@@ -46,7 +47,6 @@
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Geometry">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Geometry/nodes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//NamedNode/name"/>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Tube">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/height"/>
@@ -83,5 +83,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ShapeChangeEvent/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ShapeChangeEvent/value"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="geometry.ecore#//IGeometryImporter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//IGeometryImporter/fileTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//IGeometryImporter/description"/>
+      <genOperations ecoreOperation="geometry.ecore#//IGeometryImporter/load">
+        <genParameters ecoreParameter="geometry.ecore#//IGeometryImporter/load/path"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//ASCIISTLGeometryImporter"/>
   </genPackages>
 </genmodel:GenModel>
