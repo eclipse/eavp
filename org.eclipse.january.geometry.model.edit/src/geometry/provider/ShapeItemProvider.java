@@ -12,9 +12,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -35,13 +33,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * @generated
  */
 public class ShapeItemProvider 
-	extends ItemProviderAdapter
-	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+	extends ItemProviderAdapter implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -63,11 +55,58 @@ public class ShapeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
+			addIdPropertyDescriptor(object);
 			addTrianglesPropertyDescriptor(object);
 			addCenterPropertyDescriptor(object);
-			addNamePropertyDescriptor(object);
+			addTypePropertyDescriptor(object);
+			addMaterialPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_INode_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_INode_name_feature", "_UI_INode_type"),
+				 GeometryPackage.Literals.INODE__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Id feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIdPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_INode_id_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_INode_id_feature", "_UI_INode_type"),
+				 GeometryPackage.Literals.INODE__ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -115,23 +154,45 @@ public class ShapeItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Type feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addTypePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Shape_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Shape_name_feature", "_UI_Shape_type"),
-				 GeometryPackage.Literals.SHAPE__NAME,
+				 getString("_UI_Shape_type_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Shape_type_feature", "_UI_Shape_type"),
+				 GeometryPackage.Literals.SHAPE__TYPE,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Material feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMaterialPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Shape_material_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Shape_material_feature", "_UI_Shape_type"),
+				 GeometryPackage.Literals.SHAPE__MATERIAL,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}
@@ -148,7 +209,9 @@ public class ShapeItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(GeometryPackage.Literals.INODE__NODES);
 			childrenFeatures.add(GeometryPackage.Literals.SHAPE__TRIANGLES);
+			childrenFeatures.add(GeometryPackage.Literals.SHAPE__MATERIAL);
 		}
 		return childrenFeatures;
 	}
@@ -205,9 +268,13 @@ public class ShapeItemProvider
 
 		switch (notification.getFeatureID(Shape.class)) {
 			case GeometryPackage.SHAPE__NAME:
+			case GeometryPackage.SHAPE__ID:
+			case GeometryPackage.SHAPE__TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
+			case GeometryPackage.SHAPE__NODES:
 			case GeometryPackage.SHAPE__TRIANGLES:
+			case GeometryPackage.SHAPE__MATERIAL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -227,8 +294,63 @@ public class ShapeItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createShape()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createSphere()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createCube()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createCylinder()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createGeometry()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createTube()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createOperator()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createUnion()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createIntersection()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__NODES,
+				 GeometryFactory.eINSTANCE.createComplement()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(GeometryPackage.Literals.SHAPE__TRIANGLES,
 				 GeometryFactory.eINSTANCE.createTriangle()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.SHAPE__MATERIAL,
+				 GeometryFactory.eINSTANCE.createMaterial()));
 	}
 
 	/**

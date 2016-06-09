@@ -4,9 +4,6 @@
  */
 package geometry.validation;
 
-import geometry.Shape;
-
-import org.eclipse.emf.common.util.EList;
 
 /**
  * A sample validator interface for {@link geometry.Geometry}.
@@ -17,6 +14,4 @@ import org.eclipse.emf.common.util.EList;
 public interface GeometryValidator {
 	boolean validate();
 
-	boolean validateShapes(EList<Shape> value);
-	boolean validateName(String value);
 }

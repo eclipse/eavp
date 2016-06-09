@@ -7,14 +7,18 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 
 Package geometry <http://www.eclipse.org/>
 
-  Class Shape
+  Class Shape -> ISubjectShape, INode
     Reference triangles : Triangle<<0..*>>
     Reference center : Vertex<<1..1>>
-    Attribute name : String
+    Attribute type : EString
+    Reference material : Material
+    Operation getPropertyNames() : EString<<0..*>>
+    Operation getProperty(EString) : EDouble
+    Operation setProperty(EString, EDouble) : void
 
   Class Triangle
-    Reference vertices : Vertex<<3..3>>
-    Attribute normal : EBigDecimal<<3..3>>
+    Reference normal : Vertex
+    Reference vertices : Vertex<<0..3>>
 
   Class Vertex
     Attribute x : EDouble
@@ -31,6 +35,49 @@ Package geometry <http://www.eclipse.org/>
     Attribute radius : EDouble
     Attribute height : EDouble
 
-  Class Geometry
-    Reference shapes : Shape<<0..*>>
+  Class Geometry -> INode
+
+  Class Tube -> Shape
+    Attribute height : EDouble
+    Attribute innerRadius : EDouble
+    Attribute radius : EDouble
+
+  Class INode
     Attribute name : EString
+    Attribute id : ELong
+    Reference nodes : INode<<0..*>>
+
+  Class Operator -> INode
+
+  Class Union -> Operator
+
+  Class Intersection -> Operator
+
+  Class Complement -> Operator
+
+  Class ISubjectShape
+    Operation register(IShapeObserver) : void
+    Operation unregister(IShapeObserver) : void
+
+  Class IShapeObserver
+    Operation update(ShapeChangeEvent, ISubjectShape) : void
+
+  Class Material
+
+  Class ShapeChangeEvent
+    Attribute type : ShapeChangeEventType
+    Attribute value : EString
+
+  Class IGeometryImporter
+    Attribute fileTypes : EString<<1..*>>
+    Attribute description : EString
+    Operation load(Path) : Geometry
+
+  Class ASCIISTLGeometryImporter -> IGeometryImporter
+
+  Enum ShapeChangeEventType
+    Literal NameChange = 0
+    Literal PropChange = 1
+    Literal ShapeChange = 2
+
+  DataType Path <java.nio.file.Path>

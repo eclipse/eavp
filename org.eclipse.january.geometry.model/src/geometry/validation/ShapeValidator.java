@@ -4,6 +4,7 @@
  */
 package geometry.validation;
 
+import geometry.Material;
 import geometry.Triangle;
 import geometry.Vertex;
 
@@ -20,6 +21,10 @@ public interface ShapeValidator {
 
 	boolean validateTriangles(EList<Triangle> value);
 	boolean validateCenter(Vertex value);
+
+	boolean validateType(String value);
+
+	boolean validateMaterial(Material value);
 
 	boolean validateName(String value);
 }
