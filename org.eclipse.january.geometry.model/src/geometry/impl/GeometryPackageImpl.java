@@ -15,7 +15,6 @@ import geometry.IShapeObserver;
 import geometry.ISubjectShape;
 import geometry.Intersection;
 import geometry.Material;
-import geometry.NamedNode;
 import geometry.Operator;
 import geometry.Shape;
 import geometry.ShapeChangeEvent;
@@ -134,13 +133,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * @generated
 	 */
 	private EClass complementEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass namedNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -471,15 +463,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getGeometry_Nodes() {
-		return (EReference)geometryEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTube() {
 		return tubeEClass;
 	}
@@ -525,8 +508,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOperator() {
-		return operatorEClass;
+	public EAttribute getINode_Name() {
+		return (EAttribute)iNodeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -534,8 +517,26 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOperator_Children() {
-		return (EReference)operatorEClass.getEStructuralFeatures().get(0);
+	public EAttribute getINode_Id() {
+		return (EAttribute)iNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getINode_Nodes() {
+		return (EReference)iNodeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperator() {
+		return operatorEClass;
 	}
 
 	/**
@@ -563,33 +564,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 */
 	public EClass getComplement() {
 		return complementEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getNamedNode() {
-		return namedNodeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getNamedNode_Name() {
-		return (EAttribute)namedNodeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getNamedNode_Id() {
-		return (EAttribute)namedNodeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -793,7 +767,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEAttribute(cylinderEClass, CYLINDER__HEIGHT);
 
 		geometryEClass = createEClass(GEOMETRY);
-		createEReference(geometryEClass, GEOMETRY__NODES);
 
 		tubeEClass = createEClass(TUBE);
 		createEAttribute(tubeEClass, TUBE__HEIGHT);
@@ -801,19 +774,17 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEAttribute(tubeEClass, TUBE__RADIUS);
 
 		iNodeEClass = createEClass(INODE);
+		createEAttribute(iNodeEClass, INODE__NAME);
+		createEAttribute(iNodeEClass, INODE__ID);
+		createEReference(iNodeEClass, INODE__NODES);
 
 		operatorEClass = createEClass(OPERATOR);
-		createEReference(operatorEClass, OPERATOR__CHILDREN);
 
 		unionEClass = createEClass(UNION);
 
 		intersectionEClass = createEClass(INTERSECTION);
 
 		complementEClass = createEClass(COMPLEMENT);
-
-		namedNodeEClass = createEClass(NAMED_NODE);
-		createEAttribute(namedNodeEClass, NAMED_NODE__NAME);
-		createEAttribute(namedNodeEClass, NAMED_NODE__ID);
 
 		iSubjectShapeEClass = createEClass(ISUBJECT_SHAPE);
 		createEOperation(iSubjectShapeEClass, ISUBJECT_SHAPE___REGISTER__ISHAPEOBSERVER);
@@ -870,18 +841,17 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		shapeEClass.getESuperTypes().add(this.getNamedNode());
 		shapeEClass.getESuperTypes().add(this.getISubjectShape());
+		shapeEClass.getESuperTypes().add(this.getINode());
 		sphereEClass.getESuperTypes().add(this.getShape());
 		cubeEClass.getESuperTypes().add(this.getShape());
 		cylinderEClass.getESuperTypes().add(this.getShape());
-		geometryEClass.getESuperTypes().add(this.getNamedNode());
+		geometryEClass.getESuperTypes().add(this.getINode());
 		tubeEClass.getESuperTypes().add(this.getShape());
-		operatorEClass.getESuperTypes().add(this.getNamedNode());
+		operatorEClass.getESuperTypes().add(this.getINode());
 		unionEClass.getESuperTypes().add(this.getOperator());
 		intersectionEClass.getESuperTypes().add(this.getOperator());
 		complementEClass.getESuperTypes().add(this.getOperator());
-		namedNodeEClass.getESuperTypes().add(this.getINode());
 		asciistlGeometryImporterEClass.getESuperTypes().add(this.getIGeometryImporter());
 
 		// Initialize classes, features, and operations; add parameters
@@ -920,7 +890,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEAttribute(getCylinder_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, Cylinder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(geometryEClass, Geometry.class, "Geometry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGeometry_Nodes(), this.getNamedNode(), null, "nodes", null, 0, -1, Geometry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tubeEClass, Tube.class, "Tube", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTube_Height(), ecorePackage.getEDouble(), "height", "0.0", 0, 1, Tube.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -928,19 +897,17 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEAttribute(getTube_Radius(), ecorePackage.getEDouble(), "radius", "0.0", 0, 1, Tube.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iNodeEClass, INode.class, "INode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getINode_Name(), ecorePackage.getEString(), "name", null, 0, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getINode_Id(), ecorePackage.getELong(), "id", null, 0, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getINode_Nodes(), this.getINode(), null, "nodes", null, 0, -1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOperator_Children(), this.getNamedNode(), null, "children", null, 0, -1, Operator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unionEClass, Union.class, "Union", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(intersectionEClass, Intersection.class, "Intersection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(complementEClass, Complement.class, "Complement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(namedNodeEClass, NamedNode.class, "NamedNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNamedNode_Name(), ecorePackage.getEString(), "name", null, 0, 1, NamedNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getNamedNode_Id(), ecorePackage.getELong(), "id", null, 0, 1, NamedNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iSubjectShapeEClass, ISubjectShape.class, "ISubjectShape", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -7,7 +7,7 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 
 Package geometry <http://www.eclipse.org/>
 
-  Class Shape -> NamedNode, ISubjectShape
+  Class Shape -> ISubjectShape, INode
     Reference triangles : Triangle<<0..*>>
     Reference center : Vertex<<1..1>>
     Attribute type : EString
@@ -35,8 +35,7 @@ Package geometry <http://www.eclipse.org/>
     Attribute radius : EDouble
     Attribute height : EDouble
 
-  Class Geometry -> NamedNode
-    Reference nodes : NamedNode<<0..*>>
+  Class Geometry -> INode
 
   Class Tube -> Shape
     Attribute height : EDouble
@@ -44,19 +43,17 @@ Package geometry <http://www.eclipse.org/>
     Attribute radius : EDouble
 
   Class INode
+    Attribute name : EString
+    Attribute id : ELong
+    Reference nodes : INode<<0..*>>
 
-  Class Operator -> NamedNode
-    Reference children : NamedNode<<0..*>>
+  Class Operator -> INode
 
   Class Union -> Operator
 
   Class Intersection -> Operator
 
   Class Complement -> Operator
-
-  Class NamedNode -> INode
-    Attribute name : EString
-    Attribute id : ELong
 
   Class ISubjectShape
     Operation register(IShapeObserver) : void

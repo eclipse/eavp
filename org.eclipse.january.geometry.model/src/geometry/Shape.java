@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Shape extends NamedNode, ISubjectShape {
+public interface Shape extends ISubjectShape, INode {
 	/**
 	 * Returns the value of the '<em><b>Triangles</b></em>' containment reference list.
 	 * The list contents are of type {@link geometry.Triangle}.

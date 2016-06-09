@@ -45,25 +45,21 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Cylinder/radius"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Cylinder/height"/>
     </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Geometry">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Geometry/nodes"/>
-    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//Geometry"/>
     <genClasses ecoreClass="geometry.ecore#//Tube">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/height"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/innerRadius"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/radius"/>
     </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//INode"/>
-    <genClasses ecoreClass="geometry.ecore#//Operator">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Operator/children"/>
+    <genClasses ecoreClass="geometry.ecore#//INode">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/nodes"/>
     </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//Operator"/>
     <genClasses ecoreClass="geometry.ecore#//Union"/>
     <genClasses ecoreClass="geometry.ecore#//Intersection"/>
     <genClasses ecoreClass="geometry.ecore#//Complement"/>
-    <genClasses ecoreClass="geometry.ecore#//NamedNode">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//NamedNode/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//NamedNode/id"/>
-    </genClasses>
     <genClasses ecoreClass="geometry.ecore#//ISubjectShape">
       <genOperations ecoreOperation="geometry.ecore#//ISubjectShape/register">
         <genParameters ecoreParameter="geometry.ecore#//ISubjectShape/register/observer"/>
