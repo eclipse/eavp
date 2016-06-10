@@ -14,8 +14,10 @@ package org.eclipse.eavp.viz.service.mesh.datastructures;
 
 import java.util.HashMap;
 
-import org.eclipse.eavp.viz.modeling.FaceController;
+import org.eclipse.eavp.viz.modeling.EdgeController;
 import org.eclipse.eavp.viz.modeling.Face;
+import org.eclipse.eavp.viz.modeling.FaceController;
+import org.eclipse.eavp.viz.modeling.VertexController;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -165,8 +167,7 @@ public class NekPolygonController extends FaceController {
 	 */
 	public BoundaryCondition getOtherBoundaryCondition(int edgeId,
 			int otherId) {
-		return ((NekPolygon) model).getOtherBoundaryCondition(edgeId,
-				otherId);
+		return ((NekPolygon) model).getOtherBoundaryCondition(edgeId, otherId);
 	}
 
 	/**
@@ -222,6 +223,50 @@ public class NekPolygonController extends FaceController {
 		}
 
 		super.setProperty(property, value);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.FaceController#setTransparentMode(boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		super.setTransparentMode(transparent);
+
+		// Set all the edges to the correct transparency
+		for (EdgeController edge : model.getEntitiesFromCategory(
+				MeshCategory.EDGES, EdgeController.class)) {
+			edge.setTransparentMode(transparent);
+		}
+
+		// Also set all the vertices
+		for (VertexController vertex : model.getEntitiesFromCategory(
+				MeshCategory.VERTICES, VertexController.class)) {
+			vertex.setTransparentMode(transparent);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.FaceController#setWireframeMode(boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		// Set all the edges to the correct transparency
+		for (EdgeController edge : model.getEntitiesFromCategory(
+				MeshCategory.EDGES, EdgeController.class)) {
+			edge.setWireframeMode(on);
+		}
+
+		// Also set all the vertices
+		for (VertexController vertex : model.getEntitiesFromCategory(
+				MeshCategory.VERTICES, VertexController.class)) {
+			vertex.setWireframeMode(on);
+		}
 	}
 
 	/*

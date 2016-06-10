@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.Shape;
@@ -45,8 +46,12 @@ public class FXShapeViewTester {
 		Shape mesh = new Shape();
 		mesh.setProperty(MeshProperty.TYPE, "Cube");
 		FXShapeView view = new FXShapeView(mesh);
-		FXShapeView clone = (FXShapeView) view.clone();
-		assertTrue(view.equals(clone));
+		Object clone = view.clone();
+
+		// A cloned IView is not necessarily equivalent to its clone, because
+		// the JavaFX data types do not have custom implementations of the
+		// equals method.
+		assertTrue(clone instanceof FXShapeView);
 	}
 
 	/**
@@ -77,6 +82,7 @@ public class FXShapeViewTester {
 			// If the child is a 3D shape, it should be in fill mode by default
 			if (node instanceof Shape3D) {
 				assertTrue(((Shape3D) node).getDrawMode() == DrawMode.FILL);
+				assertTrue(((Shape3D) node).getOpacity() == 100d);
 
 				// Check if a box has been found
 				if (node instanceof Box) {
@@ -178,5 +184,93 @@ public class FXShapeViewTester {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Test that the shape can be made transparent.
+	 */
+	public void checkTransparency() {
+
+		// Create a cube named "test"
+		Shape mesh = new Shape();
+		mesh.setProperty(MeshProperty.NAME, "test");
+		mesh.setProperty(MeshProperty.TYPE, "Cube");
+
+		// Create a view for it
+		FXShapeView view = new FXShapeView(mesh);
+
+		// The view should start off opaque
+		assertFalse(view.isTransparent());
+
+		// Make the view transparent
+		view.setTransparentMode(true);
+
+		// Check that the transparency flag is set
+		assertTrue(view.isTransparent());
+
+		// Whether a box shape has been found while searching the JavaFX node's
+		// children.
+		boolean boxFound = false;
+
+		// Get the group containing the node
+		Representation<Group> representation = view.getRepresentation();
+
+		// Search all of the node's children
+		for (Node node : (representation.getData()).getChildren()) {
+
+			// If the child is a 3D shape, it should be transparent
+			if (node instanceof Shape3D) {
+				assertTrue(((Shape3D) node).getOpacity() == 0d);
+				boxFound = true;
+				break;
+			}
+		}
+
+		// A child box corresponding to the cube should have been found
+		assertTrue(boxFound);
+	}
+
+	/**
+	 * Test that the shape can rendered in wireframe mode
+	 */
+	public void checkWireframe() {
+
+		// Create a cube named "test"
+		Shape mesh = new Shape();
+		mesh.setProperty(MeshProperty.NAME, "test");
+		mesh.setProperty(MeshProperty.TYPE, "Cube");
+
+		// Create a view for it
+		FXShapeView view = new FXShapeView(mesh);
+
+		// The view should start off drawn normally
+		assertFalse(view.isWireframe());
+
+		// Make the view transparent
+		view.setWireframeMode(true);
+
+		// Check that the wireframe flag has been set
+		assertTrue(view.isWireframe());
+
+		// Whether a box shape has been found while searching the JavaFX node's
+		// children.
+		boolean boxFound = false;
+
+		// Get the group containing the node
+		Representation<Group> representation = view.getRepresentation();
+
+		// Search all of the node's children
+		for (Node node : (representation.getData()).getChildren()) {
+
+			// If the child is a 3D shape, it should be drawn as a wireframe
+			if (node instanceof Shape3D) {
+				assertTrue(((Shape3D) node).getDrawMode() == DrawMode.LINE);
+				boxFound = true;
+				break;
+			}
+		}
+
+		// A child box corresponding to the cube should have been found
+		assertTrue(boxFound);
 	}
 }
