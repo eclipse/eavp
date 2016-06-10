@@ -56,7 +56,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/id"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/nodes"/>
     </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Operator"/>
+    <genClasses ecoreClass="geometry.ecore#//Operator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Operator/children"/>
+    </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Union"/>
     <genClasses ecoreClass="geometry.ecore#//Intersection"/>
     <genClasses ecoreClass="geometry.ecore#//Complement"/>
@@ -87,5 +89,36 @@
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//ASCIISTLGeometryImporter"/>
+    <genClasses ecoreClass="geometry.ecore#//MeshCache">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//MeshCache/T"/>
+      <genOperations ecoreOperation="geometry.ecore#//MeshCache/getMesh">
+        <genParameters ecoreParameter="geometry.ecore#//MeshCache/getMesh/type"/>
+      </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//MeshCache/getMesh.1">
+        <genParameters ecoreParameter="geometry.ecore#//MeshCache/getMesh.1/triangles"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//RenderObject">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//RenderObject/T"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//RenderObject/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//RenderObject/meshcache"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//RenderObject/render"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//RenderObjectDecorator">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//RenderObjectDecorator/source"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//TextureDecorator"/>
+    <genClasses ecoreClass="geometry.ecore#//OpacityDecorator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//OpacityDecorator/opacity"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//WireframeDecorator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//WireframeDecorator/wireframe"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//ColorDecorator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ColorDecorator/red"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ColorDecorator/green"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ColorDecorator/blue"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//IRenderElement"/>
   </genPackages>
 </genmodel:GenModel>
