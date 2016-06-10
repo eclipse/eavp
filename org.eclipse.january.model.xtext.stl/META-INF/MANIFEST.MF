@@ -8,7 +8,6 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common;bundle-version="3.5.0",
- org.eclipse.january.geometry.model;bundle-version="0.1.0",
  org.eclipse.xtext.xbase.lib,
  org.antlr.runtime,
  org.eclipse.xtext.util,
@@ -23,4 +22,5 @@ Export-Package: org.eclipse.january.model.xtext.generator,
  org.eclipse.january.model.xtext.serializer,
  org.eclipse.january.model.xtext.parser.antlr.internal,
  org.eclipse.january.model.xtext.services
-Import-Package: org.apache.log4j
+Import-Package: geometry,
+ org.apache.log4j

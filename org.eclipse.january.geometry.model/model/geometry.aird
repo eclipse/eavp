@@ -2,6 +2,14 @@
 <viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style" xmi:id="_mWGQQCmWEeaEtodSdV9B8w" selectedViews="_mYI3oCmWEeaEtodSdV9B8w _mNnzcCnHEeaEtodSdV9B8w _mNvIMCnHEeaEtodSdV9B8w _mOR6wCnHEeaEtodSdV9B8w" version="10.1.0.201509162000">
   <semanticResources>geometry.ecore</semanticResources>
   <semanticResources>geometry.genmodel</semanticResources>
+  <semanticResources>../src/xtext/GenerateSTL.mwe2</semanticResources>
+  <semanticResources>../src/xtext/STLRuntimeModule.xtend</semanticResources>
+  <semanticResources>../src/xtext/STLStandaloneSetup.xtend</semanticResources>
+  <semanticResources>../src/xtext/generator/STLGenerator.xtend</semanticResources>
+  <semanticResources>../src/xtext/scoping/STLScopeProvider.xtend</semanticResources>
+  <semanticResources>../src/xtext/validation/STLValidator.xtend</semanticResources>
+  <semanticResources>../src/xtext/STL.xtextbin</semanticResources>
+  <semanticResources>http://www.eclipse.org/emf/2002/Ecore</semanticResources>
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_mYI3oCmWEeaEtodSdV9B8w">
     <ownedRepresentations xmi:type="diagram:DSemanticDiagram" xmi:id="_mcEVYCmWEeaEtodSdV9B8w" name="geometry">
       <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_mcEVYSmWEeaEtodSdV9B8w" source="DANNOTATION_CUSTOMIZATION_KEY">
