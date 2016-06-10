@@ -20,6 +20,8 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.modeling.test.utils.TestController;
 import org.eclipse.eavp.viz.modeling.test.utils.TestMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
+import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
 import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.junit.Test;
@@ -121,5 +123,43 @@ public class PipeControllerTester {
 		// Clone it and check that they are identical
 		PipeController clone = (PipeController) pipe.clone();
 		assertTrue(pipe.equals(clone));
+	}
+	
+	/**
+	 * Test that the shape can be made transparent.
+	 */
+	public void checkTransparency() {
+
+		// Create a pipe
+		Pipe mesh = new Pipe();
+		PipeController shape = new PipeController(mesh, new TestView());
+
+		// The view should start off opaque
+		assertFalse(shape.isTransparent());
+
+		// Make the view transparent
+		shape.setTransparentMode(true);
+
+		// Check that the transparency flag is set
+		assertTrue(shape.isTransparent());
+	}
+
+	/**
+	 * Test that the shape can rendered in wireframe mode
+	 */
+	public void checkWireframe() {
+
+		// Create a pipe
+		Pipe mesh = new Pipe();
+		PipeController shape = new PipeController(mesh, new TestView());
+
+		// The view should start off drawn normally
+		assertFalse(shape.isWireframe());
+
+		// Make the shape wireframe
+		shape.setWireframeMode(true);
+
+		// Check that the wireframe flag has been set
+		assertTrue(shape.isWireframe());
 	}
 }

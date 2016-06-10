@@ -13,6 +13,7 @@ package org.eclipse.eavp.viz.service.geometry.reactor;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * The internal data representation for a Heat Exchanger part.
@@ -105,13 +106,24 @@ public class HeatExchangerController extends BasicController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
+	 * @see org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
-		((IWireframeController) view).setWireFrameMode(on);
+	public void setWireframeMode(boolean on) {
+		((IWireframeController) view).setWireframeMode(on);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#getWireFrameMode(
+	 * )
+	 */
+	@Override
+	public boolean isWireframe() {
+		return ((IWireframeView) view).isWireframe();
 	}
 
 }

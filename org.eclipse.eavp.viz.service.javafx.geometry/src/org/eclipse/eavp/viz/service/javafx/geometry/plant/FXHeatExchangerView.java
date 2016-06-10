@@ -16,6 +16,7 @@ import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
@@ -40,7 +41,8 @@ import javafx.scene.transform.Rotate;
  * @author Robert Smith
  *
  */
-public class FXHeatExchangerView extends BasicView implements IWireframeView {
+public class FXHeatExchangerView extends BasicView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * A group containing the shape which represents the part.
@@ -78,6 +80,12 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	private MeshView outletView;
 
 	/**
+	 * Whether to display this part as transparent. It will be visible if false,
+	 * or invisible if true.
+	 */
+	private boolean transparent;
+
+	/**
 	 * Whether to display this part in wireframe mode. It will be displayed as a
 	 * wireframe if true or as a solid if false.
 	 */
@@ -89,8 +97,10 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	public FXHeatExchangerView() {
 		super();
 
-		// Initialize the node
+		// Initialize the class variables
 		node = new Group();
+		transparent = false;
+		wireframe = false;
 	}
 
 	/**
@@ -102,8 +112,10 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	public FXHeatExchangerView(IMesh model) {
 		super();
 
-		// Initialize the node
+		// Initialize the class variables
 		node = new Group();
+		transparent = false;
+		wireframe = false;
 
 		// Render shapes based on the model
 		refresh(model);
@@ -248,6 +260,9 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 		if (wireframe) {
 			view.setDrawMode(DrawMode.LINE);
 		}
+		if (transparent) {
+			view.setOpacity(0d);
+		}
 		node.getChildren().add(view);
 
 		// Calculate the vector between the intersection point and the target
@@ -284,8 +299,7 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -295,9 +309,8 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMesh)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMesh)
 	 */
 	@Override
 	public void refresh(IMesh model) {
@@ -320,8 +333,14 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 		FXPipeController primaryPipeController = (FXPipeController) ((HeatExchanger) model)
 				.getPrimaryPipe();
 
-		// Set the primary pipe to the same wireframe mode as this object
-		primaryPipeController.setWireFrameMode(wireframe);
+		// Set the primary pipe to the same wireframe and transparency modes as
+		// this object
+		if (wireframe != primaryPipeController.isWireframe()) {
+			primaryPipeController.setWireframeMode(wireframe);
+		}
+		if (transparent != primaryPipeController.isTransparent()) {
+			primaryPipeController.setTransparentMode(transparent);
+		}
 
 		// Recolor the primary pipe to blue and add its mesh to the node
 		primaryPipeController.setMaterial(new PhongMaterial(Color.BLUE));
@@ -340,8 +359,12 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 		if (wireframe) {
 			wall.setDrawMode(DrawMode.LINE);
 		}
+		if (transparent) {
+			wall.setOpacity(0d);
+		}
 		node.getChildren().add(wall);
-		wall.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));
+		wall.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 
 		// Get the secondary input junction
 		List<IController> secondaryInputList = model
@@ -385,12 +408,11 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
+	 * @see org.eclipse.eavp.viz.modeling.IWireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the wireframe state
 		wireframe = on;
@@ -434,6 +456,53 @@ public class FXHeatExchangerView extends BasicView implements IWireframeView {
 		clone.copy(this);
 
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#isWireframe()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
+	}
+
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
+
+	@Override
+	public void setTransparentMode(boolean transparent) {
+
+		// Save the wireframe state
+		this.transparent = transparent;
+
+		// Set each of the pieces that exist to transparent
+		if (transparent) {
+			if (wall != null)
+				wall.setOpacity(0d);
+			if (inletView != null)
+				inletView.setOpacity(0d);
+			if (outletView != null)
+				outletView.setOpacity(0d);
+		}
+
+		// Set each of the pieces that exist to opaque
+		else {
+			if (wall != null)
+				wall.setOpacity(100d);
+			if (inletView != null)
+				inletView.setOpacity(100d);
+			if (outletView != null)
+				outletView.setOpacity(100d);
+		}
+
+		// Notify listeners of the change
+		SubscriptionType[] eventTypes = { SubscriptionType.PROPERTY };
+		updateManager.notifyListeners(eventTypes);
+
 	}
 
 }

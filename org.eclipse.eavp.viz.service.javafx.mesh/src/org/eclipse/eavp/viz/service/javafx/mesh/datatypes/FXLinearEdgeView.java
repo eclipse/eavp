@@ -15,6 +15,8 @@ import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -26,6 +28,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.DrawMode;
 import javafx.scene.transform.Rotate;
 
 /**
@@ -35,7 +38,8 @@ import javafx.scene.transform.Rotate;
  * @author Robert Smith
  *
  */
-public class FXLinearEdgeView extends BasicView {
+public class FXLinearEdgeView extends BasicView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * A group containing the shape which represents the part and a gizmo which
@@ -57,8 +61,17 @@ public class FXLinearEdgeView extends BasicView {
 	 */
 	private PhongMaterial constructingMaterial;
 
-	/** */
-	private boolean selected;
+	/**
+	 * Whether or not the edge will be displayed as transparent. If true, the
+	 * edge will be invisible. Otherwise it will be visible.
+	 */
+	private boolean transparent;
+
+	/**
+	 * Whether or not the edge will be displayed as a wireframe. If true, the
+	 * edge will be a wireframe. Otherwise it will be a solid.
+	 */
+	private boolean wireframe;
 
 	/**
 	 * The nullary constructor.
@@ -89,9 +102,10 @@ public class FXLinearEdgeView extends BasicView {
 		node.setId(model.getProperty(MeshProperty.NAME));
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(model.getTransformation()));
-		
-		//Initialize the view
+		node.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
+
+		// Initialize the view
 		refresh(model);
 
 	}
@@ -218,6 +232,14 @@ public class FXLinearEdgeView extends BasicView {
 			else {
 				mesh.setMaterial(constructingMaterial);
 			}
+
+			// Set the edge's transparency and wireframe states, as appropriate
+			if (transparent) {
+				mesh.setOpacity(0d);
+			}
+			if (wireframe) {
+				mesh.setDrawMode(DrawMode.LINE);
+			}
 		}
 	}
 
@@ -231,5 +253,66 @@ public class FXLinearEdgeView extends BasicView {
 		FXLinearEdgeView clone = new FXLinearEdgeView();
 		clone.copy(this);
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#isWireframe()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#setWireframeMode(
+	 * boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		wireframe = on;
+
+		// Set the mesh to the correct draw mode
+		if (mesh != null) {
+			if (on) {
+				mesh.setDrawMode(DrawMode.LINE);
+			} else {
+				mesh.setDrawMode(DrawMode.FILL);
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentView#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		this.transparent = transparent;
+
+		// Set the mesh to the correct transparency
+		if (mesh != null) {
+			if (transparent) {
+				mesh.setOpacity(0d);
+			} else {
+				mesh.setOpacity(100d);
+			}
+		}
 	}
 }
