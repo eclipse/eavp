@@ -2,15 +2,25 @@
  */
 package geometry.impl;
 
+import geometry.Geometry;
+import geometry.GeometryFactory;
+import geometry.GeometryPackage;
+import geometry.STLGeometryImporter;
+import geometry.Shape;
+import geometry.Triangle;
+import geometry.Vertex;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -25,29 +35,21 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 
 import com.google.inject.Injector;
 
-import geometry.ASCIISTLGeometryImporter;
-import geometry.Geometry;
-import geometry.GeometryFactory;
-import geometry.GeometryPackage;
-import geometry.Shape;
-import geometry.Triangle;
-import geometry.Vertex;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>ASCIISTL Geometry Importer</b></em>'.
+ * An implementation of the model object '<em><b>STL Geometry Importer</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link geometry.impl.ASCIISTLGeometryImporterImpl#getFileTypes <em>File Types</em>}</li>
- *   <li>{@link geometry.impl.ASCIISTLGeometryImporterImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link geometry.impl.STLGeometryImporterImpl#getFileTypes <em>File Types</em>}</li>
+ *   <li>{@link geometry.impl.STLGeometryImporterImpl#getDescription <em>Description</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container implements ASCIISTLGeometryImporter {
+public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implements STLGeometryImporter {
 	/**
 	 * The cached value of the '{@link #getFileTypes() <em>File Types</em>}' attribute list.
 	 * <!-- begin-user-doc -->
@@ -83,7 +85,7 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ASCIISTLGeometryImporterImpl() {
+	protected STLGeometryImporterImpl() {
 		super();
 	}
 
@@ -94,7 +96,7 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return GeometryPackage.Literals.ASCIISTL_GEOMETRY_IMPORTER;
+		return GeometryPackage.Literals.STL_GEOMETRY_IMPORTER;
 	}
 
 	/**
@@ -102,10 +104,9 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public EList<String> getFileTypes() {
 		if (fileTypes == null) {
-			fileTypes = new EDataTypeUniqueEList<String>(String.class, this, GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__FILE_TYPES);
+			fileTypes = new EDataTypeUniqueEList<String>(String.class, this, GeometryPackage.STL_GEOMETRY_IMPORTER__FILE_TYPES);
 		}
 		return fileTypes;
 	}
@@ -115,7 +116,6 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public String getDescription() {
 		return description;
 	}
@@ -125,21 +125,19 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
 	public void setDescription(String newDescription) {
 		String oldDescription = description;
 		description = newDescription;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__DESCRIPTION, oldDescription, description));
+			eNotify(new ENotificationImpl(this, Notification.SET, GeometryPackage.STL_GEOMETRY_IMPORTER__DESCRIPTION, oldDescription, description));
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * Returns the geometry from the STL file given by the specified path
+	 * Loads the specified STL file from the path given into a geometry object.
 	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
-	@Override
 	public Geometry load(Path path) {
 		// Geometry to return
 		Geometry geometry = null;
@@ -172,7 +170,7 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 		// Return the geometry
 		return geometry;
 	}
-			
+	
 	/**
 	 * Loads a binary STL file from the given path into a geometry instance.
 	 * @param path The path to read the file from
@@ -243,9 +241,9 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__FILE_TYPES:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__FILE_TYPES:
 				return getFileTypes();
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__DESCRIPTION:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__DESCRIPTION:
 				return getDescription();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -260,11 +258,11 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__FILE_TYPES:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__FILE_TYPES:
 				getFileTypes().clear();
 				getFileTypes().addAll((Collection<? extends String>)newValue);
 				return;
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__DESCRIPTION:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
 		}
@@ -279,10 +277,10 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__FILE_TYPES:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__FILE_TYPES:
 				getFileTypes().clear();
 				return;
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__DESCRIPTION:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
 		}
@@ -297,9 +295,9 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__FILE_TYPES:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__FILE_TYPES:
 				return fileTypes != null && !fileTypes.isEmpty();
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__DESCRIPTION:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 		}
 		return super.eIsSet(featureID);
@@ -313,7 +311,7 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
 		switch (operationID) {
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER___LOAD__PATH:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER___LOAD__PATH:
 				return load((Path)arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
@@ -337,4 +335,4 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 		return result.toString();
 	}
 
-} //ASCIISTLGeometryImporterImpl
+} //STLGeometryImporterImpl

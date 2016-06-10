@@ -13,3 +13,6 @@ Export-Package: geometry,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy
+Import-Package: com.google.inject,
+ org.eclipse.january.model.xtext,
+ org.eclipse.xtext.resource
