@@ -4,10 +4,10 @@
 package xtext.parser.antlr;
 
 import com.google.inject.Inject;
-import xtext.parser.antlr.internal.InternalSTLParser;
-import xtext.services.STLGrammarAccess;
 import org.eclipse.xtext.parser.antlr.AbstractAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
+import xtext.parser.antlr.internal.InternalSTLParser;
+import xtext.services.STLGrammarAccess;
 
 public class STLParser extends AbstractAntlrParser {
 

@@ -291,7 +291,8 @@
       <eParameters name="path" eType="#//Path"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileTypes" lowerBound="1"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The list of file format types supported by this importer."/>
       </eAnnotations>
@@ -309,7 +310,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="STLGeometryImporter" eSuperTypes="#//IGeometryImporter">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This class imports geometries based on the STL format. It supports only the ASCII version of STL."/>
+      <details key="documentation" value="This class imports geometries based on the STL file format. The file must be complete and define a closed area or volume. "/>
     </eAnnotations>
   </eClassifiers>
 </ecore:EPackage>

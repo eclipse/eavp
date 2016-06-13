@@ -24,7 +24,7 @@ import org.eclipse.xtext.service.GrammarProvider;
 public class STLGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public class GeometryElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.january.model.xtext.STL.Geometry");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "xtext.STL.Geometry");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cGeometryAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cSolidKeyword_1 = (Keyword)cGroup.eContents().get(1);
@@ -66,7 +66,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getEndsolidKeyword_4() { return cEndsolidKeyword_4; }
 	}
 	public class Shape_ImplElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.january.model.xtext.STL.Shape_Impl");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "xtext.STL.Shape_Impl");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cShapeAction_0 = (Action)cGroup.eContents().get(0);
 		private final Assignment cTrianglesAssignment_1 = (Assignment)cGroup.eContents().get(1);
@@ -89,7 +89,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getTrianglesTriangleParserRuleCall_1_0() { return cTrianglesTriangleParserRuleCall_1_0; }
 	}
 	public class TriangleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.january.model.xtext.STL.Triangle");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "xtext.STL.Triangle");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cTriangleAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cFacetKeyword_1 = (Keyword)cGroup.eContents().get(1);
@@ -153,7 +153,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getEndfacetKeyword_7() { return cEndfacetKeyword_7; }
 	}
 	public class VertexElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.january.model.xtext.STL.Vertex");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "xtext.STL.Vertex");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Action cVertexAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cVertexKeyword_1 = (Keyword)cGroup.eContents().get(1);
@@ -200,7 +200,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getZEDoubleParserRuleCall_4_0() { return cZEDoubleParserRuleCall_4_0; }
 	}
 	public class EDoubleElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.january.model.xtext.STL.EDouble");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "xtext.STL.EDouble");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
 		private final Keyword cHyphenMinusKeyword_0_0 = (Keyword)cAlternatives_0.eContents().get(0);
@@ -267,7 +267,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getINTTerminalRuleCall_4_2() { return cINTTerminalRuleCall_4_2; }
 	}
 	public class EStringElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.eclipse.january.model.xtext.STL.EString");
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "xtext.STL.EString");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cSTRINGTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cIDTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
@@ -314,7 +314,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
 		Grammar grammar = grammarProvider.getGrammar(this);
 		while (grammar != null) {
-			if ("org.eclipse.january.model.xtext.STL".equals(grammar.getName())) {
+			if ("xtext.STL".equals(grammar.getName())) {
 				return grammar;
 			}
 			List<Grammar> grammars = grammar.getUsedGrammars();

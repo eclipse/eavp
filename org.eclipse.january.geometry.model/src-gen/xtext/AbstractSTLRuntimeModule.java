@@ -7,16 +7,6 @@ import com.google.inject.Binder;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import java.util.Properties;
-import xtext.formatting.STLFormatter;
-import xtext.generator.STLGenerator;
-import xtext.parser.antlr.STLAntlrTokenFileProvider;
-import xtext.parser.antlr.STLParser;
-import xtext.parser.antlr.internal.InternalSTLLexer;
-import xtext.scoping.STLScopeProvider;
-import xtext.serializer.STLSemanticSequencer;
-import xtext.serializer.STLSyntacticSequencer;
-import xtext.services.STLGrammarAccess;
-import xtext.validation.STLValidator;
 import org.eclipse.xtext.Constants;
 import org.eclipse.xtext.IGrammarAccess;
 import org.eclipse.xtext.common.services.Ecore2XtextTerminalConverters;
@@ -53,6 +43,16 @@ import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ISyntacticSequencer;
 import org.eclipse.xtext.service.DefaultRuntimeModule;
 import org.eclipse.xtext.service.SingletonBinding;
+import xtext.formatting.STLFormatter;
+import xtext.generator.STLGenerator;
+import xtext.parser.antlr.STLAntlrTokenFileProvider;
+import xtext.parser.antlr.STLParser;
+import xtext.parser.antlr.internal.InternalSTLLexer;
+import xtext.scoping.STLScopeProvider;
+import xtext.serializer.STLSemanticSequencer;
+import xtext.serializer.STLSyntacticSequencer;
+import xtext.services.STLGrammarAccess;
+import xtext.validation.STLValidator;
 
 /**
  * Manual modifications go to {@link STLRuntimeModule}.
@@ -64,12 +64,12 @@ public abstract class AbstractSTLRuntimeModule extends DefaultRuntimeModule {
 
 	@Override
 	public void configure(Binder binder) {
-		properties = tryBindProperties(binder, "org/eclipse/january/model/xtext/STL.properties");
+		properties = tryBindProperties(binder, "xtext/STL.properties");
 		super.configure(binder);
 	}
 	
 	public void configureLanguageName(Binder binder) {
-		binder.bind(String.class).annotatedWith(Names.named(Constants.LANGUAGE_NAME)).toInstance("org.eclipse.january.model.xtext.STL");
+		binder.bind(String.class).annotatedWith(Names.named(Constants.LANGUAGE_NAME)).toInstance("xtext.STL");
 	}
 	
 	public void configureFileExtensions(Binder binder) {

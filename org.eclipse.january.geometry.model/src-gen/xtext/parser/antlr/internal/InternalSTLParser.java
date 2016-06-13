@@ -188,7 +188,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
                     						current,
                     						"name",
                     						lv_name_2_0,
-                    						"org.eclipse.january.model.xtext.STL.EString");
+                    						"xtext.STL.EString");
                     					afterParserOrEnumRuleCall();
                     				
 
@@ -222,7 +222,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
             						current,
             						"nodes",
             						lv_nodes_3_0,
-            						"org.eclipse.january.model.xtext.STL.Shape_Impl");
+            						"xtext.STL.Shape_Impl");
             					afterParserOrEnumRuleCall();
             				
 
@@ -356,7 +356,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
             	    						current,
             	    						"triangles",
             	    						lv_triangles_1_0,
-            	    						"org.eclipse.january.model.xtext.STL.Triangle");
+            	    						"xtext.STL.Triangle");
             	    					afterParserOrEnumRuleCall();
             	    				
 
@@ -499,7 +499,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
             							current,
             							"normal",
             							lv_normal_3_0,
-            							"org.eclipse.january.model.xtext.STL.Vertex");
+            							"xtext.STL.Vertex");
             						afterParserOrEnumRuleCall();
             					
 
@@ -553,7 +553,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
             	    						current,
             	    						"vertices",
             	    						lv_vertices_6_0,
-            	    						"org.eclipse.january.model.xtext.STL.Vertex");
+            	    						"xtext.STL.Vertex");
             	    					afterParserOrEnumRuleCall();
             	    				
 
@@ -694,7 +694,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
             						current,
             						"x",
             						lv_x_2_0,
-            						"org.eclipse.january.model.xtext.STL.EDouble");
+            						"xtext.STL.EDouble");
             					afterParserOrEnumRuleCall();
             				
 
@@ -725,7 +725,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
             						current,
             						"y",
             						lv_y_3_0,
-            						"org.eclipse.january.model.xtext.STL.EDouble");
+            						"xtext.STL.EDouble");
             					afterParserOrEnumRuleCall();
             				
 
@@ -756,7 +756,7 @@ public class InternalSTLParser extends AbstractInternalAntlrParser {
             						current,
             						"z",
             						lv_z_4_0,
-            						"org.eclipse.january.model.xtext.STL.EDouble");
+            						"xtext.STL.EDouble");
             					afterParserOrEnumRuleCall();
             				
 

@@ -9,7 +9,7 @@ package geometry;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This class imports geometries based on the STL format. It supports only the ASCII version of STL.
+ * This class imports geometries based on the STL file format. The file must be complete and define a closed area or volume. 
  * <!-- end-model-doc -->
  *
  *

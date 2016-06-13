@@ -9,7 +9,6 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -148,7 +147,7 @@ public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implem
 		Injector injector = new STLStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-		Resource resource = resourceSet.getResource(URI.createFileURI("file:" + path.toString()), true);
+		Resource resource = resourceSet.getResource(URI.createFileURI(path.toFile().getAbsolutePath()), true);
 
 		// Check to see if returned contents contain a valid geometry. If not, then the file might be
 		// a binary format
@@ -159,9 +158,10 @@ public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implem
 		// If they contents are valid, get the first element
 		if(contents != null && !contents.isEmpty()) {
 			Geometry g = (Geometry) contents.get(0);
-			
+						
 			// If the geometry has no nodes, or the shape has no triangles, try loading from binary
 			if (g.getNodes().isEmpty() || ( (Shape)g.getNodes().get(0)).getTriangles().isEmpty()) {
+								
 				geometry = loadBinary(path);
 			} else {
 				// Otherwise, return this geometry

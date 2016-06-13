@@ -10,13 +10,13 @@ Workflow {
 	component = XtextGenerator {
 		configuration = {
 			project = StandardProjectConfig {
-				baseName = "org.eclipse.january.model.xtext.stl"
+				baseName = "org.eclipse.january.geometry.model"
 				rootPath = rootPath
 				runtimeTest = {
-					enabled = true
+					enabled = false
 				}
 				genericIde = {
-					enabled = true
+					enabled = false
 				}
 				createEclipseMetaData = true
 			}
@@ -26,7 +26,7 @@ Workflow {
 			}
 		}
 		language = StandardLanguage {
-			name = "org.eclipse.january.model.xtext.STL"
+			name = "xtext.STL"
 			fileExtensions = "stl"
 			referencedResource = "platform:/resource/org.eclipse.january.geometry.model/model/geometry.genmodel"
 			
@@ -40,7 +40,7 @@ Workflow {
 				generateStub = false
 			}
 			validator = {
-				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+				// composedCheck = "xtext.validation.NamesAreUniqueValidator"
 			}
 		}
 	}

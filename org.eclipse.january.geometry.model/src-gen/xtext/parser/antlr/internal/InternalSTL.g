@@ -8,7 +8,7 @@ options {
 }
 
 @lexer::header {
-package org.eclipse.january.model.xtext.parser.antlr.internal;
+package xtext.parser.antlr.internal;
 
 // Hack: Use our own Lexer superclass by means of import. 
 // Currently there is no other way to specify the superclass for the lexer.
@@ -16,7 +16,7 @@ import org.eclipse.xtext.parser.antlr.Lexer;
 }
 
 @parser::header {
-package org.eclipse.january.model.xtext.parser.antlr.internal;
+package xtext.parser.antlr.internal;
 
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.parser.*;
@@ -27,7 +27,7 @@ import org.eclipse.xtext.parser.antlr.AbstractInternalAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
 import org.eclipse.xtext.parser.antlr.AntlrDatatypeRuleToken;
-import org.eclipse.january.model.xtext.services.STLGrammarAccess;
+import xtext.services.STLGrammarAccess;
 
 }
 
@@ -101,7 +101,7 @@ ruleGeometry returns [EObject current=null]
 						$current,
 						"name",
 						lv_name_2_0,
-						"org.eclipse.january.model.xtext.STL.EString");
+						"xtext.STL.EString");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -120,7 +120,7 @@ ruleGeometry returns [EObject current=null]
 						$current,
 						"nodes",
 						lv_nodes_3_0,
-						"org.eclipse.january.model.xtext.STL.Shape_Impl");
+						"xtext.STL.Shape_Impl");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -169,7 +169,7 @@ ruleShape_Impl returns [EObject current=null]
 						$current,
 						"triangles",
 						lv_triangles_1_0,
-						"org.eclipse.january.model.xtext.STL.Triangle");
+						"xtext.STL.Triangle");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -223,7 +223,7 @@ ruleTriangle returns [EObject current=null]
 							$current,
 							"normal",
 							lv_normal_3_0,
-							"org.eclipse.january.model.xtext.STL.Vertex");
+							"xtext.STL.Vertex");
 						afterParserOrEnumRuleCall();
 					}
 				)
@@ -251,7 +251,7 @@ ruleTriangle returns [EObject current=null]
 						$current,
 						"vertices",
 						lv_vertices_6_0,
-						"org.eclipse.january.model.xtext.STL.Vertex");
+						"xtext.STL.Vertex");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -308,7 +308,7 @@ ruleVertex returns [EObject current=null]
 						$current,
 						"x",
 						lv_x_2_0,
-						"org.eclipse.january.model.xtext.STL.EDouble");
+						"xtext.STL.EDouble");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -327,7 +327,7 @@ ruleVertex returns [EObject current=null]
 						$current,
 						"y",
 						lv_y_3_0,
-						"org.eclipse.january.model.xtext.STL.EDouble");
+						"xtext.STL.EDouble");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -346,7 +346,7 @@ ruleVertex returns [EObject current=null]
 						$current,
 						"z",
 						lv_z_4_0,
-						"org.eclipse.january.model.xtext.STL.EDouble");
+						"xtext.STL.EDouble");
 					afterParserOrEnumRuleCall();
 				}
 			)

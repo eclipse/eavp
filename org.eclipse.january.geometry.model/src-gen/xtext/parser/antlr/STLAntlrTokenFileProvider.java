@@ -11,6 +11,6 @@ public class STLAntlrTokenFileProvider implements IAntlrTokenFileProvider {
 	@Override
 	public InputStream getAntlrTokenFile() {
 		ClassLoader classLoader = getClass().getClassLoader();
-		return classLoader.getResourceAsStream("org/eclipse/january/model/xtext/parser/antlr/internal/InternalSTL.tokens");
+		return classLoader.getResourceAsStream("xtext/parser/antlr/internal/InternalSTL.tokens");
 	}
 }
