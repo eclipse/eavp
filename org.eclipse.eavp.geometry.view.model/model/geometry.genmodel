@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.january.geometry.model/src" modelPluginID="org.eclipse.january.geometry.model"
+    modelName="Geometry" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>geometry.ecore</foreignModel>
+  <genPackages prefix="Geometry" disposableProviderFactory="true" ecorePackage="geometry.ecore#/">
+    <genDataTypes ecoreDataType="geometry.ecore#//INode"/>
+    <genClasses ecoreClass="geometry.ecore#//MeshCache">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//MeshCache/T"/>
+      <genOperations ecoreOperation="geometry.ecore#//MeshCache/getMesh">
+        <genParameters ecoreParameter="geometry.ecore#//MeshCache/getMesh/type"/>
+      </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//MeshCache/getMesh.1">
+        <genParameters ecoreParameter="geometry.ecore#//MeshCache/getMesh.1/triangles"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//RenderObject">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//RenderObject/T"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//RenderObject/meshcache"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//RenderObject/render"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//RenderObjectDecorator">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//RenderObjectDecorator/T"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//RenderObjectDecorator/source"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//TextureDecorator"/>
+    <genClasses ecoreClass="geometry.ecore#//OpacityDecorator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//OpacityDecorator/opacity"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//WireframeDecorator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//WireframeDecorator/wireframe"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//ColorDecorator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ColorDecorator/red"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ColorDecorator/green"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//ColorDecorator/blue"/>
+    </genClasses>
+    <genClasses ecoreClass="geometry.ecore#//IRenderElement">
+      <genTypeParameters ecoreTypeParameter="geometry.ecore#//IRenderElement/T"/>
+      <genOperations ecoreOperation="geometry.ecore#//IRenderElement/getMesh"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
