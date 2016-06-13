@@ -15,12 +15,13 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
@@ -311,7 +312,7 @@ public class FXShapeController extends ShapeController
 	 * boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
-		((IWireframeController) view).setWireFrameMode(on);
+	public void setWireframeMode(boolean on) {
+		((IWireframeView) view).setWireframeMode(on);
 	}
 }

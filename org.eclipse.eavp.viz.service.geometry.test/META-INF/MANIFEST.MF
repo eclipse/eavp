@@ -16,3 +16,8 @@ Import-Package: org.apache.log4j,
  org.hamcrest.core;version="1.3.0",
  org.junit;version="4.12.0"
 Bundle-Vendor: Oak Ridge National Laboratory
+Require-Bundle: org.eclipse.eavp.viz.modeling;bundle-version="2.1.8",
+ org.eclipse.eavp.viz;bundle-version="2.1.8",
+ org.eclipse.eavp.viz.datastructures;bundle-version="2.1.8",
+ org.eclipse.eavp.viz.service;bundle-version="2.1.8"
+Export-Package: org.eclipse.eavp.viz.service.geometry.reactor.test

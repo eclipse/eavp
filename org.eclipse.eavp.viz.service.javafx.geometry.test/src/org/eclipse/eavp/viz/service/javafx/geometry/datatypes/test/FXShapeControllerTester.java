@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.javafx.geometry.datatypes.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -31,6 +31,9 @@ import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
 import org.junit.Test;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.shape.DrawMode;
+import javafx.scene.shape.Shape3D;
 
 /**
  * A class for testing the functionality of the FXShapeController.
@@ -50,7 +53,7 @@ public class FXShapeControllerTester {
 		// original
 		Shape mesh = new Shape();
 		FXShapeController shape = new FXShapeController(mesh,
-				new FXShapeView(mesh));
+				new FXTestView());
 		shape.setProperty(MeshProperty.INNER_RADIUS, "Property");
 		FXShapeController clone = (FXShapeController) shape.clone();
 		assertTrue(shape.equals(clone));
@@ -134,7 +137,7 @@ public class FXShapeControllerTester {
 				.getRepresentation();
 		representation = shape.getRepresentation();
 		assertTrue(unionRepresentation.getData().getChildren()
-				.contains(unionRepresentation.getData()));
+				.contains(representation.getData()));
 	}
 
 	/**
@@ -193,6 +196,48 @@ public class FXShapeControllerTester {
 		assertTrue(((FXTestView) child.getView()).isRefreshed());
 	}
 
+	/**
+	 * Test that the shape can be made transparent.
+	 */
+	public void checkTransparency() {
+
+		// Create a cube named "test"
+		Shape mesh = new Shape();
+		FXShapeController shape = new FXShapeController(mesh, new FXShapeView(mesh));
+		shape.setProperty(MeshProperty.NAME, "test");
+		shape.setProperty(MeshProperty.TYPE, "Cube");
+
+		// The view should start off opaque
+		assertFalse(shape.isTransparent());
+
+		// Make the view transparent
+		shape.setTransparentMode(true);
+
+		// Check that the transparency flag is set
+		assertTrue(shape.isTransparent());
+	}
+
+	/**
+	 * Test that the shape can rendered in wireframe mode
+	 */
+	public void checkWireframe() {
+
+		// Create a cube named "test"
+		Shape mesh = new Shape();
+		FXShapeController shape = new FXShapeController(mesh, new FXShapeView(mesh));
+		shape.setProperty(MeshProperty.NAME, "test");
+		shape.setProperty(MeshProperty.TYPE, "Cube");
+
+		// The view should start off drawn normally
+		assertFalse(shape.isWireframe());
+
+		// Make the shape wireframe
+		shape.setWireframeMode(true);
+
+		// Check that the wireframe flag has been set
+		assertTrue(shape.isWireframe());
+	}
+
 	private class FXTestView extends FXShapeView {
 
 		/**
@@ -225,6 +270,17 @@ public class FXShapeControllerTester {
 		public void refresh(IMesh model) {
 			refreshed = true;
 			super.refresh(model);
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.eavp.viz.modeling.base.BasicView#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object otherObject){
+			
+			//Assume test views are always equal
+			return true;
 		}
 
 	}

@@ -142,7 +142,7 @@ public class FXPlantViewRootControllerTester {
 				.getDrawMode() == DrawMode.FILL);
 
 		// Set the root to wireframe mode. The pipe should be set as well
-		root.setWireFrameMode(true);
+		root.setWireframeMode(true);
 		representation = pipe.getRepresentation();
 		assertTrue(((MeshView) representation.getData().getChildren().get(1))
 				.getDrawMode() == DrawMode.LINE);
@@ -166,7 +166,7 @@ public class FXPlantViewRootControllerTester {
 
 		// Return the root to normal mode and check that the pipes are also
 		// reset.
-		root.setWireFrameMode(false);
+		root.setWireframeMode(false);
 		representation = pipe.getRepresentation();
 		representation2 = pipe2.getRepresentation();
 		assertTrue(((MeshView) representation.getData().getChildren().get(1))

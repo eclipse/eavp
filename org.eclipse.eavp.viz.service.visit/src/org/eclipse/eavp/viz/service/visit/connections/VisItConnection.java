@@ -200,11 +200,16 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 											+ "\".");
 						}
 					} else if (os.indexOf("nux") >= 0) {
-						if (!new File(dir + "/bin/visit").exists()
-								&& !new File(dir + "/visit").exists()) {
+						if (!new File(dir + "/visit").exists() && !new File(dir + "/visit").getAbsoluteFile().exists()) {
+							
+							//THe visit java client won't check inside the bin directory so change the path if it is located there
+							if(!new File(dir + "/bin/visit").exists() || !new File(dir + "bin/visit").getAbsoluteFile().exists()){
+								properties.put("visDir", dir + "/bin");
+							} else{
 							addErrorMessage(
 									"Could not find VisIt in directory \"" + dir
 											+ "\".");
+							}
 						}
 					}
 				}

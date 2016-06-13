@@ -40,9 +40,12 @@ public class FXHeatExchangerControllerTester {
 		FXHeatExchangerController exchanger = new FXHeatExchangerController(
 				mesh, new FXHeatExchangerView(mesh));
 		exchanger.setProperty(MeshProperty.ID, "Property");
-		FXHeatExchangerController clone = (FXHeatExchangerController) exchanger
-				.clone();
-		assertTrue(exchanger.equals(clone));
+		Object clone = exchanger.clone();
+
+		// The clone is not necessarily equal to the original because of the
+		// lack of JavaFX objects' implmentations of equals(). Just check that
+		// the clone is of the propert type.
+		assertTrue(clone instanceof FXHeatExchangerController);
 	}
 
 	/**
@@ -62,7 +65,7 @@ public class FXHeatExchangerControllerTester {
 		view.wasRefreshed();
 
 		// Set the view to wireframe mode
-		view.setWireFrameMode(true);
+		view.setWireframeMode(true);
 
 		// This should have signaled the controller to perform a refresh
 		assertTrue(view.wasRefreshed());
@@ -80,7 +83,7 @@ public class FXHeatExchangerControllerTester {
 		view.wasRefreshed();
 
 		// Set the child's view to wireframe mode
-		view2.setWireFrameMode(true);
+		view2.setWireframeMode(true);
 
 		// Since the wireframe message was not received from the controller's
 		// view, it should not cause the controller to refresh the view.

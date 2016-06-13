@@ -56,7 +56,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/id"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/nodes"/>
     </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Operator"/>
+    <genClasses ecoreClass="geometry.ecore#//Operator">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//Operator/children"/>
+    </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Union"/>
     <genClasses ecoreClass="geometry.ecore#//Intersection"/>
     <genClasses ecoreClass="geometry.ecore#//Complement"/>
