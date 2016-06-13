@@ -9,7 +9,7 @@ package geometry;
  * <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
- * This class imports geometries based on the STL file format. The file must be complete and define a closed area or volume. 
+ * This class imports geometries based on the STL file format. The file must be complete and define a closed area or volume. This format specifies meshes as a series of triangles.  
  * <!-- end-model-doc -->
  *
  *
