@@ -24,7 +24,6 @@ import geometry.Triangle;
 import geometry.Tube;
 import geometry.Union;
 import geometry.Vertex;
-
 import java.nio.file.Path;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -33,7 +32,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -337,8 +335,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTriangle_Vertices() {
-		return (EReference)triangleEClass.getEStructuralFeatures().get(1);
+	public EReference getTriangle_Normal() {
+		return (EReference)triangleEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -346,8 +344,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTriangle_Normal() {
-		return (EReference)triangleEClass.getEStructuralFeatures().get(0);
+	public EReference getTriangle_Vertices() {
+		return (EReference)triangleEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**

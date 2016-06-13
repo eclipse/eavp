@@ -5475,7 +5475,7 @@
               <styles xmi:type="notation:FilteringStyle" xmi:id="_Pl-4wzGJEea62abSd6-New"/>
             </children>
             <styles xmi:type="notation:ShapeStyle" xmi:id="_Pl-RtDGJEea62abSd6-New" fontName="Segoe UI" fontHeight="8"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Pl-RtTGJEea62abSd6-New" x="1224" y="156"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Pl-RtTGJEea62abSd6-New" x="1203" y="276"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_Pl_f0DGJEea62abSd6-New" type="2003" element="_Pkg5IDGJEea62abSd6-New">
             <children xmi:type="notation:Node" xmi:id="_Pl_f0zGJEea62abSd6-New" type="5007"/>
@@ -5588,17 +5588,17 @@
           </edges>
           <edges xmi:type="notation:Edge" xmi:id="_PmeA8DGJEea62abSd6-New" type="4001" element="_PlbfIDGJEea62abSd6-New" source="_PlwPQDGJEea62abSd6-New" target="_Pl-RszGJEea62abSd6-New">
             <children xmi:type="notation:Node" xmi:id="_PmeA9DGJEea62abSd6-New" type="6001">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PmeA9TGJEea62abSd6-New" y="-10"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PmeA9TGJEea62abSd6-New" x="-69" y="-10"/>
             </children>
             <children xmi:type="notation:Node" xmi:id="_PmeA9jGJEea62abSd6-New" type="6002">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PmeA9zGJEea62abSd6-New" y="10"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PmeA9zGJEea62abSd6-New" y="-10"/>
             </children>
             <children xmi:type="notation:Node" xmi:id="_PmeoADGJEea62abSd6-New" type="6003">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PmeoATGJEea62abSd6-New" y="10"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PmeoATGJEea62abSd6-New" x="-35" y="10"/>
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_PmeA8TGJEea62abSd6-New" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_PmeA8jGJEea62abSd6-New" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PmeA8zGJEea62abSd6-New" points="[0, -50, 359, 110]$[-359, -110, 0, 50]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PmeA8zGJEea62abSd6-New" points="[-128, -21, 250, 27]$[-319, -21, 59, 27]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PmeoAjGJEea62abSd6-New" id="(0.5,0.5)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PmeoAzGJEea62abSd6-New" id="(0.5,0.5)"/>
           </edges>
@@ -6145,6 +6145,9 @@
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_Pkec4TGJEea62abSd6-New" name="Material" tooltipText="" incomingEdges="_PlbfIDGJEea62abSd6-New" width="12" height="10">
         <target xmi:type="ecore:EClass" href="geometry.ecore#//Material"/>
         <semanticElements xmi:type="ecore:EClass" href="geometry.ecore#//Material"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
         <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_PkfrADGJEea62abSd6-New" borderSize="1" borderSizeComputationExpression="1" backgroundStyle="Liquid" foregroundColor="255,252,216">
           <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@style"/>
         </ownedStyle>
@@ -6268,6 +6271,7 @@
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_Pla4EzGJEea62abSd6-New" description="_Pla4EDGJEea62abSd6-New" routingStyle="manhattan" strokeColor="0,0,0">
           <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_Pla4FDGJEea62abSd6-New" showIcon="false">
             <customFeatures>labelSize</customFeatures>
+            <labelFormat>bold</labelFormat>
           </centerLabelStyle>
           <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_Pla4FTGJEea62abSd6-New" showIcon="false" labelColor="39,76,114">
             <customFeatures>labelSize</customFeatures>
