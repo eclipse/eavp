@@ -140,8 +140,8 @@ public class GeometryAdapterFactory extends AdapterFactoryImpl {
 				return createIGeometryImporterAdapter();
 			}
 			@Override
-			public Adapter caseASCIISTLGeometryImporter(ASCIISTLGeometryImporter object) {
-				return createASCIISTLGeometryImporterAdapter();
+			public Adapter caseSTLGeometryImporter(STLGeometryImporter object) {
+				return createSTLGeometryImporterAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -416,16 +416,16 @@ public class GeometryAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link geometry.ASCIISTLGeometryImporter <em>ASCIISTL Geometry Importer</em>}'.
+	 * Creates a new adapter for an object of class '{@link geometry.STLGeometryImporter <em>STL Geometry Importer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see geometry.ASCIISTLGeometryImporter
+	 * @see geometry.STLGeometryImporter
 	 * @generated
 	 */
-	public Adapter createASCIISTLGeometryImporterAdapter() {
+	public Adapter createSTLGeometryImporterAdapter() {
 		return null;
 	}
 

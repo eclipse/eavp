@@ -1446,14 +1446,14 @@ public interface GeometryPackage extends EPackage {
 	int IGEOMETRY_IMPORTER_OPERATION_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link geometry.impl.ASCIISTLGeometryImporterImpl <em>ASCIISTL Geometry Importer</em>}' class.
+	 * The meta object id for the '{@link geometry.impl.STLGeometryImporterImpl <em>STL Geometry Importer</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see geometry.impl.ASCIISTLGeometryImporterImpl
-	 * @see geometry.impl.GeometryPackageImpl#getASCIISTLGeometryImporter()
+	 * @see geometry.impl.STLGeometryImporterImpl
+	 * @see geometry.impl.GeometryPackageImpl#getSTLGeometryImporter()
 	 * @generated
 	 */
-	int ASCIISTL_GEOMETRY_IMPORTER = 18;
+	int STL_GEOMETRY_IMPORTER = 18;
 
 	/**
 	 * The feature id for the '<em><b>File Types</b></em>' attribute list.
@@ -1462,7 +1462,7 @@ public interface GeometryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASCIISTL_GEOMETRY_IMPORTER__FILE_TYPES = IGEOMETRY_IMPORTER__FILE_TYPES;
+	int STL_GEOMETRY_IMPORTER__FILE_TYPES = IGEOMETRY_IMPORTER__FILE_TYPES;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1471,16 +1471,16 @@ public interface GeometryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASCIISTL_GEOMETRY_IMPORTER__DESCRIPTION = IGEOMETRY_IMPORTER__DESCRIPTION;
+	int STL_GEOMETRY_IMPORTER__DESCRIPTION = IGEOMETRY_IMPORTER__DESCRIPTION;
 
 	/**
-	 * The number of structural features of the '<em>ASCIISTL Geometry Importer</em>' class.
+	 * The number of structural features of the '<em>STL Geometry Importer</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASCIISTL_GEOMETRY_IMPORTER_FEATURE_COUNT = IGEOMETRY_IMPORTER_FEATURE_COUNT + 0;
+	int STL_GEOMETRY_IMPORTER_FEATURE_COUNT = IGEOMETRY_IMPORTER_FEATURE_COUNT + 0;
 
 	/**
 	 * The operation id for the '<em>Load</em>' operation.
@@ -1489,16 +1489,16 @@ public interface GeometryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASCIISTL_GEOMETRY_IMPORTER___LOAD__PATH = IGEOMETRY_IMPORTER___LOAD__PATH;
+	int STL_GEOMETRY_IMPORTER___LOAD__PATH = IGEOMETRY_IMPORTER___LOAD__PATH;
 
 	/**
-	 * The number of operations of the '<em>ASCIISTL Geometry Importer</em>' class.
+	 * The number of operations of the '<em>STL Geometry Importer</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASCIISTL_GEOMETRY_IMPORTER_OPERATION_COUNT = IGEOMETRY_IMPORTER_OPERATION_COUNT + 0;
+	int STL_GEOMETRY_IMPORTER_OPERATION_COUNT = IGEOMETRY_IMPORTER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link geometry.ShapeChangeEventType <em>Shape Change Event Type</em>}' enum.
@@ -2026,14 +2026,14 @@ public interface GeometryPackage extends EPackage {
 	EOperation getIGeometryImporter__Load__Path();
 
 	/**
-	 * Returns the meta object for class '{@link geometry.ASCIISTLGeometryImporter <em>ASCIISTL Geometry Importer</em>}'.
+	 * Returns the meta object for class '{@link geometry.STLGeometryImporter <em>STL Geometry Importer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>ASCIISTL Geometry Importer</em>'.
-	 * @see geometry.ASCIISTLGeometryImporter
+	 * @return the meta object for class '<em>STL Geometry Importer</em>'.
+	 * @see geometry.STLGeometryImporter
 	 * @generated
 	 */
-	EClass getASCIISTLGeometryImporter();
+	EClass getSTLGeometryImporter();
 
 	/**
 	 * Returns the meta object for enum '{@link geometry.ShapeChangeEventType <em>Shape Change Event Type</em>}'.
@@ -2500,14 +2500,14 @@ public interface GeometryPackage extends EPackage {
 		EOperation IGEOMETRY_IMPORTER___LOAD__PATH = eINSTANCE.getIGeometryImporter__Load__Path();
 
 		/**
-		 * The meta object literal for the '{@link geometry.impl.ASCIISTLGeometryImporterImpl <em>ASCIISTL Geometry Importer</em>}' class.
+		 * The meta object literal for the '{@link geometry.impl.STLGeometryImporterImpl <em>STL Geometry Importer</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see geometry.impl.ASCIISTLGeometryImporterImpl
-		 * @see geometry.impl.GeometryPackageImpl#getASCIISTLGeometryImporter()
+		 * @see geometry.impl.STLGeometryImporterImpl
+		 * @see geometry.impl.GeometryPackageImpl#getSTLGeometryImporter()
 		 * @generated
 		 */
-		EClass ASCIISTL_GEOMETRY_IMPORTER = eINSTANCE.getASCIISTLGeometryImporter();
+		EClass STL_GEOMETRY_IMPORTER = eINSTANCE.getSTLGeometryImporter();
 
 		/**
 		 * The meta object literal for the '{@link geometry.ShapeChangeEventType <em>Shape Change Event Type</em>}' enum.

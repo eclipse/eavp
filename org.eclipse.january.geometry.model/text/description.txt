@@ -73,7 +73,7 @@ Package geometry <http://www.eclipse.org/>
     Attribute description : EString
     Operation load(Path) : Geometry
 
-  Class ASCIISTLGeometryImporter -> IGeometryImporter
+  Class STLGeometryImporter -> IGeometryImporter
 
   Enum ShapeChangeEventType
     Literal NameChange = 0

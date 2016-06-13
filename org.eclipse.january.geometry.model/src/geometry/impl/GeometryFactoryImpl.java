@@ -72,7 +72,7 @@ public class GeometryFactoryImpl extends EFactoryImpl implements GeometryFactory
 			case GeometryPackage.COMPLEMENT: return createComplement();
 			case GeometryPackage.MATERIAL: return createMaterial();
 			case GeometryPackage.SHAPE_CHANGE_EVENT: return createShapeChangeEvent();
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER: return createASCIISTLGeometryImporter();
+			case GeometryPackage.STL_GEOMETRY_IMPORTER: return createSTLGeometryImporter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -257,9 +257,9 @@ public class GeometryFactoryImpl extends EFactoryImpl implements GeometryFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ASCIISTLGeometryImporter createASCIISTLGeometryImporter() {
-		ASCIISTLGeometryImporterImpl asciistlGeometryImporter = new ASCIISTLGeometryImporterImpl();
-		return asciistlGeometryImporter;
+	public STLGeometryImporter createSTLGeometryImporter() {
+		STLGeometryImporterImpl stlGeometryImporter = new STLGeometryImporterImpl();
+		return stlGeometryImporter;
 	}
 
 	/**

@@ -3,7 +3,7 @@
 package geometry.provider;
 
 
-import geometry.ASCIISTLGeometryImporter;
+import geometry.STLGeometryImporter;
 import geometry.GeometryPackage;
 
 import java.util.Collection;
@@ -26,12 +26,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link geometry.ASCIISTLGeometryImporter} object.
+ * This is the item provider adapter for a {@link geometry.STLGeometryImporter} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ASCIISTLGeometryImporterItemProvider 
+public class STLGeometryImporterItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +45,7 @@ public class ASCIISTLGeometryImporterItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ASCIISTLGeometryImporterItemProvider(AdapterFactory adapterFactory) {
+	public STLGeometryImporterItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -111,14 +111,14 @@ public class ASCIISTLGeometryImporterItemProvider
 	}
 
 	/**
-	 * This returns ASCIISTLGeometryImporter.gif.
+	 * This returns STLGeometryImporter.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ASCIISTLGeometryImporter"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/STLGeometryImporter"));
 	}
 
 	/**
@@ -129,10 +129,10 @@ public class ASCIISTLGeometryImporterItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ASCIISTLGeometryImporter)object).getDescription();
+		String label = ((STLGeometryImporter)object).getDescription();
 		return label == null || label.length() == 0 ?
-			getString("_UI_ASCIISTLGeometryImporter_type") :
-			getString("_UI_ASCIISTLGeometryImporter_type") + " " + label;
+			getString("_UI_STLGeometryImporter_type") :
+			getString("_UI_STLGeometryImporter_type") + " " + label;
 	}
 	
 
@@ -147,9 +147,9 @@ public class ASCIISTLGeometryImporterItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ASCIISTLGeometryImporter.class)) {
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__FILE_TYPES:
-			case GeometryPackage.ASCIISTL_GEOMETRY_IMPORTER__DESCRIPTION:
+		switch (notification.getFeatureID(STLGeometryImporter.class)) {
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__FILE_TYPES:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__DESCRIPTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
