@@ -66,5 +66,50 @@ public class TubeTest extends ShapeTest {
 	protected void tearDown() throws Exception {
 		setFixture(null);
 	}
+	
+	/**
+	 * Check that only valid values are accepted for the properties.
+	 * 
+	 * @generated NOT
+	 */
+	public void checkProperties(){
+		
+		//The tube to be tested
+		Tube tube = GeometryFactory.eINSTANCE.createTube();
+		
+		//Check that height can be set
+		tube.setHeight(1);
+		assertEquals(1, tube.getHeight());
+		
+		//Check that negative values will be rejected
+		tube.setHeight(-2);
+		assertEquals(1, tube.getHeight());
+		
+		//Check that radius can be set
+		tube.setRadius(1);
+		assertEquals(1, tube.getRadius());
+		
+		//Check that negative values will be rejected
+		tube.setRadius(-2);
+		assertEquals(1, tube.getRadius());
+		
+		//Check that inner radius can be set
+		tube.setInnerRadius(0.5);
+		assertEquals(0.5, tube.getInnerRadius());
+		
+		//Check that negative values will be rejected
+		tube.setInnerRadius(-2);
+		assertEquals(0.5, tube.getInnerRadius());
+		
+		//Check that the inner radius is constrained by the outer radius
+		tube.setInnerRadius(2);
+		assertEquals(0.5, tube.getInnerRadius());
+		tube.setInnerRadius(1);
+		assertEquals(1, tube.getInnerRadius());
+		
+		//Check that the radius is constrained by the inner radius
+		tube.setRadius(0.5);
+		assertEquals(1, tube.getRadius());
+	}
 
 } //TubeTest

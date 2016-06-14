@@ -8,9 +8,7 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 Package geometry <http://www.eclipse.org/>
 
   Class Shape -> ISubjectShape, INode
-    Reference triangles : Triangle<<0..*>>
     Reference center : Vertex<<1..1>>
-    Attribute type : EString
     Reference material : Material
     Operation getPropertyNames() : EString<<0..*>>
     Operation getProperty(EString) : EDouble
@@ -46,6 +44,8 @@ Package geometry <http://www.eclipse.org/>
     Attribute name : EString
     Attribute id : ELong
     Reference nodes : INode<<0..*>>
+    Attribute type : EString
+    Reference triangles : Triangle<<0..*>>
 
   Class Operator -> INode
 

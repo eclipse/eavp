@@ -17,9 +17,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link geometry.Shape#getTriangles <em>Triangles</em>}</li>
  *   <li>{@link geometry.Shape#getCenter <em>Center</em>}</li>
- *   <li>{@link geometry.Shape#getType <em>Type</em>}</li>
  *   <li>{@link geometry.Shape#getMaterial <em>Material</em>}</li>
  * </ul>
  *
@@ -28,21 +26,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Shape extends ISubjectShape, INode {
-	/**
-	 * Returns the value of the '<em><b>Triangles</b></em>' containment reference list.
-	 * The list contents are of type {@link geometry.Triangle}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The surface of every shape can be represented by a collection of triangles. This collection of triangles only approximates the exact geometry of the shape in practice, although in the limit where the number of triangles goes to infinity the representation is exact.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Triangles</em>' containment reference list.
-	 * @see geometry.GeometryPackage#getShape_Triangles()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Triangle> getTriangles();
-
 	/**
 	 * Returns the value of the '<em><b>Center</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -67,31 +50,6 @@ public interface Shape extends ISubjectShape, INode {
 	 * @generated
 	 */
 	void setCenter(Vertex value);
-
-	/**
-	 * Returns the value of the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * A string representing the type of geometry this Shape is in a human readable way. Examples include "cube" or "sphere."
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Type</em>' attribute.
-	 * @see #setType(String)
-	 * @see geometry.GeometryPackage#getShape_Type()
-	 * @model
-	 * @generated
-	 */
-	String getType();
-
-	/**
-	 * Sets the value of the '{@link geometry.Shape#getType <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' attribute.
-	 * @see #getType()
-	 * @generated
-	 */
-	void setType(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Material</b></em>' containment reference.
@@ -126,6 +84,7 @@ public interface Shape extends ISubjectShape, INode {
 	 * Get the names of all properties set for this shape.
 	 * <!-- end-model-doc -->
 	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='//Return a list of the properties\' keys.\r\nreturn new BasicEList<String>(properties.keySet());'"
 	 * @generated
 	 */
 	EList<String> getPropertyNames();
@@ -137,7 +96,7 @@ public interface Shape extends ISubjectShape, INode {
 	 * Get the value for one of the shape's properties.
 	 * @param property The name of the property whose value is to be returned.
 	 * <!-- end-model-doc -->
-	 * @model
+	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body='return properties.get(property);'"
 	 * @generated
 	 */
 	double getProperty(String property);
@@ -150,7 +109,7 @@ public interface Shape extends ISubjectShape, INode {
 	 * @param property The name of the property whose value is being set.
 	 * @param value The property's new value.
 	 * <!-- end-model-doc -->
-	 * @model
+	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body='properties.put(property, value);'"
 	 * @generated
 	 */
 	void setProperty(String property, double value);

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ICE Viz Component
+Bundle-SymbolicName: org.eclipse.eavp.geometry.view.javafx;singleton:=true
+Bundle-Version: 2.1.8.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Vendor: Oak Ridge National Laboratory
+Import-Package: geometry,
+ model,
+ model.impl,
+ org.eclipse.emf.common,
+ org.eclipse.emf.ecore.impl
+Require-Bundle: org.eclipse.eavp.geometry.view.model

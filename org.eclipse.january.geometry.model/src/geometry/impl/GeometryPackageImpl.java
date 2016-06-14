@@ -263,7 +263,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getShape_Triangles() {
+	public EReference getShape_Center() {
 		return (EReference)shapeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -272,26 +272,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getShape_Center() {
-		return (EReference)shapeEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getShape_Type() {
-		return (EAttribute)shapeEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getShape_Material() {
-		return (EReference)shapeEClass.getEStructuralFeatures().get(3);
+		return (EReference)shapeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -533,6 +515,24 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getINode_Type() {
+		return (EAttribute)iNodeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getINode_Triangles() {
+		return (EReference)iNodeEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperator() {
 		return operatorEClass;
 	}
@@ -737,9 +737,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		// Create classes and their features
 		shapeEClass = createEClass(SHAPE);
-		createEReference(shapeEClass, SHAPE__TRIANGLES);
 		createEReference(shapeEClass, SHAPE__CENTER);
-		createEAttribute(shapeEClass, SHAPE__TYPE);
 		createEReference(shapeEClass, SHAPE__MATERIAL);
 		createEOperation(shapeEClass, SHAPE___GET_PROPERTY_NAMES);
 		createEOperation(shapeEClass, SHAPE___GET_PROPERTY__STRING);
@@ -775,6 +773,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEAttribute(iNodeEClass, INODE__NAME);
 		createEAttribute(iNodeEClass, INODE__ID);
 		createEReference(iNodeEClass, INODE__NODES);
+		createEAttribute(iNodeEClass, INODE__TYPE);
+		createEReference(iNodeEClass, INODE__TRIANGLES);
 
 		operatorEClass = createEClass(OPERATOR);
 
@@ -854,9 +854,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(shapeEClass, Shape.class, "Shape", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getShape_Triangles(), this.getTriangle(), null, "triangles", null, 0, -1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_Center(), this.getVertex(), null, "center", null, 1, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getShape_Type(), ecorePackage.getEString(), "type", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_Material(), this.getMaterial(), null, "material", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEOperation(getShape__GetPropertyNames(), ecorePackage.getEString(), "getPropertyNames", 0, -1, IS_UNIQUE, IS_ORDERED);
@@ -898,6 +896,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEAttribute(getINode_Name(), ecorePackage.getEString(), "name", null, 0, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getINode_Id(), ecorePackage.getELong(), "id", null, 0, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getINode_Nodes(), this.getINode(), null, "nodes", null, 0, -1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getINode_Type(), ecorePackage.getEString(), "type", null, 0, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getINode_Triangles(), this.getTriangle(), null, "triangles", null, 0, -1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

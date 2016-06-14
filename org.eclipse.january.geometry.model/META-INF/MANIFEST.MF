@@ -13,3 +13,4 @@ Export-Package: geometry,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy
+Import-Package: org.slf4j
