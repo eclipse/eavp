@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="geometry" nsURI="http://www.eclipse.org/" nsPrefix="january">
-  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//ISubjectShape #//INode">
+  <eClassifiers xsi:type="ecore:EClass" name="Shape" eSuperTypes="#//INode">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="This class defines a shape as a collection of triangles and a center, or origin, of the space. This is also a base class for common and complex shapes. Common shapes are commonly known shapes like spheres, cubes, cylinders and others that form the basis of Constructive Solid Geometry packages. Complex shapes are common shapes that have been combined using boolean operations such as unions and intersections."/>
     </eAnnotations>
     <eOperations name="getPropertyNames" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Get the names of all properties set for this shape."/>
+        <details key="body" value="//Return a list of the properties' keys.&#xD;&#xA;return new BasicEList&lt;String>(properties.keySet());"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getProperty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Get the value for one of the shape's properties."/>
+        <details key="body" value="return properties.get(property);"/>
       </eAnnotations>
       <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -23,6 +25,7 @@
     <eOperations name="setProperty">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Set one of the Shape's properties."/>
+        <details key="body" value="properties.put(property, value);"/>
       </eAnnotations>
       <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -35,22 +38,10 @@
         </eAnnotations>
       </eParameters>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="triangles" upperBound="-1"
-        eType="#//Triangle" containment="true">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The surface of every shape can be represented by a collection of triangles. This collection of triangles only approximates the exact geometry of the shape in practice, although in the limit where the number of triangles goes to infinity the representation is exact."/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="center" lowerBound="1"
         eType="#//Vertex">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Each shape is centered on a special vertex."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="suppressedSetVisibility" value="&quot;true&quot;"/>
-        <details key="documentation" value="A string representing the type of geometry this Shape is in a human readable way. Examples include &quot;cube&quot; or &quot;sphere.&quot;"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="material" eType="#//Material"
@@ -99,8 +90,6 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="suppressedGetVisibility" value="true"/>
-        <details key="suppressedSetVisibility" value="true"/>
         <details key="documentation" value="The radius is the distance from the center of the sphere to any point on the surface. It is constant across the entire sphere."/>
       </eAnnotations>
     </eStructuralFeatures>
@@ -112,8 +101,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sideLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The length of any side of the box."/>
-        <details key="suppressedGetVisibility" value="true"/>
-        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -124,15 +111,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The radius is the shortest distance from a point on the surface of the cylinder to the central axis. It is constant across the entire cylinder."/>
-        <details key="supressedGetVisibility" value="true"/>
-        <details key="supressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The length of the central axis of the cylinder."/>
-        <details key="suppressedGetVisibility" value="true"/>
-        <details key="supressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -149,24 +132,18 @@
         defaultValueLiteral="0.0">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The cylinder's height."/>
-        <details key="suppressedGetVisibility" value="true"/>
-        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="innerRadius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="0.0">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The radius of the inner hole bored through the outer cylinder to form the pipe. This value must be no greater than radius. "/>
-        <details key="suppressedGetVisibility" value="true"/>
-        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="0.0">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The radius of the circle forming the outer edge of the tube."/>
-        <details key="suppressedGetVisibility" value="true"/>
-        <details key="suppressedSetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -190,95 +167,26 @@
         <details key="documentation" value="The list of nodes that compose the head node."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A string representing the type of entity this node represents in the tree in a human readable way. Example values might include &quot;cube&quot;, &quot;sphere&quot; or &quot;intersection.&quot;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triangles" upperBound="-1"
+        eType="#//Triangle" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="A series of triangles which comprise the mesh which will represent this object graphically. If this list is empty, it will be the responsibility of other classes to determine, based on this INode's &quot;type&quot;, what mesh, if any, should be displayed for it."/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operator" eSuperTypes="#//INode"/>
   <eClassifiers xsi:type="ecore:EClass" name="Union" eSuperTypes="#//Operator"/>
   <eClassifiers xsi:type="ecore:EClass" name="Intersection" eSuperTypes="#//Operator"/>
   <eClassifiers xsi:type="ecore:EClass" name="Complement" eSuperTypes="#//Operator"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ISubjectShape" abstract="true" interface="true">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value=""/>
-    </eAnnotations>
-    <eOperations name="register">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value=""/>
-      </eAnnotations>
-      <eParameters name="observer" eType="#//IShapeObserver">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="The observer which will listen to this object."/>
-        </eAnnotations>
-      </eParameters>
-    </eOperations>
-    <eOperations name="unregister">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Remove an IShapeObserver from the list of registered listeners, so that it will no longer receive updates from this object."/>
-      </eAnnotations>
-      <eParameters name="observer" eType="#//IShapeObserver">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="The observer which will no longer listen to this object."/>
-        </eAnnotations>
-      </eParameters>
-    </eOperations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IShapeObserver" abstract="true" interface="true">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="An interface for objects which listen to an ISubjectShape as part of the observer pattern."/>
-    </eAnnotations>
-    <eOperations name="update">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Notify the observer that a change has taken place in one of the ISubjectShapes to which it is listening."/>
-      </eAnnotations>
-      <eParameters name="event" eType="#//ShapeChangeEvent">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="The type of event which prompted the update."/>
-        </eAnnotations>
-      </eParameters>
-      <eParameters name="source" eType="#//ISubjectShape">
-        <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-          <details key="documentation" value="The shape from which the update originated."/>
-        </eAnnotations>
-      </eParameters>
-    </eOperations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ShapeChangeEventType">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value=""/>
-    </eAnnotations>
-    <eLiterals name="NameChange">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value=""/>
-      </eAnnotations>
-    </eLiterals>
-    <eLiterals name="PropChange" value="1">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="An event fired by a change in one or more of the ISubjectShape's properties."/>
-      </eAnnotations>
-    </eLiterals>
-    <eLiterals name="ShapeChange" value="2">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value=""/>
-      </eAnnotations>
-    </eLiterals>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Material">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value=""/>
     </eAnnotations>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ShapeChangeEvent">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A description of an event that triggered an updated from an ISubjectShape. A ShapeChangeEvent describes the change which prompted the shape to fire a notification."/>
-    </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ShapeChangeEventType">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The type of change which created this event."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="A specific description of the exact change this event represents. For example, a PropChange type event may have a value of &quot;radius&quot; to show that the radius property was changed."/>
-      </eAnnotations>
-    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IGeometryImporter" abstract="true" interface="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -291,8 +199,7 @@
       <eParameters name="path" eType="#//Path"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileTypes" lowerBound="1"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="">
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The list of file format types supported by this importer."/>
       </eAnnotations>

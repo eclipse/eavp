@@ -7,32 +7,61 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 
 Package geometry <http://www.eclipse.org/>
 
-  Class MeshCache
-    Operation getMesh(EString) : EJavaObject
-    Operation getMesh(EEList) : EJavaObject
+  Class Shape -> INode
+    Reference center : Vertex<<1..1>>
+    Reference material : Material
+    Operation getPropertyNames() : EString<<0..*>>
+    Operation getProperty(EString) : EDouble
+    Operation setProperty(EString, EDouble) : void
 
-  Class RenderObject -> IRenderElement
-    Reference meshcache : MeshCache
-    Attribute render : EJavaObject
-    Attribute source : INode
+  Class Triangle
+    Reference normal : Vertex
+    Reference vertices : Vertex<<0..3>>
 
-  Class RenderObjectDecorator -> IRenderElement
-    Reference source : IRenderElement
+  Class Vertex
+    Attribute x : EDouble
+    Attribute y : EDouble
+    Attribute z : EDouble
 
-  Class TextureDecorator -> RenderObjectDecorator
+  Class Sphere -> Shape
+    Attribute radius : EDouble
 
-  Class OpacityDecorator -> RenderObjectDecorator
-    Attribute opacity : EDouble
+  Class Cube -> Shape
+    Attribute sideLength : EDouble
 
-  Class WireframeDecorator -> RenderObjectDecorator
-    Attribute wireframe : EBoolean
+  Class Cylinder -> Shape
+    Attribute radius : EDouble
+    Attribute height : EDouble
 
-  Class ColorDecorator -> RenderObjectDecorator
-    Attribute red : EInt
-    Attribute green : EInt
-    Attribute blue : EInt
+  Class Geometry -> INode
 
-  Class IRenderElement
-    Operation getMesh() : EJavaObject
+  Class Tube -> Shape
+    Attribute height : EDouble
+    Attribute innerRadius : EDouble
+    Attribute radius : EDouble
 
-  DataType INode <org.eclipse.january.geometry.model.INode>
+  Class INode
+    Attribute name : EString
+    Attribute id : ELong
+    Reference nodes : INode<<0..*>>
+    Attribute type : EString
+    Reference triangles : Triangle<<0..*>>
+
+  Class Operator -> INode
+
+  Class Union -> Operator
+
+  Class Intersection -> Operator
+
+  Class Complement -> Operator
+
+  Class Material
+
+  Class IGeometryImporter
+    Attribute fileTypes : EString<<1..*>>
+    Attribute description : EString
+    Operation load(Path) : Geometry
+
+  Class STLGeometryImporter -> IGeometryImporter
+
+  DataType Path <java.nio.file.Path>

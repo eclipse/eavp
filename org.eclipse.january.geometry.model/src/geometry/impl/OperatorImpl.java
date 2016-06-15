@@ -6,6 +6,7 @@ import geometry.GeometryPackage;
 import geometry.INode;
 import geometry.Operator;
 
+import geometry.Triangle;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -32,6 +33,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link geometry.impl.OperatorImpl#getName <em>Name</em>}</li>
  *   <li>{@link geometry.impl.OperatorImpl#getId <em>Id</em>}</li>
  *   <li>{@link geometry.impl.OperatorImpl#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link geometry.impl.OperatorImpl#getType <em>Type</em>}</li>
+ *   <li>{@link geometry.impl.OperatorImpl#getTriangles <em>Triangles</em>}</li>
  * </ul>
  *
  * @generated
@@ -82,6 +85,33 @@ public class OperatorImpl extends MinimalEObjectImpl.Container implements Operat
 	 * @ordered
 	 */
 	protected EList<INode> nodes;
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPE_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String type = TYPE_EDEFAULT;
+	/**
+	 * The cached value of the '{@link #getTriangles() <em>Triangles</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTriangles()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Triangle> triangles;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -160,11 +190,46 @@ public class OperatorImpl extends MinimalEObjectImpl.Container implements Operat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(String newType) {
+		String oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GeometryPackage.OPERATOR__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Triangle> getTriangles() {
+		if (triangles == null) {
+			triangles = new EObjectContainmentEList<Triangle>(Triangle.class, this, GeometryPackage.OPERATOR__TRIANGLES);
+		}
+		return triangles;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GeometryPackage.OPERATOR__NODES:
 				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
+			case GeometryPackage.OPERATOR__TRIANGLES:
+				return ((InternalEList<?>)getTriangles()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -183,6 +248,10 @@ public class OperatorImpl extends MinimalEObjectImpl.Container implements Operat
 				return getId();
 			case GeometryPackage.OPERATOR__NODES:
 				return getNodes();
+			case GeometryPackage.OPERATOR__TYPE:
+				return getType();
+			case GeometryPackage.OPERATOR__TRIANGLES:
+				return getTriangles();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -206,6 +275,13 @@ public class OperatorImpl extends MinimalEObjectImpl.Container implements Operat
 				getNodes().clear();
 				getNodes().addAll((Collection<? extends INode>)newValue);
 				return;
+			case GeometryPackage.OPERATOR__TYPE:
+				setType((String)newValue);
+				return;
+			case GeometryPackage.OPERATOR__TRIANGLES:
+				getTriangles().clear();
+				getTriangles().addAll((Collection<? extends Triangle>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -227,6 +303,12 @@ public class OperatorImpl extends MinimalEObjectImpl.Container implements Operat
 			case GeometryPackage.OPERATOR__NODES:
 				getNodes().clear();
 				return;
+			case GeometryPackage.OPERATOR__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
+			case GeometryPackage.OPERATOR__TRIANGLES:
+				getTriangles().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -245,6 +327,10 @@ public class OperatorImpl extends MinimalEObjectImpl.Container implements Operat
 				return id != ID_EDEFAULT;
 			case GeometryPackage.OPERATOR__NODES:
 				return nodes != null && !nodes.isEmpty();
+			case GeometryPackage.OPERATOR__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+			case GeometryPackage.OPERATOR__TRIANGLES:
+				return triangles != null && !triangles.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -263,6 +349,8 @@ public class OperatorImpl extends MinimalEObjectImpl.Container implements Operat
 		result.append(name);
 		result.append(", id: ");
 		result.append(id);
+		result.append(", type: ");
+		result.append(type);
 		result.append(')');
 		return result.toString();
 	}

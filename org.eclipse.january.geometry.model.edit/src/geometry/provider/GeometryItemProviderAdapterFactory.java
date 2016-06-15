@@ -371,29 +371,6 @@ public class GeometryItemProviderAdapterFactory extends GeometryAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link geometry.ShapeChangeEvent} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ShapeChangeEventItemProvider shapeChangeEventItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link geometry.ShapeChangeEvent}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createShapeChangeEventAdapter() {
-		if (shapeChangeEventItemProvider == null) {
-			shapeChangeEventItemProvider = new ShapeChangeEventItemProvider(this);
-		}
-
-		return shapeChangeEventItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link geometry.STLGeometryImporter} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -528,7 +505,6 @@ public class GeometryItemProviderAdapterFactory extends GeometryAdapterFactory i
 		if (intersectionItemProvider != null) intersectionItemProvider.dispose();
 		if (complementItemProvider != null) complementItemProvider.dispose();
 		if (materialItemProvider != null) materialItemProvider.dispose();
-		if (shapeChangeEventItemProvider != null) shapeChangeEventItemProvider.dispose();
 		if (stlGeometryImporterItemProvider != null) stlGeometryImporterItemProvider.dispose();
 	}
 

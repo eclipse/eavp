@@ -57,9 +57,8 @@ public class ShapeItemProvider
 
 			addNamePropertyDescriptor(object);
 			addIdPropertyDescriptor(object);
-			addTrianglesPropertyDescriptor(object);
-			addCenterPropertyDescriptor(object);
 			addTypePropertyDescriptor(object);
+			addCenterPropertyDescriptor(object);
 			addMaterialPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -110,28 +109,6 @@ public class ShapeItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Triangles feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addTrianglesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Shape_triangles_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Shape_triangles_feature", "_UI_Shape_type"),
-				 GeometryPackage.Literals.SHAPE__TRIANGLES,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This adds a property descriptor for the Center feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -164,9 +141,9 @@ public class ShapeItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Shape_type_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Shape_type_feature", "_UI_Shape_type"),
-				 GeometryPackage.Literals.SHAPE__TYPE,
+				 getString("_UI_INode_type_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_INode_type_feature", "_UI_INode_type"),
+				 GeometryPackage.Literals.INODE__TYPE,
 				 true,
 				 false,
 				 false,
@@ -210,7 +187,7 @@ public class ShapeItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(GeometryPackage.Literals.INODE__NODES);
-			childrenFeatures.add(GeometryPackage.Literals.SHAPE__TRIANGLES);
+			childrenFeatures.add(GeometryPackage.Literals.INODE__TRIANGLES);
 			childrenFeatures.add(GeometryPackage.Literals.SHAPE__MATERIAL);
 		}
 		return childrenFeatures;
@@ -344,7 +321,7 @@ public class ShapeItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(GeometryPackage.Literals.SHAPE__TRIANGLES,
+				(GeometryPackage.Literals.INODE__TRIANGLES,
 				 GeometryFactory.eINSTANCE.createTriangle()));
 
 		newChildDescriptors.add

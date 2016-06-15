@@ -10,7 +10,8 @@
       <!-- @generated geometry -->
       <package
             uri="http://www.eclipse.org/"
-            class="geometry.GeometryPackage"/>
+            class="geometry.GeometryPackage"
+            genModel="model/geometry.genmodel"/>
    </extension>
 
 </plugin>

@@ -40,7 +40,7 @@ public interface IGeometryImporter extends EObject {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>File Types</em>' attribute list.
 	 * @see geometry.GeometryPackage#getIGeometryImporter_FileTypes()
-	 * @model default="" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	EList<String> getFileTypes();
