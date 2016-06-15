@@ -6,8 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.Collection;
 
-import org.eclipse.eavp.STLStandaloneSetup;
-import org.eclipse.eavp.sTL.Model;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -145,16 +143,6 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	public Geometry load(Path path) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
-		Injector injector = new STLStandaloneSetup().createInjectorAndDoEMFRegistration();
-		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
-		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-		Resource resource = resourceSet.getResource(URI.createFileURI("file:" + path.toString()), true);
-
-		// Get the model (it is assumed to be the first element from the
-		// grammar)
-		Model model = (Model) resource.getContents().get(0);
-
-		return getGeometryFromModel(model);
 	}
 
 	/**
