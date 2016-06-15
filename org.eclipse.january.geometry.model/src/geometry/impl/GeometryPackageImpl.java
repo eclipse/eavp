@@ -2,7 +2,7 @@
  */
 package geometry.impl;
 
-import geometry.ASCIISTLGeometryImporter;
+import geometry.STLGeometryImporter;
 import geometry.Complement;
 import geometry.Cube;
 import geometry.Cylinder;
@@ -174,7 +174,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass asciistlGeometryImporterEClass = null;
+	private EClass stlGeometryImporterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -688,8 +688,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getASCIISTLGeometryImporter() {
-		return asciistlGeometryImporterEClass;
+	public EClass getSTLGeometryImporter() {
+		return stlGeometryImporterEClass;
 	}
 
 	/**
@@ -804,7 +804,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEAttribute(iGeometryImporterEClass, IGEOMETRY_IMPORTER__DESCRIPTION);
 		createEOperation(iGeometryImporterEClass, IGEOMETRY_IMPORTER___LOAD__PATH);
 
-		asciistlGeometryImporterEClass = createEClass(ASCIISTL_GEOMETRY_IMPORTER);
+		stlGeometryImporterEClass = createEClass(STL_GEOMETRY_IMPORTER);
 
 		// Create enums
 		shapeChangeEventTypeEEnum = createEEnum(SHAPE_CHANGE_EVENT_TYPE);
@@ -852,7 +852,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		unionEClass.getESuperTypes().add(this.getOperator());
 		intersectionEClass.getESuperTypes().add(this.getOperator());
 		complementEClass.getESuperTypes().add(this.getOperator());
-		asciistlGeometryImporterEClass.getESuperTypes().add(this.getIGeometryImporter());
+		stlGeometryImporterEClass.getESuperTypes().add(this.getIGeometryImporter());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(shapeEClass, Shape.class, "Shape", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -930,13 +930,13 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEAttribute(getShapeChangeEvent_Value(), ecorePackage.getEString(), "value", null, 0, 1, ShapeChangeEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iGeometryImporterEClass, IGeometryImporter.class, "IGeometryImporter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIGeometryImporter_FileTypes(), ecorePackage.getEString(), "fileTypes", null, 1, -1, IGeometryImporter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIGeometryImporter_FileTypes(), ecorePackage.getEString(), "fileTypes", "", 1, -1, IGeometryImporter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIGeometryImporter_Description(), ecorePackage.getEString(), "description", null, 0, 1, IGeometryImporter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = initEOperation(getIGeometryImporter__Load__Path(), this.getGeometry(), "load", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getPath(), "path", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEClass(asciistlGeometryImporterEClass, ASCIISTLGeometryImporter.class, "ASCIISTLGeometryImporter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(stlGeometryImporterEClass, STLGeometryImporter.class, "STLGeometryImporter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(shapeChangeEventTypeEEnum, ShapeChangeEventType.class, "ShapeChangeEventType");

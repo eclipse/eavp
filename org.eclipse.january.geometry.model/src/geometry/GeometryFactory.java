@@ -148,13 +148,13 @@ public interface GeometryFactory extends EFactory {
 	ShapeChangeEvent createShapeChangeEvent();
 
 	/**
-	 * Returns a new object of class '<em>ASCIISTL Geometry Importer</em>'.
+	 * Returns a new object of class '<em>STL Geometry Importer</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>ASCIISTL Geometry Importer</em>'.
+	 * @return a new object of class '<em>STL Geometry Importer</em>'.
 	 * @generated
 	 */
-	ASCIISTLGeometryImporter createASCIISTLGeometryImporter();
+	STLGeometryImporter createSTLGeometryImporter();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -394,26 +394,26 @@ public class GeometryItemProviderAdapterFactory extends GeometryAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link geometry.ASCIISTLGeometryImporter} instances.
+	 * This keeps track of the one adapter used for all {@link geometry.STLGeometryImporter} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ASCIISTLGeometryImporterItemProvider asciistlGeometryImporterItemProvider;
+	protected STLGeometryImporterItemProvider stlGeometryImporterItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link geometry.ASCIISTLGeometryImporter}.
+	 * This creates an adapter for a {@link geometry.STLGeometryImporter}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createASCIISTLGeometryImporterAdapter() {
-		if (asciistlGeometryImporterItemProvider == null) {
-			asciistlGeometryImporterItemProvider = new ASCIISTLGeometryImporterItemProvider(this);
+	public Adapter createSTLGeometryImporterAdapter() {
+		if (stlGeometryImporterItemProvider == null) {
+			stlGeometryImporterItemProvider = new STLGeometryImporterItemProvider(this);
 		}
 
-		return asciistlGeometryImporterItemProvider;
+		return stlGeometryImporterItemProvider;
 	}
 
 	/**
@@ -529,7 +529,7 @@ public class GeometryItemProviderAdapterFactory extends GeometryAdapterFactory i
 		if (complementItemProvider != null) complementItemProvider.dispose();
 		if (materialItemProvider != null) materialItemProvider.dispose();
 		if (shapeChangeEventItemProvider != null) shapeChangeEventItemProvider.dispose();
-		if (asciistlGeometryImporterItemProvider != null) asciistlGeometryImporterItemProvider.dispose();
+		if (stlGeometryImporterItemProvider != null) stlGeometryImporterItemProvider.dispose();
 	}
 
 }
