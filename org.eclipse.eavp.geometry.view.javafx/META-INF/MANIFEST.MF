@@ -11,3 +11,4 @@ Import-Package: geometry,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore.impl
 Require-Bundle: org.eclipse.eavp.geometry.view.model
+Export-Package: org.eclipse.eavp.geometry.view.javafx.render

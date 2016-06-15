@@ -66,7 +66,6 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 
 		// Register as a listener to the source object
 		source.eAdapters().add(new AdapterImpl() {
-
 			@Override
 			public void notifyChanged(Notification notification) {
 				handleUpdate(notification);
