@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import xtext.STLStandaloneSetup;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Injector;
 
@@ -47,6 +49,14 @@ import geometry.Vertex;
  * @generated
  */
 public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implements STLGeometryImporter {
+	
+	/**
+	 * Logger for this class
+	 * @generated NOT
+	 * 
+	 */
+	private Logger logger;
+	
 	/**
 	 * The cached value of the '{@link #getFileTypes() <em>File Types</em>}' attribute list.
 	 * <!-- begin-user-doc -->
@@ -84,6 +94,7 @@ public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implem
 	 */
 	protected STLGeometryImporterImpl() {
 		super();
+		logger = LoggerFactory.getLogger(STLGeometryImporterImpl.class);
 	}
 
 	/**
@@ -143,12 +154,10 @@ public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implem
 		// Geometry to return
 		Geometry geometry = null;
 		
-		
 		Injector injector = new STLStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
 		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
 		Resource resource = resourceSet.getResource(URI.createFileURI(path.toFile().getAbsolutePath()), true);
-
 		// Check to see if returned contents contain a valid geometry. If not, then the file might be
 		// a binary format
 		
@@ -161,8 +170,11 @@ public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implem
 						
 			// If the geometry has no nodes, or the shape has no triangles, try loading from binary
 			if (g.getNodes().isEmpty() || ( (Shape)g.getNodes().get(0)).getTriangles().isEmpty()) {
-								
-				geometry = loadBinary(path);
+				try {
+					geometry = loadBinary(path);
+				} catch (Exception e) {
+					logger.error("Could not load specified STL file: "+path.toAbsolutePath().toString(), e);
+				}
 			} else {
 				// Otherwise, return this geometry
 				geometry = g;

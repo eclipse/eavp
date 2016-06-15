@@ -90,9 +90,9 @@ ruleGeometry returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getGeometryAccess().getNameEStringParserRuleCall_2_0());
+					newCompositeNode(grammarAccess.getGeometryAccess().getNameELineParserRuleCall_2_0());
 				}
-				lv_name_2_0=ruleEString
+				lv_name_2_0=ruleELine
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getGeometryRule());
@@ -101,7 +101,7 @@ ruleGeometry returns [EObject current=null]
 						$current,
 						"name",
 						lv_name_2_0,
-						"xtext.STL.EString");
+						"xtext.STL.ELine");
 					afterParserOrEnumRuleCall();
 				}
 			)
@@ -442,15 +442,15 @@ ruleEDouble returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
 	)
 ;
 
-// Entry rule entryRuleEString
-entryRuleEString returns [String current=null]:
-	{ newCompositeNode(grammarAccess.getEStringRule()); }
-	iv_ruleEString=ruleEString
-	{ $current=$iv_ruleEString.current.getText(); }
+// Entry rule entryRuleELine
+entryRuleELine returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getELineRule()); }
+	iv_ruleELine=ruleELine
+	{ $current=$iv_ruleELine.current.getText(); }
 	EOF;
 
-// Rule EString
-ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+// Rule ELine
+ruleELine returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
 @init {
 	enterRule();
 }
@@ -463,16 +463,36 @@ ruleEString returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()
 			$current.merge(this_STRING_0);
 		}
 		{
-			newLeafNode(this_STRING_0, grammarAccess.getEStringAccess().getSTRINGTerminalRuleCall_0());
+			newLeafNode(this_STRING_0, grammarAccess.getELineAccess().getSTRINGTerminalRuleCall_0());
 		}
 		    |
-		this_ID_1=RULE_ID
-		{
-			$current.merge(this_ID_1);
-		}
-		{
-			newLeafNode(this_ID_1, grammarAccess.getEStringAccess().getIDTerminalRuleCall_1());
-		}
+		(
+			this_ID_1=RULE_ID
+			{
+				$current.merge(this_ID_1);
+			}
+			{
+				newLeafNode(this_ID_1, grammarAccess.getELineAccess().getIDTerminalRuleCall_1_0());
+			}
+			(
+				('\r' | '\n')=>
+				(
+					(
+						kw='\r'
+						{
+							$current.merge(kw);
+							newLeafNode(kw, grammarAccess.getELineAccess().getControl000dKeyword_1_1_0_0());
+						}
+					)?
+					    |
+					kw='\n'
+					{
+						$current.merge(kw);
+						newLeafNode(kw, grammarAccess.getELineAccess().getControl000aKeyword_1_1_0_1());
+					}
+				)
+			)
+		)
 	)
 ;
 

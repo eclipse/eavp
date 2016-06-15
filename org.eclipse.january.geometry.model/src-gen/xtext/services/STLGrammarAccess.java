@@ -29,7 +29,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		private final Action cGeometryAction_0 = (Action)cGroup.eContents().get(0);
 		private final Keyword cSolidKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cNameAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cNameEStringParserRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
+		private final RuleCall cNameELineParserRuleCall_2_0 = (RuleCall)cNameAssignment_2.eContents().get(0);
 		private final Assignment cNodesAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cNodesShape_ImplParserRuleCall_3_0 = (RuleCall)cNodesAssignment_3.eContents().get(0);
 		private final Keyword cEndsolidKeyword_4 = (Keyword)cGroup.eContents().get(4);
@@ -37,11 +37,11 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		//Geometry:
 		//	{Geometry}
 		//	'solid'
-		//	name=EString?
+		//	name=ELine?
 		//	nodes+=Shape_Impl 'endsolid';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{Geometry} 'solid' name=EString? nodes+=Shape_Impl 'endsolid'
+		//{Geometry} 'solid' name=ELine? nodes+=Shape_Impl 'endsolid'
 		public Group getGroup() { return cGroup; }
 		
 		//{Geometry}
@@ -50,11 +50,11 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		//'solid'
 		public Keyword getSolidKeyword_1() { return cSolidKeyword_1; }
 		
-		//name=EString?
+		//name=ELine?
 		public Assignment getNameAssignment_2() { return cNameAssignment_2; }
 		
-		//EString
-		public RuleCall getNameEStringParserRuleCall_2_0() { return cNameEStringParserRuleCall_2_0; }
+		//ELine
+		public RuleCall getNameELineParserRuleCall_2_0() { return cNameELineParserRuleCall_2_0; }
 		
 		//nodes+=Shape_Impl
 		public Assignment getNodesAssignment_3() { return cNodesAssignment_3; }
@@ -285,6 +285,45 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getIDTerminalRuleCall_1() { return cIDTerminalRuleCall_1; }
 	}
+	public class ELineElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "xtext.STL.ELine");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cSTRINGTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_1_0 = (RuleCall)cGroup_1.eContents().get(0);
+		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
+		private final Alternatives cAlternatives_1_1_0 = (Alternatives)cGroup_1_1.eContents().get(0);
+		private final Keyword cControl000dKeyword_1_1_0_0 = (Keyword)cAlternatives_1_1_0.eContents().get(0);
+		private final Keyword cControl000aKeyword_1_1_0_1 = (Keyword)cAlternatives_1_1_0.eContents().get(1);
+		
+		//ELine:
+		//	STRING | ID -> ('\r'? | '\n');
+		@Override public ParserRule getRule() { return rule; }
+		
+		//STRING | ID -> ('\r'? | '\n')
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//STRING
+		public RuleCall getSTRINGTerminalRuleCall_0() { return cSTRINGTerminalRuleCall_0; }
+		
+		//ID -> ('\r'? | '\n')
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//ID
+		public RuleCall getIDTerminalRuleCall_1_0() { return cIDTerminalRuleCall_1_0; }
+		
+		//-> ('\r'? | '\n')
+		public Group getGroup_1_1() { return cGroup_1_1; }
+		
+		//('\r'? | '\n')
+		public Alternatives getAlternatives_1_1_0() { return cAlternatives_1_1_0; }
+		
+		//'\r'?
+		public Keyword getControl000dKeyword_1_1_0_0() { return cControl000dKeyword_1_1_0_0; }
+		
+		//'\n'
+		public Keyword getControl000aKeyword_1_1_0_1() { return cControl000aKeyword_1_1_0_1; }
+	}
 	
 	
 	private final GeometryElements pGeometry;
@@ -293,6 +332,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 	private final VertexElements pVertex;
 	private final EDoubleElements pEDouble;
 	private final EStringElements pEString;
+	private final ELineElements pELine;
 	
 	private final Grammar grammar;
 	
@@ -309,6 +349,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 		this.pVertex = new VertexElements();
 		this.pEDouble = new EDoubleElements();
 		this.pEString = new EStringElements();
+		this.pELine = new ELineElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -341,7 +382,7 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 	//Geometry:
 	//	{Geometry}
 	//	'solid'
-	//	name=EString?
+	//	name=ELine?
 	//	nodes+=Shape_Impl 'endsolid';
 	public GeometryElements getGeometryAccess() {
 		return pGeometry;
@@ -408,6 +449,16 @@ public class STLGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getEStringRule() {
 		return getEStringAccess().getRule();
+	}
+	
+	//ELine:
+	//	STRING | ID -> ('\r'? | '\n');
+	public ELineElements getELineAccess() {
+		return pELine;
+	}
+	
+	public ParserRule getELineRule() {
+		return getELineAccess().getRule();
 	}
 	
 	//terminal ID:
