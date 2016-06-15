@@ -7,77 +7,32 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 
 Package geometry <http://www.eclipse.org/>
 
-  Class Shape -> ISubjectShape, INode
-    Reference triangles : Triangle<<0..*>>
-    Reference center : Vertex<<1..1>>
-    Attribute type : EString
-    Reference material : Material
-    Operation getPropertyNames() : EString<<0..*>>
-    Operation getProperty(EString) : EDouble
-    Operation setProperty(EString, EDouble) : void
+  Class MeshCache
+    Operation getMesh(EString) : EJavaObject
+    Operation getMesh(EEList) : EJavaObject
 
-  Class Triangle
-    Reference normal : Vertex
-    Reference vertices : Vertex<<0..3>>
+  Class RenderObject -> IRenderElement
+    Reference meshcache : MeshCache
+    Attribute render : EJavaObject
+    Attribute source : INode
 
-  Class Vertex
-    Attribute x : EDouble
-    Attribute y : EDouble
-    Attribute z : EDouble
+  Class RenderObjectDecorator -> IRenderElement
+    Reference source : IRenderElement
 
-  Class Sphere -> Shape
-    Attribute radius : EDouble
+  Class TextureDecorator -> RenderObjectDecorator
 
-  Class Cube -> Shape
-    Attribute sideLength : EDouble
+  Class OpacityDecorator -> RenderObjectDecorator
+    Attribute opacity : EDouble
 
-  Class Cylinder -> Shape
-    Attribute radius : EDouble
-    Attribute height : EDouble
+  Class WireframeDecorator -> RenderObjectDecorator
+    Attribute wireframe : EBoolean
 
-  Class Geometry -> INode
+  Class ColorDecorator -> RenderObjectDecorator
+    Attribute red : EInt
+    Attribute green : EInt
+    Attribute blue : EInt
 
-  Class Tube -> Shape
-    Attribute height : EDouble
-    Attribute innerRadius : EDouble
-    Attribute radius : EDouble
+  Class IRenderElement
+    Operation getMesh() : EJavaObject
 
-  Class INode
-    Attribute name : EString
-    Attribute id : ELong
-    Reference nodes : INode<<0..*>>
-
-  Class Operator -> INode
-
-  Class Union -> Operator
-
-  Class Intersection -> Operator
-
-  Class Complement -> Operator
-
-  Class ISubjectShape
-    Operation register(IShapeObserver) : void
-    Operation unregister(IShapeObserver) : void
-
-  Class IShapeObserver
-    Operation update(ShapeChangeEvent, ISubjectShape) : void
-
-  Class Material
-
-  Class ShapeChangeEvent
-    Attribute type : ShapeChangeEventType
-    Attribute value : EString
-
-  Class IGeometryImporter
-    Attribute fileTypes : EString<<1..*>>
-    Attribute description : EString
-    Operation load(Path) : Geometry
-
-  Class STLGeometryImporter -> IGeometryImporter
-
-  Enum ShapeChangeEventType
-    Literal NameChange = 0
-    Literal PropChange = 1
-    Literal ShapeChange = 2
-
-  DataType Path <java.nio.file.Path>
+  DataType INode <org.eclipse.january.geometry.model.INode>
