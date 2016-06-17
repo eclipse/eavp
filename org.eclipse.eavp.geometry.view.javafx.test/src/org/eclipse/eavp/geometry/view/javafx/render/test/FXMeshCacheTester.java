@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.render.test;
 
+import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
 import org.junit.Test;
 
 /**

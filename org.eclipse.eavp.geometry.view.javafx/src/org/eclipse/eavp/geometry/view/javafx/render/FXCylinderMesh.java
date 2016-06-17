@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.render;
 
+import org.eclipse.eavp.viz.modeling.MeshUtils;
+
 import javafx.scene.shape.TriangleMesh;
 
 /**

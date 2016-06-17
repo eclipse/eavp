@@ -9,6 +9,10 @@
  *   Robert Smith
  *******************************************************************************/
 
+package org.eclipse.eavp.geometry.view.javafx.render;
+
+import org.eclipse.eavp.viz.modeling.MeshUtils;
+
 import javafx.scene.shape.TriangleMesh;
 
 /**
@@ -17,19 +21,20 @@ import javafx.scene.shape.TriangleMesh;
  * @author Robert Smith
  *
  */
-public class FXSphereMesh {
+public class FXSphereMesh implements IFXShapeMesh {
 
 	/**
 	 * A constant defining how many vertices will be rendered along the sphere's
 	 * circumference.
 	 */
-	private final static int RESOLUTION = 5;
+	private final static int RESOLUTION = 25;
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.eavp.geometry.view.javafx.render.IFXShapeMesh#getMesh()
 	 */
+	@Override
 	public TriangleMesh getMesh() {
 
 		// The mesh being constructed
@@ -44,16 +49,33 @@ public class FXSphereMesh {
 
 		// The amount of change between one layer and the next, both in the
 		// layer's height and the radius of the circle at that height
-		float stepSize = 1 / (RESOLUTION - 1);
+		float stepSize = 2f / (RESOLUTION - 1);
 
 		// The radius starts off one step above 0.
-		float radius = stepSize;
+		float radius;
 
 		// The height starts one step above the sphere's nadir at height -1
-		float height = -1 + stepSize;
+		float height;
 
 		// Add each circle's points to the sphere
-		for (int i = 0; i < RESOLUTION - 3; i++) {
+		for (int i = 0; i < RESOLUTION - 2; i++) {
+
+			// Get the radius of the sphere at the proper height. For the bottom
+			// half of the sphere, the radius will increase from zero. For the
+			// top half, it will decrease from one. At exactly half way through
+			// the sphere, the radius will be exactly 1.
+			if (i < (RESOLUTION - 3) / 2) {
+				radius = (float) Math
+						.sqrt(1f - (Math.pow(1f - (stepSize * (i + 1f)), 2)));
+			} else if (i > (RESOLUTION - 1) / 2 - 1) {
+				radius = (float) Math
+						.sqrt(1f - (Math.pow(1f - (((i + 1f) * stepSize)), 2)));
+			} else {
+				radius = 1f;
+			}
+
+			// The height is one step above -1 for each circle
+			height = -1 + ((i + 1) * stepSize);
 
 			// Create a circle of the correct radius
 			float[] circle = MeshUtils.createCircle(radius, RESOLUTION);
@@ -70,9 +92,9 @@ public class FXSphereMesh {
 			// to the sphere's radius, and decrease from the full radius down to
 			// a point on the top half.
 			if (i <= RESOLUTION / 2) {
-				radius += stepSize;
+				radius = (float) Math.pow(stepSize, (i + 1) * 2);
 			} else {
-				radius -= stepSize;
+				radius = (float) Math.pow(stepSize, (RESOLUTION - i + 1) * 2);
 			}
 
 			// The next circle will be one step above this one.
@@ -93,8 +115,6 @@ public class FXSphereMesh {
 		points[nadir * 3 + 3] = 0;
 		points[nadir * 3 + 4] = 1;
 		points[nadir * 3 + 5] = 0;
-		
-		for(int i = 0; i < points.length)
 
 		// Set the mesh's points.
 		mesh.getPoints().setAll(points);
@@ -121,10 +141,10 @@ public class FXSphereMesh {
 				// up. include 0s as dummy indices into the texture.
 				faces[(i * RESOLUTION + j) * 12] = i * RESOLUTION + j;
 				faces[(i * RESOLUTION + j) * 12 + 1] = 0;
-				faces[(i * RESOLUTION + j) * 12 + 2] = (j != RESOLUTION - 1)
-						? i * RESOLUTION + j + 1 : i * RESOLUTION;
+				faces[(i * RESOLUTION + j) * 12 + 2] = (i + 1) * RESOLUTION + j;
 				faces[(i * RESOLUTION + j) * 12 + 3] = 0;
-				faces[(i * RESOLUTION + j) * 12 + 4] = (i + 1) * RESOLUTION + j;
+				faces[(i * RESOLUTION + j) * 12 + 4] = (j != RESOLUTION - 1)
+						? i * RESOLUTION + j + 1 : i * RESOLUTION;
 				faces[(i * RESOLUTION + j) * 12 + 5] = 0;
 
 				// The second face will go from the point to the one above it on
@@ -132,11 +152,12 @@ public class FXSphereMesh {
 				// higher circle. Include 0s as dummy indices into the texture.
 				faces[(i * RESOLUTION + j) * 12 + 6] = i * RESOLUTION + j;
 				faces[(i * RESOLUTION + j) * 12 + 7] = 0;
-				faces[(i * RESOLUTION + j) * 12 + 8] = (i + 1) * RESOLUTION + j;
-				faces[(i * RESOLUTION + j) * 12 + 9] = 0;
-				faces[(i * RESOLUTION + j) * 12 + 10] = (j != 0)
+				faces[(i * RESOLUTION + j) * 12 + 8] = (j != 0)
 						? (i + 1) * RESOLUTION + j - 1
 						: (i + 2) * RESOLUTION - 1;
+				faces[(i * RESOLUTION + j) * 12 + 9] = 0;
+				faces[(i * RESOLUTION + j) * 12 + 10] = (i + 1) * RESOLUTION
+						+ j;
 				faces[(i * RESOLUTION + j) * 12 + 11] = 0;
 			}
 		}
@@ -168,10 +189,10 @@ public class FXSphereMesh {
 
 			// Create a face between two points on the top circle and the apex.
 			// Include 0s as dummy indices into the texture.
-			faces[indexTopFaces + (i * 6)] = indexTopPoints + i;
-			faces[indexTopFaces + (i * 6) + 1] = 0;
-			faces[indexTopFaces + (i * 6) + 2] = indexTopPoints
+			faces[indexTopFaces + (i * 6)] = indexTopPoints
 					+ ((i + 1) % RESOLUTION);
+			faces[indexTopFaces + (i * 6) + 1] = 0;
+			faces[indexTopFaces + (i * 6) + 2] = indexTopPoints + i;
 			faces[indexTopFaces + (i * 6) + 3] = 0;
 			faces[indexTopFaces + (i * 6) + 4] = apex;
 			faces[indexTopFaces + (i * 6) + 5] = 0;
@@ -180,17 +201,6 @@ public class FXSphereMesh {
 		// Set the finished faces to the mesh
 		mesh.getFaces().setAll(faces);
 
-		System.out.println("points = " + (RESOLUTION * (RESOLUTION - 2) + 2));
-		
-		String s = "";
-		for(int i = 0; i < faces.length; i++){
-			s += faces[i] + " ";
-			if(i % 6 == 5){
-				System.out.println(s);
-				s = "";
-			}
-		}
-		
 		return mesh;
 	}
 
