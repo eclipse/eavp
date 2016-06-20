@@ -3,9 +3,8 @@
 package geometry.provider;
 
 
+import geometry.STLGeometryImporter;
 import geometry.GeometryPackage;
-import geometry.ShapeChangeEvent;
-import geometry.ShapeChangeEventType;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,12 +26,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link geometry.ShapeChangeEvent} object.
+ * This is the item provider adapter for a {@link geometry.STLGeometryImporter} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ShapeChangeEventItemProvider 
+public class STLGeometryImporterItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -46,7 +45,7 @@ public class ShapeChangeEventItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ShapeChangeEventItemProvider(AdapterFactory adapterFactory) {
+	public STLGeometryImporterItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -61,26 +60,26 @@ public class ShapeChangeEventItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addTypePropertyDescriptor(object);
-			addValuePropertyDescriptor(object);
+			addFileTypesPropertyDescriptor(object);
+			addDescriptionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Type feature.
+	 * This adds a property descriptor for the File Types feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addTypePropertyDescriptor(Object object) {
+	protected void addFileTypesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ShapeChangeEvent_type_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ShapeChangeEvent_type_feature", "_UI_ShapeChangeEvent_type"),
-				 GeometryPackage.Literals.SHAPE_CHANGE_EVENT__TYPE,
+				 getString("_UI_IGeometryImporter_fileTypes_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IGeometryImporter_fileTypes_feature", "_UI_IGeometryImporter_type"),
+				 GeometryPackage.Literals.IGEOMETRY_IMPORTER__FILE_TYPES,
 				 true,
 				 false,
 				 false,
@@ -90,19 +89,19 @@ public class ShapeChangeEventItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Value feature.
+	 * This adds a property descriptor for the Description feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addValuePropertyDescriptor(Object object) {
+	protected void addDescriptionPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ShapeChangeEvent_value_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ShapeChangeEvent_value_feature", "_UI_ShapeChangeEvent_type"),
-				 GeometryPackage.Literals.SHAPE_CHANGE_EVENT__VALUE,
+				 getString("_UI_IGeometryImporter_description_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_IGeometryImporter_description_feature", "_UI_IGeometryImporter_type"),
+				 GeometryPackage.Literals.IGEOMETRY_IMPORTER__DESCRIPTION,
 				 true,
 				 false,
 				 false,
@@ -112,14 +111,14 @@ public class ShapeChangeEventItemProvider
 	}
 
 	/**
-	 * This returns ShapeChangeEvent.gif.
+	 * This returns STLGeometryImporter.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ShapeChangeEvent"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/STLGeometryImporter"));
 	}
 
 	/**
@@ -130,11 +129,10 @@ public class ShapeChangeEventItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		ShapeChangeEventType labelValue = ((ShapeChangeEvent)object).getType();
-		String label = labelValue == null ? null : labelValue.toString();
+		String label = ((STLGeometryImporter)object).getDescription();
 		return label == null || label.length() == 0 ?
-			getString("_UI_ShapeChangeEvent_type") :
-			getString("_UI_ShapeChangeEvent_type") + " " + label;
+			getString("_UI_STLGeometryImporter_type") :
+			getString("_UI_STLGeometryImporter_type") + " " + label;
 	}
 	
 
@@ -149,9 +147,9 @@ public class ShapeChangeEventItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ShapeChangeEvent.class)) {
-			case GeometryPackage.SHAPE_CHANGE_EVENT__TYPE:
-			case GeometryPackage.SHAPE_CHANGE_EVENT__VALUE:
+		switch (notification.getFeatureID(STLGeometryImporter.class)) {
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__FILE_TYPES:
+			case GeometryPackage.STL_GEOMETRY_IMPORTER__DESCRIPTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

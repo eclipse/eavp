@@ -25,7 +25,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Shape extends ISubjectShape, INode {
+public interface Shape extends INode {
 	/**
 	 * Returns the value of the '<em><b>Center</b></em>' reference.
 	 * <!-- begin-user-doc -->

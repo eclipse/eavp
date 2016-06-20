@@ -72,7 +72,7 @@ public class ShapeChangeEventTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(GeometryFactory.eINSTANCE.createShapeChangeEvent());
+		//setFixture(GeometryFactory.eINSTANCE.createShapeChangeEvent());
 	}
 
 	/**

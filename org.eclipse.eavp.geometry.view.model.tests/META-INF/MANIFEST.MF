@@ -11,7 +11,8 @@ Export-Package: model.tests
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.eavp.geometry.view.model;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.junit;visibility:=reexport
+ org.junit;visibility:=reexport,
+ org.eclipse.emf.common
 Bundle-ActivationPolicy: lazy
 Import-Package: geometry,
  geometry.impl

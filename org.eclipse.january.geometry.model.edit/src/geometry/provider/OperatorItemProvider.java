@@ -57,6 +57,7 @@ public class OperatorItemProvider extends ItemProviderAdapter implements IEditin
 
 			addNamePropertyDescriptor(object);
 			addIdPropertyDescriptor(object);
+			addTypePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -106,6 +107,28 @@ public class OperatorItemProvider extends ItemProviderAdapter implements IEditin
 	}
 
 	/**
+	 * This adds a property descriptor for the Type feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTypePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_INode_type_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_INode_type_feature", "_UI_INode_type"),
+				 GeometryPackage.Literals.INODE__TYPE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -118,6 +141,7 @@ public class OperatorItemProvider extends ItemProviderAdapter implements IEditin
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(GeometryPackage.Literals.INODE__NODES);
+			childrenFeatures.add(GeometryPackage.Literals.INODE__TRIANGLES);
 		}
 		return childrenFeatures;
 	}
@@ -175,9 +199,11 @@ public class OperatorItemProvider extends ItemProviderAdapter implements IEditin
 		switch (notification.getFeatureID(Operator.class)) {
 			case GeometryPackage.OPERATOR__NAME:
 			case GeometryPackage.OPERATOR__ID:
+			case GeometryPackage.OPERATOR__TYPE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case GeometryPackage.OPERATOR__NODES:
+			case GeometryPackage.OPERATOR__TRIANGLES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -244,6 +270,11 @@ public class OperatorItemProvider extends ItemProviderAdapter implements IEditin
 			(createChildParameter
 				(GeometryPackage.Literals.INODE__NODES,
 				 GeometryFactory.eINSTANCE.createComplement()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GeometryPackage.Literals.INODE__TRIANGLES,
+				 GeometryFactory.eINSTANCE.createTriangle()));
 	}
 
 	/**

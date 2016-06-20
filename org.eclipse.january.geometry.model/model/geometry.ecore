@@ -215,9 +215,9 @@
       <details key="documentation" value="This class represents a file path on the file system."/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ASCIISTLGeometryImporter" eSuperTypes="#//IGeometryImporter">
+  <eClassifiers xsi:type="ecore:EClass" name="STLGeometryImporter" eSuperTypes="#//IGeometryImporter">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="This class imports geometries based on the STL format. It supports only the ASCII version of STL."/>
+      <details key="documentation" value="This class imports geometries based on the STL file format. The file must be complete and define a closed area or volume. This format specifies meshes as a series of triangles.  "/>
     </eAnnotations>
   </eClassifiers>
 </ecore:EPackage>
