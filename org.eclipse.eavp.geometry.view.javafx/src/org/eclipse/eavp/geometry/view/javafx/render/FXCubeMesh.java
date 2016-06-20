@@ -135,4 +135,14 @@ public class FXCubeMesh implements IFXShapeMesh {
 		return mesh;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.geometry.view.javafx.render.IFXShapeMesh#getType()
+	 */
+	@Override
+	public String getType() {
+		return "cube";
+	}
+
 }

@@ -28,4 +28,12 @@ public interface IFXShapeMesh {
 	 *         object.
 	 */
 	TriangleMesh getMesh();
+
+	/**
+	 * Get the type of mesh this object represents.
+	 * 
+	 * @return The type of mesh this object provides, in a short human readable
+	 *         description such as "cube" or "sphere."
+	 */
+	String getType();
 }

@@ -38,11 +38,36 @@ import model.impl.MeshCacheImpl;
  */
 public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 
+	/**
+	 * The nullary constructor.
+	 */
 	public FXMeshCache() {
+		super();
 
-		// TODO consume IFXShapeMesh through OSGI to populate type cache
+		// Populate the type cache with the IFXShapeMeshes from this package.
+		typeCache.put("cube", new FXCubeMesh().getMesh());
+		typeCache.put("cylinder", new FXCylinderMesh().getMesh());
+		typeCache.put("sphere", new FXSphereMesh().getMesh());
+		typeCache.put("tube", new FXTubeMesh().getMesh());
 	}
 
+	/**
+	 * Register each available mesh provided through OSGI. This function is
+	 * intended solely for use by the OSGI framework.
+	 * 
+	 * @param mesh
+	 *            The new mesh to be registered.
+	 */
+	public void register(IFXShapeMesh mesh) {
+		typeCache.put(mesh.getType(), mesh.getMesh());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * model.impl.MeshCacheImpl#createMesh(org.eclipse.emf.common.util.EList)
+	 */
 	@Override
 	protected TriangleMesh createMesh(EList<Triangle> triangles) {
 
@@ -92,10 +117,8 @@ public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 							// If the vertex is not recognized, add it
 							addVertex(vert, pointsList, facesList, nextPointID);
 							nextPointID++;
-						}
 
-						// Add a dummy texture coordinate to the faces
-						facesList.add(0);
+						}
 
 					} else {
 
@@ -103,6 +126,7 @@ public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 						zCoords = new HashMap<Double, Integer>();
 						zCoords.put(vert.getZ(), nextPointID);
 						addVertex(vert, pointsList, facesList, nextPointID);
+						nextPointID++;
 					}
 
 					// Save the modified z coordinate map
@@ -115,10 +139,15 @@ public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 					addVertex(vert, pointsList, facesList, nextPointID);
 					yCoords = new HashMap<Double, Map<Double, Integer>>();
 					yCoords.put(vert.getY(), zCoords);
+					nextPointID++;
 				}
 
 				// Save the modified y coordinate map
 				xCoords.put(vert.getX(), yCoords);
+
+				// Also add a dummy coordinate for the texture, as we do not
+				// provide a texture by default
+				facesList.add(0);
 			}
 		}
 
