@@ -358,6 +358,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getIRenderElement__GetBase() {
+		return iRenderElementEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getINode() {
 		return iNodeEDataType;
 	}
@@ -427,6 +436,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		iRenderElementEClass = createEClass(IRENDER_ELEMENT);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_MESH);
+		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_BASE);
 
 		// Create data types
 		iNodeEDataType = createEDataType(INODE);
@@ -547,6 +557,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		op = initEOperation(getIRenderElement__GetMesh(), null, "getMesh", 0, 1, IS_UNIQUE, IS_ORDERED);
 		g1 = createEGenericType(iRenderElementEClass_T);
 		initEOperation(op, g1);
+
+		initEOperation(getIRenderElement__GetBase(), this.getINode(), "getBase", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(iNodeEDataType, INode.class, "INode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

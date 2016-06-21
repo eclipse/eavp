@@ -7,7 +7,7 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 
 Package geometry <http://www.eclipse.org/>
 
-  Class Shape -> ISubjectShape, INode
+  Class Shape -> INode
     Reference center : Vertex<<1..1>>
     Reference material : Material
     Operation getPropertyNames() : EString<<0..*>>
@@ -46,6 +46,7 @@ Package geometry <http://www.eclipse.org/>
     Reference nodes : INode<<0..*>>
     Attribute type : EString
     Reference triangles : Triangle<<0..*>>
+    Operation changeDecoratorProperty(EString, EObject) : void
 
   Class Operator -> INode
 
@@ -55,18 +56,7 @@ Package geometry <http://www.eclipse.org/>
 
   Class Complement -> Operator
 
-  Class ISubjectShape
-    Operation register(IShapeObserver) : void
-    Operation unregister(IShapeObserver) : void
-
-  Class IShapeObserver
-    Operation update(ShapeChangeEvent, ISubjectShape) : void
-
   Class Material
-
-  Class ShapeChangeEvent
-    Attribute type : ShapeChangeEventType
-    Attribute value : EString
 
   Class IGeometryImporter
     Attribute fileTypes : EString<<1..*>>
@@ -74,10 +64,5 @@ Package geometry <http://www.eclipse.org/>
     Operation load(Path) : Geometry
 
   Class ASCIISTLGeometryImporter -> IGeometryImporter
-
-  Enum ShapeChangeEventType
-    Literal NameChange = 0
-    Literal PropChange = 1
-    Literal ShapeChange = 2
 
   DataType Path <java.nio.file.Path>

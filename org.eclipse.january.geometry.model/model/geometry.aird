@@ -7146,6 +7146,10 @@
                 <styles xmi:type="notation:FontStyle" xmi:id="_y5aq8TJqEeag95dixKPGEA" fontColor="2697711" fontName="Segoe UI" fontHeight="8"/>
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_y5aq8jJqEeag95dixKPGEA"/>
               </children>
+              <children xmi:type="notation:Node" xmi:id="_K4Y2MDf1EeaoVofum6ABzA" type="3010" element="_K34f4Df1EeaoVofum6ABzA">
+                <styles xmi:type="notation:FontStyle" xmi:id="_K4Y2MTf1EeaoVofum6ABzA" fontName="Segoe UI" fontHeight="8"/>
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_K4Y2Mjf1EeaoVofum6ABzA"/>
+              </children>
               <styles xmi:type="notation:SortingStyle" xmi:id="_o_UZVTJqEeag95dixKPGEA"/>
               <styles xmi:type="notation:FilteringStyle" xmi:id="_o_UZVjJqEeag95dixKPGEA"/>
             </children>
@@ -7717,6 +7721,16 @@
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_K34f4Df1EeaoVofum6ABzA" name="changeDecoratorProperty(property EString, value EObject)" tooltipText="changeDecoratorProperty(property, value)">
+          <target xmi:type="ecore:EOperation" href="geometry.ecore#//INode/changeDecoratorProperty"/>
+          <semanticElements xmi:type="ecore:EOperation" href="geometry.ecore#//INode/changeDecoratorProperty"/>
+          <semanticElements xmi:type="ecore:EParameter" href="geometry.ecore#//INode/changeDecoratorProperty/property"/>
+          <semanticElements xmi:type="ecore:EParameter" href="geometry.ecore#//INode/changeDecoratorProperty/value"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_K36VEDf1EeaoVofum6ABzA" labelAlignment="LEFT">
+            <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_o-t8YDJqEeag95dixKPGEA" name="Operator" tooltipText="" outgoingEdges="_o_L2cDJqEeag95dixKPGEA" incomingEdges="_o_L2dDJqEeag95dixKPGEA _o_L2eDJqEeag95dixKPGEA _o_MdgzJqEeag95dixKPGEA" width="12" height="10">

@@ -35,6 +35,7 @@ Package model <http://www.eclipse.org/>
 
   Class IRenderElement
     Operation getMesh() : EJavaObject
+    Operation getBase() : INode
 
   DataType INode <geometry.INode>
 

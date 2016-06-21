@@ -8,6 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: ca.odell.glazedlists,
  ca.odell.glazedlists.event,
  ca.odell.glazedlists.gui,
+ geometry,
  org.eclipse.core.filesystem,
  org.eclipse.core.resources,
  org.eclipse.eavp.viz.datastructures,

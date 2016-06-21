@@ -26,6 +26,7 @@ import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.BasicVizServiceFactory;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.ISeries;
+import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.csv.CSVSeries;
@@ -44,6 +45,8 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotSpinner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import geometry.Geometry;
 
 /**
  * This class tests the {@link PlotGridComposite}'s UI features.
@@ -154,6 +157,11 @@ public class PlotGridCompositeTester extends AbstractSWTTester {
 
 			@Override
 			public IControllerProviderFactory getControllerProviderFactory() {
+				return null;
+			}
+
+			@Override
+			public IVizCanvas createCanvas(Geometry geometry) throws Exception {
 				return null;
 			}
 		};

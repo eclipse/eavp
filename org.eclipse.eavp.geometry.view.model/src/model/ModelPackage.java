@@ -133,13 +133,22 @@ public interface ModelPackage extends EPackage {
 	int IRENDER_ELEMENT___GET_MESH = 0;
 
 	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IRENDER_ELEMENT___GET_BASE = 1;
+
+	/**
 	 * The number of operations of the '<em>IRender Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IRENDER_ELEMENT_OPERATION_COUNT = 1;
+	int IRENDER_ELEMENT_OPERATION_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link model.impl.RenderObjectImpl <em>Render Object</em>}' class.
@@ -186,6 +195,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RENDER_OBJECT_FEATURE_COUNT = IRENDER_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT___GET_BASE = IRENDER_ELEMENT___GET_BASE;
 
 	/**
 	 * The operation id for the '<em>Get Mesh</em>' operation.
@@ -243,6 +261,15 @@ public interface ModelPackage extends EPackage {
 	int RENDER_OBJECT_DECORATOR___GET_MESH = IRENDER_ELEMENT___GET_MESH;
 
 	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT_DECORATOR___GET_BASE = IRENDER_ELEMENT___GET_BASE;
+
+	/**
 	 * The number of operations of the '<em>Render Object Decorator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -287,6 +314,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEXTURE_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+
+	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXTURE_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
 
 	/**
 	 * The number of operations of the '<em>Texture Decorator</em>' class.
@@ -344,6 +380,15 @@ public interface ModelPackage extends EPackage {
 	int OPACITY_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
 
 	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPACITY_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+
+	/**
 	 * The number of operations of the '<em>Opacity Decorator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -397,6 +442,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int WIREFRAME_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+
+	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIREFRAME_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
 
 	/**
 	 * The number of operations of the '<em>Wireframe Decorator</em>' class.
@@ -470,6 +524,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLOR_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+
+	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLOR_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
 
 	/**
 	 * The number of operations of the '<em>Color Decorator</em>' class.
@@ -722,6 +785,16 @@ public interface ModelPackage extends EPackage {
 	EOperation getIRenderElement__GetMesh();
 
 	/**
+	 * Returns the meta object for the '{@link model.IRenderElement#getBase() <em>Get Base</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Base</em>' operation.
+	 * @see model.IRenderElement#getBase()
+	 * @generated
+	 */
+	EOperation getIRenderElement__GetBase();
+
+	/**
 	 * Returns the meta object for data type '{@link geometry.INode <em>INode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -949,6 +1022,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation IRENDER_ELEMENT___GET_MESH = eINSTANCE.getIRenderElement__GetMesh();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Base</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation IRENDER_ELEMENT___GET_BASE = eINSTANCE.getIRenderElement__GetBase();
 
 		/**
 		 * The meta object literal for the '<em>INode</em>' data type.

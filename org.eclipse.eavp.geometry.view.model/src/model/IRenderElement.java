@@ -2,6 +2,7 @@
  */
 package model;
 
+import geometry.INode;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -29,5 +30,16 @@ public interface IRenderElement<T> extends EObject {
 	 * @generated
 	 */
 	T getMesh();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Get the source data object on whose properties the render is based. If the IRenderElement's direct source is another IRenderElement, the INode at the bottom of the sequence of IRenderElements will be returned.
+	 * <!-- end-model-doc -->
+	 * @model kind="operation" dataType="model.INode"
+	 * @generated
+	 */
+	INode getBase();
 
 } // IRenderElement

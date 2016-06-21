@@ -22,6 +22,8 @@ import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeControllerProviderFactory;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPlantViewRootController;
 
+import geometry.Geometry;
+
 /**
  * <p>
  * Implements an ICE viz service for geometry modeling.
@@ -90,6 +92,17 @@ public class FXGeometryVizService extends AbstractVizService {
 	@Override
 	public IControllerProviderFactory getControllerProviderFactory() {
 		return new FXShapeControllerProviderFactory();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.IVizService#createCanvas(geometry.Geometry)
+	 */
+	@Override
+	public IVizCanvas createCanvas(Geometry geometry) throws Exception {
+
+		//Create a new JavaFX geometry canvas for the geometry.
+		return new FXGeometryCanvas(geometry);
 	}
 
 }

@@ -11,14 +11,10 @@ import geometry.GeometryFactory;
 import geometry.GeometryPackage;
 import geometry.IGeometryImporter;
 import geometry.INode;
-import geometry.IShapeObserver;
-import geometry.ISubjectShape;
 import geometry.Intersection;
 import geometry.Material;
 import geometry.Operator;
 import geometry.Shape;
-import geometry.ShapeChangeEvent;
-import geometry.ShapeChangeEventType;
 import geometry.Sphere;
 import geometry.Triangle;
 import geometry.Tube;
@@ -28,7 +24,6 @@ import java.nio.file.Path;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -137,28 +132,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass iSubjectShapeEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass iShapeObserverEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass materialEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass shapeChangeEventEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -173,13 +147,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * @generated
 	 */
 	private EClass asciistlGeometryImporterEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum shapeChangeEventTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -533,6 +500,15 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getINode__ChangeDecoratorProperty__String_EObject() {
+		return iNodeEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperator() {
 		return operatorEClass;
 	}
@@ -569,80 +545,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getISubjectShape() {
-		return iSubjectShapeEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getISubjectShape__Register__IShapeObserver() {
-		return iSubjectShapeEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getISubjectShape__Unregister__IShapeObserver() {
-		return iSubjectShapeEClass.getEOperations().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getIShapeObserver() {
-		return iShapeObserverEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getIShapeObserver__Update__ShapeChangeEvent_ISubjectShape() {
-		return iShapeObserverEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getMaterial() {
 		return materialEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getShapeChangeEvent() {
-		return shapeChangeEventEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getShapeChangeEvent_Type() {
-		return (EAttribute)shapeChangeEventEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getShapeChangeEvent_Value() {
-		return (EAttribute)shapeChangeEventEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -688,15 +592,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 */
 	public EClass getASCIISTLGeometryImporter() {
 		return asciistlGeometryImporterEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EEnum getShapeChangeEventType() {
-		return shapeChangeEventTypeEEnum;
 	}
 
 	/**
@@ -775,6 +670,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEReference(iNodeEClass, INODE__NODES);
 		createEAttribute(iNodeEClass, INODE__TYPE);
 		createEReference(iNodeEClass, INODE__TRIANGLES);
+		createEOperation(iNodeEClass, INODE___CHANGE_DECORATOR_PROPERTY__STRING_EOBJECT);
 
 		operatorEClass = createEClass(OPERATOR);
 
@@ -784,18 +680,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		complementEClass = createEClass(COMPLEMENT);
 
-		iSubjectShapeEClass = createEClass(ISUBJECT_SHAPE);
-		createEOperation(iSubjectShapeEClass, ISUBJECT_SHAPE___REGISTER__ISHAPEOBSERVER);
-		createEOperation(iSubjectShapeEClass, ISUBJECT_SHAPE___UNREGISTER__ISHAPEOBSERVER);
-
-		iShapeObserverEClass = createEClass(ISHAPE_OBSERVER);
-		createEOperation(iShapeObserverEClass, ISHAPE_OBSERVER___UPDATE__SHAPECHANGEEVENT_ISUBJECTSHAPE);
-
 		materialEClass = createEClass(MATERIAL);
-
-		shapeChangeEventEClass = createEClass(SHAPE_CHANGE_EVENT);
-		createEAttribute(shapeChangeEventEClass, SHAPE_CHANGE_EVENT__TYPE);
-		createEAttribute(shapeChangeEventEClass, SHAPE_CHANGE_EVENT__VALUE);
 
 		iGeometryImporterEClass = createEClass(IGEOMETRY_IMPORTER);
 		createEAttribute(iGeometryImporterEClass, IGEOMETRY_IMPORTER__FILE_TYPES);
@@ -803,9 +688,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEOperation(iGeometryImporterEClass, IGEOMETRY_IMPORTER___LOAD__PATH);
 
 		asciistlGeometryImporterEClass = createEClass(ASCIISTL_GEOMETRY_IMPORTER);
-
-		// Create enums
-		shapeChangeEventTypeEEnum = createEEnum(SHAPE_CHANGE_EVENT_TYPE);
 
 		// Create data types
 		pathEDataType = createEDataType(PATH);
@@ -839,7 +721,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		shapeEClass.getESuperTypes().add(this.getISubjectShape());
 		shapeEClass.getESuperTypes().add(this.getINode());
 		sphereEClass.getESuperTypes().add(this.getShape());
 		cubeEClass.getESuperTypes().add(this.getShape());
@@ -899,6 +780,10 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEAttribute(getINode_Type(), ecorePackage.getEString(), "type", null, 0, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getINode_Triangles(), this.getTriangle(), null, "triangles", null, 0, -1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		op = initEOperation(getINode__ChangeDecoratorProperty__String_EObject(), null, "changeDecoratorProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(unionEClass, Union.class, "Union", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -907,25 +792,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		initEClass(complementEClass, Complement.class, "Complement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(iSubjectShapeEClass, ISubjectShape.class, "ISubjectShape", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		op = initEOperation(getISubjectShape__Register__IShapeObserver(), null, "register", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIShapeObserver(), "observer", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getISubjectShape__Unregister__IShapeObserver(), null, "unregister", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIShapeObserver(), "observer", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		initEClass(iShapeObserverEClass, IShapeObserver.class, "IShapeObserver", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		op = initEOperation(getIShapeObserver__Update__ShapeChangeEvent_ISubjectShape(), null, "update", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getShapeChangeEvent(), "event", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getISubjectShape(), "source", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(materialEClass, Material.class, "Material", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(shapeChangeEventEClass, ShapeChangeEvent.class, "ShapeChangeEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getShapeChangeEvent_Type(), this.getShapeChangeEventType(), "type", null, 0, 1, ShapeChangeEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getShapeChangeEvent_Value(), ecorePackage.getEString(), "value", null, 0, 1, ShapeChangeEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iGeometryImporterEClass, IGeometryImporter.class, "IGeometryImporter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIGeometryImporter_FileTypes(), ecorePackage.getEString(), "fileTypes", null, 1, -1, IGeometryImporter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -935,12 +802,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		addEParameter(op, this.getPath(), "path", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(asciistlGeometryImporterEClass, ASCIISTLGeometryImporter.class, "ASCIISTLGeometryImporter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		// Initialize enums and add enum literals
-		initEEnum(shapeChangeEventTypeEEnum, ShapeChangeEventType.class, "ShapeChangeEventType");
-		addEEnumLiteral(shapeChangeEventTypeEEnum, ShapeChangeEventType.NAME_CHANGE);
-		addEEnumLiteral(shapeChangeEventTypeEEnum, ShapeChangeEventType.PROP_CHANGE);
-		addEEnumLiteral(shapeChangeEventTypeEEnum, ShapeChangeEventType.SHAPE_CHANGE);
 
 		// Initialize data types
 		initEDataType(pathEDataType, Path.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

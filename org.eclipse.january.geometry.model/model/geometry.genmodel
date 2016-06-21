@@ -50,6 +50,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/nodes"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/triangles"/>
+      <genOperations ecoreOperation="geometry.ecore#//INode/changeDecoratorProperty"/>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Operator"/>
     <genClasses ecoreClass="geometry.ecore#//Union"/>

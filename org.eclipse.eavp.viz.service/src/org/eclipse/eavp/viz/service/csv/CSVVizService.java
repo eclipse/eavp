@@ -25,6 +25,8 @@ import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import geometry.Geometry;
+
 /**
  * This class implements the IVizService interface to provide CSV plotting tools
  * to the platform via the IVizServiceFactory. It used the classes already
@@ -134,4 +136,15 @@ public class CSVVizService extends AbstractVizService {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizService#createCanvas(geometry.Geometry)
+	 */
+	@Override
+	public IVizCanvas createCanvas(Geometry geometry) throws Exception {
+		throw new NoSuchMethodException(
+				"The CSVVizService can not display a geometry.");
+	}
 }

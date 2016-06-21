@@ -40,7 +40,6 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -139,7 +138,6 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,10 +145,10 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
-		case ModelPackage.MESH_CACHE___GET_MESH__STRING:
-			return getMesh((String) arguments.get(0));
-		case ModelPackage.MESH_CACHE___GET_MESH__ELIST:
-			return getMesh((EList<Triangle>) arguments.get(0));
+			case ModelPackage.MESH_CACHE___GET_MESH__STRING:
+				return getMesh((String)arguments.get(0));
+			case ModelPackage.MESH_CACHE___GET_MESH__ELIST:
+				return getMesh((EList<Triangle>)arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
 	}

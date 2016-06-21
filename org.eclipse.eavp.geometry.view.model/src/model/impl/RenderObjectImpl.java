@@ -175,6 +175,17 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public INode getBase() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -260,6 +271,8 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 		switch (operationID) {
 			case ModelPackage.RENDER_OBJECT___GET_MESH:
 				return getMesh();
+			case ModelPackage.RENDER_OBJECT___GET_BASE:
+				return getBase();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

@@ -10,12 +10,19 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
+
+import geometry.GeometryPackage;
+import geometry.INode;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
+import model.IRenderElement;
 import model.impl.ColorDecoratorImpl;
 
 /**
@@ -69,5 +76,60 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		material.setSpecularColor(Color.WHITE);
 
 		return group;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see model.impl.RenderObjectDecoratorImpl#setSource(model.IRenderElement)
+	 */
+	@Override
+	public void setSource(IRenderElement<Group> newSource){
+		
+		//Get the base data object
+		INode base = newSource.getBase();
+		
+		//Register as a listener to it
+		base.eAdapters().add(new Adapter(){
+
+			@Override
+			public void notifyChanged(Notification notification) {
+				
+				//If a property was set, then check if it was relevant to this decorator
+				if(notification.getEventType() == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE){
+					
+					//Get the property
+					String property = notification.getOldStringValue();
+					
+					//Check if the property is any of the RGB colors. If so, set the decorator's color correctly
+					if(property.equals("red")){
+						setRed((int) notification.getNewDoubleValue());
+					}
+					if(property.equals("green")){
+						setGreen((int) notification.getNewDoubleValue());
+					}
+					if(property.equals("blue")){
+						setBlue((int) notification.getNewDoubleValue());
+					}
+				}
+			}
+
+			@Override
+			public Notifier getTarget() {
+				return null;
+			}
+
+			@Override
+			public void setTarget(Notifier newTarget) {
+			}
+
+			@Override
+			public boolean isAdapterForType(Object type) {
+				return false;
+			}
+			
+		});
+	
+		//Set the source
+		super.setSource(newSource);
 	}
 }

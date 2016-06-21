@@ -48,6 +48,7 @@
     <genClasses image="false" ecoreClass="model.ecore#//IRenderElement">
       <genTypeParameters ecoreTypeParameter="model.ecore#//IRenderElement/T"/>
       <genOperations ecoreOperation="model.ecore#//IRenderElement/getMesh"/>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/getBase"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

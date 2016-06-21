@@ -2,6 +2,7 @@
  */
 package model.impl;
 
+import geometry.INode;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -106,6 +107,17 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public INode getBase() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -171,6 +183,8 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 		switch (operationID) {
 			case ModelPackage.RENDER_OBJECT_DECORATOR___GET_MESH:
 				return getMesh();
+			case ModelPackage.RENDER_OBJECT_DECORATOR___GET_BASE:
+				return getBase();
 		}
 		return super.eInvoke(operationID, arguments);
 	}
