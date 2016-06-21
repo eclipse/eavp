@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.render.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -175,5 +176,13 @@ public class FXMeshCacheTester {
 		assertTrue(0 == faces.get(21));
 		assertTrue(3 == faces.get(22));
 		assertTrue(0 == faces.get(23));
+
+		// Try an empty list. The result should be an empty mesh
+		TriangleMesh emptyMesh = cache.getMesh(new BasicEList<Triangle>());
+		assertEquals(0, emptyMesh.getPoints().size());
+
+		// Null should also result in an empty mesh
+		TriangleMesh nullMesh = cache.getMesh((BasicEList<Triangle>) null);
+		assertEquals(0, nullMesh.getPoints().size());
 	}
 }

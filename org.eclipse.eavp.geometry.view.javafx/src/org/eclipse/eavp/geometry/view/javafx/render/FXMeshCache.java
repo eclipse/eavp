@@ -115,6 +115,7 @@ public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 						} else {
 
 							// If the vertex is not recognized, add it
+							zCoords.put(vert.getZ(), nextPointID);
 							addVertex(vert, pointsList, facesList, nextPointID);
 							nextPointID++;
 

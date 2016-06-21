@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -101,6 +102,11 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 
 		// Whether the triangle list has been found in the cache
 		boolean found = false;
+
+		// Treat null as an empty list
+		if (triangles == null) {
+			triangles = new BasicEList<Triangle>();
+		}
 
 		// Convert the list to a set
 		Set<Triangle> triangleSet = new HashSet(triangles);
