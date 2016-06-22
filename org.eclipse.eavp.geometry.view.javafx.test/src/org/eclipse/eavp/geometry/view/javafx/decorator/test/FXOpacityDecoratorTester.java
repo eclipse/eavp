@@ -36,8 +36,7 @@ public class FXOpacityDecoratorTester {
 
 		// Create a render object
 		Shape shape = GeometryFactory.eINSTANCE.createShape();
-		FXRenderObject object = new FXRenderObject(
-				GeometryFactory.eINSTANCE.createShape(), new FXMeshCache());
+		FXRenderObject object = new FXRenderObject(shape, new FXMeshCache());
 
 		// Create an opacity decorator for it
 		FXOpacityDecorator decorator = new FXOpacityDecorator();
@@ -56,5 +55,7 @@ public class FXOpacityDecoratorTester {
 		// Opacities below 100 are set to 0 to avoid JavaFX rendering bugs.
 		decorator.setOpacity(50);
 		assertEquals(0, decorator.getMesh().getOpacity(), .01d);
+
+		shape.changeDecoratorProperty("opacity", 100);
 	}
 }

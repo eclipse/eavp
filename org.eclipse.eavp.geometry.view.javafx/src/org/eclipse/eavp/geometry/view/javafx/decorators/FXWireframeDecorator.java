@@ -52,7 +52,7 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 
 			// Otherwise, recursively handle the child group
 			else if (node.getClass() == Group.class) {
-				setMaterial((Group) node, mode);
+				((MeshView) node).setDrawMode(mode);
 			}
 		}
 	}
@@ -77,32 +77,36 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 
 		return group;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.impl.RenderObjectDecoratorImpl#setSource(model.IRenderElement)
 	 */
 	@Override
-	public void setSource(IRenderElement<Group> newSource){
-		
-		//Register as a listener to it
-		newSource.getBase().eAdapters().add(new Adapter(){
+	public void setSource(IRenderElement<Group> newSource) {
+
+		// Register as a listener to it
+		newSource.getBase().eAdapters().add(new Adapter() {
 
 			@Override
 			public void notifyChanged(Notification notification) {
-				
-				//If a property was set, check if it was relevant to this decorator
-				if(notification.getEventType() == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE){
-					
-					//If the wireframe was changed, update to the new value
-					if(notification.getOldStringValue().equals("wireframe")){
-						
-						//A 1 will signal that the 
-						if(notification.getNewDoubleValue() == 1d){
+
+				// If a property was set, check if it was relevant to this
+				// decorator
+				if (notification
+						.getEventType() == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
+
+					// If the wireframe was changed, update to the new value
+					if (notification.getOldStringValue().equals("wireframe")) {
+
+						// Set the local wireframe variable according to the new
+						// value
+						if (notification.getNewBooleanValue()) {
 							wireframe = true;
-						} else{
+						} else {
 							wireframe = false;
-						} 
+						}
 					}
 				}
 			}
@@ -120,10 +124,10 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 			public boolean isAdapterForType(Object type) {
 				return false;
 			}
-			
+
 		});
-	
-		//Set the source
+
+		// Set the source
 		super.setSource(newSource);
 	}
 }
