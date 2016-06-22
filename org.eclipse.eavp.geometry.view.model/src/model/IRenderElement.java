@@ -3,6 +3,7 @@
 package model;
 
 import geometry.INode;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -41,5 +42,16 @@ public interface IRenderElement<T> extends EObject {
 	 * @generated
 	 */
 	INode getBase();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Handle the source object's children by applying them to the mesh in accordance to the object's type. 
+	 * <!-- end-model-doc -->
+	 * @model childrenMany="false"
+	 * @generated
+	 */
+	void handleChildren(EList<IRenderElement<T>> children);
 
 } // IRenderElement

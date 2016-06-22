@@ -13,18 +13,21 @@ package org.eclipse.eavp.viz.service.javafx.canvas;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
-import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateableListener;
-import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.base.Representation;
+import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
+import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
 import org.eclipse.eavp.viz.service.javafx.viewer.IAttachmentManager;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 
+import geometry.Geometry;
 import javafx.scene.Group;
-import javafx.scene.Node;
+import model.IRenderElement;
 
 /**
  * <p>
@@ -46,7 +49,17 @@ public class FXAttachment extends BasicAttachment {
 	private final IAttachmentManager manager;
 
 	/** */
-	protected List<IController> knownParts;
+	protected List<Geometry> knownParts;
+
+	/**
+	 * The list of elements representing the rendered nodes.
+	 */
+	protected List<IRenderElement<Group>> renderedNodes;
+
+	/**
+	 * The cache of all rendered meshes for this attachment.
+	 */
+	protected FXMeshCache cache;
 
 	/**
 	 * <p>
@@ -59,6 +72,27 @@ public class FXAttachment extends BasicAttachment {
 	public FXAttachment(IAttachmentManager manager) {
 		this.manager = manager;
 		fxAttachmentNode = new Group();
+		renderedNodes = new ArrayList<IRenderElement<Group>>();
+		cache = new FXMeshCache();
+	}
+
+	/**
+	 * Create a RenderElement for the node.
+	 * 
+	 * This function returns a simple FXRenderObject by default. It is intended
+	 * that subclasses will override this function in order to create a
+	 * hierarchy of IRenderDecorators appropriate for the rending functionality
+	 * they offer.
+	 * 
+	 * @param node
+	 *            The node which will serve as the source for the new
+	 *            RenderElement
+	 * @return An IRenderElement which can be used to access all of the
+	 *         rendering functionality offered by this type of attachment, with
+	 *         the given node as the data source.
+	 */
+	protected IRenderElement<Group> createElement(geometry.INode node) {
+		return new FXRenderObject(node, cache);
 	}
 
 	/**
@@ -69,8 +103,72 @@ public class FXAttachment extends BasicAttachment {
 	 * @param source
 	 *            The controller which triggered the update
 	 */
-	protected void handleUpdate(IController source) {
-		// Nothing to do
+	protected void handleUpdate(Geometry geom, Notification notification) {
+
+		// If a notification was given, check it for any changes to the list of
+		// nodes.
+		if (notification != null) {
+
+			// If something was added to the list, create a render object for it
+			if (notification.getEventType() == Notification.ADD) {
+				renderedNodes.add(createElement(
+						(geometry.INode) notification.getNewValue()));
+			}
+
+			// If something was removed, remove the render object for it
+			else if (notification.getEventType() == Notification.REMOVE) {
+
+				// Cast the removed object
+				geometry.INode removed = (geometry.INode) notification
+						.getOldValue();
+
+				// Search for the render element that is based on the removed
+				// node and remove it from the list.
+				for (IRenderElement<Group> render : renderedNodes) {
+					if (render.getBase().equals(removed)) {
+						renderedNodes.remove(render);
+						break;
+					}
+				}
+			}
+		}
+
+		// Clear the node of all children so the scene will be refreshed.
+		fxAttachmentNode.getChildren().clear();
+
+		// Handle the children for each of the rendered nodes
+		for (IRenderElement<Group> render : renderedNodes) {
+
+			// Get the source object's children
+			List<geometry.INode> children = render.getBase().getNodes();
+
+			// If children exist, handle them
+			if (!children.isEmpty()) {
+
+				// The list of rendered objects that are based on one of
+				// render's source's children
+				EList<IRenderElement<Group>> childRenders = new BasicEList<IRenderElement<Group>>();
+
+				// Search through the list of all renders
+				for (IRenderElement<Group> renderCandidate : renderedNodes) {
+
+					// If a render's source is in the list of child sources, add
+					// that render to the list of child renders
+					if (children.contains(renderCandidate.getBase())) {
+						childRenders.add(renderCandidate);
+					}
+				}
+
+				// Have the render element handle its children
+				render.handleChildren(childRenders);
+			}
+
+		}
+
+		// Add each render to the scene
+		for (IRenderElement<Group> render : renderedNodes) {
+			fxAttachmentNode.getChildren().add(render.getMesh());
+		}
 	}
 
 	/**
@@ -79,7 +177,7 @@ public class FXAttachment extends BasicAttachment {
 	 * 
 	 * @return All parts contained in this attachment
 	 */
-	public List<IController> getKnownParts() {
+	public List<Geometry> getKnownParts() {
 		return knownParts;
 	}
 
@@ -131,7 +229,7 @@ public class FXAttachment extends BasicAttachment {
 	}
 
 	@Override
-	public void addGeometry(IController geom) {
+	public void addGeometry(Geometry geom) {
 		super.addGeometry(geom);
 
 		if (fxAttachmentNode == null) {
@@ -142,39 +240,25 @@ public class FXAttachment extends BasicAttachment {
 			knownParts = new ArrayList<>();
 		}
 
+		// If the geometry is not recognized, add it
 		if (!knownParts.contains(geom)) {
 
-			geom.register(new IManagedUpdateableListener() {
-				@Override
-				public void update(IManagedUpdateable component,
-						SubscriptionType[] type) {
+			// Register to listen for changes from the geometry or its children
+			// INodes
+			((BasicNotifierImpl) geom.getNodes()).eAdapters()
+					.add(new EContentAdapter() {
 
-					javafx.application.Platform.runLater(new Runnable() {
 						@Override
-						public void run() {
-
-							// Invoke the update function
-							handleUpdate(geom);
+						public void notifyChanged(Notification notification) {
+							handleUpdate(geom, notification);
 						}
 					});
-				}
-
-				@Override
-				public ArrayList<SubscriptionType> getSubscriptions(
-						IManagedUpdateable source) {
-
-					// Register to receive all updates
-					ArrayList<SubscriptionType> types = new ArrayList<SubscriptionType>();
-					types.add(SubscriptionType.ALL);
-					return types;
-				}
-			});
 
 			// Add the geometry to the list of known parts
 			knownParts.add(geom);
 
 			// Have the geometry refreshed when it is added
-			handleUpdate(geom);
+			handleUpdate(geom, null);
 
 		}
 	}
@@ -188,7 +272,7 @@ public class FXAttachment extends BasicAttachment {
 	 *            an ICE Geometry IShape
 	 */
 	@Override
-	public void processShape(IController shape) {
+	public void processShape(geometry.INode shape) {
 		// Nothing to do.
 	}
 
@@ -196,15 +280,7 @@ public class FXAttachment extends BasicAttachment {
 	 * 
 	 */
 	@Override
-	protected void disposeShape(IController shape) {
-		Representation<Group> representation = shape.getRepresentation();
-		Node node = representation.getData();
-
-		if (node == null) {
-			return;
-		}
-
-		fxAttachmentNode.getChildren().remove(node);
+	protected void disposeShape(geometry.INode shape) {
 	}
 
 	/**
@@ -213,9 +289,8 @@ public class FXAttachment extends BasicAttachment {
 	 * @return
 	 */
 	@Override
-	public List<IController> getShapes(boolean copy) {
+	public List<geometry.INode> getShapes(boolean copy) {
 		return super.getShapes(copy);
-
 	}
 
 	/**
@@ -250,8 +325,11 @@ public class FXAttachment extends BasicAttachment {
 		return fxAttachmentNode;
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment#getType()
 	 */
 	@Override
 	public Class<?> getType() {
@@ -269,12 +347,18 @@ public class FXAttachment extends BasicAttachment {
 		return fxAttachmentNode.getId();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.javafx.canvas.IModelPart#removeGeometry(
+	 * geometry.Geometry)
+	 */
 	@Override
-	public void removeGeometry(IController geom) {
+	public void removeGeometry(Geometry geom) {
 
 		// Remove the part from the list of seen parts
 		knownParts.remove(geom);
-
 	}
 
 }

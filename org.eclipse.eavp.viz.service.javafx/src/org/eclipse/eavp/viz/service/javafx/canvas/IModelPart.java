@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.canvas;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.modeling.base.IController;
+import geometry.Geometry;
 
 /**
  * <p>
@@ -23,56 +23,43 @@ import org.eclipse.eavp.viz.modeling.base.IController;
  *
  */
 public interface IModelPart {
-
+	
 	/**
-	 * <p>
 	 * Adds a Geometry instance to this entity.
-	 * </p>
 	 * 
-	 * @param geom
-	 *            an ICE Geometry instance
+	 * @param geom Geometry instance
 	 */
-	public void addGeometry(IController geom);
-
+	public void addGeometry(Geometry geom);
+	
 	/**
-	 * <p>
-	 * Adds an IShape to this entity.
-	 * </p>
+	 * Adds a shape to this entity.
 	 * 
-	 * @param shape
-	 *            an ICE IShape instance
+	 * @param shape An EAVP CSG INode instance.
 	 */
-	public void addShape(IController shape);
-
+	public void addShape(geometry.INode shape);
+	
 	/**
-	 * Removes a part from the list of top level parts in the model.
+	 * Removes a geometry from those displayed in the model.
 	 * 
-	 * @param geom
-	 *            The top level node to be removed.
+	 * @param geom The geometry to be removed.
 	 */
-	public void removeGeometry(IController geom);
-
+	public void removeGeometry(Geometry geom);
+	
 	/**
-	 * <p>
-	 * Removes the supplied IShape from this entity.
-	 * </p>
+	 * Removes the supplied INode from this entity.
 	 * 
-	 * @param shape
-	 *            the ICE IShape to remove
+	 * @param shape The EAVP INode to remove.
 	 */
-	public void removeShape(IController shape);
-
+	public void removeShape(geometry.INode shape);
+	
 	/**
-	 * <p>
-	 * Returns true if the entity contains the supplied IShape, false otherwise.
-	 * </p>
+	 * Returns true if the entity contains the supplied INode, false otherwise.
 	 * 
-	 * @param the
-	 *            ICE IShape to test for
+	 * @param shape EAVP CSG INode to test for
 	 * 
-	 * @return true if the entity contains the supplied IShape, false otherwise.
+	 * @return true if the entity contains the supplied INode, false otherwise.
 	 */
-	public boolean hasShape(IController shape);
+	public boolean hasShape(geometry.INode shape);
 
 	/**
 	 * <p>
@@ -82,9 +69,9 @@ public interface IModelPart {
 	 * @param index
 	 *            the index to retrieve the IShape at
 	 * 
-	 * @return an IShape instance or null if one cannot be found
+	 * @return a CSG INode instance or null if one cannot be found
 	 */
-	public IController getShape(int index);
+	public geometry.INode getShape(int index);
 
 	/**
 	 * <p>
@@ -98,9 +85,9 @@ public interface IModelPart {
 	 * @param copy
 	 *            if true, the returned list will be a copy
 	 * 
-	 * @return a List of IShapes associated with this shape.
+	 * @return a List of INodes associated with this shape.
 	 */
-	public List<IController> getShapes(boolean copy);
+	public List<geometry.INode> getShapes(boolean copy);
 
 	/**
 	 * <p>

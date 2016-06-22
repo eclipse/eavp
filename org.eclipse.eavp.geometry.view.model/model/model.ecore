@@ -158,6 +158,18 @@
         <details key="documentation" value="Get the source data object on whose properties the render is based. If the IRenderElement's direct source is another IRenderElement, the INode at the bottom of the sequence of IRenderElements will be returned."/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="handleChildren">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Handle the source object's children by applying them to the mesh in accordance to the object's type. "/>
+      </eAnnotations>
+      <eParameters name="children">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+          <eTypeArguments eClassifier="#//IRenderElement">
+            <eTypeArguments eTypeParameter="#//IRenderElement/T"/>
+          </eTypeArguments>
+        </eGenericType>
+      </eParameters>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="INode" instanceClassName="geometry.INode">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

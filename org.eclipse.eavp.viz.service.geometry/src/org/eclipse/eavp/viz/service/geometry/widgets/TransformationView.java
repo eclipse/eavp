@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2014 UT-Battelle, LLC.
+ * Copyright (c) 2012, 2014, 2016 UT-Battelle, LLC.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,11 +8,10 @@
  * Contributors:
  *   Initial API and implementation and/or initial documentation - Jay Jay Billings,
  *   Jordan H. Deyton, Dasha Gorin, Alexander J. McCaskey, Taylor Patterson,
- *   Claire Saunders, Matthew Wang, Anna Wojtowicz
+ *   Claire Saunders, Matthew Wang, Anna Wojtowicz, Robert Smith
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
@@ -27,13 +26,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
+import geometry.INode;
+
 /**
  * <p>
  * Eclipse UI view with a series of inputs for manipulating the position and
  * transformation of a selected shape
  * </p>
  * 
- * @author Andrew P. Belt
+ * @author Andrew P. Belt, Robert Smith
  */
 public class TransformationView extends ViewPart {
 
@@ -41,22 +42,22 @@ public class TransformationView extends ViewPart {
 	 * Eclipse view ID
 	 */
 	public static final String ID = "org.eclipse.eavp.viz.service.geometry.widgets.TransformationView";
-	/**
-	 * 
-	 */
-	private RealSpinner[] skewSpinners = new RealSpinner[3];
-	/**
-	 * 
-	 */
-	private RealSpinner sizeSpinner;
-	/**
-	 * 
-	 */
-	private RealSpinner[] scaleSpinners = new RealSpinner[3];
-	/**
-	 * 
-	 */
-	private RealSpinner[] rotationSpinners = new RealSpinner[3];
+	// /**
+	// *
+	// */
+	// private RealSpinner[] skewSpinners = new RealSpinner[3];
+	// /**
+	// *
+	// */
+	// private RealSpinner sizeSpinner;
+	// /**
+	// *
+	// */
+	// private RealSpinner[] scaleSpinners = new RealSpinner[3];
+	// /**
+	// *
+	// */
+	// private RealSpinner[] rotationSpinners = new RealSpinner[3];
 	/**
 	 * 
 	 */
@@ -73,7 +74,7 @@ public class TransformationView extends ViewPart {
 	 * </p>
 	 * 
 	 */
-	private ShapeController currentShape;
+	private INode currentShape;
 
 	/**
 	 * Defines whether degrees or radians are used for rotation angles
@@ -86,15 +87,15 @@ public class TransformationView extends ViewPart {
 	 */
 	private void setSpinnersEnabled(boolean enabled) {
 
-		sizeSpinner.getControl().setEnabled(enabled);
-
-		for (RealSpinner scaleSpinner : scaleSpinners) {
-			scaleSpinner.getControl().setEnabled(enabled);
-		}
-
-		for (RealSpinner rotationSpinner : rotationSpinners) {
-			rotationSpinner.getControl().setEnabled(enabled);
-		}
+		// sizeSpinner.getControl().setEnabled(enabled);
+		//
+		// for (RealSpinner scaleSpinner : scaleSpinners) {
+		// scaleSpinner.getControl().setEnabled(enabled);
+		// }
+		//
+		// for (RealSpinner rotationSpinner : rotationSpinners) {
+		// rotationSpinner.getControl().setEnabled(enabled);
+		// }
 
 		for (RealSpinner translateSpinner : translateSpinners) {
 			translateSpinner.getControl().setEnabled(enabled);
@@ -121,22 +122,23 @@ public class TransformationView extends ViewPart {
 				new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
 		// Size parameter
-		Label sizeLabel = new Label(realParent, SWT.NONE);
-		sizeLabel.setLayoutData(
-				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		sizeLabel.setText("Size");
-
-		sizeSpinner = new RealSpinner(realParent);
-		sizeSpinner.getControl().setLayoutData(
-				new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
-		sizeSpinner.setBounds(0.0, 1.0e6);
-		sizeSpinner.setValue(1.0);
+		// Label sizeLabel = new Label(realParent, SWT.NONE);
+		// sizeLabel.setLayoutData(
+		// new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		// sizeLabel.setText("Size");
+		//
+		// sizeSpinner = new RealSpinner(realParent);
+		// sizeSpinner.getControl().setLayoutData(
+		// new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+		// sizeSpinner.setBounds(0.0, 1.0e6);
+		// sizeSpinner.setValue(1.0);
 
 		// Horizontal line
 
-		Label separator = new Label(realParent, SWT.SEPARATOR | SWT.HORIZONTAL);
-		separator.setLayoutData(
-				new GridData(SWT.FILL, SWT.CENTER, false, false, 4, 1));
+		// Label separator = new Label(realParent, SWT.SEPARATOR |
+		// SWT.HORIZONTAL);
+		// separator.setLayoutData(
+		// new GridData(SWT.FILL, SWT.CENTER, false, false, 4, 1));
 
 		// Coordinate labels
 
@@ -169,30 +171,30 @@ public class TransformationView extends ViewPart {
 			translateSpinners[i].setBounds(-1.0e6, 1.0e6);
 		}
 
-		// Rotation
-		Label rotationLabel = new Label(realParent, SWT.NONE);
-		rotationLabel.setLayoutData(
-				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		rotationLabel.setText("Rotation");
-		for (int i = 0; i < 3; i++) {
-			rotationSpinners[i] = new RealSpinner(realParent);
-			rotationSpinners[i].getControl().setLayoutData(
-					new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-			rotationSpinners[i].setBounds(-1.0e6, 1.0e6);
-		}
-
-		// Scale
-		Label scaleLabel = new Label(realParent, SWT.NONE);
-		scaleLabel.setLayoutData(
-				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		scaleLabel.setText("Scale");
-		for (int i = 0; i < 3; i++) {
-			scaleSpinners[i] = new RealSpinner(realParent);
-			scaleSpinners[i].getControl().setLayoutData(
-					new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-			scaleSpinners[i].setBounds(0.0, 1.0e6);
-			scaleSpinners[i].setValue(1.0);
-		}
+		// // Rotation
+		// Label rotationLabel = new Label(realParent, SWT.NONE);
+		// rotationLabel.setLayoutData(
+		// new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		// rotationLabel.setText("Rotation");
+		// for (int i = 0; i < 3; i++) {
+		// rotationSpinners[i] = new RealSpinner(realParent);
+		// rotationSpinners[i].getControl().setLayoutData(
+		// new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		// rotationSpinners[i].setBounds(-1.0e6, 1.0e6);
+		// }
+		//
+		// // Scale
+		// Label scaleLabel = new Label(realParent, SWT.NONE);
+		// scaleLabel.setLayoutData(
+		// new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		// scaleLabel.setText("Scale");
+		// for (int i = 0; i < 3; i++) {
+		// scaleSpinners[i] = new RealSpinner(realParent);
+		// scaleSpinners[i].getControl().setLayoutData(
+		// new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		// scaleSpinners[i].setBounds(0.0, 1.0e6);
+		// scaleSpinners[i].setValue(1.0);
+		// }
 
 		// Skew
 		// TODO When skew is implemented on the JME3 application, uncomment this
@@ -249,21 +251,11 @@ public class TransformationView extends ViewPart {
 	 * 
 	 * @param shape
 	 */
-	public void setShape(ShapeController shape) {
+	public void setShape(IRenderElement shape) {
 
 		this.currentShape = shape;
 
-		// Define a transformation for getting values
-
-		Transformation transformation;
-
-		if (shape == null) {
-			// Make a new transformation to set the default values of the
-			// spinners
-
-			transformation = new Transformation();
-		} else {
-			transformation = shape.getTransformation();
+		if (shape != null) {
 
 			// Set the opacity combo's value based on the shape's transparency
 			// and wireframe status

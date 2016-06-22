@@ -10,18 +10,23 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.render.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.junit.Test;
 
 import geometry.GeometryFactory;
 import geometry.Shape;
 import geometry.Triangle;
+import geometry.Union;
+import geometry.Vertex;
 import geometry.impl.ShapeImpl;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
@@ -81,9 +86,77 @@ public class FXRenderObjectTester {
 		FXRenderObject renderTri2 = new FXRenderObject(shape2, cache);
 
 		// The result should contain a MeshView based on mesh2 from the cache
-		assertTrue(renderTri2.getRender().getChildren()
-				.get(0) instanceof MeshView);
+		assertTrue(
+				renderTri2.getMesh().getChildren().get(0) instanceof MeshView);
 		assertTrue(cache.getMesh2() == cache.getLast());
+
+		// Move the shape to another location
+		Vertex vertex = GeometryFactory.eINSTANCE.createVertex();
+		vertex.setX(3);
+		vertex.setY(4);
+		vertex.setZ(5);
+		shape2.setCenter(vertex);
+
+		// The mesh should have moved to the new point
+		assertEquals(3d, renderTri2.getMesh().getTranslateX(), 0.01d);
+		assertEquals(4d, renderTri2.getMesh().getTranslateY(), 0.01d);
+		assertEquals(5d, renderTri2.getMesh().getTranslateZ(), 0.01d);
+	}
+
+	/**
+	 * Test that the object will properly handle child objects based on its
+	 * type.
+	 */
+	@Test
+	public void checkChildren() {
+
+		// The cache that will provide the render objects with their meshes
+		TestCache cache = new TestCache();
+
+		// Create a node with type "test".
+		ShapeImpl testShape = new ShapeImpl() {
+
+			@Override
+			public String getType() {
+				return "test";
+			}
+		};
+
+		// Create a render object
+		FXRenderObject render = new FXRenderObject(testShape, cache);
+
+		// Create a child shape
+		ShapeImpl childShape = new ShapeImpl() {
+
+			@Override
+			public String getType() {
+				return "test";
+			}
+		};
+
+		// Render the child shape
+		FXRenderObject child = new FXRenderObject(childShape, cache);
+
+		// Have the render handle the list of children
+		EList<model.IRenderElement<javafx.scene.Group>> childList = new BasicEList<model.IRenderElement<javafx.scene.Group>>();
+		childList.add(child);
+		render.handleChildren(childList);
+
+		// Since the render does not have an operation type, it should simply
+		// ignore its children
+		assertFalse(render.getMesh().getChildren().contains(child.getMesh()));
+
+		// Create a union and render it
+		Union union = GeometryFactory.eINSTANCE.createUnion();
+		FXRenderObject unionRender = new FXRenderObject(union, cache);
+
+		// Have the union handle the children
+		unionRender.handleChildren(childList);
+
+		// The union should have added the children to its own node
+		assertTrue(
+				unionRender.getMesh().getChildren().contains(child.getMesh()));
+
 	}
 
 	/**

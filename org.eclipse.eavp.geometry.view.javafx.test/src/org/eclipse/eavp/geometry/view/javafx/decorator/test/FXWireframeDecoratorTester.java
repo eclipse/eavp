@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorator.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
@@ -38,8 +39,7 @@ public class FXWireframeDecoratorTester {
 
 		// Create a render object
 		Shape shape = GeometryFactory.eINSTANCE.createShape();
-		FXRenderObject object = new FXRenderObject(
-				GeometryFactory.eINSTANCE.createShape(), new FXMeshCache());
+		FXRenderObject object = new FXRenderObject(shape, new FXMeshCache());
 
 		// Create an opacity decorator for it
 		FXWireframeDecorator decorator = new FXWireframeDecorator();
@@ -47,7 +47,6 @@ public class FXWireframeDecoratorTester {
 
 		// Set the shape as a wireframe
 		decorator.setWireframe(true);
-		;
 
 		// The child's draw mode should have been changed
 		assertTrue(((MeshView) decorator.getMesh().getChildren().get(0))
@@ -57,5 +56,12 @@ public class FXWireframeDecoratorTester {
 		decorator.setWireframe(false);
 		assertTrue(((MeshView) decorator.getMesh().getChildren().get(0))
 				.getDrawMode() == DrawMode.FILL);
+		
+		//Sending an update from the shape should also set the wireframe mode
+		shape.changeDecoratorProperty("wireframe", true);
+		assertTrue(decorator.isWireframe());
+		assertTrue(((MeshView) decorator.getMesh().getChildren().get(0))
+				.getDrawMode() == DrawMode.LINE);
+		
 	}
 }

@@ -56,6 +56,9 @@ public class FXOpacityDecoratorTester {
 		decorator.setOpacity(50);
 		assertEquals(0, decorator.getMesh().getOpacity(), .01d);
 
+		// Sending an update from the shape should also set the opacity
 		shape.changeDecoratorProperty("opacity", 100);
+		assertEquals(100, decorator.getOpacity(), .01d);
+		assertEquals(1, decorator.getMesh().getOpacity(), .01d);
 	}
 }

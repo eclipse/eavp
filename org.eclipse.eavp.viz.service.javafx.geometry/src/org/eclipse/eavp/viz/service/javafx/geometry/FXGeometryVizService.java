@@ -49,15 +49,7 @@ public class FXGeometryVizService extends AbstractVizService {
 	 */
 	@Override
 	public IVizCanvas createCanvas(IController geometry) throws Exception {
-		if (geometry instanceof ShapeController
-				|| geometry instanceof FXPlantViewRootController) {
-			FXGeometryCanvas canvas = new FXGeometryCanvas(geometry);
-
-			return canvas;
-		} else {
-			throw new IllegalArgumentException(
-					Messages.GeometryVizService_InvalidInput);
-		}
+		return null;
 	}
 
 	/**

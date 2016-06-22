@@ -367,6 +367,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getIRenderElement__HandleChildren__EList() {
+		return iRenderElementEClass.getEOperations().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getINode() {
 		return iNodeEDataType;
 	}
@@ -437,6 +446,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		iRenderElementEClass = createEClass(IRENDER_ELEMENT);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_MESH);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_BASE);
+		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST);
 
 		// Create data types
 		iNodeEDataType = createEDataType(INODE);
@@ -559,6 +569,14 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEOperation(op, g1);
 
 		initEOperation(getIRenderElement__GetBase(), this.getINode(), "getBase", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getIRenderElement__HandleChildren__EList(), null, "handleChildren", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(ecorePackage.getEEList());
+		g2 = createEGenericType(this.getIRenderElement());
+		g1.getETypeArguments().add(g2);
+		EGenericType g3 = createEGenericType(iRenderElementEClass_T);
+		g2.getETypeArguments().add(g3);
+		addEParameter(op, g1, "children", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(iNodeEDataType, INode.class, "INode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

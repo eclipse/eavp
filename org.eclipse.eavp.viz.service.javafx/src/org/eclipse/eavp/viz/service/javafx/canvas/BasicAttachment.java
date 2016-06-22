@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
-import org.eclipse.jface.util.Geometry;
+
+import geometry.Geometry;
 
 /**
  * <p>
@@ -34,10 +34,10 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * Geometry that has been added but has not been integrated as the node
 	 * hasn't been attached yet.
 	 */
-	private List<IController> queuedGeometry;
+	private List<Geometry> queuedGeometry;
 
 	/** List of shapes that have been added via Geometry instances. */
-	private List<IController> shapes;
+	private List<geometry.INode> shapes;
 
 	/** */
 	private boolean visible;
@@ -49,7 +49,7 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	private boolean immutable;
 
 	/** */
-	protected IController currentGeom = null;
+	protected Geometry currentGeom = null;
 
 	/**
 	 * 
@@ -62,14 +62,14 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * 
 	 * @param shape
 	 */
-	protected void checkMesh(IController shape) {
+	protected void checkMesh(geometry.INode shape) {
 	}
 
 	/**
 	 * @see IModelPart#addGeometry(Geometry)
 	 */
 	@Override
-	public void addGeometry(IController geom) {
+	public void addGeometry(Geometry geom) {
 		if (geom == null) {
 			return;
 		}
@@ -96,7 +96,7 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * @see IModelPart#addShape(Geometry)
 	 */
 	@Override
-	public void addShape(IController shape) {
+	public void addShape(geometry.INode shape) {
 		checkMesh(shape);
 
 		if (shapes == null) {
@@ -119,8 +119,8 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 			return;
 		}
 
-		for (IController geom : queuedGeometry) {
-			for (IController shape : geom.getEntities()) {
+		for (Geometry geom : queuedGeometry) {
+			for (geometry.INode shape : geom.getNodes()) {
 				addShape(shape);
 			}
 		}
@@ -152,13 +152,13 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * @param shape
 	 *            ICE shape to visualize
 	 */
-	protected abstract void processShape(IController shape);
+	protected abstract void processShape(geometry.INode shape);
 
 	/**
 	 * @see IModelPart#addShape(Geometry)
 	 */
 	@Override
-	public void removeShape(IController shape) {
+	public void removeShape(geometry.INode shape) {
 		if (shapes == null) {
 			return;
 		}
@@ -176,13 +176,13 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * 
 	 * @param shape
 	 */
-	protected abstract void disposeShape(IController shape);
+	protected abstract void disposeShape(geometry.INode shape);
 
 	/**
 	 * 
 	 */
 	@Override
-	public boolean hasShape(IController shape) {
+	public boolean hasShape(geometry.INode shape) {
 		if (shapes == null) {
 			return false;
 		}
@@ -194,7 +194,7 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * 
 	 */
 	@Override
-	public IController getShape(int index) {
+	public geometry.INode getShape(int index) {
 		if (shapes == null || shapes.size() < index) {
 			return null;
 		}
@@ -208,13 +208,13 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * @return
 	 */
 	@Override
-	public List<IController> getShapes(boolean copy) {
+	public List<geometry.INode> getShapes(boolean copy) {
 		if (shapes == null) {
 			return Collections.emptyList();
 		}
 
 		if (copy) {
-			return new ArrayList<IController>(shapes);
+			return new ArrayList<geometry.INode>(shapes);
 		} else {
 			return shapes;
 		}

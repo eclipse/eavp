@@ -118,6 +118,17 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void handleChildren(EList<IRenderElement<T>> children) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -178,6 +189,7 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
@@ -185,6 +197,9 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 				return getMesh();
 			case ModelPackage.RENDER_OBJECT_DECORATOR___GET_BASE:
 				return getBase();
+			case ModelPackage.RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST:
+				handleChildren((EList<IRenderElement<T>>)arguments.get(0));
+				return null;
 		}
 		return super.eInvoke(operationID, arguments);
 	}

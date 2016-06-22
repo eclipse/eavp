@@ -10,12 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import geometry.GeometryPackage;
-import geometry.INode;
 import javafx.scene.Group;
 import model.IRenderElement;
 import model.impl.OpacityDecoratorImpl;
@@ -51,47 +49,35 @@ public class FXOpacityDecorator extends OpacityDecoratorImpl<Group> {
 
 		return group;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see model.impl.RenderObjectDecoratorImpl#setSource(model.IRenderElement)
 	 */
 	@Override
-	public void setSource(IRenderElement<Group> newSource){
-		
-		//Register as a listener to it
-		newSource.getBase().eAdapters().add(new Adapter(){
+	public void setSource(IRenderElement<Group> newSource) {
+
+		// Register as a listener to it
+		newSource.getBase().eAdapters().add(new AdapterImpl() {
 
 			@Override
 			public void notifyChanged(Notification notification) {
-				
-				//If a property was set, check if it was relevant to this decorator
-				if(notification.getEventType() == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE){
-					
-					//If the opacirt was changed, update to the new value
-					if(notification.getOldStringValue().equals("opacity")){
-						setOpacity(notification.getNewDoubleValue());
+
+				// If a property was set, check if it was relevant to this
+				// decorator
+				if (notification.getFeatureID(
+						GeometryPackage.class) == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
+
+					// If the opacity was changed, update to the new value
+					if (notification.getOldStringValue().equals("opacity")) {
+						setOpacity((double) notification.getNewValue());
 					}
 				}
 			}
-
-			@Override
-			public Notifier getTarget() {
-				return null;
-			}
-
-			@Override
-			public void setTarget(Notifier newTarget) {
-			}
-
-			@Override
-			public boolean isAdapterForType(Object type) {
-				return false;
-			}
-			
 		});
-	
-		//Set the source
+
+		// Set the source
 		super.setSource(newSource);
 	}
 }

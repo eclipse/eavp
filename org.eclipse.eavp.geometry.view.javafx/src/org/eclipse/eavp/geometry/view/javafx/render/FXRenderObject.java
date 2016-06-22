@@ -12,11 +12,15 @@ package org.eclipse.eavp.geometry.view.javafx.render;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.common.util.EList;
 
 import geometry.INode;
+import geometry.Vertex;
 import javafx.scene.Group;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
+import model.IRenderElement;
+import model.MeshCache;
 import model.impl.MeshCacheImpl;
 import model.impl.RenderObjectImpl;
 
@@ -39,7 +43,7 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	 *            The cache of TriangleMeshes from which this object will draw
 	 *            the mesh to render.
 	 */
-	public FXRenderObject(INode source, MeshCacheImpl<TriangleMesh> meshCache) {
+	public FXRenderObject(INode source, MeshCache<TriangleMesh> meshCache) {
 
 		// Save the data members
 		this.source = source;
@@ -71,6 +75,16 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 				handleUpdate(notification);
 			}
 		});
+
+		// Get the center of the data object from the source
+		Vertex center = source.getCenter();
+
+		// Move the render to the correct location
+		if (center != null) {
+			render.setTranslateX(center.getX());
+			render.setTranslateY(center.getY());
+			render.setTranslateZ(center.getZ());
+		}
 	}
 
 	/**
@@ -94,13 +108,43 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 
 		// If no mesh was found, specify one with triangles
 		if (mesh == null) {
-			mesh = castCache.getMesh(source.getType());
+			mesh = castCache.getMesh(source.getTriangles());
 		}
 
 		// If a mesh was found, create a view for it and add it to the render
 		// group.
 		if (mesh != null) {
 			render.getChildren().add(new MeshView(mesh));
+		}
+
+		// Get the center of the data object from the source
+		Vertex center = source.getCenter();
+
+		// Move the render to the correct location
+		if (center != null) {
+			render.setTranslateX(center.getX());
+			render.setTranslateY(center.getY());
+			render.setTranslateZ(center.getZ());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * model.impl.RenderObjectImpl#handleChildren(org.eclipse.emf.common.util.
+	 * EList)
+	 */
+	@Override
+	public void handleChildren(EList<IRenderElement<Group>> children) {
+
+		// See if there is anything to do by checking the source's type.
+		if ("union".equals(source.getType())) {
+
+			// For unions, we take each child mesh
+			for (IRenderElement<Group> child : children) {
+				render.getChildren().add(child.getMesh());
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@ package model.impl;
 
 import java.lang.reflect.InvocationTargetException;
 
+import model.IRenderElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -177,9 +178,20 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public INode getBase() {
+		
+		//A render object is at the bottom of the decorator hierarchy always has the base data object as its source.
+		return source;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void handleChildren(EList<IRenderElement<T>> children) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new UnsupportedOperationException();
@@ -266,6 +278,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
@@ -273,6 +286,9 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 				return getMesh();
 			case ModelPackage.RENDER_OBJECT___GET_BASE:
 				return getBase();
+			case ModelPackage.RENDER_OBJECT___HANDLE_CHILDREN__ELIST:
+				handleChildren((EList<IRenderElement<T>>)arguments.get(0));
+				return null;
 		}
 		return super.eInvoke(operationID, arguments);
 	}

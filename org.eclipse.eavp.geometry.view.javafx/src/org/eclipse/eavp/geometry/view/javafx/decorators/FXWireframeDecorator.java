@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import geometry.GeometryPackage;
 import javafx.scene.Group;
@@ -87,22 +86,22 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 	public void setSource(IRenderElement<Group> newSource) {
 
 		// Register as a listener to it
-		newSource.getBase().eAdapters().add(new Adapter() {
+		newSource.getBase().eAdapters().add(new AdapterImpl() {
 
 			@Override
 			public void notifyChanged(Notification notification) {
 
 				// If a property was set, check if it was relevant to this
 				// decorator
-				if (notification
-						.getEventType() == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
+				if (notification.getFeatureID(
+						GeometryPackage.class) == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
 
 					// If the wireframe was changed, update to the new value
 					if (notification.getOldStringValue().equals("wireframe")) {
 
 						// Set the local wireframe variable according to the new
 						// value
-						if (notification.getNewBooleanValue()) {
+						if ((boolean) notification.getNewValue()) {
 							wireframe = true;
 						} else {
 							wireframe = false;
@@ -110,21 +109,6 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 					}
 				}
 			}
-
-			@Override
-			public Notifier getTarget() {
-				return null;
-			}
-
-			@Override
-			public void setTarget(Notifier newTarget) {
-			}
-
-			@Override
-			public boolean isAdapterForType(Object type) {
-				return false;
-			}
-
 		});
 
 		// Set the source

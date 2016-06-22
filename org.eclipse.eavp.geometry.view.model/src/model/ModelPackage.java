@@ -142,13 +142,22 @@ public interface ModelPackage extends EPackage {
 	int IRENDER_ELEMENT___GET_BASE = 1;
 
 	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST = 2;
+
+	/**
 	 * The number of operations of the '<em>IRender Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IRENDER_ELEMENT_OPERATION_COUNT = 2;
+	int IRENDER_ELEMENT_OPERATION_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link model.impl.RenderObjectImpl <em>Render Object</em>}' class.
@@ -204,6 +213,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RENDER_OBJECT___GET_BASE = IRENDER_ELEMENT___GET_BASE;
+
+	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT___HANDLE_CHILDREN__ELIST = IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST;
 
 	/**
 	 * The operation id for the '<em>Get Mesh</em>' operation.
@@ -270,6 +288,15 @@ public interface ModelPackage extends EPackage {
 	int RENDER_OBJECT_DECORATOR___GET_BASE = IRENDER_ELEMENT___GET_BASE;
 
 	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST = IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST;
+
+	/**
 	 * The number of operations of the '<em>Render Object Decorator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -323,6 +350,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEXTURE_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+
+	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXTURE_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
 
 	/**
 	 * The number of operations of the '<em>Texture Decorator</em>' class.
@@ -389,6 +425,15 @@ public interface ModelPackage extends EPackage {
 	int OPACITY_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
 
 	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPACITY_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+
+	/**
 	 * The number of operations of the '<em>Opacity Decorator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -451,6 +496,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int WIREFRAME_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+
+	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIREFRAME_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
 
 	/**
 	 * The number of operations of the '<em>Wireframe Decorator</em>' class.
@@ -533,6 +587,15 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLOR_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+
+	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLOR_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
 
 	/**
 	 * The number of operations of the '<em>Color Decorator</em>' class.
@@ -795,6 +858,16 @@ public interface ModelPackage extends EPackage {
 	EOperation getIRenderElement__GetBase();
 
 	/**
+	 * Returns the meta object for the '{@link model.IRenderElement#handleChildren(org.eclipse.emf.common.util.EList) <em>Handle Children</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Handle Children</em>' operation.
+	 * @see model.IRenderElement#handleChildren(org.eclipse.emf.common.util.EList)
+	 * @generated
+	 */
+	EOperation getIRenderElement__HandleChildren__EList();
+
+	/**
 	 * Returns the meta object for data type '{@link geometry.INode <em>INode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1030,6 +1103,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation IRENDER_ELEMENT___GET_BASE = eINSTANCE.getIRenderElement__GetBase();
+
+		/**
+		 * The meta object literal for the '<em><b>Handle Children</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST = eINSTANCE.getIRenderElement__HandleChildren__EList();
 
 		/**
 		 * The meta object literal for the '<em>INode</em>' data type.

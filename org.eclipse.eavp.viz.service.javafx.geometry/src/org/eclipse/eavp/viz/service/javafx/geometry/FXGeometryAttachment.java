@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry;
 
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.base.Representation;
+import org.eclipse.eavp.geometry.view.javafx.decorators.FXColorDecorator;
+import org.eclipse.eavp.geometry.view.javafx.decorators.FXOpacityDecorator;
+import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
+import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 
 import javafx.scene.Group;
+import model.IRenderElement;
 
 /**
  * <p>
@@ -40,20 +43,28 @@ public class FXGeometryAttachment extends FXAttachment {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.javafx.internal.model.geometry.FXAttachment#
-	 * handleUpdate()
+	 * org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment#createElement(
+	 * geometry.INode)
 	 */
 	@Override
-	public void handleUpdate(IController source) {
+	protected IRenderElement<Group> createElement(geometry.INode node) {
 
-		// On update, refresh the list of top level nodes
-		fxAttachmentNode.getChildren().clear();
+		// Create the base render object
+		FXRenderObject render = new FXRenderObject(node, cache);
 
-		for (IController child : source.getEntities()) {
-			Representation<Group> representation = child.getRepresentation();
-			fxAttachmentNode.getChildren().add(representation.getData());
+		// Add a color decorator
+		FXColorDecorator colorDecorator = new FXColorDecorator();
+		colorDecorator.setSource(render);
 
-		}
+		// Add an opacity decorator
+		FXOpacityDecorator opacityDecorator = new FXOpacityDecorator();
+		opacityDecorator.setSource(colorDecorator);
+
+		// Add a wireframe decorator
+		FXWireframeDecorator wireframeDecorator = new FXWireframeDecorator();
+		wireframeDecorator.setSource(render);
+
+		return wireframeDecorator;
 	}
 
 }

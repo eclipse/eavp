@@ -17,7 +17,6 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link geometry.Shape#getCenter <em>Center</em>}</li>
  *   <li>{@link geometry.Shape#getMaterial <em>Material</em>}</li>
  * </ul>
  *
@@ -26,31 +25,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Shape extends INode {
-	/**
-	 * Returns the value of the '<em><b>Center</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Each shape is centered on a special vertex.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Center</em>' reference.
-	 * @see #setCenter(Vertex)
-	 * @see geometry.GeometryPackage#getShape_Center()
-	 * @model required="true"
-	 * @generated
-	 */
-	Vertex getCenter();
-
-	/**
-	 * Sets the value of the '{@link geometry.Shape#getCenter <em>Center</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Center</em>' reference.
-	 * @see #getCenter()
-	 * @generated
-	 */
-	void setCenter(Vertex value);
-
 	/**
 	 * Returns the value of the '<em><b>Material</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

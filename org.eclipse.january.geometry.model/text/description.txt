@@ -8,7 +8,6 @@ This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator
 Package geometry <http://www.eclipse.org/>
 
   Class Shape -> INode
-    Reference center : Vertex<<1..1>>
     Reference material : Material
     Operation getPropertyNames() : EString<<0..*>>
     Operation getProperty(EString) : EDouble
@@ -46,7 +45,8 @@ Package geometry <http://www.eclipse.org/>
     Reference nodes : INode<<0..*>>
     Attribute type : EString
     Reference triangles : Triangle<<0..*>>
-    Operation changeDecoratorProperty(EString, EObject) : void
+    Reference center : Vertex<<1..1>>
+    Operation changeDecoratorProperty(EString, Object) : void
 
   Class Operator -> INode
 
@@ -66,3 +66,5 @@ Package geometry <http://www.eclipse.org/>
   Class ASCIISTLGeometryImporter -> IGeometryImporter
 
   DataType Path <java.nio.file.Path>
+
+  DataType Object <java.lang.Object>

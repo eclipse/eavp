@@ -156,6 +156,13 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	private EDataType pathEDataType = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType objectEDataType = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -230,17 +237,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getShape_Center() {
-		return (EReference)shapeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getShape_Material() {
-		return (EReference)shapeEClass.getEStructuralFeatures().get(1);
+		return (EReference)shapeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -500,6 +498,15 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getINode_Center() {
+		return (EReference)iNodeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EOperation getINode__ChangeDecoratorProperty__String_EObject() {
 		return iNodeEClass.getEOperations().get(0);
 	}
@@ -608,6 +615,15 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getObject() {
+		return objectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public GeometryFactory getGeometryFactory() {
 		return (GeometryFactory)getEFactoryInstance();
 	}
@@ -632,7 +648,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		// Create classes and their features
 		shapeEClass = createEClass(SHAPE);
-		createEReference(shapeEClass, SHAPE__CENTER);
 		createEReference(shapeEClass, SHAPE__MATERIAL);
 		createEOperation(shapeEClass, SHAPE___GET_PROPERTY_NAMES);
 		createEOperation(shapeEClass, SHAPE___GET_PROPERTY__STRING);
@@ -670,6 +685,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEReference(iNodeEClass, INODE__NODES);
 		createEAttribute(iNodeEClass, INODE__TYPE);
 		createEReference(iNodeEClass, INODE__TRIANGLES);
+		createEReference(iNodeEClass, INODE__CENTER);
 		createEOperation(iNodeEClass, INODE___CHANGE_DECORATOR_PROPERTY__STRING_EOBJECT);
 
 		operatorEClass = createEClass(OPERATOR);
@@ -691,6 +707,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		// Create data types
 		pathEDataType = createEDataType(PATH);
+		objectEDataType = createEDataType(OBJECT);
 	}
 
 	/**
@@ -735,7 +752,6 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(shapeEClass, Shape.class, "Shape", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getShape_Center(), this.getVertex(), null, "center", null, 1, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_Material(), this.getMaterial(), null, "material", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEOperation(getShape__GetPropertyNames(), ecorePackage.getEString(), "getPropertyNames", 0, -1, IS_UNIQUE, IS_ORDERED);
@@ -779,10 +795,11 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEReference(getINode_Nodes(), this.getINode(), null, "nodes", null, 0, -1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getINode_Type(), ecorePackage.getEString(), "type", null, 0, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getINode_Triangles(), this.getTriangle(), null, "triangles", null, 0, -1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getINode_Center(), this.getVertex(), null, "center", null, 1, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = initEOperation(getINode__ChangeDecoratorProperty__String_EObject(), null, "changeDecoratorProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -805,6 +822,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		// Initialize data types
 		initEDataType(pathEDataType, Path.class, "Path", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(objectEDataType, Object.class, "Object", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

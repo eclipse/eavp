@@ -38,12 +38,6 @@
         </eAnnotations>
       </eParameters>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="center" lowerBound="1"
-        eType="#//Vertex">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Each shape is centered on a special vertex."/>
-      </eAnnotations>
-    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="material" eType="#//Material"
         containment="true"/>
   </eClassifiers>
@@ -156,7 +150,7 @@
         <details key="documentation" value="Fire a notification that will alert decorator pattern classes registered to this object that they should change their state.&#xD;&#xA;&#xD;&#xA;This method is intended to cause change in the INode's graphical representation in a non-permanent way, by modifying qualities such as opacity which are purely concerned with rendering and do not belong to the modeling data itself.&#xD;&#xA;&#xD;&#xA;&quot;Property&quot; should offer sufficient description for the client to determine &quot;value&quot;'s type."/>
       </eAnnotations>
       <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="value" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eParameters name="value" eType="#//Object"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -183,6 +177,12 @@
         eType="#//Triangle" containment="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="A series of triangles which comprise the mesh which will represent this object graphically. If this list is empty, it will be the responsibility of other classes to determine, based on this INode's &quot;type&quot;, what mesh, if any, should be displayed for it."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="center" lowerBound="1"
+        eType="#//Vertex">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Each shape is centered on a special vertex."/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -227,4 +227,5 @@
       <details key="documentation" value="This class imports geometries based on the STL format. It supports only the ASCII version of STL."/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="newDataType2"/>
 </ecore:EPackage>
