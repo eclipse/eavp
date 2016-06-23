@@ -83,6 +83,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 				return createINodeFromString(eDataType, initialValue);
 			case ModelPackage.TRIANGLE:
 				return createTriangleFromString(eDataType, initialValue);
+			case ModelPackage.OBJECT:
+				return createObjectFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -100,6 +102,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 				return convertINodeToString(eDataType, instanceValue);
 			case ModelPackage.TRIANGLE:
 				return convertTriangleToString(eDataType, instanceValue);
+			case ModelPackage.OBJECT:
+				return convertObjectToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -208,6 +212,24 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * @generated
 	 */
 	public String convertTriangleToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object createObjectFromString(EDataType eDataType, String initialValue) {
+		return super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertObjectToString(EDataType eDataType, Object instanceValue) {
 		return super.convertToString(eDataType, instanceValue);
 	}
 

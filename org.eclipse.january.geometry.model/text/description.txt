@@ -9,9 +9,9 @@ Package geometry <http://www.eclipse.org/>
 
   Class Shape -> INode
     Reference material : Material
-    Operation getPropertyNames() : EString<<0..*>>
-    Operation getProperty(EString) : EDouble
     Operation setProperty(EString, EDouble) : void
+    Operation getProperty(EString) : EDouble
+    Operation getPropertyNames() : EString<<0..*>>
 
   Class Triangle
     Reference normal : Vertex
@@ -47,6 +47,9 @@ Package geometry <http://www.eclipse.org/>
     Reference triangles : Triangle<<0..*>>
     Reference center : Vertex<<1..1>>
     Operation changeDecoratorProperty(EString, Object) : void
+    Operation getPropertyNames() : EString<<0..*>>
+    Operation getProperty(EString) : EDouble
+    Operation setProperty(EString, EDouble) : void
 
   Class Operator -> INode
 

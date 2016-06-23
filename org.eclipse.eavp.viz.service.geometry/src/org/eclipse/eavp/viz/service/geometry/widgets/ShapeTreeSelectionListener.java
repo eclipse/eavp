@@ -14,13 +14,13 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.ui.IWorkbenchPage;
+
+import model.IRenderElement;
 
 /**
  * <p>
@@ -41,7 +41,7 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 	/**
 	 * A list of shapes of the last selection event
 	 */
-	private ArrayList<ShapeController> selectedShapes = new ArrayList<ShapeController>();
+	private ArrayList<IRenderElement> selectedShapes = new ArrayList<IRenderElement>();
 
 	/**
 	 * <p>
@@ -104,10 +104,26 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 		ITreeSelection selection = (ITreeSelection) event.getSelection();
 		TreePath[] paths = selection.getPaths();
 
-		// Remove the "selected" value from previously selected shapes
+		// Selected shapes are drawn red, so restore the shapes to their natural
+		// colors
+		for (IRenderElement shape : selectedShapes) {
 
-		for (ShapeController shape : selectedShapes) {
-			shape.setProperty(MeshProperty.SELECTED, "False");
+			// Get the default red value from the shape
+			Object red = shape.getProperty("defaultRed");
+
+			// If the shape has default values, set them to the current values
+			if (red != null) {
+				shape.setProperty("red", (double) red);
+				shape.setProperty("green", shape.getProperty("defaultGreen"));
+				shape.setProperty("blue", shape.getProperty("defaultBlue"));
+			}
+
+			// If the shape lacks defaults, set it to grey
+			else {
+				shape.setProperty("red", 127d);
+				shape.setProperty("green", 127d);
+				shape.setProperty("blue", 127d);
+			}
 		}
 
 		selectedShapes.clear();
@@ -120,10 +136,15 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 			// Only perform the action for selected IShapes
 			// (rather than GeometryComponents or null)
 
-			if (selectedObject instanceof ShapeController) {
-				ShapeController selectedShape = (ShapeController) selectedObject;
+			if (selectedObject instanceof IRenderElement) {
+				IRenderElement selectedShape = (IRenderElement) selectedObject;
 
-				selectedShape.setProperty(MeshProperty.SELECTED, "True");
+				// Set the shape to red
+				selectedShape.setProperty("red", 255);
+				selectedShape.setProperty("green", 0);
+				selectedShape.setProperty("blue", 0);
+
+				// Add the shape to the list of selected shapes
 				selectedShapes.add(selectedShape);
 			}
 		}
@@ -140,8 +161,8 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 
 		// Determine if the shape of the TransformationView should be set
 
-		if (selectedObject instanceof ShapeController) {
-			transformationView.setShape((ShapeController) selectedObject);
+		if (selectedObject instanceof IRenderElement) {
+			transformationView.setShape((IRenderElement) selectedObject);
 		}
 
 		else {

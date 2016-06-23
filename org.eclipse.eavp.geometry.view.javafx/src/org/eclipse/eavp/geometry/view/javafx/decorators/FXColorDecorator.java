@@ -11,17 +11,14 @@
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
-import geometry.GeometryPackage;
-import geometry.INode;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
-import model.IRenderElement;
+import model.ModelPackage;
 import model.impl.ColorDecoratorImpl;
 
 /**
@@ -80,44 +77,35 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see model.impl.RenderObjectDecoratorImpl#setSource(model.IRenderElement)
+	 * @see
+	 * model.impl.RenderObjectDecoratorImpl#handleUpdate(org.eclipse.emf.common.
+	 * notify.Notification)
 	 */
 	@Override
-	public void setSource(IRenderElement<Group> newSource) {
+	protected void handleUpdate(Notification notification) {
 
-		// Get the base data object
-		INode base = newSource.getBase();
+		// If a property was set, then check if it was relevant to this
+		// decorator
+		if (notification.getFeatureID(
+				ModelPackage.class) == ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT) {
 
-		// Register as a listener to it
-		base.eAdapters().add(new AdapterImpl() {
+			// Get the property
+			String property = notification.getOldStringValue();
 
-			@Override
-			public void notifyChanged(Notification notification) {
-
-				// If a property was set, then check if it was relevant to this
-				// decorator
-				if (notification.getFeatureID(
-						GeometryPackage.class) == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
-
-					// Get the property
-					String property = notification.getOldStringValue();
-
-					// Check if the property is any of the RGB colors. If so,
-					// set the decorator's color correctly
-					if (property.equals("red")) {
-						setRed((int) notification.getNewValue());
-					}
-					if (property.equals("green")) {
-						setGreen((int) notification.getNewValue());
-					}
-					if (property.equals("blue")) {
-						setBlue((int) notification.getNewValue());
-					}
-				}
+			// Check if the property is any of the RGB colors. If so,
+			// set the decorator's color correctly
+			if (property.equals("red")) {
+				setRed((int) notification.getNewValue());
 			}
-		});
+			if (property.equals("green")) {
+				setGreen((int) notification.getNewValue());
+			}
+			if (property.equals("blue")) {
+				setBlue((int) notification.getNewValue());
+			}
+		}
 
-		// Set the source
-		super.setSource(newSource);
+		// Pass the update along to own listeners
+		super.handleUpdate(notification);
 	}
 }

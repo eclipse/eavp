@@ -37,7 +37,11 @@ Package model <http://www.eclipse.org/>
     Operation getMesh() : EJavaObject
     Operation getBase() : INode
     Operation handleChildren(EEList) : void
+    Operation getProperty(EString) : Object
+    Operation setProperty(EString, Object) : void
 
   DataType INode <geometry.INode>
 
   DataType Triangle <geometry.Triangle>
+
+  DataType Object <java.lang.Object>

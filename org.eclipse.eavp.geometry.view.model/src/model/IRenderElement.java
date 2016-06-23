@@ -54,4 +54,23 @@ public interface IRenderElement<T> extends EObject {
 	 */
 	void handleChildren(EList<IRenderElement<T>> children);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model dataType="model.Object"
+	 * @generated
+	 */
+	Object getProperty(String property);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Set the given rendering property to the new value.
+	 * <!-- end-model-doc -->
+	 * @model valueDataType="model.Object"
+	 * @generated
+	 */
+	void setProperty(String property, Object value);
+
 } // IRenderElement

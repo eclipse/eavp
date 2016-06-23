@@ -8,6 +8,7 @@
   <genPackages prefix="Model" disposableProviderFactory="true" ecorePackage="model.ecore#/">
     <genDataTypes ecoreDataType="model.ecore#//INode"/>
     <genDataTypes ecoreDataType="model.ecore#//Triangle"/>
+    <genDataTypes ecoreDataType="model.ecore#//Object"/>
     <genClasses ecoreClass="model.ecore#//MeshCache">
       <genTypeParameters ecoreTypeParameter="model.ecore#//MeshCache/T"/>
       <genOperations ecoreOperation="model.ecore#//MeshCache/getMesh">
@@ -49,7 +50,11 @@
       <genTypeParameters ecoreTypeParameter="model.ecore#//IRenderElement/T"/>
       <genOperations ecoreOperation="model.ecore#//IRenderElement/getMesh"/>
       <genOperations ecoreOperation="model.ecore#//IRenderElement/getBase"/>
-      <genOperations ecoreOperation="model.ecore#//IRenderElement/handleChildren"/>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/handleChildren">
+        <genParameters ecoreParameter="model.ecore#//IRenderElement/handleChildren/children"/>
+      </genOperations>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/getProperty"/>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/setProperty"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

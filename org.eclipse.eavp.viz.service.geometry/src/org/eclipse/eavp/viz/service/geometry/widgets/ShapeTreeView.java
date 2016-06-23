@@ -33,6 +33,9 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
+import geometry.Geometry;
+import model.IRenderElement;
+
 /**
  * <p>
  * Eclipse UI view containing a toolbar and TreeViewer to manipulate the
@@ -50,7 +53,7 @@ public class ShapeTreeView extends ViewPart
 	 * </p>
 	 * 
 	 */
-	private IController geometry;
+	private Geometry geometry;
 
 	/**
 	 * <p>
@@ -61,12 +64,6 @@ public class ShapeTreeView extends ViewPart
 	TreeViewer treeViewer;
 
 	/**
-	 * The factory responsible for creating graphics program specific
-	 * representations of the tree's contents.
-	 */
-	IControllerProviderFactory factory;
-
-	/**
 	 * Eclipse view ID
 	 */
 	public static final String ID = "org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView";
@@ -74,7 +71,7 @@ public class ShapeTreeView extends ViewPart
 	/**
 	 * A list of shapes of the last selection event
 	 */
-	private ArrayList<ShapeController> selectedShapes = new ArrayList<ShapeController>();
+	private ArrayList<IRenderElement> selectedShapes = new ArrayList<IRenderElement>();
 
 	// The actions for manipulating shapes
 	private DropdownAction addPrimitiveShapes;
@@ -139,7 +136,7 @@ public class ShapeTreeView extends ViewPart
 
 		// Add the PrimitiveShape actions
 
-		Action addSphere = new ActionAddShape(this, ShapeType.Sphere);
+		Action addSphere = new ActionAddShape(this, "sphere");
 		addPrimitiveShapes.addAction(addSphere);
 
 		Action addCube = new ActionAddShape(this, ShapeType.Cube);
@@ -243,6 +240,7 @@ public class ShapeTreeView extends ViewPart
 				if (transformationView != null) {
 					transformationView.setShape(selectedShape);
 				}
+
 				// Enable/disable action buttons
 
 				addPrimitiveShapes.setEnabled(true);

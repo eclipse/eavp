@@ -247,7 +247,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * @generated
 	 */
 	public EOperation getShape__GetPropertyNames() {
-		return shapeEClass.getEOperations().get(0);
+		return shapeEClass.getEOperations().get(-1);
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * @generated
 	 */
 	public EOperation getShape__GetProperty__String() {
-		return shapeEClass.getEOperations().get(1);
+		return shapeEClass.getEOperations().get(-1);
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * @generated
 	 */
 	public EOperation getShape__SetProperty__String_double() {
-		return shapeEClass.getEOperations().get(2);
+		return shapeEClass.getEOperations().get(-1);
 	}
 
 	/**
@@ -507,8 +507,35 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getINode__ChangeDecoratorProperty__String_EObject() {
+	public EOperation getINode__ChangeDecoratorProperty__String_Object() {
 		return iNodeEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getINode__GetPropertyNames() {
+		return iNodeEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getINode__GetProperty__String() {
+		return iNodeEClass.getEOperations().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getINode__SetProperty__String_double() {
+		return iNodeEClass.getEOperations().get(3);
 	}
 
 	/**
@@ -649,9 +676,9 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		// Create classes and their features
 		shapeEClass = createEClass(SHAPE);
 		createEReference(shapeEClass, SHAPE__MATERIAL);
-		createEOperation(shapeEClass, SHAPE___GET_PROPERTY_NAMES);
-		createEOperation(shapeEClass, SHAPE___GET_PROPERTY__STRING);
 		createEOperation(shapeEClass, SHAPE___SET_PROPERTY__STRING_DOUBLE);
+		createEOperation(shapeEClass, SHAPE___GET_PROPERTY__STRING);
+		createEOperation(shapeEClass, SHAPE___GET_PROPERTY_NAMES);
 
 		triangleEClass = createEClass(TRIANGLE);
 		createEReference(triangleEClass, TRIANGLE__NORMAL);
@@ -686,7 +713,10 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEAttribute(iNodeEClass, INODE__TYPE);
 		createEReference(iNodeEClass, INODE__TRIANGLES);
 		createEReference(iNodeEClass, INODE__CENTER);
-		createEOperation(iNodeEClass, INODE___CHANGE_DECORATOR_PROPERTY__STRING_EOBJECT);
+		createEOperation(iNodeEClass, INODE___CHANGE_DECORATOR_PROPERTY__STRING_OBJECT);
+		createEOperation(iNodeEClass, INODE___GET_PROPERTY_NAMES);
+		createEOperation(iNodeEClass, INODE___GET_PROPERTY__STRING);
+		createEOperation(iNodeEClass, INODE___SET_PROPERTY__STRING_DOUBLE);
 
 		operatorEClass = createEClass(OPERATOR);
 
@@ -754,14 +784,14 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEClass(shapeEClass, Shape.class, "Shape", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getShape_Material(), this.getMaterial(), null, "material", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEOperation(getShape__GetPropertyNames(), ecorePackage.getEString(), "getPropertyNames", 0, -1, IS_UNIQUE, IS_ORDERED);
-
-		EOperation op = initEOperation(getShape__GetProperty__String(), ecorePackage.getEDouble(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = initEOperation(getShape__SetProperty__String_double(), null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = initEOperation(getShape__SetProperty__String_double(), null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEDouble(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getShape__GetProperty__String(), ecorePackage.getEDouble(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getShape__GetPropertyNames(), ecorePackage.getEString(), "getPropertyNames", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(triangleEClass, Triangle.class, "Triangle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTriangle_Normal(), this.getVertex(), null, "normal", null, 0, 1, Triangle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -797,9 +827,18 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEReference(getINode_Triangles(), this.getTriangle(), null, "triangles", null, 0, -1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getINode_Center(), this.getVertex(), null, "center", null, 1, 1, INode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = initEOperation(getINode__ChangeDecoratorProperty__String_EObject(), null, "changeDecoratorProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = initEOperation(getINode__ChangeDecoratorProperty__String_Object(), null, "changeDecoratorProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getINode__GetPropertyNames(), ecorePackage.getEString(), "getPropertyNames", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getINode__GetProperty__String(), ecorePackage.getEDouble(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getINode__SetProperty__String_double(), null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEDouble(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(operatorEClass, Operator.class, "Operator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

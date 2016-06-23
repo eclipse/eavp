@@ -11,14 +11,12 @@
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import geometry.GeometryPackage;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
-import model.IRenderElement;
 import model.impl.WireframeDecoratorImpl;
 
 /**
@@ -80,38 +78,29 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see model.impl.RenderObjectDecoratorImpl#setSource(model.IRenderElement)
+	 * @see
+	 * model.impl.RenderObjectDecoratorImpl#handleUpdate(org.eclipse.emf.common.
+	 * notify.Notification)
 	 */
 	@Override
-	public void setSource(IRenderElement<Group> newSource) {
+	protected void handleUpdate(Notification notification) {
 
-		// Register as a listener to it
-		newSource.getBase().eAdapters().add(new AdapterImpl() {
+		// If a property was set, check if it was relevant to this
+		// decorator
+		if (notification.getFeatureID(
+				GeometryPackage.class) == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
 
-			@Override
-			public void notifyChanged(Notification notification) {
+			// If the wireframe was changed, update to the new value
+			if (notification.getOldStringValue().equals("wireframe")) {
 
-				// If a property was set, check if it was relevant to this
-				// decorator
-				if (notification.getFeatureID(
-						GeometryPackage.class) == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
-
-					// If the wireframe was changed, update to the new value
-					if (notification.getOldStringValue().equals("wireframe")) {
-
-						// Set the local wireframe variable according to the new
-						// value
-						if ((boolean) notification.getNewValue()) {
-							wireframe = true;
-						} else {
-							wireframe = false;
-						}
-					}
+				// Set the local wireframe variable according to the new
+				// value
+				if ((boolean) notification.getNewValue()) {
+					wireframe = true;
+				} else {
+					wireframe = false;
 				}
 			}
-		});
-
-		// Set the source
-		super.setSource(newSource);
+		}
 	}
 }

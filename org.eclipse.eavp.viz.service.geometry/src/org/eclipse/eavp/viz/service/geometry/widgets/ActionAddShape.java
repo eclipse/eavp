@@ -17,13 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.Tube;
-import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
-import org.eclipse.eavp.viz.service.geometry.shapes.OperatorType;
 import org.eclipse.eavp.viz.service.geometry.shapes.ShapeType;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.jface.action.Action;
@@ -33,6 +30,9 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
+
+import geometry.Geometry;
+import geometry.INode;
 
 /**
  * <p>
@@ -59,18 +59,7 @@ public class ActionAddShape extends Action {
 	 * </p>
 	 * 
 	 */
-	private ShapeType shapeType;
-	/**
-	 * <p>
-	 * The OperatorType used to create new ComplexShapes when the AddShape
-	 * action is triggered
-	 * </p>
-	 * <p>
-	 * If the value is null, the ShapeType is used to create PrimitiveShapes.
-	 * </p>
-	 * 
-	 */
-	private OperatorType operatorType;
+	private String type;
 
 	/**
 	 * <p>
@@ -105,23 +94,25 @@ public class ActionAddShape extends Action {
 	 *            triggered
 	 *            </p>
 	 */
-	public ActionAddShape(ShapeTreeView view, ShapeType shapeType) {
+	public ActionAddShape(ShapeTreeView view, String shapeType) {
 
 		this.view = view;
-		this.shapeType = shapeType;
-		operatorType = null;
+		type = shapeType;
 		currentShapeId = 0;
 
 		// Set the Action's name to "Add {ShapeType}"
-		setText("Add " + shapeType.toString());
+		setText("Add " + shapeType);
 
 		// Create a map which stores the filenames of the icons, relative
 		// to the icons/ directory
-		Map<ShapeType, String> shapeIcons = new HashMap<ShapeType, String>();
-		shapeIcons.put(ShapeType.Sphere, "sphere.gif");
-		shapeIcons.put(ShapeType.Cube, "cube.gif");
-		shapeIcons.put(ShapeType.Cylinder, "cylinder.gif");
-		shapeIcons.put(ShapeType.Tube, "tube.gif");
+		Map<String, String> shapeIcons = new HashMap<String, String>();
+		shapeIcons.put("sphere", "sphere.gif");
+		shapeIcons.put("cube", "cube.gif");
+		shapeIcons.put("cylinder", "cylinder.gif");
+		shapeIcons.put("tube", "tube.gif");
+		shapeIcons.put("union", "union.gif");
+		shapeIcons.put("intersection", "intersection.gif");
+		shapeIcons.put("complement", "complement.gif");
 
 		// Create the image descriptor from the file path
 		Bundle bundle = FrameworkUtil.getBundle(getClass());
@@ -130,49 +121,6 @@ public class ActionAddShape extends Action {
 		imageDescriptor = ImageDescriptor.createFromURL(imagePath);
 
 		return;
-	}
-
-	/**
-	 * <p>
-	 * Constructor for creating new ComplexShapes with a given OperatorType
-	 * </p>
-	 * 
-	 * @param view
-	 *            <p>
-	 *            The current ShapeTreeViewer
-	 *            </p>
-	 * @param operatorType
-	 *            <p>
-	 *            The type of ComplexShape to create with the action is
-	 *            triggered
-	 *            </p>
-	 */
-	public ActionAddShape(ShapeTreeView view, OperatorType operatorType) {
-
-		this.view = view;
-		this.shapeType = null;
-		this.operatorType = operatorType;
-		currentShapeId = 0;
-
-		// Set the Action's name to "Add {ShapeType}"
-
-		this.setText("Add " + operatorType.toString());
-
-		// Create a map which stores the filenames of the icons, relative
-		// to the icons/ directory
-
-		Map<OperatorType, String> operatorIcons = new HashMap<OperatorType, String>();
-		operatorIcons.put(OperatorType.Union, "union.gif");
-		operatorIcons.put(OperatorType.Intersection, "intersection.gif");
-		operatorIcons.put(OperatorType.Complement, "complement.gif");
-
-		// Create the image descriptor from the file path
-
-		Bundle bundle = FrameworkUtil.getBundle(getClass());
-		URL imagePath = BundleUtility.find(bundle,
-				"icons/" + operatorIcons.get(operatorType));
-		imageDescriptor = ImageDescriptor.createFromURL(imagePath);
-
 	}
 
 	/**
@@ -201,7 +149,7 @@ public class ActionAddShape extends Action {
 		}
 		// Get the GeometryComponent from the ShapeTreeView's TreeViewer
 
-		IController geometry = (IController) view.treeViewer.getInput();
+		Geometry geometry = (Geometry) view.treeViewer.getInput();
 
 		if (geometry == null) {
 			return;
@@ -209,7 +157,7 @@ public class ActionAddShape extends Action {
 		// Get the parent shape, regardless of whether an IShape or BlankShape
 		// is selected
 
-		IController parentComplexShape = null;
+		INode parentComplexShape = null;
 
 		if (paths.length == 1) {
 
@@ -217,11 +165,11 @@ public class ActionAddShape extends Action {
 
 			Object selectedObject = paths[0].getLastSegment();
 
-			if (selectedObject instanceof ShapeController) {
+			if (selectedObject instanceof INode) {
 
 				// Get the selected shape's parent
 
-				ShapeController selectedShape = (ShapeController) selectedObject;
+				INode selectedShape = (INode) selectedObject;
 				parentComplexShape = selectedShape
 						.getEntitiesFromCategory(MeshCategory.PARENT).get(0);
 			} else if (selectedObject instanceof BlankShape) {

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model" nsURI="http://www.eclipse.org/" nsPrefix="eavp">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="documentation" value="Get the value of the specified rendering property."/>
+  </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="MeshCache">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A MeshCache is a central repository for data objects of type T, where T is a data object specific to the rendering engine associated with the cache. The cache will be responsible for creating and maintaining these objects. The MeshCache will supply references to them to Meshes on request, allowing multiple Meshes to draw from the same data object as a part of the Flyweight pattern. "/>
@@ -170,6 +173,16 @@
         </eGenericType>
       </eParameters>
     </eOperations>
+    <eOperations name="getProperty" eType="#//Object">
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="setProperty">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Set the given rendering property to the new value."/>
+      </eAnnotations>
+      <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="value" eType="#//Object"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="INode" instanceClassName="geometry.INode">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -177,4 +190,5 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Triangle" instanceClassName="geometry.Triangle"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="newDataType3"/>
 </ecore:EPackage>

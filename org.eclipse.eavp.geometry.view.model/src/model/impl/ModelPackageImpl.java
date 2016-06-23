@@ -104,6 +104,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	private EDataType triangleEDataType = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType objectEDataType = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -376,6 +383,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getIRenderElement__GetProperty() {
+		return iRenderElementEClass.getEOperations().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getIRenderElement__SetProperty__String_Object() {
+		return iRenderElementEClass.getEOperations().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getINode() {
 		return iNodeEDataType;
 	}
@@ -387,6 +412,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	public EDataType getTriangle() {
 		return triangleEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getObject() {
+		return objectEDataType;
 	}
 
 	/**
@@ -447,10 +481,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_MESH);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_BASE);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST);
+		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_PROPERTY);
+		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT);
 
 		// Create data types
 		iNodeEDataType = createEDataType(INODE);
 		triangleEDataType = createEDataType(TRIANGLE);
+		objectEDataType = createEDataType(OBJECT);
 	}
 
 	/**
@@ -578,9 +615,16 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		g2.getETypeArguments().add(g3);
 		addEParameter(op, g1, "children", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		initEOperation(getIRenderElement__GetProperty(), this.getObject(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getIRenderElement__SetProperty__String_Object(), null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		// Initialize data types
 		initEDataType(iNodeEDataType, INode.class, "INode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(triangleEDataType, Triangle.class, "Triangle", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(objectEDataType, Object.class, "Object", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

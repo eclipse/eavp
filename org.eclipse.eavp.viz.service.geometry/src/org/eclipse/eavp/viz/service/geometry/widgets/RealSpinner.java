@@ -36,259 +36,284 @@ import org.eclipse.swt.widgets.Text;
  * @author Andrew P. Belt
  */
 public class RealSpinner {
-    /**
-     * <p>
-     * The internal text box
-     * </p>
-     * 
-     */
-    private Text textWidget;
+	/**
+	 * <p>
+	 * The internal text box
+	 * </p>
+	 * 
+	 */
+	private Text textWidget;
 
-    /**
-     * The minimum value to allow, inclusive
-     */
-    private double minimum = Double.NEGATIVE_INFINITY;
+	/**
+	 * The minimum value to allow, inclusive
+	 */
+	private double minimum = Double.NEGATIVE_INFINITY;
 
-    /**
-     * The maximum value to allow, inclusive
-     */
-    private double maximum = Double.POSITIVE_INFINITY;
+	/**
+	 * The maximum value to allow, inclusive
+	 */
+	private double maximum = Double.POSITIVE_INFINITY;
 
-    /**
-     * The latest valid value
-     */
-    private double value;
+	/**
+	 * A human readable name describing the property represented by this
+	 * spinner's value.
+	 */
+	private String name;
 
-    /**
-     * The listeners to be notified of changes to the value
-     */
-    private List<RealSpinnerListener> listeners = new ArrayList<RealSpinnerListener>();
+	/**
+	 * The latest valid value
+	 */
+	private double value;
 
-    /**
-     * <p>
-     * Initializes the object and adds the widget to the given parent
-     * </p>
-     * 
-     * @param parent
-     *            <p>
-     *            The parent of the new RealSpinner
-     *            </p>
-     */
-    public RealSpinner(Composite parent) {
+	/**
+	 * The listeners to be notified of changes to the value
+	 */
+	private List<RealSpinnerListener> listeners = new ArrayList<RealSpinnerListener>();
 
-        textWidget = new Text(parent, SWT.LEFT | SWT.BORDER);
+	/**
+	 * <p>
+	 * Initializes the object and adds the widget to the given parent
+	 * </p>
+	 * 
+	 * @param parent
+	 *            <p>
+	 *            The parent of the new RealSpinner
+	 *            </p>
+	 */
+	public RealSpinner(Composite parent) {
 
-        // Add a FocusListener
+		textWidget = new Text(parent, SWT.LEFT | SWT.BORDER);
 
-        FocusListener focusListener = new FocusListener() {
+		// Add a FocusListener
 
-            @Override
-            public void focusGained(FocusEvent event) {
+		FocusListener focusListener = new FocusListener() {
 
-                // Select all the text in the Text widget
+			@Override
+			public void focusGained(FocusEvent event) {
 
-                textWidget.selectAll();
-            }
+				// Select all the text in the Text widget
 
-            @Override
-            public void focusLost(FocusEvent event) {
+				textWidget.selectAll();
+			}
 
-                // Just validate the text
+			@Override
+			public void focusLost(FocusEvent event) {
 
-                validateText();
-            }
-        };
+				// Just validate the text
 
-        textWidget.addFocusListener(focusListener);
+				validateText();
+			}
+		};
 
-        // Add a DefaultSelection listener
+		textWidget.addFocusListener(focusListener);
 
-        Listener defaultSelectionListener = new Listener() {
+		// Add a DefaultSelection listener
 
-            @Override
-            public void handleEvent(Event event) {
+		Listener defaultSelectionListener = new Listener() {
 
-                // Validate the text and select all in the text box
+			@Override
+			public void handleEvent(Event event) {
 
-                validateText();
-                textWidget.selectAll();
-            }
-        };
+				// Validate the text and select all in the text box
 
-        textWidget.addListener(SWT.DefaultSelection, defaultSelectionListener);
+				validateText();
+				textWidget.selectAll();
+			}
+		};
 
-        // Add a key listener for key commands
+		textWidget.addListener(SWT.DefaultSelection, defaultSelectionListener);
 
-        KeyListener keyListener = new KeyAdapter() {
+		// Add a key listener for key commands
 
-            @Override
-            public void keyPressed(KeyEvent e) {
+		KeyListener keyListener = new KeyAdapter() {
 
-                double change;
+			@Override
+			public void keyPressed(KeyEvent e) {
 
-                // Calculate the change amount depending on the button pressed
+				double change;
 
-                if (e.keyCode == SWT.ARROW_UP) {
-                    change = 1.0;
-                } else if (e.keyCode == SWT.ARROW_DOWN) {
-                    change = -1.0;
-                } else if (e.keyCode == SWT.PAGE_UP) {
-                    change = 10.0;
-                } else if (e.keyCode == SWT.PAGE_DOWN) {
-                    change = -10.0;
-                } else {
-                    return;
-                }
-                // Scale the change amount by the modifier keys
+				// Calculate the change amount depending on the button pressed
 
-                if (e.stateMask == SWT.CTRL) {
-                    change *= 0.1;
-                } else if (e.stateMask == SWT.SHIFT) {
-                    change *= 0.01;
-                } else if (e.stateMask == (SWT.CTRL | SWT.SHIFT)) {
-                    change *= 0.001;
-                }
-                // Increase the RealSpinner value by the computed amount
+				if (e.keyCode == SWT.ARROW_UP) {
+					change = 1.0;
+				} else if (e.keyCode == SWT.ARROW_DOWN) {
+					change = -1.0;
+				} else if (e.keyCode == SWT.PAGE_UP) {
+					change = 10.0;
+				} else if (e.keyCode == SWT.PAGE_DOWN) {
+					change = -10.0;
+				} else {
+					return;
+				}
+				// Scale the change amount by the modifier keys
 
-                setValue(value + change);
-            }
-        };
+				if (e.stateMask == SWT.CTRL) {
+					change *= 0.1;
+				} else if (e.stateMask == SWT.SHIFT) {
+					change *= 0.01;
+				} else if (e.stateMask == (SWT.CTRL | SWT.SHIFT)) {
+					change *= 0.001;
+				}
+				// Increase the RealSpinner value by the computed amount
 
-        textWidget.addKeyListener(keyListener);
+				setValue(value + change);
+			}
+		};
 
-        // Set the value to zero as a default
+		textWidget.addKeyListener(keyListener);
 
-        setValue(0);
+		// Set the value to zero as a default
 
-    }
+		setValue(0);
 
-    /**
-     * <p>
-     * Replaces the value with the given number
-     * </p>
-     * 
-     * @param value
-     *            <p>
-     *            The new value
-     *            </p>
-     */
-    public void setValue(double value) {
+	}
 
-        // Clip the value to the closest allowed number
+	/**
+	 * <p>
+	 * Replaces the value with the given number
+	 * </p>
+	 * 
+	 * @param value
+	 *            <p>
+	 *            The new value
+	 *            </p>
+	 */
+	public void setValue(double value) {
 
-        if (value < minimum) {
-            value = minimum;
-        } else if (value > maximum) {
-            value = maximum;
-        }
-        this.value = value;
+		// Clip the value to the closest allowed number
 
-        // Set the widget text
+		if (value < minimum) {
+			value = minimum;
+		} else if (value > maximum) {
+			value = maximum;
+		}
+		this.value = value;
 
-        textWidget.setText(String.valueOf(value));
+		// Set the widget text
 
-        // Notify each listener
+		textWidget.setText(String.valueOf(value));
 
-        for (RealSpinnerListener listener : listeners) {
-            listener.update(this);
-        }
+		// Notify each listener
 
-    }
+		for (RealSpinnerListener listener : listeners) {
+			listener.update(this);
+		}
 
-    /**
-     * <p>
-     * Returns the real input value
-     * </p>
-     * 
-     * @return
-     *         <p>
-     *         The value
-     *         </p>
-     */
-    public double getValue() {
+	}
 
-        // Return the last value
+	/**
+	 * <p>
+	 * Returns the real input value
+	 * </p>
+	 * 
+	 * @return
+	 *         <p>
+	 *         The value
+	 *         </p>
+	 */
+	public double getValue() {
 
-        return value;
+		// Return the last value
 
-    }
+		return value;
 
-    /**
-     * <p>
-     * Sets the minimum and maximum bounds (inclusive)
-     * </p>
-     * 
-     * @param minimum
-     *            <p>
-     *            The minimum value to enforce
-     *            </p>
-     * @param maximum
-     *            <p>
-     *            The maximum value to enforce
-     *            </p>
-     */
-    public void setBounds(double minimum, double maximum) {
+	}
 
-        // Assert that the bounds contain at least one possible allowed value
+	/**
+	 * <p>
+	 * Sets the minimum and maximum bounds (inclusive)
+	 * </p>
+	 * 
+	 * @param minimum
+	 *            <p>
+	 *            The minimum value to enforce
+	 *            </p>
+	 * @param maximum
+	 *            <p>
+	 *            The maximum value to enforce
+	 *            </p>
+	 */
+	public void setBounds(double minimum, double maximum) {
 
-        if (minimum > maximum) {
-            return;
-        }
-        // Set the fields
+		// Assert that the bounds contain at least one possible allowed value
 
-        this.minimum = minimum;
-        this.maximum = maximum;
+		if (minimum > maximum) {
+			return;
+		}
+		// Set the fields
 
-        // Clip the current value if needed
+		this.minimum = minimum;
+		this.maximum = maximum;
 
-        setValue(value);
+		// Clip the current value if needed
 
-    }
+		setValue(value);
 
-    /**
-     * Adds a RealSpinnerListener to its listeners list to be notified of
-     * changes to the value
-     * 
-     * @param listener
-     *            The listener to notified of changes to the value
-     */
-    public void listen(RealSpinnerListener listener) {
+	}
 
-        // Add the given listener to the listeners list
+	/**
+	 * Adds a RealSpinnerListener to its listeners list to be notified of
+	 * changes to the value
+	 * 
+	 * @param listener
+	 *            The listener to notified of changes to the value
+	 */
+	public void listen(RealSpinnerListener listener) {
 
-        if (listener != null && !listeners.contains(listener)) {
-            listeners.add(listener);
-        }
-    }
+		// Add the given listener to the listeners list
 
-    /**
-     * Returns the Text control widget wrapped in this RealSpinner instance
-     * 
-     * @return The Text widget
-     */
-    public Control getControl() {
-        return textWidget;
-    }
+		if (listener != null && !listeners.contains(listener)) {
+			listeners.add(listener);
+		}
+	}
 
-    /**
-     * Checks the state of the Text widget and updates the value and text
-     * accordingly
-     */
-    private void validateText() {
+	/**
+	 * Returns the Text control widget wrapped in this RealSpinner instance
+	 * 
+	 * @return The Text widget
+	 */
+	public Control getControl() {
+		return textWidget;
+	}
 
-        // Check if the input can be parsed as a double
+	/**
+	 * Getter method for the name.
+	 * 
+	 * @return The name of the property controlled by this spinner
+	 */
+	public String getName() {
+		return name;
+	}
 
-        try {
-            // Parse the text and set it as the new value
+	/**
+	 * Setter method for the name.
+	 * 
+	 * @param name
+	 *            The name for the property controlled by this spinner.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-            double newValue = Double.valueOf(textWidget.getText());
+	/**
+	 * Checks the state of the Text widget and updates the value and text
+	 * accordingly
+	 */
+	private void validateText() {
 
-            setValue(newValue);
-        } catch (NumberFormatException e) {
+		// Check if the input can be parsed as a double
 
-            // Restore the value of the text box to the last valid value
+		try {
+			// Parse the text and set it as the new value
 
-            setValue(value);
-        }
-    }
+			double newValue = Double.valueOf(textWidget.getText());
+
+			setValue(newValue);
+		} catch (NumberFormatException e) {
+
+			// Restore the value of the text box to the last valid value
+
+			setValue(value);
+		}
+	}
 }

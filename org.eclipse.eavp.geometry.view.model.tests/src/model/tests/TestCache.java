@@ -16,34 +16,40 @@ import geometry.Triangle;
 import model.impl.MeshCacheImpl;
 
 /**
- * A simple implementation of MeshCache that provides some default values for testing.
+ * A simple implementation of MeshCache that provides some default values for
+ * testing.
  * 
  * @author Robert Smith
  *
  * @generated NOT
  */
-public class TestCache extends MeshCacheImpl<String>{
-	
+public class TestCache extends MeshCacheImpl<String> {
+
 	/**
 	 * The default constructor.
 	 */
-	public TestCache(){
-		// TODO Change this code to initialize the TestCache with two values, "test1" with a value of "value1" and "test2" with a value of "value2".
+	public TestCache() {
+
+		// Initialize the TestCache with two values, "test1" with a value of
+		// "value1" and "test2" with a value of "value2".
+		typeCache.put("test1", "value1");
+		typeCache.put("test2", "value2");
 	}
-	
+
 	@Override
-	public String getMesh(EList<Triangle> triangles){
-		
-		//TODO store this mesh with a key so that it can be reused in future calls
+	public String getMesh(EList<Triangle> triangles) {
+
+		// TODO store this mesh with a key so that it can be reused in future
+		// calls
 		String mesh = "";
-		
-		for(Triangle tri : triangles){
+
+		for (Triangle tri : triangles) {
 			mesh += tri.getNormal();
 			mesh += tri.getVertices().get(0);
 			mesh += tri.getVertices().get(1);
 			mesh += tri.getVertices().get(2);
 		}
-		
+
 		return mesh;
 	}
 }

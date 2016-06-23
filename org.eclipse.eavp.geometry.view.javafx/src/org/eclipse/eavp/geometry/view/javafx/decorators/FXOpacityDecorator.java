@@ -11,11 +11,10 @@
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import geometry.GeometryPackage;
 import javafx.scene.Group;
-import model.IRenderElement;
+import model.ModelPackage;
 import model.impl.OpacityDecoratorImpl;
 
 /**
@@ -53,31 +52,25 @@ public class FXOpacityDecorator extends OpacityDecoratorImpl<Group> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see model.impl.RenderObjectDecoratorImpl#setSource(model.IRenderElement)
+	 * @see
+	 * model.impl.RenderObjectDecoratorImpl#handleUpdate(org.eclipse.emf.common.
+	 * notify.Notification)
 	 */
 	@Override
-	public void setSource(IRenderElement<Group> newSource) {
+	protected void handleUpdate(Notification notification) {
 
-		// Register as a listener to it
-		newSource.getBase().eAdapters().add(new AdapterImpl() {
+		// If a property was set, check if it was relevant to this
+		// decorator
+		if (notification.getFeatureID(
+				GeometryPackage.class) == ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT) {
 
-			@Override
-			public void notifyChanged(Notification notification) {
-
-				// If a property was set, check if it was relevant to this
-				// decorator
-				if (notification.getFeatureID(
-						GeometryPackage.class) == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
-
-					// If the opacity was changed, update to the new value
-					if (notification.getOldStringValue().equals("opacity")) {
-						setOpacity((double) notification.getNewValue());
-					}
-				}
+			// If the opacity was changed, update to the new value
+			if (notification.getOldStringValue().equals("opacity")) {
+				setOpacity((double) notification.getNewValue());
 			}
-		});
+		}
 
-		// Set the source
-		super.setSource(newSource);
+		// Pass the update to own listeners
+		super.handleUpdate(notification);
 	}
 }

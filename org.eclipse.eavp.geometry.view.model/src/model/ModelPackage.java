@@ -21,6 +21,9 @@ import org.eclipse.emf.ecore.EReference;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
+ * <!-- begin-model-doc -->
+ * Get the value of the specified rendering property.
+ * <!-- end-model-doc -->
  * @see model.ModelFactory
  * @model kind="package"
  * @generated
@@ -151,13 +154,31 @@ public interface ModelPackage extends EPackage {
 	int IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST = 2;
 
 	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IRENDER_ELEMENT___GET_PROPERTY = 3;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT = 4;
+
+	/**
 	 * The number of operations of the '<em>IRender Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IRENDER_ELEMENT_OPERATION_COUNT = 3;
+	int IRENDER_ELEMENT_OPERATION_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link model.impl.RenderObjectImpl <em>Render Object</em>}' class.
@@ -222,6 +243,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RENDER_OBJECT___HANDLE_CHILDREN__ELIST = IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST;
+
+	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT___GET_PROPERTY = IRENDER_ELEMENT___GET_PROPERTY;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT = IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT;
 
 	/**
 	 * The operation id for the '<em>Get Mesh</em>' operation.
@@ -297,6 +336,24 @@ public interface ModelPackage extends EPackage {
 	int RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST = IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST;
 
 	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT_DECORATOR___GET_PROPERTY = IRENDER_ELEMENT___GET_PROPERTY;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT = IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT;
+
+	/**
 	 * The number of operations of the '<em>Render Object Decorator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -359,6 +416,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEXTURE_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+
+	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXTURE_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXTURE_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
 
 	/**
 	 * The number of operations of the '<em>Texture Decorator</em>' class.
@@ -434,6 +509,24 @@ public interface ModelPackage extends EPackage {
 	int OPACITY_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
 
 	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPACITY_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPACITY_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+
+	/**
 	 * The number of operations of the '<em>Opacity Decorator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -505,6 +598,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int WIREFRAME_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+
+	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIREFRAME_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIREFRAME_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
 
 	/**
 	 * The number of operations of the '<em>Wireframe Decorator</em>' class.
@@ -598,6 +709,24 @@ public interface ModelPackage extends EPackage {
 	int COLOR_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
 
 	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLOR_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLOR_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+
+	/**
 	 * The number of operations of the '<em>Color Decorator</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -626,6 +755,17 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	int TRIANGLE = 9;
+
+
+	/**
+	 * The meta object id for the '<em>Object</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Object
+	 * @see model.impl.ModelPackageImpl#getObject()
+	 * @generated
+	 */
+	int OBJECT = 10;
 
 
 	/**
@@ -868,6 +1008,26 @@ public interface ModelPackage extends EPackage {
 	EOperation getIRenderElement__HandleChildren__EList();
 
 	/**
+	 * Returns the meta object for the '{@link model.IRenderElement#getProperty() <em>Get Property</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Property</em>' operation.
+	 * @see model.IRenderElement#getProperty()
+	 * @generated
+	 */
+	EOperation getIRenderElement__GetProperty();
+
+	/**
+	 * Returns the meta object for the '{@link model.IRenderElement#setProperty(java.lang.String, java.lang.Object) <em>Set Property</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Set Property</em>' operation.
+	 * @see model.IRenderElement#setProperty(java.lang.String, java.lang.Object)
+	 * @generated
+	 */
+	EOperation getIRenderElement__SetProperty__String_Object();
+
+	/**
 	 * Returns the meta object for data type '{@link geometry.INode <em>INode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -888,6 +1048,17 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getTriangle();
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Object <em>Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Object</em>'.
+	 * @see java.lang.Object
+	 * @model instanceClass="java.lang.Object"
+	 * @generated
+	 */
+	EDataType getObject();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1113,6 +1284,22 @@ public interface ModelPackage extends EPackage {
 		EOperation IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST = eINSTANCE.getIRenderElement__HandleChildren__EList();
 
 		/**
+		 * The meta object literal for the '<em><b>Get Property</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation IRENDER_ELEMENT___GET_PROPERTY = eINSTANCE.getIRenderElement__GetProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Set Property</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT = eINSTANCE.getIRenderElement__SetProperty__String_Object();
+
+		/**
 		 * The meta object literal for the '<em>INode</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1131,6 +1318,16 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType TRIANGLE = eINSTANCE.getTriangle();
+
+		/**
+		 * The meta object literal for the '<em>Object</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Object
+		 * @see model.impl.ModelPackageImpl#getObject()
+		 * @generated
+		 */
+		EDataType OBJECT = eINSTANCE.getObject();
 
 	}
 

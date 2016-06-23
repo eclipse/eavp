@@ -2,41 +2,41 @@
  */
 package model.tests;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.junit.Test;
+
 import geometry.impl.ShapeImpl;
 import junit.framework.TestCase;
-
 import junit.textui.TestRunner;
-
 import model.ModelFactory;
-import model.RenderObject;
 import model.RenderObjectDecorator;
-import model.impl.RenderObjectImpl;
+import model.impl.RenderObjectDecoratorImpl;
 
 /**
- * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Render Object Decorator</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A test case for the model object '
+ * <em><b>Render Object Decorator</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following operations are tested:
  * <ul>
- *   <li>{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}</li>
+ * <li>{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}</li>
  * </ul>
  * </p>
+ * 
  * @generated
  */
 public class RenderObjectDecoratorTest extends TestCase {
 
 	/**
-	 * The fixture for this Render Object Decorator test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The fixture for this Render Object Decorator test case. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected RenderObjectDecorator<?> fixture = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static void main(String[] args) {
@@ -45,8 +45,8 @@ public class RenderObjectDecoratorTest extends TestCase {
 
 	/**
 	 * Constructs a new Render Object Decorator test case with the given name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RenderObjectDecoratorTest(String name) {
@@ -54,9 +54,9 @@ public class RenderObjectDecoratorTest extends TestCase {
 	}
 
 	/**
-	 * Sets the fixture for this Render Object Decorator test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the fixture for this Render Object Decorator test case. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected void setFixture(RenderObjectDecorator<?> fixture) {
@@ -64,9 +64,9 @@ public class RenderObjectDecoratorTest extends TestCase {
 	}
 
 	/**
-	 * Returns the fixture for this Render Object Decorator test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the fixture for this Render Object Decorator test case. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected RenderObjectDecorator<?> getFixture() {
@@ -74,8 +74,8 @@ public class RenderObjectDecoratorTest extends TestCase {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 * @generated
 	 */
@@ -85,8 +85,8 @@ public class RenderObjectDecoratorTest extends TestCase {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 * @generated
 	 */
@@ -96,39 +96,132 @@ public class RenderObjectDecoratorTest extends TestCase {
 	}
 
 	/**
-	 * Tests the '{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Tests the '{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}'
+	 * operation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see model.IRenderElement#getMesh()
 	 * @generated NOT
 	 */
+	@Test
 	public void testGetMesh() {
-		
-		//The first layer decorator to test
-		RenderObjectDecorator<String> decorator = ModelFactory.eINSTANCE.createRenderObjectDecorator();
-		
-		//The base object to be decorated
-		TestRenderObject render = new TestRenderObject();	
-		
-		//Set a shape of type test1 as the render's source
-		render.setSource(new ShapeImpl(){
+
+		// The first layer decorator to test
+		RenderObjectDecorator<String> decorator = ModelFactory.eINSTANCE
+				.createRenderObjectDecorator();
+
+		// The base object to be decorated
+		TestRenderObject render = new TestRenderObject();
+
+		// Set a shape of type test1 as the render's source
+		render.setSource(new testShape());
+
+		// Decorate the object
+		decorator.setSource(render);
+
+		// The decorator should correctly delegate to the render to get its mesh
+		assertTrue("value1".equals(decorator.getMesh()));
+
+		// Add a second layer decorator
+		RenderObjectDecorator<String> decorator2 = ModelFactory.eINSTANCE
+				.createRenderObjectDecorator();
+		decorator2.setSource(decorator);
+
+		// The second decorator should also get the render's mesh
+		assertTrue("value1".equals(decorator2.getMesh()));
+	}
+
+	/**
+	 * Test that the decorator properly receives and handles notifications
+	 * 
+	 * @generated NOT
+	 */
+	@Test
+	public void checkNotifications() {
+
+		// The first layer decorator to test
+		testDecorator decorator = new testDecorator();
+
+		// The base object to be decorated
+		TestRenderObject render = new TestRenderObject();
+
+		// Set a shape of type test1 as the render's source
+		render.setSource(new ShapeImpl() {
 			{
 				type = "test1";
 			}
 		});
-		
-		//Decorate the object
+
+		// Decorate the object
 		decorator.setSource(render);
-		
-		//The decorator should correctly delegate to the render to get its mesh
-		assertTrue("value1".equals(decorator.getMesh()));
-		
-		//Add a second layer decorator
-		RenderObjectDecorator<String> decorator2 = ModelFactory.eINSTANCE.createRenderObjectDecorator();
+
+		// Change a property and check that the decorator updated
+		render.setProperty("test", true);
+		assertTrue(decorator.wasUpdated());
+
+		// Add a second decorator above the first
+		testDecorator decorator2 = new testDecorator();
 		decorator2.setSource(decorator);
-		
-		//The second decorator should also get the render's mesh
-		assertTrue("value1".equals(decorator2.getMesh()));
+
+		// Change a property and check that the whole stack was updated.
+		render.setProperty("test2", true);
+		assertTrue(decorator2.wasUpdated());
 	}
 
-} //RenderObjectDecoratorTest
+	/**
+	 * A simple shape extension with the type "test1".
+	 * 
+	 * @author Robert Smith
+	 *
+	 */
+	private class testShape extends ShapeImpl {
+
+		/**
+		 * The default constructor.
+		 */
+		public testShape() {
+			super();
+			type = "test1";
+		}
+	}
+
+	/**
+	 * A simple RenderObjectDecorator that tracks whether or not it has received
+	 * an update for testing purposes.
+	 * 
+	 * @author Robert Smith
+	 *
+	 */
+	private class testDecorator extends RenderObjectDecoratorImpl<String> {
+
+		// Whether or not the decorated has received an updated since the last
+		// time it was tested.
+		private boolean updated = false;
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * model.impl.RenderObjectDecoratorImpl#handleUpdate(org.eclipse.emf.
+		 * common.notify.Notification)
+		 */
+		@Override
+		protected void handleUpdate(Notification notification) {
+			updated = true;
+			super.handleUpdate(notification);
+		}
+
+		/**
+		 * Check whether the decorator has received an update.
+		 * 
+		 * @return True if handleUpdate() was called since the last time
+		 *         wasUpdated() was called. False otherwise.
+		 */
+		public boolean wasUpdated() {
+			boolean temp = updated;
+			updated = false;
+			return temp;
+		}
+
+	}
+
+} // RenderObjectDecoratorTest
