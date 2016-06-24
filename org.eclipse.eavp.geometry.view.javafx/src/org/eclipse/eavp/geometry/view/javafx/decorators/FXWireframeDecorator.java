@@ -95,12 +95,24 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 
 				// Set the local wireframe variable according to the new
 				// value
-				if ((boolean) notification.getNewValue()) {
-					wireframe = true;
-				} else {
-					wireframe = false;
-				}
+				wireframe = (boolean) notification.getNewValue();
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.impl.RenderObjectDecoratorImpl#clone()
+	 */
+	@Override
+	public Object clone() {
+
+		// Create a new wireframe decorator
+		FXWireframeDecorator clone = new FXWireframeDecorator();
+
+		// Copy this object's data into the clone
+		clone.copy(this);
+		return clone;
 	}
 }

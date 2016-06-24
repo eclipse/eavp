@@ -64,6 +64,16 @@
         <genParameters ecoreParameter="geometry.ecore#//INode/setProperty/property"/>
         <genParameters ecoreParameter="geometry.ecore#//INode/setProperty/value"/>
       </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//INode/addNode">
+        <genParameters ecoreParameter="geometry.ecore#//INode/addNode/child"/>
+      </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//INode/removeNode">
+        <genParameters ecoreParameter="geometry.ecore#//INode/removeNode/child"/>
+      </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//INode/copy">
+        <genParameters ecoreParameter="geometry.ecore#//INode/copy/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="geometry.ecore#//INode/clone"/>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Operator"/>
     <genClasses ecoreClass="geometry.ecore#//Union"/>

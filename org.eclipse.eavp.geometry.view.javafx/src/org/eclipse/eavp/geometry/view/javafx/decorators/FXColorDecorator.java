@@ -108,4 +108,20 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		// Pass the update along to own listeners
 		super.handleUpdate(notification);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.impl.ColorDecoratorImpl#clone()
+	 */
+	@Override
+	public Object clone() {
+
+		// Create a new color decorator
+		FXColorDecorator clone = new FXColorDecorator();
+
+		// Copy this object's data into the clone
+		clone.copy(this);
+		return clone;
+	}
 }

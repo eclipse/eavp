@@ -160,7 +160,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IRENDER_ELEMENT___GET_PROPERTY = 3;
+	int IRENDER_ELEMENT___GET_PROPERTY__STRING = 3;
 
 	/**
 	 * The operation id for the '<em>Set Property</em>' operation.
@@ -172,13 +172,31 @@ public interface ModelPackage extends EPackage {
 	int IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT = 4;
 
 	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IRENDER_ELEMENT___COPY__OBJECT = 5;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IRENDER_ELEMENT___CLONE = 6;
+
+	/**
 	 * The number of operations of the '<em>IRender Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IRENDER_ELEMENT_OPERATION_COUNT = 5;
+	int IRENDER_ELEMENT_OPERATION_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link model.impl.RenderObjectImpl <em>Render Object</em>}' class.
@@ -251,7 +269,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT___GET_PROPERTY = IRENDER_ELEMENT___GET_PROPERTY;
+	int RENDER_OBJECT___GET_PROPERTY__STRING = IRENDER_ELEMENT___GET_PROPERTY__STRING;
 
 	/**
 	 * The operation id for the '<em>Set Property</em>' operation.
@@ -261,6 +279,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT = IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT;
+
+	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT___COPY__OBJECT = IRENDER_ELEMENT___COPY__OBJECT;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT___CLONE = IRENDER_ELEMENT___CLONE;
 
 	/**
 	 * The operation id for the '<em>Get Mesh</em>' operation.
@@ -342,7 +378,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___GET_PROPERTY = IRENDER_ELEMENT___GET_PROPERTY;
+	int RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING = IRENDER_ELEMENT___GET_PROPERTY__STRING;
 
 	/**
 	 * The operation id for the '<em>Set Property</em>' operation.
@@ -352,6 +388,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT = IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT;
+
+	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT_DECORATOR___COPY__OBJECT = IRENDER_ELEMENT___COPY__OBJECT;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT_DECORATOR___CLONE = IRENDER_ELEMENT___CLONE;
 
 	/**
 	 * The number of operations of the '<em>Render Object Decorator</em>' class.
@@ -424,7 +478,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+	int TEXTURE_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
 
 	/**
 	 * The operation id for the '<em>Set Property</em>' operation.
@@ -434,6 +488,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEXTURE_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+
+	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXTURE_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXTURE_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
 
 	/**
 	 * The number of operations of the '<em>Texture Decorator</em>' class.
@@ -515,7 +587,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+	int OPACITY_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
 
 	/**
 	 * The operation id for the '<em>Set Property</em>' operation.
@@ -525,6 +597,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPACITY_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+
+	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPACITY_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPACITY_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
 
 	/**
 	 * The number of operations of the '<em>Opacity Decorator</em>' class.
@@ -606,7 +696,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+	int WIREFRAME_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
 
 	/**
 	 * The operation id for the '<em>Set Property</em>' operation.
@@ -616,6 +706,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int WIREFRAME_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+
+	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIREFRAME_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIREFRAME_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
 
 	/**
 	 * The number of operations of the '<em>Wireframe Decorator</em>' class.
@@ -715,7 +823,7 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___GET_PROPERTY = RENDER_OBJECT_DECORATOR___GET_PROPERTY;
+	int COLOR_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
 
 	/**
 	 * The operation id for the '<em>Set Property</em>' operation.
@@ -725,6 +833,24 @@ public interface ModelPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLOR_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+
+	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLOR_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLOR_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
 
 	/**
 	 * The number of operations of the '<em>Color Decorator</em>' class.
@@ -1008,14 +1134,14 @@ public interface ModelPackage extends EPackage {
 	EOperation getIRenderElement__HandleChildren__EList();
 
 	/**
-	 * Returns the meta object for the '{@link model.IRenderElement#getProperty() <em>Get Property</em>}' operation.
+	 * Returns the meta object for the '{@link model.IRenderElement#getProperty(java.lang.String) <em>Get Property</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the '<em>Get Property</em>' operation.
-	 * @see model.IRenderElement#getProperty()
+	 * @see model.IRenderElement#getProperty(java.lang.String)
 	 * @generated
 	 */
-	EOperation getIRenderElement__GetProperty();
+	EOperation getIRenderElement__GetProperty__String();
 
 	/**
 	 * Returns the meta object for the '{@link model.IRenderElement#setProperty(java.lang.String, java.lang.Object) <em>Set Property</em>}' operation.
@@ -1026,6 +1152,26 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EOperation getIRenderElement__SetProperty__String_Object();
+
+	/**
+	 * Returns the meta object for the '{@link model.IRenderElement#copy(java.lang.Object) <em>Copy</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Copy</em>' operation.
+	 * @see model.IRenderElement#copy(java.lang.Object)
+	 * @generated
+	 */
+	EOperation getIRenderElement__Copy__Object();
+
+	/**
+	 * Returns the meta object for the '{@link model.IRenderElement#clone() <em>Clone</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Clone</em>' operation.
+	 * @see model.IRenderElement#clone()
+	 * @generated
+	 */
+	EOperation getIRenderElement__Clone();
 
 	/**
 	 * Returns the meta object for data type '{@link geometry.INode <em>INode</em>}'.
@@ -1289,7 +1435,7 @@ public interface ModelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation IRENDER_ELEMENT___GET_PROPERTY = eINSTANCE.getIRenderElement__GetProperty();
+		EOperation IRENDER_ELEMENT___GET_PROPERTY__STRING = eINSTANCE.getIRenderElement__GetProperty__String();
 
 		/**
 		 * The meta object literal for the '<em><b>Set Property</b></em>' operation.
@@ -1298,6 +1444,22 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EOperation IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT = eINSTANCE.getIRenderElement__SetProperty__String_Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Copy</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation IRENDER_ELEMENT___COPY__OBJECT = eINSTANCE.getIRenderElement__Copy__Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Clone</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation IRENDER_ELEMENT___CLONE = eINSTANCE.getIRenderElement__Clone();
 
 		/**
 		 * The meta object literal for the '<em>INode</em>' data type.

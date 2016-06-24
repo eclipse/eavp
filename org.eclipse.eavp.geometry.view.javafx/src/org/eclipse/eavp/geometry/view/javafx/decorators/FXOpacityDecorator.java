@@ -73,4 +73,20 @@ public class FXOpacityDecorator extends OpacityDecoratorImpl<Group> {
 		// Pass the update to own listeners
 		super.handleUpdate(notification);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.impl.OpacityDecoratorImpl#clone()
+	 */
+	@Override
+	public Object clone() {
+
+		// Create a new color decorator
+		FXOpacityDecorator clone = new FXOpacityDecorator();
+
+		// Copy this object's data into the clone
+		clone.copy(this);
+		return clone;
+	}
 }

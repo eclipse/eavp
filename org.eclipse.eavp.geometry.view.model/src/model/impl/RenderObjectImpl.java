@@ -3,6 +3,7 @@
 package model.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -15,6 +16,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import geometry.INode;
 import model.IRenderElement;
 import model.MeshCache;
+import model.ModelFactory;
 import model.ModelPackage;
 import model.RenderObject;
 
@@ -84,10 +86,12 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected RenderObjectImpl() {
 		super();
+
+		properties = new HashMap<String, Object>();
 	}
 
 	/**
@@ -230,7 +234,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getProperty(String property) {
@@ -240,18 +244,60 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void setProperty(String property, Object value) {
 		properties.put(property, value);
+	}
 
-		// Send a notification of the object's new value with the property name
-		// as the old value. Listeners must be able to handle this specially
-		// formatted input.
-		eNotify(new ENotificationImpl(this, Notification.SET,
-				ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT,
-				property, value));
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public void copy(Object source) {
+
+		// If the source object is not a RenderObject, fail silently
+		if (source instanceof RenderObject) {
+
+			// Cast the source object
+			RenderObjectImpl<T> castSource = (RenderObjectImpl<T>) source;
+
+			// Copy the reference to the mesh cache
+			meshCache = castSource.getMeshCache();
+
+			// Remove the current rendering
+			render = null;
+
+			// Clear the properties map
+			properties.clear();
+
+			// Copy each property from the source
+			for (String property : castSource.properties.keySet()) {
+				properties.put(property, castSource.properties.get(property));
+			}
+
+			// Clone the INode on which the other object is based
+			this.source = (INode) castSource.getSource().clone();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public Object clone() {
+
+		// Create a new Render Object
+		RenderObject<T> clone = ModelFactory.eINSTANCE.createRenderObject();
+
+		// Make it a copy of this
+		clone.copy(this);
+		return clone;
 	}
 
 	/**
@@ -353,11 +399,16 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 		case ModelPackage.RENDER_OBJECT___HANDLE_CHILDREN__ELIST:
 			handleChildren((EList<IRenderElement<T>>) arguments.get(0));
 			return null;
-		case ModelPackage.RENDER_OBJECT___GET_PROPERTY:
+		case ModelPackage.RENDER_OBJECT___GET_PROPERTY__STRING:
 			return getProperty((String) arguments.get(0));
 		case ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT:
 			setProperty((String) arguments.get(0), arguments.get(1));
 			return null;
+		case ModelPackage.RENDER_OBJECT___COPY__OBJECT:
+			copy(arguments.get(0));
+			return null;
+		case ModelPackage.RENDER_OBJECT___CLONE:
+			return clone();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

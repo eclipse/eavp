@@ -114,8 +114,10 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 			// If the shape has default values, set them to the current values
 			if (red != null) {
 				shape.setProperty("red", (double) red);
-				shape.setProperty("green", shape.getProperty("defaultGreen"));
-				shape.setProperty("blue", shape.getProperty("defaultBlue"));
+				shape.setProperty("green",
+						(double) shape.getProperty("defaultGreen"));
+				shape.setProperty("blue",
+						(double) shape.getProperty("defaultBlue"));
 			}
 
 			// If the shape lacks defaults, set it to grey

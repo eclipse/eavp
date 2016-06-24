@@ -171,26 +171,29 @@ public class TransformationView extends ViewPart {
 
 		// Iterate through the shape's properties, giving each one its own
 		// section in the view
-		for (String property : currentShape.getBase().getPropertyNames()) {
+		if (currentShape != null) {
+			for (String property : currentShape.getBase().getPropertyNames()) {
 
-			// Create a label with the property's name
-			Label propertyLabel = new Label(parent, SWT.NONE);
-			propertyLabel.setLayoutData(
-					new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-			propertyLabel.setText(property + ":");
+				// Create a label with the property's name
+				Label propertyLabel = new Label(parent, SWT.NONE);
+				propertyLabel.setLayoutData(
+						new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+				propertyLabel.setText(property + ":");
 
-			// Create a spinner for the property's value. All properties have
-			// doubles for values.
-			RealSpinner propertySpinner = new RealSpinner(parent);
-			propertySpinner.getControl().setLayoutData(
-					new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-			propertySpinner.setBounds(-1.0e6, 1.0e6);
+				// Create a spinner for the property's value. All properties
+				// have
+				// doubles for values.
+				RealSpinner propertySpinner = new RealSpinner(parent);
+				propertySpinner.getControl().setLayoutData(
+						new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+				propertySpinner.setBounds(-1.0e6, 1.0e6);
 
-			// Set the spinner's name
-			propertySpinner.setName(property);
+				// Set the spinner's name
+				propertySpinner.setName(property);
 
-			// Add the spinner to the list
-			propertySpinners.add(propertySpinner);
+				// Add the spinner to the list
+				propertySpinners.add(propertySpinner);
+			}
 		}
 
 		// Set the initial shape
@@ -225,15 +228,15 @@ public class TransformationView extends ViewPart {
 			} else {
 				opacityCombo.select(0);
 			}
-		}
 
-		// Set the spinner values
+			// Set the spinner values
 
-		Vertex center = shape.getBase().getCenter();
-		double[] translations = new double[] { center.getX(), center.getY(),
-				center.getZ() };
-		for (int i = 0; i < 3; i++) {
-			translateSpinners[i].setValue(translations[i]);
+			Vertex center = shape.getBase().getCenter();
+			double[] translations = new double[] { center.getX(), center.getY(),
+					center.getZ() };
+			for (int i = 0; i < 3; i++) {
+				translateSpinners[i].setValue(translations[i]);
+			}
 		}
 
 		// Set the enabled state of the spinners, depending on whether the

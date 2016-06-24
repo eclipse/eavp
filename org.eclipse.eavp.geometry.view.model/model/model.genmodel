@@ -53,8 +53,17 @@
       <genOperations ecoreOperation="model.ecore#//IRenderElement/handleChildren">
         <genParameters ecoreParameter="model.ecore#//IRenderElement/handleChildren/children"/>
       </genOperations>
-      <genOperations ecoreOperation="model.ecore#//IRenderElement/getProperty"/>
-      <genOperations ecoreOperation="model.ecore#//IRenderElement/setProperty"/>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/getProperty">
+        <genParameters ecoreParameter="model.ecore#//IRenderElement/getProperty/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/setProperty">
+        <genParameters ecoreParameter="model.ecore#//IRenderElement/setProperty/property"/>
+        <genParameters ecoreParameter="model.ecore#//IRenderElement/setProperty/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/copy">
+        <genParameters ecoreParameter="model.ecore#//IRenderElement/copy/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="model.ecore#//IRenderElement/clone"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

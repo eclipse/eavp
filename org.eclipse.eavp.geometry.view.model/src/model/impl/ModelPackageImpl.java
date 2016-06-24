@@ -383,7 +383,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EOperation getIRenderElement__GetProperty() {
+	public EOperation getIRenderElement__GetProperty__String() {
 		return iRenderElementEClass.getEOperations().get(3);
 	}
 
@@ -394,6 +394,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	public EOperation getIRenderElement__SetProperty__String_Object() {
 		return iRenderElementEClass.getEOperations().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getIRenderElement__Copy__Object() {
+		return iRenderElementEClass.getEOperations().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getIRenderElement__Clone() {
+		return iRenderElementEClass.getEOperations().get(6);
 	}
 
 	/**
@@ -481,8 +499,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_MESH);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_BASE);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST);
-		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_PROPERTY);
+		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___GET_PROPERTY__STRING);
 		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT);
+		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___COPY__OBJECT);
+		createEOperation(iRenderElementEClass, IRENDER_ELEMENT___CLONE);
 
 		// Create data types
 		iNodeEDataType = createEDataType(INODE);
@@ -615,11 +635,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		g2.getETypeArguments().add(g3);
 		addEParameter(op, g1, "children", 0, 1, IS_UNIQUE, IS_ORDERED);
 
-		initEOperation(getIRenderElement__GetProperty(), this.getObject(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		op = initEOperation(getIRenderElement__GetProperty__String(), this.getObject(), "getProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = initEOperation(getIRenderElement__SetProperty__String_Object(), null, "setProperty", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "property", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getObject(), "value", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getIRenderElement__Copy__Object(), null, "copy", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getObject(), "source", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getIRenderElement__Clone(), this.getObject(), "clone", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(iNodeEDataType, INode.class, "INode", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

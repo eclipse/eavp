@@ -34,8 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import geometry.Geometry;
+import geometry.INode;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
+import model.IRenderElement;
 
 /**
  * An extension for FXVizCanvas that implements functionality for the Geometry
@@ -51,13 +53,14 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	 */
 	private static final Logger logger = LoggerFactory
 			.getLogger(FXGeometryCanvas.class);
-	
+
 	/**
 	 * The default constructor.
 	 * 
-	 * @param source The geometry to be displayed in the canvas.
+	 * @param source
+	 *            The geometry to be displayed in the canvas.
 	 */
-	public FXGeometryCanvas(Geometry source){
+	public FXGeometryCanvas(Geometry source) {
 		super(source);
 	}
 
@@ -92,7 +95,7 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 
 		FXSelection selection = (FXSelection) event.getSelection();
 
-		transformView.setShape((ShapeController) selection.getShape());
+		transformView.setShape((IRenderElement) selection.getShape());
 	}
 
 	/*
@@ -318,15 +321,15 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	public void setPlant(IPlantData plant) {
 
 		// Convert the plant composite into an AbstractController
-		IController newRoot = plant.getPlant();
+		Geometry newRoot = plant.getPlant();
 
 		// Remove everything from the root to ensure it will be
-		for (IController entity : controllerRoot.getEntities()) {
-			controllerRoot.removeEntity(entity);
+		for (INode entity : root.getNodes()) {
+			root.removeNode(entity);
 		}
 
-		controllerRoot = newRoot;
-		loadPart(controllerRoot);
+		root = newRoot;
+		loadPart(root);
 
 	}
 }

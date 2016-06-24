@@ -147,4 +147,21 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 			}
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.impl.RenderObjectImpl#clone()
+	 */
+	@Override
+	public Object clone() {
+
+		// Create a new render object
+		FXRenderObject clone = new FXRenderObject((INode) source.clone(),
+				(MeshCache<TriangleMesh>) meshCache);
+
+		// Copy this object's data into the clone
+		clone.copy(this);
+		return clone;
+	}
 }

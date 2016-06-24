@@ -152,6 +152,29 @@
         </eAnnotations>
       </eParameters>
     </eOperations>
+    <eOperations name="addNode">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Add a child to the list of children nodes contained by this object.&#xD;&#xA;&#xD;&#xA;It is intended that users will use addNode() instead of adding objects directly to the nodes list to properly maintain the child's parent attribute."/>
+      </eAnnotations>
+      <eParameters name="child" eType="#//INode"/>
+    </eOperations>
+    <eOperations name="removeNode">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Remove a child from the list of children nodes contained by this object.&#xD;&#xA;&#xD;&#xA;It is intended that users will use removeNode() instead of adding objects directly to the nodes list to properly maintain the child's parent attribute."/>
+      </eAnnotations>
+      <eParameters name="child" eType="#//INode"/>
+    </eOperations>
+    <eOperations name="copy">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Make this object a copy of the source object, if the source object is of an appropriate type."/>
+      </eAnnotations>
+      <eParameters name="source" eType="#//Object"/>
+    </eOperations>
+    <eOperations name="clone" eType="#//Object">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Create a copy of this object."/>
+      </eAnnotations>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The name of the node."/>

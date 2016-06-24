@@ -183,6 +183,17 @@
       <eParameters name="property" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="value" eType="#//Object"/>
     </eOperations>
+    <eOperations name="copy">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Makes this object into a deep copy of the source object, if it is an appropriate type."/>
+      </eAnnotations>
+      <eParameters name="source" eType="#//Object"/>
+    </eOperations>
+    <eOperations name="clone" eType="#//Object">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Make a new copy of this object."/>
+      </eAnnotations>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="INode" instanceClassName="geometry.INode">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

@@ -14,14 +14,6 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.Shape;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.base.Transformation;
-import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -30,6 +22,13 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
+
+import geometry.Geometry;
+import geometry.GeometryFactory;
+import geometry.INode;
+import geometry.Union;
+import geometry.Vertex;
+import model.IRenderElement;
 
 /**
  * <p>
@@ -54,12 +53,6 @@ public class ActionReplicateShape extends Action {
 	 * The image descriptor associated with the duplicate action's icon
 	 */
 	private ImageDescriptor imageDescriptor;
-
-	/**
-	 * The controller provider that creates views and controllers for the
-	 * replicated meshes
-	 */
-	private IControllerProvider provider;
 
 	/**
 	 * <p>
@@ -100,12 +93,7 @@ public class ActionReplicateShape extends Action {
 	@Override
 	public void run() {
 
-		// Get the provider from the factory if it is currently null
-		if (provider == null) {
-			provider = view.getFactory().createProvider(new Shape());
-		}
-
-		IController geometry = (IController) view.treeViewer.getInput();
+		Geometry geometry = (Geometry) view.treeViewer.getInput();
 
 		// Check that only one shape is selected
 
@@ -120,16 +108,17 @@ public class ActionReplicateShape extends Action {
 
 		Object selectedObject = paths[0].getLastSegment();
 
-		if (!(selectedObject instanceof ShapeController)) {
+		if (!(selectedObject instanceof IRenderElement)) {
 			return;
 		}
-		ShapeController selectedShape = (ShapeController) selectedObject;
+		IRenderElement selectedShape = (IRenderElement) selectedObject;
 
 		// Create a transformation, initialized from the selected shape's
 		// transformation
-
-		Transformation accumulatedTransformation = (Transformation) selectedShape
-				.getTransformation().clone();
+		Vertex selectedCenter = selectedShape.getBase().getCenter();
+		double accumulatedX = selectedCenter.getX();
+		double accumulatedY = selectedCenter.getY();
+		double accumulatedZ = selectedCenter.getZ();
 
 		// Open the dialog
 
@@ -153,51 +142,66 @@ public class ActionReplicateShape extends Action {
 		// If the selected shape is a direct child of a GeometryComponent,
 		// its parent shape is null.
 
-		ShapeController parentShape = (ShapeController) selectedShape
-				.getEntitiesFromCategory(MeshCategory.PARENT).get(0);
+		INode parentShape = selectedShape.getBase().getParent();
 
 		// Remove the selected shape from its original parent
 
 		synchronized (geometry) {
 			if (parentShape != null) {
-				parentShape.removeEntity(selectedShape);
+				parentShape.removeNode(selectedShape.getBase());
 			} else {
-				geometry.removeEntity(selectedShape);
+				geometry.removeNode(selectedShape.getBase());
 			}
 		}
 
 		// Create a new parent union shape
 
-		Shape replicateUnionComponent = new Shape();
-		ShapeController replicateUnion = (ShapeController) provider
-				.createController(replicateUnionComponent);
-		replicateUnion.setProperty(GeometryMeshProperty.OPERATOR, "Union");
+		Union replicateUnion = GeometryFactory.eINSTANCE.createUnion();
 
-		replicateUnion.setProperty(MeshProperty.NAME, "Replication");
-		replicateUnion.setProperty(MeshProperty.ID,
-				selectedShape.getProperty(MeshProperty.ID));
+		replicateUnion.setName("Replication");
+		replicateUnion.setId(selectedShape.getBase().getId());
 
 		for (int i = 1; i <= quantity; i++) {
 
 			// Clone the selected shape and remove its "selected" property
 
-			ShapeController clonedShape = (ShapeController) selectedShape
-					.clone();
-			clonedShape.setProperty(MeshProperty.SELECTED, "False");
-			clonedShape.setProperty(MeshProperty.ID, Integer.toString(i));
+			IRenderElement clonedShape = (IRenderElement) selectedShape.clone();
+			clonedShape.getBase().setId(i);
+
+			// Remove the selection indicating color from the cloned shape
+			if (clonedShape.getProperty("defaultRed") != null) {
+
+				// If there was a default color, restore it to the active
+				// color
+				clonedShape.setProperty("red",
+						clonedShape.getProperty("defaultRed"));
+				clonedShape.setProperty("green",
+						clonedShape.getProperty("defaultGreen"));
+				clonedShape.setProperty("blue",
+						clonedShape.getProperty("defaultBlue"));
+			}
+
+			// If there was no default, set the shape to grey
+			else {
+				clonedShape.setProperty("red", 127d);
+				clonedShape.setProperty("green", 127d);
+				clonedShape.setProperty("blue", 127d);
+			}
 
 			// Add the translation
-
-			clonedShape.setTransformation(
-					(Transformation) accumulatedTransformation.clone());
+			Vertex clonedCenter = clonedShape.getBase().getCenter();
+			clonedCenter.setX(accumulatedX);
+			clonedCenter.setY(accumulatedY);
+			clonedCenter.setZ(accumulatedZ);
 
 			// Add it to the replicated union
 
-			replicateUnion.addEntity(clonedShape);
+			replicateUnion.addNode(clonedShape.getBase());
 
 			// Shift the transform for the next shape
-
-			accumulatedTransformation.translate(shift);
+			accumulatedX += shift[0];
+			accumulatedY += shift[1];
+			accumulatedZ += shift[2];
 		}
 
 		// Refresh the TreeViewer
@@ -207,7 +211,7 @@ public class ActionReplicateShape extends Action {
 			// The parent is an IShape
 
 			synchronized (geometry) {
-				parentShape.addEntity(replicateUnion);
+				parentShape.addNode(replicateUnion);
 				replicateUnion.setParent(parentShape);
 			}
 
@@ -217,7 +221,7 @@ public class ActionReplicateShape extends Action {
 			// The parent is the root GeometryComponent
 
 			synchronized (geometry) {
-				geometry.addEntity(replicateUnion);
+				geometry.addNode(replicateUnion);
 			}
 
 			view.treeViewer.refresh();

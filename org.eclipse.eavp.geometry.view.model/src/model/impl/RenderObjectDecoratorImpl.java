@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import geometry.INode;
 import model.IRenderElement;
+import model.ModelFactory;
 import model.ModelPackage;
 import model.RenderObjectDecorator;
 
@@ -178,25 +179,55 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getProperty(String property) {
-
-		// Delegate to the source element
 		return source.getProperty(property);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void setProperty(String property, Object value) {
-
-		// Delegate to the source element
 		source.setProperty(property, value);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public void copy(Object source) {
+
+		// If the other object is not a RenderObjectDecorator, fail silently
+		if (source instanceof RenderObjectDecorator) {
+
+			// Set the source to a clone of the other object's source
+			this.source = (IRenderElement<T>) ((RenderObjectDecorator<T>) source)
+					.getSource().clone();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public Object clone() {
+
+		// Create a new RenderObjectDecorator
+		RenderObjectDecorator<T> clone = ModelFactory.eINSTANCE
+				.createRenderObjectDecorator();
+
+		// Make it a copy of this
+		clone.copy(this);
+		return clone;
 	}
 
 	/**
@@ -277,11 +308,16 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 		case ModelPackage.RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST:
 			handleChildren((EList<IRenderElement<T>>) arguments.get(0));
 			return null;
-		case ModelPackage.RENDER_OBJECT_DECORATOR___GET_PROPERTY:
+		case ModelPackage.RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING:
 			return getProperty((String) arguments.get(0));
 		case ModelPackage.RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT:
 			setProperty((String) arguments.get(0), arguments.get(1));
 			return null;
+		case ModelPackage.RENDER_OBJECT_DECORATOR___COPY__OBJECT:
+			copy(arguments.get(0));
+			return null;
+		case ModelPackage.RENDER_OBJECT_DECORATOR___CLONE:
+			return clone();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

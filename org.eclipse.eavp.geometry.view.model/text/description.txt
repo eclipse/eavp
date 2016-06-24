@@ -39,6 +39,8 @@ Package model <http://www.eclipse.org/>
     Operation handleChildren(EEList) : void
     Operation getProperty(EString) : Object
     Operation setProperty(EString, Object) : void
+    Operation copy(Object) : void
+    Operation clone() : Object
 
   DataType INode <geometry.INode>
 

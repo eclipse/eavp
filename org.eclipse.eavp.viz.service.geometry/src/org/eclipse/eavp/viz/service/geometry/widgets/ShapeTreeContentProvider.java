@@ -12,14 +12,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.base.BasicController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
+import model.IRenderElement;
 
 /**
  * <p>
@@ -62,23 +59,20 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		// If the element is an IShape, call its accept() operation to
 		// trigger the visit() call
 
-		if (parentElement instanceof ShapeController) {
+		if (parentElement instanceof IRenderElement) {
 			temporaryChildren = null;
 
 			// Call the parentShape's accept operation to call the appropriate
 			// visit member function in this class
 
-			ShapeController parentShape = (ShapeController) parentElement;
+			IRenderElement parentShape = (IRenderElement) parentElement;
 
-			if (parentShape
-					.getProperty(GeometryMeshProperty.OPERATOR) != null) {
+			if (!parentShape.getBase().getNodes().isEmpty()) {
 
 				// IShape is a ComplexShape, so put its children in the
 				// temporary children field
 
-				temporaryChildren = parentShape
-						.getEntitiesFromCategory(MeshCategory.CHILDREN)
-						.toArray();
+				temporaryChildren = parentShape.getBase().getNodes().toArray();
 
 				// Use a blank state if there are no children to display
 
@@ -122,11 +116,10 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	public Object[] getElements(Object inputElement) {
 
 		// If the element is a GeometryComponent, return its shapes
-		if (inputElement instanceof BasicController) {
+		if (inputElement instanceof IRenderElement) {
 			// Return an array of the GeometryComponent's shapes
-			IController parentGeometry = (IController) inputElement;
-			return parentGeometry.getEntitiesFromCategory(MeshCategory.CHILDREN)
-					.toArray();
+			IRenderElement parentGeometry = (IRenderElement) inputElement;
+			return parentGeometry.getBase().getNodes().toArray();
 		} else {
 			return null;
 		}
@@ -152,13 +145,13 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 
 		// Return null if the element is not an IShape
 
-		if (!(element instanceof ShapeController)) {
+		if (!(element instanceof IRenderElement)) {
 			return null;
 		}
 		// Return the object's parent
 
-		ShapeController shape = (ShapeController) element;
-		return shape.getEntitiesFromCategory(MeshCategory.PARENT);
+		IRenderElement shape = (IRenderElement) element;
+		return shape.getBase().getParent();
 
 	}
 
@@ -245,7 +238,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		/**
 		 * The shape which "contains" this blank shape object
 		 */
-		private ShapeController parent;
+		private IRenderElement parent;
 
 		/**
 		 * Initializes the BlankShape with a parent
@@ -253,7 +246,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		 * @param parent
 		 *            The parent shape in the TreeViewer hierarchy
 		 */
-		public BlankShape(ShapeController parent) {
+		public BlankShape(IRenderElement parent) {
 			this.parent = parent;
 		}
 
@@ -262,7 +255,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		 * 
 		 * @return The parent shape
 		 */
-		public ShapeController getParent() {
+		public IRenderElement getParent() {
 			return parent;
 		}
 	}

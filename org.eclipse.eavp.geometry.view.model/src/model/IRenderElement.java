@@ -73,4 +73,26 @@ public interface IRenderElement<T> extends EObject {
 	 */
 	void setProperty(String property, Object value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Makes this object into a deep copy of the source object, if it is an appropriate type.
+	 * <!-- end-model-doc -->
+	 * @model sourceDataType="model.Object"
+	 * @generated
+	 */
+	void copy(Object source);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Make a new copy of this object.
+	 * <!-- end-model-doc -->
+	 * @model dataType="model.Object"
+	 * @generated
+	 */
+	Object clone();
+
 } // IRenderElement

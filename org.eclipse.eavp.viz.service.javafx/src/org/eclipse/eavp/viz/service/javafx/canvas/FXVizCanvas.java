@@ -14,7 +14,6 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
-import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
@@ -57,9 +56,6 @@ public class FXVizCanvas implements IVizCanvas {
 	/** The JFace viewer for displaying viz geometry. */
 	protected BasicViewer viewer;
 
-	/** The modeling object that is currently set on the viewer. */
-	protected IController controllerRoot;
-
 	/**
 	 * The modeling object that is currently set on the viewer.
 	 */
@@ -73,18 +69,6 @@ public class FXVizCanvas implements IVizCanvas {
 
 	/** ICE properties. */
 	private Map<String, String> properties;
-
-	/**
-	 * <p>
-	 * Creates a canvas for the supplied geometry.
-	 * </p>
-	 * 
-	 * @param geometry
-	 *            ICE Geometry instance to visualizer in the canvas.
-	 */
-	public FXVizCanvas(IController geometry) {
-		this.controllerRoot = geometry;
-	}
 
 	/**
 	 * Creates a canvas for the supplied geometry.

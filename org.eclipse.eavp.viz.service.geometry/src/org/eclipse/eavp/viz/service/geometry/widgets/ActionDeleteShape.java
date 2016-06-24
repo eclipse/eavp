@@ -14,9 +14,6 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -24,6 +21,10 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
+
+import geometry.Geometry;
+import geometry.INode;
+import model.IRenderElement;
 
 /**
  * <p>
@@ -101,7 +102,7 @@ public class ActionDeleteShape extends Action {
 				.getSelection();
 		TreePath[] paths = selection.getPaths();
 
-		IController geometry = (IController) view.treeViewer.getInput();
+		Geometry geometry = (Geometry) view.treeViewer.getInput();
 
 		// Loop through each TreePath
 
@@ -111,18 +112,17 @@ public class ActionDeleteShape extends Action {
 
 			// Check if the selected object is an IShape
 
-			if (selectedObject instanceof ShapeController) {
+			if (selectedObject instanceof IRenderElement) {
 
-				ShapeController selectedShape = (ShapeController) selectedObject;
-				ShapeController parentShape = (ShapeController) selectedShape
-						.getEntitiesFromCategory(MeshCategory.PARENT).get(0);
+				IRenderElement selectedShape = (IRenderElement) selectedObject;
+				INode parentShape = selectedShape.getBase().getParent();
 
-				if (parentShape instanceof ShapeController) {
+				if (parentShape instanceof INode) {
 
 					// Remove the selected shape from the parent
 
 					synchronized (geometry) {
-						parentShape.removeEntity(selectedShape);
+						parentShape.removeNode(selectedShape.getBase());
 					}
 
 					view.treeViewer.refresh(parentShape);
@@ -134,7 +134,7 @@ public class ActionDeleteShape extends Action {
 					// so try removing it from there.
 
 					synchronized (geometry) {
-						geometry.removeEntity(selectedShape);
+						geometry.removeNode(selectedShape.getBase());
 					}
 					view.treeViewer.refresh();
 				}

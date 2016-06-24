@@ -17,9 +17,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import geometry.GeometryFactory;
 import geometry.GeometryPackage;
 import geometry.INode;
 import geometry.Operator;
+import geometry.Shape;
 import geometry.Triangle;
 import geometry.Vertex;
 
@@ -36,6 +38,7 @@ import geometry.Vertex;
  *   <li>{@link geometry.impl.OperatorImpl#getType <em>Type</em>}</li>
  *   <li>{@link geometry.impl.OperatorImpl#getTriangles <em>Triangles</em>}</li>
  *   <li>{@link geometry.impl.OperatorImpl#getCenter <em>Center</em>}</li>
+ *   <li>{@link geometry.impl.OperatorImpl#getParent <em>Parent</em>}</li>
  * </ul>
  *
  * @generated
@@ -117,6 +120,14 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 	 */
 	protected Vertex center;
 
+	/**
+	 * The cached value of the '{@link #getParent() <em>Parent</em>}' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getParent()
+	 * @generated
+	 * @ordered
+	 */
+	protected INode parent;
 	/**
 	 * A map of the operator's properties, mapping from the property name to its
 	 * value.
@@ -269,6 +280,43 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
+	public INode getParent() {
+		if (parent != null && parent.eIsProxy()) {
+			InternalEObject oldParent = (InternalEObject)parent;
+			parent = (INode)eResolveProxy(oldParent);
+			if (parent != oldParent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GeometryPackage.OPERATOR__PARENT, oldParent, parent));
+			}
+		}
+		return parent;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public INode basicGetParent() {
+		return parent;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setParent(INode newParent) {
+		INode oldParent = parent;
+		parent = newParent;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GeometryPackage.OPERATOR__PARENT, oldParent, parent));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public void changeDecoratorProperty(String property, Object value) {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -286,21 +334,143 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getProperty(final String property) {
 		return properties.get(property);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setProperty(final String property, final double value) {
 		properties.put(property, value);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public void addNode(INode child) {
+
+		// Set self as the child's parent
+		child.setParent(this);
+
+		// Add the child to the list
+		nodes.add(child);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public void removeNode(INode child) {
+
+		// If the node is not already a child of this, fail silently
+		if (nodes.contains(child)) {
+
+			// Remove self as child's parent.
+			child.setParent(null);
+
+			// Remove the child from the list
+			nodes.remove(child);
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public void copy(Object source) {
+
+		// If the source is not a Shape, fail silently
+		if (source instanceof Operator) {
+
+			// Cast the source into a shape
+			Shape castSource = (Shape) source;
+
+			// Copy the data members
+			name = castSource.getName();
+			id = castSource.getId();
+			type = castSource.getType();
+
+			// Create a new center
+			center = GeometryFactory.eINSTANCE.createVertex();
+
+			// Make the center a copy of the source's
+			Vertex sourceCenter = castSource.getCenter();
+			center.setX(sourceCenter.getX());
+			center.setY(sourceCenter.getY());
+			center.setZ(sourceCenter.getZ());
+
+			// Empty the triangles array
+			triangles.clear();
+
+			// Copy each triangle in the source
+			for (Triangle triangle : castSource.getTriangles()) {
+
+				// The new triangle being created
+				Triangle clone = GeometryFactory.eINSTANCE.createTriangle();
+
+				// Copy each vertex in the triangle
+				for (Vertex vertex : triangle.getVertices()) {
+
+					// The new vertex being created
+					Vertex cloneVertex = GeometryFactory.eINSTANCE
+							.createVertex();
+
+					// Copy the coordinates
+					cloneVertex.setX(vertex.getX());
+					cloneVertex.setY(vertex.getY());
+					cloneVertex.setZ(vertex.getZ());
+
+					// Add the vertex to the triangle
+					clone.getVertices().add(cloneVertex);
+				}
+
+				// Set the normal to a copy of the triangle's
+				Vertex normal = triangle.getNormal();
+				Vertex cloneNormal = GeometryFactory.eINSTANCE.createVertex();
+				cloneNormal.setX(normal.getX());
+				cloneNormal.setY(normal.getY());
+				cloneNormal.setZ(normal.getZ());
+				clone.setNormal(cloneNormal);
+
+				// Add the cloned triangle to the list
+				triangles.add(clone);
+			}
+
+			// Remove all nodes
+			for (INode node : nodes) {
+				removeNode(node);
+			}
+
+			// Add a copy of each of the source's children
+			for (INode node : castSource.getNodes()) {
+				addNode((INode) node.clone());
+			}
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object clone() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -339,6 +509,9 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 			case GeometryPackage.OPERATOR__CENTER:
 				if (resolve) return getCenter();
 				return basicGetCenter();
+			case GeometryPackage.OPERATOR__PARENT:
+				if (resolve) return getParent();
+				return basicGetParent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -371,6 +544,9 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 			case GeometryPackage.OPERATOR__CENTER:
 				setCenter((Vertex)newValue);
 				return;
+			case GeometryPackage.OPERATOR__PARENT:
+				setParent((INode)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -400,6 +576,9 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 			case GeometryPackage.OPERATOR__CENTER:
 				setCenter((Vertex)null);
 				return;
+			case GeometryPackage.OPERATOR__PARENT:
+				setParent((INode)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -423,6 +602,8 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 				return triangles != null && !triangles.isEmpty();
 			case GeometryPackage.OPERATOR__CENTER:
 				return center != null;
+			case GeometryPackage.OPERATOR__PARENT:
+				return parent != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -445,6 +626,17 @@ public class OperatorImpl extends MinimalEObjectImpl.Container
 			case GeometryPackage.OPERATOR___SET_PROPERTY__STRING_DOUBLE:
 				setProperty((String)arguments.get(0), (Double)arguments.get(1));
 				return null;
+			case GeometryPackage.OPERATOR___ADD_NODE__INODE:
+				addNode((INode)arguments.get(0));
+				return null;
+			case GeometryPackage.OPERATOR___REMOVE_NODE__INODE:
+				removeNode((INode)arguments.get(0));
+				return null;
+			case GeometryPackage.OPERATOR___COPY__OBJECT:
+				copy(arguments.get(0));
+				return null;
+			case GeometryPackage.OPERATOR___CLONE:
+				return clone();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

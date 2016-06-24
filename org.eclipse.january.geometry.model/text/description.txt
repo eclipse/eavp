@@ -46,10 +46,15 @@ Package geometry <http://www.eclipse.org/>
     Attribute type : EString
     Reference triangles : Triangle<<0..*>>
     Reference center : Vertex<<1..1>>
+    Reference parent : INode
     Operation changeDecoratorProperty(EString, Object) : void
     Operation getPropertyNames() : EString<<0..*>>
     Operation getProperty(EString) : EDouble
     Operation setProperty(EString, EDouble) : void
+    Operation addNode(INode) : void
+    Operation removeNode(INode) : void
+    Operation copy(Object) : void
+    Operation clone() : Object
 
   Class Operator -> INode
 

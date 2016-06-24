@@ -20,7 +20,6 @@ import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
 import org.eclipse.eavp.viz.service.javafx.viewer.IAttachmentManager;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -245,14 +244,13 @@ public class FXAttachment extends BasicAttachment {
 
 			// Register to listen for changes from the geometry or its children
 			// INodes
-			((BasicNotifierImpl) geom.getNodes()).eAdapters()
-					.add(new EContentAdapter() {
+			geom.eAdapters().add(new EContentAdapter() {
 
-						@Override
-						public void notifyChanged(Notification notification) {
-							handleUpdate(geom, notification);
-						}
-					});
+				@Override
+				public void notifyChanged(Notification notification) {
+					handleUpdate(geom, notification);
+				}
+			});
 
 			// Add the geometry to the list of known parts
 			knownParts.add(geom);
