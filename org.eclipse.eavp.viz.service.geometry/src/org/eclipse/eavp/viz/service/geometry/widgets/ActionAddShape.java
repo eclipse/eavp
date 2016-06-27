@@ -262,28 +262,24 @@ public class ActionAddShape extends Action {
 	 */
 	public INode createShape() {
 
+		// The shape being created
 		INode shape = null;
-
-		// Determine which type of shape should be created
-
-		// Instantiate a PrimitiveShape and set its name and ID
-		INode shapeComponent;
 
 		// Create a node of the approrpiate type
 		if ("cube".equals(type)) {
-			shapeComponent = GeometryFactory.eINSTANCE.createCube();
+			shape = GeometryFactory.eINSTANCE.createCube();
 		} else if ("cylinder".equals(type)) {
-			shapeComponent = GeometryFactory.eINSTANCE.createCylinder();
+			shape = GeometryFactory.eINSTANCE.createCylinder();
 		} else if ("sphere".equals(type)) {
-			shapeComponent = GeometryFactory.eINSTANCE.createSphere();
+			shape = GeometryFactory.eINSTANCE.createSphere();
 		} else if ("tube".equals(type)) {
-			shapeComponent = GeometryFactory.eINSTANCE.createTube();
+			shape = GeometryFactory.eINSTANCE.createTube();
 		} else if ("union".equals(type)) {
-			shapeComponent = GeometryFactory.eINSTANCE.createUnion();
+			shape = GeometryFactory.eINSTANCE.createUnion();
 		} else if ("complement".equals(type)) {
-			shapeComponent = GeometryFactory.eINSTANCE.createComplement();
+			shape = GeometryFactory.eINSTANCE.createComplement();
 		} else if ("intersection".equals(type)) {
-			shapeComponent = GeometryFactory.eINSTANCE.createIntersection();
+			shape = GeometryFactory.eINSTANCE.createIntersection();
 		}
 
 		currentShapeId++;

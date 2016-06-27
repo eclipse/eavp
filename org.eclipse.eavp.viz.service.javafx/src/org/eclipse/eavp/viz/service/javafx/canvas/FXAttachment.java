@@ -20,6 +20,7 @@ import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
 import org.eclipse.eavp.viz.service.javafx.viewer.IAttachmentManager;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -51,11 +52,6 @@ public class FXAttachment extends BasicAttachment {
 	protected List<Geometry> knownParts;
 
 	/**
-	 * The list of elements representing the rendered nodes.
-	 */
-	protected List<IRenderElement<Group>> renderedNodes;
-
-	/**
 	 * The cache of all rendered meshes for this attachment.
 	 */
 	protected FXMeshCache cache;
@@ -71,7 +67,7 @@ public class FXAttachment extends BasicAttachment {
 	public FXAttachment(IAttachmentManager manager) {
 		this.manager = manager;
 		fxAttachmentNode = new Group();
-		renderedNodes = new ArrayList<IRenderElement<Group>>();
+		renderedNodes = new ArrayList<IRenderElement>();
 		cache = new FXMeshCache();
 	}
 
@@ -110,8 +106,17 @@ public class FXAttachment extends BasicAttachment {
 
 			// If something was added to the list, create a render object for it
 			if (notification.getEventType() == Notification.ADD) {
-				renderedNodes.add(createElement(
-						(geometry.INode) notification.getNewValue()));
+				IRenderElement element = createElement(
+						(geometry.INode) notification.getNewValue());
+				renderedNodes.add(element);
+
+				// Register as a listener for the new render element
+				element.eAdapters().add(new AdapterImpl() {
+					@Override
+					public void notifyChanged(Notification notification) {
+						handleUpdate(geom, notification);
+					}
+				});
 			}
 
 			// If something was removed, remove the render object for it
@@ -358,5 +363,4 @@ public class FXAttachment extends BasicAttachment {
 		// Remove the part from the list of seen parts
 		knownParts.remove(geom);
 	}
-
 }

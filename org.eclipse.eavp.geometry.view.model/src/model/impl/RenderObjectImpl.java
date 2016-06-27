@@ -249,6 +249,14 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	@Override
 	public void setProperty(String property, Object value) {
 		properties.put(property, value);
+
+		// Send a notification for the shape's set property method with the
+		// property name placed instead of the previous value. By convention,
+		// decorator classes will be set to interpret this non-standard
+		// notification message correctly and other listeners will ignore it.
+		eNotify(new ENotificationImpl(this, Notification.SET,
+				ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT,
+				property, value));
 	}
 
 	/**

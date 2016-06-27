@@ -38,6 +38,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.eavp.viz.service.AbstractSeries;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
@@ -66,6 +67,8 @@ import com.google.gson.JsonPrimitive;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+
+import geometry.Geometry;
 
 /**
  * This class is responsible for embedding ParaView-supported graphics inside
@@ -523,11 +526,12 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		// Get the plus icon image
 
 		String separator = System.getProperty("file.separator");
-		URL inImageURL = getClass().getResource(separator +
-				"icons" + separator + "add.png");
-		if(inImageURL == null){
+		URL inImageURL = getClass()
+				.getResource(separator + "icons" + separator + "add.png");
+		if (inImageURL == null) {
 			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path inImagePath = new Path("/icons" + System.getProperty("file.separator") + "add.png");
+			Path inImagePath = new Path("/icons"
+					+ System.getProperty("file.separator") + "add.png");
 			inImageURL = FileLocator.find(bundle, inImagePath, null);
 		}
 		ImageDescriptor inDescriptor = ImageDescriptor
@@ -563,11 +567,12 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the minus icon image
-		URL outImageURL = getClass().getResource(separator + "icons"
-				+ separator + "complement.gif");
-		if(outImageURL == null){
+		URL outImageURL = getClass().getResource(
+				separator + "icons" + separator + "complement.gif");
+		if (outImageURL == null) {
 			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path outImagePath = new Path("/icons" + System.getProperty("file.separator") + "complement.gif");
+			Path outImagePath = new Path("/icons"
+					+ System.getProperty("file.separator") + "complement.gif");
 			outImageURL = FileLocator.find(bundle, outImagePath, null);
 		}
 		ImageDescriptor outDescriptor = ImageDescriptor
@@ -603,11 +608,13 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the reset icon image
-		URL resetImageURL = getClass().getResource(separator + "icons"
-				+ separator + "iu_update_obj.gif");
-		if(resetImageURL == null){
+		URL resetImageURL = getClass().getResource(
+				separator + "icons" + separator + "iu_update_obj.gif");
+		if (resetImageURL == null) {
 			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path resetImagePath = new Path("/icons" + System.getProperty("file.separator") + "iu_update_obj.gif");
+			Path resetImagePath = new Path(
+					"/icons" + System.getProperty("file.separator")
+							+ "iu_update_obj.gif");
 			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
 		}
 		ImageDescriptor resetDescriptor = ImageDescriptor
@@ -1085,5 +1092,18 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	@Override
 	public int getNumAdditionalPages() {
 		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(geometry.
+	 * Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		// ParaView does not use IRenderElements
+		return null;
 	}
 }

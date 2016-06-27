@@ -219,11 +219,17 @@ public class TransformationView extends ViewPart {
 
 		if (shape != null) {
 
+			// Get the shape's current status
+			double opacity = shape.getProperty("opacity") == null ? 100
+					: (double) shape.getProperty("opacity");
+			boolean wireframe = shape.getProperty("wireframe") == null ? false
+					: (boolean) shape.getProperty(("wireframe"));
+
 			// Set the opacity combo's value based on the shape's transparency
 			// and wireframe status
-			if ((double) shape.getProperty("opacity") == 0d) {
+			if (opacity == 0d) {
 				opacityCombo.select(2);
-			} else if ((boolean) shape.getProperty("wireframe")) {
+			} else if (wireframe) {
 				opacityCombo.select(1);
 			} else {
 				opacityCombo.select(0);

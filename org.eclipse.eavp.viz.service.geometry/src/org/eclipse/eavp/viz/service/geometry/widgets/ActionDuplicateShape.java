@@ -113,9 +113,9 @@ public class ActionDuplicateShape extends Action {
 
 				// If there was no default, set the shape to grey
 				else {
-					clonedShape.setProperty("red", 127d);
-					clonedShape.setProperty("green", 127d);
-					clonedShape.setProperty("blue", 127d);
+					clonedShape.setProperty("red", 127);
+					clonedShape.setProperty("green", 127);
+					clonedShape.setProperty("blue", 127);
 				}
 
 				// Try to get the selected shape's parent shape

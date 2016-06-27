@@ -14,6 +14,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
 
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
@@ -43,14 +44,6 @@ public class ShapeTreeView extends ViewPart
 
 	/**
 	 * <p>
-	 * The currently displayed GeometryComponent
-	 * </p>
-	 * 
-	 */
-	private Geometry geometry;
-
-	/**
-	 * <p>
 	 * The main TreeViewer occupying the entire space of the view
 	 * </p>
 	 * 
@@ -67,6 +60,12 @@ public class ShapeTreeView extends ViewPart
 	 */
 	private ArrayList<IRenderElement> selectedShapes = new ArrayList<IRenderElement>();
 
+	/**
+	 * The holder for the render elements used to model the view's contents in
+	 * 3D.
+	 */
+	private IRenderElementHolder holder;
+
 	// The actions for manipulating shapes
 	private DropdownAction addPrimitiveShapes;
 	private DropdownAction addComplexShapes;
@@ -76,7 +75,9 @@ public class ShapeTreeView extends ViewPart
 
 	/**
 	 * <p>
-	 * Creates the SWT controls for this ShapeTreeView
+	 * Creates the SWT controls for this ShapeTreeView. It is assumed that
+	 * setRenderElementHolder() has already been called so that the content
+	 * provider will have access to the render elements.
 	 * </p>
 	 * 
 	 * @param parent
@@ -95,7 +96,8 @@ public class ShapeTreeView extends ViewPart
 
 		treeViewer = new TreeViewer(parent);
 
-		ShapeTreeContentProvider contentProvider = new ShapeTreeContentProvider();
+		ShapeTreeContentProvider contentProvider = new ShapeTreeContentProvider(
+				holder);
 		treeViewer.setContentProvider(contentProvider);
 
 		// Add label provider to TreeViewer
@@ -106,7 +108,6 @@ public class ShapeTreeView extends ViewPart
 		// Add selection listener to TreeViewer
 
 		treeViewer.addSelectionChangedListener(this);
-
 	}
 
 	/**
@@ -177,16 +178,27 @@ public class ShapeTreeView extends ViewPart
 	}
 
 	/**
+	 * Set the holder for the render elements used to model the view in 3D.
+	 * 
+	 * @param holder
+	 *            The new render element holder.
+	 */
+	public void setRenderElementHolder(IRenderElementHolder holder) {
+		this.holder = holder;
+		((ShapeTreeContentProvider) treeViewer.getContentProvider())
+				.setRenderElementHolder(holder);
+
+	}
+
+	/**
 	 * 
 	 * @param geometry
 	 */
-	public void setGeometry(Geometry geometry) {
-
-		this.geometry = geometry;
+	public void setGeometry(Geometry renderElements) {
 
 		// Set the TreeViewer's input
 
-		this.treeViewer.setInput(geometry);
+		this.treeViewer.setInput(renderElements);
 
 	}
 
@@ -288,12 +300,21 @@ public class ShapeTreeView extends ViewPart
 			}
 		}
 
-		// Recolor the shapes to show that they are selected
+		// Reset the shapes to their default colors to show they are no longer
+		// selected
 
 		for (IRenderElement selectedShape : selectedShapes) {
-			selectedShape.setProperty("red", 255);
-			selectedShape.setProperty("green", 0);
-			selectedShape.setProperty("blue", 0);
+
+			int red = selectedShape.getProperty("defaultRed") != null
+					? (int) selectedShape.getProperty("defaultRed") : 127;
+			int green = selectedShape.getProperty("defaultGreen") != null
+					? (int) selectedShape.getProperty("defaultGreen") : 127;
+			int blue = selectedShape.getProperty("defaultBlue") != null
+					? (int) selectedShape.getProperty("defaultBlue") : 127;
+
+			selectedShape.setProperty("red", red);
+			selectedShape.setProperty("green", green);
+			selectedShape.setProperty("blue", blue);
 		}
 
 		// Update the list of last-selected shapes

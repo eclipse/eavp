@@ -261,7 +261,7 @@ public class GeometryPackageImpl extends EPackageImpl
 	 */
 	@Override
 	public EOperation getShape__SetProperty__String_double() {
-		return shapeEClass.getEOperations().get(-1);
+		return shapeEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -271,7 +271,7 @@ public class GeometryPackageImpl extends EPackageImpl
 	 */
 	@Override
 	public EOperation getShape__GetProperty__String() {
-		return shapeEClass.getEOperations().get(-1);
+		return shapeEClass.getEOperations().get(1);
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class GeometryPackageImpl extends EPackageImpl
 	 */
 	@Override
 	public EOperation getShape__GetPropertyNames() {
-		return shapeEClass.getEOperations().get(-1);
+		return shapeEClass.getEOperations().get(2);
 	}
 
 	/**

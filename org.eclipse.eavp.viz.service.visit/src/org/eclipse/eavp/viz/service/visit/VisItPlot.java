@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.eavp.viz.service.AbstractSeries;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
@@ -41,6 +42,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import geometry.Geometry;
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import visit.java.client.FileInfo;
 import visit.java.client.ViewerMethods;
@@ -306,11 +308,12 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 
 		// Get the plus icon image
 		String separator = System.getProperty("file.separator");
-		URL inImageURL = getClass().getResource(separator + 
-				"icons" + separator + "add.png");
-		if(inImageURL == null){
+		URL inImageURL = getClass()
+				.getResource(separator + "icons" + separator + "add.png");
+		if (inImageURL == null) {
 			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path inImagePath = new Path("/icons" + System.getProperty("file.separator") + "add.png");
+			Path inImagePath = new Path("/icons"
+					+ System.getProperty("file.separator") + "add.png");
 			inImageURL = FileLocator.find(bundle, inImagePath, null);
 		}
 		ImageDescriptor inDescriptor = ImageDescriptor
@@ -330,11 +333,12 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		actions.add(zoomIn);
 
 		// Get the minus icon image
-		URL outImageURL = getClass().getResource(separator + "icons"
-				+ separator + "complement.gif");
-		if(outImageURL == null){
+		URL outImageURL = getClass().getResource(
+				separator + "icons" + separator + "complement.gif");
+		if (outImageURL == null) {
 			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path outImagePath = new Path("/icons" + System.getProperty("file.separator") + "complement.gif");
+			Path outImagePath = new Path("/icons"
+					+ System.getProperty("file.separator") + "complement.gif");
 			outImageURL = FileLocator.find(bundle, outImagePath, null);
 		}
 		ImageDescriptor outDescriptor = ImageDescriptor
@@ -354,11 +358,13 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 		actions.add(zoomOut);
 
 		// Get the refresh icon image
-		URL resetImageURL = getClass().getResource(separator + "icons"
-				+ separator + "iu_update_obj.gif");
-		if(resetImageURL == null){
+		URL resetImageURL = getClass().getResource(
+				separator + "icons" + separator + "iu_update_obj.gif");
+		if (resetImageURL == null) {
 			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path resetImagePath = new Path("/icons" + System.getProperty("file.separator") + "iu_update_obj.gif");
+			Path resetImagePath = new Path(
+					"/icons" + System.getProperty("file.separator")
+							+ "iu_update_obj.gif");
 			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
 		}
 		ImageDescriptor resetDescriptor = ImageDescriptor
@@ -619,5 +625,18 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 			}
 		}
 		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(geometry.
+	 * Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		// VisIt does not use IRenderElements
+		return null;
 	}
 }

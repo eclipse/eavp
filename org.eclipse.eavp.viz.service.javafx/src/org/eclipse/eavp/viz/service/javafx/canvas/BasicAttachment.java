@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
 
 import geometry.Geometry;
+import model.IRenderElement;
 
 /**
  * <p>
@@ -28,7 +30,8 @@ import geometry.Geometry;
  * @author Tony McCrary (tmccrary@l33tlabs.com)
  *
  */
-public abstract class BasicAttachment extends Attachment implements IModelPart {
+public abstract class BasicAttachment extends Attachment
+		implements IModelPart, IRenderElementHolder {
 
 	/**
 	 * Geometry that has been added but has not been integrated as the node
@@ -50,6 +53,11 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 
 	/** */
 	protected Geometry currentGeom = null;
+
+	/**
+	 * The list of elements representing the rendered nodes.
+	 */
+	protected ArrayList<IRenderElement> renderedNodes;
 
 	/**
 	 * 
@@ -265,4 +273,35 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 		this.immutable = immutable;
 	}
 
+	/**
+	 * Get the IRenderElements contained by this attachment.
+	 * 
+	 * @return The list of IRenderElements corresponding to the Geometry added
+	 *         to this attachment.
+	 */
+	public ArrayList<IRenderElement> getRenderedNodes() {
+		return renderedNodes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.geometry.shapes.IRenderElementHolder#
+	 * getRender(geometry.INode)
+	 */
+	@Override
+	public IRenderElement getRender(geometry.INode node) {
+
+		// Search the list of rendered nodes
+		for (IRenderElement element : renderedNodes) {
+
+			// If an element has the node as its base, return it
+			if (node == element.getBase()) {
+				return element;
+			}
+		}
+
+		// If no element containing the node was found, return null
+		return null;
+	}
 }

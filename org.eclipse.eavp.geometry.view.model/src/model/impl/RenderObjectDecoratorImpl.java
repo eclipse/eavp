@@ -123,13 +123,7 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 
 			@Override
 			public void notifyChanged(Notification notification) {
-
-				// If the update is from the setProperty() function, handle an
-				// update
-				if (notification.getFeatureID(
-						ModelPackage.class) == ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT) {
-					handleUpdate(notification);
-				}
+				handleUpdate(notification);
 			}
 
 		});

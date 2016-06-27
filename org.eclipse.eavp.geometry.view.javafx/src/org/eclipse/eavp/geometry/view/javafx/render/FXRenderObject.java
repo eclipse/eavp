@@ -85,6 +85,10 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 			render.setTranslateY(center.getY());
 			render.setTranslateZ(center.getZ());
 		}
+
+		render.setScaleX(10);
+		render.setScaleY(10);
+		render.setScaleZ(10);
 	}
 
 	/**

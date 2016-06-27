@@ -29,7 +29,7 @@ public interface Shape extends INode {
 	 * Returns the value of the '<em><b>Material</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Material</em>' reference isn't clear,
+	 * If the meaning of the '<em>Material</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -55,13 +55,14 @@ public interface Shape extends INode {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Get the names of all properties set for this shape.
+	 * Set one of the Shape's properties.
+	 * @param property The name of the property whose value is being set.
+	 * @param value The property's new value.
 	 * <!-- end-model-doc -->
-	 * @model kind="operation"
-	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='//Return a list of the properties\' keys.\r\nreturn new BasicEList<String>(properties.keySet());'"
+	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body='properties.put(property, value);'"
 	 * @generated
 	 */
-	EList<String> getPropertyNames();
+	void setProperty(String property, double value);
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -79,13 +80,12 @@ public interface Shape extends INode {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Set one of the Shape's properties.
-	 * @param property The name of the property whose value is being set.
-	 * @param value The property's new value.
+	 * Get the names of all properties set for this shape.
 	 * <!-- end-model-doc -->
-	 * @model annotation="http://www.eclipse.org/emf/2002/GenModel body='properties.put(property, value);'"
+	 * @model kind="operation"
+	 *        annotation="http://www.eclipse.org/emf/2002/GenModel body='//Return a list of the properties\' keys.\r\nreturn new BasicEList<String>(properties.keySet());'"
 	 * @generated
 	 */
-	void setProperty(String property, double value);
+	EList<String> getPropertyNames();
 
 } // Shape

@@ -14,6 +14,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
@@ -271,6 +272,18 @@ public class FXVizCanvas implements IVizCanvas {
 	@Override
 	public void setProperties(Map<String, String> props) throws Exception {
 		this.properties = props;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(geometry.
+	 * Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		return rootAtachment;
 	}
 
 }

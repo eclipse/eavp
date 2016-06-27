@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
-import model.ModelPackage;
 import model.impl.ColorDecoratorImpl;
 
 /**
@@ -84,25 +83,19 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 	@Override
 	protected void handleUpdate(Notification notification) {
 
-		// If a property was set, then check if it was relevant to this
-		// decorator
-		if (notification.getFeatureID(
-				ModelPackage.class) == ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT) {
+		// Get the property
+		Object property = notification.getOldValue();
 
-			// Get the property
-			String property = notification.getOldStringValue();
-
-			// Check if the property is any of the RGB colors. If so,
-			// set the decorator's color correctly
-			if (property.equals("red")) {
-				setRed((int) notification.getNewValue());
-			}
-			if (property.equals("green")) {
-				setGreen((int) notification.getNewValue());
-			}
-			if (property.equals("blue")) {
-				setBlue((int) notification.getNewValue());
-			}
+		// Check if the property is any of the RGB colors. If so,
+		// set the decorator's color correctly
+		if ("red".equals(property)) {
+			setRed((int) notification.getNewValue());
+		}
+		if ("green".equals(property)) {
+			setGreen((int) notification.getNewValue());
+		}
+		if ("blue".equals(property)) {
+			setBlue((int) notification.getNewValue());
 		}
 
 		// Pass the update along to own listeners

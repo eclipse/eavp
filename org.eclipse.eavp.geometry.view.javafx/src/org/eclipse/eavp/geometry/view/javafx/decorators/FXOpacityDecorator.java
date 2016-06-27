@@ -12,9 +12,7 @@ package org.eclipse.eavp.geometry.view.javafx.decorators;
 
 import org.eclipse.emf.common.notify.Notification;
 
-import geometry.GeometryPackage;
 import javafx.scene.Group;
-import model.ModelPackage;
 import model.impl.OpacityDecoratorImpl;
 
 /**
@@ -59,15 +57,9 @@ public class FXOpacityDecorator extends OpacityDecoratorImpl<Group> {
 	@Override
 	protected void handleUpdate(Notification notification) {
 
-		// If a property was set, check if it was relevant to this
-		// decorator
-		if (notification.getFeatureID(
-				GeometryPackage.class) == ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT) {
-
-			// If the opacity was changed, update to the new value
-			if (notification.getOldStringValue().equals("opacity")) {
-				setOpacity((double) notification.getNewValue());
-			}
+		// If the opacity was changed, update to the new value
+		if ("opacity".equals(notification.getOldValue())) {
+			setOpacity((double) notification.getNewValue());
 		}
 
 		// Pass the update to own listeners

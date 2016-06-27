@@ -12,7 +12,6 @@ package org.eclipse.eavp.geometry.view.javafx.decorators;
 
 import org.eclipse.emf.common.notify.Notification;
 
-import geometry.GeometryPackage;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.DrawMode;
@@ -85,19 +84,16 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 	@Override
 	protected void handleUpdate(Notification notification) {
 
-		// If a property was set, check if it was relevant to this
-		// decorator
-		if (notification.getFeatureID(
-				GeometryPackage.class) == GeometryPackage.SHAPE___SET_PROPERTY__STRING_DOUBLE) {
+		// If the wireframe was changed, update to the new value
+		if ("wireframe".equals(notification.getOldValue())) {
 
-			// If the wireframe was changed, update to the new value
-			if (notification.getOldStringValue().equals("wireframe")) {
-
-				// Set the local wireframe variable according to the new
-				// value
-				wireframe = (boolean) notification.getNewValue();
-			}
+			// Set the local wireframe variable according to the new
+			// value
+			wireframe = (boolean) notification.getNewValue();
 		}
+
+		// Pass on the update to own observers
+		super.handleUpdate(notification);
 	}
 
 	/*

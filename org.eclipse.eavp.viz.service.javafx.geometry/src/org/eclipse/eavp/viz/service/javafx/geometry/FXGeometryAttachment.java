@@ -62,7 +62,7 @@ public class FXGeometryAttachment extends FXAttachment {
 
 		// Add a wireframe decorator
 		FXWireframeDecorator wireframeDecorator = new FXWireframeDecorator();
-		wireframeDecorator.setSource(render);
+		wireframeDecorator.setSource(opacityDecorator);
 
 		return wireframeDecorator;
 	}
