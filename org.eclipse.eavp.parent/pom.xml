@@ -245,9 +245,9 @@
 					<target>
 						<artifact>
 							<groupId>org.eclipse.eavp</groupId>
-							<artifactId>org.eclipse.eavp.target.mars</artifactId>
+							<artifactId>org.eclipse.eavp.target.neon</artifactId>
 							<version>2.1.8-SNAPSHOT</version>
-							<classifier>mars</classifier>
+							<classifier>neon</classifier>
 						</artifact>
 					</target>
 					<filters>
