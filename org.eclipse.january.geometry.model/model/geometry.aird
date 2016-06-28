@@ -8195,6 +8195,10 @@
                 <styles xmi:type="notation:FontStyle" xmi:id="_dZPyxzh4EeaUbMRZkEblxQ" fontName="Segoe UI" fontHeight="8"/>
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_dZPyyDh4EeaUbMRZkEblxQ"/>
               </children>
+              <children xmi:type="notation:Node" xmi:id="_7WCgAD1BEea7ytrbCBLwpg" type="3010" element="_7VKWQD1BEea7ytrbCBLwpg">
+                <styles xmi:type="notation:FontStyle" xmi:id="_7WCgAT1BEea7ytrbCBLwpg" fontName="Segoe UI" fontHeight="8"/>
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_7WCgAj1BEea7ytrbCBLwpg"/>
+              </children>
               <styles xmi:type="notation:SortingStyle" xmi:id="_dZC-cTh4EeaUbMRZkEblxQ"/>
               <styles xmi:type="notation:FilteringStyle" xmi:id="_dZC-cjh4EeaUbMRZkEblxQ"/>
             </children>
@@ -8768,6 +8772,14 @@
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
+        </ownedElements>
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_7VKWQD1BEea7ytrbCBLwpg" name="clone() : Object" tooltipText="clone() : Object">
+          <target xmi:type="ecore:EOperation" href="geometry.ecore#//Vertex/clone"/>
+          <semanticElements xmi:type="ecore:EOperation" href="geometry.ecore#//Vertex/clone"/>
+          <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_7VLkYD1BEea7ytrbCBLwpg" labelAlignment="LEFT">
+            <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']/@style"/>
+          </ownedStyle>
+          <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_dXrFcDh4EeaUbMRZkEblxQ" name="Sphere" tooltipText="" outgoingEdges="_dYwqkzh4EeaUbMRZkEblxQ" width="12" height="10">

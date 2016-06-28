@@ -26,9 +26,13 @@ import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import geometry.Cube;
+import geometry.Cylinder;
 import geometry.Geometry;
 import geometry.GeometryFactory;
 import geometry.INode;
+import geometry.Sphere;
+import geometry.Tube;
 import model.IRenderElement;
 
 /**
@@ -268,12 +272,19 @@ public class ActionAddShape extends Action {
 		// Create a node of the approrpiate type
 		if ("cube".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createCube();
+			((Cube) shape).setSideLength(5);
 		} else if ("cylinder".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createCylinder();
+			((Cylinder) shape).setHeight(5);
+			((Cylinder) shape).setRadius(5);
 		} else if ("sphere".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createSphere();
+			((Sphere) shape).setRadius(5);
 		} else if ("tube".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createTube();
+			((Tube) shape).setHeight(5);
+			((Tube) shape).setInnerRadius(2.5);
+			((Tube) shape).setRadius(5);
 		} else if ("union".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createUnion();
 		} else if ("complement".equals(type)) {

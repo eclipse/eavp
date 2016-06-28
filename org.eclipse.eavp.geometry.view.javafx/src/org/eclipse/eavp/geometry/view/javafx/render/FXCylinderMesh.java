@@ -32,7 +32,7 @@ public class FXCylinderMesh implements IFXShapeMesh {
 	/**
 	 * The number of vertical segments into which the mesh will be divided.
 	 */
-	final private int SEGMENTS = 10;
+	final private int SEGMENTS = 2;
 
 	/*
 	 * (non-Javadoc)

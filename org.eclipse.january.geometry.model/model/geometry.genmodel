@@ -27,6 +27,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Vertex/x"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Vertex/y"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Vertex/z"/>
+      <genOperations ecoreOperation="geometry.ecore#//Vertex/clone"/>
     </genClasses>
     <genClasses ecoreClass="geometry.ecore#//Sphere">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Sphere/radius"/>

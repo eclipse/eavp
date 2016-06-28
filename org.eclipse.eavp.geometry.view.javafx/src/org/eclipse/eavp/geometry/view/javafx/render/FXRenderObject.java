@@ -130,6 +130,9 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 			render.setTranslateY(center.getY());
 			render.setTranslateZ(center.getZ());
 		}
+
+		// Pass the update on to own observer
+		eNotify(notification);
 	}
 
 	/*

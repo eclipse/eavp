@@ -360,6 +360,16 @@ public class GeometryPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EOperation getVertex__Clone() {
+		return vertexEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EClass getSphere() {
 		return sphereEClass;
 	}
@@ -800,6 +810,7 @@ public class GeometryPackageImpl extends EPackageImpl
 		createEAttribute(vertexEClass, VERTEX__X);
 		createEAttribute(vertexEClass, VERTEX__Y);
 		createEAttribute(vertexEClass, VERTEX__Z);
+		createEOperation(vertexEClass, VERTEX___CLONE);
 
 		sphereEClass = createEClass(SPHERE);
 		createEAttribute(sphereEClass, SPHERE__RADIUS);
@@ -950,6 +961,9 @@ public class GeometryPackageImpl extends EPackageImpl
 		initEAttribute(getVertex_Z(), ecorePackage.getEDouble(), "z", null, 0,
 				1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
 				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getVertex__Clone(), this.getObject(), "clone", 0, 1,
+				IS_UNIQUE, IS_ORDERED);
 
 		initEClass(sphereEClass, Sphere.class, "Sphere", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

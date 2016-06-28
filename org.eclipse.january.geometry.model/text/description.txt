@@ -21,6 +21,7 @@ Package geometry <http://www.eclipse.org/>
     Attribute x : EDouble
     Attribute y : EDouble
     Attribute z : EDouble
+    Operation clone() : Object
 
   Class Sphere -> Shape
     Attribute radius : EDouble
