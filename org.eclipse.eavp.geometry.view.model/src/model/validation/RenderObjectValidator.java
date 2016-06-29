@@ -4,7 +4,7 @@
  */
 package model.validation;
 
-import geometry.INode;
+import org.eclipse.january.geometry.INode;
 
 import model.MeshCache;
 

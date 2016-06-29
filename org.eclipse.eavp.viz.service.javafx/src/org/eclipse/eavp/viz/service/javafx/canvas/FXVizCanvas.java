@@ -18,6 +18,7 @@ import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
@@ -26,8 +27,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import geometry.Geometry;
 
 /**
  * <p>

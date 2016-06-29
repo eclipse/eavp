@@ -11,8 +11,8 @@
 package model.tests;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.january.geometry.Triangle;
 
-import geometry.Triangle;
 import model.impl.MeshCacheImpl;
 
 /**

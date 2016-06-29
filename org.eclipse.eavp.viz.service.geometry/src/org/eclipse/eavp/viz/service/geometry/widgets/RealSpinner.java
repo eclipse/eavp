@@ -316,4 +316,15 @@ public class RealSpinner {
 			setValue(value);
 		}
 	}
+
+	/**
+	 * Sets the spinner's visibility.
+	 * 
+	 * @param visible
+	 *            If false, the spinner's text widget will not be drawn.
+	 *            Otherwise, the text box will be made visible.
+	 */
+	public void setVisible(boolean visible) {
+		textWidget.setVisible(visible);
+	}
 }

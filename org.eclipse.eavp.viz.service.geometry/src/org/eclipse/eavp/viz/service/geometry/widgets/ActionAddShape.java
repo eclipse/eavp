@@ -18,6 +18,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
+import org.eclipse.january.geometry.Cube;
+import org.eclipse.january.geometry.Cylinder;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Sphere;
+import org.eclipse.january.geometry.Tube;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -26,13 +33,6 @@ import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import geometry.Cube;
-import geometry.Cylinder;
-import geometry.Geometry;
-import geometry.GeometryFactory;
-import geometry.INode;
-import geometry.Sphere;
-import geometry.Tube;
 import model.IRenderElement;
 
 /**

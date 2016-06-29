@@ -22,8 +22,8 @@ import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.visit.connections.VisItConnectionManager;
+import org.eclipse.january.geometry.Geometry;
 
-import geometry.Geometry;
 import gov.lbnl.visit.swt.VisItSwtConnection;
 
 /**

@@ -15,10 +15,9 @@ import static org.junit.Assert.assertEquals;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXOpacityDecorator;
 import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Shape;
 import org.junit.Test;
-
-import geometry.GeometryFactory;
-import geometry.Shape;
 
 /**
  * A class to test the functionality of the FXOpacityDecorator.

@@ -35,6 +35,7 @@ import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -42,7 +43,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import geometry.Geometry;
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import visit.java.client.FileInfo;
 import visit.java.client.ViewerMethods;

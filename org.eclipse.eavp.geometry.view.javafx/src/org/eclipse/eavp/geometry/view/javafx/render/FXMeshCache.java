@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.january.geometry.Triangle;
+import org.eclipse.january.geometry.Vertex;
 
-import geometry.Triangle;
-import geometry.Vertex;
 import javafx.scene.shape.TriangleMesh;
 import model.impl.MeshCacheImpl;
 

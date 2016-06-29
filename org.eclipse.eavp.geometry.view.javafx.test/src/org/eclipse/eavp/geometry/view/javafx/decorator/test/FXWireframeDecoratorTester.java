@@ -16,10 +16,10 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
 import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Shape;
 import org.junit.Test;
 
-import geometry.GeometryFactory;
-import geometry.Shape;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 

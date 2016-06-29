@@ -35,6 +35,7 @@ import org.eclipse.eavp.viz.service.test.FakePlot;
 import org.eclipse.eavp.viz.service.test.FakeSeries;
 import org.eclipse.eavp.viz.service.test.utils.AbstractSWTTester;
 import org.eclipse.eavp.viz.service.widgets.PlotGridComposite;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -45,8 +46,6 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotSpinner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotToolbarButton;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import geometry.Geometry;
 
 /**
  * This class tests the {@link PlotGridComposite}'s UI features.

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.render;
 
-import org.eclipse.eavp.viz.modeling.MeshUtils;
+import org.eclipse.january.geometry.util.MeshUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

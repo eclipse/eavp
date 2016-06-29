@@ -2,8 +2,6 @@
  */
 package model.impl;
 
-import geometry.INode;
-import geometry.Triangle;
 import model.ColorDecorator;
 import model.IRenderElement;
 import model.MeshCache;
@@ -25,6 +23,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Triangle;
 
 /**
  * <!-- begin-user-doc -->

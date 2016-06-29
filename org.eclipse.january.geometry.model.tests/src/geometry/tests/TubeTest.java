@@ -2,8 +2,8 @@
  */
 package geometry.tests;
 
-import geometry.GeometryFactory;
-import geometry.Tube;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Tube;
 
 import junit.textui.TestRunner;
 

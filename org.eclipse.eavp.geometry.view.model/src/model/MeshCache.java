@@ -2,10 +2,10 @@
  */
 package model;
 
-import geometry.Triangle;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.january.geometry.Triangle;
 
 /**
  * <!-- begin-user-doc -->

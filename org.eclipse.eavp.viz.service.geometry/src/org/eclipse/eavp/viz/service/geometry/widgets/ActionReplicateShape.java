@@ -14,6 +14,11 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
 
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Union;
+import org.eclipse.january.geometry.Vertex;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -23,11 +28,6 @@ import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import geometry.Geometry;
-import geometry.GeometryFactory;
-import geometry.INode;
-import geometry.Union;
-import geometry.Vertex;
 import model.IRenderElement;
 
 /**

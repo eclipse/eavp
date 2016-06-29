@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.eavp.viz.service.visit;singleton:=true
 Bundle-Version: 2.1.8.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.jcraft.jsch;version="0.1.53",
- geometry,
  gov.lbnl.visit.swt,
  gov.lbnl.visit.swt.widgets,
  org.eclipse.eavp.viz.datastructures,
@@ -16,6 +15,7 @@ Import-Package: com.jcraft.jsch;version="0.1.53",
  org.eclipse.eavp.viz.service.connections.preferences,
  org.eclipse.eavp.viz.service.preferences,
  org.eclipse.eavp.viz.service.widgets,
+ org.eclipse.january.geometry,
  org.eclipse.jface.preference,
  org.eclipse.swt,
  org.eclipse.swt.graphics,

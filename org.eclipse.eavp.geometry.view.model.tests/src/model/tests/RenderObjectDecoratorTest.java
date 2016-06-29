@@ -3,9 +3,9 @@
 package model.tests;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.january.geometry.impl.ShapeImpl;
 import org.junit.Test;
 
-import geometry.impl.ShapeImpl;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 import model.ModelFactory;

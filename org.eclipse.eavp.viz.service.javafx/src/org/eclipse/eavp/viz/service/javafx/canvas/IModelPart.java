@@ -12,7 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.canvas;
 
 import java.util.List;
 
-import geometry.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * <p>
@@ -36,7 +36,7 @@ public interface IModelPart {
 	 * 
 	 * @param shape An EAVP CSG INode instance.
 	 */
-	public void addShape(geometry.INode shape);
+	public void addShape(org.eclipse.january.geometry.INode shape);
 	
 	/**
 	 * Removes a geometry from those displayed in the model.
@@ -50,7 +50,7 @@ public interface IModelPart {
 	 * 
 	 * @param shape The EAVP INode to remove.
 	 */
-	public void removeShape(geometry.INode shape);
+	public void removeShape(org.eclipse.january.geometry.INode shape);
 	
 	/**
 	 * Returns true if the entity contains the supplied INode, false otherwise.
@@ -59,7 +59,7 @@ public interface IModelPart {
 	 * 
 	 * @return true if the entity contains the supplied INode, false otherwise.
 	 */
-	public boolean hasShape(geometry.INode shape);
+	public boolean hasShape(org.eclipse.january.geometry.INode shape);
 
 	/**
 	 * <p>
@@ -71,7 +71,7 @@ public interface IModelPart {
 	 * 
 	 * @return a CSG INode instance or null if one cannot be found
 	 */
-	public geometry.INode getShape(int index);
+	public org.eclipse.january.geometry.INode getShape(int index);
 
 	/**
 	 * <p>
@@ -87,7 +87,7 @@ public interface IModelPart {
 	 * 
 	 * @return a List of INodes associated with this shape.
 	 */
-	public List<geometry.INode> getShapes(boolean copy);
+	public List<org.eclipse.january.geometry.INode> getShapes(boolean copy);
 
 	/**
 	 * <p>

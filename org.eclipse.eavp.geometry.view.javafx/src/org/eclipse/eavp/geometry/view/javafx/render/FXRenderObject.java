@@ -13,9 +13,9 @@ package org.eclipse.eavp.geometry.view.javafx.render;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Vertex;
 
-import geometry.INode;
-import geometry.Vertex;
 import javafx.scene.Group;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;

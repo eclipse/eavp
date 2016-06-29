@@ -21,6 +21,7 @@ import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.ProxyPlot;
 import org.eclipse.eavp.viz.service.ProxySeries;
 import org.eclipse.eavp.viz.service.styles.XYZSeriesStyle;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.DisposeEvent;
@@ -28,8 +29,6 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
-
-import geometry.Geometry;
 
 /**
  * This class serves as a proxy for a normal {@link CSVPlot}, which is itself

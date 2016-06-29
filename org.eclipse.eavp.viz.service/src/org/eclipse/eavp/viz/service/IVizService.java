@@ -17,8 +17,7 @@ import java.util.Set;
 
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
-
-import geometry.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * This is a pluggable service interface whereby visualization engines can

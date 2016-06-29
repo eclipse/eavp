@@ -4,10 +4,10 @@ package model.tests;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Triangle;
+import org.eclipse.january.geometry.Vertex;
 
-import geometry.GeometryFactory;
-import geometry.Triangle;
-import geometry.Vertex;
 import junit.framework.TestCase;
 
 import junit.textui.TestRunner;

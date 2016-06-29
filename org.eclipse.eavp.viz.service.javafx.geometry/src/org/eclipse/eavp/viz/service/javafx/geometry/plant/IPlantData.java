@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
-import geometry.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * An interface for objects which contain the data which will be set to an

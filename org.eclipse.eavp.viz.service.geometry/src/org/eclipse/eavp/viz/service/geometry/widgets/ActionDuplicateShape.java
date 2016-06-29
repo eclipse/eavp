@@ -15,6 +15,8 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.net.URL;
 import java.util.List;
 
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -24,8 +26,6 @@ import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import geometry.Geometry;
-import geometry.INode;
 import model.IRenderElement;
 
 /**

@@ -31,13 +31,12 @@ import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.junit.Before;
 import org.junit.Test;
-
-import geometry.Geometry;
 
 /**
  * This class tests the connection management functionality provided by

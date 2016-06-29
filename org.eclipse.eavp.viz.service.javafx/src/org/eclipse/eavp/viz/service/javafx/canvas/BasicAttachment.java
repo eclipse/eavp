@@ -17,8 +17,8 @@ import java.util.List;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
+import org.eclipse.january.geometry.Geometry;
 
-import geometry.Geometry;
 import model.IRenderElement;
 
 /**
@@ -40,7 +40,7 @@ public abstract class BasicAttachment extends Attachment
 	private List<Geometry> queuedGeometry;
 
 	/** List of shapes that have been added via Geometry instances. */
-	private List<geometry.INode> shapes;
+	private List<org.eclipse.january.geometry.INode> shapes;
 
 	/** */
 	private boolean visible;
@@ -70,7 +70,7 @@ public abstract class BasicAttachment extends Attachment
 	 * 
 	 * @param shape
 	 */
-	protected void checkMesh(geometry.INode shape) {
+	protected void checkMesh(org.eclipse.january.geometry.INode shape) {
 	}
 
 	/**
@@ -104,7 +104,7 @@ public abstract class BasicAttachment extends Attachment
 	 * @see IModelPart#addShape(Geometry)
 	 */
 	@Override
-	public void addShape(geometry.INode shape) {
+	public void addShape(org.eclipse.january.geometry.INode shape) {
 		checkMesh(shape);
 
 		if (shapes == null) {
@@ -128,7 +128,7 @@ public abstract class BasicAttachment extends Attachment
 		}
 
 		for (Geometry geom : queuedGeometry) {
-			for (geometry.INode shape : geom.getNodes()) {
+			for (org.eclipse.january.geometry.INode shape : geom.getNodes()) {
 				addShape(shape);
 			}
 		}
@@ -160,13 +160,14 @@ public abstract class BasicAttachment extends Attachment
 	 * @param shape
 	 *            ICE shape to visualize
 	 */
-	protected abstract void processShape(geometry.INode shape);
+	protected abstract void processShape(
+			org.eclipse.january.geometry.INode shape);
 
 	/**
 	 * @see IModelPart#addShape(Geometry)
 	 */
 	@Override
-	public void removeShape(geometry.INode shape) {
+	public void removeShape(org.eclipse.january.geometry.INode shape) {
 		if (shapes == null) {
 			return;
 		}
@@ -184,13 +185,14 @@ public abstract class BasicAttachment extends Attachment
 	 * 
 	 * @param shape
 	 */
-	protected abstract void disposeShape(geometry.INode shape);
+	protected abstract void disposeShape(
+			org.eclipse.january.geometry.INode shape);
 
 	/**
 	 * 
 	 */
 	@Override
-	public boolean hasShape(geometry.INode shape) {
+	public boolean hasShape(org.eclipse.january.geometry.INode shape) {
 		if (shapes == null) {
 			return false;
 		}
@@ -202,7 +204,7 @@ public abstract class BasicAttachment extends Attachment
 	 * 
 	 */
 	@Override
-	public geometry.INode getShape(int index) {
+	public org.eclipse.january.geometry.INode getShape(int index) {
 		if (shapes == null || shapes.size() < index) {
 			return null;
 		}
@@ -216,13 +218,13 @@ public abstract class BasicAttachment extends Attachment
 	 * @return
 	 */
 	@Override
-	public List<geometry.INode> getShapes(boolean copy) {
+	public List<org.eclipse.january.geometry.INode> getShapes(boolean copy) {
 		if (shapes == null) {
 			return Collections.emptyList();
 		}
 
 		if (copy) {
-			return new ArrayList<geometry.INode>(shapes);
+			return new ArrayList<org.eclipse.january.geometry.INode>(shapes);
 		} else {
 			return shapes;
 		}
@@ -290,7 +292,7 @@ public abstract class BasicAttachment extends Attachment
 	 * getRender(geometry.INode)
 	 */
 	@Override
-	public IRenderElement getRender(geometry.INode node) {
+	public IRenderElement getRender(org.eclipse.january.geometry.INode node) {
 
 		// Search the list of rendered nodes
 		for (IRenderElement element : renderedNodes) {

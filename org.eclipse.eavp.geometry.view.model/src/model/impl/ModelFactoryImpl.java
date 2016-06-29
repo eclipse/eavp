@@ -2,8 +2,6 @@
  */
 package model.impl;
 
-import geometry.INode;
-import geometry.Triangle;
 import model.*;
 
 import org.eclipse.emf.ecore.EClass;
@@ -14,6 +12,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Triangle;
 
 /**
  * <!-- begin-user-doc -->

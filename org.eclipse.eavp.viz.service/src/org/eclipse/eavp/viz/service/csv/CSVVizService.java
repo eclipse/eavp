@@ -22,10 +22,9 @@ import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizCanvas;
+import org.eclipse.january.geometry.Geometry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import geometry.Geometry;
 
 /**
  * This class implements the IVizService interface to provide CSV plotting tools

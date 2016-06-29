@@ -30,6 +30,7 @@ import org.eclipse.eavp.viz.service.AbstractPlot;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
@@ -37,8 +38,6 @@ import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import geometry.Geometry;
 
 /**
  * This class implements the IPlot interface to provide access to a basic CSV

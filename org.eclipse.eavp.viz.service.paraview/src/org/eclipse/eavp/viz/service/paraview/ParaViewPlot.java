@@ -47,6 +47,7 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.paraview.connections.ParaViewConnection;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -67,8 +68,6 @@ import com.google.gson.JsonPrimitive;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-
-import geometry.Geometry;
 
 /**
  * This class is responsible for embedding ParaView-supported graphics inside

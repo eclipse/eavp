@@ -47,7 +47,7 @@ public class FXGeometryAttachment extends FXAttachment {
 	 * geometry.INode)
 	 */
 	@Override
-	protected IRenderElement<Group> createElement(geometry.INode node) {
+	protected IRenderElement<Group> createElement(org.eclipse.january.geometry.INode node) {
 
 		// Create the base render object
 		FXRenderObject render = new FXRenderObject(node, cache);

@@ -2,7 +2,7 @@
  */
 package model;
 
-import geometry.INode;
+import org.eclipse.january.geometry.INode;
 
 /**
  * <!-- begin-user-doc -->

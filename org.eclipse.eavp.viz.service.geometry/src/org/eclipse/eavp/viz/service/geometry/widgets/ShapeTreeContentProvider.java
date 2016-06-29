@@ -15,12 +15,12 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.util.List;
 
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import geometry.Geometry;
-import geometry.INode;
 import model.IRenderElement;
 
 /**
@@ -91,7 +91,8 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		// If the element is an IShape, call its accept() operation to
 		// trigger the visit() call
 
-		if (parentShape instanceof INode) {
+		if (parentShape instanceof INode
+				|| parentShape instanceof IRenderElement) {
 			temporaryChildren = null;
 
 			// Call the parentShape's accept operation to call the appropriate
@@ -100,7 +101,11 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 			IRenderElement parentElement = holder
 					.getRender((INode) parentShape);
 
-			if (!parentElement.getBase().getNodes().isEmpty()) {
+			// TODO Find a cleaner way to do this than listing all the operators
+			String type = ((INode) parentShape).getType();
+
+			if ("union".equals(type) || "complement".equals(type)
+					|| "intersection".equals(type)) {
 
 				// IShape is a ComplexShape, so put its children in the
 				// temporary children field

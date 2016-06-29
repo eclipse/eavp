@@ -2,7 +2,7 @@
  */
 package geometry.tests;
 
-import geometry.INode;
+import org.eclipse.january.geometry.INode;
 
 import junit.framework.TestCase;
 

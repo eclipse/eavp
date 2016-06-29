@@ -865,7 +865,7 @@ public interface ModelPackage extends EPackage {
 	 * The meta object id for the '<em>INode</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see geometry.INode
+	 * @see org.eclipse.january.geometry.INode
 	 * @see model.impl.ModelPackageImpl#getINode()
 	 * @generated
 	 */
@@ -876,7 +876,7 @@ public interface ModelPackage extends EPackage {
 	 * The meta object id for the '<em>Triangle</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see geometry.Triangle
+	 * @see org.eclipse.january.geometry.Triangle
 	 * @see model.impl.ModelPackageImpl#getTriangle()
 	 * @generated
 	 */
@@ -1174,22 +1174,22 @@ public interface ModelPackage extends EPackage {
 	EOperation getIRenderElement__Clone();
 
 	/**
-	 * Returns the meta object for data type '{@link geometry.INode <em>INode</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.january.geometry.INode <em>INode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>INode</em>'.
-	 * @see geometry.INode
+	 * @see org.eclipse.january.geometry.INode
 	 * @model instanceClass="geometry.INode"
 	 * @generated
 	 */
 	EDataType getINode();
 
 	/**
-	 * Returns the meta object for data type '{@link geometry.Triangle <em>Triangle</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.january.geometry.Triangle <em>Triangle</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Triangle</em>'.
-	 * @see geometry.Triangle
+	 * @see org.eclipse.january.geometry.Triangle
 	 * @model instanceClass="geometry.Triangle"
 	 * @generated
 	 */
@@ -1465,7 +1465,7 @@ public interface ModelPackage extends EPackage {
 		 * The meta object literal for the '<em>INode</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see geometry.INode
+		 * @see org.eclipse.january.geometry.INode
 		 * @see model.impl.ModelPackageImpl#getINode()
 		 * @generated
 		 */
@@ -1475,7 +1475,7 @@ public interface ModelPackage extends EPackage {
 		 * The meta object literal for the '<em>Triangle</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see geometry.Triangle
+		 * @see org.eclipse.january.geometry.Triangle
 		 * @see model.impl.ModelPackageImpl#getTriangle()
 		 * @generated
 		 */

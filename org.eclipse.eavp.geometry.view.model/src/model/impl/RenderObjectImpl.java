@@ -12,8 +12,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.january.geometry.INode;
 
-import geometry.INode;
 import model.IRenderElement;
 import model.MeshCache;
 import model.ModelFactory;

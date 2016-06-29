@@ -6,88 +6,91 @@
     operationReflection="true" importOrganizing="true">
   <foreignModel>geometry.ecore</foreignModel>
   <genPackages prefix="Geometry" disposableProviderFactory="true" ecorePackage="geometry.ecore#/">
-    <genDataTypes ecoreDataType="geometry.ecore#//Path"/>
-    <genDataTypes ecoreDataType="geometry.ecore#//Object"/>
-    <genClasses ecoreClass="geometry.ecore#//Shape">
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Shape/material"/>
-      <genOperations ecoreOperation="geometry.ecore#//INode/setProperty">
-        <genParameters ecoreParameter="geometry.ecore#//INode/setProperty/property"/>
-        <genParameters ecoreParameter="geometry.ecore#//INode/setProperty/value"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/getProperty">
-        <genParameters ecoreParameter="geometry.ecore#//INode/getProperty/property"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/getPropertyNames"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Triangle">
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Triangle/normal"/>
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//Triangle/vertices"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Vertex">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Vertex/x"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Vertex/y"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Vertex/z"/>
-      <genOperations ecoreOperation="geometry.ecore#//Vertex/clone"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Sphere">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Sphere/radius"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Cube">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Cube/sideLength"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Cylinder">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Cylinder/radius"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Cylinder/height"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Geometry"/>
-    <genClasses ecoreClass="geometry.ecore#//Tube">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/height"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/innerRadius"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//Tube/radius"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//INode">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/id"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/nodes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//INode/type"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/triangles"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/center"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference geometry.ecore#//INode/parent"/>
-      <genOperations ecoreOperation="geometry.ecore#//INode/changeDecoratorProperty">
-        <genParameters ecoreParameter="geometry.ecore#//INode/changeDecoratorProperty/property"/>
-        <genParameters ecoreParameter="geometry.ecore#//INode/changeDecoratorProperty/value"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/getPropertyNames"/>
-      <genOperations ecoreOperation="geometry.ecore#//INode/getProperty">
-        <genParameters ecoreParameter="geometry.ecore#//INode/getProperty/property"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/setProperty">
-        <genParameters ecoreParameter="geometry.ecore#//INode/setProperty/property"/>
-        <genParameters ecoreParameter="geometry.ecore#//INode/setProperty/value"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/addNode">
-        <genParameters ecoreParameter="geometry.ecore#//INode/addNode/child"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/removeNode">
-        <genParameters ecoreParameter="geometry.ecore#//INode/removeNode/child"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/copy">
-        <genParameters ecoreParameter="geometry.ecore#//INode/copy/source"/>
-      </genOperations>
-      <genOperations ecoreOperation="geometry.ecore#//INode/clone"/>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//Operator"/>
-    <genClasses ecoreClass="geometry.ecore#//Union"/>
-    <genClasses ecoreClass="geometry.ecore#//Intersection"/>
-    <genClasses ecoreClass="geometry.ecore#//Complement"/>
-    <genClasses ecoreClass="geometry.ecore#//Material"/>
-    <genClasses image="false" ecoreClass="geometry.ecore#//IGeometryImporter">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//IGeometryImporter/fileTypes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//IGeometryImporter/description"/>
-      <genOperations ecoreOperation="geometry.ecore#//IGeometryImporter/load">
-        <genParameters ecoreParameter="geometry.ecore#//IGeometryImporter/load/path"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="geometry.ecore#//ASCIISTLGeometryImporter"/>
+    <nestedGenPackages prefix="Eclipse" basePackage="org" disposableProviderFactory="true"
+        ecorePackage="geometry.ecore#//eclipse">
+      <nestedGenPackages prefix="January" basePackage="org.eclipse" disposableProviderFactory="true"
+          ecorePackage="geometry.ecore#//eclipse/january">
+        <nestedGenPackages prefix="Geometry" basePackage="org.eclipse.january" disposableProviderFactory="true"
+            ecorePackage="geometry.ecore#//eclipse/january/geometry">
+          <genDataTypes ecoreDataType="geometry.ecore#//eclipse/january/geometry/Path"/>
+          <genDataTypes ecoreDataType="geometry.ecore#//eclipse/january/geometry/Object"/>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Shape">
+            <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//eclipse/january/geometry/Shape/material"/>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Triangle">
+            <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//eclipse/january/geometry/Triangle/normal"/>
+            <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//eclipse/january/geometry/Triangle/vertices"/>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Vertex">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Vertex/x"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Vertex/y"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Vertex/z"/>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/Vertex/clone"/>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Sphere">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Sphere/radius"/>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Cube">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Cube/sideLength"/>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Cylinder">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Cylinder/radius"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Cylinder/height"/>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Geometry"/>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Tube">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Tube/height"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Tube/innerRadius"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Tube/radius"/>
+          </genClasses>
+          <genClasses image="false" ecoreClass="geometry.ecore#//eclipse/january/geometry/INode">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/INode/name"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/INode/id"/>
+            <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//eclipse/january/geometry/INode/nodes"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/INode/type"/>
+            <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference geometry.ecore#//eclipse/january/geometry/INode/triangles"/>
+            <genFeatures notify="false" createChild="false" propertySortChoices="true"
+                ecoreFeature="ecore:EReference geometry.ecore#//eclipse/january/geometry/INode/center"/>
+            <genFeatures notify="false" createChild="false" propertySortChoices="true"
+                ecoreFeature="ecore:EReference geometry.ecore#//eclipse/january/geometry/INode/parent"/>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/changeDecoratorProperty">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/changeDecoratorProperty/property"/>
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/changeDecoratorProperty/value"/>
+            </genOperations>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/getPropertyNames"/>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/getProperty">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/getProperty/property"/>
+            </genOperations>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/setProperty">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/setProperty/property"/>
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/setProperty/value"/>
+            </genOperations>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/addNode">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/addNode/child"/>
+            </genOperations>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/removeNode">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/removeNode/child"/>
+            </genOperations>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/copy">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/INode/copy/source"/>
+            </genOperations>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/INode/clone"/>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Operator"/>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Union"/>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Intersection"/>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Complement"/>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Material"/>
+          <genClasses image="false" ecoreClass="geometry.ecore#//eclipse/january/geometry/IGeometryImporter">
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/IGeometryImporter/fileTypes"/>
+            <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/IGeometryImporter/description"/>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/IGeometryImporter/load">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/IGeometryImporter/load/path"/>
+            </genOperations>
+          </genClasses>
+          <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/ASCIISTLGeometryImporter"/>
+        </nestedGenPackages>
+      </nestedGenPackages>
+    </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

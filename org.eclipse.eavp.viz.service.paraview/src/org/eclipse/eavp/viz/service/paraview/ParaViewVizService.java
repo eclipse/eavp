@@ -24,8 +24,7 @@ import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyBuilder;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyFactory;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
-
-import geometry.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * This class is responsible for providing a service to connect to (or launch)
@@ -187,7 +186,7 @@ public class ParaViewVizService
 		// framework, so it has no factory
 		return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

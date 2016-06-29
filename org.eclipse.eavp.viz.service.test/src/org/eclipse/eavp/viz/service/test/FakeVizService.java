@@ -20,8 +20,7 @@ import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
-
-import geometry.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * This is a fake IVizService that is used in testing. The only thing it really

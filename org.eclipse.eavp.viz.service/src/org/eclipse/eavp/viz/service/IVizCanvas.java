@@ -18,9 +18,8 @@ package org.eclipse.eavp.viz.service;
 import java.net.URI;
 import java.util.Map;
 
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
-
-import geometry.Geometry;
 
 /**
  * This interface defines the principle type for canvases created and handled by

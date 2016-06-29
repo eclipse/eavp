@@ -3,9 +3,8 @@
 package geometry.tests;
 
 import org.eclipse.emf.common.util.EList;
-
-import geometry.GeometryFactory;
-import geometry.Shape;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Shape;
 
 import junit.framework.TestCase;
 
@@ -18,9 +17,9 @@ import junit.textui.TestRunner;
  * <p>
  * The following operations are tested:
  * <ul>
- *   <li>{@link geometry.Shape#getPropertyNames() <em>Get Property Names</em>}</li>
- *   <li>{@link geometry.Shape#getProperty(java.lang.String) <em>Get Property</em>}</li>
- *   <li>{@link geometry.Shape#setProperty(java.lang.String, double) <em>Set Property</em>}</li>
+ *   <li>{@link org.eclipse.january.geometry.Shape#getPropertyNames() <em>Get Property Names</em>}</li>
+ *   <li>{@link org.eclipse.january.geometry.Shape#getProperty(java.lang.String) <em>Get Property</em>}</li>
+ *   <li>{@link org.eclipse.january.geometry.Shape#setProperty(java.lang.String, double) <em>Set Property</em>}</li>
  *   <li>{@link geometry.ISubjectShape#register(geometry.IShapeObserver) <em>Register</em>}</li>
  *   <li>{@link geometry.ISubjectShape#unregister(geometry.IShapeObserver) <em>Unregister</em>}</li>
  * </ul>
@@ -99,10 +98,10 @@ public class ShapeTest extends TestCase {
 	}
 
 	/**
-	 * Tests the '{@link geometry.Shape#getPropertyNames() <em>Get Property Names</em>}' operation.
+	 * Tests the '{@link org.eclipse.january.geometry.Shape#getPropertyNames() <em>Get Property Names</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see geometry.Shape#getPropertyNames()
+	 * @see org.eclipse.january.geometry.Shape#getPropertyNames()
 	 * @generated NOT
 	 */
 	public void testGetPropertyNames() {
@@ -126,10 +125,10 @@ public class ShapeTest extends TestCase {
 	}
 
 	/**
-	 * Tests the '{@link geometry.Shape#getProperty(java.lang.String) <em>Get Property</em>}' operation.
+	 * Tests the '{@link org.eclipse.january.geometry.Shape#getProperty(java.lang.String) <em>Get Property</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see geometry.Shape#getProperty(java.lang.String)
+	 * @see org.eclipse.january.geometry.Shape#getProperty(java.lang.String)
 	 * @generated NOT
 	 */
 	public void testGetProperty__String() {
@@ -147,10 +146,10 @@ public class ShapeTest extends TestCase {
 	}
 
 	/**
-	 * Tests the '{@link geometry.Shape#setProperty(java.lang.String, double) <em>Set Property</em>}' operation.
+	 * Tests the '{@link org.eclipse.january.geometry.Shape#setProperty(java.lang.String, double) <em>Set Property</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see geometry.Shape#setProperty(java.lang.String, double)
+	 * @see org.eclipse.january.geometry.Shape#setProperty(java.lang.String, double)
 	 * @generated NOT
 	 */
 	public void testSetProperty__String_double() {

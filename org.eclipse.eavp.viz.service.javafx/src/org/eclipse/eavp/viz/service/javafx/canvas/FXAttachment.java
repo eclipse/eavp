@@ -24,8 +24,8 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.january.geometry.Geometry;
 
-import geometry.Geometry;
 import javafx.scene.Group;
 import model.IRenderElement;
 
@@ -86,7 +86,7 @@ public class FXAttachment extends BasicAttachment {
 	 *         rendering functionality offered by this type of attachment, with
 	 *         the given node as the data source.
 	 */
-	protected IRenderElement<Group> createElement(geometry.INode node) {
+	protected IRenderElement<Group> createElement(org.eclipse.january.geometry.INode node) {
 		return new FXRenderObject(node, cache);
 	}
 
@@ -107,7 +107,7 @@ public class FXAttachment extends BasicAttachment {
 			// If something was added to the list, create a render object for it
 			if (notification.getEventType() == Notification.ADD) {
 				IRenderElement element = createElement(
-						(geometry.INode) notification.getNewValue());
+						(org.eclipse.january.geometry.INode) notification.getNewValue());
 				renderedNodes.add(element);
 
 				// Register as a listener for the new render element
@@ -123,7 +123,7 @@ public class FXAttachment extends BasicAttachment {
 			else if (notification.getEventType() == Notification.REMOVE) {
 
 				// Cast the removed object
-				geometry.INode removed = (geometry.INode) notification
+				org.eclipse.january.geometry.INode removed = (org.eclipse.january.geometry.INode) notification
 						.getOldValue();
 
 				// Search for the render element that is based on the removed
@@ -144,7 +144,7 @@ public class FXAttachment extends BasicAttachment {
 		for (IRenderElement<Group> render : renderedNodes) {
 
 			// Get the source object's children
-			List<geometry.INode> children = render.getBase().getNodes();
+			List<org.eclipse.january.geometry.INode> children = render.getBase().getNodes();
 
 			// If children exist, handle them
 			if (!children.isEmpty()) {
@@ -275,7 +275,7 @@ public class FXAttachment extends BasicAttachment {
 	 *            an ICE Geometry IShape
 	 */
 	@Override
-	public void processShape(geometry.INode shape) {
+	public void processShape(org.eclipse.january.geometry.INode shape) {
 		// Nothing to do.
 	}
 
@@ -283,7 +283,7 @@ public class FXAttachment extends BasicAttachment {
 	 * 
 	 */
 	@Override
-	protected void disposeShape(geometry.INode shape) {
+	protected void disposeShape(org.eclipse.january.geometry.INode shape) {
 	}
 
 	/**
@@ -292,7 +292,7 @@ public class FXAttachment extends BasicAttachment {
 	 * @return
 	 */
 	@Override
-	public List<geometry.INode> getShapes(boolean copy) {
+	public List<org.eclipse.january.geometry.INode> getShapes(boolean copy) {
 		return super.getShapes(copy);
 	}
 

@@ -19,8 +19,7 @@ import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXMeshControllerProviderFactory;
-
-import geometry.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * <p>

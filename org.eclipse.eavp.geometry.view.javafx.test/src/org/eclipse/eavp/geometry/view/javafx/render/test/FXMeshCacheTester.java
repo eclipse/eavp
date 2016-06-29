@@ -18,11 +18,11 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Triangle;
+import org.eclipse.january.geometry.Vertex;
 import org.junit.Test;
 
-import geometry.GeometryFactory;
-import geometry.Triangle;
-import geometry.Vertex;
 import javafx.collections.ObservableFloatArray;
 import javafx.scene.shape.ObservableFaceArray;
 import javafx.scene.shape.TriangleMesh;

@@ -25,9 +25,8 @@ import java.util.Set;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.IVizCanvas;
+import org.eclipse.january.geometry.Geometry;
 import org.junit.Test;
-
-import geometry.Geometry;
 
 /**
  * This class tests the {@link AbstractVizService}, which provides some helpful

@@ -23,6 +23,8 @@ import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantData;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantView;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -33,8 +35,6 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import geometry.Geometry;
-import geometry.INode;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
 import model.IRenderElement;

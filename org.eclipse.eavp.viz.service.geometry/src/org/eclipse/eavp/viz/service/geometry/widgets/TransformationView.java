@@ -13,7 +13,10 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Vertex;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
@@ -27,8 +30,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 
-import geometry.GeometryFactory;
-import geometry.Vertex;
 import model.IRenderElement;
 
 /**
@@ -40,6 +41,13 @@ import model.IRenderElement;
  * @author Andrew P. Belt, Robert Smith
  */
 public class TransformationView extends ViewPart {
+
+	/**
+	 * The number of lines of properties to display in the view. If a shape has
+	 * more than NUM_PROPERTIES properties defined, extra properties can not be
+	 * displayed or edited in this view.
+	 */
+	final static private int NUM_PROPERTIES = 5;
 
 	/**
 	 * Eclipse view ID
@@ -68,6 +76,12 @@ public class TransformationView extends ViewPart {
 	 * 
 	 */
 	private IRenderElement currentShape;
+
+	/**
+	 * The list of widgets which will allow the shape's properties to be
+	 * displayed and edited.
+	 */
+	private ArrayList<TransformationPropertyWidget> propertyWidgets;
 
 	/**
 	 * Defines whether degrees or radians are used for rotation angles
@@ -166,6 +180,20 @@ public class TransformationView extends ViewPart {
 		opacityCombo
 				.setItems(new String[] { "Solid", "Wireframe", "Transparent" });
 
+		// Create property widgets to display any properties the shape has.
+		propertyWidgets = new ArrayList<TransformationPropertyWidget>();
+		for (int i = 0; i < NUM_PROPERTIES; i++) {
+
+			// Create a child composite to hold the widget
+			Composite widgetComp = new Composite(parent, SWT.NONE);
+			widgetComp.setLayoutData(
+					new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+			widgetComp.setLayout(new GridLayout());
+
+			// Create the widget and add it to the list
+			propertyWidgets.add(new TransformationPropertyWidget(widgetComp));
+		}
+
 		// Empty the old list of property spinners
 		propertySpinners.clear();
 
@@ -242,6 +270,27 @@ public class TransformationView extends ViewPart {
 					center.getZ() };
 			for (int i = 0; i < 3; i++) {
 				translateSpinners[i].setValue(translations[i]);
+			}
+
+			// Set the properties
+			List<String> properties = shape.getBase().getPropertyNames();
+
+			// Pad the list to the correct number of properties
+			while (properties.size() < NUM_PROPERTIES) {
+				properties.add(null);
+			}
+
+			// Set the property widgets for the new shape's properties
+			for (int i = 0; i < NUM_PROPERTIES; i++) {
+
+				// Get the property name
+				String property = properties.get(i);
+				double value = (property != null)
+						? shape.getBase().getProperty(property) : 0d;
+
+				// Set the property widget to display this property
+				propertyWidgets.get(i).setProperty(shape.getBase(), property,
+						value);
 			}
 		}
 

@@ -2,8 +2,8 @@
  */
 package geometry.tests;
 
-import geometry.Geometry;
-import geometry.GeometryFactory;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
 
 import junit.framework.TestCase;
 

@@ -21,8 +21,7 @@ import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeControllerProviderFactory;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPlantViewRootController;
-
-import geometry.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * <p>

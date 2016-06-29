@@ -2,7 +2,8 @@
  */
 package model.tests;
 
-import geometry.impl.ShapeImpl;
+import org.eclipse.january.geometry.impl.ShapeImpl;
+
 import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
