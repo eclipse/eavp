@@ -91,18 +91,17 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		// If the element is an IShape, call its accept() operation to
 		// trigger the visit() call
 
-		if (parentShape instanceof INode
-				|| parentShape instanceof IRenderElement) {
+		if (parentShape instanceof IRenderElement) {
 			temporaryChildren = null;
 
 			// Call the parentShape's accept operation to call the appropriate
 			// visit member function in this class
 
-			IRenderElement parentElement = holder
-					.getRender((INode) parentShape);
+			// IRenderElement parentElement = holder
+			// .getRender((INode) parentShape);
 
 			// TODO Find a cleaner way to do this than listing all the operators
-			String type = ((INode) parentShape).getType();
+			String type = ((IRenderElement) parentShape).getBase().getType();
 
 			if ("union".equals(type) || "complement".equals(type)
 					|| "intersection".equals(type)) {
@@ -110,7 +109,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 				// IShape is a ComplexShape, so put its children in the
 				// temporary children field
 
-				List childrenList = ((Geometry) parentElement.getBase())
+				List childrenList = ((IRenderElement) parentShape).getBase()
 						.getNodes();
 
 				// If the input is a geometry, get its children
@@ -126,7 +125,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 
 				if (temporaryChildren.length == 0) {
 					temporaryChildren = new Object[] {
-							new BlankShape(parentElement) };
+							new BlankShape((IRenderElement) parentShape) };
 				}
 			} else {
 

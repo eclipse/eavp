@@ -61,6 +61,15 @@
         <details key="documentation" value="The wrapped source object whose data will be used to render a shape in the graphics engine."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The rendered objects corresponding to the souorce object's children."/>
+      </eAnnotations>
+      <eGenericType eClassifier="#//IRenderElement">
+        <eTypeArguments eTypeParameter="#//RenderObject/T"/>
+      </eGenericType>
+    </eStructuralFeatures>
     <eGenericSuperTypes eClassifier="#//IRenderElement">
       <eTypeArguments eTypeParameter="#//RenderObject/T"/>
     </eGenericSuperTypes>
@@ -195,11 +204,11 @@
       </eAnnotations>
     </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="INode" instanceClassName="geometry.INode">
+  <eClassifiers xsi:type="ecore:EDataType" name="INode" instanceClassName="org.eclipse.january.geometry.INode">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="This class represents a file path on the file system."/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Triangle" instanceClassName="geometry.Triangle"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Triangle" instanceClassName="org.eclipse.january.geometry.Triangle"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="newDataType3"/>
 </ecore:EPackage>

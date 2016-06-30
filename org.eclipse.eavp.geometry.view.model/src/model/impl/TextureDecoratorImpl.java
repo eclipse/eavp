@@ -18,7 +18,6 @@ public class TextureDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 		implements TextureDecorator<T> {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TextureDecoratorImpl() {
@@ -27,7 +26,6 @@ public class TextureDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

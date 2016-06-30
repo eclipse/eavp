@@ -17,9 +17,9 @@ import model.ModelPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link model.impl.ColorDecoratorImpl#getRed <em>Red</em>}</li>
- * <li>{@link model.impl.ColorDecoratorImpl#getGreen <em>Green</em>}</li>
- * <li>{@link model.impl.ColorDecoratorImpl#getBlue <em>Blue</em>}</li>
+ *   <li>{@link model.impl.ColorDecoratorImpl#getRed <em>Red</em>}</li>
+ *   <li>{@link model.impl.ColorDecoratorImpl#getGreen <em>Green</em>}</li>
+ *   <li>{@link model.impl.ColorDecoratorImpl#getBlue <em>Blue</em>}</li>
  * </ul>
  *
  * @generated
@@ -49,7 +49,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 	/**
 	 * The default value of the '{@link #getGreen() <em>Green</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getGreen()
 	 * @generated
 	 * @ordered
@@ -59,7 +58,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 	/**
 	 * The cached value of the '{@link #getGreen() <em>Green</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getGreen()
 	 * @generated
 	 * @ordered
@@ -69,7 +67,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 	/**
 	 * The default value of the '{@link #getBlue() <em>Blue</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getBlue()
 	 * @generated
 	 * @ordered
@@ -79,7 +76,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 	/**
 	 * The cached value of the '{@link #getBlue() <em>Blue</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getBlue()
 	 * @generated
 	 * @ordered
@@ -88,7 +84,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ColorDecoratorImpl() {
@@ -97,7 +92,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -107,7 +101,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -117,7 +110,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -125,13 +117,11 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 		int oldRed = red;
 		red = newRed;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ModelPackage.COLOR_DECORATOR__RED, oldRed, red));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.COLOR_DECORATOR__RED, oldRed, red));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -141,7 +131,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -149,13 +138,11 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 		int oldGreen = green;
 		green = newGreen;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ModelPackage.COLOR_DECORATOR__GREEN, oldGreen, green));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.COLOR_DECORATOR__GREEN, oldGreen, green));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -165,7 +152,6 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -173,97 +159,90 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 		int oldBlue = blue;
 		blue = newBlue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ModelPackage.COLOR_DECORATOR__BLUE, oldBlue, blue));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.COLOR_DECORATOR__BLUE, oldBlue, blue));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case ModelPackage.COLOR_DECORATOR__RED:
-			return getRed();
-		case ModelPackage.COLOR_DECORATOR__GREEN:
-			return getGreen();
-		case ModelPackage.COLOR_DECORATOR__BLUE:
-			return getBlue();
+			case ModelPackage.COLOR_DECORATOR__RED:
+				return getRed();
+			case ModelPackage.COLOR_DECORATOR__GREEN:
+				return getGreen();
+			case ModelPackage.COLOR_DECORATOR__BLUE:
+				return getBlue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case ModelPackage.COLOR_DECORATOR__RED:
-			setRed((Integer) newValue);
-			return;
-		case ModelPackage.COLOR_DECORATOR__GREEN:
-			setGreen((Integer) newValue);
-			return;
-		case ModelPackage.COLOR_DECORATOR__BLUE:
-			setBlue((Integer) newValue);
-			return;
+			case ModelPackage.COLOR_DECORATOR__RED:
+				setRed((Integer)newValue);
+				return;
+			case ModelPackage.COLOR_DECORATOR__GREEN:
+				setGreen((Integer)newValue);
+				return;
+			case ModelPackage.COLOR_DECORATOR__BLUE:
+				setBlue((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case ModelPackage.COLOR_DECORATOR__RED:
-			setRed(RED_EDEFAULT);
-			return;
-		case ModelPackage.COLOR_DECORATOR__GREEN:
-			setGreen(GREEN_EDEFAULT);
-			return;
-		case ModelPackage.COLOR_DECORATOR__BLUE:
-			setBlue(BLUE_EDEFAULT);
-			return;
+			case ModelPackage.COLOR_DECORATOR__RED:
+				setRed(RED_EDEFAULT);
+				return;
+			case ModelPackage.COLOR_DECORATOR__GREEN:
+				setGreen(GREEN_EDEFAULT);
+				return;
+			case ModelPackage.COLOR_DECORATOR__BLUE:
+				setBlue(BLUE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case ModelPackage.COLOR_DECORATOR__RED:
-			return red != RED_EDEFAULT;
-		case ModelPackage.COLOR_DECORATOR__GREEN:
-			return green != GREEN_EDEFAULT;
-		case ModelPackage.COLOR_DECORATOR__BLUE:
-			return blue != BLUE_EDEFAULT;
+			case ModelPackage.COLOR_DECORATOR__RED:
+				return red != RED_EDEFAULT;
+			case ModelPackage.COLOR_DECORATOR__GREEN:
+				return green != GREEN_EDEFAULT;
+			case ModelPackage.COLOR_DECORATOR__BLUE:
+				return blue != BLUE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (red: ");

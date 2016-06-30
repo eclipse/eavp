@@ -15,6 +15,7 @@ Package model <http://www.eclipse.org/>
     Reference meshCache : MeshCache
     Attribute render : EJavaObject
     Attribute source : INode
+    Reference children : IRenderElement<<0..*>>
     Operation getMesh() : EJavaObject
 
   Class RenderObjectDecorator -> IRenderElement
@@ -42,8 +43,8 @@ Package model <http://www.eclipse.org/>
     Operation copy(Object) : void
     Operation clone() : Object
 
-  DataType INode <geometry.INode>
+  DataType INode <org.eclipse.january.geometry.INode>
 
-  DataType Triangle <geometry.Triangle>
+  DataType Triangle <org.eclipse.january.geometry.Triangle>
 
   DataType Object <java.lang.Object>

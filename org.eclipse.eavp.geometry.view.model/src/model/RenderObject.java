@@ -2,6 +2,7 @@
  */
 package model;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.INode;
 
 /**
@@ -20,6 +21,7 @@ import org.eclipse.january.geometry.INode;
  *   <li>{@link model.RenderObject#getMeshCache <em>Mesh Cache</em>}</li>
  *   <li>{@link model.RenderObject#getRender <em>Render</em>}</li>
  *   <li>{@link model.RenderObject#getSource <em>Source</em>}</li>
+ *   <li>{@link model.RenderObject#getChildren <em>Children</em>}</li>
  * </ul>
  *
  * @see model.ModelPackage#getRenderObject()
@@ -94,6 +96,21 @@ public interface RenderObject<T> extends IRenderElement<T> {
 	 * @generated
 	 */
 	void setSource(INode value);
+
+	/**
+	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
+	 * The list contents are of type {@link model.IRenderElement}&lt;T>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The rendered objects corresponding to the souorce object's children.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Children</em>' containment reference list.
+	 * @see model.ModelPackage#getRenderObject_Children()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<IRenderElement<T>> getChildren();
 
 	/**
 	 * <!-- begin-user-doc -->

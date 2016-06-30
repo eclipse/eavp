@@ -145,13 +145,18 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	@Override
 	public void handleChildren(EList<IRenderElement<Group>> children) {
 
-		// See if there is anything to do by checking the source's type.
-		if ("union".equals(source.getType())) {
+		// If there are no children, there is nothing to do
+		if (children != null) {
 
-			// For unions, we take each child mesh
-			for (IRenderElement<Group> child : children) {
-				render.getChildren().add(child.getMesh());
+			// See if there is anything to do by checking the source's type.
+			if ("union".equals(source.getType())) {
+
+				// For unions, we take each child mesh
+				for (IRenderElement<Group> child : children) {
+					render.getChildren().add(child.getMesh());
+				}
 			}
+
 		}
 	}
 

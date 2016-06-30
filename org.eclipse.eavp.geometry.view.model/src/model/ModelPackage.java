@@ -236,13 +236,22 @@ public interface ModelPackage extends EPackage {
 	int RENDER_OBJECT__SOURCE = IRENDER_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT__CHILDREN = IRENDER_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Render Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_FEATURE_COUNT = IRENDER_ELEMENT_FEATURE_COUNT + 3;
+	int RENDER_OBJECT_FEATURE_COUNT = IRENDER_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The operation id for the '<em>Get Base</em>' operation.
@@ -968,6 +977,17 @@ public interface ModelPackage extends EPackage {
 	EAttribute getRenderObject_Source();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link model.RenderObject#getChildren <em>Children</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Children</em>'.
+	 * @see model.RenderObject#getChildren()
+	 * @see #getRenderObject()
+	 * @generated
+	 */
+	EReference getRenderObject_Children();
+
+	/**
 	 * Returns the meta object for the '{@link model.RenderObject#getMesh() <em>Get Mesh</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1179,7 +1199,7 @@ public interface ModelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>INode</em>'.
 	 * @see org.eclipse.january.geometry.INode
-	 * @model instanceClass="geometry.INode"
+	 * @model instanceClass="org.eclipse.january.geometry.INode"
 	 * @generated
 	 */
 	EDataType getINode();
@@ -1190,7 +1210,7 @@ public interface ModelPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Triangle</em>'.
 	 * @see org.eclipse.january.geometry.Triangle
-	 * @model instanceClass="geometry.Triangle"
+	 * @model instanceClass="org.eclipse.january.geometry.Triangle"
 	 * @generated
 	 */
 	EDataType getTriangle();
@@ -1288,6 +1308,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RENDER_OBJECT__SOURCE = eINSTANCE.getRenderObject_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RENDER_OBJECT__CHILDREN = eINSTANCE.getRenderObject_Children();
 
 		/**
 		 * The meta object literal for the '<em><b>Get Mesh</b></em>' operation.

@@ -239,6 +239,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getRenderObject_Children() {
+		return (EReference)renderObjectEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EOperation getRenderObject__GetMesh() {
 		return renderObjectEClass.getEOperations().get(0);
 	}
@@ -477,6 +486,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(renderObjectEClass, RENDER_OBJECT__MESH_CACHE);
 		createEAttribute(renderObjectEClass, RENDER_OBJECT__RENDER);
 		createEAttribute(renderObjectEClass, RENDER_OBJECT__SOURCE);
+		createEReference(renderObjectEClass, RENDER_OBJECT__CHILDREN);
 		createEOperation(renderObjectEClass, RENDER_OBJECT___GET_MESH);
 
 		renderObjectDecoratorEClass = createEClass(RENDER_OBJECT_DECORATOR);
@@ -595,6 +605,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		g1 = createEGenericType(renderObjectEClass_T);
 		initEAttribute(getRenderObject_Render(), g1, "render", null, 0, 1, RenderObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRenderObject_Source(), this.getINode(), "source", null, 0, 1, RenderObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(this.getIRenderElement());
+		g2 = createEGenericType(renderObjectEClass_T);
+		g1.getETypeArguments().add(g2);
+		initEReference(getRenderObject_Children(), g1, null, "children", null, 0, -1, RenderObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		op = initEOperation(getRenderObject__GetMesh(), null, "getMesh", 0, 1, IS_UNIQUE, IS_ORDERED);
 		g1 = createEGenericType(renderObjectEClass_T);

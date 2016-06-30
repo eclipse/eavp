@@ -105,6 +105,9 @@ public class ActionAddShape extends Action {
 	 *            The type of PrimitiveShape to create with the action is
 	 *            triggered
 	 *            </p>
+	 * @param holder
+	 *            The holder for the render elements, which allows the action to
+	 *            find the render element given its source INode
 	 */
 	public ActionAddShape(ShapeTreeView view, String shapeType) {
 
@@ -232,7 +235,7 @@ public class ActionAddShape extends Action {
 				parentComplexShape.addNode(childShape);
 			}
 
-			view.treeViewer.refresh(parentComplexShape);
+			view.treeViewer.refresh();
 		}
 
 		// Expand the child in the tree if a ComplexShape was added

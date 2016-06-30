@@ -48,7 +48,7 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 
 			// Otherwise, recursively handle the child group
 			else if (node.getClass() == Group.class) {
-				((MeshView) node).setDrawMode(mode);
+				setMode((Group) node, mode);
 			}
 		}
 	}

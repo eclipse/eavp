@@ -92,11 +92,9 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		// set the decorator's color correctly
 		if ("red".equals(property)) {
 			setRed((int) notification.getNewValue());
-		}
-		if ("green".equals(property)) {
+		} else if ("green".equals(property)) {
 			setGreen((int) notification.getNewValue());
-		}
-		if ("blue".equals(property)) {
+		} else if ("blue".equals(property)) {
 			setBlue((int) notification.getNewValue());
 		}
 
