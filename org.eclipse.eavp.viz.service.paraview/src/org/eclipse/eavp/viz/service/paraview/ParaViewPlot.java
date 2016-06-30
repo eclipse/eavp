@@ -521,13 +521,16 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	public ArrayList<Action> getCustomActions() {
 
 		// Get the plus icon image
-
+		Bundle bundle = FrameworkUtil.getBundle(ParaViewPlot.class);
+		URL inImageURL = bundle.getEntry("icons/" + "add.png");
 		String separator = System.getProperty("file.separator");
-		URL inImageURL = getClass().getResource(separator +
-				"icons" + separator + "add.png");
-		if(inImageURL == null){
-			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path inImagePath = new Path("/icons" + System.getProperty("file.separator") + "add.png");
+		if (inImageURL == null) {
+			inImageURL = getClass()
+					.getResource("icons" + separator + "add.png");
+		}
+		if (inImageURL == null) {
+			Path inImagePath = new Path("/icons"
+					+ System.getProperty("file.separator") + "add.png");
 			inImageURL = FileLocator.find(bundle, inImagePath, null);
 		}
 		ImageDescriptor inDescriptor = ImageDescriptor
@@ -563,11 +566,14 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the minus icon image
-		URL outImageURL = getClass().getResource(separator + "icons"
-				+ separator + "complement.gif");
-		if(outImageURL == null){
-			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path outImagePath = new Path("/icons" + System.getProperty("file.separator") + "complement.gif");
+		URL outImageURL = bundle.getEntry("icons/" + "complement.gif");
+		if (outImageURL == null) {
+			outImageURL = getClass()
+					.getResource("icons" + separator + "complement.gif");
+		}
+		if (outImageURL == null) {
+			Path outImagePath = new Path("/icons"
+					+ System.getProperty("file.separator") + "complement.gif");
 			outImageURL = FileLocator.find(bundle, outImagePath, null);
 		}
 		ImageDescriptor outDescriptor = ImageDescriptor
@@ -603,11 +609,15 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the reset icon image
-		URL resetImageURL = getClass().getResource(separator + "icons"
-				+ separator + "iu_update_obj.gif");
-		if(resetImageURL == null){
-			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path resetImagePath = new Path("/icons" + System.getProperty("file.separator") + "iu_update_obj.gif");
+		URL resetImageURL = bundle.getEntry("icons/" + "iu_update_obj.gif");
+		if (resetImageURL == null) {
+			resetImageURL = getClass()
+					.getResource("icons" + separator + "iu_update_obj.gif");
+		}
+		if (resetImageURL == null) {
+			Path resetImagePath = new Path(
+					"/icons" + System.getProperty("file.separator")
+							+ "iu_update_obj.gif");
 			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
 		}
 		ImageDescriptor resetDescriptor = ImageDescriptor

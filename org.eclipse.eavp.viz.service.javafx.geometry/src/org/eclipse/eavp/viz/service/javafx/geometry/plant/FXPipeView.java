@@ -30,10 +30,11 @@ import javafx.scene.paint.PhongMaterial;
 public class FXPipeView extends FXShapeView implements IPipeView {
 
 	/**
-	 * The transformation from the PipeMesh, which provides information about this view's position in three dimensional space
+	 * The transformation from the PipeMesh, which provides information about
+	 * this view's position in three dimensional space
 	 */
 	Transformation meshTransformation;
-	
+
 	/**
 	 * The nullary constructor
 	 */
@@ -50,8 +51,8 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	 */
 	public FXPipeView(Pipe model) {
 		super(model);
-		
-		//Save the model's transformation
+
+		// Save the model's transformation
 		meshTransformation = model.getTransformation();
 
 		// Pipes are cyan by default
@@ -212,9 +213,9 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	@Override
 	public void refresh(IMesh model) {
 
-		//Get the model's transformation
+		// Get the model's transformation
 		meshTransformation = model.getTransformation();
-		
+
 		// Pipes are cyan by default
 		if (!"True"
 				.equals(model.getProperty(ReactorMeshProperty.CORE_CHANNEL))) {
@@ -245,7 +246,7 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 		clone.copy(this);
 
 		// Force an update from the transformation
-		clone.meshTransformation.setSize(clone.meshTransformation.getSize());
+		clone.setWireframeMode(wireframe);
 		return clone;
 	}
 

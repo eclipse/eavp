@@ -17,15 +17,20 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -63,6 +68,11 @@ public class GeneralInfoSection extends AbstractPropertySection {
 	 * A Text field for the object's ID.
 	 */
 	private Label idLabel;
+
+	/**
+	 * A combo box controlling the part's opacity
+	 */
+	private Combo opacityCombo;
 	// ------------------------------ //
 
 	/**
@@ -150,6 +160,69 @@ public class GeneralInfoSection extends AbstractPropertySection {
 		idLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		idLabel.setBackground(bg);
 
+		// Create a label for the transparency boxy
+		label = new Label(composite, SWT.CENTER);
+		disposableControls.add(label);
+		label.setText("Opacity:");
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		label.setBackground(bg);
+
+		// Add an opacity combo
+		opacityCombo = new Combo(composite, SWT.READ_ONLY);
+		opacityCombo.setLayoutData(
+				new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		opacityCombo
+				.setItems(new String[] { "Solid", "Wireframe", "Transparent" });
+
+		// Add a listener for the combo that will set the shape's opacity
+		opacityCombo.addSelectionListener(new SelectionListener() {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.
+			 * eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				// Get the combo's contents
+				String selection = opacityCombo.getText();
+
+				// If it is opaque, set both properties to false
+				if ("Solid".equals(selection)) {
+					((ITransparentController) object).setTransparentMode(false);
+					((IWireframeController) object).setWireframeMode(false);
+				}
+
+				// If it is transparent, set it to transparent, leaving its
+				// wireframe value alone
+				else if ("Transparent".equals(selection)) {
+					((ITransparentController) object).setTransparentMode(true);
+				}
+
+				// If it is wireframe, set transparency off but wireframe on
+				else {
+					((ITransparentController) object).setTransparentMode(false);
+					((IWireframeController) object).setWireframeMode(true);
+				}
+
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(
+			 * org.eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do
+			}
+
+		});
+
 		return;
 	}
 
@@ -177,6 +250,8 @@ public class GeneralInfoSection extends AbstractPropertySection {
 
 			// Convert the selected IMeshPart to an ICEObject.
 			object = meshSelection.selectedMeshPart;
+
+			refresh();
 		}
 
 		return;
@@ -224,6 +299,19 @@ public class GeneralInfoSection extends AbstractPropertySection {
 			descText.setText(desc);
 			descText.setEnabled(true);
 			idLabel.setText(object.getProperty(MeshProperty.ID));
+
+			// Enable the opacity combo
+			opacityCombo.setEnabled(true);
+
+			// Set the opacity combo's value based on the shape's transparency
+			// and wireframe status
+			if (((ITransparentController) object).isTransparent()) {
+				opacityCombo.select(2);
+			} else if (((IWireframeController) object).isWireframe()) {
+				opacityCombo.select(1);
+			} else {
+				opacityCombo.select(0);
+			}
 		}
 		// Otherwise, disable all of the editable controls.
 		else {
@@ -233,6 +321,7 @@ public class GeneralInfoSection extends AbstractPropertySection {
 			descText.setText("No mesh selection.");
 			descText.setEnabled(false);
 			idLabel.setText("N/A");
+			opacityCombo.setEnabled(false);
 		}
 
 		return;

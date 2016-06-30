@@ -11,12 +11,21 @@
 package org.eclipse.eavp.viz.modeling.base;
 
 /**
- * An interface for controllers for parts which can be rendered in wireframe mode.
+ * An interface for controllers for parts which can be rendered in wireframe
+ * mode.
  * 
  * @author Robert Smith
  *
  */
-public interface IWireframeController extends IController{
+public interface IWireframeController extends IController {
+
+	/**
+	 * Method to check whether or not the controller is currently in wireframe
+	 * mode.
+	 * 
+	 * @return True if the part is displayed as a wireframe. False otherwise.
+	 */
+	public boolean isWireframe();
 
 	/**
 	 * Set the controller's view to display in either wireframe or filled mode
@@ -25,5 +34,5 @@ public interface IWireframeController extends IController{
 	 *            If true, sets the view to display its mesh in wireframe mode.
 	 *            If false, sets the view to display its mesh normally.
 	 */
-	public void setWireFrameMode(boolean on);
+	public void setWireframeMode(boolean on);
 }
