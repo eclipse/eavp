@@ -22,10 +22,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
-import org.eclipse.january.geometry.ASCIISTLGeometryImporter;
-import org.eclipse.january.geometry.Geometry;
-import org.eclipse.january.geometry.GeometryFactory;
-import org.eclipse.january.geometry.GeometryPackage;
+import org.eclipse.january.geometry.STLGeometryImporter;
 import org.eclipse.january.geometry.Shape;
 import org.eclipse.january.geometry.Triangle;
 import org.eclipse.january.geometry.Vertex;
@@ -36,6 +33,10 @@ import com.google.inject.Injector;
 
 import xtext.STLStandaloneSetup;
 
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.GeometryPackage;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>ASCIISTL Geometry Importer</b></em>'.
@@ -44,13 +45,13 @@ import xtext.STLStandaloneSetup;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.january.geometry.impl.ASCIISTLGeometryImporterImpl#getFileTypes <em>File Types</em>}</li>
- *   <li>{@link org.eclipse.january.geometry.impl.ASCIISTLGeometryImporterImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.eclipse.january.geometry.impl.STLGeometryImporterImpl#getFileTypes <em>File Types</em>}</li>
+ *   <li>{@link org.eclipse.january.geometry.impl.STLGeometryImporterImpl#getDescription <em>Description</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container implements ASCIISTLGeometryImporter {
+public class STLGeometryImporterImpl extends MinimalEObjectImpl.Container implements STLGeometryImporter {
 	/**
 	 * The cached value of the '{@link #getFileTypes() <em>File Types</em>}' attribute list.
 	 * <!-- begin-user-doc -->
@@ -86,7 +87,7 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ASCIISTLGeometryImporterImpl() {
+	protected STLGeometryImporterImpl() {
 		super();
 	}
 
@@ -135,8 +136,9 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * Returns the geometry from the STL file given by the specified path
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Geometry load(Path path) {
@@ -233,8 +235,7 @@ public class ASCIISTLGeometryImporterImpl extends MinimalEObjectImpl.Container i
 
 		// Return the triangles array list
 		return geometry;
-	}
-
+}
 
 	/**
 	 * <!-- begin-user-doc -->
