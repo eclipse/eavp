@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Cube;
 import org.eclipse.january.geometry.Cylinder;
@@ -105,9 +106,6 @@ public class ActionAddShape extends Action {
 	 *            The type of PrimitiveShape to create with the action is
 	 *            triggered
 	 *            </p>
-	 * @param holder
-	 *            The holder for the render elements, which allows the action to
-	 *            find the render element given its source INode
 	 */
 	public ActionAddShape(ShapeTreeView view, String shapeType) {
 
@@ -237,6 +235,42 @@ public class ActionAddShape extends Action {
 
 			view.treeViewer.refresh();
 		}
+
+		// Get the set of render elements from the view
+		IRenderElementHolder holder = view.getHolder();
+
+		// Get the render of the new shape
+		IRenderElement render = holder.getRender(childShape);
+
+		// Set a different color for each type
+		if ("cube".equals(type)) {
+			render.setProperty("defaultRed", 50);
+			render.setProperty("defaultGreen", 50);
+			render.setProperty("defaultBlue", 255);
+		} else if ("cylinder".equals(type)) {
+			render.setProperty("defaultRed", 0);
+			render.setProperty("defaultGreen", 181);
+			render.setProperty("defaultBlue", 255);
+		} else if ("sphere".equals(type)) {
+			render.setProperty("defaultRed", 131);
+			render.setProperty("defaultGreen", 0);
+			render.setProperty("defaultBlue", 157);
+		} else if ("tube".equals(type)) {
+			render.setProperty("defaultRed", 0);
+			render.setProperty("defaultGreen", 255);
+			render.setProperty("defaultBlue", 255);
+		} else if (operatorTypes.contains(type)) {
+
+			// Operators will have negative default colors to signal that they
+			// should by default not override their childrens' colors.
+			render.setProperty("defaultRed", -1);
+			render.setProperty("defaultGreen", -1);
+			render.setProperty("defaultBlue", -1);
+		}
+
+		render.setProperty("red", render.getProperty("defaultRed"));
+		render.setProperty("green", render.getProperty("defaultGreen"));
+		render.setProperty("blue", render.getProperty("defaultBlue"));
 
 		// Expand the child in the tree if a ComplexShape was added
 

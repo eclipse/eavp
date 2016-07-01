@@ -44,6 +44,7 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	 *            the mesh to render.
 	 */
 	public FXRenderObject(INode source, MeshCache<TriangleMesh> meshCache) {
+		super();
 
 		// Save the data members
 		this.source = source;
@@ -85,10 +86,6 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 			render.setTranslateY(center.getY());
 			render.setTranslateZ(center.getZ());
 		}
-
-		render.setScaleX(10);
-		render.setScaleY(10);
-		render.setScaleZ(10);
 	}
 
 	/**
@@ -150,6 +147,9 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 
 			// See if there is anything to do by checking the source's type.
 			if ("union".equals(source.getType())) {
+
+				// Empty the current list of children
+				render.getChildren().clear();
 
 				// For unions, we take each child mesh
 				for (IRenderElement<Group> child : children) {

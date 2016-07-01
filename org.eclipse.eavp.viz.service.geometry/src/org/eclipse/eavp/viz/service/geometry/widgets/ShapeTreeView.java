@@ -178,6 +178,15 @@ public class ShapeTreeView extends ViewPart
 	}
 
 	/**
+	 * Getter method for the holder.
+	 * 
+	 * @return The holder for the IRenderElements displayed by this view.
+	 */
+	public IRenderElementHolder getHolder() {
+		return holder;
+	}
+
+	/**
 	 * Set the holder for the render elements used to model the view in 3D.
 	 * 
 	 * @param holder

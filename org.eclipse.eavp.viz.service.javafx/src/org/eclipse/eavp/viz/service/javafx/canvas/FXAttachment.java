@@ -86,7 +86,8 @@ public class FXAttachment extends BasicAttachment {
 	 *         rendering functionality offered by this type of attachment, with
 	 *         the given node as the data source.
 	 */
-	protected IRenderElement<Group> createElement(org.eclipse.january.geometry.INode node) {
+	protected IRenderElement<Group> createElement(
+			org.eclipse.january.geometry.INode node) {
 		return new FXRenderObject(node, cache);
 	}
 
@@ -106,17 +107,49 @@ public class FXAttachment extends BasicAttachment {
 
 			// If something was added to the list, create a render object for it
 			if (notification.getEventType() == Notification.ADD) {
-				IRenderElement element = createElement(
-						(org.eclipse.january.geometry.INode) notification.getNewValue());
-				renderedNodes.add(element);
 
-				// Register as a listener for the new render element
-				element.eAdapters().add(new AdapterImpl() {
-					@Override
-					public void notifyChanged(Notification notification) {
-						handleUpdate(geom, notification);
+				// A list of all the new nodes to add
+				ArrayList<org.eclipse.january.geometry.INode> newNodes = new ArrayList<org.eclipse.january.geometry.INode>();
+
+				// Get the node from the notification
+				newNodes.add((org.eclipse.january.geometry.INode) notification
+						.getNewValue());
+
+				// Also add all the new node's children
+				newNodes.addAll(newNodes.get(0).getNodes());
+
+				// Add each node to the scene
+				for (org.eclipse.january.geometry.INode node : newNodes) {
+
+					// Whether the node was found in the attachment
+					boolean found = false;
+
+					// Search the rendered elements to see if the shape is
+					// already
+					// in the list
+					for (IRenderElement<Group> render : renderedNodes) {
+						if (render.getBase().equals(node)) {
+							found = true;
+							break;
+						}
 					}
-				});
+
+					// If the node wasn't found, render it and add it to the
+					// list
+					if (!found) {
+						IRenderElement element = createElement(node);
+						renderedNodes.add(element);
+
+						// Register as a listener for the new render element
+						element.eAdapters().add(new AdapterImpl() {
+							@Override
+							public void notifyChanged(
+									Notification notification) {
+								handleUpdate(geom, notification);
+							}
+						});
+					}
+				}
 			}
 
 			// If something was removed, remove the render object for it
@@ -140,11 +173,16 @@ public class FXAttachment extends BasicAttachment {
 		// Clear the node of all children so the scene will be refreshed.
 		fxAttachmentNode.getChildren().clear();
 
+		// The top level renders for the tree
+		ArrayList<IRenderElement<Group>> topRenders = (ArrayList<IRenderElement<Group>>) renderedNodes
+				.clone();
+
 		// Handle the children for each of the rendered nodes
 		for (IRenderElement<Group> render : renderedNodes) {
 
 			// Get the source object's children
-			List<org.eclipse.january.geometry.INode> children = render.getBase().getNodes();
+			List<org.eclipse.january.geometry.INode> children = render.getBase()
+					.getNodes();
 
 			// If children exist, handle them
 			if (!children.isEmpty()) {
@@ -160,6 +198,10 @@ public class FXAttachment extends BasicAttachment {
 					// that render to the list of child renders
 					if (children.contains(renderCandidate.getBase())) {
 						childRenders.add(renderCandidate);
+
+						// This render had a parent, so it is not on the top
+						// level of the hierarchy
+						topRenders.remove(renderCandidate);
 					}
 				}
 
@@ -170,7 +212,7 @@ public class FXAttachment extends BasicAttachment {
 		}
 
 		// Add each render to the scene
-		for (IRenderElement<Group> render : renderedNodes) {
+		for (IRenderElement<Group> render : topRenders) {
 			fxAttachmentNode.getChildren().add(render.getMesh());
 		}
 	}

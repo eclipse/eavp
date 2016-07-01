@@ -22,7 +22,7 @@ import model.impl.ColorDecoratorImpl;
 
 /**
  * A Decorator for an FXRenderObject that sets the displayed material for the
- * obejct and all of its children.
+ * object and all of its children.
  * 
  * @author Robert Smith
  *
@@ -66,12 +66,20 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		// Get the mesh
 		Group group = source.getMesh();
 
-		// Create a material of the specified color and set it.
-		PhongMaterial material = new PhongMaterial(Color.rgb(red, green, blue));
-		material.setSpecularColor(Color.WHITE);
+		// Negative color values will serve as a signal to allow the children
+		// meshes to keep their current colors.
+		if (red >= 0 && green >= 0 && blue >= 0) {
 
-		// Set the material for the group and pass it along
-		setMaterial(group, material);
+			// Create a material of the specified color and set it.
+			PhongMaterial material = new PhongMaterial(
+					Color.rgb(red, green, blue));
+			material.setSpecularColor(Color.WHITE);
+
+			// Set the material for the group and pass it along
+			setMaterial(group, material);
+
+		}
+
 		return group;
 	}
 
