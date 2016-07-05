@@ -111,12 +111,10 @@ public class FXAttachment extends BasicAttachment {
 				// A list of all the new nodes to add
 				ArrayList<org.eclipse.january.geometry.INode> newNodes = new ArrayList<org.eclipse.january.geometry.INode>();
 
-				// Get the node from the notification
-				newNodes.add((org.eclipse.january.geometry.INode) notification
-						.getNewValue());
-
-				// Also add all the new node's children
-				newNodes.addAll(newNodes.get(0).getNodes());
+				// Add all the new node's descendents
+				newNodes.addAll(getAllNodes(
+						(org.eclipse.january.geometry.INode) notification
+								.getNewValue()));
 
 				// Add each node to the scene
 				for (org.eclipse.january.geometry.INode node : newNodes) {
@@ -125,8 +123,7 @@ public class FXAttachment extends BasicAttachment {
 					boolean found = false;
 
 					// Search the rendered elements to see if the shape is
-					// already
-					// in the list
+					// already in the list
 					for (IRenderElement<Group> render : renderedNodes) {
 						if (render.getBase().equals(node)) {
 							found = true;
@@ -159,14 +156,27 @@ public class FXAttachment extends BasicAttachment {
 				org.eclipse.january.geometry.INode removed = (org.eclipse.january.geometry.INode) notification
 						.getOldValue();
 
-				// Search for the render element that is based on the removed
-				// node and remove it from the list.
+				// Get a list of all the node's children
+				ArrayList<org.eclipse.january.geometry.INode> removedNodes = new ArrayList<org.eclipse.january.geometry.INode>();
+				removedNodes.add(removed);
+				for (int i = 0; i < removedNodes.size(); i++) {
+					removedNodes.addAll(removedNodes.get(i).getNodes());
+				}
+
+				// The list of renders to be removed
+				ArrayList<IRenderElement> oldRenders = new ArrayList<IRenderElement>();
+
+				// Search for the render element(s) that are based on the
+				// removed nodes and add them to the list to remove.
 				for (IRenderElement<Group> render : renderedNodes) {
-					if (render.getBase().equals(removed)) {
-						renderedNodes.remove(render);
-						break;
+					if (removedNodes.contains(render.getBase())) {
+						oldRenders.add(render);
 					}
 				}
+
+				// Remove all the renders for old objects
+				renderedNodes.removeAll(oldRenders);
+
 			}
 		}
 
@@ -184,12 +194,12 @@ public class FXAttachment extends BasicAttachment {
 			List<org.eclipse.january.geometry.INode> children = render.getBase()
 					.getNodes();
 
+			// The list of rendered objects that are based on one of
+			// render's source's children
+			EList<IRenderElement<Group>> childRenders = new BasicEList<IRenderElement<Group>>();
+
 			// If children exist, handle them
 			if (!children.isEmpty()) {
-
-				// The list of rendered objects that are based on one of
-				// render's source's children
-				EList<IRenderElement<Group>> childRenders = new BasicEList<IRenderElement<Group>>();
 
 				// Search through the list of all renders
 				for (IRenderElement<Group> renderCandidate : renderedNodes) {
@@ -205,9 +215,10 @@ public class FXAttachment extends BasicAttachment {
 					}
 				}
 
-				// Have the render element handle its children
-				render.handleChildren(childRenders);
 			}
+
+			// Have the render element handle its children
+			render.handleChildren(childRenders);
 
 		}
 
@@ -225,6 +236,31 @@ public class FXAttachment extends BasicAttachment {
 	 */
 	public List<Geometry> getKnownParts() {
 		return knownParts;
+	}
+
+	/**
+	 * Get a list of all nodes in the tree with the given node as the root.
+	 * 
+	 * @param base
+	 *            The node whose descendant nodes are sought.
+	 * @return An ArrayList consisting of base and all of its descendants in
+	 *         depth first order.
+	 */
+	private ArrayList<org.eclipse.january.geometry.INode> getAllNodes(
+			org.eclipse.january.geometry.INode base) {
+
+		// The list collecting all the nodes in the tree
+		ArrayList<org.eclipse.january.geometry.INode> list = new ArrayList<org.eclipse.january.geometry.INode>();
+
+		// Start by adding the base node
+		list.add(base);
+
+		// Recursively add the tree with each child node as the root
+		for (org.eclipse.january.geometry.INode child : base.getNodes()) {
+			list.addAll(getAllNodes(child));
+		}
+
+		return list;
 	}
 
 	/**

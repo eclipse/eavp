@@ -117,26 +117,27 @@ public class ActionDeleteShape extends Action {
 				IRenderElement selectedShape = (IRenderElement) selectedObject;
 				INode parentShape = selectedShape.getBase().getParent();
 
-				if (parentShape instanceof INode) {
+				if (parentShape instanceof Geometry) {
 
-					// Remove the selected shape from the parent
-
-					synchronized (geometry) {
-						parentShape.removeNode(selectedShape.getBase());
-					}
-
-					view.treeViewer.refresh(parentShape);
-				}
-
-				else if (parentShape == null) {
-
-					// The parent shape may be the root GeometryComponent,
+					// The parent shape is the root GeometryComponent,
 					// so try removing it from there.
 
 					synchronized (geometry) {
 						geometry.removeNode(selectedShape.getBase());
 					}
 					view.treeViewer.refresh();
+
+				}
+
+				else {
+					// Remove the selected shape from the parent
+
+					synchronized (geometry) {
+						parentShape.removeNode(selectedShape.getBase());
+					}
+
+					view.treeViewer.refresh();
+
 				}
 			}
 		}

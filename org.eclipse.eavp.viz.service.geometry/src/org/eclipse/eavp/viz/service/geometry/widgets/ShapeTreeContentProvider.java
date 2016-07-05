@@ -97,9 +97,6 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 			// Call the parentShape's accept operation to call the appropriate
 			// visit member function in this class
 
-			// IRenderElement parentElement = holder
-			// .getRender((INode) parentShape);
-
 			// TODO Find a cleaner way to do this than listing all the operators
 			String type = ((IRenderElement) parentShape).getBase().getType();
 
@@ -205,7 +202,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 
 			return children;
 		} else {
-			return null;
+			return new Object[] {};
 		}
 
 	}

@@ -268,6 +268,7 @@ public class ActionAddShape extends Action {
 			render.setProperty("defaultBlue", -1);
 		}
 
+		// Initialize the color to the default
 		render.setProperty("red", render.getProperty("defaultRed"));
 		render.setProperty("green", render.getProperty("defaultGreen"));
 		render.setProperty("blue", render.getProperty("defaultBlue"));

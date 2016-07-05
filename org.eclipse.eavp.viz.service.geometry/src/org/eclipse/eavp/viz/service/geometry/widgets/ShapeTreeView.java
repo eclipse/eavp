@@ -337,6 +337,7 @@ public class ShapeTreeView extends ViewPart
 
 			if (selectedObject instanceof IRenderElement) {
 
+				// Set the shape's color to red to mark it as selected
 				IRenderElement selectedShape = (IRenderElement) selectedObject;
 				selectedShape.setProperty("red", 255);
 				selectedShape.setProperty("green", 0);

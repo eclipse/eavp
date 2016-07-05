@@ -13,7 +13,9 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
+import java.util.ArrayList;
 
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
@@ -144,16 +146,6 @@ public class ActionReplicateShape extends Action {
 
 		INode parentShape = selectedShape.getBase().getParent();
 
-		// Remove the selected shape from its original parent
-
-		synchronized (geometry) {
-			if (parentShape != null) {
-				parentShape.removeNode(selectedShape.getBase());
-			} else {
-				geometry.removeNode(selectedShape.getBase());
-			}
-		}
-
 		// Create a new parent union shape
 
 		Union replicateUnion = GeometryFactory.eINSTANCE.createUnion();
@@ -163,30 +155,10 @@ public class ActionReplicateShape extends Action {
 
 		for (int i = 1; i <= quantity; i++) {
 
-			// Clone the selected shape and remove its "selected" property
+			// Clone the selected shape
 
 			IRenderElement clonedShape = (IRenderElement) selectedShape.clone();
 			clonedShape.getBase().setId(i);
-
-			// Remove the selection indicating color from the cloned shape
-			if (clonedShape.getProperty("defaultRed") != null) {
-
-				// If there was a default color, restore it to the active
-				// color
-				clonedShape.setProperty("red",
-						clonedShape.getProperty("defaultRed"));
-				clonedShape.setProperty("green",
-						clonedShape.getProperty("defaultGreen"));
-				clonedShape.setProperty("blue",
-						clonedShape.getProperty("defaultBlue"));
-			}
-
-			// If there was no default, set the shape to grey
-			else {
-				clonedShape.setProperty("red", 127d);
-				clonedShape.setProperty("green", 127d);
-				clonedShape.setProperty("blue", 127d);
-			}
 
 			// Add the translation
 			Vertex clonedCenter = clonedShape.getBase().getCenter();
@@ -227,7 +199,78 @@ public class ActionReplicateShape extends Action {
 			view.treeViewer.refresh();
 		}
 
+		// Get the render elements
+		IRenderElementHolder holder = view.getHolder();
+
+		IRenderElement unionRender = holder.getRender(replicateUnion);
+		unionRender.setProperty("red", -1);
+		unionRender.setProperty("green", -1);
+		unionRender.setProperty("blue", -1);
+		unionRender.setProperty("defaultRed", -1);
+		unionRender.setProperty("defaultGreen", -1);
+		unionRender.setProperty("defaultBlue", -1);
+
+		for (int i = 0; i < quantity; i++) {
+
+			// A list of all new shapes added by the clone operation
+			ArrayList<INode> newShapes = new ArrayList<INode>();
+
+			// Add the clone and all of its children
+			newShapes.add(replicateUnion.getNodes().get(i));
+			for (int j = 0; j < newShapes.size(); j++) {
+				newShapes.addAll(newShapes.get(j).getNodes());
+			}
+
+			// Get the original set of renders, in the same order as the
+			// clones are in their own list
+			ArrayList<IRenderElement> originalRenders = new ArrayList<IRenderElement>();
+			originalRenders.add(selectedShape);
+			for (int j = 0; j < originalRenders.size(); j++) {
+				for (INode node : originalRenders.get(j).getBase().getNodes()) {
+					originalRenders.add(holder.getRender(node));
+				}
+			}
+
+			// Copy the color information from the original renders
+			for (int j = 0; j < newShapes.size(); j++) {
+
+				// Get the new and original shapes
+				INode node = newShapes.get(j);
+				IRenderElement originalElement = originalRenders.get(j);
+
+				// Get the cloned node's render
+				IRenderElement element = holder.getRender(node);
+
+				// Get the default values for the colors from the original
+				// shape
+				int red = (int) originalElement.getProperty("defaultRed");
+				int green = (int) originalElement.getProperty("defaultGreen");
+				int blue = (int) originalElement.getProperty("defaultBlue");
+
+				// Set the clone's default and current colors
+				element.setProperty("red", red);
+				element.setProperty("green", green);
+				element.setProperty("blue", blue);
+				element.setProperty("defaultRed", red);
+				element.setProperty("defaultGreen", green);
+				element.setProperty("defaultBlue", blue);
+			}
+
+		}
+
+		// Remove the selected shape from its original parent
+
+		synchronized (geometry) {
+			if (parentShape != null) {
+				parentShape.removeNode(selectedShape.getBase());
+			} else {
+				geometry.removeNode(selectedShape.getBase());
+			}
+		}
+
 		view.treeViewer.expandToLevel(parentShape, 1);
+
+		view.treeViewer.refresh();
 
 	}
 }

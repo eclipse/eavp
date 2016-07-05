@@ -142,6 +142,9 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	@Override
 	public void handleChildren(EList<IRenderElement<Group>> children) {
 
+		// Save the list of children
+		this.children = children;
+
 		// If there are no children, there is nothing to do
 		if (children != null) {
 

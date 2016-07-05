@@ -138,6 +138,10 @@ public class TransformationView extends ViewPart {
 		parent.setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
+		// An empty label to give room for a label before the row of text boxes
+		// on the next line
+		Label emptyLabel = new Label(parent, SWT.NONE);
+
 		// Coordinate labels
 
 		Label labelX = new Label(parent, SWT.NONE);
@@ -170,7 +174,7 @@ public class TransformationView extends ViewPart {
 		// Create a label for the opacity combo
 		Label opacityLabel = new Label(parent, SWT.NONE);
 		opacityLabel.setLayoutData(
-				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+				new GridData(SWT.NONE, SWT.NONE, false, false, 1, 1));
 		opacityLabel.setText("Opacity:");
 
 		// Initialize the opacity combo box
