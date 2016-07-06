@@ -37,6 +37,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.Shape3D;
+import model.IRenderElement;
 
 /**
  * <p>
@@ -176,7 +177,7 @@ public class FXViewer extends BasicViewer {
 				}
 
 				// Resolve the shape
-				ShapeController modelShape = (ShapeController) nodeParent
+				IRenderElement modelShape = (IRenderElement) nodeParent
 						.getProperties().get(ShapeController.class);
 
 				if (modelShape == null) {

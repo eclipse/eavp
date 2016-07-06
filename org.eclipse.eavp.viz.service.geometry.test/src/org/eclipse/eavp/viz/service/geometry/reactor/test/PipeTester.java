@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.geometry.reactor.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.junit.Test;
 
 /**
@@ -31,7 +31,7 @@ public class PipeTester {
 	public void checkProperties() {
 
 		// Create a pipe
-		Pipe pipe = new Pipe();
+		PipeRefactor pipe = new PipeRefactor();
 
 		// Check the number of rods
 		pipe.setNumRods(1);
@@ -62,11 +62,11 @@ public class PipeTester {
 	public void checkClone() {
 
 		// Create a junction
-		Pipe pipe = new Pipe();
+		PipeRefactor pipe = new PipeRefactor();
 		pipe.setProperty(MeshProperty.ID, "Property");
 
 		// Clone it and check that they are identical
-		Pipe clone = (Pipe) pipe.clone();
+		PipeRefactor clone = (PipeRefactor) pipe.clone();
 		assertTrue(pipe.equals(clone));
 	}
 }

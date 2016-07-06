@@ -39,7 +39,7 @@ public class PipeController extends TubeController
 	 * @param model
 	 * @param view
 	 */
-	public PipeController(Pipe model, BasicView view) {
+	public PipeController(PipeRefactor model, BasicView view) {
 		super(model, view);
 	}
 
@@ -59,7 +59,7 @@ public class PipeController extends TubeController
 	 * @return The number of rods in a SubChannel pipe
 	 */
 	public int getNumRods() {
-		return ((Pipe) model).getNumRods();
+		return ((PipeRefactor) model).getNumRods();
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class PipeController extends TubeController
 	 * @return The pipe's pitch
 	 */
 	public double getPitch() {
-		return ((Pipe) model).getPitch();
+		return ((PipeRefactor) model).getPitch();
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class PipeController extends TubeController
 	 *         of uniform size.
 	 */
 	public double getRodDiameter() {
-		return ((Pipe) model).getRodDiameter();
+		return ((PipeRefactor) model).getRodDiameter();
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class PipeController extends TubeController
 	 *            The number of rods in the SubChannel
 	 */
 	public void setNumRods(int numRods) {
-		((Pipe) model).setNumRods(numRods);
+		((PipeRefactor) model).setNumRods(numRods);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class PipeController extends TubeController
 	 * @param pitch
 	 */
 	public void setPitch(double pitch) {
-		((Pipe) model).setPitch(pitch);
+		((PipeRefactor) model).setPitch(pitch);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class PipeController extends TubeController
 	 *            The pipe's rod diameter
 	 */
 	public void setRodDiameter(double rodDiameter) {
-		((Pipe) model).setRodDiameter(rodDiameter);
+		((PipeRefactor) model).setRodDiameter(rodDiameter);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class PipeController extends TubeController
 	 *            The pipe's length
 	 */
 	public void setLength(Double length) {
-		((Pipe) model).setLength(length);
+		((PipeRefactor) model).setLength(length);
 
 	}
 
@@ -177,7 +177,7 @@ public class PipeController extends TubeController
 		BasicController castObject = (BasicController) source;
 
 		// Create the model and give it a reference to this
-		model = new Pipe();
+		model = new PipeRefactor();
 		model.setController(this);
 
 		// Copy the other object's data members

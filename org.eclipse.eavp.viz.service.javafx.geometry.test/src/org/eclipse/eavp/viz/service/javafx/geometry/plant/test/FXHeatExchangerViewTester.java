@@ -16,9 +16,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerView;
@@ -67,7 +67,7 @@ public class FXHeatExchangerViewTester {
 	public void checkView() {
 
 		// Create a pipe for the HeatExchanger to contain
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(25);
 		pipeMesh.setRadius(25);
@@ -83,7 +83,7 @@ public class FXHeatExchangerViewTester {
 		exchanger.setPrimaryPipe(pipe);
 
 		// Create a second pipe and two junctions to connect it to the exchanger
-		Pipe pipeMesh2 = new Pipe();
+		PipeRefactor pipeMesh2 = new PipeRefactor();
 		pipeMesh2.setLength(100);
 		pipeMesh2.setInnerRadius(25);
 		pipeMesh2.setRadius(25);
@@ -92,7 +92,7 @@ public class FXHeatExchangerViewTester {
 		FXPipeController pipe2 = new FXPipeController(pipeMesh2, pipeView2);
 		pipe2.setTranslation(50, 0, 0);
 
-		Junction junctionMesh = new Junction();
+		JunctionRefactor junctionMesh = new JunctionRefactor();
 		FXJunctionView junctionView = new FXJunctionView(junctionMesh);
 		JunctionController junction = new JunctionController(junctionMesh,
 				junctionView);
@@ -103,7 +103,7 @@ public class FXHeatExchangerViewTester {
 		junction.addEntityToCategory(pipe2, ReactorMeshCategory.OUTPUT);
 		pipe2.addEntityToCategory(junction, ReactorMeshCategory.INPUT);
 
-		Junction junctionMesh2 = new Junction();
+		JunctionRefactor junctionMesh2 = new JunctionRefactor();
 		FXJunctionView junctionView2 = new FXJunctionView(junctionMesh2);
 		JunctionController junction2 = new JunctionController(junctionMesh2,
 				junctionView2);

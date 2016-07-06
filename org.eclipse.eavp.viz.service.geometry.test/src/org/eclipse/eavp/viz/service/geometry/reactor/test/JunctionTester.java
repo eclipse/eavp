@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.geometry.reactor.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
 import org.junit.Test;
 
 /**
@@ -31,7 +31,7 @@ public class JunctionTester {
 	public void checkProperties() {
 
 		// The junction for testing
-		Junction junction = new Junction();
+		JunctionRefactor junction = new JunctionRefactor();
 
 		// Check the height functions
 		junction.setHeight(1d);
@@ -53,11 +53,11 @@ public class JunctionTester {
 	public void checkClone() {
 
 		// Create a junction
-		Junction junction = new Junction();
+		JunctionRefactor junction = new JunctionRefactor();
 		junction.setProperty(MeshProperty.INNER_RADIUS, "Property");
 
 		// Clone it and check that they are identical
-		Junction clone = (Junction) junction.clone();
+		JunctionRefactor clone = (JunctionRefactor) junction.clone();
 		assertTrue(junction.equals(clone));
 	}
 }

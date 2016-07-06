@@ -20,9 +20,9 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.modeling.test.utils.TestController;
 import org.eclipse.eavp.viz.modeling.test.utils.TestMesh;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class PipeControllerTester {
 	public void checkProperties() {
 
 		// Create a pipe
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		PipeController pipe = new PipeController(pipeMesh, new BasicView());
 
 		// Check the number of rods
@@ -74,7 +74,7 @@ public class PipeControllerTester {
 	public void checkUpdates() {
 
 		// Create a pipe
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		PipeController pipe = new PipeController(pipeMesh, new BasicView());
 
 		// Create a test object to receive and track updates from the pipe
@@ -89,7 +89,7 @@ public class PipeControllerTester {
 		BasicController output = new BasicController(new BasicMesh(),
 				new BasicView());
 		pipe.addEntityToCategory(output, ReactorMeshCategory.OUTPUT);
-		PipeController child = new PipeController(new Pipe(),
+		PipeController child = new PipeController(new PipeRefactor(),
 				new BasicView());
 		pipe.addEntity(child);
 
@@ -116,7 +116,7 @@ public class PipeControllerTester {
 	public void checkClone() {
 
 		// Create a junction
-		PipeController pipe = new PipeController(new Pipe(),
+		PipeController pipe = new PipeController(new PipeRefactor(),
 				new BasicView());
 		pipe.setProperty(MeshProperty.ID, "Property");
 
@@ -131,7 +131,7 @@ public class PipeControllerTester {
 	public void checkTransparency() {
 
 		// Create a pipe
-		Pipe mesh = new Pipe();
+		PipeRefactor mesh = new PipeRefactor();
 		PipeController shape = new PipeController(mesh, new TestView());
 
 		// The view should start off opaque
@@ -150,7 +150,7 @@ public class PipeControllerTester {
 	public void checkWireframe() {
 
 		// Create a pipe
-		Pipe mesh = new Pipe();
+		PipeRefactor mesh = new PipeRefactor();
 		PipeController shape = new PipeController(mesh, new TestView());
 
 		// The view should start off drawn normally

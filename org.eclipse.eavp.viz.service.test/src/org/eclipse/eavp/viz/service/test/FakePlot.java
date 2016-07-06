@@ -19,9 +19,11 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.eavp.viz.service.IPlot;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.csv.CSVSeries;
 import org.eclipse.eavp.viz.service.widgets.PlotGridComposite;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -53,7 +55,7 @@ public class FakePlot implements IPlot {
 	public final Map<String, List<ISeries>> depSeries = new HashMap<String, List<ISeries>>();
 
 	private int drawCount;
-	
+
 	/**
 	 * The independent series for this plot. This is a plain new series by
 	 * default.
@@ -68,7 +70,7 @@ public class FakePlot implements IPlot {
 	public FakePlot() {
 		drawCount = 0;
 	}
-	
+
 	/**
 	 * Adds the specified series to this plot under the given category
 	 * 
@@ -87,7 +89,10 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IVizCanvas#draw(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#draw(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
 	@Override
 	public Composite draw(Composite parent) throws Exception {
@@ -100,6 +105,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getCategories()
 	 */
 	@Override
@@ -109,6 +115,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getDataSource()
 	 */
 	@Override
@@ -118,7 +125,9 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#getDependentSeries(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#getDependentSeries(java.lang.String)
 	 */
 	@Override
 	public List<ISeries> getDependentSeries(String category) {
@@ -134,6 +143,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getIndependentSeries()
 	 */
 	@Override
@@ -143,6 +153,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getNumberOfAxes()
 	 */
 	@Override
@@ -152,6 +163,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getPlotTitle()
 	 */
 	@Override
@@ -161,6 +173,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getProperties()
 	 */
 	@Override
@@ -170,6 +183,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getSourceHost()
 	 */
 	@Override
@@ -179,6 +193,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#isSourceRemote()
 	 */
 	@Override
@@ -188,11 +203,12 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#redraw()
 	 */
 	@Override
 	public void redraw() {
-		// Nothing TODO- fake plot
+		// Nothing to do- fake plot
 		return;
 	}
 
@@ -219,7 +235,10 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#setIndependentSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#setIndependentSeries(org.eclipse.eavp.
+	 * viz.service.ISeries)
 	 */
 	@Override
 	public void setIndependentSeries(ISeries series) {
@@ -229,6 +248,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#setPlotTitle(java.lang.String)
 	 */
 	@Override
@@ -239,6 +259,7 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#setProperties(java.util.Map)
 	 */
 	@Override
@@ -248,15 +269,20 @@ public class FakePlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.
+	 * part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
 	 */
 	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
+	public String createAdditionalPage(MultiPageEditorPart parent,
+			IFileEditorInput file, int pageNum) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
 	 */
 	@Override
@@ -264,21 +290,43 @@ public class FakePlot implements IPlot {
 		return 0;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.
+	 * IProgressMonitor)
+	 */
 	@Override
 	public void save(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#saveAs()
+	 */
 	@Override
 	public void saveAs() {
-		// TODO Auto-generated method stub
-		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#getCustomActions()
+	 */
 	@Override
 	public ArrayList<Action> getCustomActions() {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(org.
+	 * eclipse.january.geometry.Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
 		return null;
 	}
 

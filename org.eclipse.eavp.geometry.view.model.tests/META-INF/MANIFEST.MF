@@ -13,5 +13,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.junit;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Import-Package: geometry,
+Import-Package: org.eclipse.january.geometry,
  org.eclipse.january.geometry.impl

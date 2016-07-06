@@ -23,6 +23,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.IPlot;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
@@ -137,6 +138,12 @@ public class ConnectionVizServiceTester {
 					@Override
 					public int getNumAdditionalPages() {
 						return 0;
+					}
+
+					@Override
+					public IRenderElementHolder getRenderElementHolder(
+							Geometry geometry) {
+						return null;
 					}
 				};
 			}

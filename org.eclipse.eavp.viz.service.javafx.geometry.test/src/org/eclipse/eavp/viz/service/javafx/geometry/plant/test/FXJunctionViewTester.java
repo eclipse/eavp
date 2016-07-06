@@ -13,9 +13,9 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.base.Representation;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXJunctionView;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeController;
@@ -41,7 +41,7 @@ public class FXJunctionViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		Junction mesh = new Junction();
+		JunctionRefactor mesh = new JunctionRefactor();
 		FXJunctionView view = new FXJunctionView(mesh);
 		Object clone = view.clone();
 
@@ -59,7 +59,7 @@ public class FXJunctionViewTester {
 	public void checkPosition() {
 
 		// Create a view on a junction with no connecting pipes
-		Junction mesh = new Junction();
+		JunctionRefactor mesh = new JunctionRefactor();
 		FXJunctionView view = new FXJunctionView(mesh);
 		JunctionController junction = new JunctionController(mesh, view);
 
@@ -69,7 +69,7 @@ public class FXJunctionViewTester {
 		assertTrue(view.getCenter()[2] == 0d);
 
 		// Create a pipe
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(5);
 		pipeMesh.setRadius(5);
@@ -123,7 +123,7 @@ public class FXJunctionViewTester {
 		assertTrue(Math.abs(center[2] - -50d) < 1);
 
 		// Create a second pipe
-		Pipe pipeMesh2 = new Pipe();
+		PipeRefactor pipeMesh2 = new PipeRefactor();
 		pipeMesh2.setLength(100);
 		pipeMesh2.setInnerRadius(5);
 		pipeMesh2.setRadius(5);
@@ -149,7 +149,7 @@ public class FXJunctionViewTester {
 	@Test
 	public void checkTransparency() {
 		// Create a view on a junction with no connecting pipes
-		Junction mesh = new Junction();
+		JunctionRefactor mesh = new JunctionRefactor();
 		FXJunctionView view = new FXJunctionView(mesh);
 		JunctionController junction = new JunctionController(mesh, view);
 
@@ -180,7 +180,7 @@ public class FXJunctionViewTester {
 	@Test
 	public void checkWireframe() {
 		// Create a view on a junction with no connecting pipes
-		Junction mesh = new Junction();
+		JunctionRefactor mesh = new JunctionRefactor();
 		FXJunctionView view = new FXJunctionView(mesh);
 		JunctionController junction = new JunctionController(mesh, view);
 

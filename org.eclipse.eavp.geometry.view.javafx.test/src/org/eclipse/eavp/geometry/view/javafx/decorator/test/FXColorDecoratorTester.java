@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorator.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXColorDecorator;
@@ -55,5 +56,13 @@ public class FXColorDecoratorTester {
 		// meshview.
 		assertTrue(
 				decorator.getMesh().getChildren().get(0) instanceof MeshView);
+
+		// Setting the properties should also set the variables
+		decorator.setProperty("red", 1);
+		assertEquals(1, decorator.getRed());
+		decorator.setProperty("green", 2);
+		assertEquals(2, decorator.getGreen());
+		decorator.setProperty("blue", 3);
+		assertEquals(3, decorator.getBlue());
 	}
 }

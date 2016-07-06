@@ -13,18 +13,19 @@ package org.eclipse.eavp.viz.service.javafx.canvas.test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.eclipse.eavp.viz.modeling.base.BasicController;
-import org.eclipse.eavp.viz.modeling.base.BasicMesh;
-import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXSelection;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Test;
+
+import model.ModelFactory;
 
 /**
  * A class to test the functionality of the FXVizCanvas
@@ -40,8 +41,7 @@ public class FXVizCanvasTester {
 	@Test
 	public void checkDraw() {
 
-		BasicController root = new BasicController(new BasicMesh(),
-				new BasicView());
+		Geometry root = GeometryFactory.eINSTANCE.createGeometry();
 		TestVizFXCanvas canvas = new TestVizFXCanvas(root);
 
 		try {
@@ -55,7 +55,8 @@ public class FXVizCanvasTester {
 		assertTrue(canvas.getViewer() instanceof FXViewer);
 
 		// Change the viewer's selection and check that an update was received
-		canvas.getViewer().setSelection(new FXSelection(root));
+		canvas.getViewer().setSelection(
+				new FXSelection(ModelFactory.eINSTANCE.createRenderObject()));
 		assertTrue(canvas.updated);
 	}
 
@@ -76,7 +77,7 @@ public class FXVizCanvasTester {
 		 * @param geometry
 		 *            The root node.
 		 */
-		public TestVizFXCanvas(BasicController geometry) {
+		public TestVizFXCanvas(Geometry geometry) {
 			super(geometry);
 		}
 

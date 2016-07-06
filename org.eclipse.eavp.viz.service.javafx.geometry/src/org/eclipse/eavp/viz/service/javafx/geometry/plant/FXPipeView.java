@@ -14,7 +14,7 @@ import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
 import org.eclipse.eavp.viz.service.geometry.reactor.IPipeView;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
 
@@ -49,7 +49,7 @@ public class FXPipeView extends FXShapeView implements IPipeView {
 	 *            The internal representation of the part which will be
 	 *            rendered.
 	 */
-	public FXPipeView(Pipe model) {
+	public FXPipeView(PipeRefactor model) {
 		super(model);
 
 		// Save the model's transformation

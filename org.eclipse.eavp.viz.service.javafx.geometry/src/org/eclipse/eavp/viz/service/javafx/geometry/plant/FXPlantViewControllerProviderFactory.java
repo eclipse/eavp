@@ -15,8 +15,8 @@ import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
 import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 
@@ -37,28 +37,28 @@ public class FXPlantViewControllerProviderFactory
 		super();
 
 		// Set the JunctionMesh provider
-		typeMap.put(Junction.class,
+		typeMap.put(JunctionRefactor.class,
 				new IControllerProvider<JunctionController>() {
 					@Override
 					public JunctionController createController(IMesh model) {
 
 						// Create a FXJunction view for junctions
 						FXJunctionView view = new FXJunctionView(
-								(Junction) model);
-						return new JunctionController((Junction) model,
+								(JunctionRefactor) model);
+						return new JunctionController((JunctionRefactor) model,
 								view);
 					}
 				});
 
 		// Set the PipeMesh provider
-		typeMap.put(Pipe.class,
+		typeMap.put(PipeRefactor.class,
 				new IControllerProvider<FXPipeController>() {
 					@Override
 					public FXPipeController createController(IMesh model) {
 
 						// Create a FXPipeView for pipes
-						FXPipeView view = new FXPipeView((Pipe) model);
-						return new FXPipeController((Pipe) model, view);
+						FXPipeView view = new FXPipeView((PipeRefactor) model);
+						return new FXPipeController((PipeRefactor) model, view);
 					}
 				});
 

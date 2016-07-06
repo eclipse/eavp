@@ -20,11 +20,13 @@ import static org.junit.Assert.fail;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -154,7 +156,7 @@ public class ConnectionPlotTester {
 		try {
 			testPlot.setDataSource(filepath);
 		} catch (Exception e1) {
-			//An exception is expected for this illegal data source assignment
+			// An exception is expected for this illegal data source assignment
 		}
 		assertFalse(filepath.equals(testPlot.getDataSource()));
 
@@ -192,7 +194,6 @@ class TestConnectionPlot<T> extends ConnectionPlot<T> {
 
 	@Override
 	protected ConnectionPlotComposite<T> createPlotComposite(Composite parent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -203,15 +204,19 @@ class TestConnectionPlot<T> extends ConnectionPlot<T> {
 	}
 
 	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
-		// TODO Auto-generated method stub
+	public String createAdditionalPage(MultiPageEditorPart parent,
+			IFileEditorInput file, int pageNum) {
 		return null;
 	}
 
 	@Override
 	public int getNumAdditionalPages() {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		return null;
 	}
 
 }

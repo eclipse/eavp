@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.base.Representation;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
@@ -68,7 +68,7 @@ public class FXReactorViewTester {
 				new FXReactorView(mesh));
 
 		// Create a pipe
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(5);
 		pipeMesh.setRadius(5);
@@ -145,7 +145,7 @@ public class FXReactorViewTester {
 				new FXReactorView(mesh));
 
 		// Create a pipe
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(5);
 		pipeMesh.setRadius(5);

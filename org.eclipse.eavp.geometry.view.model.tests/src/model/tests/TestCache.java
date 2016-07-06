@@ -39,8 +39,8 @@ public class TestCache extends MeshCacheImpl<String> {
 	@Override
 	public String getMesh(EList<Triangle> triangles) {
 
-		// TODO store this mesh with a key so that it can be reused in future
-		// calls
+		// Add the string representation of the normal and each vertex to
+		// the output
 		String mesh = "";
 
 		for (Triangle tri : triangles) {

@@ -17,7 +17,7 @@ import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerController;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.junit.Test;
 
 /**
@@ -39,9 +39,9 @@ public class HeatExchangerControllerTester {
 				new HeatExchanger(), new TestView());
 
 		// Create pipes for the exchanger
-		PipeController primary = new PipeController(new Pipe(),
+		PipeController primary = new PipeController(new PipeRefactor(),
 				new BasicView());
-		PipeController secondary = new PipeController(new Pipe(),
+		PipeController secondary = new PipeController(new PipeRefactor(),
 				new BasicView());
 
 		// Check that the secondary pipe can be set

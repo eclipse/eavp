@@ -13,7 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPipeView;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class FXPipeViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		Pipe mesh = new Pipe();
+		PipeRefactor mesh = new PipeRefactor();
 		mesh.setLength(100);
 		mesh.setInnerRadius(5);
 		mesh.setRadius(5);
@@ -54,7 +54,7 @@ public class FXPipeViewTester {
 	public void checkExtrema() {
 
 		// Create a pipe
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(5);
 		pipeMesh.setRadius(5);

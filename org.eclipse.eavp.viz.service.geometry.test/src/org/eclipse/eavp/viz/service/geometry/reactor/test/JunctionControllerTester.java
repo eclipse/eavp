@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
 import org.junit.Test;
 
 /**
@@ -35,7 +35,7 @@ public class JunctionControllerTester {
 
 		// Create a junction
 		JunctionController exchanger = new JunctionController(
-				new Junction(), new BasicView());
+				new JunctionRefactor(), new BasicView());
 		exchanger.setProperty(MeshProperty.INNER_RADIUS, "Property");
 
 		// Clone it and check that they are identical
@@ -49,7 +49,7 @@ public class JunctionControllerTester {
 	public void checkTransparency() {
 
 		// Create a junction
-		Junction mesh = new Junction();
+		JunctionRefactor mesh = new JunctionRefactor();
 		JunctionController shape = new JunctionController(mesh, new TestView());
 
 		// The view should start off opaque
@@ -68,7 +68,7 @@ public class JunctionControllerTester {
 	public void checkWireframe() {
 
 		// Create a junction
-		Junction mesh = new Junction();
+		JunctionRefactor mesh = new JunctionRefactor();
 		JunctionController shape = new JunctionController(mesh, new TestView());
 
 		// The view should start off drawn normally

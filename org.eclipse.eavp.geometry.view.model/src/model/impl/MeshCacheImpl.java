@@ -40,6 +40,7 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -138,6 +139,7 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -145,10 +147,10 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
-			case ModelPackage.MESH_CACHE___GET_MESH__STRING:
-				return getMesh((String)arguments.get(0));
-			case ModelPackage.MESH_CACHE___GET_MESH__ELIST:
-				return getMesh((EList<Triangle>)arguments.get(0));
+		case ModelPackage.MESH_CACHE___GET_MESH__STRING:
+			return getMesh((String) arguments.get(0));
+		case ModelPackage.MESH_CACHE___GET_MESH__ELIST:
+			return getMesh((EList<Triangle>) arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
 	}
@@ -163,7 +165,7 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 	 * 
 	 * @param triangles
 	 *            The mesh to be created, specified by a series of triangles.
-	 * @return A mesh object for use with the graphics enginge, based on the
+	 * @return A mesh object for use with the graphics engine, based on the
 	 *         input triangles.
 	 * 
 	 * @generated NOT

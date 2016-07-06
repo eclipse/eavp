@@ -12,8 +12,8 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
 import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerController;
@@ -45,12 +45,12 @@ public class FXPlantViewControllerFactoryTester {
 				.createController(heatExchangerMesh);
 
 		// A JunctionMesh should be given a JunctionController
-		Junction junctionMesh = new Junction();
+		JunctionRefactor junctionMesh = new JunctionRefactor();
 		JunctionController junction = (JunctionController) factory
 				.createProvider(junctionMesh).createController(junctionMesh);
 
 		// A PipeMesh should be given a FXPipeController
-		Pipe pipeMesh = new Pipe();
+		PipeRefactor pipeMesh = new PipeRefactor();
 		FXPipeController pipeController = (FXPipeController) factory
 				.createProvider(pipeMesh).createController(pipeMesh);
 

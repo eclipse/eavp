@@ -24,6 +24,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
@@ -98,7 +99,23 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IVizCanvas#draw(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(org.
+	 * eclipse.january.geometry.Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		// Plots do not necessarily use IRenderElements, so return nothing by
+		// default.
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#draw(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
 	@Override
 	public Composite draw(Composite parent) throws Exception {
@@ -108,24 +125,27 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getCategories()
 	 */
 	@Override
 	public List<String> getCategories() {
 		return new ArrayList<String>();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getCustomActions()
 	 */
 	@Override
-	public ArrayList<Action> getCustomActions(){
+	public ArrayList<Action> getCustomActions() {
 		return new ArrayList<Action>();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getDataSource()
 	 */
 	@Override
@@ -135,7 +155,9 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#getDependentSeries(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#getDependentSeries(java.lang.String)
 	 */
 	@Override
 	public List<ISeries> getDependentSeries(String category) {
@@ -144,6 +166,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getIndependentSeries()
 	 */
 	@Override
@@ -153,6 +176,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getNumberOfAxes()
 	 */
 	@Override
@@ -162,6 +186,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getPlotTitle()
 	 */
 	@Override
@@ -171,6 +196,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getProperties()
 	 */
 	@Override
@@ -180,6 +206,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getSourceHost()
 	 */
 	@Override
@@ -197,6 +224,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#isSourceRemote()
 	 */
 	@Override
@@ -262,6 +290,7 @@ public abstract class AbstractPlot implements IPlot {
 				 * will still be completed.
 				 */
 				notificationThread.submit(new Callable<Boolean>() {
+					@Override
 					public Boolean call() throws Exception {
 
 						notificationLock.lock();
@@ -286,6 +315,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#redraw()
 	 */
 	@Override
@@ -336,7 +366,10 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#setIndependentSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#setIndependentSeries(org.eclipse.eavp.
+	 * viz.service.ISeries)
 	 */
 	@Override
 	public void setIndependentSeries(ISeries series) {
@@ -345,6 +378,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#setPlotTitle(java.lang.String)
 	 */
 	@Override
@@ -354,6 +388,7 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#setProperties(java.util.Map)
 	 */
 	@Override
@@ -363,36 +398,46 @@ public abstract class AbstractPlot implements IPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.
+	 * part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
 	 */
 	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
-		//No additional pages, so nothing to do
+	public String createAdditionalPage(MultiPageEditorPart parent,
+			IFileEditorInput file, int pageNum) {
+		// No additional pages, so nothing to do
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
 	 */
 	@Override
 	public int getNumAdditionalPages() {
 		return 0;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.IProgressMonitor)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.
+	 * IProgressMonitor)
 	 */
-	public void save(IProgressMonitor monitor){
-		//Nothing to do
+	@Override
+	public void save(IProgressMonitor monitor) {
+		// Nothing to do
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#saveAs()
 	 */
-	public void saveAs(){
-		//Nothing to do
+	@Override
+	public void saveAs() {
+		// Nothing to do
 	}
 }

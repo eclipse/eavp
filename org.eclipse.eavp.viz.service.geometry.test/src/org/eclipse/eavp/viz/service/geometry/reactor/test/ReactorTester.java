@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
 import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
@@ -39,7 +39,7 @@ public class ReactorTester {
 		// Create a reactor and pipe
 		ReactorController reactor = new ReactorController(new Reactor(),
 				new BasicView());
-		PipeController pipe = new PipeController(new Pipe(),
+		PipeController pipe = new PipeController(new PipeRefactor(),
 				new BasicView());
 
 		// Add the pipe as a core channel

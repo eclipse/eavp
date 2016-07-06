@@ -15,9 +15,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.JunctionRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
+import org.eclipse.eavp.viz.service.geometry.reactor.PipeRefactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
 import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
@@ -42,7 +42,7 @@ public class ReactorControllerTester {
 		// Create a reactor and pipe
 		ReactorController reactor = new ReactorController(new Reactor(),
 				new BasicView());
-		PipeController pipe = new PipeController(new Pipe(), new BasicView());
+		PipeController pipe = new PipeController(new PipeRefactor(), new BasicView());
 
 		// Add the pipe as a core channel
 		reactor.addEntityToCategory(pipe, ReactorMeshCategory.CORE_CHANNELS);
@@ -77,7 +77,7 @@ public class ReactorControllerTester {
 	public void checkWireframe() {
 
 		// Create a junction
-		Junction mesh = new Junction();
+		JunctionRefactor mesh = new JunctionRefactor();
 		JunctionController shape = new JunctionController(mesh, new TestView());
 
 		// The view should start off drawn normally

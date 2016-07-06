@@ -56,12 +56,17 @@ public class FXWireframeDecoratorTester {
 		decorator.setWireframe(false);
 		assertTrue(((MeshView) decorator.getMesh().getChildren().get(0))
 				.getDrawMode() == DrawMode.FILL);
-		
-		//Sending an update from the shape should also set the wireframe mode
+
+		// Sending an update from the shape should also set the wireframe mode
 		shape.changeDecoratorProperty("wireframe", true);
 		assertTrue(decorator.isWireframe());
 		assertTrue(((MeshView) decorator.getMesh().getChildren().get(0))
 				.getDrawMode() == DrawMode.LINE);
-		
+
+		// Setting the property should also set the opacity for the decorator
+		// and object
+		decorator.setProperty("wireframe", false);
+		assertTrue(decorator.isWireframe());
+		assertEquals(0, decorator.getMesh().getOpacity(), .01d);
 	}
 }

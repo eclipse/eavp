@@ -10,208 +10,123 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.reactor;
 
-import java.util.ArrayList;
-
-import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
-import org.eclipse.eavp.viz.modeling.Tube;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
-import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.january.geometry.impl.TubeImpl;
 
 /**
- * The internal representation of a Pipe part.
+ * A directional Tube with extra information used in a reactor.
  * 
  * @author Robert Smith
  *
  */
-public class Pipe extends Tube {
+public class Pipe extends TubeImpl {
 
 	/**
-	 * Logger for handling event messages and other information.
+	 * The number of rods present in this pipe.
 	 */
-	private static final Logger logger = LoggerFactory
-			.getLogger(Pipe.class);
+	private int numRods;
+
+	/**
+	 * This pipe's pitch.
+	 */
+	private double pitch;
+
+	/**
+	 * The diameter of the pipe's rods.
+	 */
+	private double rodDiameter;
 
 	/**
 	 * The default constructor.
-	 */
-	public Pipe() {
-		super();
-	}
-
-	/**
-	 * A constructor which initializes a pipe's length and radius.
 	 * 
 	 * @param length
-	 *            The pipe's length
+	 *            The pipe's length.
 	 * @param radius
-	 *            The pipe's radius
+	 *            The pipe's radius.
 	 */
 	public Pipe(double length, double radius) {
-		super(length, radius);
-	}
+		super();
 
-	/**
-	 * Convenience getter method for the number of rods.
-	 * 
-	 * @return The number of rods in a SubChannel pipe
-	 */
-	public int getNumRods() {
-		return Integer.parseInt(properties.get(ReactorMeshProperty.NUM_RODS));
-	}
-
-	/**
-	 * Convenience getter method for the pitch
-	 * 
-	 * @return The pipe's pitch
-	 */
-	public double getPitch() {
-		return Double.parseDouble(properties.get(ReactorMeshProperty.PITCH));
-	}
-
-	/**
-	 * Convenience getter method for the rod diameter
-	 * 
-	 * @return The pipe's rod diameter, under the assumption that all rods are
-	 *         of uniform size.
-	 */
-	public double getRodDiameter() {
-		return Double
-				.parseDouble(properties.get(ReactorMeshProperty.ROD_DIAMETER));
-	}
-
-	/**
-	 * Convenience setter method for a SubChannel Pipe's number of rods. Does
-	 * nothing for non-SubChannel pipes.
-	 * 
-	 * @param numRods
-	 *            The number of rods in the SubChannel
-	 */
-	public void setNumRods(int numRods) {
-		setProperty(ReactorMeshProperty.NUM_RODS, Integer.toString(numRods));
-	}
-
-	/**
-	 * Convenience setter method for the pipe's pitch
-	 * 
-	 * @param pitch
-	 */
-	public void setPitch(double pitch) {
-		setProperty(ReactorMeshProperty.PITCH, Double.toString(pitch));
-	}
-
-	/**
-	 * Convenience setter method for the pipe's rod diameter
-	 * 
-	 * @param rodDiameter
-	 *            The pipe's rod diameter
-	 */
-	public void setRodDiameter(double rodDiameter) {
-		setProperty(ReactorMeshProperty.ROD_DIAMETER,
-				Double.toString(rodDiameter));
+		// Initialize the data members
+		setHeight(length);
+		setRadius(radius);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.ShapeMesh#addEntityByCategory(org.
-	 * eclipse.ice.viz.service.modeling.AbstractController, java.lang.String)
-	 */
-	@Override
-	public void addEntityToCategory(IController entity,
-			IMeshCategory category) {
-
-		// If adding an input or output, add it without registering
-		// as a listener, to avoid circular updates
-		if (ReactorMeshCategory.INPUT.equals(category)
-				|| ReactorMeshCategory.OUTPUT.equals(category)) {
-
-			// Get the entities for the given category
-			ArrayList<IController> catList = entities.get(category);
-
-			// If the list is null, make an empty one
-			if (catList == null) {
-				catList = new ArrayList<IController>();
-			}
-
-			// Prevent a part from being added multiple times
-			else if (catList.contains(entity)) {
-				return;
-			}
-
-			// If the entity is already present in this category, don't add a
-			// second entry for it
-			else
-				for (IController currentEntity : catList) {
-					if (entity == currentEntity) {
-						return;
-					}
-				}
-
-			// Add the entity to the list and put it in the map
-			catList.add(entity);
-			entities.put(category, catList);
-
-			// Notify listeners of the new child
-			SubscriptionType[] eventTypes = { SubscriptionType.CHILD };
-			updateManager.notifyListeners(eventTypes);
-		}
-
-		// Otherwise, add it normally
-		else {
-			super.addEntityToCategory(entity, category);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.ShapeMesh#setProperty(java.lang.
-	 * String, java.lang.String)
-	 */
-	@Override
-	public void setProperty(IMeshProperty property, String value) {
-
-		// Validate input
-		if (MeshProperty.INNER_RADIUS.equals(property)) {
-			logger.error(
-					"Pipes are specified as always having an inner radius equal to their outer radius. Inner radius cannot be set.");
-			return;
-		}
-
-		super.setProperty(property, value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.modeling.TubeComponent#getInnerRadius()
+	 * @see org.eclipse.january.geometry.impl.TubeImpl#getInnerRadius()
 	 */
 	@Override
 	public double getInnerRadius() {
-
-		// Pipes are always drawn with infinite thinness, so their inner and
-		// outer radii are identical
 		return getRadius();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.modeling.AbstractMeshComponent#clone()
+	 * @see org.eclipse.january.geometry.impl.TubeImpl#setInnerRadius(double)
 	 */
 	@Override
-	public Object clone() {
+	public void setInnerRadius(double newInnerRadius) {
 
-		// Make a new shape component and copy the data into it
-		Pipe clone = new Pipe();
-		clone.copy(this);
+		// Set the radius instead
+		setRadius(newInnerRadius);
+	}
 
-		return clone;
+	/**
+	 * Getter method for the number of rods.
+	 * 
+	 * @return The number of rods in the pipe.
+	 */
+	public int getNumRods() {
+		return numRods;
+	}
+
+	/**
+	 * Getter method for the pitch.
+	 * 
+	 * @return The pipe's pitch.
+	 */
+	public double getPitch() {
+		return pitch;
+	}
+
+	/**
+	 * Getter method for the rod diameter.
+	 * 
+	 * @return The rods' diameter.
+	 */
+	public double getRodDiameter() {
+		return rodDiameter;
+	}
+
+	/**
+	 * Setter method for the number of rods.
+	 * 
+	 * @param numRods
+	 *            The number of rods in the pipe.
+	 */
+	public void setNumRods(int numRods) {
+		this.numRods = numRods;
+	}
+
+	/**
+	 * Setter method for the pitch.
+	 * 
+	 * @param pitch
+	 *            The pipe's new pitch.
+	 */
+	public void setPitch(double pitch) {
+		this.pitch = pitch;
+	}
+
+	/**
+	 * Setter method for the rod diameter.
+	 * 
+	 * @param rodDiameter
+	 *            The pipe's new rod diameter.
+	 */
+	public void setRodDiameter(double rodDiameter) {
+		this.rodDiameter = rodDiameter;
 	}
 }

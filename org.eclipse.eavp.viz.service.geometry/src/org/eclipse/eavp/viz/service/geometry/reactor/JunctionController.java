@@ -39,7 +39,7 @@ public class JunctionController extends BasicController
 	 * @param model
 	 * @param view
 	 */
-	public JunctionController(Junction model, BasicView view) {
+	public JunctionController(JunctionRefactor model, BasicView view) {
 		super(model, view);
 	}
 
