@@ -114,6 +114,9 @@
             <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/BoundingBox/minX"/>
             <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/BoundingBox/minY"/>
             <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/BoundingBox/minZ"/>
+            <genOperations ecoreOperation="geometry.ecore#//eclipse/january/geometry/BoundingBox/addArea">
+              <genParameters ecoreParameter="geometry.ecore#//eclipse/january/geometry/BoundingBox/addArea/area"/>
+            </genOperations>
           </genClasses>
           <genClasses ecoreClass="geometry.ecore#//eclipse/january/geometry/Junction">
             <genFeatures createChild="false" ecoreFeature="ecore:EAttribute geometry.ecore#//eclipse/january/geometry/Junction/height"/>

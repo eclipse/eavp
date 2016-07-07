@@ -272,16 +272,16 @@
         <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="newDataType2"/>
         <eClassifiers xsi:type="ecore:EClass" name="Pipe" eSuperTypes="#//eclipse/january/geometry/Tube">
           <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-            <details key="documentation" value="A pipe is a directional tube. It has a definite top and a definite bottom, and has been extended to include data about rods important to a nuclear reactor model."/>
+            <details key="documentation" value="A pipe is a directional tube. It has a definite top and a definite bottom, and has been extended to include data about rods important to a nuclear reactor model.&#xD;&#xA;&#xD;&#xA;This class is part of the nuclear reactor example code, and is included here as an example of extending the model."/>
           </eAnnotations>
           <eOperations name="getLowerEdge" eType="#//eclipse/january/geometry/BoundingBox">
             <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-              <details key="documentation" value="Get the bounding box encompassing the lower (input) edge of the pipe."/>
+              <details key="documentation" value="Get the bounding box encompassing the lower (output) edge of the pipe."/>
             </eAnnotations>
           </eOperations>
           <eOperations name="getUpperEdge" eType="#//eclipse/january/geometry/BoundingBox">
             <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-              <details key="documentation" value="Get the bounding box surrounding the top (output) edge of the pipe."/>
+              <details key="documentation" value="Get the bounding box surrounding the top (inputt) edge of the pipe."/>
             </eAnnotations>
           </eOperations>
           <eStructuralFeatures xsi:type="ecore:EAttribute" name="numRods" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
@@ -319,6 +319,12 @@
           <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
             <details key="documentation" value="A bounding box describes the minimally sized rectangular prism box to contain some region. The box is defined by two points on opposite sides of the prism, one formed from (minX, minY, minZ) and the other from (maxX, maxY, maxZ).  These points are chosen such that minX is the smallest the x coordinate can be in any point within the prism, maxX is the maximal x coordinate value, minY is the minal y coordinate value, etc. "/>
           </eAnnotations>
+          <eOperations name="addArea">
+            <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+              <details key="documentation" value="Adds the given bounding box's area to the area represented by this one. If the bounding box is contained within this one, there will be no change. If it is partially or wholly outside, this bounding box will be enlargened by the minimal amount required to contain it. "/>
+            </eAnnotations>
+            <eParameters name="area" eType="#//eclipse/january/geometry/BoundingBox"/>
+          </eOperations>
           <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
             <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
               <details key="documentation" value="The maximal x value in the bounding box."/>
@@ -357,7 +363,7 @@
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Junction" eSuperTypes="#//eclipse/january/geometry/Shape">
           <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-            <details key="documentation" value="A junction shape between pipes in a reactor. A junction is drawn as a box around the lower ends of its output pipes and the upper ends of its input pipes. "/>
+            <details key="documentation" value="A junction shape between pipes in a reactor. A junction is drawn as a box around the lower ends of its input pipes and the upper ends of its output pipes. &#xD;&#xA;&#xD;&#xA;This class is part of the nuclear reactor example code, and is included here as an example of extending the model."/>
           </eAnnotations>
           <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble">
             <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -389,7 +395,7 @@
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="HeatExchanger" eSuperTypes="#//eclipse/january/geometry/Shape">
           <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-            <details key="documentation" value="A heat exchanger is a wrapper around a pipe shape. It represents connections between up to four junctions. The HeatExchanger will be drawn as a box around the pipe and two additional cylindrical shells which connect the box to up to two junction. "/>
+            <details key="documentation" value="A heat exchanger is a wrapper around a pipe shape. It represents connections between up to four junctions. The HeatExchanger will be drawn as a box around the pipe and two additional cylindrical shells which connect the box to up to two junction. &#xD;&#xA;&#xD;&#xA;This class is part of the nuclear reactor example code, and is included here as an example of extending the model."/>
           </eAnnotations>
           <eStructuralFeatures xsi:type="ecore:EReference" name="pipe" eType="#//eclipse/january/geometry/Pipe"/>
           <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//eclipse/january/geometry/Junction">
@@ -405,7 +411,7 @@
         </eClassifiers>
         <eClassifiers xsi:type="ecore:EClass" name="Reactor" eSuperTypes="#//eclipse/january/geometry/Shape">
           <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-            <details key="documentation" value="A shape representing the core reactor in a nuclear reactor. It is represented by a cut away of a capsule shape around a series of pipes, consisting of two strainght rectangular sides along its shortest dimension, a curved side along the middle dimension, and the largest dimension left open to show the pipes within."/>
+            <details key="documentation" value="A shape representing the core reactor in a nuclear reactor. It is represented by a cut away of a capsule shape around a series of pipes, consisting of two strainght rectangular sides along its shortest dimension, a curved side along the middle dimension, and the largest dimension left open to show the pipes within.&#xD;&#xA;&#xD;&#xA;This class is part of the nuclear reactor example code, and is included here as an example of extending the model."/>
           </eAnnotations>
           <eStructuralFeatures xsi:type="ecore:EReference" name="pipes" upperBound="-1"
               eType="#//eclipse/january/geometry/Pipe" containment="true"/>
