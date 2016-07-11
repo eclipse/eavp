@@ -31,33 +31,33 @@ public class TransformationPropertyWidget {
 	/**
 	 * The label displaying the property name.
 	 */
-	Label label;
+	protected Label label;
 
 	/**
 	 * The current property's name.
 	 */
-	String name;
+	protected String name;
 
 	/**
 	 * The parent composite which contains this widget.
 	 */
-	Composite parent;
+	protected Composite parent;
 
 	/**
 	 * The source node from which the displayed property originated and which is
 	 * to be updated based on user actions.
 	 */
-	INode source;
+	protected INode source;
 
 	/**
 	 * The text box allowing the property's value to be edited.
 	 */
-	RealSpinner spinner;
+	protected RealSpinner spinner;
 
 	/**
 	 * The current property value.
 	 */
-	double value;
+	protected double value;
 
 	/**
 	 * The default constructor, giving the two controls that the widget will
