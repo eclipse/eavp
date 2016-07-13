@@ -150,7 +150,7 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 	public void deleteSelection() {
 
 		// Check each polygon in the mesh to see if it should be deleted
-		for (IController polygon : controllerRoot.getEntities()) {
+		for (IController polygon : rootController.getEntities()) {
 
 			// Whether or not the polygon is completely selected
 			boolean selected = true;
@@ -170,7 +170,7 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 			// If all the vertices were selected, remove the polygon from the
 			// mesh
 			if (selected) {
-				controllerRoot.removeEntity(polygon);
+				rootController.removeEntity(polygon);
 			}
 		}
 	}
@@ -188,11 +188,11 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 		((FXMeshViewer) viewer).setInternalSelection(selection);
 
 		// Start by deselecting everything
-		for (IController polygon : controllerRoot.getEntities()) {
+		for (IController polygon : rootController.getEntities()) {
 			polygon.setProperty(MeshProperty.SELECTED, "False");
 		}
 
-		for (IController polygon : controllerRoot.getEntities()) {
+		for (IController polygon : rootController.getEntities()) {
 
 			// If a polygon is in the selection, set it as selected. (This will
 			// also select all its children).
