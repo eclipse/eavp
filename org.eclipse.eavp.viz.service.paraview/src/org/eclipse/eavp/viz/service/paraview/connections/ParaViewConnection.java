@@ -113,10 +113,16 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 			serverPath = serverPath.substring(0, path.length() - 1);
 		}
 
+		//Get the host name, discarding the username if present
+		String hostname = host;
+        if (hostname.contains("@")) {
+            hostname = hostname.split("@")[1];
+        }
+		
 		try {
 
 			// Check the host name to see if this is a local launch
-			InetAddress hostAddr = InetAddress.getByName(host);
+			InetAddress hostAddr = InetAddress.getByName(hostname);
 			if (hostAddr.isAnyLocalAddress() || hostAddr.isLoopbackAddress()
 					|| NetworkInterface.getByInetAddress(hostAddr) != null) {
 
