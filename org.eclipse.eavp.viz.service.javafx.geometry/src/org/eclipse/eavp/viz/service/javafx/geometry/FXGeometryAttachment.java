@@ -66,5 +66,10 @@ public class FXGeometryAttachment extends FXAttachment {
 
 		return wireframeDecorator;
 	}
+	
+	@Override
+	public IRenderElement getRender(org.eclipse.january.geometry.INode node) {
+		return createElement(node);
+	}
 
 }

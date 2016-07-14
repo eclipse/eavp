@@ -177,6 +177,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	public Object[] getElements(Object inputElement) {
 		// Return an array of a geometry's nodes
 		if (inputElement instanceof Geometry) {
+			System.out.println("adding nodes as elements");
 			List childrenList = ((Geometry) inputElement).getNodes();
 
 			Object[] children = new Object[childrenList.size()];
@@ -184,6 +185,9 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 			// Replace each node with its wrapping RenderElement
 			for (int i = 0; i < children.length; i++) {
 				children[i] = holder.getRender((INode) childrenList.get(i));
+				if (children[i] == null) {
+					
+				}
 			}
 
 			return children;
