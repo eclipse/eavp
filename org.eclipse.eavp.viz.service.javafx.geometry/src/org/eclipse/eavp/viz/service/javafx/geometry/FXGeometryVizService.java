@@ -13,14 +13,12 @@ package org.eclipse.eavp.viz.service.javafx.geometry;
 import java.util.Collections;
 import java.util.Set;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
-import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeControllerProviderFactory;
-import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXPlantViewRootController;
 import org.eclipse.january.geometry.Geometry;
 
 /**
@@ -82,7 +80,7 @@ public class FXGeometryVizService extends AbstractVizService {
 	 */
 	@Override
 	public IControllerProviderFactory getControllerProviderFactory() {
-		return new FXShapeControllerProviderFactory();
+		return new BasicControllerProviderFactory();
 	}
 
 	/*
