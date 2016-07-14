@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Triangle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -95,7 +97,7 @@ public class ShapeTreeView extends ViewPart
 		// Make a TreeViewer and add a content provider to it
 
 		treeViewer = new TreeViewer(parent);
-
+		
 		ShapeTreeContentProvider contentProvider = new ShapeTreeContentProvider(
 				holder);
 		treeViewer.setContentProvider(contentProvider);
@@ -206,7 +208,21 @@ public class ShapeTreeView extends ViewPart
 	public void setGeometry(Geometry renderElements) {
 
 		// Set the TreeViewer's input
+		System.out.println(renderElements);
 
+		for(INode node : renderElements.getNodes()) {
+			if (node == null) {
+				System.out.println("Has null node!");
+				renderElements.getNodes().remove(node);
+			} else {
+				for (Triangle t : node.getTriangles()) {
+					if (t == null) {
+						System.out.println("Has null triangle!");
+						node.getTriangles().remove(t);
+					}
+				}
+			}
+		}
 		this.treeViewer.setInput(renderElements);
 
 	}
