@@ -62,6 +62,7 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	 */
 	public FXGeometryCanvas(Geometry source) {
 		super(source);
+
 	}
 
 	/*

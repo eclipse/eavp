@@ -149,7 +149,7 @@ public class FXVizCanvas implements IVizCanvas {
 		if (root == null) {
 			return;
 		}
-
+		System.out.println("Loading root node: "+root);
 		this.root = root;
 
 		rootNode = new GNode();

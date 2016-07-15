@@ -208,21 +208,6 @@ public class ShapeTreeView extends ViewPart
 	public void setGeometry(Geometry renderElements) {
 
 		// Set the TreeViewer's input
-		System.out.println(renderElements);
-
-		for(INode node : renderElements.getNodes()) {
-			if (node == null) {
-				System.out.println("Has null node!");
-				renderElements.getNodes().remove(node);
-			} else {
-				for (Triangle t : node.getTriangles()) {
-					if (t == null) {
-						System.out.println("Has null triangle!");
-						node.getTriangles().remove(t);
-					}
-				}
-			}
-		}
 		this.treeViewer.setInput(renderElements);
 
 	}
