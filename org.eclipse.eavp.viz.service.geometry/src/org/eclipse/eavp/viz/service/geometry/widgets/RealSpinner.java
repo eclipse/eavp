@@ -299,7 +299,7 @@ public class RealSpinner {
 	 * Checks the state of the Text widget and updates the value and text
 	 * accordingly
 	 */
-	private void validateText() {
+	protected void validateText() {
 
 		// Check if the input can be parsed as a double
 

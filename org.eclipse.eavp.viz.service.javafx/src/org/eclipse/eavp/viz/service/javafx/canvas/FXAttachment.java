@@ -15,6 +15,10 @@ import java.util.List;
 
 import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
+import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
@@ -50,6 +54,9 @@ public class FXAttachment extends BasicAttachment {
 
 	/** */
 	protected List<Geometry> knownParts;
+
+	/** */
+	protected List<IController> knownPartControllers;
 
 	/**
 	 * The cache of all rendered meshes for this attachment.
@@ -229,6 +236,28 @@ public class FXAttachment extends BasicAttachment {
 	}
 
 	/**
+	 * A function invoked when the attachment receives an update from its
+	 * contained modeling parts. This function does nothing by default and is
+	 * intended to be implemented by subclasses
+	 * 
+	 * @param source
+	 *            The controller which triggered the update
+	 */
+	protected void handleUpdate(IController source) {
+		// Nothing to do
+	}
+
+	/**
+	 * Get the list of all modeling parts which have been added to this
+	 * attachment.
+	 * 
+	 * @return All parts contained in this attachment
+	 */
+	public List<IController> getKnownPartControllers() {
+		return knownPartControllers;
+	}
+
+	/**
 	 * Get the list of all modeling parts which have been added to this
 	 * attachment.
 	 * 
@@ -310,6 +339,67 @@ public class FXAttachment extends BasicAttachment {
 		fxAttachmentNode.setVisible(visible);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment#addGeometry(
+	 * org.eclipse.eavp.viz.modeling.base.IController)
+	 */
+	@Override
+	public void addGeometry(IController geom) {
+		super.addGeometry(geom);
+
+		if (fxAttachmentNode == null) {
+			fxAttachmentNode = new Group();
+		}
+
+		if (knownParts == null) {
+			knownParts = new ArrayList<>();
+		}
+
+		if (!knownPartControllers.contains(geom)) {
+
+			geom.register(new IManagedUpdateableListener() {
+				@Override
+				public void update(IManagedUpdateable component,
+						SubscriptionType[] type) {
+
+					javafx.application.Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+
+							// Invoke the update function
+							handleUpdate(geom);
+						}
+					});
+				}
+
+				@Override
+				public ArrayList<SubscriptionType> getSubscriptions(
+						IManagedUpdateable source) {
+
+					// Register to receive all updates
+					ArrayList<SubscriptionType> types = new ArrayList<SubscriptionType>();
+					types.add(SubscriptionType.ALL);
+					return types;
+				}
+			});
+
+			// Have the geometry refreshed when it is added
+			handleUpdate(geom);
+
+			knownPartControllers.add(geom);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment#addGeometry(
+	 * org.eclipse.january.geometry.Geometry)
+	 */
 	@Override
 	public void addGeometry(Geometry geom) {
 		super.addGeometry(geom);

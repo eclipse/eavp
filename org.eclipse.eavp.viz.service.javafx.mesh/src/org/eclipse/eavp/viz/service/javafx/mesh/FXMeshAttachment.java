@@ -68,12 +68,12 @@ public class FXMeshAttachment extends FXAttachment {
 
 		/**
 		// Add the source if it is unrecognized
-		if (!knownParts.contains(source)) {
+		if (!knownPartControllers.contains(source)) {
 			addGeometry(source);
 		}
 
 		// For each group which has been added to the attachment
-		for (IController group : knownParts) {
+		for (IController group : knownPartControllers) {
 
 			// Get each part which is managed by that controller
 			for (IController entity : group.getEntities()) {
