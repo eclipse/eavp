@@ -177,7 +177,6 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	public Object[] getElements(Object inputElement) {
 		// Return an array of a geometry's nodes
 		if (inputElement instanceof Geometry) {
-			System.out.println("adding nodes as elements");
 			List childrenList = ((Geometry) inputElement).getNodes();
 
 			Object[] children = new Object[childrenList.size()];
@@ -297,7 +296,6 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		System.out.println("Input changed: "+ oldInput + "to new: "+newInput);
 		// The state of this class does not depend on the input, so we do not
 		// need to change the state when the input of the TreeViewer changes.
 

@@ -74,6 +74,8 @@ public class ShapeTreeView extends ViewPart
 	private Action duplicateShapes;
 	private Action replicateShapes;
 	private Action deleteShape;
+	
+	private Action importSTL;
 
 	/**
 	 * <p>
@@ -126,6 +128,8 @@ public class ShapeTreeView extends ViewPart
 		IActionBars actionBars = getViewSite().getActionBars();
 		IToolBarManager toolbarManager = actionBars.getToolBarManager();
 
+		importSTL = new ActionImportGeometry(this);
+		
 		// Create the add shapes menu managers
 
 		addPrimitiveShapes = new DropdownAction("Add Primitives");
@@ -170,6 +174,8 @@ public class ShapeTreeView extends ViewPart
 
 		deleteShape = new ActionDeleteShape(this);
 
+		toolbarManager.add(importSTL);
+		
 		// Add the top level menus to the toolbar
 		toolbarManager.add(addPrimitiveShapes);
 		toolbarManager.add(addComplexShapes);
