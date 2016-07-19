@@ -14,6 +14,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
@@ -61,6 +62,11 @@ public class FXVizCanvas implements IVizCanvas {
 	 */
 	protected Geometry root;
 
+	/**
+	 * The modeling object that is currently set on the viewer.
+	 */
+	protected IController rootController;
+
 	/** The active rootnode in the scene. */
 	private INode rootNode;
 
@@ -69,6 +75,16 @@ public class FXVizCanvas implements IVizCanvas {
 
 	/** ICE properties. */
 	private Map<String, String> properties;
+
+	/**
+	 * Creates a canvas for the supplied geometry.
+	 * 
+	 * @param geometry
+	 *            EAVP Geometry instance to visualize in the canvas.
+	 */
+	public FXVizCanvas(IController geometry) {
+		rootController = geometry;
+	}
 
 	/**
 	 * Creates a canvas for the supplied geometry.
@@ -285,4 +301,29 @@ public class FXVizCanvas implements IVizCanvas {
 		return rootAtachment;
 	}
 
+	/**
+	 * <p>
+	 * Handles the processing and setting up the canvas' supplied geometry for
+	 * visualization.
+	 * </p>
+	 * 
+	 * @param root
+	 *            the geometry to visualize
+	 */
+	protected void loadPart(IController root) {
+		if (root == null) {
+			return;
+		}
+
+		this.rootController = root;
+
+		rootNode = new GNode();
+
+		createAttachment();
+		rootAtachment.addGeometry(root);
+
+		rootNode.attach(rootAtachment);
+
+		viewer.setInput(rootNode);
+	}
 }

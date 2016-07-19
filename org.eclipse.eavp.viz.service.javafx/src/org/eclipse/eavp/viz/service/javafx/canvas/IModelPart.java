@@ -12,6 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.canvas;
 
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.january.geometry.Geometry;
 
 /**
@@ -23,39 +24,54 @@ import org.eclipse.january.geometry.Geometry;
  *
  */
 public interface IModelPart {
-	
+
+	/**
+	 * <p>
+	 * Adds a Geometry instance to this entity.
+	 * </p>
+	 * 
+	 * @param geom
+	 *            an ICE Geometry instance
+	 */
+	public void addGeometry(IController geom);
+
 	/**
 	 * Adds a Geometry instance to this entity.
 	 * 
-	 * @param geom Geometry instance
+	 * @param geom
+	 *            Geometry instance
 	 */
 	public void addGeometry(Geometry geom);
-	
+
 	/**
 	 * Adds a shape to this entity.
 	 * 
-	 * @param shape An EAVP CSG INode instance.
+	 * @param shape
+	 *            An EAVP CSG INode instance.
 	 */
 	public void addShape(org.eclipse.january.geometry.INode shape);
-	
+
 	/**
 	 * Removes a geometry from those displayed in the model.
 	 * 
-	 * @param geom The geometry to be removed.
+	 * @param geom
+	 *            The geometry to be removed.
 	 */
 	public void removeGeometry(Geometry geom);
-	
+
 	/**
 	 * Removes the supplied INode from this entity.
 	 * 
-	 * @param shape The EAVP INode to remove.
+	 * @param shape
+	 *            The EAVP INode to remove.
 	 */
 	public void removeShape(org.eclipse.january.geometry.INode shape);
-	
+
 	/**
 	 * Returns true if the entity contains the supplied INode, false otherwise.
 	 * 
-	 * @param shape EAVP CSG INode to test for
+	 * @param shape
+	 *            EAVP CSG INode to test for
 	 * 
 	 * @return true if the entity contains the supplied INode, false otherwise.
 	 */

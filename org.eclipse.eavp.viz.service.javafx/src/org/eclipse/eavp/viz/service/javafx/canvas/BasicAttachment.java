@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
@@ -34,10 +35,16 @@ public abstract class BasicAttachment extends Attachment
 		implements IModelPart, IRenderElementHolder {
 
 	/**
-	 * Geometry that has been added but has not been integrated as the node
+	 * Geometry that have been added but has not been integrated as the node
 	 * hasn't been attached yet.
 	 */
 	private List<Geometry> queuedGeometry;
+
+	/**
+	 * Geometry controllers that have been added but has not been integrated as
+	 * the node hasn't been attached yet.
+	 */
+	private List<IController> queuedGeometryControllers;
 
 	/** List of shapes that have been added via Geometry instances. */
 	private List<org.eclipse.january.geometry.INode> shapes;
@@ -53,6 +60,9 @@ public abstract class BasicAttachment extends Attachment
 
 	/** */
 	protected Geometry currentGeom = null;
+
+	/** */
+	protected IController currentGeomController = null;
 
 	/**
 	 * The list of elements representing the rendered nodes.
@@ -71,6 +81,33 @@ public abstract class BasicAttachment extends Attachment
 	 * @param shape
 	 */
 	protected void checkMesh(org.eclipse.january.geometry.INode shape) {
+	}
+
+	/**
+	 * @see IModelPart#addGeometry(Geometry)
+	 */
+	@Override
+	public void addGeometry(IController geom) {
+		if (geom == null) {
+			return;
+		}
+
+		if (currentGeomController == geom) {
+			return;
+		} else {
+			currentGeomController = geom;
+		}
+
+		if (owner == null) {
+			if (queuedGeometryControllers == null) {
+				queuedGeometryControllers = new ArrayList<>();
+			}
+
+			queuedGeometryControllers.add(geom);
+
+			return;
+		}
+
 	}
 
 	/**
