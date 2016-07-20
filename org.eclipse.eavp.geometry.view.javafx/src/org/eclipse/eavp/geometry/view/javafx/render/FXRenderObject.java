@@ -98,43 +98,42 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	 */
 	protected void handleUpdate(Notification notification) {
 
-		if (!(notification.getFeature() instanceof Shape)) {
 		
-			// Cast the cache as a cache of TriangleMeshes
-			MeshCacheImpl<TriangleMesh> castCache = (MeshCacheImpl<TriangleMesh>) meshCache;
-	
-			// For the base implementation, we simply clear the render group of all
-			// nodes and add the new mesh to it.
-			render.getChildren().clear();
-	
-			// Try to get the mesh based on type
-			TriangleMesh mesh = castCache.getMesh(source.getType());
-	
-			// If no mesh was found, specify one with triangles
-			if (mesh == null) {
-				mesh = castCache.getMesh(source.getTriangles());
-			}
-	
-			// If a mesh was found, create a view for it and add it to the render
-			// group.
-			if (mesh != null) {
-				render.getChildren().add(new MeshView(mesh));
-			}
-	
-			// Get the center of the data object from the source
-			Vertex center = source.getCenter();
-	
-			// Move the render to the correct location
-			if (center != null) {
-				render.setTranslateX(center.getX());
-				render.setTranslateY(center.getY());
-				render.setTranslateZ(center.getZ());
-			}
-	
-			// Pass the update on to own observer
-			eNotify(notification);
 		
+		// Cast the cache as a cache of TriangleMeshes
+		MeshCacheImpl<TriangleMesh> castCache = (MeshCacheImpl<TriangleMesh>) meshCache;
+
+		// For the base implementation, we simply clear the render group of all
+		// nodes and add the new mesh to it.
+		render.getChildren().clear();
+
+		// Try to get the mesh based on type
+		TriangleMesh mesh = castCache.getMesh(source.getType());
+
+		// If no mesh was found, specify one with triangles
+		if (mesh == null) {
+			mesh = castCache.getMesh(source.getTriangles());
 		}
+
+		// If a mesh was found, create a view for it and add it to the render
+		// group.
+		if (mesh != null) {
+			render.getChildren().add(new MeshView(mesh));
+		}
+
+		// Get the center of the data object from the source
+		Vertex center = source.getCenter();
+
+		// Move the render to the correct location
+		if (center != null) {
+			render.setTranslateX(center.getX());
+			render.setTranslateY(center.getY());
+			render.setTranslateZ(center.getZ());
+		}
+
+		// Pass the update on to own observer
+		eNotify(notification);
+		
 	}
 
 	/*

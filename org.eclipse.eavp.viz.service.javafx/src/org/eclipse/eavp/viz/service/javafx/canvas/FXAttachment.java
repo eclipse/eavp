@@ -107,7 +107,6 @@ public class FXAttachment extends BasicAttachment {
 	 *            The controller which triggered the update
 	 */
 	protected void handleUpdate(Geometry geom, Notification notification) {
-
 		// If a notification was given, check it for any changes to the list of
 		// nodes.
 		if (notification != null) {
@@ -184,6 +183,44 @@ public class FXAttachment extends BasicAttachment {
 				// Remove all the renders for old objects
 				renderedNodes.removeAll(oldRenders);
 
+			}
+		} else if (renderedNodes.isEmpty()) {
+			// A list of all the new nodes to add
+			ArrayList<org.eclipse.january.geometry.INode> newNodes = new ArrayList<org.eclipse.january.geometry.INode>();
+
+			// Add all the new node's descendents
+			newNodes.addAll(geom.getNodes());
+
+			// Add each node to the scene
+			for (org.eclipse.january.geometry.INode node : newNodes) {
+
+				// Whether the node was found in the attachment
+				boolean found = false;
+
+				// Search the rendered elements to see if the shape is
+				// already in the list
+				for (IRenderElement<Group> render : renderedNodes) {
+					if (render.getBase().equals(node)) {
+						found = true;
+						break;
+					}
+				}
+
+				// If the node wasn't found, render it and add it to the
+				// list
+				if (!found) {
+					IRenderElement element = createElement(node);
+					renderedNodes.add(element);
+
+					// Register as a listener for the new render element
+					element.eAdapters().add(new AdapterImpl() {
+						@Override
+						public void notifyChanged(
+								Notification notification) {
+							handleUpdate(geom, notification);
+						}
+					});
+				}
 			}
 		}
 
