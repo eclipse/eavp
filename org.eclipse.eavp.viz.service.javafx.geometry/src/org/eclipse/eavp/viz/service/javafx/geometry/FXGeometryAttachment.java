@@ -15,6 +15,8 @@ import org.eclipse.eavp.geometry.view.javafx.decorators.FXOpacityDecorator;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 
 import javafx.scene.Group;
 import model.IRenderElement;
@@ -69,7 +71,18 @@ public class FXGeometryAttachment extends FXAttachment {
 	
 	@Override
 	public IRenderElement getRender(org.eclipse.january.geometry.INode node) {
-		return createElement(node);
+		
+		IRenderElement returnRender = null;
+		// Search the rendered elements to see if the shape is
+		// already in the list
+		for (IRenderElement<Group> render : renderedNodes) {
+			if (render.getBase().equals(node)) {
+				returnRender = render;
+				break;
+			}
+		}
+		
+		return returnRender;
 	}
 
 }
