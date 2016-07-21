@@ -14,6 +14,10 @@
   <modules>
   	<module>../org.eclipse.eavp.parent</module>
   	<module>../org.eclipse.eavp.target.mars</module>
+  	<module>../org.eclipse.eavp.geometry.view.javafx</module>
+  	<module>../org.eclipse.eavp.geometry.view.javafx.test</module>
+  	<module>../org.eclipse.eavp.geometry.view.model</module>
+  	<module>../org.eclipse.eavp.geometry.view.model.tests</module>
   	<module>../org.eclipse.eavp.viz</module>
   	<module>../org.eclipse.eavp.viz.service</module>
   	<module>../org.eclipse.eavp.viz.service.geometry</module>
@@ -37,6 +41,8 @@
   	<module>../org.eclipse.eavp.viz.modeling</module>
   	<module>../org.eclipse.eavp.viz.modeling.test</module>
   	<module>../org.eclipse.eavp.viz.service.javafx.mesh.test</module>
+  	<module>../org.eclipse.january.geometry.model</module>
+  	<module>../org.eclipse.january.geometry.model.tests</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>
   </modules>
