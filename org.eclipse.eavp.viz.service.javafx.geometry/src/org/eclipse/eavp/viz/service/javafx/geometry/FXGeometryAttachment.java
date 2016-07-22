@@ -21,8 +21,10 @@ import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.shape.MeshView;
 import model.IRenderElement;
@@ -37,6 +39,8 @@ import model.IRenderElement;
  */
 public class FXGeometryAttachment extends FXAttachment {
 	
+	private boolean selectMultiple;
+	
 
 	/**
 	 * The default constructor.
@@ -46,10 +50,12 @@ public class FXGeometryAttachment extends FXAttachment {
 	 */
 	public FXGeometryAttachment(FXGeometryAttachmentManager manager) {
 		super(manager);
+		selectMultiple = false;
 		
 		// Add block to run when the mouse is clicked on the geometry
 		// canvas. This will allow for selection in the Editor.
 		super.fxAttachmentNode.setOnMouseClicked((event)->{
+			selectMultiple = event.isControlDown();
 			
 			// Get the pick result, see if we are selecting a node
 			PickResult pick = event.getPickResult();
@@ -82,17 +88,24 @@ public class FXGeometryAttachment extends FXAttachment {
 							}
 						}
 					}
+					// If we found the selected render, break out of the loop
 					if (selectedRender != null) {
 						break;
 					}
 				}
 				
 			}
+			// Set the selection in the tree view, which also sets the transformation view
 			IViewPart treeView = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 					.getActivePage().findView(ShapeTreeView.ID);
 			
-			((ShapeTreeView) treeView).setSelected(selectedRender);
+			if (selectMultiple) {
+				((ShapeTreeView) treeView).toggleSelected(selectedRender);
+			} else {
+				((ShapeTreeView) treeView).setSelected(selectedRender);
+			}
 		});
+		
 	}
 
 	/*

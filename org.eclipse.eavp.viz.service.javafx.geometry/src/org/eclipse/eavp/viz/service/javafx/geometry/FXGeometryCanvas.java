@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
 import model.IRenderElement;
 
@@ -62,7 +63,6 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	 */
 	public FXGeometryCanvas(Geometry source) {
 		super(source);
-
 	}
 
 	/*
@@ -73,7 +73,7 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	 */
 	@Override
 	protected void createAttachment() {
-		rootAtachment = (BasicAttachment) viewer.getRenderer()
+		rootAttachment = (BasicAttachment) viewer.getRenderer()
 				.createAttachment(FXGeometryAttachment.class);
 	}
 

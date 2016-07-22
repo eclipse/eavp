@@ -116,64 +116,90 @@ public class ShapeTreeView extends ViewPart
 		treeViewer.addSelectionChangedListener(this);
 	}
 	
+	/**
+	 * Sets the selected item in the tree viewer
+	 * @param selection The node to select 
+	 */
 	public void setSelected(IRenderElement selection) {
+		ArrayList<IRenderElement> selectionElements = 
+				new ArrayList<IRenderElement>();
+		selectionElements.add(selection);
+		setSelected(selectionElements);
+	}
+	
+	/**
+	 * Sets the selected items in the tree viwer 
+	 * @param selection The nodes to select in the viewer
+	 */
+	public void setSelected(List<IRenderElement> selection) {
 		ITreeSelection treeSelection = new ITreeSelection() {
 
 			@Override
 			public Object getFirstElement() {
-				return selection;
+				if (selection.isEmpty()) {
+					return null;
+				} else {
+					return selection.get(0);
+				}
 			}
 
 			@Override
 			public Iterator iterator() {
-				ArrayList<IRenderElement> list = 
-						new ArrayList<IRenderElement>();
-				list.add(selection);
-				return list.iterator();
+				return selection.iterator();
 			}
 
 			@Override
 			public int size() {
-				return 1;
+				return selection.size();
 			}
 
 			@Override
 			public Object[] toArray() {
-				return new IRenderElement[] {selection};
+				return selection.toArray();
 			}
 
 			@Override
 			public List toList() {
-				ArrayList<IRenderElement> list = 
-						new ArrayList<IRenderElement>();
-				list.add(selection);
-				return list;
+				return selection;
 			}
 
 			@Override
 			public boolean isEmpty() {
-				return selection != null;
+				return selection.isEmpty();
 			}
 
 			@Override
 			public TreePath[] getPaths() {
-				TreePath path = new TreePath(this.toArray());
-				return new TreePath[] {path};
-			}
-
+				TreePath[] paths = new TreePath[selection.size()];
+				for (int i = 0; i<selection.size(); i++) {
+					paths[i] = new TreePath(new IRenderElement[] {selection.get(i) });
+				}
+				return paths;
+			}	
+			
 			@Override
 			public TreePath[] getPathsFor(Object element) {
-				if (element instanceof IRenderElement) {
-					IRenderElement comp = (IRenderElement) element;
-					if (comp.equals(selection)) {
-						return this.getPaths();
-					}
-				}
-				return null;
+				return new TreePath[] {
+						new TreePath( new IRenderElement[] {
+								selection.get(selection.indexOf(element))
+						})
+				};
 			}
 			
 		};
 		treeViewer.setSelection(treeSelection);
+	}
+	
+	public void toggleSelected(IRenderElement selected) {
+		System.out.println("Toggling selection");
+		if (selected != null) {
+			if (!selectedShapes.remove(selected)) {
+				selectedShapes.add(selected);
+			} else {
+				unselect(selected);
+			}
+			this.setSelected(selectedShapes);
+		}
 	}
 
 	/**
@@ -289,6 +315,25 @@ public class ShapeTreeView extends ViewPart
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	/**
+	 * Helper method used to re-color a shape that was unselected in the 
+	 * editor. 
+	 * @param selectedShape The shape that is being unselected.
+	 */
+	private void unselect(IRenderElement selectedShape) {
+		
+		int red = selectedShape.getProperty("defaultRed") != null
+				? (int) selectedShape.getProperty("defaultRed") : 127;
+		int green = selectedShape.getProperty("defaultGreen") != null
+				? (int) selectedShape.getProperty("defaultGreen") : 127;
+		int blue = selectedShape.getProperty("defaultBlue") != null
+				? (int) selectedShape.getProperty("defaultBlue") : 127;
+		selectedShape.setProperty("red", red);
+		selectedShape.setProperty("green", green);
+		selectedShape.setProperty("blue", blue);
+		
 	}
 
 	/**
