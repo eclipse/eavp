@@ -13,6 +13,8 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
@@ -112,6 +114,66 @@ public class ShapeTreeView extends ViewPart
 		// Add selection listener to TreeViewer
 
 		treeViewer.addSelectionChangedListener(this);
+	}
+	
+	public void setSelected(IRenderElement selection) {
+		ITreeSelection treeSelection = new ITreeSelection() {
+
+			@Override
+			public Object getFirstElement() {
+				return selection;
+			}
+
+			@Override
+			public Iterator iterator() {
+				ArrayList<IRenderElement> list = 
+						new ArrayList<IRenderElement>();
+				list.add(selection);
+				return list.iterator();
+			}
+
+			@Override
+			public int size() {
+				return 1;
+			}
+
+			@Override
+			public Object[] toArray() {
+				return new IRenderElement[] {selection};
+			}
+
+			@Override
+			public List toList() {
+				ArrayList<IRenderElement> list = 
+						new ArrayList<IRenderElement>();
+				list.add(selection);
+				return list;
+			}
+
+			@Override
+			public boolean isEmpty() {
+				return selection != null;
+			}
+
+			@Override
+			public TreePath[] getPaths() {
+				TreePath path = new TreePath(this.toArray());
+				return new TreePath[] {path};
+			}
+
+			@Override
+			public TreePath[] getPathsFor(Object element) {
+				if (element instanceof IRenderElement) {
+					IRenderElement comp = (IRenderElement) element;
+					if (comp.equals(selection)) {
+						return this.getPaths();
+					}
+				}
+				return null;
+			}
+			
+		};
+		treeViewer.setSelection(treeSelection);
 	}
 
 	/**
