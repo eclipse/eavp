@@ -92,18 +92,23 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 	 */
 	@Override
 	protected void handleUpdate(Notification notification) {
-
 		// Get the property
 		Object property = notification.getOldValue();
 
 		// Check if the property is any of the RGB colors. If so,
 		// set the decorator's color correctly
+		int colorVal = -1;
+		if (notification.getNewValue() instanceof Integer) {
+			colorVal = (int) notification.getNewValue();
+		} else if (notification.getNewValue() instanceof Double) {
+			colorVal = ((Double)notification.getNewValue()).intValue();
+		}
 		if ("red".equals(property)) {
-			setRed((int) notification.getNewValue());
+			setRed(colorVal);
 		} else if ("green".equals(property)) {
-			setGreen((int) notification.getNewValue());
+			setGreen(colorVal);
 		} else if ("blue".equals(property)) {
-			setBlue((int) notification.getNewValue());
+			setBlue(colorVal);
 		}
 
 		// Pass the update along to own listeners

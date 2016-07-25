@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh;
 
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.january.geometry.Geometry;
 
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+
 
 /**
  * <p>
@@ -61,11 +61,12 @@ public class FXMeshAttachment extends FXAttachment {
 	 * eclipse.eavp.viz.modeling.base.IController)
 	 */
 	@Override
-	protected void handleUpdate(IController source) {
+	protected void handleUpdate(Geometry geom, Notification notification) {
 
 		// On update, refresh the list of top level nodes
 		fxAttachmentNode.getChildren().clear();
 
+		/**
 		// Add the source if it is unrecognized
 		if (!knownPartControllers.contains(source)) {
 			addGeometry(source);
@@ -101,7 +102,7 @@ public class FXMeshAttachment extends FXAttachment {
 				}
 			}
 		}
-
+		*/
 		// Add the background
 		fxAttachmentNode.getChildren().add(background);
 	}
