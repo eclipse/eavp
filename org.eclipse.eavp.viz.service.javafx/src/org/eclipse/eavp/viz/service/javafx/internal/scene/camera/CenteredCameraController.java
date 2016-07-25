@@ -57,6 +57,20 @@ public class CenteredCameraController extends BasicCameraController {
 	 * The Z rotation applied to the camera.
 	 */
 	private Rotate z;
+	
+	/**
+	 * Flag indicating if the x rotation and x-directional 
+	 * translations should be inverted when the user drags
+	 * the mouse.
+	 */
+	private boolean shouldInvertX;
+	
+	/**
+	 * Flag indicating if the y rotation and y-directional
+	 * translations should be inverted when the user drags 
+	 * the mouse.
+	 */
+	private boolean shouldInvertY;
 
 	/**
 	 * The default constructor.
@@ -74,6 +88,8 @@ public class CenteredCameraController extends BasicCameraController {
 
 		// Initialize the data members
 		dragStarted = false;
+		shouldInvertX = false;
+		shouldInvertY = false;
 
 		// Set the x axis rotation for the affine transformation
 		x = new Rotate();
@@ -132,6 +148,18 @@ public class CenteredCameraController extends BasicCameraController {
 			// Calculate the change in mouse position
 			mouseDeltaX = (mousePosX - mouseOldX);
 			mouseDeltaY = (mousePosY - mouseOldY);
+			
+			// Controls sign of parameters- depending on current camera position
+			int invX = 1;
+			int invY = 1;
+			
+			if (shouldInvertX) {
+				invX = -1;
+			}
+			
+			if (shouldInvertY) {
+				invY = -1;
+			}
 
 			// If the primary button is held, then change the camera's position
 			if (event.isPrimaryButtonDown()) {
@@ -140,19 +168,26 @@ public class CenteredCameraController extends BasicCameraController {
 					// If neither control nor shift are down, rotate about the
 					// center
 					if (!event.isControlDown()) {
-						y.setAngle(y.getAngle() - mouseDeltaX);
-						x.setAngle(x.getAngle() + mouseDeltaY);
+						y.setAngle(y.getAngle() + mouseDeltaX);
+						x.setAngle(x.getAngle() - mouseDeltaY * invX);
 					}
 
 					// If control is down, zoom
 					else {
-						zoom(mouseDeltaY);
+						zoom(-mouseDeltaY);
 					}
 				}
 
 				// If shift is down, change the center
 				else {
-					affine.appendTranslation(mouseDeltaX, mouseDeltaY, 0);
+					affine.appendTranslation(-mouseDeltaX * invX, -mouseDeltaY * invY, 0);
+					
+					// Update the camera's rotational pivot point
+					x.setPivotX(x.getPivotX() - mouseDeltaX * invX);
+					x.setPivotY(x.getPivotY() - mouseDeltaY * invY);
+					y.setPivotX(y.getPivotX() - mouseDeltaX * invX);
+					y.setPivotY(y.getPivotY() - mouseDeltaY * invY);
+
 				}
 			}
 		}
@@ -161,6 +196,33 @@ public class CenteredCameraController extends BasicCameraController {
 		// not be properly initialized during it
 		else {
 			dragStarted = true;
+			
+			// Get the positive angle from the y rotation, 0-359
+			double yRotation = y.getAngle() % 360;
+			if (yRotation < 0) {
+				yRotation += 360;
+			}
+			
+			// Update the invert variable for x
+			if (yRotation > 90 && yRotation < 270) {
+				shouldInvertX = true;
+			} else {
+				shouldInvertX = false;
+			}
+			
+			// Get the positive angle from the x rotation, 0-359
+			double xRotation = x.getAngle() % 360;
+			if (xRotation < 0) {
+				xRotation += 360;
+			}
+			
+			// Update the invert variable for y
+			if (xRotation > 90 && xRotation <270) {
+				shouldInvertY = true;
+			} else {
+				shouldInvertY = false;
+			}
+			
 		}
 	}
 

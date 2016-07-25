@@ -78,7 +78,7 @@ public class FXMeshCanvas extends FXVizCanvas implements IMeshVizCanvas {
 	 */
 	@Override
 	protected void createAttachment() {
-		rootAtachment = (BasicAttachment) viewer.getRenderer()
+		rootAttachment = (BasicAttachment) viewer.getRenderer()
 				.createAttachment(FXMeshAttachment.class);
 	}
 

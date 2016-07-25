@@ -13,10 +13,14 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Triangle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -72,6 +76,8 @@ public class ShapeTreeView extends ViewPart
 	private Action duplicateShapes;
 	private Action replicateShapes;
 	private Action deleteShape;
+	
+	private Action importSTL;
 
 	/**
 	 * <p>
@@ -95,7 +101,7 @@ public class ShapeTreeView extends ViewPart
 		// Make a TreeViewer and add a content provider to it
 
 		treeViewer = new TreeViewer(parent);
-
+		
 		ShapeTreeContentProvider contentProvider = new ShapeTreeContentProvider(
 				holder);
 		treeViewer.setContentProvider(contentProvider);
@@ -108,6 +114,92 @@ public class ShapeTreeView extends ViewPart
 		// Add selection listener to TreeViewer
 
 		treeViewer.addSelectionChangedListener(this);
+	}
+	
+	/**
+	 * Sets the selected item in the tree viewer
+	 * @param selection The node to select 
+	 */
+	public void setSelected(IRenderElement selection) {
+		ArrayList<IRenderElement> selectionElements = 
+				new ArrayList<IRenderElement>();
+		selectionElements.add(selection);
+		setSelected(selectionElements);
+	}
+	
+	/**
+	 * Sets the selected items in the tree viwer 
+	 * @param selection The nodes to select in the viewer
+	 */
+	public void setSelected(List<IRenderElement> selection) {
+		ITreeSelection treeSelection = new ITreeSelection() {
+
+			@Override
+			public Object getFirstElement() {
+				if (selection.isEmpty()) {
+					return null;
+				} else {
+					return selection.get(0);
+				}
+			}
+
+			@Override
+			public Iterator iterator() {
+				return selection.iterator();
+			}
+
+			@Override
+			public int size() {
+				return selection.size();
+			}
+
+			@Override
+			public Object[] toArray() {
+				return selection.toArray();
+			}
+
+			@Override
+			public List toList() {
+				return selection;
+			}
+
+			@Override
+			public boolean isEmpty() {
+				return selection.isEmpty();
+			}
+
+			@Override
+			public TreePath[] getPaths() {
+				TreePath[] paths = new TreePath[selection.size()];
+				for (int i = 0; i<selection.size(); i++) {
+					paths[i] = new TreePath(new IRenderElement[] {selection.get(i) });
+				}
+				return paths;
+			}	
+			
+			@Override
+			public TreePath[] getPathsFor(Object element) {
+				return new TreePath[] {
+						new TreePath( new IRenderElement[] {
+								selection.get(selection.indexOf(element))
+						})
+				};
+			}
+			
+		};
+		treeViewer.setSelection(treeSelection);
+	}
+	
+	public void toggleSelected(IRenderElement selected) {
+		System.out.println("Toggling selection");
+		if (selected != null) {
+			if (!selectedShapes.remove(selected)) {
+				selectedShapes.add(selected);
+			} else {
+				unselect(selected);
+			}
+			this.setSelected(selectedShapes);
+		}
 	}
 
 	/**
@@ -124,6 +216,8 @@ public class ShapeTreeView extends ViewPart
 		IActionBars actionBars = getViewSite().getActionBars();
 		IToolBarManager toolbarManager = actionBars.getToolBarManager();
 
+		importSTL = new ActionImportGeometry(this);
+		
 		// Create the add shapes menu managers
 
 		addPrimitiveShapes = new DropdownAction("Add Primitives");
@@ -168,6 +262,8 @@ public class ShapeTreeView extends ViewPart
 
 		deleteShape = new ActionDeleteShape(this);
 
+		toolbarManager.add(importSTL);
+		
 		// Add the top level menus to the toolbar
 		toolbarManager.add(addPrimitiveShapes);
 		toolbarManager.add(addComplexShapes);
@@ -206,7 +302,6 @@ public class ShapeTreeView extends ViewPart
 	public void setGeometry(Geometry renderElements) {
 
 		// Set the TreeViewer's input
-
 		this.treeViewer.setInput(renderElements);
 
 	}
@@ -220,6 +315,25 @@ public class ShapeTreeView extends ViewPart
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	/**
+	 * Helper method used to re-color a shape that was unselected in the 
+	 * editor. 
+	 * @param selectedShape The shape that is being unselected.
+	 */
+	private void unselect(IRenderElement selectedShape) {
+		
+		int red = selectedShape.getProperty("defaultRed") != null
+				? (int) selectedShape.getProperty("defaultRed") : 127;
+		int green = selectedShape.getProperty("defaultGreen") != null
+				? (int) selectedShape.getProperty("defaultGreen") : 127;
+		int blue = selectedShape.getProperty("defaultBlue") != null
+				? (int) selectedShape.getProperty("defaultBlue") : 127;
+		selectedShape.setProperty("red", red);
+		selectedShape.setProperty("green", green);
+		selectedShape.setProperty("blue", blue);
+		
 	}
 
 	/**

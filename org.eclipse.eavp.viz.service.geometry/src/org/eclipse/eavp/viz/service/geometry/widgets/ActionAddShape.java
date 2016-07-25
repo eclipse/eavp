@@ -310,19 +310,19 @@ public class ActionAddShape extends Action {
 		// Create a node of the approrpiate type
 		if ("cube".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createCube();
-			((Cube) shape).setSideLength(5);
+			((Cube) shape).setSideLength(50);
 		} else if ("cylinder".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createCylinder();
-			((Cylinder) shape).setHeight(5);
-			((Cylinder) shape).setRadius(5);
+			((Cylinder) shape).setHeight(50);
+			((Cylinder) shape).setRadius(50);
 		} else if ("sphere".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createSphere();
-			((Sphere) shape).setRadius(5);
+			((Sphere) shape).setRadius(50);
 		} else if ("tube".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createTube();
-			((Tube) shape).setHeight(5);
-			((Tube) shape).setInnerRadius(2.5);
-			((Tube) shape).setRadius(5);
+			((Tube) shape).setHeight(50);
+			((Tube) shape).setInnerRadius(30);
+			((Tube) shape).setRadius(45);
 		} else if ("union".equals(type)) {
 			shape = GeometryFactory.eINSTANCE.createUnion();
 		} else if ("complement".equals(type)) {

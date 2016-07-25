@@ -175,7 +175,6 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
-
 		// Return an array of a geometry's nodes
 		if (inputElement instanceof Geometry) {
 			List childrenList = ((Geometry) inputElement).getNodes();
@@ -185,6 +184,9 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 			// Replace each node with its wrapping RenderElement
 			for (int i = 0; i < children.length; i++) {
 				children[i] = holder.getRender((INode) childrenList.get(i));
+				if (children[i] == null) {
+					
+				}
 			}
 
 			return children;
@@ -294,7 +296,6 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-
 		// The state of this class does not depend on the input, so we do not
 		// need to change the state when the input of the TreeViewer changes.
 

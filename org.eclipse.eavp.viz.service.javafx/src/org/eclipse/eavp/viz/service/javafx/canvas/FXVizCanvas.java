@@ -71,7 +71,7 @@ public class FXVizCanvas implements IVizCanvas {
 	private INode rootNode;
 
 	/** The active root geometry. */
-	protected BasicAttachment rootAtachment;
+	protected BasicAttachment rootAttachment;
 
 	/** ICE properties. */
 	private Map<String, String> properties;
@@ -165,15 +165,14 @@ public class FXVizCanvas implements IVizCanvas {
 		if (root == null) {
 			return;
 		}
-
 		this.root = root;
 
 		rootNode = new GNode();
 
 		createAttachment();
-		rootAtachment.addGeometry(root);
+		rootAttachment.addGeometry(root);
 
-		rootNode.attach(rootAtachment);
+		rootNode.attach(rootAttachment);
 
 		viewer.setInput(rootNode);
 	}
@@ -185,7 +184,7 @@ public class FXVizCanvas implements IVizCanvas {
 	 *            The part to be added
 	 */
 	public void addRoot(Geometry part) {
-		rootAtachment.addGeometry(part);
+		rootAttachment.addGeometry(part);
 	}
 
 	/**
@@ -193,7 +192,7 @@ public class FXVizCanvas implements IVizCanvas {
 	 * type.
 	 */
 	protected void createAttachment() {
-		rootAtachment = (BasicAttachment) viewer.getRenderer()
+		rootAttachment = (BasicAttachment) viewer.getRenderer()
 				.createAttachment(FXAttachment.class);
 	}
 
@@ -216,7 +215,7 @@ public class FXVizCanvas implements IVizCanvas {
 	 *            The part to be removed
 	 */
 	public void removeRoot(Geometry part) {
-		rootAtachment.removeGeometry(part);
+		rootAttachment.removeGeometry(part);
 	}
 
 	/**
@@ -298,7 +297,7 @@ public class FXVizCanvas implements IVizCanvas {
 	 */
 	@Override
 	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
-		return rootAtachment;
+		return rootAttachment;
 	}
 
 	/**
@@ -320,9 +319,9 @@ public class FXVizCanvas implements IVizCanvas {
 		rootNode = new GNode();
 
 		createAttachment();
-		rootAtachment.addGeometry(root);
+		rootAttachment.addGeometry(root);
 
-		rootNode.attach(rootAtachment);
+		rootNode.attach(rootAttachment);
 
 		viewer.setInput(rootNode);
 	}

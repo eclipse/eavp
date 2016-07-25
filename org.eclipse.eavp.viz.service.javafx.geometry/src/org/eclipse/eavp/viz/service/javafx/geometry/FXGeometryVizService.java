@@ -13,6 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.geometry;
 import java.util.Collections;
 import java.util.Set;
 
+
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizObject;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
