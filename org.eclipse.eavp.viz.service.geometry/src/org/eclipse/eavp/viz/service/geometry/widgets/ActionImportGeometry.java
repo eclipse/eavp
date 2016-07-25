@@ -55,13 +55,6 @@ public class ActionImportGeometry extends Action {
 
 		this.setText("Import file");
 
-		// Load the delete.gif ImageDescriptor from the bundle's
-		// `icons` directory
-
-		//Bundle bundle = FrameworkUtil.getBundle(getClass());
-		//URL imagePath = BundleUtility.find(bundle, "icons/import.gif");
-		//imageDescriptor = ImageDescriptor.createFromURL(imagePath);
-
 	}
 
 	/**
@@ -164,23 +157,28 @@ public class ActionImportGeometry extends Action {
 			
 				view.treeViewer.refresh();
 			}
-			
+			/**
 			// Get the set of render elements from the view
 			IRenderElementHolder holder = view.getHolder();
 			for(INode node : addedNodes) {
 				// Get the render of the new shape
 				IRenderElement render = holder.getRender(node);
+				
+				// Get the new import color from the color provider
+				int[] newColor = org.eclipse.eavp.viz.service.color.ColorProvider.getNextColor();
+				
 				// Operators will have negative default colors to signal that they
 				// should by default not override their childrens' colors.
-				render.setProperty("defaultRed", 32);
-				render.setProperty("defaultGreen", 174);
-				render.setProperty("defaultBlue", 255);
+				render.setProperty("defaultRed", newColor[0]);
+				render.setProperty("defaultGreen", newColor[1]);
+				render.setProperty("defaultBlue", newColor[2]);
 
 				// Initialize the color to the default
 				render.setProperty("red", render.getProperty("defaultRed"));
 				render.setProperty("green", render.getProperty("defaultGreen"));
 				render.setProperty("blue", render.getProperty("defaultBlue"));
 			}
+			*/
 			
 		}
 		

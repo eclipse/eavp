@@ -15,16 +15,15 @@ import org.eclipse.eavp.geometry.view.javafx.decorators.FXColorDecorator;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXOpacityDecorator;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.eavp.viz.service.color.ColorProvider;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.geometry.widgets.TransformationView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.shape.MeshView;
 import model.IRenderElement;
@@ -34,7 +33,7 @@ import model.IRenderElement;
  * Implementation of FXAttachment for the Geometry Editor.
  * </p>
  * 
- * @author Tony McCrary (tmccrary@l33tlabs.com), Robert Smith
+ * @author Tony McCrary (tmccrary@l33tlabs.com), Robert Smith, Kasper Gammeltoft
  *
  */
 public class FXGeometryAttachment extends FXAttachment {
@@ -124,6 +123,16 @@ public class FXGeometryAttachment extends FXAttachment {
 		// Add a color decorator
 		FXColorDecorator colorDecorator = new FXColorDecorator();
 		colorDecorator.setSource(render);
+		
+		// Give the render a default color from the provider
+		int[] color = ColorProvider.getNextColor();
+		render.setProperty("defaultRed", color[0]);
+		render.setProperty("defaultGreen", color[1]);
+		render.setProperty("defaultBlue", color[2]);
+		
+		render.setProperty("red", render.getProperty("defaultRed"));
+		render.setProperty("green", render.getProperty("defaultGreen"));
+		render.setProperty("blue", render.getProperty("defaultBlue"));
 
 		// Add an opacity decorator
 		FXOpacityDecorator opacityDecorator = new FXOpacityDecorator();
