@@ -14,6 +14,7 @@ import javafx.embed.swt.FXCanvas;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -273,7 +274,7 @@ public class CenteredCameraController extends BasicCameraController {
 
 		// Zoom the camera back to a default distance from the origin.
 		affine = new Affine();
-		affine.appendTranslation(0, 0, -2000);
+		affine.appendTranslation(0, 0, -1000);
 
 		// If x, y, and z exist, apply them to the camera
 		if (x != null) {
@@ -285,6 +286,8 @@ public class CenteredCameraController extends BasicCameraController {
 			xform.getTransforms().setAll(affine);
 		}
 
+		camera.setTranslateZ(-1000);
+		
 	}
 
 	/*
@@ -356,22 +359,34 @@ public class CenteredCameraController extends BasicCameraController {
 				new Rotate(radians * 180 / Math.PI, new Point3D(0, 1, 0)));
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.javafx.internal.scene.camera.BasicCameraController#initCamera()
+	 */
 	@Override
 	protected void initCamera() {
-		// TODO Auto-generated method stub
-
+		//Nothing to do
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.javafx.internal.scene.camera.BasicCameraController#handleKeyPressed(javafx.scene.input.KeyEvent)
+	 */
 	@Override
 	public void handleKeyPressed(KeyEvent event) {
-		// TODO Auto-generated method stub
-
+		
+		if(event.getCode() == KeyCode.R){
+			reset();
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.javafx.internal.scene.camera.BasicCameraController#handleMousePressed(javafx.scene.input.MouseEvent)
+	 */
 	@Override
 	public void handleMousePressed(MouseEvent event) {
-		// TODO Auto-generated method stub
-
+		//Nothing to do
 	}
 
 }
