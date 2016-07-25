@@ -41,7 +41,7 @@
   	<module>../org.eclipse.eavp.viz.modeling</module>
   	<module>../org.eclipse.eavp.viz.modeling.test</module>
   	<module>../org.eclipse.eavp.viz.service.javafx.mesh.test</module>
-  	<module>../org.eclipse.january.geometry.model</module>
+  	<module>../org.eclipse.january.geometry</module>
   	<module>../org.eclipse.january.geometry.model.tests</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>

@@ -9,7 +9,7 @@
 		<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
 		<version>2.1.8-SNAPSHOT</version>
 	</parent>
-	<groupId>org.eclipse.eavp</groupId>
+	<groupId>org.eclipse.eavp.test</groupId>
 	<artifactId>org.eclipse.eavp.geometry.view.javafx.test</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 
