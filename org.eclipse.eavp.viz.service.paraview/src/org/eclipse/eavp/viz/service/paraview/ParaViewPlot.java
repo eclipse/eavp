@@ -653,7 +653,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				viewUp.add(zero);
 				args.add(viewUp);
 
-				// Set the camera back to its default spatial position: (0, 0,
+				// Set the camera back to a spatial position along the z axis: (0, 0,
 				// 67)
 				JsonArray position = new JsonArray();
 				position.add(zero);
@@ -661,8 +661,15 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				position.add(new JsonPrimitive(67));
 				args.add(position);
 
-				// INvoke the camera update method from ParaView
+				// Invoke the camera update method from ParaView
 				connection.getWidget().call("viewport.camera.update", args);
+				
+				//Create a new set of arguments, this time only including the view ID
+				JsonArray resetArgs = new JsonArray();
+				resetArgs.add(view);
+				
+				//Invoke the reset method so that the camera will be moved to the default distance away from the origin
+				connection.getWidget().call("viewport.camera.reset", resetArgs);
 
 				// Redraw the composite from the new camera position
 				plotComposite.refresh();
