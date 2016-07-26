@@ -254,6 +254,12 @@ public class CenteredCameraController extends BasicCameraController {
 		// Zoom by the amount of scrolling
 		zoom(event.getDeltaY());
 	}
+	
+	public void setCameraPivot(double x, double y, double z) {
+		this.x.setPivotX(x);
+		this.y.setPivotY(y);
+		this.z.setPivotZ(z);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -298,8 +304,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void pitchCamera(double radians) {
-		affine.append(
-				new Rotate(radians * 180 / Math.PI, new Point3D(1, 0, 0)));
+		x.setAngle(x.getAngle() + (180 * radians) / Math.PI);
 	}
 
 	/*
@@ -310,8 +315,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void rollCamera(double radians) {
-		affine.append(
-				new Rotate(radians * 180 / Math.PI, new Point3D(0, 0, 1)));
+		z.setAngle(z.getAngle() + (180 * radians) / Math.PI);
 	}
 
 	/*
@@ -322,7 +326,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void raiseCamera(double distance) {
-		affine.appendTranslation(0, -distance * SPEED, 0);
+		affine.appendTranslation(0, -distance, 0);
 	}
 
 	/*
@@ -333,7 +337,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void strafeCamera(double distance) {
-		affine.appendTranslation(distance * SPEED, 0, 0);
+		affine.appendTranslation(distance, 0, 0);
 	}
 
 	/*
@@ -344,7 +348,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void thrustCamera(double distance) {
-		affine.appendTranslation(0, 0, distance * SPEED);
+		affine.appendTranslation(0, 0, distance);
 	}
 
 	/*
@@ -355,8 +359,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void yawCamera(double radians) {
-		affine.append(
-				new Rotate(radians * 180 / Math.PI, new Point3D(0, 1, 0)));
+		y.setAngle(y.getAngle() + (180 * radians) / Math.PI);
 	}
 
 	/*
