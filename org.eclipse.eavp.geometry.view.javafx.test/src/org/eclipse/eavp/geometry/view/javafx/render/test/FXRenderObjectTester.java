@@ -206,14 +206,16 @@ public class FXRenderObjectTester {
 
 			// Create a triangle
 			Triangle triangle = GeometryFactory.eINSTANCE.createTriangle();
-			triangle.setVertex1(GeometryFactory.eINSTANCE.createVertex());
-			triangle.getVertex1().setX(2);
+			triangle.getVertices()
+					.add(GeometryFactory.eINSTANCE.createVertex());
+			triangle.getVertices().get(0).setX(2);
 
 			// Create a second triangle
 			Triangle triangle2 = GeometryFactory.eINSTANCE.createTriangle();
-			triangle2.setVertex1(GeometryFactory.eINSTANCE.createVertex());
-			triangle2.getVertex1().setY(2);
-			
+			triangle2.getVertices()
+					.add(GeometryFactory.eINSTANCE.createVertex());
+			triangle2.getVertices().get(0).setY(2);
+
 			// Add the first triangle mesh and the first triangle list to the
 			// caches with shared ID number 0.
 			set1 = new HashSet<Triangle>();
@@ -227,17 +229,18 @@ public class FXRenderObjectTester {
 			mesh2.getPoints().addAll(1);
 
 			// Create a third triangle
-			Triangle triangle3 = GeometryFactory.eINSTANCE.createTriangle();			
-			triangle3.setVertex1(GeometryFactory.eINSTANCE.createVertex());
-			triangle3.getVertex1().setX(2);
-			triangle3.getVertex1().setZ(2);
+			Triangle triangle3 = GeometryFactory.eINSTANCE.createTriangle();
+			triangle3.getVertices()
+					.add(GeometryFactory.eINSTANCE.createVertex());
+			triangle3.getVertices().get(0).setX(2);
+			triangle3.getVertices().get(0).setZ(2);
 
 			// Create a fourth triangle
 			Triangle triangle4 = GeometryFactory.eINSTANCE.createTriangle();
-			triangle4.setVertex1(GeometryFactory.eINSTANCE.createVertex());
-			triangle4.getVertex1().setY(2);
-			triangle4.getVertex1().setZ(2);
-			
+			triangle4.getVertices()
+					.add(GeometryFactory.eINSTANCE.createVertex());
+			triangle4.getVertices().get(0).setY(2);
+			triangle4.getVertices().get(0).setZ(2);
 
 			// Create a second set
 			set2 = new HashSet<Triangle>();
