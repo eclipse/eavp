@@ -41,7 +41,8 @@ import model.IRenderElement;
  * structure and elements in a Constructive Solid Geometry (CSG) tree
  * </p>
  * 
- * @author Andrew P. Belt
+ * @author Andrew P. Belt, Kasper Gammeltoft, Robert Smith, Jay Jay Billings,
+ * Jordan Deyton
  */
 public class ShapeTreeView extends ViewPart
 		implements ISelectionChangedListener {
@@ -132,6 +133,7 @@ public class ShapeTreeView extends ViewPart
 	 * @param selection The nodes to select in the viewer
 	 */
 	public void setSelected(List<IRenderElement> selection) {
+		// Create a tree selection for the new selected elements
 		ITreeSelection treeSelection = new ITreeSelection() {
 
 			@Override
@@ -172,7 +174,7 @@ public class ShapeTreeView extends ViewPart
 			public TreePath[] getPaths() {
 				TreePath[] paths = new TreePath[selection.size()];
 				for (int i = 0; i<selection.size(); i++) {
-					paths[i] = new TreePath(new IRenderElement[] {selection.get(i) });
+					paths[i] = new TreePath(new IRenderElement[] {selection.get(i)});
 				}
 				return paths;
 			}	
@@ -190,14 +192,22 @@ public class ShapeTreeView extends ViewPart
 		treeViewer.setSelection(treeSelection);
 	}
 	
+	/**
+	 * Toggles if the given element is selected or not. If the element is
+	 * selected, it becomes unselected, and if unselected, becomes selected.
+	 * @param selected The element who's selected state should be toggled. 
+	 */
 	public void toggleSelected(IRenderElement selected) {
-		System.out.println("Toggling selection");
 		if (selected != null) {
+			// Try removing it from selected shapes, it will succeed if the element is selected
 			if (!selectedShapes.remove(selected)) {
+				// If not in selected shapes, add this element
 				selectedShapes.add(selected);
 			} else {
+				// Unselect the shape
 				unselect(selected);
 			}
+			// Update the selections in the tree viewer
 			this.setSelected(selectedShapes);
 		}
 	}
@@ -324,12 +334,14 @@ public class ShapeTreeView extends ViewPart
 	 */
 	private void unselect(IRenderElement selectedShape) {
 		
+		// Get default colors for the selected shape
 		int red = selectedShape.getProperty("defaultRed") != null
 				? (int) selectedShape.getProperty("defaultRed") : 127;
 		int green = selectedShape.getProperty("defaultGreen") != null
 				? (int) selectedShape.getProperty("defaultGreen") : 127;
 		int blue = selectedShape.getProperty("defaultBlue") != null
 				? (int) selectedShape.getProperty("defaultBlue") : 127;
+		// Reset the shape's colors
 		selectedShape.setProperty("red", red);
 		selectedShape.setProperty("green", green);
 		selectedShape.setProperty("blue", blue);
