@@ -302,82 +302,38 @@ ruleTriangle returns [EObject current=null]
 		{
 			newLeafNode(otherlv_5, grammarAccess.getTriangleAccess().getLoopKeyword_4());
 		}
-		otherlv_6='vertex'
-		{
-			newLeafNode(otherlv_6, grammarAccess.getTriangleAccess().getVertexKeyword_5());
-		}
 		(
+			otherlv_6='vertex'
+			{
+				newLeafNode(otherlv_6, grammarAccess.getTriangleAccess().getVertexKeyword_5_0());
+			}
 			(
-				{
-					newCompositeNode(grammarAccess.getTriangleAccess().getVertex1VertexParserRuleCall_6_0());
-				}
-				lv_vertex1_7_0=ruleVertex
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getTriangleRule());
+				(
+					{
+						newCompositeNode(grammarAccess.getTriangleAccess().getVerticesVertexParserRuleCall_5_1_0());
 					}
-					set(
-						$current,
-						"vertex1",
-						lv_vertex1_7_0,
-						"xtext.STL.Vertex");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)
-		otherlv_8='vertex'
-		{
-			newLeafNode(otherlv_8, grammarAccess.getTriangleAccess().getVertexKeyword_7());
-		}
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getTriangleAccess().getVertex2VertexParserRuleCall_8_0());
-				}
-				lv_vertex2_9_0=ruleVertex
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getTriangleRule());
+					lv_vertices_7_0=ruleVertex
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getTriangleRule());
+						}
+						add(
+							$current,
+							"vertices",
+							lv_vertices_7_0,
+							"xtext.STL.Vertex");
+						afterParserOrEnumRuleCall();
 					}
-					set(
-						$current,
-						"vertex2",
-						lv_vertex2_9_0,
-						"xtext.STL.Vertex");
-					afterParserOrEnumRuleCall();
-				}
+				)
 			)
-		)
-		otherlv_10='vertex'
+		)*
+		otherlv_8='endloop'
 		{
-			newLeafNode(otherlv_10, grammarAccess.getTriangleAccess().getVertexKeyword_9());
+			newLeafNode(otherlv_8, grammarAccess.getTriangleAccess().getEndloopKeyword_6());
 		}
-		(
-			(
-				{
-					newCompositeNode(grammarAccess.getTriangleAccess().getVertex3VertexParserRuleCall_10_0());
-				}
-				lv_vertex3_11_0=ruleVertex
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getTriangleRule());
-					}
-					set(
-						$current,
-						"vertex3",
-						lv_vertex3_11_0,
-						"xtext.STL.Vertex");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)
-		otherlv_12='endloop'
+		otherlv_9='endfacet'
 		{
-			newLeafNode(otherlv_12, grammarAccess.getTriangleAccess().getEndloopKeyword_11());
-		}
-		otherlv_13='endfacet'
-		{
-			newLeafNode(otherlv_13, grammarAccess.getTriangleAccess().getEndfacetKeyword_12());
+			newLeafNode(otherlv_9, grammarAccess.getTriangleAccess().getEndfacetKeyword_7());
 		}
 	)
 ;

@@ -117,6 +117,10 @@ public class ShapeTreeView extends ViewPart
 		treeViewer.addSelectionChangedListener(this);
 	}
 	
+	public List<IRenderElement> getSelectedElements() {
+		return selectedShapes;
+	}
+	
 	/**
 	 * Sets the selected item in the tree viewer
 	 * @param selection The node to select 
@@ -199,7 +203,8 @@ public class ShapeTreeView extends ViewPart
 	 */
 	public void toggleSelected(IRenderElement selected) {
 		if (selected != null) {
-			// Try removing it from selected shapes, it will succeed if the element is selected
+			// Try removing it from selected shapes, it will succeed 
+			// if the element is selected
 			if (!selectedShapes.remove(selected)) {
 				// If not in selected shapes, add this element
 				selectedShapes.add(selected);

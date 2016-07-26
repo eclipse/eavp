@@ -10,12 +10,19 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.canvas;
 
+import java.util.List;
+
 import org.eclipse.eavp.viz.modeling.ShapeController;
+import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.internal.model.FXCameraAttachment;
 import org.eclipse.eavp.viz.service.javafx.internal.scene.camera.CenteredCameraController;
 import org.eclipse.eavp.viz.service.javafx.internal.scene.camera.ICameraController;
 import org.eclipse.eavp.viz.service.javafx.scene.base.ICamera;
 import org.eclipse.eavp.viz.service.javafx.viewer.Renderer;
+import org.eclipse.january.geometry.BoundingBox;
+import org.eclipse.january.geometry.Shape;
+import org.eclipse.january.geometry.Union;
+import org.eclipse.january.geometry.Vertex;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -24,6 +31,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.PlatformUI;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.event.EventHandler;
@@ -113,11 +122,55 @@ public class FXViewer extends BasicViewer {
 			}
 
 		});
+		
+		
+		// Add a zoom to fit action to the context menu
+		MenuItem zoomToFit = new MenuItem(contextMenu, SWT.PUSH);
+		zoomToFit.setText("Zoom To Fit");
+		zoomToFit.addListener(SWT.Selection, new Listener(){
+			
+			@Override
+			public void handleEvent(Event event) {
+				
+				// Get the selection from the shape tree view
+				IViewPart treeView = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+						.getActivePage().findView(ShapeTreeView.ID);
+				List<IRenderElement> selection = ((ShapeTreeView) treeView).getSelectedElements();
+				// Only can zoom in on one shape
+				if (selection.size() == 1) {
+					IRenderElement selected = selection.get(0);
+					// Get the shape to zoom on
+					BoundingBox bounds = null;
+					if (selected.getBase() instanceof Shape) {
+						Shape shape = (Shape) selected.getBase();
+						// Get the bounds of the shape
+						bounds =  org.eclipse.january.geometry.BoundingBox.getBounds(shape);
+					
+					} else if (selected.getBase() instanceof Union) {
+						Union union = (Union) selected.getBase();
+						// Get the bounds of the shape
+						bounds =  org.eclipse.january.geometry.BoundingBox.getBounds(union);
+					} else {
+						return;
+					}
+						
+					// Set the camera to the proper position for the selected object
+					Vertex center = org.eclipse.january.geometry.BoundingBox.getCenter(bounds);
+					cameraController.reset();
+					cameraController.rollCamera(Math.PI);
+					cameraController.strafeCamera(-center.getX());
+					cameraController.raiseCamera(center.getY());
+					cameraController.thrustCamera(center.getZ());
+					cameraController.thrustCamera(1750 - (Math.abs(center.getZ() - bounds.getMaxZ())));
+					//((CenteredCameraController) cameraController).setCameraPivot(center.getX(), center.getY(), center.getZ());
+				}
+			}
+		});
 	}
 
 	/**
 	 * <p>
-	 * Creates an FXCanvas control and initializes a default empty JavaFX scene.
+	 * Creates an FXCanvas control and initializes a default empty JavaFX scene
 	 * </p>
 	 */
 	@Override
