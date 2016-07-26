@@ -20,6 +20,10 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.event.EventHandler;
@@ -73,6 +77,12 @@ public class FXViewer extends BasicViewer {
 	protected Camera defaultCamera;
 
 	/**
+	 * The menu which will be displayed on a right click inside the fxCanvas's
+	 * area.
+	 */
+	final protected Menu contextMenu;
+
+	/**
 	 * <p>
 	 * Creates a JavaFX GeometryViewer.
 	 * </p>
@@ -85,6 +95,24 @@ public class FXViewer extends BasicViewer {
 		// Create a renderer that creates FXAttachments
 		renderer = new Renderer();
 		renderer.register(FXAttachment.class, new FXAttachmentManager());
+
+		// Set the canvas's context menu
+		contextMenu = new Menu(fxCanvas);
+		fxCanvas.setMenu(contextMenu);
+
+		// Add a reset camera action to the context menu
+		MenuItem resetCamera = new MenuItem(contextMenu, SWT.PUSH);
+		resetCamera.setText("Reset Camera");
+		resetCamera.addListener(SWT.Selection, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+
+				// Direct the controller to reset the camera's position
+				cameraController.reset();
+			}
+
+		});
 	}
 
 	/**
