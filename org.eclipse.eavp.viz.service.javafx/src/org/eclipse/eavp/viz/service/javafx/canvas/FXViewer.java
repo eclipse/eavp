@@ -162,7 +162,7 @@ public class FXViewer extends BasicViewer {
 					cameraController.raiseCamera(center.getY());
 					cameraController.thrustCamera(center.getZ());
 					cameraController.thrustCamera(1750 - (Math.abs(center.getZ() - bounds.getMaxZ())));
-					((CenteredCameraController) cameraController).setCameraPivot(-center.getX(), center.getY(), center.getZ());
+					//((CenteredCameraController) cameraController).setCameraPivot(center.getX(), center.getY(), center.getZ());
 				}
 			}
 		});

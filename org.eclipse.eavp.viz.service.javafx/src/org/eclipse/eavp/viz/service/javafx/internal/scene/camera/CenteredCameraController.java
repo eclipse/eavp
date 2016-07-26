@@ -254,10 +254,26 @@ public class CenteredCameraController extends BasicCameraController {
 		zoom(event.getDeltaY());
 	}
 	
+	/**
+	 * Sets the point where the camera should pivot when rotating 
+	 * the scene.
+	 * @param x The x coordinate for the pivot
+	 * @param y The y coordinate for the pivot
+	 * @param z The z coordinate for the pivot
+	 */
 	public void setCameraPivot(double x, double y, double z) {
 		this.x.setPivotX(x);
+		this.x.setPivotY(y);
+		this.x.setPivotZ(z);
+
+		this.y.setPivotX(x);
 		this.y.setPivotY(y);
+		this.y.setPivotX(z);
+
+		this.z.setPivotX(x);
+		this.z.setPivotY(y);
 		this.z.setPivotZ(z);
+
 	}
 
 	/*
