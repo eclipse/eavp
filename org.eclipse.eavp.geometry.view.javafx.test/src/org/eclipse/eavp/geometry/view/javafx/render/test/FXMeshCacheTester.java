@@ -79,21 +79,30 @@ public class FXMeshCacheTester {
 		v3.setX(1);
 		v3.setY(1);
 		v3.setZ(3);
-		tri1.setVertex1(v1);
-		tri1.setVertex2(v2);
-		tri1.setVertex3(v3);
+		tri1.getVertices().add(v1);
+		tri1.getVertices().add(v2);
+		tri1.getVertices().add(v3);
 
 		// Create a triangle with vertices (2, 2, 3), (1, 2, 1), and (1, 1, 3).
 		// We cannot reuse v2 and v3 because we cannot add the same vertex to
 		// more than one list
 		Triangle tri2 = GeometryFactory.eINSTANCE.createTriangle();
+		Vertex v22 = GeometryFactory.eINSTANCE.createVertex();
+		v22.setX(1);
+		v22.setY(2);
+		v22.setZ(1);
+		Vertex v33 = GeometryFactory.eINSTANCE.createVertex();
+		v33.setX(1);
+		v33.setY(1);
+		v33.setZ(3);
 		Vertex v4 = GeometryFactory.eINSTANCE.createVertex();
 		v4.setX(2);
 		v4.setY(2);
 		v4.setZ(3);
-		tri1.setVertex1(v2);
-		tri1.setVertex2(v3);
-		tri1.setVertex3(v4);
+		tri2.getVertices().add(v22);
+		tri2.getVertices().add(v33);
+		tri2.getVertices().add(v4);
+
 		// Create a list of triangles
 		EList<Triangle> triangles = new BasicEList<Triangle>();
 		triangles.add(tri1);

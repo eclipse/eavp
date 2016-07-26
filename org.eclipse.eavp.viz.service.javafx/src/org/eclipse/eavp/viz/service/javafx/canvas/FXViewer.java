@@ -20,13 +20,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 
 import javafx.embed.swt.FXCanvas;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.AmbientLight;
 import javafx.scene.Camera;
@@ -35,7 +30,6 @@ import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.paint.Color;
@@ -43,7 +37,6 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.Shape3D;
-import javafx.stage.WindowEvent;
 import model.IRenderElement;
 
 /**
@@ -78,11 +71,6 @@ public class FXViewer extends BasicViewer {
 
 	/** Default camera. */
 	protected Camera defaultCamera;
-	
-	/**
-	 * The menu which will be displayed on a right click inside the fxCanvas's area.
-	 */
-	final protected Menu contextMenu;
 
 	/**
 	 * <p>
@@ -97,24 +85,6 @@ public class FXViewer extends BasicViewer {
 		// Create a renderer that creates FXAttachments
 		renderer = new Renderer();
 		renderer.register(FXAttachment.class, new FXAttachmentManager());
-		
-		//Set the canvas's context menu
-		contextMenu = new Menu(fxCanvas);
-		fxCanvas.setMenu(contextMenu);
-		
-		//Add a reset camera action to the context menu
-		MenuItem resetCamera = new MenuItem(contextMenu, SWT.PUSH);
-		resetCamera.setText("Reset Camera");
-		resetCamera.addListener(SWT.Selection, new Listener(){
-
-			@Override
-			public void handleEvent(Event event) {
-				
-				//Direct the controller to reset the camera's position
-				cameraController.reset();
-			}
-			
-		});
 	}
 
 	/**
