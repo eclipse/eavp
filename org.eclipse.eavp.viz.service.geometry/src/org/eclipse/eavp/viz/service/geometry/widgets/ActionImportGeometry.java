@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.xtext.obj.importer.OBJGeometryImporter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -86,7 +87,7 @@ public class ActionImportGeometry extends Action {
 		String filePath = dialog.open();
 		
 		// Only import if a valid stl file
-		if (filePath != null && (filePath.endsWith(".stl"))) {
+		if (filePath != null && ((filePath.endsWith(".stl")) || (filePath.endsWith(".obj"))) ) {
 			// Get current selection in shape tree view
 			ITreeSelection selection = (ITreeSelection) view.treeViewer.getSelection();
 			TreePath[] paths = selection.getPaths();
@@ -105,7 +106,12 @@ public class ActionImportGeometry extends Action {
 			}
 			// Import the geometry using the STL importer
 			Path path = FileSystems.getDefault().getPath(filePath);
-			Geometry imported = GeometryFactory.eINSTANCE.createSTLGeometryImporter().load(path);
+			Geometry imported = null;
+			if (filePath.endsWith(".stl")) {
+				imported = GeometryFactory.eINSTANCE.createSTLGeometryImporter().load(path);
+			} else if (filePath.endsWith(".obj")) {
+				imported = new OBJGeometryImporter().load(path);
+			}
 			
 			// Try to find a parent shape to import into
 			INode parentComplexShape = null;
