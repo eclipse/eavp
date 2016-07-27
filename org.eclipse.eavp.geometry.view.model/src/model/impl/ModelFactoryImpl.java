@@ -64,6 +64,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.RENDER_OBJECT_DECORATOR: return createRenderObjectDecorator();
 			case ModelPackage.TEXTURE_DECORATOR: return createTextureDecorator();
 			case ModelPackage.OPACITY_DECORATOR: return createOpacityDecorator();
+			case ModelPackage.SCALE_DECORATOR: return createScaleDecorator();
 			case ModelPackage.WIREFRAME_DECORATOR: return createWireframeDecorator();
 			case ModelPackage.COLOR_DECORATOR: return createColorDecorator();
 			default:
@@ -157,6 +158,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public <T> OpacityDecorator<T> createOpacityDecorator() {
 		OpacityDecoratorImpl<T> opacityDecorator = new OpacityDecoratorImpl<T>();
 		return opacityDecorator;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <T> ScaleDecorator<T> createScaleDecorator() {
+		ScaleDecoratorImpl<T> scaleDecorator = new ScaleDecoratorImpl<T>();
+		return scaleDecorator;
 	}
 
 	/**

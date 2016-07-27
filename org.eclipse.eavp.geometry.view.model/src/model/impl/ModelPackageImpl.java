@@ -10,6 +10,7 @@ import model.ModelPackage;
 import model.OpacityDecorator;
 import model.RenderObject;
 import model.RenderObjectDecorator;
+import model.ScaleDecorator;
 import model.TextureDecorator;
 import model.WireframeDecorator;
 
@@ -67,6 +68,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass opacityDecoratorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass scaleDecoratorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -302,6 +310,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getScaleDecorator() {
+		return scaleDecoratorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScaleDecorator_Scale() {
+		return (EAttribute)scaleDecoratorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getWireframeDecorator() {
 		return wireframeDecoratorEClass;
 	}
@@ -497,6 +523,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		opacityDecoratorEClass = createEClass(OPACITY_DECORATOR);
 		createEAttribute(opacityDecoratorEClass, OPACITY_DECORATOR__OPACITY);
 
+		scaleDecoratorEClass = createEClass(SCALE_DECORATOR);
+		createEAttribute(scaleDecoratorEClass, SCALE_DECORATOR__SCALE);
+
 		wireframeDecoratorEClass = createEClass(WIREFRAME_DECORATOR);
 		createEAttribute(wireframeDecoratorEClass, WIREFRAME_DECORATOR__WIREFRAME);
 
@@ -549,6 +578,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		ETypeParameter renderObjectDecoratorEClass_T = addETypeParameter(renderObjectDecoratorEClass, "T");
 		ETypeParameter textureDecoratorEClass_T = addETypeParameter(textureDecoratorEClass, "T");
 		ETypeParameter opacityDecoratorEClass_T = addETypeParameter(opacityDecoratorEClass, "T");
+		ETypeParameter scaleDecoratorEClass_T = addETypeParameter(scaleDecoratorEClass, "T");
 		ETypeParameter wireframeDecoratorEClass_T = addETypeParameter(wireframeDecoratorEClass, "T");
 		ETypeParameter colorDecoratorEClass_T = addETypeParameter(colorDecoratorEClass, "T");
 		ETypeParameter iRenderElementEClass_T = addETypeParameter(iRenderElementEClass, "T");
@@ -572,6 +602,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		g2 = createEGenericType(opacityDecoratorEClass_T);
 		g1.getETypeArguments().add(g2);
 		opacityDecoratorEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getRenderObjectDecorator());
+		g2 = createEGenericType(scaleDecoratorEClass_T);
+		g1.getETypeArguments().add(g2);
+		scaleDecoratorEClass.getEGenericSuperTypes().add(g1);
 		g1 = createEGenericType(this.getRenderObjectDecorator());
 		g2 = createEGenericType(wireframeDecoratorEClass_T);
 		g1.getETypeArguments().add(g2);
@@ -624,6 +658,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		initEClass(opacityDecoratorEClass, OpacityDecorator.class, "OpacityDecorator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOpacityDecorator_Opacity(), ecorePackage.getEDouble(), "opacity", "100.0", 0, 1, OpacityDecorator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(scaleDecoratorEClass, ScaleDecorator.class, "ScaleDecorator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getScaleDecorator_Scale(), ecorePackage.getEDouble(), "scale", "1", 0, 1, ScaleDecorator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(wireframeDecoratorEClass, WireframeDecorator.class, "WireframeDecorator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getWireframeDecorator_Wireframe(), ecorePackage.getEBoolean(), "wireframe", "false", 0, 1, WireframeDecorator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

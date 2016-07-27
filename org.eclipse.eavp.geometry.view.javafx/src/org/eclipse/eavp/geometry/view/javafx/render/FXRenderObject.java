@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.INode;
-import org.eclipse.january.geometry.Shape;
 import org.eclipse.january.geometry.Vertex;
 
 import javafx.scene.Group;
@@ -98,14 +97,12 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	 */
 	protected void handleUpdate(Notification notification) {
 
-		
-		
 		// Cast the cache as a cache of TriangleMeshes
 		MeshCacheImpl<TriangleMesh> castCache = (MeshCacheImpl<TriangleMesh>) meshCache;
 
 		// For the base implementation, we simply clear the render group of all
 		// nodes and add the new mesh to it.
-		render.getChildren().clear();
+		render = new Group();
 
 		// Try to get the mesh based on type
 		TriangleMesh mesh = castCache.getMesh(source.getType());
@@ -133,7 +130,7 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 
 		// Pass the update on to own observer
 		eNotify(notification);
-		
+
 	}
 
 	/*

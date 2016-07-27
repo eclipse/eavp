@@ -115,7 +115,7 @@ public interface ModelPackage extends EPackage {
 	 * @see model.impl.ModelPackageImpl#getIRenderElement()
 	 * @generated
 	 */
-	int IRENDER_ELEMENT = 7;
+	int IRENDER_ELEMENT = 8;
 
 	/**
 	 * The number of structural features of the '<em>IRender Element</em>' class.
@@ -635,6 +635,115 @@ public interface ModelPackage extends EPackage {
 	int OPACITY_DECORATOR_OPERATION_COUNT = RENDER_OBJECT_DECORATOR_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link model.impl.ScaleDecoratorImpl <em>Scale Decorator</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see model.impl.ScaleDecoratorImpl
+	 * @see model.impl.ModelPackageImpl#getScaleDecorator()
+	 * @generated
+	 */
+	int SCALE_DECORATOR = 5;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR__SOURCE = RENDER_OBJECT_DECORATOR__SOURCE;
+
+	/**
+	 * The feature id for the '<em><b>Scale</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR__SCALE = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Scale Decorator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR_FEATURE_COUNT = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Mesh</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+
+	/**
+	 * The operation id for the '<em>Get Base</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+
+	/**
+	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+
+	/**
+	 * The operation id for the '<em>Get Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
+
+	/**
+	 * The operation id for the '<em>Set Property</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+
+	/**
+	 * The operation id for the '<em>Copy</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+
+	/**
+	 * The operation id for the '<em>Clone</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
+
+	/**
+	 * The number of operations of the '<em>Scale Decorator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE_DECORATOR_OPERATION_COUNT = RENDER_OBJECT_DECORATOR_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link model.impl.WireframeDecoratorImpl <em>Wireframe Decorator</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -642,7 +751,7 @@ public interface ModelPackage extends EPackage {
 	 * @see model.impl.ModelPackageImpl#getWireframeDecorator()
 	 * @generated
 	 */
-	int WIREFRAME_DECORATOR = 5;
+	int WIREFRAME_DECORATOR = 6;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -751,7 +860,7 @@ public interface ModelPackage extends EPackage {
 	 * @see model.impl.ModelPackageImpl#getColorDecorator()
 	 * @generated
 	 */
-	int COLOR_DECORATOR = 6;
+	int COLOR_DECORATOR = 7;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -878,7 +987,7 @@ public interface ModelPackage extends EPackage {
 	 * @see model.impl.ModelPackageImpl#getINode()
 	 * @generated
 	 */
-	int INODE = 8;
+	int INODE = 9;
 
 
 	/**
@@ -889,7 +998,7 @@ public interface ModelPackage extends EPackage {
 	 * @see model.impl.ModelPackageImpl#getTriangle()
 	 * @generated
 	 */
-	int TRIANGLE = 9;
+	int TRIANGLE = 10;
 
 
 	/**
@@ -900,7 +1009,7 @@ public interface ModelPackage extends EPackage {
 	 * @see model.impl.ModelPackageImpl#getObject()
 	 * @generated
 	 */
-	int OBJECT = 10;
+	int OBJECT = 11;
 
 
 	/**
@@ -1048,6 +1157,27 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getOpacityDecorator_Opacity();
+
+	/**
+	 * Returns the meta object for class '{@link model.ScaleDecorator <em>Scale Decorator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Scale Decorator</em>'.
+	 * @see model.ScaleDecorator
+	 * @generated
+	 */
+	EClass getScaleDecorator();
+
+	/**
+	 * Returns the meta object for the attribute '{@link model.ScaleDecorator#getScale <em>Scale</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Scale</em>'.
+	 * @see model.ScaleDecorator#getScale()
+	 * @see #getScaleDecorator()
+	 * @generated
+	 */
+	EAttribute getScaleDecorator_Scale();
 
 	/**
 	 * Returns the meta object for class '{@link model.WireframeDecorator <em>Wireframe Decorator</em>}'.
@@ -1370,6 +1500,24 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute OPACITY_DECORATOR__OPACITY = eINSTANCE.getOpacityDecorator_Opacity();
+
+		/**
+		 * The meta object literal for the '{@link model.impl.ScaleDecoratorImpl <em>Scale Decorator</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see model.impl.ScaleDecoratorImpl
+		 * @see model.impl.ModelPackageImpl#getScaleDecorator()
+		 * @generated
+		 */
+		EClass SCALE_DECORATOR = eINSTANCE.getScaleDecorator();
+
+		/**
+		 * The meta object literal for the '<em><b>Scale</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE_DECORATOR__SCALE = eINSTANCE.getScaleDecorator_Scale();
 
 		/**
 		 * The meta object literal for the '{@link model.impl.WireframeDecoratorImpl <em>Wireframe Decorator</em>}' class.

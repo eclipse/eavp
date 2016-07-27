@@ -67,6 +67,15 @@ public interface ModelFactory extends EFactory {
 	<T> OpacityDecorator<T> createOpacityDecorator();
 
 	/**
+	 * Returns a new object of class '<em>Scale Decorator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Scale Decorator</em>'.
+	 * @generated
+	 */
+	<T> ScaleDecorator<T> createScaleDecorator();
+
+	/**
 	 * Returns a new object of class '<em>Wireframe Decorator</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -100,8 +100,7 @@ public class FXAttachment extends BasicAttachment {
 
 	/**
 	 * A function invoked when the attachment receives an update from its
-	 * contained modeling parts. This function does nothing by default and is
-	 * intended to be implemented by subclasses
+	 * contained modeling parts.
 	 * 
 	 * @param source
 	 *            The controller which triggered the update
@@ -215,8 +214,7 @@ public class FXAttachment extends BasicAttachment {
 					// Register as a listener for the new render element
 					element.eAdapters().add(new AdapterImpl() {
 						@Override
-						public void notifyChanged(
-								Notification notification) {
+						public void notifyChanged(Notification notification) {
 							handleUpdate(geom, notification);
 						}
 					});

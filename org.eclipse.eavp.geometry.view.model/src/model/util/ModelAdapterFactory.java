@@ -88,6 +88,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createOpacityDecoratorAdapter();
 			}
 			@Override
+			public <T> Adapter caseScaleDecorator(ScaleDecorator<T> object) {
+				return createScaleDecoratorAdapter();
+			}
+			@Override
 			public <T> Adapter caseWireframeDecorator(WireframeDecorator<T> object) {
 				return createWireframeDecoratorAdapter();
 			}
@@ -186,6 +190,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOpacityDecoratorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link model.ScaleDecorator <em>Scale Decorator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see model.ScaleDecorator
+	 * @generated
+	 */
+	public Adapter createScaleDecoratorAdapter() {
 		return null;
 	}
 

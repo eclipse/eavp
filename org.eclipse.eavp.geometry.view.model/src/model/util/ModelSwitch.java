@@ -102,6 +102,14 @@ public class ModelSwitch<T1> extends Switch<T1> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelPackage.SCALE_DECORATOR: {
+				ScaleDecorator<?> scaleDecorator = (ScaleDecorator<?>)theEObject;
+				T1 result = caseScaleDecorator(scaleDecorator);
+				if (result == null) result = caseRenderObjectDecorator(scaleDecorator);
+				if (result == null) result = caseIRenderElement(scaleDecorator);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ModelPackage.WIREFRAME_DECORATOR: {
 				WireframeDecorator<?> wireframeDecorator = (WireframeDecorator<?>)theEObject;
 				T1 result = caseWireframeDecorator(wireframeDecorator);
@@ -200,6 +208,21 @@ public class ModelSwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public <T> T1 caseOpacityDecorator(OpacityDecorator<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Scale Decorator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Scale Decorator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseScaleDecorator(ScaleDecorator<T> object) {
 		return null;
 	}
 
