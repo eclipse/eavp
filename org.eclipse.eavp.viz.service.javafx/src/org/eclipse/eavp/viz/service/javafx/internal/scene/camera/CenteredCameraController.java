@@ -11,7 +11,6 @@
 package org.eclipse.eavp.viz.service.javafx.internal.scene.camera;
 
 import javafx.embed.swt.FXCanvas;
-import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -93,7 +92,6 @@ public class CenteredCameraController extends BasicCameraController {
 		// Set the x axis rotation for the affine transformation
 		x = new Rotate();
 		x.setAxis(Rotate.X_AXIS);
-		xform.getTransforms().add(x);
 
 		// Set the y axis rotation for the affine transformation
 		y = new Rotate();
@@ -167,7 +165,7 @@ public class CenteredCameraController extends BasicCameraController {
 					// If neither control nor shift are down, rotate about the
 					// center
 					if (!event.isControlDown()) {
-						y.setAngle(y.getAngle() + mouseDeltaX);
+						y.setAngle(y.getAngle() + mouseDeltaX * invY);
 						x.setAngle(x.getAngle() - mouseDeltaY * invX);
 					}
 
@@ -179,14 +177,8 @@ public class CenteredCameraController extends BasicCameraController {
 
 				// If shift is down, change the center
 				else {
-					affine.appendTranslation(-mouseDeltaX * invX,
-							-mouseDeltaY * invY, 0);
-
-					// Update the camera's rotational pivot point
-					x.setPivotX(x.getPivotX() - mouseDeltaX * invX);
-					x.setPivotY(x.getPivotY() - mouseDeltaY * invY);
-					y.setPivotX(y.getPivotX() - mouseDeltaX * invX);
-					y.setPivotY(y.getPivotY() - mouseDeltaY * invY);
+					strafeCamera(-mouseDeltaX * invX);
+					raiseCamera(-mouseDeltaY * invY);
 
 				}
 			}
@@ -253,13 +245,16 @@ public class CenteredCameraController extends BasicCameraController {
 		// Zoom by the amount of scrolling
 		zoom(event.getDeltaY());
 	}
-	
+
 	/**
-	 * Sets the point where the camera should pivot when rotating 
-	 * the scene.
-	 * @param x The x coordinate for the pivot
-	 * @param y The y coordinate for the pivot
-	 * @param z The z coordinate for the pivot
+	 * Sets the point where the camera should pivot when rotating the scene.
+	 * 
+	 * @param x
+	 *            The x coordinate for the pivot
+	 * @param y
+	 *            The y coordinate for the pivot
+	 * @param z
+	 *            The z coordinate for the pivot
 	 */
 	public void setCameraPivot(double x, double y, double z) {
 		this.x.setPivotX(x);

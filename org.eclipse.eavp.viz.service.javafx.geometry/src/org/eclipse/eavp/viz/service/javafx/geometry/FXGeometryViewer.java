@@ -10,15 +10,27 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry;
 
+import java.util.List;
+
+import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXContentProvider;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
 import org.eclipse.eavp.viz.service.javafx.internal.model.FXCameraAttachment;
 import org.eclipse.eavp.viz.service.javafx.internal.scene.camera.CenteredCameraController;
 import org.eclipse.eavp.viz.service.javafx.scene.base.ICamera;
+import org.eclipse.january.geometry.BoundingBox;
+import org.eclipse.january.geometry.Shape;
+import org.eclipse.january.geometry.Union;
+import org.eclipse.january.geometry.Vertex;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.PlatformUI;
 
 import javafx.embed.swt.FXCanvas;
 import javafx.event.ActionEvent;
@@ -42,6 +54,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import model.IRenderElement;
 
 /**
  * An extension of FX viewer for use with the geometry editor
@@ -51,14 +64,165 @@ import javafx.scene.paint.Stop;
  */
 public class FXGeometryViewer extends FXViewer {
 
+	/**
+	 * The subScene containing the three dimensional geometry.
+	 */
 	private SubScene subScene;
 
+	/**
+	 * The default constructor.
+	 * 
+	 * @param parent
+	 *            The composite in which the view will be drawn.
+	 */
 	public FXGeometryViewer(Composite parent) {
 		super(parent);
 
 		// Register the geometry attachment class with an attachment manager
 		renderer.register(FXGeometryAttachment.class,
 				new FXGeometryAttachmentManager());
+
+		// Add a zoom to fit action to the context menu
+		MenuItem zoomToFit = new MenuItem(contextMenu, SWT.PUSH);
+		zoomToFit.setText("Zoom To Fit");
+		zoomToFit.addListener(SWT.Selection, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+				fitZoom();
+			};
+		});
+	}
+
+	/**
+	 * Set the zoom to fit tightly about the current selection
+	 */
+	private void fitZoom() {
+		// Get the selection from the shape tree view
+		IViewPart treeView = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage()
+				.findView(ShapeTreeView.ID);
+		List<IRenderElement> selection = ((ShapeTreeView) treeView)
+				.getSelectedElements();
+
+		// The bounds of the area to fit on the camera
+		BoundingBox bounds = null;
+
+		// Handle each of the selected shapes
+		for (IRenderElement selected : selection) {
+			if (selected.getBase() instanceof Shape) {
+				Shape shape = (Shape) selected.getBase();
+
+				// Add the shape's bounds
+				if (bounds == null) {
+					bounds = org.eclipse.january.geometry.BoundingBox
+							.getBounds(shape);
+				} else {
+					bounds.addArea(org.eclipse.january.geometry.BoundingBox
+							.getBounds(shape));
+				}
+
+			} else if (selected.getBase() instanceof Union) {
+				Union union = (Union) selected.getBase();
+
+				// Add the union's bounds
+				if (bounds == null) {
+					bounds = org.eclipse.january.geometry.BoundingBox
+							.getBounds(union);
+				} else {
+					bounds.addArea(org.eclipse.january.geometry.BoundingBox
+							.getBounds(union));
+				}
+			}
+
+			// If a non-Node was in the selection, fail silently
+			else {
+				return;
+			}
+		}
+
+		// Get the dimensions of the object
+		double xDim = bounds.getMaxX() - bounds.getMinX();
+		double yDim = bounds.getMaxY() - bounds.getMinY();
+		double zDim = bounds.getMaxZ() - bounds.getMinZ();
+
+		// The center of the object
+		Vertex center = org.eclipse.january.geometry.BoundingBox
+				.getCenter(bounds);
+
+		// Handle the case where the x dimension is the smallest, so
+		// the camera will look down the x axis
+		if (xDim <= yDim && xDim <= yDim) {
+
+			// Find the size of the largest perpindeiculr dimension
+			double size = Math.max(yDim, zDim);
+
+			// Reset the camera to look down the x axis
+			cameraController.setDefaultAngle(0, 90, 0);
+			cameraController.reset();
+
+			// Move the camera to the center point
+			cameraController.strafeCamera(-center.getZ());
+			cameraController.raiseCamera(-center.getY());
+			cameraController.thrustCamera(center.getX());
+
+			// Move the camera 2000 units forward (to adjust for the
+			// default position being 2000 units away from the
+			// center)
+			// and pull back a bit more than twice the object's
+			// largest
+			// dimension, so that the whole thing will fit on screen
+			cameraController.thrustCamera(2000 - (2.1 * size));
+
+		}
+
+		// Handle the case where the y dimension is smallest, so the
+		// camera will look down the y axis
+		else if (yDim <= xDim && yDim <= zDim) {
+
+			// Get the size of the largest perpendicular dimension
+			double size = Math.max(xDim, zDim);
+			cameraController.setDefaultAngle(90, 0, 0);
+			cameraController.reset();
+
+			// Move the camera to the center point
+			cameraController.strafeCamera(center.getX());
+			cameraController.raiseCamera(-center.getZ());
+			cameraController.thrustCamera(-center.getY());
+
+			// Move the camera 2000 units forward (to adjust for the
+			// default position being 2000 units away from the
+			// center)
+			// and pull back a bit more than twice the object's
+			// largest
+			// dimension, so that the whole thing will fit on screen
+			cameraController.thrustCamera(2000 - (2.1 * size));
+		}
+
+		// Handle the case where the x dimension is smallest and the
+		// camera will look down the x asix
+		else {
+
+			// The size of the largest perpendicular dimension
+			double size = Math.max(xDim, yDim);
+
+			// Reset the camera
+			cameraController.setDefaultAngle(0, 0, 0);
+			cameraController.reset();
+
+			// Move the camera to the center
+			cameraController.strafeCamera(-center.getX());
+			cameraController.raiseCamera(-center.getY());
+			cameraController.thrustCamera(center.getZ());
+
+			// Move the camera 2000 units forward (to adjust for the
+			// default position being 2000 units away from the
+			// center)
+			// and pull back a bit more than twice the object's
+			// largest
+			// dimension, so that the whole thing will fit on screen
+			cameraController.thrustCamera(2000 - (2.1 * size));
+		}
 	}
 
 	/*
@@ -91,12 +255,27 @@ public class FXGeometryViewer extends FXViewer {
 		cameraResetButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				cameraController.setDefaultAngle(0, 0, 0);
 				cameraController.reset();
 			}
 		});
 
+		// Create a button with the fit icon
+		Button zoomFitButton = new Button();
+		// zoomFitButton.setGraphic(new ImageView(
+		// new Image(separator + "icons" + separator + "fit_icon.png")));
+		zoomFitButton.setTooltip(new Tooltip("Reset Camera"));
+
+		// The button will fit the zoom to the current selection when pressed
+		zoomFitButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				fitZoom();
+			}
+		});
+
 		// The toolbar displaying all controls for the editor
-		ToolBar toolbar = new ToolBar(cameraResetButton);
+		ToolBar toolbar = new ToolBar(cameraResetButton, zoomFitButton);
 		pane.setTop(toolbar);
 		scene = new Scene(pane, 100, 100, true);
 
@@ -112,8 +291,7 @@ public class FXGeometryViewer extends FXViewer {
 		pane.setCenter(subScene);
 
 		// Set the subscene to take up all the space it can get in the pane
-		subScene.heightProperty()
-				.bind(pane.heightProperty().subtract(toolbar.heightProperty()));
+		subScene.heightProperty().bind(pane.heightProperty());
 		subScene.widthProperty().bind(pane.widthProperty());
 
 		// Hide the toolbar initially
