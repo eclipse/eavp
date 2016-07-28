@@ -15,6 +15,7 @@ import java.util.List;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXContentProvider;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
+import org.eclipse.eavp.viz.service.javafx.canvas.TransformGizmo;
 import org.eclipse.eavp.viz.service.javafx.internal.model.FXCameraAttachment;
 import org.eclipse.eavp.viz.service.javafx.internal.scene.camera.CenteredCameraController;
 import org.eclipse.eavp.viz.service.javafx.scene.base.ICamera;
@@ -26,9 +27,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
@@ -36,8 +39,10 @@ import javafx.embed.swt.FXCanvas;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.AmbientLight;
 import javafx.scene.Camera;
 import javafx.scene.Group;
+import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
@@ -53,7 +58,10 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.DrawMode;
 import model.IRenderElement;
 
 /**
@@ -64,6 +72,16 @@ import model.IRenderElement;
  */
 public class FXGeometryViewer extends FXViewer {
 
+	/**
+	 * The gizmo containing the three lines that will display the axes.
+	 */
+	private TransformGizmo axes;
+	
+	/**
+	 * The wireframe square that displays the XZ plane.
+	 */
+	private Box plane;
+	
 	/**
 	 * The subScene containing the three dimensional geometry.
 	 */
@@ -107,6 +125,11 @@ public class FXGeometryViewer extends FXViewer {
 
 		// The bounds of the area to fit on the camera
 		BoundingBox bounds = null;
+		
+		//Fail silently if nothing is selected
+		if(selection.isEmpty()){
+			return;
+		}
 
 		// Handle each of the selected shapes
 		for (IRenderElement selected : selection) {
@@ -261,10 +284,10 @@ public class FXGeometryViewer extends FXViewer {
 		});
 
 		// Create a button with the fit icon
-		Button zoomFitButton = new Button();
+		Button zoomFitButton = new Button("Zoom to fit");
 		// zoomFitButton.setGraphic(new ImageView(
 		// new Image(separator + "icons" + separator + "fit_icon.png")));
-		zoomFitButton.setTooltip(new Tooltip("Reset Camera"));
+		zoomFitButton.setTooltip(new Tooltip("Zoom to fit"));
 
 		// The button will fit the zoom to the current selection when pressed
 		zoomFitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -273,9 +296,45 @@ public class FXGeometryViewer extends FXViewer {
 				fitZoom();
 			}
 		});
+		
+		Button toggleAxesButton = new Button("Toggle Axes");
+		toggleAxesButton.setTooltip(new Tooltip("Toggle Axes"));
+		
+		// The button will remove/add the axes and plane when pressed.
+		toggleAxesButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				axes.setVisible(!axes.isVisible());
+				plane.setVisible(!plane.isVisible());
+			}
+		});
+		
+		//Add a button to set the axis size
+		Button changeAxesSizeButton = new Button("Set Axis Size");
+		changeAxesSizeButton.setTooltip(new Tooltip("Set Axis Size"));
+		
+		changeAxesSizeButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				
+				//Pop open a dialog to prompt the user for the new scale
+				Display d = Display.getCurrent();
+				Shell s = new Shell(d);
+				double f = axes.getScale();
+				
+				AxisSizeDialog dialog = new AxisSizeDialog(new Shell(Display.getCurrent()), axes.getScale());
+				dialog.open();
+				double input = dialog.getInput();
+				
+				//If the user selected value was valid, set the axis size
+				if(input > 0){
+				axes.setAxisSize(input);
+				}
+			}
+		});
 
 		// The toolbar displaying all controls for the editor
-		ToolBar toolbar = new ToolBar(cameraResetButton, zoomFitButton);
+		ToolBar toolbar = new ToolBar(cameraResetButton, zoomFitButton, toggleAxesButton, changeAxesSizeButton);
 		pane.setTop(toolbar);
 		scene = new Scene(pane, 100, 100, true);
 
@@ -349,6 +408,39 @@ public class FXGeometryViewer extends FXViewer {
 
 	}
 
+	protected void setupSceneInternals(Group parent) {
+		// Create scene plane for frame of reference.
+		plane = new Box(1000, 0, 1000);
+		plane.setMouseTransparent(true);
+		plane.setDrawMode(DrawMode.LINE);
+		plane.setMaterial(new PhongMaterial(Color.ANTIQUEWHITE));
+
+		AmbientLight ambientLight = new AmbientLight(Color.rgb(100, 100, 100));
+
+		PointLight light1 = new PointLight(Color.ANTIQUEWHITE);
+		light1.setMouseTransparent(true);
+		light1.setTranslateY(-350);
+
+		PointLight light2 = new PointLight(Color.ANTIQUEWHITE);
+		light2.setMouseTransparent(true);
+		light2.setTranslateZ(350);
+
+		PointLight light3 = new PointLight(Color.ANTIQUEWHITE);
+		light3.setMouseTransparent(true);
+		light3.setTranslateZ(-350);
+
+		PointLight light4 = new PointLight(Color.ANTIQUEWHITE);
+		light4.setMouseTransparent(true);
+		light4.setTranslateZ(350);
+
+		axes = new TransformGizmo(1000);
+		axes.showHandles(false);
+
+		parent.getChildren().addAll(axes, plane, light1, light2, light3, light4,
+				ambientLight);
+
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
