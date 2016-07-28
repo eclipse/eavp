@@ -97,7 +97,12 @@ public class TransformationPropertyWidget {
 
 				// Set the source's property if the widget currently has a
 				// source
-				source.setProperty(name, value);
+				if (!"scale".equals(name)) {
+					source.setProperty(name, value);
+				} else {
+					source.changeDecoratorProperty(name, value);
+				}
+
 			}
 
 		});

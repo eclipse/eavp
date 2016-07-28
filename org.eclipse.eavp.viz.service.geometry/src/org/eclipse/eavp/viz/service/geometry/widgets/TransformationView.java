@@ -226,6 +226,27 @@ public class TransformationView extends ViewPart {
 				// Add the spinner to the list
 				propertySpinners.add(propertySpinner);
 			}
+
+			// Create an extra spinner to control scale
+			// Create a label with the property's name
+			Label propertyLabel = new Label(parent, SWT.NONE);
+			propertyLabel.setLayoutData(
+					new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+			propertyLabel.setText("scale:");
+
+			// Create a spinner for the property's value. All properties
+			// have
+			// doubles for values.
+			RealSpinner propertySpinner = new RealSpinner(parent);
+			propertySpinner.getControl().setLayoutData(
+					new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+			propertySpinner.setBounds(-1.0e6, 1.0e6);
+
+			// Set the spinner's name
+			propertySpinner.setName("scale");
+
+			// Add the spinner to the list
+			propertySpinners.add(propertySpinner);
 		}
 
 		// Set the initial shape
@@ -278,6 +299,7 @@ public class TransformationView extends ViewPart {
 
 			// Set the properties
 			List<String> properties = shape.getBase().getPropertyNames();
+			properties.add("scale");
 
 			// Pad the list to the correct number of properties
 			while (properties.size() < NUM_PROPERTIES) {
@@ -289,12 +311,25 @@ public class TransformationView extends ViewPart {
 
 				// Get the property name
 				String property = properties.get(i);
-				double value = (property != null)
-						? shape.getBase().getProperty(property) : 0d;
 
-				// Set the property widget to display this property
-				propertyWidgets.get(i).setProperty(shape.getBase(), property,
-						value);
+				if (!"scale".equals(property)) {
+					double value = (property != null)
+							? shape.getBase().getProperty(property) : 0d;
+
+					// Set the property widget to display this property
+					propertyWidgets.get(i).setProperty(shape.getBase(),
+							property, value);
+				}
+
+				// Handle scale
+				else {
+					double value = (shape.getProperty("scale") != null)
+							? (double) shape.getProperty(property) : 1d;
+
+					// Set the property widget to display this property
+					propertyWidgets.get(i).setProperty(shape.getBase(),
+							property, value);
+				}
 			}
 		}
 
@@ -388,11 +423,17 @@ public class TransformationView extends ViewPart {
 				String name = realSpinner.getName();
 				double value = realSpinner.getValue();
 
-				// If the value in the spinner has been changed, set the new
-				// value to the shape
-				if (value != currentShape.getBase().getProperty(name)) {
-					currentShape.setProperty(realSpinner.getName(),
-							realSpinner.getValue());
+				if (!"scale".equals(name)) {
+					// If the value in the spinner has been changed, set the new
+					// value to the shape
+					if (value != currentShape.getBase().getProperty(name)) {
+						currentShape.setProperty(realSpinner.getName(),
+								realSpinner.getValue());
+					}
+				}
+
+				else {
+					currentShape.setProperty("scale", value);
 				}
 			}
 		};

@@ -25,8 +25,7 @@ import model.RenderObjectDecorator;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link model.impl.RenderObjectDecoratorImpl#getSource <em>Source</em>}
- * </li>
+ *   <li>{@link model.impl.RenderObjectDecoratorImpl#getSource <em>Source</em>}</li>
  * </ul>
  *
  * @generated
@@ -36,7 +35,6 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -45,7 +43,6 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected RenderObjectDecoratorImpl() {
@@ -70,7 +67,6 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -80,20 +76,17 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public IRenderElement<T> getSource() {
 		if (source != null && source.eIsProxy()) {
-			InternalEObject oldSource = (InternalEObject) source;
-			source = (IRenderElement<T>) eResolveProxy(oldSource);
+			InternalEObject oldSource = (InternalEObject)source;
+			source = (IRenderElement<T>)eResolveProxy(oldSource);
 			if (source != oldSource) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE,
-							oldSource, source));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -101,7 +94,6 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public IRenderElement<T> basicGetSource() {
@@ -226,68 +218,62 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
-			if (resolve)
-				return getSource();
-			return basicGetSource();
+			case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
+				if (resolve) return getSource();
+				return basicGetSource();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
-			setSource((IRenderElement<T>) newValue);
-			return;
+			case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
+				setSource((IRenderElement<T>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
-			setSource((IRenderElement<T>) null);
-			return;
+			case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
+				setSource((IRenderElement<T>)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
-			return source != null;
+			case ModelPackage.RENDER_OBJECT_DECORATOR__SOURCE:
+				return source != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -295,23 +281,23 @@ public class RenderObjectDecoratorImpl<T> extends MinimalEObjectImpl.Container
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
-		case ModelPackage.RENDER_OBJECT_DECORATOR___GET_MESH:
-			return getMesh();
-		case ModelPackage.RENDER_OBJECT_DECORATOR___GET_BASE:
-			return getBase();
-		case ModelPackage.RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST:
-			handleChildren((EList<IRenderElement<T>>) arguments.get(0));
-			return null;
-		case ModelPackage.RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING:
-			return getProperty((String) arguments.get(0));
-		case ModelPackage.RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT:
-			setProperty((String) arguments.get(0), arguments.get(1));
-			return null;
-		case ModelPackage.RENDER_OBJECT_DECORATOR___COPY__OBJECT:
-			copy(arguments.get(0));
-			return null;
-		case ModelPackage.RENDER_OBJECT_DECORATOR___CLONE:
-			return clone();
+			case ModelPackage.RENDER_OBJECT_DECORATOR___GET_MESH:
+				return getMesh();
+			case ModelPackage.RENDER_OBJECT_DECORATOR___GET_BASE:
+				return getBase();
+			case ModelPackage.RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST:
+				handleChildren((EList<IRenderElement<T>>)arguments.get(0));
+				return null;
+			case ModelPackage.RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING:
+				return getProperty((String)arguments.get(0));
+			case ModelPackage.RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT:
+				setProperty((String)arguments.get(0), arguments.get(1));
+				return null;
+			case ModelPackage.RENDER_OBJECT_DECORATOR___COPY__OBJECT:
+				copy(arguments.get(0));
+				return null;
+			case ModelPackage.RENDER_OBJECT_DECORATOR___CLONE:
+				return clone();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

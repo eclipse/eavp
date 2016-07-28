@@ -115,6 +115,21 @@
       <eTypeArguments eTypeParameter="#//OpacityDecorator/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScaleDecorator">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A decorator which scales the wrapped object's rendering to a specified multiple of the base size."/>
+    </eAnnotations>
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scale" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="How large the object is to be displayed in comparision to its actual data. A value of 1 is equivalent to the original object and a value of less than 0 will cause the decorator to make no changes to the object."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//RenderObjectDecorator">
+      <eTypeArguments eTypeParameter="#//ScaleDecorator/T"/>
+    </eGenericSuperTypes>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="WireframeDecorator">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A decorator which can change the object's rendering to appear in wireframe mode."/>
