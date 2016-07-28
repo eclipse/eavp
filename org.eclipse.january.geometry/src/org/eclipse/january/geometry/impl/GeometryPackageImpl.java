@@ -493,7 +493,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getGeometry_VertexSource() {
+	public EReference getGeometry_VertexSources() {
 		return (EReference)geometryEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -727,8 +727,26 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMaterial_Name() {
+	public EAttribute getMaterial_PhongMatName() {
 		return (EAttribute)materialEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMaterial_Texture() {
+		return (EAttribute)materialEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMaterial_MaterialFiles() {
+		return (EAttribute)materialEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1060,8 +1078,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPolyShape_MatFiles() {
-		return (EAttribute)polyShapeEClass.getEStructuralFeatures().get(1);
+	public EReference getPolyShape_VertexSource() {
+		return (EReference)polyShapeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1069,8 +1087,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPolyShape_VertexSource() {
-		return (EReference)polyShapeEClass.getEStructuralFeatures().get(2);
+	public EAttribute getPolyShape_MaterialFiles() {
+		return (EAttribute)polyShapeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1210,7 +1228,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		createEAttribute(cylinderEClass, CYLINDER__HEIGHT);
 
 		geometryEClass = createEClass(GEOMETRY);
-		createEReference(geometryEClass, GEOMETRY__VERTEX_SOURCE);
+		createEReference(geometryEClass, GEOMETRY__VERTEX_SOURCES);
 
 		tubeEClass = createEClass(TUBE);
 		createEAttribute(tubeEClass, TUBE__HEIGHT);
@@ -1243,7 +1261,9 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		complementEClass = createEClass(COMPLEMENT);
 
 		materialEClass = createEClass(MATERIAL);
-		createEAttribute(materialEClass, MATERIAL__NAME);
+		createEAttribute(materialEClass, MATERIAL__PHONG_MAT_NAME);
+		createEAttribute(materialEClass, MATERIAL__TEXTURE);
+		createEAttribute(materialEClass, MATERIAL__MATERIAL_FILES);
 
 		iGeometryImporterEClass = createEClass(IGEOMETRY_IMPORTER);
 		createEAttribute(iGeometryImporterEClass, IGEOMETRY_IMPORTER__FILE_TYPES);
@@ -1288,8 +1308,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		polyShapeEClass = createEClass(POLY_SHAPE);
 		createEReference(polyShapeEClass, POLY_SHAPE__FACES);
-		createEAttribute(polyShapeEClass, POLY_SHAPE__MAT_FILES);
 		createEReference(polyShapeEClass, POLY_SHAPE__VERTEX_SOURCE);
+		createEAttribute(polyShapeEClass, POLY_SHAPE__MATERIAL_FILES);
 
 		faceEClass = createEClass(FACE);
 		createEAttribute(faceEClass, FACE__VERTEX_INDICES);
@@ -1386,7 +1406,7 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEAttribute(getCylinder_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, Cylinder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(geometryEClass, Geometry.class, "Geometry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getGeometry_VertexSource(), this.getVertexSource(), null, "vertexSource", null, 0, 1, Geometry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGeometry_VertexSources(), this.getVertexSource(), null, "vertexSources", null, 0, -1, Geometry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tubeEClass, Tube.class, "Tube", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTube_Height(), ecorePackage.getEDouble(), "height", "0.0", 0, 1, Tube.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1435,7 +1455,9 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 		initEClass(complementEClass, Complement.class, "Complement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(materialEClass, Material.class, "Material", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMaterial_Name(), ecorePackage.getEString(), "name", null, 0, 1, Material.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMaterial_PhongMatName(), ecorePackage.getEString(), "phongMatName", null, 0, 1, Material.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMaterial_Texture(), ecorePackage.getEString(), "texture", null, 0, 1, Material.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMaterial_MaterialFiles(), ecorePackage.getEString(), "materialFiles", null, 0, -1, Material.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iGeometryImporterEClass, IGeometryImporter.class, "IGeometryImporter", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIGeometryImporter_FileTypes(), ecorePackage.getEString(), "fileTypes", null, 1, -1, IGeometryImporter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1486,8 +1508,8 @@ public class GeometryPackageImpl extends EPackageImpl implements GeometryPackage
 
 		initEClass(polyShapeEClass, PolyShape.class, "PolyShape", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPolyShape_Faces(), this.getFace(), null, "faces", null, 0, -1, PolyShape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPolyShape_MatFiles(), ecorePackage.getEString(), "matFiles", null, 0, -1, PolyShape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPolyShape_VertexSource(), this.getVertexSource(), null, "vertexSource", null, 0, 1, PolyShape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPolyShape_MaterialFiles(), ecorePackage.getEString(), "materialFiles", null, 0, -1, PolyShape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(faceEClass, Face.class, "Face", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFace_VertexIndices(), ecorePackage.getEInt(), "vertexIndices", null, 0, -1, Face.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

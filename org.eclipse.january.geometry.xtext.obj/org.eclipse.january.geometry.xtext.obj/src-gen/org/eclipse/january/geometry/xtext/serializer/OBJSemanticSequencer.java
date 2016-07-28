@@ -84,7 +84,7 @@ public class OBJSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Geometry returns Geometry
 	 *
 	 * Constraint:
-	 *     ((vertexSource=VertexSource nodes+=PolyShape+) | nodes+=PolyShape+)?
+	 *     (vertexSources+=VertexSource | nodes+=PolyShape)+
 	 */
 	protected void sequence_Geometry(ISerializationContext context, Geometry semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -96,15 +96,15 @@ public class OBJSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     Material returns Material
 	 *
 	 * Constraint:
-	 *     name=EString
+	 *     phongMatName=EString
 	 */
 	protected void sequence_Material(ISerializationContext context, Material semanticObject) {
 		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, GeometryPackage.Literals.MATERIAL__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, GeometryPackage.Literals.MATERIAL__NAME));
+			if (transientValues.isValueTransient(semanticObject, GeometryPackage.Literals.MATERIAL__PHONG_MAT_NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, GeometryPackage.Literals.MATERIAL__PHONG_MAT_NAME));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getMaterialAccess().getNameEStringParserRuleCall_1_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getMaterialAccess().getPhongMatNameEStringParserRuleCall_1_0(), semanticObject.getPhongMatName());
 		feeder.finish();
 	}
 	
@@ -114,7 +114,7 @@ public class OBJSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     PolyShape returns PolyShape
 	 *
 	 * Constraint:
-	 *     (name=EString? material=Material? faces+=Face*)
+	 *     (materialFiles+=EString* name=EString? material=Material? faces+=Face*)
 	 */
 	protected void sequence_PolyShape(ISerializationContext context, PolyShape semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
