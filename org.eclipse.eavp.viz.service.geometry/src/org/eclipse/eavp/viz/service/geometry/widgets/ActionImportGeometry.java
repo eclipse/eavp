@@ -3,26 +3,26 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.PolyShape;
+import org.eclipse.january.geometry.xtext.mTL.Material;
+import org.eclipse.january.geometry.xtext.mtlimport.MTLImporter;
 import org.eclipse.january.geometry.xtext.obj.importer.OBJGeometryImporter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.ui.internal.util.BundleUtility;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import model.IRenderElement;
 
 public class ActionImportGeometry extends Action {
@@ -163,30 +163,63 @@ public class ActionImportGeometry extends Action {
 			
 				view.treeViewer.refresh();
 			}
-			/**
-			// Get the set of render elements from the view
-			IRenderElementHolder holder = view.getHolder();
-			for(INode node : addedNodes) {
-				// Get the render of the new shape
-				IRenderElement render = holder.getRender(node);
-				
-				// Get the new import color from the color provider
-				int[] newColor = org.eclipse.eavp.viz.service.color.ColorProvider.getNextColor();
-				
-				// Operators will have negative default colors to signal that they
-				// should by default not override their childrens' colors.
-				render.setProperty("defaultRed", newColor[0]);
-				render.setProperty("defaultGreen", newColor[1]);
-				render.setProperty("defaultBlue", newColor[2]);
-
-				// Initialize the color to the default
-				render.setProperty("red", render.getProperty("defaultRed"));
-				render.setProperty("green", render.getProperty("defaultGreen"));
-				render.setProperty("blue", render.getProperty("defaultBlue"));
+			
+			// Create a map of the materials and their names from the specified 
+			// material source files
+			Map<String, Material> materialMap = null;
+			if (imported.getVertexSource() != null) {
+				// Get the folder path
+				String pathToFolder = filePath.substring(0, 
+						filePath.lastIndexOf(FileSystems.getDefault().getSeparator()));
+				// Get the material files
+				List<String> matFiles = 
+						imported.getVertexSource().getMaterialFiles();
+				// Can only handle .mtl material files right now
+				for(String file : matFiles) {
+					if (file.endsWith(".mtl")) {
+						// Get the path, load with the MTLImporter
+						Path pathToMat = FileSystems.getDefault().getPath(pathToFolder + file);
+						List<Material> newMaterials = new MTLImporter().load(pathToMat);
+						// Put the loaded materials into the map
+						for(Material mat : newMaterials) {
+							materialMap.put(mat.getName(), mat);
+						}
+					}
+				}
 			}
-			*/
+			
+			// Set the materials on the newly added nodes
+			setMaterials(addedNodes, materialMap);
 			
 		}
 		
+	}
+	
+	private void setMaterials(List<INode> nodes, Map<String, Material> materialMap) {
+		if (nodes != null && !nodes.isEmpty() && materialMap != null) {
+			// Get the set of render elements from the view
+			IRenderElementHolder holder = view.getHolder();
+			for(INode node : nodes) {
+				// Get the render of the new shape
+				IRenderElement render = holder.getRender(node);
+				
+				if (render.getBase() instanceof PolyShape) {
+					// Get the material
+					PhongMaterial newMat = new PhongMaterial();
+					Material readMat = (Material)materialMap.get(
+								((PolyShape) render.getBase()).getMaterial().getPhongMatName());
+					// Convert values to the phong material
+					newMat.setDiffuseColor(convertColor(readMat.getDiffuse()));
+					newMat.setSpecularColor(convertColor(readMat.getSpecular()));
+					newMat.setSpecularPower(readMat.getSpecularExponent());
+					render.setProperty("material", newMat);
+				}
+			}
+		}
+	}
+	
+	private Color convertColor(org.eclipse.january.geometry.xtext.mTL.Color diffuse) {
+		Color clr = Color.rgb((int)diffuse.getRed(), (int)diffuse.getGreen(), (int)diffuse.getBlue());
+		return clr;
 	}
 }

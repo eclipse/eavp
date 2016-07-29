@@ -66,19 +66,22 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		// Get the mesh
 		Group group = source.getMesh();
 
-		// Negative color values will serve as a signal to allow the children
-		// meshes to keep their current colors.
-		if (red >= 0 && green >= 0 && blue >= 0) {
-
-			// Create a material of the specified color and set it.
-			PhongMaterial material = new PhongMaterial(
-					Color.rgb(red, green, blue));
-			material.setSpecularColor(Color.WHITE);
-
-			// Set the material for the group and pass it along
-			setMaterial(group, material);
+		PhongMaterial material = getMaterial();
+		
+		if (material == null) {
+			// Negative color values will serve as a signal to allow the children
+			// meshes to keep their current colors.
+			if (red >= 0 && green >= 0 && blue >= 0) {
+		
+				// Create a material of the specified color and set it.
+				material = new PhongMaterial(
+						Color.rgb(red, green, blue));
+				material.setSpecularColor(Color.WHITE);
+			}
 
 		}
+		// Set the material for the group and pass it along
+		setMaterial(group, material);
 
 		return group;
 	}
@@ -103,12 +106,20 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		} else if (notification.getNewValue() instanceof Double) {
 			colorVal = ((Double)notification.getNewValue()).intValue();
 		}
+		
+		// Set the red, green, or blue values
 		if ("red".equals(property)) {
 			setRed(colorVal);
 		} else if ("green".equals(property)) {
 			setGreen(colorVal);
 		} else if ("blue".equals(property)) {
 			setBlue(colorVal);
+		}
+		
+		// Set the material, if it is valid
+		if ("material".equals(property) && notification.getNewValue() 
+				instanceof PhongMaterial) {
+			setMaterial((PhongMaterial)notification.getNewValue());
 		}
 
 		// Pass the update along to own listeners
