@@ -7,18 +7,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.january.geometry.Triangle;
+import org.eclipse.swt.widgets.Display;
 
 import model.MeshCache;
 import model.ModelPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Mesh Cache</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object ' <em><b>Mesh
+ * Cache</b></em>'. <!-- end-user-doc -->
  *
  * @generated
  */
@@ -174,6 +177,48 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 
 		// Nothing to do
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.common.notify.impl.BasicNotifierImpl#eNotify(org.eclipse.
+	 * emf.common.notify.Notification)
+	 */
+	@Override
+	public void eNotify(Notification notification) {
+		// Check if a notification is required
+		Adapter[] eAdapters = eBasicAdapterArray();
+		if (eAdapters != null && eDeliver()) {
+
+			// If this notification is on the UI thread, launch a new thread to
+			// handle it
+			if (Thread.currentThread() == Display.getCurrent().getThread()) {
+
+				Thread updateThread = new Thread() {
+
+					@Override
+					public void run() {
+						for (int i = 0, size = eAdapters.length; i < size; ++i) {
+							eAdapters[i].notifyChanged(notification);
+						}
+					}
+				};
+
+				updateThread.run();
+
+			}
+
+			// If we are already off the UI thread, such as being called by a
+			// thread created by some other object's eNotify(), then just notify
+			// the adapters.
+			else {
+				for (int i = 0, size = eAdapters.length; i < size; ++i) {
+					eAdapters[i].notifyChanged(notification);
+				}
+			}
+		}
 	}
 
 } // MeshCacheImpl

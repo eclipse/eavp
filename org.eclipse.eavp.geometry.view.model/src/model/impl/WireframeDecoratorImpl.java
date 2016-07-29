@@ -17,7 +17,8 @@ import model.WireframeDecorator;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link model.impl.WireframeDecoratorImpl#isWireframe <em>Wireframe</em>}</li>
+ * <li>{@link model.impl.WireframeDecoratorImpl#isWireframe
+ * <em>Wireframe</em>}</li>
  * </ul>
  *
  * @generated
@@ -25,8 +26,9 @@ import model.WireframeDecorator;
 public class WireframeDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 		implements WireframeDecorator<T> {
 	/**
-	 * The default value of the '{@link #isWireframe() <em>Wireframe</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isWireframe() <em>Wireframe</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isWireframe()
 	 * @generated
 	 * @ordered
@@ -34,8 +36,9 @@ public class WireframeDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 	protected static final boolean WIREFRAME_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isWireframe() <em>Wireframe</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isWireframe() <em>Wireframe</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isWireframe()
 	 * @generated
 	 * @ordered
@@ -44,6 +47,7 @@ public class WireframeDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected WireframeDecoratorImpl() {
@@ -52,6 +56,7 @@ public class WireframeDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -61,6 +66,7 @@ public class WireframeDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -70,77 +76,91 @@ public class WireframeDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * 
+	 * @generated NOT
 	 */
 	@Override
 	public void setWireframe(boolean newWireframe) {
-		boolean oldWireframe = wireframe;
-		wireframe = newWireframe;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.WIREFRAME_DECORATOR__WIREFRAME, oldWireframe, wireframe));
+
+		// Fail silently if the new value is already set
+		if (newWireframe != wireframe) {
+
+			boolean oldWireframe = wireframe;
+			wireframe = newWireframe;
+			if (eNotificationRequired())
+				eNotify(new ENotificationImpl(this, Notification.SET,
+						ModelPackage.WIREFRAME_DECORATOR__WIREFRAME,
+						oldWireframe, wireframe));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
-				return isWireframe();
+		case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
+			return isWireframe();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
-				setWireframe((Boolean)newValue);
-				return;
+		case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
+			setWireframe((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
-				setWireframe(WIREFRAME_EDEFAULT);
-				return;
+		case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
+			setWireframe(WIREFRAME_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
-				return wireframe != WIREFRAME_EDEFAULT;
+		case ModelPackage.WIREFRAME_DECORATOR__WIREFRAME:
+			return wireframe != WIREFRAME_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (wireframe: ");

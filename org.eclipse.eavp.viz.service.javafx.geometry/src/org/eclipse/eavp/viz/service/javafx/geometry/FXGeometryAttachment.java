@@ -15,6 +15,7 @@ import org.eclipse.eavp.geometry.view.javafx.decorators.FXOpacityDecorator;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXScaleDecorator;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.eavp.viz.service.color.ColorProvider;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.ui.IViewPart;
@@ -126,10 +127,10 @@ public class FXGeometryAttachment extends FXAttachment {
 		colorDecorator.setSource(render);
 
 		// Give the render a default color from the provider
-//		int[] color = ColorProvider.getNextColor();
-		render.setProperty("defaultRed", Math.random() * 255);
-		render.setProperty("defaultGreen", Math.random() * 255);
-		render.setProperty("defaultBlue", Math.random() * 255);
+		int[] color = ColorProvider.getNextColor();
+		render.setProperty("defaultRed", color[0]);
+		render.setProperty("defaultGreen", color[1]);
+		render.setProperty("defaultBlue", color[2]);
 
 		render.setProperty("red", render.getProperty("defaultRed"));
 		render.setProperty("green", render.getProperty("defaultGreen"));
