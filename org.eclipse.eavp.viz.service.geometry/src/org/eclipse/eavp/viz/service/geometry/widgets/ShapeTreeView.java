@@ -341,11 +341,11 @@ public class ShapeTreeView extends ViewPart
 		
 		// Get default colors for the selected shape
 		int red = selectedShape.getProperty("defaultRed") != null
-				? (int) selectedShape.getProperty("defaultRed") : 127;
+				? getIntValue(selectedShape.getProperty("defaultRed")) : 127;
 		int green = selectedShape.getProperty("defaultGreen") != null
-				? (int) selectedShape.getProperty("defaultGreen") : 127;
+				? getIntValue(selectedShape.getProperty("defaultGreen")) : 127;
 		int blue = selectedShape.getProperty("defaultBlue") != null
-				? (int) selectedShape.getProperty("defaultBlue") : 127;
+				? getIntValue(selectedShape.getProperty("defaultBlue")) : 127;
 		// Reset the shape's colors
 		selectedShape.setProperty("red", red);
 		selectedShape.setProperty("green", green);
@@ -446,11 +446,11 @@ public class ShapeTreeView extends ViewPart
 		for (IRenderElement selectedShape : selectedShapes) {
 
 			int red = selectedShape.getProperty("defaultRed") != null
-					? (int) selectedShape.getProperty("defaultRed") : 127;
+					? getIntValue(selectedShape.getProperty("defaultRed")) : 127;
 			int green = selectedShape.getProperty("defaultGreen") != null
-					? (int) selectedShape.getProperty("defaultGreen") : 127;
+					? getIntValue(selectedShape.getProperty("defaultGreen")) : 127;
 			int blue = selectedShape.getProperty("defaultBlue") != null
-					? (int) selectedShape.getProperty("defaultBlue") : 127;
+					? getIntValue(selectedShape.getProperty("defaultBlue")) : 127;
 
 			selectedShape.setProperty("red", red);
 			selectedShape.setProperty("green", green);
@@ -476,5 +476,30 @@ public class ShapeTreeView extends ViewPart
 				selectedShapes.add(selectedShape);
 			}
 		}
+	}
+
+
+	/**
+	 * Converts the given object to an integer
+	 * @param obj The object to get the integer value of
+	 * @return Returns an int- giving the best 
+	 */
+	private int getIntValue(Object obj) {
+		int val = -1;
+		// If it is an int, cast it
+		if (obj instanceof Integer) {
+			val = (Integer) obj;
+		// If it is a double, get the int value
+		} else if (obj instanceof Double) {
+			val = ((Double) obj).intValue();
+		} else {
+			// Try to get an int value from it
+			try {
+				val = Integer.parseInt(obj.toString());
+			} catch(NumberFormatException e) {
+				//TODO Some warning here in the logger
+			}
+		}
+		return val;
 	}
 }

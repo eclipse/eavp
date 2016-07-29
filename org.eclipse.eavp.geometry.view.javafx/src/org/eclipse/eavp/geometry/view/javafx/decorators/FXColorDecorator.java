@@ -77,6 +77,7 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 				material = new PhongMaterial(
 						Color.rgb(red, green, blue));
 				material.setSpecularColor(Color.WHITE);
+				this.setMaterial(material);
 			}
 
 		}
