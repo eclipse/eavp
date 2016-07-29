@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import javafx.scene.paint.PhongMaterial;
 import model.ColorDecorator;
 import model.ModelFactory;
 import model.ModelPackage;
@@ -26,6 +27,14 @@ import model.ModelPackage;
  */
 public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 		implements ColorDecorator<T> {
+	
+	/**
+	 * The material used for this decorator. If this is not set, 
+	 * then the default material with a color given by the red, green,
+	 * and blue channels will be used instead. 
+	 */
+	private PhongMaterial material;
+	
 	/**
 	 * The default value of the '{@link #getRed() <em>Red</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -88,6 +97,7 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 	 */
 	protected ColorDecoratorImpl() {
 		super();
+		material = null;
 	}
 
 	/**
@@ -99,6 +109,27 @@ public class ColorDecoratorImpl<T> extends RenderObjectDecoratorImpl<T>
 		return ModelPackage.Literals.COLOR_DECORATOR;
 	}
 
+	
+	/**
+	 * Gets the material used for this decorator.
+	 * If this is null, will rather use the red,
+	 * green, and blue channels set for this decorator.
+	 * @return The material for the decorator
+	 */
+	public PhongMaterial getMaterial() {
+		return material;
+	}
+	
+	/**
+	 * Sets the phong material used for this decorator. 
+	 * Setting this to null will allow the red, green, 
+	 * and blue channels to control the material color.
+	 * @param newMaterial The material to use for this 
+	 * decorator
+	 */
+	public void setMaterial(PhongMaterial newMaterial) {
+		material = newMaterial;
+	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated

@@ -24,6 +24,7 @@ Import-Package: ca.odell.glazedlists,
  org.eclipse.january.geometry,
  org.eclipse.january.geometry.impl,
  org.eclipse.january.geometry.util,
+ org.eclipse.january.geometry.xtext.mTL,
  org.hamcrest.core;version="1.3.0",
  org.junit;version="4.12.0",
  org.slf4j;version="1.7.2"
