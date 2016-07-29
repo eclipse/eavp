@@ -3,6 +3,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.Bl
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
-import org.eclipse.january.geometry.PolyShape;
+import org.eclipse.january.geometry.Shape;
 import org.eclipse.january.geometry.xtext.mTL.Material;
 import org.eclipse.january.geometry.xtext.mtlimport.MTLImporter;
 import org.eclipse.january.geometry.xtext.obj.importer.OBJGeometryImporter;
@@ -166,23 +167,30 @@ public class ActionImportGeometry extends Action {
 			
 			// Create a map of the materials and their names from the specified 
 			// material source files
-			Map<String, Material> materialMap = null;
+			Map<String, Material> materialMap = new HashMap<String, Material>();
 			if (imported.getVertexSource() != null) {
+				
 				// Get the folder path
 				String pathToFolder = filePath.substring(0, 
 						filePath.lastIndexOf(FileSystems.getDefault().getSeparator()));
+				pathToFolder += FileSystems.getDefault().getSeparator();
+				
 				// Get the material files
 				List<String> matFiles = 
 						imported.getVertexSource().getMaterialFiles();
+				
 				// Can only handle .mtl material files right now
 				for(String file : matFiles) {
 					if (file.endsWith(".mtl")) {
+						
 						// Get the path, load with the MTLImporter
 						Path pathToMat = FileSystems.getDefault().getPath(pathToFolder + file);
 						List<Material> newMaterials = new MTLImporter().load(pathToMat);
-						// Put the loaded materials into the map
-						for(Material mat : newMaterials) {
-							materialMap.put(mat.getName(), mat);
+						if (newMaterials != null && !newMaterials.isEmpty()) {
+							// Put the loaded materials into the map
+							for(Material mat : newMaterials) {
+								materialMap.put(mat.getName(), mat);
+							}
 						}
 					}
 				}
@@ -195,31 +203,43 @@ public class ActionImportGeometry extends Action {
 		
 	}
 	
+	/**
+	 * Sets the specified nodes with the materials given in the map
+	 * @param nodes The nodes to set the materials for
+	 * @param materialMap A mapping of the material name to the acctual material
+	 */
 	private void setMaterials(List<INode> nodes, Map<String, Material> materialMap) {
-		if (nodes != null && !nodes.isEmpty() && materialMap != null) {
+		if (nodes != null && !nodes.isEmpty() && !materialMap.keySet().isEmpty()) {
 			// Get the set of render elements from the view
 			IRenderElementHolder holder = view.getHolder();
 			for(INode node : nodes) {
 				// Get the render of the new shape
 				IRenderElement render = holder.getRender(node);
 				
-				if (render.getBase() instanceof PolyShape) {
+				if (render.getBase() instanceof Shape) {
 					// Get the material
 					PhongMaterial newMat = new PhongMaterial();
 					Material readMat = (Material)materialMap.get(
-								((PolyShape) render.getBase()).getMaterial().getPhongMatName());
-					// Convert values to the phong material
-					newMat.setDiffuseColor(convertColor(readMat.getDiffuse()));
-					newMat.setSpecularColor(convertColor(readMat.getSpecular()));
-					newMat.setSpecularPower(readMat.getSpecularExponent());
-					render.setProperty("material", newMat);
+								((Shape) render.getBase()).getMaterial().getPhongMatName());
+					if (readMat != null) {
+						// Convert values to the phong material
+						newMat.setDiffuseColor(convertColor(readMat.getDiffuse()));
+						newMat.setSpecularColor(convertColor(readMat.getSpecular()));
+						newMat.setSpecularPower(readMat.getSpecularExponent());
+						render.setProperty("material", newMat);
+					}
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Converts the given model color to a javaFX color that the geometry editor can use.
+	 * @param diffuse The Color to convert
+	 * @return Returns a javaFX color for the render
+	 */
 	private Color convertColor(org.eclipse.january.geometry.xtext.mTL.Color diffuse) {
-		Color clr = Color.rgb((int)diffuse.getRed(), (int)diffuse.getGreen(), (int)diffuse.getBlue());
+		Color clr = Color.rgb((int)diffuse.getRed()*255, (int)diffuse.getGreen()*255, (int)diffuse.getBlue()*255);
 		return clr;
 	}
 }
