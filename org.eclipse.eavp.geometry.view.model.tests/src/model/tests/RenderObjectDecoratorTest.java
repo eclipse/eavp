@@ -2,19 +2,19 @@
  */
 package model.tests;
 
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.january.geometry.impl.ShapeImpl;
 import org.junit.Test;
 
-import junit.framework.TestCase;
-import junit.textui.TestRunner;
 import model.ModelFactory;
 import model.RenderObjectDecorator;
 import model.impl.RenderObjectDecoratorImpl;
 
 /**
- * <!-- begin-user-doc --> A test case for the model object '
- * <em><b>Render Object Decorator</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A test case for the model object ' <em><b>Render
+ * Object Decorator</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following operations are tested:
  * <ul>
@@ -24,7 +24,7 @@ import model.impl.RenderObjectDecoratorImpl;
  * 
  * @generated
  */
-public class RenderObjectDecoratorTest extends TestCase {
+public class RenderObjectDecoratorTest {
 
 	/**
 	 * The fixture for this Render Object Decorator test case. <!--
@@ -40,7 +40,6 @@ public class RenderObjectDecoratorTest extends TestCase {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(RenderObjectDecoratorTest.class);
 	}
 
 	/**
@@ -49,8 +48,7 @@ public class RenderObjectDecoratorTest extends TestCase {
 	 * 
 	 * @generated
 	 */
-	public RenderObjectDecoratorTest(String name) {
-		super(name);
+	public RenderObjectDecoratorTest() {
 	}
 
 	/**
@@ -79,7 +77,6 @@ public class RenderObjectDecoratorTest extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 * @generated
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		setFixture(ModelFactory.eINSTANCE.createRenderObjectDecorator());
 	}
@@ -90,7 +87,6 @@ public class RenderObjectDecoratorTest extends TestCase {
 	 * @see junit.framework.TestCase#tearDown()
 	 * @generated
 	 */
-	@Override
 	protected void tearDown() throws Exception {
 		setFixture(null);
 	}

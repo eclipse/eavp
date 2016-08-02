@@ -2,52 +2,49 @@
  */
 package model.tests;
 
-import junit.textui.TestRunner;
-
 import model.ModelFactory;
 import model.WireframeDecorator;
 
 /**
- * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Wireframe Decorator</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A test case for the model object '<em><b>Wireframe
+ * Decorator</b></em>'. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class WireframeDecoratorTest extends RenderObjectDecoratorTest {
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(WireframeDecoratorTest.class);
 	}
 
 	/**
-	 * Constructs a new Wireframe Decorator test case with the given name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Constructs a new Wireframe Decorator test case with the given name. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public WireframeDecoratorTest(String name) {
-		super(name);
+	public WireframeDecoratorTest() {
+		super();
 	}
 
 	/**
-	 * Returns the fixture for this Wireframe Decorator test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the fixture for this Wireframe Decorator test case. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected WireframeDecorator<?> getFixture() {
-		return (WireframeDecorator<?>)fixture;
+		return (WireframeDecorator<?>) fixture;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 * @generated
 	 */
@@ -57,8 +54,8 @@ public class WireframeDecoratorTest extends RenderObjectDecoratorTest {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 * @generated
 	 */
@@ -67,4 +64,4 @@ public class WireframeDecoratorTest extends RenderObjectDecoratorTest {
 		setFixture(null);
 	}
 
-} //WireframeDecoratorTest
+} // WireframeDecoratorTest

@@ -2,52 +2,49 @@
  */
 package model.tests;
 
-import junit.textui.TestRunner;
-
 import model.ColorDecorator;
 import model.ModelFactory;
 
 /**
- * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Color Decorator</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A test case for the model object '<em><b>Color
+ * Decorator</b></em>'. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class ColorDecoratorTest extends RenderObjectDecoratorTest {
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(ColorDecoratorTest.class);
 	}
 
 	/**
-	 * Constructs a new Color Decorator test case with the given name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Constructs a new Color Decorator test case with the given name. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public ColorDecoratorTest(String name) {
-		super(name);
+	public ColorDecoratorTest() {
+		super();
 	}
 
 	/**
-	 * Returns the fixture for this Color Decorator test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the fixture for this Color Decorator test case. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected ColorDecorator<?> getFixture() {
-		return (ColorDecorator<?>)fixture;
+		return (ColorDecorator<?>) fixture;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 * @generated
 	 */
@@ -57,8 +54,8 @@ public class ColorDecoratorTest extends RenderObjectDecoratorTest {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 * @generated
 	 */
@@ -67,4 +64,4 @@ public class ColorDecoratorTest extends RenderObjectDecoratorTest {
 		setFixture(null);
 	}
 
-} //ColorDecoratorTest
+} // ColorDecoratorTest

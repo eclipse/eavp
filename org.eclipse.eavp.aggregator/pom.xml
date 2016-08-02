@@ -42,7 +42,19 @@
   	<module>../org.eclipse.eavp.viz.modeling.test</module>
   	<module>../org.eclipse.eavp.viz.service.javafx.mesh.test</module>
   	<module>../org.eclipse.january.geometry</module>
+  	<!-- <module>../org.eclipse.jaunary.geometry.ui</module> -->
   	<module>../org.eclipse.january.geometry.model.tests</module>
+  	<module>../org.eclipse.january.geometry.xtext.iges</module>
+  	<module>../org.eclipse.january.geometry.xtext.iges.ide</module>
+  	<module>../org.eclipse.january.geometry.xtext.iges.tests</module>
+  	<module>../org.eclipse.january.geometry.xtext.iges.ui</module>
+  	<module>../org.eclipse.january.geometry.xtext.iges.ui.tests</module>
+  	<module>../org.eclipse.january.geometry.xtext.mtl</module>
+  	<module>../org.eclipse.january.geometry.xtext.mtl.ide</module>
+  	<module>../org.eclipse.january.geometry.xtext.mtl.ui</module>
+  	<module>../org.eclipse.january.geometry.xtext.obj</module>
+  	<module>../org.eclipse.january.geometry.xtext.obj.ide</module>
+  	<module>../org.eclipse.january.geometry.xtext.obj.ui</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>
   </modules>

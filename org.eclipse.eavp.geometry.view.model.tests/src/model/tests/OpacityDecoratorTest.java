@@ -2,52 +2,49 @@
  */
 package model.tests;
 
-import junit.textui.TestRunner;
-
 import model.ModelFactory;
 import model.OpacityDecorator;
 
 /**
- * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Opacity Decorator</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A test case for the model object '<em><b>Opacity
+ * Decorator</b></em>'. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class OpacityDecoratorTest extends RenderObjectDecoratorTest {
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(OpacityDecoratorTest.class);
 	}
 
 	/**
-	 * Constructs a new Opacity Decorator test case with the given name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Constructs a new Opacity Decorator test case with the given name. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public OpacityDecoratorTest(String name) {
-		super(name);
+	public OpacityDecoratorTest() {
+		super();
 	}
 
 	/**
-	 * Returns the fixture for this Opacity Decorator test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the fixture for this Opacity Decorator test case. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected OpacityDecorator<?> getFixture() {
-		return (OpacityDecorator<?>)fixture;
+		return (OpacityDecorator<?>) fixture;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 * @generated
 	 */
@@ -57,8 +54,8 @@ public class OpacityDecoratorTest extends RenderObjectDecoratorTest {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 * @generated
 	 */
@@ -67,4 +64,4 @@ public class OpacityDecoratorTest extends RenderObjectDecoratorTest {
 		setFixture(null);
 	}
 
-} //OpacityDecoratorTest
+} // OpacityDecoratorTest

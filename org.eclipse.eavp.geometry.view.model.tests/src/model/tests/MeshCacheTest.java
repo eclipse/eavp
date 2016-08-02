@@ -2,33 +2,36 @@
  */
 package model.tests;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.Triangle;
 import org.eclipse.january.geometry.Vertex;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-import junit.textui.TestRunner;
 import model.MeshCache;
 import model.ModelFactory;
 import model.impl.MeshCacheImpl;
 
 /**
- * <!-- begin-user-doc --> A test case for the model object '
- * <em><b>Mesh Cache</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A test case for the model object ' <em><b>Mesh
+ * Cache</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following operations are tested:
  * <ul>
  * <li>{@link model.MeshCache#getMesh(java.lang.String) <em>Get Mesh</em>}</li>
- * <li>{@link model.MeshCache#getMesh(org.eclipse.emf.common.util.EList)
- * <em>Get Mesh</em>}</li>
+ * <li>{@link model.MeshCache#getMesh(org.eclipse.emf.common.util.EList) <em>Get
+ * Mesh</em>}</li>
  * </ul>
  * </p>
  * 
- * @generated
+ * @generated NOT
  */
-public class MeshCacheTest extends TestCase {
+public class MeshCacheTest {
 
 	/**
 	 * The fixture for this Mesh Cache test case. <!-- begin-user-doc --> <!--
@@ -44,7 +47,6 @@ public class MeshCacheTest extends TestCase {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(MeshCacheTest.class);
 	}
 
 	/**
@@ -53,8 +55,7 @@ public class MeshCacheTest extends TestCase {
 	 * 
 	 * @generated
 	 */
-	public MeshCacheTest(String name) {
-		super(name);
+	public MeshCacheTest() {
 	}
 
 	/**
@@ -83,7 +84,6 @@ public class MeshCacheTest extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 * @generated
 	 */
-	@Override
 	protected void setUp() throws Exception {
 		setFixture(ModelFactory.eINSTANCE.createMeshCache());
 	}
@@ -94,20 +94,19 @@ public class MeshCacheTest extends TestCase {
 	 * @see junit.framework.TestCase#tearDown()
 	 * @generated
 	 */
-	@Override
 	protected void tearDown() throws Exception {
 		setFixture(null);
 	}
 
 	/**
-	 * Tests the '{@link model.MeshCache#getMesh(java.lang.String)
-	 * <em>Get Mesh</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
+	 * Tests the '{@link model.MeshCache#getMesh(java.lang.String) <em>Get
+	 * Mesh</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see model.MeshCache#getMesh(java.lang.String)
 	 * @generated NOT
 	 */
-	public void testGetMesh__String() {
+	@Test
+	public void checkGetMesh__String() {
 
 		// The cache for testing
 		TestCache cache = new TestCache();
@@ -127,13 +126,13 @@ public class MeshCacheTest extends TestCase {
 
 	/**
 	 * Tests the '
-	 * {@link model.MeshCache#getMesh(org.eclipse.emf.common.util.EList)
-	 * <em>Get Mesh</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
+	 * {@link model.MeshCache#getMesh(org.eclipse.emf.common.util.EList) <em>Get
+	 * Mesh</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see model.MeshCache#getMesh(org.eclipse.emf.common.util.EList)
 	 * @generated NOT
 	 */
+	@Test
 	public void testGetMesh__EList() {
 
 		// The cache for testing
