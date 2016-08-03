@@ -6,11 +6,14 @@ Bundle-Version: 2.1.8.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/ControllerFactory.xml
 Import-Package: javafx.embed.swt,
+ model,
  org.eclipse.eavp.viz.datastructures.VizObject,
  org.eclipse.eavp.viz.modeling,
  org.eclipse.eavp.viz.modeling.base,
  org.eclipse.eavp.viz.modeling.properties,
  org.eclipse.eavp.viz.service,
+ org.eclipse.emf.common.util,
+ org.eclipse.january.geometry,
  org.eclipse.january.geometry.xtext.mTL,
  org.eclipse.january.geometry.xtext.mtlimport,
  org.eclipse.january.geometry.xtext.obj.importer,
@@ -21,9 +24,7 @@ Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.eavp.viz.modeling
-Export-Package: org.eclipse.eavp.viz.service.geometry.persistence,
- org.eclipse.eavp.viz.service.geometry.reactor,
- org.eclipse.eavp.viz.service.geometry.shapes,
+Export-Package: 
  org.eclipse.eavp.viz.service.geometry.widgets
  
 
