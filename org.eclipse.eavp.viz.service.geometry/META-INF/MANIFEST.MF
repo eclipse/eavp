@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.eavp.viz.service.geometry;singleton:=true
 Bundle-Version: 2.1.8.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/ControllerFactory.xml
-Import-Package: javafx.embed.swt;version="2.2.0",
+Import-Package: javafx.embed.swt,
  org.eclipse.eavp.viz.datastructures.VizObject,
  org.eclipse.eavp.viz.modeling,
  org.eclipse.eavp.viz.modeling.base,
@@ -20,8 +20,10 @@ Bundle-Vendor: Oak Ridge National Laboratory
 Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- org.eclipse.eavp.viz.modeling,
- org.eclipse.eavp.geometry.view.model,
- org.eclipse.january.geometry.model
-Export-Package: org.eclipse.eavp.viz.service.geometry.widgets
+ org.eclipse.eavp.viz.modeling
+Export-Package: org.eclipse.eavp.viz.service.geometry.persistence,
+ org.eclipse.eavp.viz.service.geometry.reactor,
+ org.eclipse.eavp.viz.service.geometry.shapes,
+ org.eclipse.eavp.viz.service.geometry.widgets
+ 
 

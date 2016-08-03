@@ -41,6 +41,9 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	final private double SPEED = 50;
 
+	/**
+	 * Whether or not the camera is currently undergoing a drag action.
+	 */
 	private boolean dragStarted;
 
 	/**

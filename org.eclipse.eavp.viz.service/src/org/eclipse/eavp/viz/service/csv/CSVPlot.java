@@ -258,10 +258,10 @@ public class CSVPlot extends AbstractPlot {
 						int index = line.indexOf("#");
 						line = line.substring(0, index);
 					}
-					// Clean up any crap on the line
+					// Clean up any bad stuff on the line
 					String[] lineArray = line.trim().split(",");
 					String[] trimmedLine = new String[lineArray.length];
-					// And clean up any crap on each split piece
+					// And clean up any bad stuff on each split piece
 					for (int i = 0; i < lineArray.length; i++) {
 						trimmedLine[i] = lineArray[i].trim();
 					}

@@ -161,10 +161,16 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 		properties.put("useTunneling",
 				"localhost".equals(getHost()) ? "false" : "true");
 
+		//Get the host name, discarding the username if present
+		String hostname = properties.get("url");
+        if (hostname.contains("@")) {
+            hostname = hostname.split("@")[1];
+        }
+		
 		try {
 
 			// Check the host name to see if this is a local launch
-			InetAddress host = InetAddress.getByName(properties.get("url"));
+			InetAddress host = InetAddress.getByName(hostname);
 			if (host.isAnyLocalAddress() || host.isLoopbackAddress()
 					|| NetworkInterface.getByInetAddress(host) != null) {
 

@@ -185,6 +185,15 @@ public class VisItPlotComposite extends
 	}
 
 	/**
+	 * Getter method for the canvas widget.
+	 * 
+	 * @return The VisItSwtWidget that handles the connection to the VisIt instance that is rendering for this composite.
+	 */
+	public VisItSwtWidget getWidget(){
+		return canvas;
+	}
+	
+	/**
 	 * Reset the composite's displayed widget to its original camera position.
 	 */
 	public void resetWidget() {

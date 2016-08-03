@@ -523,14 +523,16 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	public ArrayList<Action> getCustomActions() {
 
 		// Get the plus icon image
-
+		Bundle bundle = FrameworkUtil.getBundle(ParaViewPlot.class);
 		String separator = System.getProperty("file.separator");
-		URL inImageURL = getClass()
-				.getResource(separator + "icons" + separator + "add.png");
+		URL inImageURL = bundle.getEntry("icons" + separator + "add.png");
 		if (inImageURL == null) {
-			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path inImagePath = new Path("/icons"
-					+ System.getProperty("file.separator") + "add.png");
+			inImageURL = getClass()
+					.getResource("icons" + separator + "add.png");
+		}
+		if (inImageURL == null) {
+			Path inImagePath = new Path(separator + "icons"
+					+ separator + "add.png");
 			inImageURL = FileLocator.find(bundle, inImagePath, null);
 		}
 		ImageDescriptor inDescriptor = ImageDescriptor
@@ -566,12 +568,14 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the minus icon image
-		URL outImageURL = getClass().getResource(
-				separator + "icons" + separator + "complement.gif");
+		URL outImageURL = bundle.getEntry("icons" + separator + "complement.gif");
 		if (outImageURL == null) {
-			Bundle bundle = FrameworkUtil.getBundle(getClass());
-			Path outImagePath = new Path("/icons"
-					+ System.getProperty("file.separator") + "complement.gif");
+			outImageURL = getClass()
+					.getResource("icons" + separator + "complement.gif");
+		}
+		if (outImageURL == null) {
+			Path outImagePath = new Path(separator + "icons"
+					+ separator + "complement.gif");
 			outImageURL = FileLocator.find(bundle, outImagePath, null);
 		}
 		ImageDescriptor outDescriptor = ImageDescriptor
@@ -607,12 +611,14 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the reset icon image
-		URL resetImageURL = getClass().getResource(
-				separator + "icons" + separator + "iu_update_obj.gif");
+		URL resetImageURL = bundle.getEntry("icons" + separator + "iu_update_obj.gif");
 		if (resetImageURL == null) {
-			Bundle bundle = FrameworkUtil.getBundle(getClass());
+			resetImageURL = getClass()
+					.getResource("icons" + separator + "iu_update_obj.gif");
+		}
+		if (resetImageURL == null) {
 			Path resetImagePath = new Path(
-					"/icons" + System.getProperty("file.separator")
+					separator + "icons" + separator
 							+ "iu_update_obj.gif");
 			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
 		}
@@ -649,7 +655,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				viewUp.add(zero);
 				args.add(viewUp);
 
-				// Set the camera back to its default spatial position: (0, 0,
+				// Set the camera back to a spatial position along the z axis: (0, 0,
 				// 67)
 				JsonArray position = new JsonArray();
 				position.add(zero);
@@ -657,8 +663,15 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				position.add(new JsonPrimitive(67));
 				args.add(position);
 
-				// INvoke the camera update method from ParaView
+				// Invoke the camera update method from ParaView
 				connection.getWidget().call("viewport.camera.update", args);
+				
+				//Create a new set of arguments, this time only including the view ID
+				JsonArray resetArgs = new JsonArray();
+				resetArgs.add(view);
+				
+				//Invoke the reset method so that the camera will be moved to the default distance away from the origin
+				connection.getWidget().call("viewport.camera.reset", resetArgs);
 
 				// Redraw the composite from the new camera position
 				plotComposite.refresh();

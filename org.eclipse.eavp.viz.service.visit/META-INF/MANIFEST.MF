@@ -15,6 +15,7 @@ Import-Package: com.jcraft.jsch;version="0.1.53",
  org.eclipse.eavp.viz.service.connections.preferences,
  org.eclipse.eavp.viz.service.preferences,
  org.eclipse.eavp.viz.service.widgets,
+ org.eclipse.eavp.viz.visit,
  org.eclipse.january.geometry,
  org.eclipse.jface.preference,
  org.eclipse.swt,
@@ -28,6 +29,5 @@ Import-Package: com.jcraft.jsch;version="0.1.53",
 Export-Package: org.eclipse.eavp.viz.service.visit
 Service-Component: OSGI-INF/vizService.xml
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- org.eclipse.eavp.geometry.view.model;bundle-version="0.1.0"
+ org.eclipse.ui
 Bundle-Vendor: Oak Ridge National Laboratory
