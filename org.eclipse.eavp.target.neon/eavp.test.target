@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="eavp.test" sequenceNumber="25">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="gov.lbnl.visit.swt" version="0.0.0"/>
+<repository location="http://eclipseice.ornl.gov/downloads/visit_java_client/1.0.0-SNAPSHOT/p2/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.apache.commons.collections.source" version="0.0.0"/>
+<unit id="org.slf4j.api" version="0.0.0"/>
+<unit id="org.junit" version="0.0.0"/>
+<unit id="org.apache.commons.math" version="0.0.0"/>
+<unit id="com.jcraft.jsch" version="0.0.0"/>
+<unit id="org.apache.commons.beanutils" version="0.0.0"/>
+<unit id="org.hamcrest.core" version="0.0.0"/>
+<unit id="ca.odell.glazedlists" version="0.0.0"/>
+<unit id="org.slf4j.log4j" version="0.0.0"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.fx.ide.feature.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/efxclipse/updates-released/1.0.0/site"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.nebula.visualization.feature.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/nebula/releases/1.0.0/"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.swtbot.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.nebula.gallery.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/technology/swtbot/releases/latest"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
+<unit id="org.eclipse.platform.ide" version="0.0.0"/>
+<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
+<unit id="org.eclipse.rcp.feature.group" version="0.0.0"/>
+<repository location="http://download.eclipse.org/releases/neon/"/>
+</location>
+</locations>
+</target>
