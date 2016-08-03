@@ -24,6 +24,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -70,7 +71,7 @@ public abstract class AbstractPlot implements IPlot {
 	/**
 	 * The current data source.
 	 */
-	private URI uri;
+	protected URI uri;
 
 	/**
 	 * Adds the specified listener to the plot to receive updates. The same
@@ -112,6 +113,15 @@ public abstract class AbstractPlot implements IPlot {
 	@Override
 	public List<String> getCategories() {
 		return new ArrayList<String>();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.IPlot#getCustomActions()
+	 */
+	@Override
+	public ArrayList<Action> getCustomActions(){
+		return new ArrayList<Action>();
 	}
 
 	/*

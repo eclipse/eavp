@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.FaceMesh;
-import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXFaceView;
+import org.eclipse.eavp.viz.modeling.Face;
 import org.junit.Test;
 
 /**
@@ -31,9 +31,44 @@ public class FXFaceViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		FaceMesh mesh = new FaceMesh();
+		Face mesh = new Face();
 		FXFaceView view = new FXFaceView(mesh);
-		FXFaceView clone = (FXFaceView) view.clone();
-		assertTrue(view.equals(clone));
+		Object clone = view.clone();
+
+		// A view is not necessarily equal to its clone, as JavaFX classes lack
+		// an equals() implementation. Instead check the clone's type.
+		assertTrue(clone instanceof FXFaceView);
+	}
+
+	/**
+	 * Test that the view correctly manages its own state for transparency and
+	 * wireframe.
+	 */
+	@Test
+	public void checkState() {
+
+		// Create the face view
+		Face mesh = new Face();
+		FXFaceView view = new FXFaceView(mesh);
+
+		// Check that the view starts out solid and visible
+		assertFalse(view.isTransparent());
+		assertFalse(view.isWireframe());
+
+		// Set the view to transparent
+		view.setTransparentMode(true);
+		assertTrue(view.isTransparent());
+
+		// Set the view to opaque
+		view.setTransparentMode(false);
+		assertFalse(view.isTransparent());
+
+		// Set the view to wireframe
+		view.setWireframeMode(true);
+		assertTrue(view.isWireframe());
+
+		// Set the view to solid
+		view.setWireframeMode(false);
+		assertFalse(view.isWireframe());
 	}
 }

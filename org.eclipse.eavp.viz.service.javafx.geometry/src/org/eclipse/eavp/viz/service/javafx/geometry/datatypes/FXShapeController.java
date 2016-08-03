@@ -15,12 +15,13 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
+import org.eclipse.eavp.viz.modeling.Shape;
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.IMeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
@@ -41,7 +42,7 @@ public class FXShapeController extends ShapeController
 		implements IWireframeController {
 
 	/**
-	 * THe nullary constructor
+	 * The nullary constructor
 	 */
 	public FXShapeController() {
 		super();
@@ -55,7 +56,7 @@ public class FXShapeController extends ShapeController
 	 * @param view
 	 *            The controller's view
 	 */
-	public FXShapeController(ShapeMesh model, BasicView view) {
+	public FXShapeController(Shape model, BasicView view) {
 		super(model, view);
 
 		// Associate this controller with the node within the node's internal
@@ -99,8 +100,7 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.Shape#removeEntity(org.eclipse.ice.
+	 * @see org.eclipse.eavp.viz.modeling.Shape#removeEntity(org.eclipse.ice.
 	 * viz.service.modeling.IController)
 	 */
 	@Override
@@ -119,7 +119,7 @@ public class FXShapeController extends ShapeController
 		// Otherwise, remove its representation from this object's JavaFX node
 		else {
 			Representation<Group> viewRepresentation = view.getRepresentation();
-			representation.getData().getChildren()
+			viewRepresentation.getData().getChildren()
 					.remove(representation.getData());
 		}
 
@@ -129,9 +129,8 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.Shape#setParent(org.eclipse.eavp.
-	 * viz. service.modeling.Shape)
+	 * @see org.eclipse.eavp.viz.modeling.Shape#setParent(org.eclipse.eavp. viz.
+	 * service.modeling.Shape)
 	 */
 	@Override
 	public void setParent(IController parent) {
@@ -200,7 +199,7 @@ public class FXShapeController extends ShapeController
 
 		// Create the model and view
 		model = (BasicMesh) ((BasicMesh) source.getModel()).clone();
-		view = new FXShapeView((ShapeMesh) model);
+		view = new FXShapeView((Shape) model);
 		view.copy(source.getView());
 		view.refresh(model);
 
@@ -251,7 +250,7 @@ public class FXShapeController extends ShapeController
 		Representation<Group> representation = view.getRepresentation();
 		Representation<Group> childRepresentation = entity.getRepresentation();
 		Group node = representation.getData();
-		Group childNode = representation.getData();
+		Group childNode = childRepresentation.getData();
 
 		if (!node.getChildren().contains(childNode)) {
 			node.getChildren().add(childNode);
@@ -267,11 +266,11 @@ public class FXShapeController extends ShapeController
 	@Override
 	public void update(IManagedUpdateable component, SubscriptionType[] type) {
 
-		// If the view updated, recursively refresh all children and propagate
+		// If the model updated, recursively refresh all children and propagate
 		// the update to own listeners
-		if (component == view) {
-			refreshRecursive();
-		}
+		// if (component == model) {
+		refreshRecursive();
+		// }
 
 		// Otherwise just propagate to own listeners
 		super.update(component, type);
@@ -291,14 +290,11 @@ public class FXShapeController extends ShapeController
 		// Create a list of events to subscribe to
 		ArrayList<SubscriptionType> types = new ArrayList<SubscriptionType>();
 
-		// Listen only to new child events from the model
+		// Listen only to new child, selection, or transformation events from
+		// the model
 		if (source == model) {
 			types.add(SubscriptionType.CHILD);
 			types.add(SubscriptionType.SELECTION);
-		}
-
-		// Listen only to transformation events from the view
-		else if (source == view) {
 			types.add(SubscriptionType.TRANSFORMATION);
 		}
 
@@ -312,12 +308,11 @@ public class FXShapeController extends ShapeController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.WireFramePart#setWireFrameMode(
+	 * @see org.eclipse.eavp.viz.modeling.WireFramePart#setWireFrameMode(
 	 * boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
-		((IWireframeController) view).setWireFrameMode(on);
+	public void setWireframeMode(boolean on) {
+		((IWireframeView) view).setWireframeMode(on);
 	}
 }

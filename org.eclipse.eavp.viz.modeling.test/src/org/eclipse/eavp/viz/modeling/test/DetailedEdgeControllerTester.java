@@ -16,11 +16,11 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.DetailedEdgeController;
-import org.eclipse.eavp.viz.modeling.DetailedEdgeMesh;
+import org.eclipse.eavp.viz.modeling.DetailedEdge;
 import org.eclipse.eavp.viz.modeling.FaceController;
-import org.eclipse.eavp.viz.modeling.FaceMesh;
+import org.eclipse.eavp.viz.modeling.Face;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
@@ -42,12 +42,12 @@ public class DetailedEdgeControllerTester {
 	public void checkUpdates() {
 
 		// Create an edge
-		DetailedEdgeMesh edgeMesh = new DetailedEdgeMesh();
+		DetailedEdge edgeMesh = new DetailedEdge();
 		TestEdge edge = new TestEdge(edgeMesh, new BasicView());
-		VertexMesh vertexMesh1 = new VertexMesh(0, 0, 0);
+		Vertex vertexMesh1 = new Vertex(0, 0, 0);
 		VertexController vertex1 = new VertexController(vertexMesh1,
 				new BasicView());
-		VertexMesh vertexMesh2 = new VertexMesh(1, 1, 1);
+		Vertex vertexMesh2 = new Vertex(1, 1, 1);
 		VertexController vertex2 = new VertexController(vertexMesh2,
 				new BasicView());
 		edge.addEntityToCategory(vertex1, MeshCategory.VERTICES);
@@ -61,7 +61,7 @@ public class DetailedEdgeControllerTester {
 		assertTrue(edge.wasUpdated());
 
 		// Add a face to the edge
-		FaceMesh faceMesh = new FaceMesh();
+		Face faceMesh = new Face();
 		FaceController face = new FaceController(faceMesh, new BasicView());
 		edge.addEntityToCategory(face, MeshCategory.FACES);
 
@@ -81,7 +81,7 @@ public class DetailedEdgeControllerTester {
 
 		// Create a cloned edge and check that it is identical to the original
 		DetailedEdgeController edge = new DetailedEdgeController(
-				new DetailedEdgeMesh(), new BasicView());
+				new DetailedEdge(), new BasicView());
 		edge.setProperty(MeshProperty.DESCRIPTION, "Property");
 		DetailedEdgeController clone = (DetailedEdgeController) edge.clone();
 		assertTrue(edge.equals(clone));
@@ -102,7 +102,7 @@ public class DetailedEdgeControllerTester {
 		 * @param model
 		 * @param view
 		 */
-		public TestEdge(DetailedEdgeMesh model, BasicView view) {
+		public TestEdge(DetailedEdge model, BasicView view) {
 			super(model, view);
 		}
 

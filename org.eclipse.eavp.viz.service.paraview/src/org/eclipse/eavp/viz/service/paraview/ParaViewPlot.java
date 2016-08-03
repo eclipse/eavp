@@ -11,17 +11,30 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.paraview;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URI;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.eavp.viz.service.AbstractSeries;
@@ -30,12 +43,29 @@ import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
+import org.eclipse.eavp.viz.service.paraview.connections.ParaViewConnection;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 
 /**
  * This class is responsible for embedding ParaView-supported graphics inside
@@ -60,11 +90,23 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	 * Whether or not the data is currently being loaded.
 	 */
 	private boolean loading = false;
+
 	/**
 	 * A lock used to synchronize load requests, as the data should only be
 	 * reloaded one at a time, and data should not be reloaded simultaneously.
 	 */
 	private final Lock loadLock = new ReentrantLock();
+
+	/**
+	 * Logger for handling event messages and other information.
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(ParaViewPlot.class);
+
+	/**
+	 * The plot composite in which this plot is being displayed.
+	 */
+	private ParaViewPlotComposite plotComposite;
 
 	/**
 	 * A map containing all categories and types (dependent series), keyed on
@@ -96,6 +138,18 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 	 */
 	public ParaViewPlot(ParaViewVizService vizService) {
 		this.vizService = vizService;
+	}
+
+	/**
+	 * Gets the current, normalized zoom based on the current scroll count.
+	 * 
+	 * @param y
+	 *            The current scroll count. Should be the current or recent
+	 *            value of {@link #scrollCount}.
+	 * @return A normalized zoom value between 0 and 1.
+	 */
+	private double getNormalizedZoom(double y) {
+		return Math.atan(0.005 * y) / Math.PI + 0.5;
 	}
 
 	/**
@@ -177,7 +231,11 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#connectionStateChanged(org.eclipse.eavp.viz.service.connections.IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#
+	 * connectionStateChanged(org.eclipse.eavp.viz.service.connections.
+	 * IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState,
+	 * java.lang.String)
 	 */
 	@Override
 	public void connectionStateChanged(
@@ -191,12 +249,15 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#createPlotComposite(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#
+	 * createPlotComposite(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected ConnectionPlotComposite<IParaViewWebClient> createPlotComposite(
 			Composite parent) {
-		return new ParaViewPlotComposite(parent, SWT.NONE);
+		plotComposite = new ParaViewPlotComposite(parent, SWT.NONE);
+		return plotComposite;
 	}
 
 	/**
@@ -230,6 +291,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getCategories()
 	 */
 	@Override
@@ -239,7 +301,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getDependentSeries(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.AbstractPlot#getDependentSeries(java.lang.
+	 * String)
 	 */
 	@Override
 	public List<ISeries> getDependentSeries(String category) {
@@ -373,7 +438,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#setConnection(org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.ConnectionPlot#setConnection(org
+	 * .eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	public boolean setConnection(IVizConnection<IParaViewWebClient> connection)
@@ -388,7 +456,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#setDataSource(java.net.URI)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.ConnectionPlot#setDataSource(
+	 * java.net.URI)
 	 */
 	@Override
 	public boolean setDataSource(URI uri) throws Exception {
@@ -402,7 +473,9 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.
+	 * eclipse.eavp.viz.service.ISeries)
 	 */
 	@Override
 	public void setIndependentSeries(ISeries series) {
@@ -427,16 +500,603 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.
+	 * part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
 	 */
 	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
-		//No additional pages, so nothing to do
+	public String createAdditionalPage(MultiPageEditorPart parent,
+			IFileEditorInput file, int pageNum) {
+		// No additional pages, so nothing to do
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getCustomActions()
+	 */
+	@Override
+	public ArrayList<Action> getCustomActions() {
+
+		// Get the plus icon image
+		Bundle bundle = FrameworkUtil.getBundle(ParaViewPlot.class);
+		String separator = System.getProperty("file.separator");
+		URL inImageURL = bundle.getEntry("icons" + separator + "add.png");
+		if (inImageURL == null) {
+			inImageURL = getClass()
+					.getResource("icons" + separator + "add.png");
+		}
+		if (inImageURL == null) {
+			Path inImagePath = new Path(separator + "icons"
+					+ separator + "add.png");
+			inImageURL = FileLocator.find(bundle, inImagePath, null);
+		}
+		ImageDescriptor inDescriptor = ImageDescriptor
+				.createFromURL(inImageURL);
+
+		// The action to zoom the camera in
+		Action zoomIn = new Action("Zoom In", inDescriptor) {
+			@Override
+			public void run() {
+
+				// The state for the left mouse button and control key being
+				// down, to create a zoom
+				boolean[] state = new boolean[] { true, false, false, false,
+						true, false, false };
+
+				// The state with all buttons up, for the final mouse release at
+				// the end of the action
+				boolean[] endState = new boolean[] { false, false, false, false,
+						false, false, false };
+
+				// Simulate a mouse drag to zoom the camera
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(0), "down", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(-50), "move", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(-50), "up", endState);
+
+				// Redraw the composite from the new camera position
+				plotComposite.refresh();
+
+			}
+		};
+
+		// Get the minus icon image
+		URL outImageURL = bundle.getEntry("icons" + separator + "complement.gif");
+		if (outImageURL == null) {
+			outImageURL = getClass()
+					.getResource("icons" + separator + "complement.gif");
+		}
+		if (outImageURL == null) {
+			Path outImagePath = new Path(separator + "icons"
+					+ separator + "complement.gif");
+			outImageURL = FileLocator.find(bundle, outImagePath, null);
+		}
+		ImageDescriptor outDescriptor = ImageDescriptor
+				.createFromURL(outImageURL);
+
+		// The action to zoom the camera out
+		Action zoomOut = new Action("Zoom Out", outDescriptor) {
+			@Override
+			public void run() {
+
+				// The state for the left mouse button and control key being
+				// down, to create a zoom
+				boolean[] state = new boolean[] { true, false, false, false,
+						true, false, false };
+
+				// The state with all buttons up, for the final mouse release at
+				// the end of the action
+				boolean[] endState = new boolean[] { false, false, false, false,
+						false, false, false };
+
+				// Simulate a mouse drag to zoom the camera
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(0), "down", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(50), "move", state);
+				connection.getWidget().event(proxy.getViewId(), 0,
+						getNormalizedZoom(50), "up", endState);
+
+				// Redraw the composite from the new camera position
+				plotComposite.refresh();
+
+			}
+		};
+
+		// Get the reset icon image
+		URL resetImageURL = bundle.getEntry("icons" + separator + "iu_update_obj.gif");
+		if (resetImageURL == null) {
+			resetImageURL = getClass()
+					.getResource("icons" + separator + "iu_update_obj.gif");
+		}
+		if (resetImageURL == null) {
+			Path resetImagePath = new Path(
+					separator + "icons" + separator
+							+ "iu_update_obj.gif");
+			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
+		}
+		ImageDescriptor resetDescriptor = ImageDescriptor
+				.createFromURL(resetImageURL);
+
+		// The action to zoom the camera in
+		Action resetCamera = new Action("Reset Camera", resetDescriptor) {
+			@Override
+			public void run() {
+
+				// The array of arguments to the camera update function
+				JsonArray args = new JsonArray();
+
+				// Add the view id
+				JsonPrimitive view = new JsonPrimitive(proxy.getViewId());
+				args.add(view);
+
+				// Create a JsonPrimitive representation of zero for repeated
+				// use
+				JsonPrimitive zero = new JsonPrimitive(0);
+
+				// Set the camera's focal point to the origin
+				JsonArray focalPoint = new JsonArray();
+				focalPoint.add(zero);
+				focalPoint.add(zero);
+				focalPoint.add(zero);
+				args.add(focalPoint);
+
+				// Set the camera to have the Y axis pointing upwards
+				JsonArray viewUp = new JsonArray();
+				viewUp.add(zero);
+				viewUp.add(new JsonPrimitive(1));
+				viewUp.add(zero);
+				args.add(viewUp);
+
+				// Set the camera back to a spatial position along the z axis: (0, 0,
+				// 67)
+				JsonArray position = new JsonArray();
+				position.add(zero);
+				position.add(zero);
+				position.add(new JsonPrimitive(67));
+				args.add(position);
+
+				// Invoke the camera update method from ParaView
+				connection.getWidget().call("viewport.camera.update", args);
+				
+				//Create a new set of arguments, this time only including the view ID
+				JsonArray resetArgs = new JsonArray();
+				resetArgs.add(view);
+				
+				//Invoke the reset method so that the camera will be moved to the default distance away from the origin
+				connection.getWidget().call("viewport.camera.reset", resetArgs);
+
+				// Redraw the composite from the new camera position
+				plotComposite.refresh();
+
+			}
+		};
+
+		// Add an action that will launch the web visualizer
+		Action launchWeb = new Action("Launch in web visualizer") {
+
+			@Override
+			public void run() {
+
+				// Get the path to the folder containing the file.
+				String folder = uri.getPath();
+				folder = folder.substring(0, folder.lastIndexOf("/"));
+
+				// Get the connection parameters
+				String port = connection.getProperty("visualizerPort");
+				String host = connection.getHost();
+				String path = connection.getPath();
+
+				// The username for the remote machine
+				String username = null;
+
+				// If the host contains a username, split it off from the host
+				if (host.contains("@")) {
+					String[] tokens = host.split("@");
+					username = tokens[0];
+					host = tokens[1];
+				}
+
+				// Otherwise, use the current machine's username
+				else {
+					username = System.getProperty("user.name");
+				}
+
+				// The url where the visualizer can be accessed
+				String urlString = "http://" + host + ":" + port
+						+ "/apps/Visualizer/";
+
+				// Whether or not we need to launch the visualizer before trying
+				// to open it in the browser
+				boolean launch = true;
+
+				// Test if the server is already running
+				try {
+
+					// Attempt to connect to the server
+					URL url = new URL(urlString);
+					HttpURLConnection test = (HttpURLConnection) url
+							.openConnection();
+					test.setRequestMethod("HEAD");
+					if (test.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+						// If the server is already running, don't launch
+						// another
+						launch = false;
+					}
+				} catch (IOException e) {
+					// An exception is expected to be thrown here if the
+					// connection was refused (because the server wasn't running
+					// yet) so there is nothing to do.
+				}
+
+				// If we did not get a response from the server, try to launch
+				// it
+				if (launch) {
+
+					// Get the host's address
+					InetAddress hostAddr = null;
+					try {
+						hostAddr = InetAddress.getByName(host);
+					} catch (UnknownHostException e1) {
+						logger.error(
+								"ParaView Plot Editor could not identify host "
+										+ host + "\"");
+					}
+
+					try {
+
+						// The OS specific string that describes the path to
+						// ParaView from the base ParaView directory given
+						// the ParaView installation path.
+						String osPath = "";
+
+						// If it is the localhost, then launch the server
+						// locally
+						if (hostAddr.isAnyLocalAddress()
+								|| hostAddr.isLoopbackAddress()
+								|| NetworkInterface
+										.getByInetAddress(hostAddr) != null) {
+
+							// The builder which will create a process to open
+							// the web visualizer
+							ProcessBuilder builder = null;
+
+							// Check the operating system and set the paths
+							// accordingly.
+							// TODO Add support for windows here
+							String OS = System.getProperty("os.name", "generic")
+									.toLowerCase(Locale.ENGLISH);
+
+							// Set the paths for mac
+							if ((OS.indexOf("mac") >= 0)
+									|| (OS.indexOf("darwin") >= 0)) {
+
+								// For Mac, go inside the application's contents
+								osPath = "/paraview.app/Contents";
+
+								// On an X display, open pvpython, run the web
+								// visualizer server, and set the folder
+								// containing the web visualizer, the directory
+								// where the files to be visualized are located,
+								// and the port number for the server to listen
+								// to
+								builder = new ProcessBuilder(
+										path + osPath + "/bin/pvpython",
+										path + osPath
+												+ "/Python/paraview/web/pv_web_visualizer.py",
+										"--content", path + osPath + "/www",
+										"--data-dir",
+										ResourcesPlugin.getWorkspace().getRoot()
+												.getLocation().toString(),
+										"--port", port);
+							}
+
+							// Otherwise, set the paths for Linux. The osPath
+							// should stay as the empty string
+							else {
+
+								// The name of the paraview version. This is
+								// expected to be of the form "paraview-"
+								// followed by a decimal version number.
+								// "paraview-5.0" for example.
+								String version = "";
+
+								// One copy of a folder with this name should be
+								// in the lib directory.
+								File lib = new File(path + osPath + "/lib");
+
+								// Search /lib for a folder with the correct
+								// name
+								for (String name : lib.list()) {
+									if (name.matches("paraview-(.*)")) {
+										version = name;
+										break;
+									}
+								}
+
+								// Create a process builder that will open
+								// pvpython, run the web visualizer server, and
+								// set the folder containing the web visualizer,
+								// the directory where the files to be
+								// visualized are located, and the port number
+								// for the server to listen to
+								builder = new ProcessBuilder(
+										path + osPath + "/bin/pvpython",
+										path + osPath + "/lib/" + version
+												+ "/site-packages/paraview/web/pv_web_visualizer.py",
+										"--content",
+										path + osPath + "/share/" + version
+												+ "/www",
+										"--data-dir",
+										ResourcesPlugin.getWorkspace().getRoot()
+												.getLocation().toString(),
+										"--port", port);
+							}
+
+							// The system delimiter for directories
+							String delimiter = System
+									.getProperty("file.separator");
+
+							// If the path ends with the delimiter, remove it
+							if (path.endsWith(delimiter)) {
+								path = path.substring(0, path.length() - 1);
+							}
+
+							// Try to create the process and start a thread to
+							// consume the processes's input
+							try {
+
+								// Redirect the process's error stream to its
+								// output stream so we only have to deal with
+								// one
+								final Process process = builder
+										.redirectErrorStream(true).start();
+
+								// Create a thread to consume the process's
+								// output ourselves, or else the process will
+								// freeze once its IO buffer is full.
+								new Thread(new Runnable() {
+
+									@Override
+									public void run() {
+
+										// While the process is alive, keep
+										// reading
+										// and
+										// discarding its output
+										while (process.isAlive()) {
+											try {
+												process.getInputStream().read();
+											} catch (IOException e) {
+												logger.error(
+														"Error while handling ParaView"
+																+ "web viewer process's output "
+																+ "stream.");
+											}
+										}
+									}
+								}).start();
+							} catch (IOException e) {
+								logger.error(
+										"Problem while starting the ParaView web"
+												+ " visualizer server.");
+							}
+						}
+
+						// If the host is not local, then try to launch the
+						// server on the remote machine
+						else {
+
+							// Get the remote os
+							String os = connection.getProperty("remoteOS");
+
+							// The command to be executed on the remote server
+							String command = null;
+
+							// Set the paths for mac
+							if ((os.indexOf("mac") >= 0)
+									|| (os.indexOf("darwin") >= 0)
+									|| os.indexOf("OSx") >= 0) {
+
+								// For Mac, go inside the application's contents
+								osPath = "/paraview.app/Contents";
+
+								// On an X display, open pvpython, run the web
+								// visualizer server, and set the folder
+								// containing the web visualizer, the directory
+								// where the files to be visualized are located,
+								// and the port number for the server to listen
+								// to
+								command = "DISPLAY:=0 " + path + osPath
+										+ "/bin/pvpython " + path + osPath
+										+ "/Python/paraview/web/pv_web_visualizer.py "
+										+ "--content " + path + osPath + "/www "
+										+ "--data-dir " + folder + " --port "
+										+ port;
+							}
+
+							// Otherwise, set the paths for Linux.
+							else {
+
+								// For Linux, look in the bin folder
+								osPath = "/bin";
+
+								// The name of the paraview version.
+								String version = "paraview-" + connection
+										.getProperty("remoteVersion");
+
+								// On an X display, open pvpython, run the web
+								// visualizer server, and set the folder
+								// containing the web visualizer, the directory
+								// where the files to be visualized are located,
+								// and the port number for the server to listen
+								// to
+								command = "DISPLAY=:0 " + path + osPath
+										+ "/pvpython " + path + "/lib/"
+										+ version
+										+ "/site-packages/paraview/web/pv_web_visualizer.py "
+										+ "--content " + path + "/share/"
+										+ version + "/www " + "--data-dir "
+										+ folder + " --port " + port;
+							}
+
+							// The hostname to connect to
+							String mGateway = host;
+
+							// If the host has a @, then it is split into a
+							// username and
+							// host machine.
+							if (mGateway.indexOf("@") > 0) {
+								mGateway = host.substring(host.indexOf("@"));
+							}
+
+							try {
+
+								// Connect to the specified remote host
+								Session session = ((ParaViewConnection) connection)
+										.getSession();
+
+								// A channel used to execute the paraview launch
+								// command
+								ChannelExec channel = (ChannelExec) session
+										.openChannel("exec");
+
+								// Run the command
+								channel.setCommand(command);
+								channel.setInputStream(System.in, true);
+								channel.connect();
+
+							} catch (JSchException e) {
+								logger.error(
+										"A JSch exception was raised during an attempt to launch and connect to "
+												+ "the ParaView Web Visualizer on remote host "
+												+ mGateway);
+							}
+						}
+					} catch (SocketException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				// A non-final reference to the opened browser
+				IWebBrowser tempBrowser = null;
+
+				// Try to open the internal web browser and maximize it.
+				try {
+					tempBrowser = PlatformUI.getWorkbench().getBrowserSupport()
+							.createBrowser("ParaView Web Visualizer");
+				} catch (PartInitException e) {
+					logger.error(
+							"Error attempting to open internal web browser");
+				}
+
+				// A final reference to the URL from which the visualizer is
+				// reachable
+				final String webURL = urlString;
+
+				// Get a final reference to the web browser.
+				final IWebBrowser browser = tempBrowser;
+
+				// Start a thread to set the browser to the right page when the
+				// server is ready
+				new Thread() {
+
+					@Override
+					public void run() {
+
+						// The URL for the web visualizer
+						URL url = null;
+						try {
+							url = new URL(webURL);
+						} catch (MalformedURLException e1) {
+							logger.error(
+									"Error parsing the url for the ParaView "
+											+ "web visualizer");
+						}
+
+						// The number of connection attempts made;
+						int i = 0;
+
+						// Keep trying to connect until the maximum number of
+						// tries have elapsed.
+						while (i < 40) {
+							try {
+
+								// A test connection to the server
+								HttpURLConnection test = (HttpURLConnection) url
+										.openConnection();
+								test.setRequestMethod("HEAD");
+
+								// Check if the server is reachable
+								if (test.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+									// Get a final reference to the url
+									final URL finalURL = new URL(webURL);
+
+									// If it is, create a thread to send it to
+									// the visualizer's url
+									Display.getDefault()
+											.asyncExec(new Runnable() {
+
+												@Override
+												public void run() {
+
+													// Try to open the url in
+													// the browser
+													try {
+														browser.openURL(
+																finalURL);
+													} catch (PartInitException e) {
+														logger.error(
+																"Error attempting to open url: "
+																		+ finalURL);
+													}
+												}
+
+											});
+									return;
+								}
+							} catch (IOException e) {
+								// An exception is expected to be thrown here
+								// when the server is not yet running, so
+								// there's nothing to do
+							}
+
+							// Increment the number of attempts and wait two
+							// seconds before trying again.
+							i++;
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								logger.error("The ParaView web browser setting "
+										+ "thread was interupted unexpectedly.");
+							}
+						}
+
+					}
+				}.start();
+
+			}
+		};
+
+		// Create a list of the actions and return it
+		ArrayList<Action> actions = new ArrayList<Action>();
+		actions.add(zoomIn);
+		actions.add(zoomOut);
+		actions.add(resetCamera);
+		actions.add(launchWeb);
+		return actions;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
 	 */
 	@Override

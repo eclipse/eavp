@@ -100,7 +100,7 @@ public class FXPlantViewRootController extends BasicController
 		}
 
 		// Set the entity to the correct wireframe mode
-		((IWireframeController) entity).setWireFrameMode(wireframe);
+		((IWireframeController) entity).setWireframeMode(wireframe);
 	}
 
 	/*
@@ -141,7 +141,7 @@ public class FXPlantViewRootController extends BasicController
 		}
 
 		// Set the entity to the correct wireframe mode
-		((IWireframeController) entity).setWireFrameMode(wireframe);
+		((IWireframeController) entity).setWireframeMode(wireframe);
 	}
 
 	/*
@@ -151,14 +151,14 @@ public class FXPlantViewRootController extends BasicController
 	 * setWireFrameMode(boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the wireframe state
 		wireframe = on;
 
 		// Set all the children to the proper wireframe mode
-		for (IController child : model.getEntities()) {
-			((IWireframeController) child).setWireFrameMode(on);
+		for (IController child : model.getAllEntities()) {
+			((IWireframeController) child).setWireframeMode(on);
 		}
 	}
 
@@ -177,6 +177,18 @@ public class FXPlantViewRootController extends BasicController
 		clone.copy(this);
 
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#getWireFrameMode(
+	 * )
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
 	}
 
 }

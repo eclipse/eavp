@@ -262,7 +262,7 @@ public class AbstractVizServiceTester {
 		 * @see org.eclipse.eavp.viz.service.IVizService#getFactory()
 		 */
 		@Override
-		public IControllerProviderFactory getFactory() {
+		public IControllerProviderFactory getControllerProviderFactory() {
 			return null;
 		}
 	}

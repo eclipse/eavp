@@ -13,6 +13,10 @@ package org.eclipse.eavp.viz.modeling;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * A controller for a shape part, which exposes ShapeComponent functionality.
@@ -20,7 +24,8 @@ import org.eclipse.eavp.viz.modeling.base.IController;
  * @author Robert Smith
  *
  */
-public class ShapeController extends BasicController {
+public class ShapeController extends BasicController
+		implements ITransparentController, IWireframeController {
 
 	/**
 	 * THe nullary constructor
@@ -37,7 +42,7 @@ public class ShapeController extends BasicController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public ShapeController(ShapeMesh model, BasicView view) {
+	public ShapeController(Shape model, BasicView view) {
 		super(model, view);
 	}
 
@@ -49,7 +54,7 @@ public class ShapeController extends BasicController {
 	 *            The new shape which serves as this shape's parent.
 	 */
 	public void setParent(IController parent) {
-		((ShapeMesh) model).setParent(parent);
+		((Shape) model).setParent(parent);
 	}
 
 	/*
@@ -86,7 +91,7 @@ public class ShapeController extends BasicController {
 		BasicController castObject = (BasicController) source;
 
 		// Create the model and give it a reference to this
-		model = new ShapeMesh();
+		model = new Shape();
 		model.setController(this);
 
 		// Copy the other object's data members
@@ -97,4 +102,51 @@ public class ShapeController extends BasicController {
 		model.register(this);
 		view.register(this);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentController#
+	 * setTransparentMode(boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		((ITransparentView) view).setTransparentMode(transparent);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#setWireFrameMode(
+	 * boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		((IWireframeView) view).setWireframeMode(on);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentController#
+	 * getTransparentMode()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return ((ITransparentView) view).isTransparent();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#getWireFrameMode(
+	 * )
+	 */
+	@Override
+	public boolean isWireframe() {
+		return ((IWireframeView) view).isWireframe();
+	}
+
 }

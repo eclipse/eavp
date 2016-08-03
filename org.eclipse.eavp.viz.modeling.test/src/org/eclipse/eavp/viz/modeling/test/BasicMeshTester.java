@@ -99,7 +99,7 @@ public class BasicMeshTester {
 	@Test
 	public void testEntities() {
 		// Check that the map of entities is empty
-		assertEquals(0, component.getEntities().size());
+		assertEquals(0, component.getAllEntities().size());
 
 		// Create a new VizObject with id 2
 		BasicController object = new BasicController(new BasicMesh(),
@@ -113,9 +113,9 @@ public class BasicMeshTester {
 		assertTrue(controller.isUpdated());
 
 		// Check that the controller now has a map with one entity with id 2.
-		assertEquals(1, component.getEntities().size());
+		assertEquals(1, component.getAllEntities().size());
 		assertTrue("2".equals(
-				component.getEntities().get(0).getProperty(MeshProperty.ID)));
+				component.getAllEntities().get(0).getProperty(MeshProperty.ID)));
 
 		// Create a new part with id 3
 		BasicController secondObject = new BasicController(new BasicMesh(),
@@ -146,7 +146,7 @@ public class BasicMeshTester {
 		assertTrue(controller.isUpdated());
 
 		// Check that there is only one entity
-		assertEquals(1, component.getEntities().size());
+		assertEquals(1, component.getAllEntities().size());
 	}
 
 	/**

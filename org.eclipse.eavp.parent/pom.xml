@@ -4,8 +4,8 @@
 
 	<!-- Custom properties -->
 	<properties>
-    	<releaseName>master</releaseName>
-		<tycho-version>0.23.0</tycho-version>
+    	<releaseName>next</releaseName>
+		<tycho-version>0.25.0</tycho-version>
 		<tycho-extras-version>${tycho-version}</tycho-extras-version>
 		<cbi-plugins.version>1.1.3</cbi-plugins.version>
 		<pom-filename>pom.xml</pom-filename>	
@@ -15,6 +15,8 @@
 		<install-dir>/home/data/httpd/download.eclipse.org/eavp/builds/${releaseName}</install-dir>
 		<!-- Repo for released versions of CBI -->
     	<eclipse-repo.url>https://repo.eclipse.org/content/repositories/cbi/</eclipse-repo.url>
+    	<!-- Repo for Tycho Maven plugins -->
+    	<tycho-repo.url>https://repo1.maven.org/maven2/</tycho-repo.url>
 	</properties>
 
 	<!-- This is the parent POM from which all ICE modules inherit common settings -->
@@ -35,6 +37,25 @@
 				<enabled>true</enabled>
 			</snapshots>
 	    </pluginRepository>
+	    
+	    <!--  Plugin repos for jboss repository-utils support -->
+	    <pluginRepository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>jboss-snapshots-repository</id>
+			<name>JBoss Snapshots Repository</name>
+			<url>http://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+		</pluginRepository>
+
+	    <!-- Provide a reference to the official Maven repository. -->
+		<pluginRepository>
+			<id>tycho</id>
+			<url>${tycho-repo.url}</url>
+		</pluginRepository>
+		
 	</pluginRepositories>
 
 	<profiles>
@@ -224,9 +245,9 @@
 					<target>
 						<artifact>
 							<groupId>org.eclipse.eavp</groupId>
-							<artifactId>org.eclipse.eavp.target.mars</artifactId>
+							<artifactId>org.eclipse.eavp.target.neon</artifactId>
 							<version>2.1.8-SNAPSHOT</version>
-							<classifier>mars</classifier>
+							<classifier>neon</classifier>
 						</artifact>
 					</target>
 					<filters>

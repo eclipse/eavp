@@ -291,4 +291,22 @@ public abstract class VizConnectionPreferencePage
 		return preferences.split(getConnectionPreferenceDelimiter(), -1);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.preference.FieldEditorPreferencePage#performDefaults()
+	 */
+	@Override
+	public void performDefaults() {
+
+		// Delete the first row for each row in the table
+		for (int i : table.getRowIds()) {
+			table.deleteRow(0);
+		}
+
+		// Add a default row
+		table.addRow();
+	}
+
 }

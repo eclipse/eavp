@@ -14,6 +14,10 @@ import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
+import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * A controller for an Edge part.
@@ -21,7 +25,8 @@ import org.eclipse.eavp.viz.modeling.base.BasicView;
  * @author Robert Smith
  *
  */
-public class EdgeController extends BasicController {
+public class EdgeController extends BasicController
+		implements ITransparentController, IWireframeController {
 
 	/**
 	 * The default constructor.
@@ -31,7 +36,7 @@ public class EdgeController extends BasicController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public EdgeController(EdgeMesh model, BasicView view) {
+	public EdgeController(Edge model, BasicView view) {
 		super(model, view);
 	}
 
@@ -41,7 +46,7 @@ public class EdgeController extends BasicController {
 	 * @return A list of the vertex's 3D coordinates
 	 */
 	public double[] getStartLocation() {
-		return ((EdgeMesh) model).getStartLocation();
+		return ((Edge) model).getStartLocation();
 	}
 
 	/**
@@ -50,7 +55,7 @@ public class EdgeController extends BasicController {
 	 * @return A list of the vertex's 3D coordinates
 	 */
 	public double[] getEndLocation() {
-		return ((EdgeMesh) model).getEndLocation();
+		return ((Edge) model).getEndLocation();
 	}
 
 	/**
@@ -59,7 +64,7 @@ public class EdgeController extends BasicController {
 	 * @return The edge's length
 	 */
 	public double getLength() {
-		return ((EdgeMesh) model).getLength();
+		return ((Edge) model).getLength();
 	}
 
 	/*
@@ -75,7 +80,7 @@ public class EdgeController extends BasicController {
 		// If the vertices were changed, recalculate the edge's length
 		for (SubscriptionType event : type) {
 			if (event == SubscriptionType.CHILD) {
-				((EdgeMesh) model).calculateLength();
+				((Edge) model).calculateLength();
 			}
 		}
 
@@ -91,11 +96,56 @@ public class EdgeController extends BasicController {
 	public Object clone() {
 
 		// Clone the model and view
-		EdgeMesh modelClone = (EdgeMesh) model.clone();
+		Edge modelClone = (Edge) model.clone();
 		BasicView viewClone = (BasicView) view.clone();
 
 		// Create a new controller for the clones and return it
 		EdgeController clone = new EdgeController(modelClone, viewClone);
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#isWireframe()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return ((IWireframeView) view).isWireframe();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#setWireframeMode(
+	 * boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		((IWireframeView) view).setWireframeMode(on);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentController#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return ((ITransparentView) view).isTransparent();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentController#
+	 * setTransparentMode(boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		((ITransparentView) view).setTransparentMode(transparent);
 	}
 }

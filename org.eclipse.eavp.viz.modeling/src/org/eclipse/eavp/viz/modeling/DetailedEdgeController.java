@@ -24,7 +24,7 @@ public class DetailedEdgeController extends EdgeController {
 	/**
 	 * The default constructor
 	 */
-	public DetailedEdgeController(DetailedEdgeMesh model, BasicView view) {
+	public DetailedEdgeController(DetailedEdge model, BasicView view) {
 		super(model, view);
 	}
 
@@ -37,7 +37,7 @@ public class DetailedEdgeController extends EdgeController {
 	public Object clone() {
 
 		// Clone the model and view
-		DetailedEdgeMesh modelClone = (DetailedEdgeMesh) model.clone();
+		DetailedEdge modelClone = (DetailedEdge) model.clone();
 		BasicView viewClone = (BasicView) view.clone();
 
 		// Create a new controller for the clones and return it

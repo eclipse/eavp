@@ -19,7 +19,7 @@ package org.eclipse.eavp.viz.datastructures.VizObject;
  */
 public enum SubscriptionType {
 	/**
-	 * A special value denoting that a listener should be update upon any kind
+	 * A special value denoting that a listener should be updated upon any kind
 	 * of event.
 	 */
 	ALL,

@@ -4,7 +4,8 @@ Bundle-Name: VisIt Visualization Service Plugin
 Bundle-SymbolicName: org.eclipse.eavp.viz.service.visit;singleton:=true
 Bundle-Version: 2.1.8.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: gov.lbnl.visit.swt,
+Import-Package: com.jcraft.jsch;version="0.1.53",
+ gov.lbnl.visit.swt,
  gov.lbnl.visit.swt.widgets,
  org.eclipse.eavp.viz.datastructures,
  org.eclipse.eavp.viz.datastructures.VizObject,
@@ -14,6 +15,7 @@ Import-Package: gov.lbnl.visit.swt,
  org.eclipse.eavp.viz.service.connections.preferences,
  org.eclipse.eavp.viz.service.preferences,
  org.eclipse.eavp.viz.service.widgets,
+ org.eclipse.eavp.viz.visit,
  org.eclipse.jface.preference,
  org.eclipse.swt,
  org.eclipse.swt.graphics,

@@ -11,6 +11,7 @@
 package org.eclipse.eavp.viz.modeling.base;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
@@ -292,6 +293,24 @@ public interface IController
 	 * @return True if the part is selected and false if it is not.
 	 */
 	boolean isSelected();
+
+	/**
+	 * Set the mesh's map of entities to be equal to the provided map. This will
+	 * be equivalent to clearing the map with removeEntity() calls and adding
+	 * each individual member of newEntities as if by invoking
+	 * addEntityToCategory().
+	 * 
+	 * @param newEntities
+	 */
+	void setEntities(EntityMapEntry[] newEntities);
+
+	/**
+	 * Set the mesh's properties according to the given map.
+	 * 
+	 * @param properties
+	 *            The new map of properties for the mesh.
+	 */
+	void setProperties(Map<IMeshProperty, String> properties);
 
 	/**
 	 * Set the part as being the root node of the tree. A convenience method

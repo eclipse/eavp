@@ -41,6 +41,9 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	final private double SPEED = 50;
 
+	/**
+	 * Whether or not the camera is currently undergoing a drag action.
+	 */
 	private boolean dragStarted;
 
 	/**
@@ -93,6 +96,21 @@ public class CenteredCameraController extends BasicCameraController {
 
 	}
 
+	/**
+	 * Zoom the camera towards/away from the center point
+	 * 
+	 * @param distance
+	 *            The amount to zoom by. Positive values zoom forward, negative
+	 *            values zoom backward.
+	 */
+	private void zoom(double distance) {
+
+		// Get the current z position and modify it by the distance
+		double z = camera.getTranslateZ();
+		double newZ = z + distance;
+		camera.setTranslateZ(newZ);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -118,10 +136,27 @@ public class CenteredCameraController extends BasicCameraController {
 			mouseDeltaX = (mousePosX - mouseOldX);
 			mouseDeltaY = (mousePosY - mouseOldY);
 
-			// Apply the change in mouse position to the camera's angle
+			// If the primary button is held, then change the camera's position
 			if (event.isPrimaryButtonDown()) {
-				y.setAngle(y.getAngle() - mouseDeltaX);
-				x.setAngle(x.getAngle() + mouseDeltaY);
+				if (!event.isShiftDown()) {
+
+					// If neither control nor shift are down, rotate about the
+					// center
+					if (!event.isControlDown()) {
+						y.setAngle(y.getAngle() - mouseDeltaX);
+						x.setAngle(x.getAngle() + mouseDeltaY);
+					}
+
+					// If control is down, zoom
+					else {
+						zoom(-mouseDeltaY);
+					}
+				}
+
+				// If shift is down, change the center
+				else {
+					affine.appendTranslation(mouseDeltaX, mouseDeltaY, 0);
+				}
 			}
 		}
 
@@ -155,11 +190,9 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void handleMouseScroll(ScrollEvent event) {
-		// Get the current z position and modify it by the amount of
-		// scrolling
-		double z = camera.getTranslateZ();
-		double newZ = z + event.getDeltaY();
-		camera.setTranslateZ(newZ);
+
+		// Zoom by the amount of scrolling
+		zoom(event.getDeltaY());
 	}
 
 	/*

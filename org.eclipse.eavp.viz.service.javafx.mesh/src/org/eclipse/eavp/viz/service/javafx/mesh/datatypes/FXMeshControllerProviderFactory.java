@@ -10,16 +10,16 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
-import org.eclipse.eavp.viz.modeling.DetailedEdgeMesh;
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
-import org.eclipse.eavp.viz.modeling.FaceMesh;
-import org.eclipse.eavp.viz.modeling.LinearEdgeMesh;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.DetailedEdge;
+import org.eclipse.eavp.viz.modeling.Edge;
+import org.eclipse.eavp.viz.modeling.Face;
+import org.eclipse.eavp.viz.modeling.LinearEdge;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
 import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonController;
-import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygonMesh;
+import org.eclipse.eavp.viz.service.mesh.datastructures.NekPolygon;
 
 /**
  * A factory which creates JavaFX specific AbstractViews and AbstractControllers
@@ -38,7 +38,7 @@ public class FXMeshControllerProviderFactory
 		super();
 
 		// Set the EdgeMesh provider
-		typeMap.put(EdgeMesh.class,
+		typeMap.put(Edge.class,
 				new IControllerProvider<FXEdgeController>() {
 					@Override
 					public FXEdgeController createController(IMesh model) {
@@ -48,38 +48,38 @@ public class FXMeshControllerProviderFactory
 						// linear
 						// edge view
 						FXLinearEdgeView view = new FXLinearEdgeView(
-								(EdgeMesh) model);
-						return new FXEdgeController((EdgeMesh) model, view);
+								(Edge) model);
+						return new FXEdgeController((Edge) model, view);
 					}
 				});
 
 		// TODO find a way to avoid enumerating every subclass of EdgeMesh here
 		// Copy the EdgeMesh provider to the other EdgeMesh classes
-		typeMap.put(DetailedEdgeMesh.class, typeMap.get(EdgeMesh.class));
-		typeMap.put(LinearEdgeMesh.class, typeMap.get(EdgeMesh.class));
+		typeMap.put(DetailedEdge.class, typeMap.get(Edge.class));
+		typeMap.put(LinearEdge.class, typeMap.get(Edge.class));
 
 		// Set the NekPolygonMesh provider
-		typeMap.put(NekPolygonMesh.class,
+		typeMap.put(NekPolygon.class,
 				new IControllerProvider<NekPolygonController>() {
 					@Override
 					public NekPolygonController createController(IMesh model) {
 
 						// Create a NekPolygonController with a face view
 						FXFaceView view = new FXFaceView(model);
-						return new NekPolygonController((FaceMesh) model, view);
+						return new NekPolygonController((Face) model, view);
 					}
 				});
 
 		// Set the VertexMesh provider
-		typeMap.put(VertexMesh.class,
+		typeMap.put(Vertex.class,
 				new IControllerProvider<FXVertexController>() {
 					@Override
 					public FXVertexController createController(IMesh model) {
 
 						// Create a vertex controller
 						FXVertexView view = new FXVertexView(
-								(VertexMesh) model);
-						return new FXVertexController((VertexMesh) model, view);
+								(Vertex) model);
+						return new FXVertexController((Vertex) model, view);
 					}
 				});
 	}

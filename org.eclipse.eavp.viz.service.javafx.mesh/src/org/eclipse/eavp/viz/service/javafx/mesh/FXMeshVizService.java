@@ -78,7 +78,7 @@ public class FXMeshVizService extends AbstractVizService {
 	 * @see org.eclipse.eavp.viz.service.IVizService#getFactory()
 	 */
 	@Override
-	public IControllerProviderFactory getFactory() {
+	public IControllerProviderFactory getControllerProviderFactory() {
 		return new FXMeshControllerProviderFactory();
 	}
 

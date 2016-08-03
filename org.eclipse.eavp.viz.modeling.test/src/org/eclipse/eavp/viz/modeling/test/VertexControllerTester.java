@@ -20,9 +20,9 @@ import java.util.List;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.EdgeController;
-import org.eclipse.eavp.viz.modeling.EdgeMesh;
+import org.eclipse.eavp.viz.modeling.Edge;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
@@ -48,7 +48,7 @@ public class VertexControllerTester {
 	public void checkClone() {
 
 		// Create a cloned vertex and check that it is identical to the original
-		VertexController vertex = new VertexController(new VertexMesh(),
+		VertexController vertex = new VertexController(new Vertex(),
 				new BasicView());
 		vertex.setProperty(MeshProperty.DESCRIPTION, "Property");
 		VertexController clone = (VertexController) vertex.clone();
@@ -62,7 +62,7 @@ public class VertexControllerTester {
 	public void checkEdges() {
 
 		// Create a vertex
-		VertexMesh vertexModel = new VertexMesh();
+		Vertex vertexModel = new Vertex();
 		BasicView view = new BasicView();
 		VertexController vertex = new VertexController(vertexModel, view);
 
@@ -72,11 +72,11 @@ public class VertexControllerTester {
 				vertex.getEntitiesFromCategory(MeshCategory.EDGES).size());
 
 		// Create some edges
-		EdgeController edge1 = new EdgeController(new EdgeMesh(),
+		EdgeController edge1 = new EdgeController(new Edge(),
 				new BasicView());
-		EdgeController edge2 = new EdgeController(new EdgeMesh(),
+		EdgeController edge2 = new EdgeController(new Edge(),
 				new BasicView());
-		EdgeController edge3 = new EdgeController(new EdgeMesh(),
+		EdgeController edge3 = new EdgeController(new Edge(),
 				new BasicView());
 
 		// Add two edges to the vertex and a third explicitly under a different
@@ -103,7 +103,7 @@ public class VertexControllerTester {
 	public void checkUpdates() {
 
 		// Create the vertex
-		VertexMesh vertexMesh = new VertexMesh(0, 0, 0);
+		Vertex vertexMesh = new Vertex(0, 0, 0);
 		TestVertexController vertex = new TestVertexController(vertexMesh,
 				new BasicView());
 
@@ -112,12 +112,12 @@ public class VertexControllerTester {
 		TestController other = new TestController(otherMesh, new BasicView());
 
 		// Create a second vertex for the edge
-		VertexMesh otherVertexMesh = new VertexMesh(1, 1, 1);
+		Vertex otherVertexMesh = new Vertex(1, 1, 1);
 		VertexController otherVertex = new VertexController(otherVertexMesh,
 				new BasicView());
 
 		// Create an edge
-		EdgeMesh edgeMesh = new EdgeMesh(vertex, otherVertex);
+		Edge edgeMesh = new Edge(vertex, otherVertex);
 		EdgeController edge = new EdgeController(edgeMesh, new BasicView());
 
 		// Add the test object and edge to the vertex.
@@ -159,7 +159,7 @@ public class VertexControllerTester {
 		 * @param view
 		 *            The graphical representation of the part.
 		 */
-		public TestVertexController(VertexMesh model, BasicView view) {
+		public TestVertexController(Vertex model, BasicView view) {
 			super(model, view);
 		}
 

@@ -13,6 +13,10 @@ package org.eclipse.eavp.viz.modeling;
 import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentController;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
+import org.eclipse.eavp.viz.modeling.base.IWireframeController;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 
 /**
  * A controller for a Point model part.
@@ -20,7 +24,8 @@ import org.eclipse.eavp.viz.modeling.base.IController;
  * @author Robert Smith
  *
  */
-public class PointController extends BasicController {
+public class PointController extends BasicController
+		implements ITransparentController, IWireframeController {
 
 	/**
 	 * The nullary constructor.
@@ -37,7 +42,7 @@ public class PointController extends BasicController {
 	 * @param view
 	 *            The controller's view
 	 */
-	public PointController(PointMesh model, BasicView view) {
+	public PointController(Point model, BasicView view) {
 		super(model, view);
 	}
 
@@ -47,7 +52,7 @@ public class PointController extends BasicController {
 	 * @return The x coordinate
 	 */
 	public double getX() {
-		return ((PointMesh) model).getX();
+		return ((Point) model).getX();
 	}
 
 	/**
@@ -57,7 +62,7 @@ public class PointController extends BasicController {
 	 *            The point's new x coordinate
 	 */
 	public void setX(double x) {
-		((PointMesh) model).setX(x);
+		((Point) model).setX(x);
 	}
 
 	/**
@@ -66,7 +71,7 @@ public class PointController extends BasicController {
 	 * @return The y coordinate
 	 */
 	public double getY() {
-		return ((PointMesh) model).getY();
+		return ((Point) model).getY();
 	}
 
 	/**
@@ -76,7 +81,7 @@ public class PointController extends BasicController {
 	 *            The new y coordinate
 	 */
 	public void setY(double y) {
-		((PointMesh) model).setY(y);
+		((Point) model).setY(y);
 	}
 
 	/**
@@ -85,7 +90,7 @@ public class PointController extends BasicController {
 	 * @return The z coordinate
 	 */
 	public double getZ() {
-		return ((PointMesh) model).getZ();
+		return ((Point) model).getZ();
 	}
 
 	/**
@@ -95,15 +100,7 @@ public class PointController extends BasicController {
 	 *            The new z coordinate
 	 */
 	public void setZ(double z) {
-		((PointMesh) model).setZ(z);
-	}
-
-	/**
-	 * Returns a vector describing the point's location in three dimensional
-	 * space
-	 */
-	public double[] getLocation() {
-		return ((PointMesh) model).getLocation();
+		((Point) model).setZ(z);
 	}
 
 	/**
@@ -118,7 +115,7 @@ public class PointController extends BasicController {
 	 *            The new z coordinate
 	 */
 	public void updateLocation(double x, double y, double z) {
-		((PointMesh) model).updateLocation(x, y, z);
+		((Point) model).updateLocation(x, y, z);
 	}
 
 	/*
@@ -142,8 +139,8 @@ public class PointController extends BasicController {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org.
-	 * eclipse. ice.viz.service.modeling.AbstractController)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractController#copy(org. eclipse.
+	 * ice.viz.service.modeling.AbstractController)
 	 */
 	@Override
 	public void copy(IController otherObject) {
@@ -156,7 +153,7 @@ public class PointController extends BasicController {
 		BasicController castObject = (BasicController) otherObject;
 
 		// Create the model and give it a reference to this
-		model = new PointMesh();
+		model = new Point();
 		model.setController(this);
 
 		// Copy the other object's data members
@@ -166,5 +163,50 @@ public class PointController extends BasicController {
 		// Register as a listener to the model and view
 		model.register(this);
 		view.register(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#isWireframe()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return ((IWireframeView) view).isWireframe();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.IWireframeController#setWireframeMode(
+	 * boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		((IWireframeView) view).setWireframeMode(on);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentController#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return ((ITransparentView) view).isTransparent();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentController#
+	 * setTransparentMode(boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		((ITransparentView) view).setTransparentMode(transparent);
 	}
 }

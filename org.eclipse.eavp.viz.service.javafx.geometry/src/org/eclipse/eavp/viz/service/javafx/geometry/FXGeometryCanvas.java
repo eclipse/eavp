@@ -210,12 +210,12 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	private void setWireframe(IWireframeController target, boolean wireframe) {
 
 		// Set this object to the correct mode
-		target.setWireFrameMode(wireframe);
+		target.setWireframeMode(wireframe);
 
 		// Iterate over each of its children, setting them to the correct mode
 		for (IWireframeController child : target.getEntitiesFromCategory(
 				MeshCategory.CHILDREN, IWireframeController.class)) {
-			child.setWireFrameMode(wireframe);
+			child.setWireframeMode(wireframe);
 		}
 	}
 

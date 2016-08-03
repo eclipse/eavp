@@ -16,9 +16,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
@@ -68,6 +70,13 @@ public interface IPlot extends IVizCanvas {
 	 * @return The categories for this plot.
 	 */
 	public List<String> getCategories();
+	
+	/**
+	 * Get the list of Actions available to this plot. These are intended to be used to populate the plot editor's toolbar with custom buttons specific to the plot type.
+	 * 
+	 * @return A list of Actions which the IPlot can be directed to perform.
+	 */
+	public ArrayList<Action> getCustomActions();
 
 	/**
 	 * Gets all of the dependent series specified for this IPlot, as a list, for

@@ -16,11 +16,12 @@ import java.util.Collections;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
-import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshProperty;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 
@@ -39,7 +40,8 @@ import javafx.scene.transform.Rotate;
  * @author Robert Smith
  *
  */
-public class FXReactorView extends BasicView implements IWireframeView {
+public class FXReactorView extends BasicView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * The JavaFX node containing the reactor's mesh
@@ -79,6 +81,12 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	private boolean wireframe;
 
 	/**
+	 * Whether or not the reactor will be displayed. If true, the reactor will
+	 * be invisible, otherwise it will be visible.
+	 */
+	private boolean transparent;
+
+	/**
 	 * The nullary constructor.
 	 */
 	public FXReactorView() {
@@ -93,7 +101,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	/**
 	 * The default constructor
 	 */
-	public FXReactorView(ReactorMesh model) {
+	public FXReactorView(Reactor model) {
 		super();
 
 		// Initialize the nodes
@@ -117,14 +125,14 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	 * @param model
 	 *            The model which will be graphically represented by the mesh
 	 */
-	private void createShape(ReactorMesh model) {
+	private void createShape(Reactor model) {
 
 		// A list of all the extrema of all core channels contained by the
 		// reactor
 		ArrayList<Extrema> extrema = new ArrayList<Extrema>();
 
 		// Check all the reactor's children for core channels
-		for (IController channel : model.getEntities()) {
+		for (IController channel : model.getAllEntities()) {
 			if ("True".equals(
 					channel.getProperty(ReactorMeshProperty.CORE_CHANNEL))) {
 
@@ -368,7 +376,8 @@ public class FXReactorView extends BasicView implements IWireframeView {
 				(bounds.getMaxZ() - bounds.getMinZ()) / 2 + bounds.getMinZ());
 
 		// Set the shapes to the correct rendering mode
-		setWireFrameMode(wireframe);
+		setWireframeMode(wireframe);
+		setTransparentMode(transparent);
 	}
 
 	/**
@@ -414,8 +423,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -425,18 +433,18 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMesh)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMesh)
 	 */
 	@Override
 	public void refresh(IMesh model) {
 
 		// Redraw the mesh
-		createShape((ReactorMesh) model);
+		createShape((Reactor) model);
 
 		// Set the transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms()
+				.setAll(Util.convertTransformation(model.getTransformation()));
 	}
 
 	/*
@@ -446,7 +454,7 @@ public class FXReactorView extends BasicView implements IWireframeView {
 	 * setWireFrameMode(boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the new state
 		wireframe = on;
@@ -489,5 +497,63 @@ public class FXReactorView extends BasicView implements IWireframeView {
 		clone.copy(this);
 
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#getWireFrameMode()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentView#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+
+		// Save the new state
+		this.transparent = transparent;
+
+		// Set each of the reactor's parts to line mode
+		if (transparent) {
+
+			// If side1 exists, the other objects should too
+			if (side1 != null) {
+				side1.setOpacity(0d);
+				side2.setOpacity(0d);
+				lowerArch.setOpacity(0d);
+				upperArch.setOpacity(0d);
+			}
+		}
+
+		// Set each of the reactor's parts to fill mode
+		else {
+
+			// If side1 exists, the other objects should too
+			if (side1 != null) {
+				side1.setOpacity(100d);
+				side2.setOpacity(100d);
+				lowerArch.setOpacity(100d);
+				upperArch.setOpacity(100d);
+			}
+		}
 	}
 }

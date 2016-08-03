@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Control;
  * This class manages mouse controls for an {@link ParaViewCanvas} and feeds
  * events to an associated Canvas at the appropriate intervals.
  * 
- * @author Jordan Deyton
+ * @author Jordan Deyton, Robert Smith
  *
  */
 public class ParaViewMouseAdapter {
@@ -139,7 +139,8 @@ public class ParaViewMouseAdapter {
 		 * @param action
 		 *            The action for the event. Expected not to be {@code null}.
 		 */
-		public MouseInteraction(double x, double y, MouseInteractionType action) {
+		public MouseInteraction(double x, double y,
+				MouseInteractionType action) {
 			this.x = x;
 			this.y = y;
 			this.type = action;
@@ -154,9 +155,11 @@ public class ParaViewMouseAdapter {
 		 *         pressed.
 		 */
 		public boolean[] getState() {
-			return new boolean[] { buttonLeft, false, buttonRight, false, ctrlKey, false, false };
+			return new boolean[] { buttonLeft, false, buttonRight, false,
+					ctrlKey, false, false };
 		}
 	}
+
 	/**
 	 * A simple enumeration representing the allowed action strings.
 	 * 
@@ -203,6 +206,7 @@ public class ParaViewMouseAdapter {
 			return actionString;
 		}
 	}
+
 	// ---- Zoom / Mouse-Scroll Variables ---- //
 	/**
 	 * Used when computing the normalized zoom.
@@ -367,7 +371,8 @@ public class ParaViewMouseAdapter {
 	 *            for its various listener operations. Although this is
 	 *            typically a {@link ParaViewCanvas}, it may be any SWT Control.
 	 */
-	public ParaViewMouseAdapter(IParaViewWebClient client, int viewId, Control control) {
+	public ParaViewMouseAdapter(IParaViewWebClient client, int viewId,
+			Control control) {
 
 		// There is no worker thread by default until a valid control is set.
 		executorService = null;
@@ -405,19 +410,36 @@ public class ParaViewMouseAdapter {
 		mouseListener = new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				stopZoom();
-				startRotate(e.x, e.y);
+
+				// If the left button was pressed, start rotating
+				if (e.button == 1) {
+					stopZoom();
+					startRotate(e.x, e.y);
+				}
 			}
 
 			@Override
 			public void mouseUp(MouseEvent e) {
-				stopRotate(e.x, e.y);
+
+				// Only stop rotating while not zooming. Both rotating and
+				// zooming are handled as mouse drags by ParaView, and
+				// stopRotate() sends the mouse's last position as a mouse
+				// movement event, causing extreme zooming if done in the middle
+				// of a zoom. The mouse wheel listener will stop any current
+				// rotation on its own.
+				if (!zooming) {
+					stopRotate(e.x, e.y);
+				}
 			}
 		};
 		mouseMoveListener = new MouseMoveListener() {
 			@Override
 			public void mouseMove(MouseEvent e) {
-				rotate(e.x, e.y);
+
+				// Don't rotate in the middle of a zoom.
+				if (!zooming) {
+					rotate(e.x, e.y);
+				}
 			}
 		};
 		mouseWheelListener = new MouseWheelListener() {
@@ -450,8 +472,8 @@ public class ParaViewMouseAdapter {
 	private double[] getNormalizedPosition(double x, double y) {
 		// Compute the normalized x and y positions using the
 		// control's current size.
-		normalizedPosition[0] = (double) x * inverseSizeX;
-		normalizedPosition[1] = 1.0 - (double) y * inverseSizeY;
+		normalizedPosition[0] = x * inverseSizeX;
+		normalizedPosition[1] = 1.0 - y * inverseSizeY;
 		return normalizedPosition;
 	}
 
@@ -505,7 +527,8 @@ public class ParaViewMouseAdapter {
 						rotateEvent.buttonLeft = true;
 
 						// Normalize the position values.
-						double[] normPosition = getNormalizedPosition(rotateEvent.x, rotateEvent.y);
+						double[] normPosition = getNormalizedPosition(
+								rotateEvent.x, rotateEvent.y);
 						rotateEvent.x = normPosition[0];
 						rotateEvent.y = normPosition[1];
 
@@ -534,15 +557,17 @@ public class ParaViewMouseAdapter {
 	 *            will <i>not</i> be refreshed.
 	 * @return True if the event was successfully processed, false otherwise.
 	 */
-	private boolean sendMouseInteraction(MouseInteraction interaction, boolean refresh) {
+	private boolean sendMouseInteraction(MouseInteraction interaction,
+			boolean refresh) {
 		boolean sent = false;
 
 		IParaViewWebClient clientRef = client;
 		if (clientRef != null) {
 			try {
 				// Send the mouse event to the client.
-				clientRef.event(viewId, interaction.x, interaction.y, interaction.type.toString(),
-						interaction.getState()).get();
+				clientRef.event(viewId, interaction.x, interaction.y,
+						interaction.type.toString(), interaction.getState())
+						.get();
 
 				// Set the flag that the event was processed.
 				sent = true;
@@ -708,13 +733,15 @@ public class ParaViewMouseAdapter {
 				@Override
 				public void run() {
 					// Get the normalized x and y values for the mouse position.
-					double[] normPosition = getNormalizedPosition(mouseX, mouseY);
+					double[] normPosition = getNormalizedPosition(mouseX,
+							mouseY);
 					double x = normPosition[0];
 					double y = normPosition[1];
 
 					// Create a MouseInteraction for pressing buttons.
 					MouseInteraction moveStart;
-					moveStart = new MouseInteraction(x, y, MouseInteractionType.DOWN);
+					moveStart = new MouseInteraction(x, y,
+							MouseInteractionType.DOWN);
 					moveStart.buttonLeft = true;
 
 					// Send the request to the client. There should be no need
@@ -749,7 +776,8 @@ public class ParaViewMouseAdapter {
 
 					// Create a MouseInteraction for pressing buttons.
 					MouseInteraction zoomStart;
-					zoomStart = new MouseInteraction(x, y, MouseInteractionType.DOWN);
+					zoomStart = new MouseInteraction(x, y,
+							MouseInteractionType.DOWN);
 					zoomStart.buttonRight = true;
 					zoomStart.ctrlKey = true;
 
@@ -792,13 +820,15 @@ public class ParaViewMouseAdapter {
 				@Override
 				public void run() {
 					// Get the normalized x and y values for the mouse position.
-					double[] normPosition = getNormalizedPosition(mouseX, mouseY);
+					double[] normPosition = getNormalizedPosition(mouseX,
+							mouseY);
 					double x = normPosition[0];
 					double y = normPosition[1];
 
 					// Create a MouseInteraction for releasing buttons.
 					MouseInteraction moveStop;
-					moveStop = new MouseInteraction(x, y, MouseInteractionType.UP);
+					moveStop = new MouseInteraction(x, y,
+							MouseInteractionType.UP);
 
 					// Send the request to the client. There should be no need
 					// to
@@ -831,7 +861,8 @@ public class ParaViewMouseAdapter {
 
 					// Create a MouseInteraction for releasing buttons.
 					MouseInteraction zoomStop;
-					zoomStop = new MouseInteraction(x, y, MouseInteractionType.UP);
+					zoomStop = new MouseInteraction(x, y,
+							MouseInteractionType.UP);
 
 					// Send the request to the client. There should be no need
 					// to refresh.
@@ -857,7 +888,8 @@ public class ParaViewMouseAdapter {
 			scrollCount -= count;
 
 			// Create a MouseInteraction for moving (zooming).
-			zoom.set(new MouseInteraction(0.0, scrollCount, MouseInteractionType.MOVE));
+			zoom.set(new MouseInteraction(0.0, scrollCount,
+					MouseInteractionType.MOVE));
 
 			// Submit a task to send an MOVE event with the current zoom.
 			executorService.submit(new Runnable() {

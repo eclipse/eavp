@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -60,11 +61,18 @@ public abstract class VizConnectionManager<T>
 	 * unique.
 	 */
 	private final Map<String, VizConnection<T>> connectionsByName;
+
 	/**
 	 * A map of the viz connection names keyed on the hosts. Multiple
 	 * connections can be configured per host.
 	 */
 	private final Map<String, Set<String>> connectionsByHost;
+
+	/**
+	 * A map of connection names to connections, for those connections which
+	 * have been previously opened in this session then removed.
+	 */
+	private final Map<String, VizConnection<T>> oldConnections;
 
 	/**
 	 * The current preference store associated with this manager. Connections
@@ -81,9 +89,10 @@ public abstract class VizConnectionManager<T>
 	 * The default constructor.
 	 */
 	public VizConnectionManager() {
-		// Create the two maps.
+		// Create the maps.
 		connectionsByName = new HashMap<String, VizConnection<T>>();
 		connectionsByHost = new HashMap<String, Set<String>>();
+		oldConnections = new HashMap<String, VizConnection<T>>();
 
 		// Create the preference listener.
 		preferenceListener = createPreferenceListener();
@@ -98,18 +107,37 @@ public abstract class VizConnectionManager<T>
 	 * @param preferences
 	 *            The preference value for the connection. This value should
 	 *            come straight from the {@link #preferenceStore}.
+	 * 
+	 * @return The Future state of the connection being added.
 	 */
-	private void addConnection(String name, String preferences) {
+	private Future<ConnectionState> addConnection(String name,
+			String preferences) {
 		logger.debug("VizConnectionManager message: " + "Adding connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
 
-		VizConnection<T> connection = createConnection(name, preferences);
+		// The connection to be added
+		VizConnection<T> connection = null;
+
+		if (!oldConnections.keySet().contains(name)) {
+
+			// If a connection by the given name does not exist, create one
+			connection = createConnection(name, preferences);
+		} else {
+
+			// If this is a recognized connection being re-added to the table
+			// after being removed, retrieve the old reference from the map.
+			connection = oldConnections.get(name);
+		}
 
 		// Split the string using the delimiter. The -1 is necessary to include
 		// empty values from the split.
 		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
 				-1);
+
+		// A future reference to the connection's state after the attempted
+		// operation is completed
+		Future<ConnectionState> state = null;
 
 		try {
 			// Ensure the connection's basic preferences are set.
@@ -132,14 +160,14 @@ public abstract class VizConnectionManager<T>
 			connections.add(name);
 
 			// Try to connect.
-			connection.connect();
+			state = connection.connect();
 
 		} catch (IndexOutOfBoundsException | NullPointerException
 				| NumberFormatException e) {
 			// Cannot add the connection.
 		}
 
-		return;
+		return state;
 	}
 
 	/**
@@ -200,7 +228,9 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#getConnection(java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * getConnection(java.lang.String)
 	 */
 	@Override
 	public IVizConnection<T> getConnection(String name) {
@@ -219,7 +249,9 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#getConnections()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * getConnections()
 	 */
 	@Override
 	public Set<String> getConnections() {
@@ -228,7 +260,9 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#getConnectionsForHost(java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * getConnectionsForHost(java.lang.String)
 	 */
 	@Override
 	public Set<String> getConnectionsForHost(String host)
@@ -256,8 +290,14 @@ public abstract class VizConnectionManager<T>
 		logger.debug("VizConnectionManager message: " + "Removing connection \""
 				+ name + "\".");
 
-		// Remove the associated connection from the map of connections by name.
+		// Get the specified connection
 		VizConnection<T> connection = connectionsByName.remove(name);
+
+		// Store the connection in the map of old connections
+		oldConnections.put(name, connection);
+
+		// Disconnect
+		connection.disconnect();
 
 		// Remove the connection from the map of connections by host.
 		String host = connection.getHost();
@@ -273,17 +313,25 @@ public abstract class VizConnectionManager<T>
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#setPreferenceStore(org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
+	 * setPreferenceStore(org.eclipse.eavp.viz.service.preferences.
+	 * CustomScopedPreferenceStore, java.lang.String)
 	 */
 	@Override
-	public void setPreferenceStore(CustomScopedPreferenceStore store,
-			String preferenceNodeId) throws NullPointerException {
+	public ArrayList<Future<ConnectionState>> setPreferenceStore(
+			CustomScopedPreferenceStore store, String preferenceNodeId)
+			throws NullPointerException {
 		// Throw an exception if the preference node ID is null. We must have a
 		// valid node ID if we have a store.
 		if (store != null && preferenceNodeId == null) {
 			throw new NullPointerException("VizConnectionManager error: "
 					+ "Preference node ID cannot be null.");
 		}
+
+		// A list of future references to conenction states of all attempted
+		// connections for the manager
+		ArrayList<Future<ConnectionState>> states = new ArrayList<Future<ConnectionState>>();
 
 		if (store != preferenceStore
 				|| !preferenceNodeId.equals(connectionsNodeId)) {
@@ -310,7 +358,7 @@ public abstract class VizConnectionManager<T>
 					String[] connectionNames = node.keys();
 					for (String connection : connectionNames) {
 						String preferences = node.get(connection, null);
-						addConnection(connection, preferences);
+						states.add(addConnection(connection, preferences));
 					}
 				} catch (BackingStoreException e) {
 					e.printStackTrace();
@@ -325,7 +373,7 @@ public abstract class VizConnectionManager<T>
 			connectionsNodeId = preferenceNodeId;
 		}
 
-		return;
+		return states;
 	}
 
 	/**

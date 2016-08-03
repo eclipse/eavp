@@ -14,11 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
 import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.geometry.reactor.Extrema;
-import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionView;
 import org.eclipse.eavp.viz.service.geometry.reactor.PipeController;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
@@ -35,7 +36,8 @@ import javafx.scene.shape.DrawMode;
  * @author Robert Smith
  *
  */
-public class FXJunctionView extends JunctionView implements IWireframeView {
+public class FXJunctionView extends JunctionView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * The box which represents the Junction part
@@ -59,6 +61,12 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	private boolean wireframe;
 
 	/**
+	 * Whether or not to display the junction visibly. It will be invisible if
+	 * true or visible if false.
+	 */
+	private boolean transparent;
+
+	/**
 	 * The nullary constructor.
 	 */
 	public FXJunctionView() {
@@ -67,6 +75,7 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 		// Initialize the date members
 		node = new Group();
 		material = new PhongMaterial(Color.GRAY);
+		transparent = false;
 		wireframe = false;
 	}
 
@@ -77,13 +86,14 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	 *            The internal model on which this view's representation will be
 	 *            based
 	 */
-	public FXJunctionView(JunctionMesh model) {
+	public FXJunctionView(Junction model) {
 		super();
 
 		// Initialize the data members
 		node = new Group();
 		node.setId(model.getProperty(MeshProperty.NAME));
 		material = new PhongMaterial(Color.GRAY);
+		transparent = false;
 		wireframe = false;
 
 		// Initialize the mesh
@@ -177,13 +187,19 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 		} else {
 			box.setDrawMode(DrawMode.FILL);
 		}
+
+		// Set the box to the correct transparency mode
+		if (transparent) {
+			box.setOpacity(0d);
+		} else {
+			box.setOpacity(100d);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -193,9 +209,8 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMeshComponent)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
 	public void refresh(IMesh model) {
@@ -214,7 +229,7 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 	 * setWireFrameMode(boolean)
 	 */
 	@Override
-	public void setWireFrameMode(boolean on) {
+	public void setWireframeMode(boolean on) {
 
 		// Save the new state
 		wireframe = on;
@@ -240,5 +255,48 @@ public class FXJunctionView extends JunctionView implements IWireframeView {
 		clone.copy(this);
 
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#getWireFrameMode()
+	 */
+	@Override
+	public boolean isWireframe() {
+		return wireframe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentView#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+
+		// Save the transparency state
+		this.transparent = transparent;
+
+		// If the box exists, set it to the correct opacity
+		if (box != null) {
+			if (transparent) {
+				box.setOpacity(0d);
+			} else {
+				box.setOpacity(100d);
+			}
+		}
 	}
 }

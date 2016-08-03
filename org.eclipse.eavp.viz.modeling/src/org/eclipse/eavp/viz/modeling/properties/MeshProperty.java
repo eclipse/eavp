@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.modeling.properties;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * The default list of IProperties used by IMeshes. It is not intended that
  * every IMesh instance have every one of these properties defined, nor that
@@ -20,6 +23,8 @@ package org.eclipse.eavp.viz.modeling.properties;
  * @author Robert Smith
  *
  */
+@XmlRootElement(name = "MeshProperty")
+@XmlEnum
 public enum MeshProperty implements IMeshProperty {
 
 	/**

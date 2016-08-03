@@ -11,13 +11,14 @@
 package org.eclipse.eavp.viz.service.javafx.geometry.plant.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.base.Representation;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
+import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMeshCategory;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerController;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.FXHeatExchangerView;
@@ -29,7 +30,9 @@ import org.junit.Test;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
+import javafx.scene.shape.Shape3D;
 
 /**
  * A class to test the functionality of the FXHeatExchangerView
@@ -46,10 +49,15 @@ public class FXHeatExchangerViewTester {
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
-		HeatExchangerMesh mesh = new HeatExchangerMesh();
+		HeatExchanger mesh = new HeatExchanger();
 		FXHeatExchangerView view = new FXHeatExchangerView(mesh);
-		FXHeatExchangerView clone = (FXHeatExchangerView) view.clone();
-		assertTrue(view.equals(clone));
+		Object clone = view.clone();
+
+		// Due to JavaFX objects' equals() implementations, a cloned view is not
+		// necessarily equal to the original. Just check that the clone is of
+		// the proper type.
+		assertTrue(clone instanceof FXHeatExchangerView);
+
 	}
 
 	/**
@@ -59,7 +67,7 @@ public class FXHeatExchangerViewTester {
 	public void checkView() {
 
 		// Create a pipe for the HeatExchanger to contain
-		PipeMesh pipeMesh = new PipeMesh();
+		Pipe pipeMesh = new Pipe();
 		pipeMesh.setLength(100);
 		pipeMesh.setInnerRadius(25);
 		pipeMesh.setRadius(25);
@@ -68,14 +76,14 @@ public class FXHeatExchangerViewTester {
 		FXPipeController pipe = new FXPipeController(pipeMesh, pipeView);
 
 		// Create a heat exchanger
-		HeatExchangerMesh mesh = new HeatExchangerMesh();
+		HeatExchanger mesh = new HeatExchanger();
 		FXHeatExchangerView view = new FXHeatExchangerView(mesh);
 		FXHeatExchangerController exchanger = new FXHeatExchangerController(
 				mesh, view);
 		exchanger.setPrimaryPipe(pipe);
 
 		// Create a second pipe and two junctions to connect it to the exchanger
-		PipeMesh pipeMesh2 = new PipeMesh();
+		Pipe pipeMesh2 = new Pipe();
 		pipeMesh2.setLength(100);
 		pipeMesh2.setInnerRadius(25);
 		pipeMesh2.setRadius(25);
@@ -84,21 +92,23 @@ public class FXHeatExchangerViewTester {
 		FXPipeController pipe2 = new FXPipeController(pipeMesh2, pipeView2);
 		pipe2.setTranslation(50, 0, 0);
 
-		JunctionMesh junctionMesh = new JunctionMesh();
+		Junction junctionMesh = new Junction();
 		FXJunctionView junctionView = new FXJunctionView(junctionMesh);
 		JunctionController junction = new JunctionController(junctionMesh,
 				junctionView);
-		junction.addEntityToCategory(exchanger, ReactorMeshCategory.INPUT);
+		junction.addEntityToCategory(exchanger.getSecondaryPipe(),
+				ReactorMeshCategory.INPUT);
 		exchanger.addEntityToCategory(junction,
 				ReactorMeshCategory.SECONDARY_OUTPUT);
 		junction.addEntityToCategory(pipe2, ReactorMeshCategory.OUTPUT);
 		pipe2.addEntityToCategory(junction, ReactorMeshCategory.INPUT);
 
-		JunctionMesh junctionMesh2 = new JunctionMesh();
+		Junction junctionMesh2 = new Junction();
 		FXJunctionView junctionView2 = new FXJunctionView(junctionMesh2);
 		JunctionController junction2 = new JunctionController(junctionMesh2,
 				junctionView2);
-		junction.addEntityToCategory(exchanger, ReactorMeshCategory.OUTPUT);
+		junction.addEntityToCategory(exchanger.getSecondaryPipe(),
+				ReactorMeshCategory.OUTPUT);
 		exchanger.addEntityToCategory(junction2,
 				ReactorMeshCategory.SECONDARY_INPUT);
 		junction2.addEntityToCategory(pipe2, ReactorMeshCategory.INPUT);
@@ -139,5 +149,106 @@ public class FXHeatExchangerViewTester {
 		assertEquals(1, numWalls);
 		assertEquals(1, numPrimaryPipes);
 
+	}
+
+	/**
+	 * Test that the shape can be made transparent.
+	 */
+	public void checkTransparency() {
+
+		// Create a heat exchanger
+		HeatExchanger mesh = new HeatExchanger();
+
+		// Create a view for it
+		FXHeatExchangerView view = new FXHeatExchangerView(mesh);
+
+		// The view should start off opaque
+		assertFalse(view.isTransparent());
+
+		// Make the view transparent
+		view.setTransparentMode(true);
+
+		// Check that the transparency flag is set
+		assertTrue(view.isTransparent());
+
+		// The number of transparent shapes found
+		int foundShapes = 0;
+
+		// Get the group containing the node
+		Representation<Group> representation = view.getRepresentation();
+
+		// Search all of the node's children
+		for (Node node : (representation.getData()).getChildren()) {
+
+			// If the child is a 3D shape, it should be transparent
+			if (node instanceof Shape3D) {
+				assertTrue(((Shape3D) node).getOpacity() == 0d);
+				foundShapes++;
+			}
+
+			// If the child is a group, check its children
+			if (node instanceof Group) {
+				for (Node childNode : ((Group) node).getChildren()) {
+					if (childNode instanceof Shape3D) {
+						assertTrue(((Shape3D) childNode).getOpacity() == 0d);
+						foundShapes++;
+					}
+				}
+			}
+		}
+
+		// Four transparent childrent should have been found
+		assertTrue(foundShapes == 4);
+	}
+
+	/**
+	 * Test that the shape can be made wireframe.
+	 */
+	public void checkWireframe() {
+
+		// Create a heat exchanger
+		HeatExchanger mesh = new HeatExchanger();
+
+		// Create a view for it
+		FXHeatExchangerView view = new FXHeatExchangerView(mesh);
+
+		// The view should start off filled
+		assertFalse(view.isWireframe());
+
+		// Make the view wireframe
+		view.setWireframeMode(true);
+
+		// Check that the transparency flag is set
+		assertTrue(view.isWireframe());
+
+		// The number of wireframe shapes found
+		int foundShapes = 0;
+
+		// Get the group containing the node
+		Representation<Group> representation = view.getRepresentation();
+
+		// Search all of the node's children
+		for (Node node : (representation.getData()).getChildren()) {
+
+			// If the child is a 3D shape, it should be transparent
+			if (node instanceof Shape3D) {
+				assertTrue(((Shape3D) node).getDrawMode() == DrawMode.FILL);
+				foundShapes++;
+			}
+
+			// If the child is a group, check its children
+			if (node instanceof Group) {
+				for (Node childNode : ((Group) node).getChildren()) {
+					if (childNode instanceof Shape3D) {
+						assertTrue(((Shape3D) childNode)
+								.getDrawMode() == DrawMode.FILL);
+						foundShapes++;
+					}
+				}
+			}
+		}
+
+		// Four wireframe children should have been found
+		assertTrue(foundShapes == 4);
 	}
 }

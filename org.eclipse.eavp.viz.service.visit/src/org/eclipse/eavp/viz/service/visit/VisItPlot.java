@@ -13,6 +13,7 @@
 package org.eclipse.eavp.viz.service.visit;
 
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,8 +22,10 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.eavp.viz.service.AbstractSeries;
@@ -31,8 +34,14 @@ import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
+import org.eclipse.eavp.viz.visit.VisitPythonDialog;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 import visit.java.client.FileInfo;
@@ -74,6 +83,8 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 	 * the categories.
 	 */
 	private final Map<String, List<ISeries>> plotTypes = new HashMap<String, List<ISeries>>();
+
+	private VisItPlotComposite plotComposite;
 
 	/**
 	 * The default constructor.
@@ -245,7 +256,11 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#connectionStateChanged(org.eclipse.eavp.viz.service.connections.IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#
+	 * connectionStateChanged(org.eclipse.eavp.viz.service.connections.
+	 * IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState,
+	 * java.lang.String)
 	 */
 	@Override
 	public void connectionStateChanged(
@@ -259,16 +274,20 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#createPlotComposite(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#
+	 * createPlotComposite(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected ConnectionPlotComposite<VisItSwtConnection> createPlotComposite(
 			Composite parent) {
-		return new VisItPlotComposite(parent, SWT.NONE);
+		plotComposite = new VisItPlotComposite(parent, SWT.NONE);
+		return plotComposite;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getCategories()
 	 */
 	@Override
@@ -278,7 +297,134 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getDependentSeries(java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.AbstractPlot#getCustomActions()
+	 */
+	@Override
+	public ArrayList<Action> getCustomActions() {
+
+		// The full list of actions to build
+		ArrayList<Action> actions = new ArrayList<Action>();
+
+		// Get the plus icon image
+		Bundle bundle = FrameworkUtil.getBundle(VisItPlot.class);
+		String separator = System.getProperty("file.separator");
+		URL inImageURL = bundle.getEntry("icons" + separator + "add.png");
+		if (inImageURL == null) {
+			inImageURL = getClass()
+					.getResource("icons" + separator + "add.png");
+		}
+		if (inImageURL == null) {
+			Path inImagePath = new Path(
+					separator + "icons" + separator + "add.png");
+			inImageURL = FileLocator.find(bundle, inImagePath, null);
+		}
+		ImageDescriptor inDescriptor = ImageDescriptor
+				.createFromURL(inImageURL);
+
+		// The action to zoom the camera in
+		Action zoomIn = new Action("Zoom In", inDescriptor) {
+			@Override
+			public void run() {
+
+				// Direct the composite to zoom its widget in
+				plotComposite.zoomWidget("in");
+			}
+		};
+
+		// Add the zoom action to the list
+		actions.add(zoomIn);
+
+		// Get the minus icon image
+		URL outImageURL = bundle
+				.getEntry("icons" + separator + "complement.gif");
+		if (outImageURL == null) {
+			outImageURL = getClass()
+					.getResource("icons" + separator + "complement.gif");
+		}
+		if (outImageURL == null) {
+			Path outImagePath = new Path(
+					separator + "icons" + separator + "complement.gif");
+			outImageURL = FileLocator.find(bundle, outImagePath, null);
+		}
+		ImageDescriptor outDescriptor = ImageDescriptor
+				.createFromURL(outImageURL);
+
+		// The action to zoom the camera out
+		Action zoomOut = new Action("Zoom Out", outDescriptor) {
+			@Override
+			public void run() {
+
+				// Direct the composite to zoom its widget out
+				plotComposite.zoomWidget("out");
+			}
+		};
+
+		// Add the zoom action to the list
+		actions.add(zoomOut);
+
+		// Get the refresh icon image
+		URL resetImageURL = bundle
+				.getEntry("icons" + separator + "iu_update_obj.gif");
+		if (resetImageURL == null) {
+			resetImageURL = getClass()
+					.getResource("icons" + separator + "iu_update_obj.gif");
+		}
+		if (resetImageURL == null) {
+			Path resetImagePath = new Path(
+					separator + "icons" + separator + "iu_update_obj.gif");
+			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
+		}
+		ImageDescriptor resetDescriptor = ImageDescriptor
+				.createFromURL(resetImageURL);
+
+		// The action to reset the widget to the default view
+		Action reset = new Action("Reset camera", resetDescriptor) {
+			@Override
+			public void run() {
+
+				// Refresh the composite
+				plotComposite.resetWidget();
+			}
+		};
+
+		// Add the reset action to the list
+		actions.add(reset);
+
+		// Set the action's image (the green plus button for adding).
+		Path scriptPath = new Path(
+				"icons" + System.getProperty("file.separator") + "launch.png");
+		URL scriptURL = FileLocator.find(bundle, scriptPath, null);
+		ImageDescriptor scriptDescriptor = ImageDescriptor
+				.createFromURL(scriptURL);
+
+		// Add an action to launch a python scripting console
+		Action launchPython = new Action("Execute a Python script",
+				scriptDescriptor) {
+
+			@Override
+			public void run() {
+
+				// Create and open a dialog containing a Python console hooked
+				// up to the VisIt connection
+				VisitPythonDialog dialog = new VisitPythonDialog(PlatformUI
+						.getWorkbench().getActiveWorkbenchWindow().getShell(),
+						plotComposite.getWidget());
+				dialog.open();
+			}
+		};
+		actions.add(launchPython);
+
+		return actions;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.AbstractPlot#getDependentSeries(java.lang.
+	 * String)
 	 */
 	@Override
 	public List<ISeries> getDependentSeries(String category) {
@@ -447,7 +593,10 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#setConnection(org.eclipse.eavp.viz.service.connections.IVizConnection)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.ConnectionPlot#setConnection(org
+	 * .eclipse.eavp.viz.service.connections.IVizConnection)
 	 */
 	@Override
 	public boolean setConnection(IVizConnection<VisItSwtConnection> connection)
@@ -462,7 +611,10 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.ConnectionPlot#setDataSource(java.net.URI)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.ConnectionPlot#setDataSource(
+	 * java.net.URI)
 	 */
 	@Override
 	public boolean setDataSource(URI uri) throws Exception {
@@ -476,7 +628,9 @@ public class VisItPlot extends ConnectionPlot<VisItSwtConnection> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.
+	 * eclipse.eavp.viz.service.ISeries)
 	 */
 	@Override
 	public void setIndependentSeries(ISeries series) {

@@ -13,12 +13,12 @@ package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 import org.eclipse.eavp.viz.service.geometry.reactor.JunctionController;
-import org.eclipse.eavp.viz.service.geometry.reactor.JunctionMesh;
-import org.eclipse.eavp.viz.service.geometry.reactor.PipeMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Junction;
+import org.eclipse.eavp.viz.service.geometry.reactor.Pipe;
 import org.eclipse.eavp.viz.service.geometry.reactor.ReactorController;
-import org.eclipse.eavp.viz.service.geometry.reactor.ReactorMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.Reactor;
 
 /**
  * A factory for creating JavaFX views and controllers for Reactor Analyzer
@@ -37,46 +37,46 @@ public class FXPlantViewControllerProviderFactory
 		super();
 
 		// Set the JunctionMesh provider
-		typeMap.put(JunctionMesh.class,
+		typeMap.put(Junction.class,
 				new IControllerProvider<JunctionController>() {
 					@Override
 					public JunctionController createController(IMesh model) {
 
 						// Create a FXJunction view for junctions
 						FXJunctionView view = new FXJunctionView(
-								(JunctionMesh) model);
-						return new JunctionController((JunctionMesh) model,
+								(Junction) model);
+						return new JunctionController((Junction) model,
 								view);
 					}
 				});
 
 		// Set the PipeMesh provider
-		typeMap.put(PipeMesh.class,
+		typeMap.put(Pipe.class,
 				new IControllerProvider<FXPipeController>() {
 					@Override
 					public FXPipeController createController(IMesh model) {
 
 						// Create a FXPipeView for pipes
-						FXPipeView view = new FXPipeView((PipeMesh) model);
-						return new FXPipeController((PipeMesh) model, view);
+						FXPipeView view = new FXPipeView((Pipe) model);
+						return new FXPipeController((Pipe) model, view);
 					}
 				});
 
 		// Set the ReactorMesh provider
-		typeMap.put(ReactorMesh.class,
+		typeMap.put(Reactor.class,
 				new IControllerProvider<ReactorController>() {
 					@Override
 					public ReactorController createController(IMesh model) {
 
 						// Create a FXReactorView for reactors
 						FXReactorView view = new FXReactorView(
-								(ReactorMesh) model);
-						return new ReactorController((ReactorMesh) model, view);
+								(Reactor) model);
+						return new ReactorController((Reactor) model, view);
 					}
 				});
 
 		// Set the HeatExchangerMesh provider
-		typeMap.put(HeatExchangerMesh.class,
+		typeMap.put(HeatExchanger.class,
 				new IControllerProvider<FXHeatExchangerController>() {
 					@Override
 					public FXHeatExchangerController createController(
@@ -86,7 +86,7 @@ public class FXPlantViewControllerProviderFactory
 						FXHeatExchangerView view = new FXHeatExchangerView(
 								model);
 						return new FXHeatExchangerController(
-								(HeatExchangerMesh) model, view);
+								(HeatExchanger) model, view);
 					}
 				});
 	}

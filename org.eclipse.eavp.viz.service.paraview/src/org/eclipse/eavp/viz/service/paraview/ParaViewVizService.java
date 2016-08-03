@@ -18,9 +18,7 @@ import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
-import org.eclipse.eavp.viz.service.connections.VizConnection;
-import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
-import org.eclipse.eavp.viz.service.paraview.connections.ParaViewConnection;
+import org.eclipse.eavp.viz.service.paraview.connections.ParaViewConnectionManager;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyBuilder;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyFactory;
@@ -74,22 +72,7 @@ public class ParaViewVizService
 	 */
 	@Override
 	protected IVizConnectionManager<IParaViewWebClient> createConnectionManager() {
-		// Return a new connection manager that can be used to create a
-		// ParaViewConnection.
-		return new VizConnectionManager<IParaViewWebClient>() {
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.eavp.viz.service.connections.VizConnectionManager#
-			 * createConnection(java.lang.String, java.lang.String)
-			 */
-			@Override
-			protected VizConnection<IParaViewWebClient> createConnection(
-					String name, String preferences) {
-				return new ParaViewConnection();
-			}
-		};
+		return new ParaViewConnectionManager();
 	}
 
 	/*
@@ -196,7 +179,7 @@ public class ParaViewVizService
 	 * @see org.eclipse.eavp.viz.service.IVizService#getFactory()
 	 */
 	@Override
-	public IControllerProviderFactory getFactory() {
+	public IControllerProviderFactory getControllerProviderFactory() {
 		// The ParaView visualization service does not make use of the model
 		// framework, so it has no factory
 		return null;

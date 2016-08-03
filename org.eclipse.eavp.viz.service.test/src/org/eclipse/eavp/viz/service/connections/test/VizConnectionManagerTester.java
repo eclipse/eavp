@@ -18,10 +18,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
@@ -97,7 +100,7 @@ public class VizConnectionManagerTester {
 
 		return;
 	}
-	
+
 	/**
 	 * Checks the default connections (empty).
 	 */
@@ -271,6 +274,9 @@ public class VizConnectionManagerTester {
 		path = "/home/music/different/path";
 		node.put(connection2, host + "," + port + "," + path);
 
+		// Get the reference for the first connection
+		IVizConnection<FakeClient> conn1 = manager.getConnection(connection1);
+
 		// Both have been added.
 		assertNotNull(manager.getConnection(connection1));
 		assertNotNull(manager.getConnection(connection2));
@@ -304,6 +310,22 @@ public class VizConnectionManagerTester {
 		assertEquals(0, manager.getConnectionsForHost(host).size());
 		assertFalse(manager.getConnectionsForHost(host).contains(connection1));
 		assertFalse(manager.getConnectionsForHost(host).contains(connection2));
+
+		// Add a connection with a duplicate name
+		String duplicate = "magic sword";
+		host = "duplicate host";
+		port = 9002;
+		path = "duplicate/path";
+		node.put(duplicate, host + "," + port + "," + path);
+
+		// The only connection in the manager should be conn1, with its
+		// properties updated to those of the duplicate connection
+		assertEquals(1, manager.getConnections().size());
+		assertTrue(conn1 == manager.getConnection(duplicate));
+		assertTrue(manager.getConnections().contains(duplicate));
+		assertEquals(1, manager.getConnectionsForHost(host).size());
+		assertEquals(0, manager.getConnectionsForHost("electrodungeon").size());
+		assertTrue(manager.getConnectionsForHost(host).contains(duplicate));
 
 		return;
 	}
@@ -460,7 +482,8 @@ public class VizConnectionManagerTester {
 				+ connection2Path);
 
 		// Set the preference store using the first node.
-		manager.setPreferenceStore(store, nodeId1);
+		ArrayList<Future<ConnectionState>> states = manager
+				.setPreferenceStore(store, nodeId1);
 
 		// Make sure that the first connection was added to the manager.
 		// Check getConnections()
@@ -498,6 +521,17 @@ public class VizConnectionManagerTester {
 			}
 			sleepTime += interval;
 		}
+
+		// For each of the connections, wait until their states are resolved.
+		for (int i = 0; i < states.size(); i++) {
+			try {
+				states.get(i).get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+				fail("Failed while attempting to get the value of future connection state.");
+			}
+		}
+
 		assertEquals(ConnectionState.Connected, connection1.getState());
 
 		// Add the listener to the first connection.

@@ -10,14 +10,16 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh.datatypes;
 
-import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
+import org.eclipse.eavp.viz.modeling.base.ITransparentView;
+import org.eclipse.eavp.viz.modeling.base.IWireframeView;
 import org.eclipse.eavp.viz.modeling.base.Representation;
+import org.eclipse.eavp.viz.modeling.base.Transformation;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.internal.Util;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
@@ -25,6 +27,7 @@ import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.Sphere;
 
 /**
@@ -33,7 +36,8 @@ import javafx.scene.shape.Sphere;
  * @author Robert Smith
  *
  */
-public class FXVertexView extends BasicView {
+public class FXVertexView extends BasicView
+		implements ITransparentView, IWireframeView {
 
 	/**
 	 * A group containing the shape which represents the part and a gizmo which
@@ -62,6 +66,18 @@ public class FXVertexView extends BasicView {
 	private int scale;
 
 	/**
+	 * Whether or not the view is transparent. If true, the vertex will be
+	 * invisible. Otherwise it will be drawn visibly.
+	 */
+	private boolean transparent;
+
+	/**
+	 * Whether or not the view is drawn in wireframe mode. If true, the vertex
+	 * will be a wireframe. Otherwise it will be drawn visibly.
+	 */
+	private boolean wireframe;
+
+	/**
 	 * The nullary constructor.
 	 */
 	public FXVertexView() {
@@ -84,23 +100,31 @@ public class FXVertexView extends BasicView {
 	 * @param model
 	 *            The model which this view will display
 	 */
-	public FXVertexView(VertexMesh model) {
+	public FXVertexView(Vertex model) {
 		this();
 
 		// Set the node's name
 		node.setId(model.getProperty(MeshProperty.NAME));
 
-		// Center the node on the vertex's location
-		transformation.setTranslation(model.getX(), model.getY(), 0);
+		// Get the model's transformation
+		Transformation localTransform = model.getTransformation();
 
 		// Flatten the sphere into a circle
-		transformation.setScale(1, 1, 0.75);
+		localTransform.setScale(1, 1, 0.75);
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms().setAll(Util.convertTransformation(localTransform));
 
 		// Create a Shape3D for the model
 		mesh = new Sphere(1);
+
+		// Set the sphere to the correct wireframe and opacity states
+		if (transparent) {
+			mesh.setOpacity(0d);
+		}
+		if (wireframe) {
+			mesh.setDrawMode(DrawMode.LINE);
+		}
 
 		// Set the sphere to be the constructing material by default
 		mesh.setMaterial(constructingMaterial);
@@ -150,8 +174,7 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#getRepresentation()
 	 */
 	@Override
 	public Representation<Group> getRepresentation() {
@@ -161,19 +184,20 @@ public class FXVertexView extends BasicView {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse.
-	 * ice .viz.service.modeling.AbstractMeshComponent)
+	 * @see org.eclipse.eavp.viz.modeling.AbstractView#refresh(org.eclipse. ice
+	 * .viz.service.modeling.AbstractMeshComponent)
 	 */
 	@Override
 	public void refresh(IMesh model) {
 
 		// Center the node on the vertex's location
-		transformation.setTranslation(((VertexMesh) model).getX() * scale,
-				((VertexMesh) model).getY() * scale, 0);
+		Transformation temp = (Transformation) model.getTransformation()
+				.clone();
+		temp.setTranslation(((Vertex) model).getX() * scale,
+				((Vertex) model).getY() * scale, 0);
 
 		// Set the node's transformation
-		node.getTransforms().setAll(Util.convertTransformation(transformation));
+		node.getTransforms().setAll(Util.convertTransformation(temp));
 
 		// If the vertex is under construction, leave the material unchanged,
 		// otherwise set it based on whether or not the vertex is selected
@@ -205,32 +229,67 @@ public class FXVertexView extends BasicView {
 	public Object clone() {
 		FXVertexView clone = new FXVertexView();
 		clone.copy(this);
-
-		// Force an update from the transformation
-		clone.transformation.setSize(clone.transformation.getSize());
 		return clone;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.modeling.AbstractView#update(org.eclipse.
-	 * ice. viz.service.datastructures.VizObject.IVizUpdateable,
-	 * org.eclipse.eavp.viz.service.datastructures.VizObject.
-	 * UpdateableSubscriptionType[])
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#isWireframe()
 	 */
 	@Override
-	public void update(IManagedUpdateable component, SubscriptionType[] type) {
+	public boolean isWireframe() {
+		return wireframe;
+	}
 
-		// If the transformation updated, update the JavaFX transformation
-		if (component == transformation) {
-			// Set the node's transformation
-			node.getTransforms()
-					.setAll(Util.convertTransformation(transformation));
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.IWireframeView#setWireframeMode(
+	 * boolean)
+	 */
+	@Override
+	public void setWireframeMode(boolean on) {
+		wireframe = on;
+
+		// Set the mesh to the correct draw mode
+		if (mesh != null) {
+			if (wireframe) {
+				mesh.setDrawMode(DrawMode.LINE);
+			} else {
+				mesh.setDrawMode(DrawMode.FILL);
+			}
 		}
+	}
 
-		super.update(component, type);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.modeling.base.ITransparentView#isTransparent()
+	 */
+	@Override
+	public boolean isTransparent() {
+		return transparent;
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.modeling.base.ITransparentView#setTransparentMode(
+	 * boolean)
+	 */
+	@Override
+	public void setTransparentMode(boolean transparent) {
+		this.transparent = transparent;
+
+		// Set the mesh to the correct opacity
+		if (mesh != null) {
+			if (transparent) {
+				mesh.setOpacity(0d);
+			} else {
+				mesh.setOpacity(100d);
+			}
+		}
 	}
 }

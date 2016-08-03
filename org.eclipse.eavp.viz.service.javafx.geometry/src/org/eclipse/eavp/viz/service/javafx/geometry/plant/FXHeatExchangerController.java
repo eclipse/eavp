@@ -14,7 +14,7 @@ import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerController;
-import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchangerMesh;
+import org.eclipse.eavp.viz.service.geometry.reactor.HeatExchanger;
 
 /**
  * A HeatExchangerController specifically tailored to the functionality of
@@ -40,7 +40,7 @@ public class FXHeatExchangerController extends HeatExchangerController {
 	 * @param view
 	 *            The view containing the graphical representation of this part.
 	 */
-	public FXHeatExchangerController(HeatExchangerMesh model, BasicView view) {
+	public FXHeatExchangerController(HeatExchanger model, BasicView view) {
 		super(model, view);
 	}
 

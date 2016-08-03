@@ -10,12 +10,18 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.modeling.properties;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
- * The
+ * The enumeration of the basic kinds of relationships an IMesh can have to the
+ * IMeshs in its entities map.
  * 
  * @author Robert Smith
  *
  */
+@XmlRootElement(name = "MeshCategory")
+@XmlEnum
 public enum MeshCategory implements IMeshCategory {
 
 	/**

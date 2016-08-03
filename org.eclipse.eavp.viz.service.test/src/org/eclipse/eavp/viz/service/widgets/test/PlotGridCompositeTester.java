@@ -153,7 +153,7 @@ public class PlotGridCompositeTester extends AbstractSWTTester {
 			}
 
 			@Override
-			public IControllerProviderFactory getFactory() {
+			public IControllerProviderFactory getControllerProviderFactory() {
 				return null;
 			}
 		};

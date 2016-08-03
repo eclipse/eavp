@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.datatypes;
 
-import org.eclipse.eavp.viz.modeling.ShapeMesh;
-import org.eclipse.eavp.viz.modeling.TubeMesh;
+import org.eclipse.eavp.viz.modeling.Shape;
+import org.eclipse.eavp.viz.modeling.Tube;
 import org.eclipse.eavp.viz.modeling.base.IMesh;
 import org.eclipse.eavp.viz.modeling.factory.BasicControllerProviderFactory;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
@@ -33,7 +33,7 @@ public class FXShapeControllerProviderFactory
 		super();
 
 		// Set the ShapeMesh provider
-		typeMap.put(ShapeMesh.class,
+		typeMap.put(Shape.class,
 				new IControllerProvider<FXShapeController>() {
 					@Override
 					public FXShapeController createController(IMesh model) {
@@ -41,13 +41,13 @@ public class FXShapeControllerProviderFactory
 						// Create an FXShapeView for the model, then wrap them
 						// both in a
 						// shape controller
-						FXShapeView view = new FXShapeView((ShapeMesh) model);
-						return new FXShapeController((ShapeMesh) model, view);
+						FXShapeView view = new FXShapeView((Shape) model);
+						return new FXShapeController((Shape) model, view);
 					}
 				});
 
 		// Set the TubeMesh provider
-		typeMap.put(TubeMesh.class,
+		typeMap.put(Tube.class,
 				new IControllerProvider<FXShapeController>() {
 					@Override
 					public FXShapeController createController(IMesh model) {
@@ -55,8 +55,8 @@ public class FXShapeControllerProviderFactory
 						// Create an FXShapeView for the model, then wrap them
 						// both in a
 						// shape controller
-						FXShapeView view = new FXShapeView((TubeMesh) model);
-						return new FXShapeController((ShapeMesh) model, view);
+						FXShapeView view = new FXShapeView((Tube) model);
+						return new FXShapeController((Shape) model, view);
 					}
 				});
 	}

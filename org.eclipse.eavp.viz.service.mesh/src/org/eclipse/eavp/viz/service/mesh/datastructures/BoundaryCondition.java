@@ -164,6 +164,26 @@ public class BoundaryCondition extends VizObject {
 	}
 
 	/**
+	 * Convert the BoundaryCondition into a String representation, beginning
+	 * with its type and having each value separated with a space
+	 * 
+	 * @return A string representation of the BoundaryCondition.
+	 */
+	@Override
+	public String toString() {
+
+		// Begin the string with the type
+		String output = type.toString();
+
+		// For each value, add a space and a
+		for (float i : values) {
+			output += " " + i;
+		}
+
+		return output;
+	}
+
+	/**
 	 * <p>
 	 * This operation returns the hash value of the BoundaryCondition.
 	 * </p>

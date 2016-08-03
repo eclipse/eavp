@@ -63,7 +63,7 @@ public class PlotEditor extends MultiPageEditorPart {
 	 */
 	private static final Logger logger = LoggerFactory
 			.getLogger(PlotEditor.class);
-	
+
 	/**
 	 * The plot acquired from the input, or {@code null} if it could not be
 	 * created with an appropriate viz service.
@@ -104,14 +104,11 @@ public class PlotEditor extends MultiPageEditorPart {
 
 		// Create a ToolBar.
 		ToolBar toolBar = createToolBar(parent);
-		toolBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		// Create the plot content.
 		plotComposite = null;
 		try {
 			plotComposite = getPlot().draw(parent);
-			plotComposite.setLayoutData(
-					new GridData(SWT.FILL, SWT.FILL, true, true));
 		} catch (Exception e) {
 			throwCriticalException("Error encountered while drawing plot.",
 					"The selection could not be rendered by the selected "
@@ -120,6 +117,11 @@ public class PlotEditor extends MultiPageEditorPart {
 					e);
 		}
 
+		// Layout the page
+		toolBar.setLayoutData(
+				new GridData(SWT.FILL | SWT.BEGINNING, SWT.FILL, true, false));
+		plotComposite
+				.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		parent.layout();
 
 		return;
@@ -196,6 +198,7 @@ public class PlotEditor extends MultiPageEditorPart {
 
 		// Add an action to set what series are plotted.
 		toolBarManager.add(new Action("Select series...") {
+
 			@Override
 			public void run() {
 				// Get the parent composite in which the plot was drawn.
@@ -238,24 +241,39 @@ public class PlotEditor extends MultiPageEditorPart {
 			}
 		});
 
-		// Create and return the ToolBar widget.
-		return toolBarManager.createControl(parent);
+		// Add any custom buttons from the plot
+		for (Action action : plot.getCustomActions()) {
+			toolBarManager.add(action);
+		}
+
+		// Create the ToolBar widget and center the text of its buttons
+		toolBarManager.setStyle(SWT.RIGHT);
+		ToolBar bar = toolBarManager.createControl(parent);
+
+		// Return the toolbar
+		return bar;
+
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.MultiPageEditorPart#isDirty()
+	 */
 	@Override
-	public boolean isDirty(){
-		
-		//Never allow saving non-editors
-		if(getActiveEditor() == null){
+	public boolean isDirty() {
+
+		// Never allow saving non-editors
+		if (getActiveEditor() == null) {
 			return false;
 		}
-		
-		//For editors, check for changes normally
-		else{
+
+		// For editors, check for changes normally
+		else {
 			return getActiveEditor().isDirty();
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -264,11 +282,11 @@ public class PlotEditor extends MultiPageEditorPart {
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		
-		//Save
+
+		// Save
 		plot.save(monitor);
-		
-		//Refresh the plot
+
+		// Refresh the plot
 		plot.redraw();
 	}
 
@@ -279,12 +297,12 @@ public class PlotEditor extends MultiPageEditorPart {
 	 */
 	@Override
 	public void doSaveAs() {
-		
-		//Open a save dialog
+
+		// Open a save dialog
 		plot.saveAs();
-        
-        //Refresh the plot
-        plot.redraw();
+
+		// Refresh the plot
+		plot.redraw();
 	}
 
 	/**
@@ -317,19 +335,20 @@ public class PlotEditor extends MultiPageEditorPart {
 		setSite(site);
 		setInput(input);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.MultiPageEditorPart#pageChange(int)
 	 */
 	@Override
-	protected void pageChange(int newPageIndex){
+	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
-		
-		//After changing the page, force a check on the editor's 
-		//dirty state. This means that it is impossible to save on 
-		//the graph page, which is not editable and thus not 
-		//saveable.
+
+		// After changing the page, force a check on the editor's
+		// dirty state. This means that it is impossible to save on
+		// the graph page, which is not editable and thus not
+		// saveable.
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 

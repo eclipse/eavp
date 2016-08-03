@@ -13,9 +13,9 @@ package org.eclipse.eavp.viz.modeling.test;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.PointController;
-import org.eclipse.eavp.viz.modeling.PointMesh;
+import org.eclipse.eavp.viz.modeling.Point;
 import org.eclipse.eavp.viz.modeling.VertexController;
-import org.eclipse.eavp.viz.modeling.VertexMesh;
+import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.BasicMesh;
 import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.modeling.base.IController;
@@ -43,14 +43,14 @@ public class BasicControllerFactoryTester {
 
 		// Check that the factory creates the right kind of controller for a
 		// PointMesh
-		PointMesh point = new PointMesh();
+		Point point = new Point();
 		IController pointC = factory.createProvider(point)
 				.createController(point);
 		assertTrue(pointC instanceof PointController);
 
 		// Check that the factory creates the right kind of controller for a
 		// VertexMesh
-		VertexMesh vertex = new VertexMesh();
+		Vertex vertex = new Vertex();
 		IController vertexC = factory.createProvider(vertex)
 				.createController(vertex);
 		assertTrue(vertexC instanceof VertexController);
@@ -76,8 +76,8 @@ public class BasicControllerFactoryTester {
 			super();
 
 			// Put the test providers into the map
-			typeMap.put(PointMesh.class, new TestPointProvider());
-			typeMap.put(VertexMesh.class, new TestVertexProvider());
+			typeMap.put(Point.class, new TestPointProvider());
+			typeMap.put(Vertex.class, new TestVertexProvider());
 		}
 
 		/**
@@ -98,7 +98,7 @@ public class BasicControllerFactoryTester {
 			 */
 			@Override
 			public IController createController(IMesh model) {
-				return new PointController((PointMesh) model, new BasicView());
+				return new PointController((Point) model, new BasicView());
 			}
 
 		}
@@ -121,7 +121,7 @@ public class BasicControllerFactoryTester {
 			 */
 			@Override
 			public IController createController(IMesh model) {
-				return new VertexController((VertexMesh) model,
+				return new VertexController((Vertex) model,
 						new BasicView());
 			}
 
