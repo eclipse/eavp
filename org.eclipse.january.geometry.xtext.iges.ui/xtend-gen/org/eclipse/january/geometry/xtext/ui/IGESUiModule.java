@@ -4,17 +4,10 @@
 package org.eclipse.january.geometry.xtext.ui;
 
 import com.google.inject.Binder;
-import com.google.inject.binder.AnnotatedBindingBuilder;
-import com.google.inject.binder.LinkedBindingBuilder;
-import com.google.inject.name.Named;
-import com.google.inject.name.Names;
-import org.eclipse.january.geometry.xtext.CustomIGESLexer;
 import org.eclipse.january.geometry.xtext.ui.AbstractIGESUiModule;
 import org.eclipse.january.geometry.xtext.ui.IGESAntlrTokenToAttributeIdMapper;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
-import org.eclipse.xtext.ide.LexerIdeBindings;
-import org.eclipse.xtext.parser.antlr.Lexer;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 
 /**
@@ -29,10 +22,9 @@ public class IGESUiModule extends AbstractIGESUiModule {
   
   @Override
   public void configureHighlightingLexer(final Binder binder) {
-    AnnotatedBindingBuilder<Lexer> _bind = binder.<Lexer>bind(Lexer.class);
-    Named _named = Names.named(LexerIdeBindings.HIGHLIGHTING);
-    LinkedBindingBuilder<Lexer> _annotatedWith = _bind.annotatedWith(_named);
-    _annotatedWith.to(CustomIGESLexer.class);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field LexerIdeBindings is undefined"
+      + "\nHIGHLIGHTING cannot be resolved");
   }
   
   public IGESUiModule(final AbstractUIPlugin plugin) {
