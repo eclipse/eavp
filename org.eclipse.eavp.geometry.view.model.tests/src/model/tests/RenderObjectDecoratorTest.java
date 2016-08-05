@@ -109,12 +109,13 @@ public class RenderObjectDecoratorTest {
 		TestRenderObject render = new TestRenderObject();
 
 		// Set a shape of type test1 as the render's source
-		render.setSource(new testShape());
+		render.setSource(new TestShape());
 
 		// Decorate the object
 		decorator.setSource(render);
 
 		// The decorator should correctly delegate to the render to get its mesh
+		String mesh = decorator.getMesh();
 		assertTrue("value1".equals(decorator.getMesh()));
 
 		// Add a second layer decorator
@@ -169,12 +170,12 @@ public class RenderObjectDecoratorTest {
 	 * @author Robert Smith
 	 *
 	 */
-	private class testShape extends ShapeImpl {
+	private class TestShape extends ShapeImpl {
 
 		/**
 		 * The default constructor.
 		 */
-		public testShape() {
+		public TestShape() {
 			super();
 			type = "test1";
 		}

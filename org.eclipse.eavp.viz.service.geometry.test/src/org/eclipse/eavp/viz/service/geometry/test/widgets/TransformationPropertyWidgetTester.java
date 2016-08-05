@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.junit.Test;
 
 /**
@@ -42,71 +43,81 @@ public class TransformationPropertyWidgetTester {
 	@Test
 	public void checkWidget() {
 
-		// Create a test widget
-		TestTransformationPropertyWidget widget = new TestTransformationPropertyWidget(
-				new Composite(new Shell(Display.getDefault()), SWT.NONE));
+		// Run on the UI thread
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			@Override
+			public void run() {
 
-		// Create a shape
-		Shape shape = GeometryFactory.eINSTANCE.createShape();
-		shape.setProperty("test", 0);
+				// Create a test widget
+				TestTransformationPropertyWidget widget = new TestTransformationPropertyWidget(
+						new Composite(new Shell(Display.getDefault()),
+								SWT.NONE));
 
-		// Set the widget to display the shape's "test" property
-		widget.setProperty(shape, "test", 0);
+				// Create a shape
+				Shape shape = GeometryFactory.eINSTANCE.createShape();
+				shape.setProperty("test", 0);
 
-		// The label should be visible and displaying the word "test"
-		assertTrue("test".equals(widget.getLabel().getText()));
+				// Set the widget to display the shape's "test" property
+				widget.setProperty(shape, "test", 0);
 
-		// The text box should be visible and displaying the value 0
-		assertTrue("0.0"
-				.equals(((Text) widget.getSpinner().getControl()).getText()));
+				// The label should be visible and displaying the word "test"
+				assertTrue("test".equals(widget.getLabel().getText()));
 
-		// Set the widget's text
-		((Text) widget.getSpinner().getControl()).setText("8");
-		widget.update();
+				// The text box should be visible and displaying the value 0
+				assertTrue("0.0".equals(
+						((Text) widget.getSpinner().getControl()).getText()));
 
-		// The shape's property should have been updated to the new value
-		assertEquals(8, shape.getProperty("test"), 0.1);
+				// Set the widget's text
+				((Text) widget.getSpinner().getControl()).setText("8");
+				widget.update();
 
-		// Create a second shape
-		Shape shape2 = GeometryFactory.eINSTANCE.createShape();
-		shape2.setProperty("test", 0);
+				// The shape's property should have been updated to the new
+				// value
+				assertEquals(8, shape.getProperty("test"), 0.1);
 
-		// Set the widget to display the same property on the new shape
-		widget.setProperty(shape2, "test", 0);
+				// Create a second shape
+				Shape shape2 = GeometryFactory.eINSTANCE.createShape();
+				shape2.setProperty("test", 0);
 
-		// Neither shape's value should have been changed by this
-		assertEquals(8, shape.getProperty("test"), 0.1);
-		assertEquals(0, shape2.getProperty("test"), 0.1);
+				// Set the widget to display the same property on the new shape
+				widget.setProperty(shape2, "test", 0);
 
-		// Set the widget's value
-		((Text) widget.getSpinner().getControl()).setText("9");
-		widget.update();
+				// Neither shape's value should have been changed by this
+				assertEquals(8, shape.getProperty("test"), 0.1);
+				assertEquals(0, shape2.getProperty("test"), 0.1);
 
-		// The original shape's value should not have been changed
-		assertEquals(8, shape.getProperty("test"), 0.1);
+				// Set the widget's value
+				((Text) widget.getSpinner().getControl()).setText("9");
+				widget.update();
 
-		// Check that the current value had its property set
-		assertEquals(9, shape2.getProperty("test"), 0.1);
+				// The original shape's value should not have been changed
+				assertEquals(8, shape.getProperty("test"), 0.1);
 
-		// Set a second property on the shape
-		shape2.setProperty("second", 1);
-		widget.setProperty(shape2, "second", 1);
-		widget.update();
+				// Check that the current value had its property set
+				assertEquals(9, shape2.getProperty("test"), 0.1);
 
-		// The shape's properties should not have been changed
-		assertEquals(9, shape2.getProperty("test"), 0.1);
-		assertEquals(1, shape2.getProperty("second"), 0.1);
+				// Set a second property on the shape
+				shape2.setProperty("second", 1);
+				widget.setProperty(shape2, "second", 1);
+				widget.update();
 
-		// Set the widget's value
-		((Text) widget.getSpinner().getControl()).setText("2");
-		widget.update();
+				// The shape's properties should not have been changed
+				assertEquals(9, shape2.getProperty("test"), 0.1);
+				assertEquals(1, shape2.getProperty("second"), 0.1);
 
-		// Only the current property should have changed
-		assertEquals(9, shape2.getProperty("test"), 0.1);
-		assertEquals(2, shape2.getProperty("second"), 0.1);
+				// Set the widget's value
+				((Text) widget.getSpinner().getControl()).setText("2");
+				widget.update();
 
-		// Set a null shape
-		widget.setProperty(null, null, 0);
+				// Only the current property should have changed
+				assertEquals(9, shape2.getProperty("test"), 0.1);
+				assertEquals(2, shape2.getProperty("second"), 0.1);
+
+				// Set a null shape
+				widget.setProperty(null, null, 0);
+
+			}
+		});
 	}
 
 	/**

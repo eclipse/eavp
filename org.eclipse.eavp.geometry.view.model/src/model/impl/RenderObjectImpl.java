@@ -251,6 +251,14 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	@Override
 	public T getMesh() {
 
+		//Get the render based on the object's type
+		render = (T) meshCache.getMesh(source.getType());
+		
+		//If no render was returned, get one based on the triangles
+		if(render == null){
+			render = (T) meshCache.getMesh(source.getTriangles());
+		}
+				
 		// Handle any child nodes
 		handleChildren(children);
 
@@ -273,13 +281,11 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public void handleChildren(EList<IRenderElement<T>> children) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		//Nothing to do for the base implementation
 	}
 
 	/**
@@ -542,7 +548,8 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 			// If this notification is on the UI thread, launch a new thread to
 			// handle it
-			if (Thread.currentThread() == Display.getCurrent().getThread()) {
+			Display currDisplay = Display.getCurrent();
+			if (currDisplay != null && Thread.currentThread() == currDisplay.getThread()) {
 
 				Thread updateThread = new Thread() {
 
