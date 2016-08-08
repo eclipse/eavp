@@ -42,7 +42,8 @@
   	<module>../org.eclipse.eavp.viz.modeling.test</module>
   	<module>../org.eclipse.eavp.viz.service.javafx.mesh.test</module>
   	<module>../org.eclipse.january.geometry</module>
-  	<!-- <module>../org.eclipse.jaunary.geometry.ui</module> -->
+  	<module>../org.eclipse.january.geometry.ide</module>
+  	<module>../org.eclipse.january.geometry.ui</module>
   	<module>../org.eclipse.january.geometry.model.tests</module>
   	<module>../org.eclipse.january.geometry.xtext.iges</module>
   	<module>../org.eclipse.january.geometry.xtext.iges.ide</module>

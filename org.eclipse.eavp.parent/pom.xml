@@ -4,19 +4,19 @@
 
 	<!-- Custom properties -->
 	<properties>
-    	<releaseName>next</releaseName>
+		<releaseName>next</releaseName>
 		<tycho-version>0.25.0</tycho-version>
 		<tycho-extras-version>${tycho-version}</tycho-extras-version>
 		<cbi-plugins.version>1.1.3</cbi-plugins.version>
-		<pom-filename>pom.xml</pom-filename>	
+		<pom-filename>pom.xml</pom-filename>
 		<maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
-    	<buildTimestamp>${maven.build.timestamp}</buildTimestamp>
+		<buildTimestamp>${maven.build.timestamp}</buildTimestamp>
 		<buildId>${buildTimestamp}</buildId>
 		<install-dir>/home/data/httpd/download.eclipse.org/eavp/builds/${releaseName}</install-dir>
 		<!-- Repo for released versions of CBI -->
-    	<eclipse-repo.url>https://repo.eclipse.org/content/repositories/cbi/</eclipse-repo.url>
-    	<!-- Repo for Tycho Maven plugins -->
-    	<tycho-repo.url>https://repo1.maven.org/maven2/</tycho-repo.url>
+		<eclipse-repo.url>https://repo.eclipse.org/content/repositories/cbi/</eclipse-repo.url>
+		<!-- Repo for Tycho Maven plugins -->
+		<tycho-repo.url>https://repo1.maven.org/maven2/</tycho-repo.url>
 	</properties>
 
 	<!-- This is the parent POM from which all ICE modules inherit common settings -->
@@ -26,8 +26,8 @@
 	<version>2.1.8-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-  	<pluginRepositories>
-	    <pluginRepository>
+	<pluginRepositories>
+		<pluginRepository>
 			<id>eclipse-repo</id>
 			<url>${eclipse-repo.url}</url>
 			<releases>
@@ -36,10 +36,10 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-	    </pluginRepository>
-	    
-	    <!--  Plugin repos for jboss repository-utils support -->
-	    <pluginRepository>
+		</pluginRepository>
+
+		<!-- Plugin repos for jboss repository-utils support -->
+		<pluginRepository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Repository Group</name>
 			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
@@ -50,12 +50,12 @@
 			<url>http://repository.jboss.org/nexus/content/repositories/snapshots/</url>
 		</pluginRepository>
 
-	    <!-- Provide a reference to the official Maven repository. -->
+		<!-- Provide a reference to the official Maven repository. -->
 		<pluginRepository>
 			<id>tycho</id>
 			<url>${tycho-repo.url}</url>
 		</pluginRepository>
-		
+
 	</pluginRepositories>
 
 	<profiles>
@@ -217,6 +217,21 @@
 					<pomDependencies>consider</pomDependencies>
 					<environments>
 						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
 							<arch>x86_64</arch>
@@ -239,10 +254,10 @@
 						<!-- Restrict javax.ws.rs version -->
 						<filter>
 							<type>eclipse-plugin</type>
-								<id>javax.ws.rs</id>
-								<restrictTo>
-									<version>1.1.1.v20130318-1750</version> 
-								</restrictTo>
+							<id>javax.ws.rs</id>
+							<restrictTo>
+								<version>1.1.1.v20130318-1750</version>
+							</restrictTo>
 						</filter>
 					</filters>
 				</configuration>
