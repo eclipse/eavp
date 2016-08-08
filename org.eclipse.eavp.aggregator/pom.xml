@@ -53,6 +53,7 @@
   	<module>../org.eclipse.january.geometry.xtext.mtl.ide</module>
   	<module>../org.eclipse.january.geometry.xtext.mtl.ui</module>
   	<module>../org.eclipse.january.geometry.xtext.obj</module>
+  	<module>../org.eclipse.january.geometry.xtext.obj.test</module>
   	<module>../org.eclipse.january.geometry.xtext.obj.ide</module>
   	<module>../org.eclipse.january.geometry.xtext.obj.ui</module>
   	<module>../org.eclipse.eavp.feature</module>  	
