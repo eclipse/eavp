@@ -269,9 +269,10 @@ public class FXGeometryViewer extends FXViewer {
 		String separator = System.getProperty("file.separator");
 
 		// Create a button with the reset icon
-		Button cameraResetButton = new Button();
-		cameraResetButton.setGraphic(new ImageView(new Image(
-				separator + "icons" + separator + "iu_update_obj.gif")));
+		Button cameraResetButton = new Button("Reset Camera");
+		//TODO Figure out how to draw on images from bundle for JavaFX
+//		cameraResetButton.setGraphic(new ImageView(new Image(
+//				separator + "icons" + separator + "iu_update_obj.gif")));
 		cameraResetButton.setTooltip(new Tooltip("Reset Camera"));
 
 		// The button will reset the camera when pressed

@@ -8,10 +8,10 @@ Service-Component: OSGI-INF/vizGeometryService.xml
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.workbench,
- org.eclipse.eavp.geometry.view.model;bundle-version="0.1.0",
+ org.eclipse.eavp.geometry.view.model,
  org.eclipse.eavp.geometry.view.javafx,
- org.eclipse.january.geometry.model;bundle-version="1.0.0",
- org.eclipse.eavp.viz.service;bundle-version="2.1.8"
+ org.eclipse.january.geometry.model,
+ org.eclipse.eavp.viz.service
 Bundle-Vendor: Oak Ridge National Laboratory
 Eclipse-ExtensibleAPI: true
 Import-Package: javafx.embed.swt;version="2.2.0",
