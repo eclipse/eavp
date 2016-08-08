@@ -110,4 +110,10 @@ public class FakeVizService implements IVizService {
 		return null;
 	}
 
+	@Override
+	public void executeScript(String script) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

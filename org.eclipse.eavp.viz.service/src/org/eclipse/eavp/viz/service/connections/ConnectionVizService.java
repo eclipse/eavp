@@ -35,7 +35,7 @@ public abstract class ConnectionVizService<T> extends AbstractVizService {
 	 * only needs access to the underlying {@link IVizConnection}s, which will
 	 * be passed to created {@link ConnectionPlot}s.
 	 */
-	private final IVizConnectionManager<T> manager;
+	protected IVizConnectionManager<T> manager;
 
 	/**
 	 * The default constructor.

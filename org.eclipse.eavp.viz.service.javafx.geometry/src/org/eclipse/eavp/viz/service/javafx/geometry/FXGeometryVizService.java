@@ -92,4 +92,10 @@ public class FXGeometryVizService extends AbstractVizService {
 		return new FXShapeControllerProviderFactory();
 	}
 
+	@Override
+	public void executeScript(String script) {
+		throw new UnsupportedOperationException("Scripting for this IVizService is not enabled.");
+
+	}
+
 }

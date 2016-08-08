@@ -82,4 +82,9 @@ public class FXMeshVizService extends AbstractVizService {
 		return new FXMeshControllerProviderFactory();
 	}
 
+	@Override
+	public void executeScript(String script) {
+		throw new UnsupportedOperationException("Scripting for this IVizService is not enabled.");
+	}
+
 }

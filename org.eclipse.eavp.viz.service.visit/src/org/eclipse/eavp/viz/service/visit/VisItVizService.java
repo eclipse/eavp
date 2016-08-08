@@ -19,10 +19,12 @@ import java.util.Set;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
+import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.visit.connections.VisItConnectionManager;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
+import visit.java.client.ViewerMethods;
 
 /**
  * This is an implementation of the IVizService interface for the VisIt
@@ -53,6 +55,15 @@ public class VisItVizService extends ConnectionVizService<VisItSwtConnection> {
 		// Nothing to do.
 	}
 
+	/**
+	 * Constructor, used for tests.
+	 * 
+	 * @param fakeManager
+	 */
+	public VisItVizService(IVizConnectionManager<VisItSwtConnection> fakeManager) {
+		manager = fakeManager;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -140,5 +151,32 @@ public class VisItVizService extends ConnectionVizService<VisItSwtConnection> {
 		// The VisIt visualization service does not make use of the model
 		// framework, so it has no factory
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizService#executeScript(java.lang.String)
+	 */
+	@Override
+	public void executeScript(String script) {
+		// Get the next available connection for the URI's host.
+		Set<String> availableConnections = manager.getConnections();
+
+		// do we have connections?
+		if (!availableConnections.isEmpty()) {
+			String name = availableConnections.iterator().next();
+			IVizConnection<VisItSwtConnection> connection = manager.getConnection(name);
+
+			// If we got a valid connection, then execute the commands
+			if (connection != null) {
+				VisItSwtConnection widget = connection.getWidget();
+				ViewerMethods methods = widget.getViewerMethods();
+				for (String line : script.split("\n")) {
+					methods.processCommands(line);
+				}
+			}
+		}
 	}
 }

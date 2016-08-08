@@ -184,4 +184,13 @@ public class ParaViewVizService
 		// framework, so it has no factory
 		return null;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.IVizService#executeScript(java.lang.String)
+	 */
+	@Override
+	public void executeScript(String script) {
+		throw new UnsupportedOperationException("Scripting for this IVizService is not enabled.");
+	}
 }

@@ -88,9 +88,7 @@ public class VisItVizServiceTester {
 		// Check the contents of the supported extension set.
 		for (String extension : extensions) {
 			// Check that the extension is in the set of supported extensions.
-			assertTrue(
-					"VisItVizServiceTester error: " + "Extension \"" + extension
-							+ "\" not supported.",
+			assertTrue("VisItVizServiceTester error: " + "Extension \"" + extension + "\" not supported.",
 					service.getSupportedExtensions().contains(extension));
 		}
 
@@ -124,13 +122,11 @@ public class VisItVizServiceTester {
 		uri = null;
 		try {
 			service.createPlot(uri);
-			fail("VisItVizServiceTester error: "
-					+ "Did not throw an exception for a null URI.");
+			fail("VisItVizServiceTester error: " + "Did not throw an exception for a null URI.");
 		} catch (NullPointerException e) {
 			// Exception thrown as expected.
 		} catch (Exception e) {
-			fail("VisItVizServiceTester error: "
-					+ "Did not throw a NullPointerException for a null URI.");
+			fail("VisItVizServiceTester error: " + "Did not throw a NullPointerException for a null URI.");
 		}
 		// ------------------------- //
 
@@ -145,14 +141,12 @@ public class VisItVizServiceTester {
 		}
 		try {
 			service.createPlot(uri);
-			fail("VisItVizServiceTester error: "
-					+ "Did not throw an exception for a URI with an "
+			fail("VisItVizServiceTester error: " + "Did not throw an exception for a URI with an "
 					+ "unsupported extension.");
 		} catch (IllegalArgumentException e) {
 			// Exception thrown as expected.
 		} catch (Exception e) {
-			fail("VisItVizServiceTester error: "
-					+ "Did not throw an IllegalArgumentException for a URI "
+			fail("VisItVizServiceTester error: " + "Did not throw an IllegalArgumentException for a URI "
 					+ "with an unsupported extension.");
 		}
 		// ----------------------------------------- //
@@ -171,8 +165,7 @@ public class VisItVizServiceTester {
 		// Creating a plot with an unknown host should throw an exception.
 		try {
 			service.createPlot(uri);
-			fail("VisItVizServiceTester error: "
-					+ "Exception not thrown for URI whose host has no "
+			fail("VisItVizServiceTester error: " + "Exception not thrown for URI whose host has no "
 					+ "configured viz connection.");
 		} catch (Exception e) {
 			// Exception expected.

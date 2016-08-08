@@ -112,4 +112,14 @@ public interface IVizService {
 	 */
 	public Set<String> getSupportedExtensions();
 
+	/**
+	 * This operations directs the IVizService to execute a script of commands
+	 * for the back-end visualization engine.
+	 * 
+	 * @param script
+	 *            The script to be executed, with a newline separated String of
+	 *            commands
+	 */
+	public void executeScript(String script);
+
 }

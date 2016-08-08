@@ -157,6 +157,12 @@ public class ConnectionVizServiceTester {
 			public IControllerProviderFactory getControllerProviderFactory() {
 				return null;
 			}
+
+			@Override
+			public void executeScript(String script) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 
 		// Add a remote connection after creating the service.

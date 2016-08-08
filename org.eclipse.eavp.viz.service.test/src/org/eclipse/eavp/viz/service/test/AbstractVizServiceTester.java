@@ -265,5 +265,11 @@ public class AbstractVizServiceTester {
 		public IControllerProviderFactory getControllerProviderFactory() {
 			return null;
 		}
+
+		@Override
+		public void executeScript(String script) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 }
