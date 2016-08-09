@@ -178,6 +178,23 @@
 							<defaultP2Metadata>false</defaultP2Metadata>
 						</configuration>
 					</plugin>
+
+					<plugin>
+						<groupId>org.fornax.toolsupport</groupId>
+						<artifactId>fornax-oaw-m2-plugin</artifactId>
+						<version>3.4.0</version>
+						<configuration>
+							<workflowEngine>mwe2</workflowEngine>
+							</configuration>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>run-workflow</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
