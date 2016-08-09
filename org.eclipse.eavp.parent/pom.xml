@@ -200,6 +200,7 @@
 						<version>3.4.0</version>
 						<configuration>
 							<workflowEngine>mwe2</workflowEngine>
+							<outletSrcTestDir>src-gen</outletSrcTestDir>
 						</configuration>
 						<executions>
 							<execution>
