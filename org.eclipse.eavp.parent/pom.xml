@@ -197,7 +197,7 @@
 					<plugin>
 						<groupId>org.fornax.toolsupport</groupId>
 						<artifactId>fornax-oaw-m2-plugin</artifactId>
-						<version>2.9.0</version>
+						<version>3.5.0</version>
 						<configuration>
 							<workflowEngine>mwe2</workflowEngine>
 							<outletSrcTestDir>src-gen</outletSrcTestDir>
