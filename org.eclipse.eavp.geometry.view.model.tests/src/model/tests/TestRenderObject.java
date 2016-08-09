@@ -30,4 +30,22 @@ public class TestRenderObject extends RenderObjectImpl<String> {
 		// Set the object to use the test cache
 		meshCache = new TestCache();
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see model.impl.RenderObjectImpl#getMesh()
+	 */
+	@Override
+	public String getMesh(){
+		
+		//Get the render based on the object's type
+		render = (String) meshCache.getMesh(source.getType());
+		
+		//If no render was returned, get one based on the triangles
+		if(render == null){
+			render = (String) meshCache.getMesh(source.getTriangles());
+		}
+		
+		return render;
+	}
 }

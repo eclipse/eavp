@@ -251,14 +251,6 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	@Override
 	public T getMesh() {
 
-		//Get the render based on the object's type
-		render = (T) meshCache.getMesh(source.getType());
-		
-		//If no render was returned, get one based on the triangles
-		if(render == null){
-			render = (T) meshCache.getMesh(source.getTriangles());
-		}
-				
 		// Handle any child nodes
 		handleChildren(children);
 
