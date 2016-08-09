@@ -56,6 +56,21 @@
 			<url>${tycho-repo.url}</url>
 		</pluginRepository>
 
+		<!-- Repos for the Fornax plugins for Xtext -->
+		<pluginRepository>
+			<id>fornax.plugin.repository</id>
+			<name>Fornax Plugin Repository</name>
+			<url>http://www.fornax-platform.org/m2/repository</url>
+		</pluginRepository>
+
+		<pluginRepository>
+			<id>fornax-snapshots</id>
+			<url>http://www.fornax-platform.org/archiva/repository/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+
 	</pluginRepositories>
 
 	<profiles>
@@ -185,7 +200,7 @@
 						<version>3.4.0</version>
 						<configuration>
 							<workflowEngine>mwe2</workflowEngine>
-							</configuration>
+						</configuration>
 						<executions>
 							<execution>
 								<phase>generate-sources</phase>
