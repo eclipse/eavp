@@ -193,24 +193,6 @@
 							<defaultP2Metadata>false</defaultP2Metadata>
 						</configuration>
 					</plugin>
-
-					<plugin>
-						<groupId>org.fornax.toolsupport</groupId>
-						<artifactId>fornax-oaw-m2-plugin</artifactId>
-						<version>3.5.0</version>
-						<configuration>
-							<workflowEngine>mwe2</workflowEngine>
-							<outletSrcTestDir>src-gen</outletSrcTestDir>
-						</configuration>
-						<executions>
-							<execution>
-								<phase>generate-sources</phase>
-								<goals>
-									<goal>run-workflow</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 					
 					    <!-- xtend-maven-plugin is in pluginManagement instead of in plugins
        so that it doesn't run before the exec-maven-plugin's *.mwe2 gen;
