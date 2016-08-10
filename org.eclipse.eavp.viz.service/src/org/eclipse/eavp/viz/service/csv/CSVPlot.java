@@ -332,10 +332,9 @@ public class CSVPlot extends AbstractPlot {
 			// Add the rest of the series as dependent series
 			List<ISeries> dependentSeries = new ArrayList<ISeries>(
 					series.length);
-			for (int i = 1; i < series.length; i++) {
+			for (int i = 0; i < series.length; i++) {
 				dependentSeries.add(series[i]);
 			}
-			dependentSeries.add(series[0]);
 			dataSeries.put(IPlot.DEFAULT_CATEGORY, dependentSeries);
 
 		}
