@@ -207,7 +207,7 @@ public class CSVPlotTester extends SWTBotGefTestCase {
 		assertEquals(3, seriesList.size());
 
 		// Check the first series.
-		series = seriesList.get(0);
+		series = seriesList.get(1);
 		assertEquals(IPlot.DEFAULT_CATEGORY, series.getCategory());
 		assertEquals("p_x", series.getLabel());
 		data = series.getDataPoints();
@@ -218,7 +218,7 @@ public class CSVPlotTester extends SWTBotGefTestCase {
 		assertEquals(9.0, (double) data[2], 1e-7);
 
 		// Check the second series.
-		series = seriesList.get(1);
+		series = seriesList.get(2);
 		assertEquals(IPlot.DEFAULT_CATEGORY, series.getCategory());
 		assertEquals("p_y", series.getLabel());
 		data = series.getDataPoints();
