@@ -5,8 +5,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
@@ -17,9 +20,11 @@ import org.eclipse.january.geometry.xtext.mTL.Material;
 import org.eclipse.january.geometry.xtext.mtlimport.MTLImporter;
 import org.eclipse.january.geometry.xtext.obj.importer.OBJGeometryImporter;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreePath;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 
 import javafx.scene.paint.Color;
@@ -82,38 +87,64 @@ public class ActionImportGeometry extends Action {
 	 */
 	@Override
 	public void run() {
-		
+
 		// Create a new dialog and get the file to import
 		FileDialog dialog = new FileDialog(view.getSite().getShell());
 		String filePath = dialog.open();
-		
+
 		// Only import if a valid stl file
-		if (filePath != null && ((filePath.endsWith(".stl")) || (filePath.endsWith(".obj"))) ) {
+		if (filePath != null && ((filePath.toLowerCase(Locale.ENGLISH)
+				.endsWith(".stl"))
+				|| (filePath.toLowerCase(Locale.ENGLISH).endsWith(".obj")))) {
 			// Get current selection in shape tree view
-			ITreeSelection selection = (ITreeSelection) view.treeViewer.getSelection();
+			ITreeSelection selection = (ITreeSelection) view.treeViewer
+					.getSelection();
 			TreePath[] paths = selection.getPaths();
-			
+
 			// Silently fail if multiple selections
 			if (paths.length > 1) {
 				return;
 			}
-			
+
 			// Get the root geometry
 			Geometry geometry = (Geometry) view.treeViewer.getInput();
-			
-			// Silently fail if there is no root geometry
+
+			// Fail if there is no root geometry
 			if (geometry == null) {
+				ErrorDialog.openError(Display.getCurrent().getActiveShell(),
+						"Error Importing Geometry File", "File import failed.",
+						new Status(IStatus.ERROR,
+								"org.eclipse.viz.service.geometry.widgets",
+								"No Geometry Editor found. Open a Geometry Editor before importing a file."));
 				return;
 			}
 			// Import the geometry using the STL importer
 			Path path = FileSystems.getDefault().getPath(filePath);
 			Geometry imported = null;
-			if (filePath.endsWith(".stl")) {
-				imported = GeometryFactory.eINSTANCE.createSTLGeometryImporter().load(path);
-			} else if (filePath.endsWith(".obj")) {
-				imported = new OBJGeometryImporter().load(path);
+
+			try {
+				if (filePath.toLowerCase(Locale.ENGLISH).endsWith(".stl")) {
+					imported = GeometryFactory.eINSTANCE
+							.createSTLGeometryImporter().load(path);
+				} else if (filePath.toLowerCase(Locale.ENGLISH)
+						.endsWith(".obj")) {
+					imported = new OBJGeometryImporter().load(path);
+				}
+			} catch (Exception e) {
+
+				// Create a dialog if an error occurred
+				ErrorDialog.openError(Display.getCurrent().getActiveShell(),
+						"Error Importing Geometry File", "File import failed.",
+						new Status(IStatus.ERROR,
+								"org.eclipse.viz.service.geometry.widgets",
+								e.toString()));
+				return;
 			}
-			
+
+			if (imported == null) {
+
+			}
+
 			// Try to find a parent shape to import into
 			INode parentComplexShape = null;
 
@@ -142,89 +173,107 @@ public class ActionImportGeometry extends Action {
 			// If no complex shape, import into the base geometry
 			if (parentComplexShape == null) {
 				synchronized (geometry) {
-					for(int i=0; i<imported.getNodes().size(); i++) {
+					for (int i = 0; i < imported.getNodes().size(); i++) {
 						INode node = (INode) imported.getNodes().get(i).clone();
 						geometry.addNode(node);
 						addedNodes.add(node);
 					}
 				}
-			
+
 				view.treeViewer.refresh();
-				
-			// Import into the parent shape
+
+				// Import into the parent shape
 			} else {
-				
+
 				synchronized (geometry) {
-					for(int i=0; i<imported.getNodes().size(); i++) {
+					for (int i = 0; i < imported.getNodes().size(); i++) {
 						INode node = (INode) imported.getNodes().get(i).clone();
 						parentComplexShape.addNode(node);
 						addedNodes.add(node);
 					}
 				}
-			
+
 				view.treeViewer.refresh();
 			}
-			
-			// Create a map of the materials and their names from the specified 
+
+			// Create a map of the materials and their names from the specified
 			// material source files
 			Map<String, Material> materialMap = new HashMap<String, Material>();
 			if (imported.getVertexSource() != null) {
-				
+
 				// Get the folder path
-				String pathToFolder = filePath.substring(0, 
-						filePath.lastIndexOf(FileSystems.getDefault().getSeparator()));
+				String pathToFolder = filePath.substring(0, filePath
+						.lastIndexOf(FileSystems.getDefault().getSeparator()));
 				pathToFolder += FileSystems.getDefault().getSeparator();
-				
+
 				// Get the material files
-				List<String> matFiles = 
-						imported.getVertexSource().getMaterialFiles();
-				
+				List<String> matFiles = imported.getVertexSource()
+						.getMaterialFiles();
+
 				// Can only handle .mtl material files right now
-				for(String file : matFiles) {
+				for (String file : matFiles) {
 					if (file.endsWith(".mtl")) {
-						
+
 						// Get the path, load with the MTLImporter
-						Path pathToMat = FileSystems.getDefault().getPath(pathToFolder + file);
-						List<Material> newMaterials = new MTLImporter().load(pathToMat);
+						Path pathToMat = FileSystems.getDefault()
+								.getPath(pathToFolder + file);
+						List<Material> newMaterials = new MTLImporter()
+								.load(pathToMat);
 						if (newMaterials != null && !newMaterials.isEmpty()) {
 							// Put the loaded materials into the map
-							for(Material mat : newMaterials) {
+							for (Material mat : newMaterials) {
 								materialMap.put(mat.getName(), mat);
 							}
 						}
 					}
 				}
 			}
-			
+
 			// Set the materials on the newly added nodes
 			setMaterials(addedNodes, materialMap);
-			
+
+		} else if (filePath != null) {
+
+			// Display an error if an unreadable file was selected.
+			ErrorDialog.openError(Display.getCurrent().getActiveShell(),
+					"Error Importing Geometry File", "File import failed.",
+					new Status(IStatus.ERROR,
+							"org.eclipse.viz.service.geometry.widgets",
+							filePath + " is not of a recognized file format."));
 		}
-		
+
 	}
-	
+
 	/**
 	 * Sets the specified nodes with the materials given in the map
-	 * @param nodes The nodes to set the materials for
-	 * @param materialMap A mapping of the material name to the acctual material
+	 * 
+	 * @param nodes
+	 *            The nodes to set the materials for
+	 * @param materialMap
+	 *            A mapping of the material name to the acctual material
 	 */
-	private void setMaterials(List<INode> nodes, Map<String, Material> materialMap) {
-		if (nodes != null && !nodes.isEmpty() && !materialMap.keySet().isEmpty()) {
+	private void setMaterials(List<INode> nodes,
+			Map<String, Material> materialMap) {
+		if (nodes != null && !nodes.isEmpty()
+				&& !materialMap.keySet().isEmpty()) {
 			// Get the set of render elements from the view
 			IRenderElementHolder holder = view.getHolder();
-			for(INode node : nodes) {
+			for (INode node : nodes) {
 				// Get the render of the new shape
 				IRenderElement render = holder.getRender(node);
-				
+
 				if (render.getBase() instanceof Shape) {
 					// Get the material
 					PhongMaterial newMat = new PhongMaterial();
-					Material readMat = (Material)materialMap.get(
-								((Shape) render.getBase()).getMaterial().getPhongMatName());
+					Material readMat = materialMap
+							.get(((Shape) render.getBase()).getMaterial()
+									.getPhongMatName());
 					if (readMat != null) {
 						// Convert values to the phong material
-						newMat.setDiffuseColor(convertColor(readMat.getDiffuse()));
-						newMat.setSpecularColor(convertColor(readMat.getSpecular()));
+						newMat.setDiffuseColor(
+								convertColor(readMat.getDiffuse()));
+						newMat.setSpecularColor(
+								convertColor(readMat.getSpecular()));
 						newMat.setSpecularPower(readMat.getSpecularExponent());
 						render.setProperty("material", newMat);
 					}
@@ -232,14 +281,19 @@ public class ActionImportGeometry extends Action {
 			}
 		}
 	}
-	
+
 	/**
-	 * Converts the given model color to a javaFX color that the geometry editor can use.
-	 * @param diffuse The Color to convert
+	 * Converts the given model color to a javaFX color that the geometry editor
+	 * can use.
+	 * 
+	 * @param diffuse
+	 *            The Color to convert
 	 * @return Returns a javaFX color for the render
 	 */
-	private Color convertColor(org.eclipse.january.geometry.xtext.mTL.Color diffuse) {
-		Color clr = Color.rgb((int)diffuse.getRed()*255, (int)diffuse.getGreen()*255, (int)diffuse.getBlue()*255);
+	private Color convertColor(
+			org.eclipse.january.geometry.xtext.mTL.Color diffuse) {
+		Color clr = Color.rgb((int) diffuse.getRed() * 255,
+				(int) diffuse.getGreen() * 255, (int) diffuse.getBlue() * 255);
 		return clr;
 	}
 }
