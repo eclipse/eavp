@@ -28,7 +28,7 @@
 					<dependencies>
 						<dependency>
 							<type>p2-installable-unit</type>
-							<artifactId>org.eclipse.sdk.feature.group</artifactId>
+							<artifactId>org.eclipse.platform.sdk</artifactId>
 						</dependency>
 					</dependencies>
 				</configuration>
