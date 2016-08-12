@@ -98,6 +98,8 @@ public class VisItVizService extends ConnectionVizService<VisItSwtConnection> {
 		extensions.add("visit");
 		// Add supported Silo file format extensions.
 		extensions.add("silo");
+		//Add supported nek5000 file format extensions.
+		extensions.add("nek5000");
 		return extensions;
 	}
 
