@@ -389,8 +389,8 @@ public class FXAttachment extends BasicAttachment {
 			fxAttachmentNode = new Group();
 		}
 
-		if (knownParts == null) {
-			knownParts = new ArrayList<>();
+		if (knownPartControllers == null) {
+			knownPartControllers = new ArrayList<>();
 		}
 
 		if (!knownPartControllers.contains(geom)) {
@@ -422,9 +422,10 @@ public class FXAttachment extends BasicAttachment {
 			});
 
 			// Have the geometry refreshed when it is added
+			knownPartControllers.add(geom);
 			handleUpdate(geom);
 
-			knownPartControllers.add(geom);
+
 		}
 	}
 

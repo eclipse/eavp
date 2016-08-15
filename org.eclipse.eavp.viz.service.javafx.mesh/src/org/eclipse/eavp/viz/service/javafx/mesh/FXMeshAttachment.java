@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.mesh;
 
+import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.modeling.base.Representation;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.january.geometry.Geometry;
 
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -53,6 +56,55 @@ public class FXMeshAttachment extends FXAttachment {
 		background.setMaterial(backgroundMaterial);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment#handleUpdate(org.eclipse.eavp.viz.modeling.base.IController)
+	 */
+	@Override
+	protected void handleUpdate(IController source) {
+		// On update, refresh the list of top level nodes
+		fxAttachmentNode.getChildren().clear();
+
+		// Add the source if it is unrecognized
+		if (!knownPartControllers.contains(source)) {
+			addGeometry(source);
+		}
+
+		// For each group which has been added to the attachment
+		for (IController group : knownPartControllers) {
+
+			// Get each part which is managed by that controller
+			for (IController entity : group.getEntities()) {
+
+				// Add the entity's own representation, if it has one and is not
+				// already present in the scene
+				Representation<Group> representation = entity
+						.getRepresentation();
+				if (representation.getData() != null && !fxAttachmentNode
+						.getChildren().contains(representation.getData())) {
+					fxAttachmentNode.getChildren()
+							.add(representation.getData());
+				}
+
+				// Add each child of a polygon to the scene, without repeats
+				for (IController child : entity.getEntities()) {
+
+					Representation<Group> childRepresentation = child
+							.getRepresentation();
+					Group render = childRepresentation.getData();
+
+					if (!fxAttachmentNode.getChildren().contains(render)) {
+						// Add the representation to the scene's node
+						fxAttachmentNode.getChildren().add(render);
+					}
+				}
+			}
+		}
+		
+		// Add the background
+		fxAttachmentNode.getChildren().add(background);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

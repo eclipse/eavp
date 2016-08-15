@@ -123,6 +123,7 @@ public class FXVizCanvas implements IVizCanvas {
 		createAttachment();
 
 		loadPart(root);
+		loadPart(rootController);
 
 		return viewerParent;
 	}
