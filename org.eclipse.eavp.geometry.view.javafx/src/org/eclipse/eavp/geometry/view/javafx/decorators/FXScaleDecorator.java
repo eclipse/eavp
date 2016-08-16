@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
+import org.eclipse.eavp.geometry.view.model.impl.ScaleDecoratorImpl;
 import org.eclipse.emf.common.notify.Notification;
 
 import javafx.scene.Group;
-import model.impl.ScaleDecoratorImpl;
 
 /**
  * A Decorator for an FXRenderObject that sets the object's scale.

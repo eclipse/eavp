@@ -15,6 +15,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.Vertex;
 import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
@@ -29,8 +30,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
-
-import model.IRenderElement;
 
 /**
  * <p>

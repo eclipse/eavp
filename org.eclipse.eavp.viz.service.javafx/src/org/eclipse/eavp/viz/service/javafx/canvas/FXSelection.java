@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.canvas;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.jface.viewers.StructuredSelection;
-
-import model.IRenderElement;
 
 /**
  * 

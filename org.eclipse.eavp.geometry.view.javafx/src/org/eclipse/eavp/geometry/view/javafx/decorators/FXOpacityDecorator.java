@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
+import org.eclipse.eavp.geometry.view.model.impl.OpacityDecoratorImpl;
 import org.eclipse.emf.common.notify.Notification;
 
 import javafx.scene.Group;
-import model.impl.OpacityDecoratorImpl;
 
 /**
  * A decorator for FXRenderObjects that allows the shape to be made transparent.

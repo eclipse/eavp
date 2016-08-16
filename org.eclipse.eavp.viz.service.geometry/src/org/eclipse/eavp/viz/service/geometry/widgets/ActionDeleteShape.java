@@ -14,6 +14,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.action.Action;
@@ -23,8 +24,6 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
-
-import model.IRenderElement;
 
 /**
  * <p>

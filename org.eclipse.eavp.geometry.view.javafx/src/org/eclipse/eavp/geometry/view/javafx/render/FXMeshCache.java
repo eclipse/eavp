@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.eavp.geometry.view.model.impl.MeshCacheImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.Triangle;
 import org.eclipse.january.geometry.Vertex;
 
 import javafx.scene.shape.TriangleMesh;
-import model.impl.MeshCacheImpl;
 
 /**
  * A cache for triangle meshes for JavaFX. An FXMeshCache will handle two cases.

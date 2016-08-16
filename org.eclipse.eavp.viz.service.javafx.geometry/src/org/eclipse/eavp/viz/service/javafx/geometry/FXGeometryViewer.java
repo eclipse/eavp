@@ -12,6 +12,7 @@ package org.eclipse.eavp.viz.service.javafx.geometry;
 
 import java.util.List;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXContentProvider;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
@@ -62,7 +63,6 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
-import model.IRenderElement;
 
 /**
  * An extension of FX viewer for use with the geometry editor

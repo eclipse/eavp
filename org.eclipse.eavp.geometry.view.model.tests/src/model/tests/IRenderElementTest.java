@@ -2,9 +2,8 @@
  */
 package model.tests;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.junit.Test;
-
-import model.IRenderElement;
 
 /**
  * <!-- begin-user-doc --> A test case for the model object '<em><b>IRender
@@ -12,7 +11,7 @@ import model.IRenderElement;
  * <p>
  * The following operations are tested:
  * <ul>
- * <li>{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.IRenderElement#getMesh() <em>Get Mesh</em>}</li>
  * </ul>
  * </p>
  * 
@@ -58,10 +57,10 @@ public abstract class IRenderElementTest {
 	}
 
 	/**
-	 * Tests the '{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}'
+	 * Tests the '{@link org.eclipse.eavp.geometry.view.model.IRenderElement#getMesh() <em>Get Mesh</em>}'
 	 * operation. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see model.IRenderElement#getMesh()
+	 * @see org.eclipse.eavp.geometry.view.model.IRenderElement#getMesh()
 	 * @generated
 	 */
 	@Test

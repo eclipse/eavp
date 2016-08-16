@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.january.geometry.INode;
-
-import model.IRenderElement;
 
 /**
  * An interface for classes that serve as a holder for RenderElements and allows

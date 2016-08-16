@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
 import org.eclipse.january.geometry.Geometry;
-
-import model.IRenderElement;
 
 /**
  * <p>

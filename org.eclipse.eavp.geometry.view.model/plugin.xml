@@ -10,8 +10,9 @@
       <!-- @generated model -->
       <package
             uri="http://www.eclipse.org/"
-            class="model.ModelPackage"
-            genModel="model/model.genmodel"/>
+            class="org.eclipse.eavp.geometry.view.model.ModelPackage"
+            genModel="model/org.eclipse.eavp.geometry.view.model.genmodel"/>
    </extension>
 
+null
 </plugin>

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
@@ -29,7 +30,6 @@ import org.eclipse.swt.widgets.FileDialog;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import model.IRenderElement;
 
 public class ActionImportGeometry extends Action {
 

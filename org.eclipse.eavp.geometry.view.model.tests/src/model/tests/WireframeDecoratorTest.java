@@ -2,8 +2,8 @@
  */
 package model.tests;
 
-import model.ModelFactory;
-import model.WireframeDecorator;
+import org.eclipse.eavp.geometry.view.model.ModelFactory;
+import org.eclipse.eavp.geometry.view.model.WireframeDecorator;
 
 /**
  * <!-- begin-user-doc --> A test case for the model object '<em><b>Wireframe

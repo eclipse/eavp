@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.eavp.geometry.view.model.impl.MeshCacheImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.GeometryFactory;
@@ -30,7 +31,6 @@ import org.junit.Test;
 
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
-import model.impl.MeshCacheImpl;
 
 /**
  * A class to test the functionality of the FXRenderObject.
@@ -138,7 +138,7 @@ public class FXRenderObjectTester {
 		FXRenderObject child = new FXRenderObject(childShape, cache);
 
 		// Have the render handle the list of children
-		EList<model.IRenderElement<javafx.scene.Group>> childList = new BasicEList<model.IRenderElement<javafx.scene.Group>>();
+		EList<org.eclipse.eavp.geometry.view.model.IRenderElement<javafx.scene.Group>> childList = new BasicEList<org.eclipse.eavp.geometry.view.model.IRenderElement<javafx.scene.Group>>();
 		childList.add(child);
 		render.handleChildren(childList);
 

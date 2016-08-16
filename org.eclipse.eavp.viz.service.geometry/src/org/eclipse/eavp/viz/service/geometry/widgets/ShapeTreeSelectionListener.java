@@ -14,13 +14,12 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.ui.IWorkbenchPage;
-
-import model.IRenderElement;
 
 /**
  * <p>

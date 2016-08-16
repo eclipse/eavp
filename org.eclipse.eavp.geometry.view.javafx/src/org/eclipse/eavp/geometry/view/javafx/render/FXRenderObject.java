@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.render;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.MeshCache;
+import org.eclipse.eavp.geometry.view.model.impl.MeshCacheImpl;
+import org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
@@ -19,10 +23,6 @@ import org.eclipse.january.geometry.Vertex;
 import javafx.scene.Group;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
-import model.IRenderElement;
-import model.MeshCache;
-import model.impl.MeshCacheImpl;
-import model.impl.RenderObjectImpl;
 
 /**
  * A JavaFX implementation of a RenderObject. It is responsible for maintaining

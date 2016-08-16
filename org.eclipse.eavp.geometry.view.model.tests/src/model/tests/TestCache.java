@@ -10,10 +10,9 @@
  *******************************************************************************/
 package model.tests;
 
+import org.eclipse.eavp.geometry.view.model.impl.MeshCacheImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.Triangle;
-
-import model.impl.MeshCacheImpl;
 
 /**
  * A simple implementation of MeshCache that provides some default values for

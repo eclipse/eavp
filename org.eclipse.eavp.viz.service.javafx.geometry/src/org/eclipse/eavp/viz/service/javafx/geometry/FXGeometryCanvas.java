@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.geometry.widgets.TransformationView;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicViewer;
@@ -38,7 +39,6 @@ import org.slf4j.LoggerFactory;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
-import model.IRenderElement;
 
 /**
  * An extension for FXVizCanvas that implements functionality for the Geometry

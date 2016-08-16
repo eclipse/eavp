@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.INode;
@@ -27,8 +28,6 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
-
-import model.IRenderElement;
 
 /**
  * 

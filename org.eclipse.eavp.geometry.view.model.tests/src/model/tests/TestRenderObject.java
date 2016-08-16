@@ -10,7 +10,7 @@
  *******************************************************************************/
 package model.tests;
 
-import model.impl.RenderObjectImpl;
+import org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl;
 
 /**
  * A simple RenderObject for testing purposes.

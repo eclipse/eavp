@@ -14,14 +14,13 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.List;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
-import model.IRenderElement;
 
 /**
  * <p>

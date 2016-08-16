@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IManagedUpdateableListener;
 import org.eclipse.eavp.viz.datastructures.VizObject.SubscriptionType;
@@ -31,7 +32,6 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.january.geometry.Geometry;
 
 import javafx.scene.Group;
-import model.IRenderElement;
 
 /**
  * <p>

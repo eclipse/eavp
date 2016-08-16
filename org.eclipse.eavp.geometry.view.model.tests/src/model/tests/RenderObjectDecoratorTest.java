@@ -4,13 +4,12 @@ package model.tests;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.geometry.view.model.ModelFactory;
+import org.eclipse.eavp.geometry.view.model.RenderObjectDecorator;
+import org.eclipse.eavp.geometry.view.model.impl.RenderObjectDecoratorImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.january.geometry.impl.ShapeImpl;
 import org.junit.Test;
-
-import model.ModelFactory;
-import model.RenderObjectDecorator;
-import model.impl.RenderObjectDecoratorImpl;
 
 /**
  * <!-- begin-user-doc --> A test case for the model object ' <em><b>Render
@@ -18,7 +17,7 @@ import model.impl.RenderObjectDecoratorImpl;
  * <p>
  * The following operations are tested:
  * <ul>
- * <li>{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.IRenderElement#getMesh() <em>Get Mesh</em>}</li>
  * </ul>
  * </p>
  * 
@@ -92,10 +91,10 @@ public class RenderObjectDecoratorTest {
 	}
 
 	/**
-	 * Tests the '{@link model.IRenderElement#getMesh() <em>Get Mesh</em>}'
+	 * Tests the '{@link org.eclipse.eavp.geometry.view.model.IRenderElement#getMesh() <em>Get Mesh</em>}'
 	 * operation. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see model.IRenderElement#getMesh()
+	 * @see org.eclipse.eavp.geometry.view.model.IRenderElement#getMesh()
 	 * @generated NOT
 	 */
 	@Test

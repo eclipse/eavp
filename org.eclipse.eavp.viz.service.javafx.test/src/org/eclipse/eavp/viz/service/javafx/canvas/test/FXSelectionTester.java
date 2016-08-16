@@ -12,11 +12,10 @@ package org.eclipse.eavp.viz.service.javafx.canvas.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.ModelFactory;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXSelection;
 import org.junit.Test;
-
-import model.IRenderElement;
-import model.ModelFactory;
 
 /**
  * A class to test the functionality of the FXSelection

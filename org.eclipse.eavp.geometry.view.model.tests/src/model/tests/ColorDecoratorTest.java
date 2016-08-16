@@ -2,8 +2,8 @@
  */
 package model.tests;
 
-import model.ColorDecorator;
-import model.ModelFactory;
+import org.eclipse.eavp.geometry.view.model.ColorDecorator;
+import org.eclipse.eavp.geometry.view.model.ModelFactory;
 
 /**
  * <!-- begin-user-doc --> A test case for the model object '<em><b>Color

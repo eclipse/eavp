@@ -6,6 +6,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.geometry.view.model.MeshCache;
+import org.eclipse.eavp.geometry.view.model.ModelFactory;
+import org.eclipse.eavp.geometry.view.model.impl.MeshCacheImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.january.geometry.GeometryFactory;
@@ -13,18 +16,14 @@ import org.eclipse.january.geometry.Triangle;
 import org.eclipse.january.geometry.Vertex;
 import org.junit.Test;
 
-import model.MeshCache;
-import model.ModelFactory;
-import model.impl.MeshCacheImpl;
-
 /**
  * <!-- begin-user-doc --> A test case for the model object ' <em><b>Mesh
  * Cache</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following operations are tested:
  * <ul>
- * <li>{@link model.MeshCache#getMesh(java.lang.String) <em>Get Mesh</em>}</li>
- * <li>{@link model.MeshCache#getMesh(org.eclipse.emf.common.util.EList) <em>Get
+ * <li>{@link org.eclipse.eavp.geometry.view.model.MeshCache#getMesh(java.lang.String) <em>Get Mesh</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.MeshCache#getMesh(org.eclipse.emf.common.util.EList) <em>Get
  * Mesh</em>}</li>
  * </ul>
  * </p>
@@ -99,10 +98,10 @@ public class MeshCacheTest {
 	}
 
 	/**
-	 * Tests the '{@link model.MeshCache#getMesh(java.lang.String) <em>Get
+	 * Tests the '{@link org.eclipse.eavp.geometry.view.model.MeshCache#getMesh(java.lang.String) <em>Get
 	 * Mesh</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see model.MeshCache#getMesh(java.lang.String)
+	 * @see org.eclipse.eavp.geometry.view.model.MeshCache#getMesh(java.lang.String)
 	 * @generated NOT
 	 */
 	@Test
@@ -126,10 +125,10 @@ public class MeshCacheTest {
 
 	/**
 	 * Tests the '
-	 * {@link model.MeshCache#getMesh(org.eclipse.emf.common.util.EList) <em>Get
+	 * {@link org.eclipse.eavp.geometry.view.model.MeshCache#getMesh(org.eclipse.emf.common.util.EList) <em>Get
 	 * Mesh</em>}' operation. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see model.MeshCache#getMesh(org.eclipse.emf.common.util.EList)
+	 * @see org.eclipse.eavp.geometry.view.model.MeshCache#getMesh(org.eclipse.emf.common.util.EList)
 	 * @generated NOT
 	 */
 	@Test

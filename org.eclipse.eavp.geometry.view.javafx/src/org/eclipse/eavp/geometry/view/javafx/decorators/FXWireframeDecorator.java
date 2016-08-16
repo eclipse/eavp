@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
+import org.eclipse.eavp.geometry.view.model.impl.WireframeDecoratorImpl;
 import org.eclipse.emf.common.notify.Notification;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
-import model.impl.WireframeDecoratorImpl;
 
 /**
  * A decorator for FXRenderObjects that will allow them to be drawn in wireframe

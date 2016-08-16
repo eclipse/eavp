@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
+import org.eclipse.eavp.geometry.view.model.impl.ColorDecoratorImpl;
 import org.eclipse.emf.common.notify.Notification;
 
 import javafx.scene.Group;
@@ -18,7 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
-import model.impl.ColorDecoratorImpl;
 
 /**
  * A Decorator for an FXRenderObject that sets the displayed material for the

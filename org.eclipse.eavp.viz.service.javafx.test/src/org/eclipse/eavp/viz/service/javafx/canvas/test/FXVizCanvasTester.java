@@ -13,6 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.canvas.test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.eclipse.eavp.geometry.view.model.ModelFactory;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXSelection;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas;
@@ -24,8 +25,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Test;
-
-import model.ModelFactory;
 
 /**
  * A class to test the functionality of the FXVizCanvas

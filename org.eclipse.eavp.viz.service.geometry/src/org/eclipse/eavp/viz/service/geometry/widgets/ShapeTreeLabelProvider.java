@@ -12,11 +12,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-
-import model.IRenderElement;
 
 /**
  * <p>

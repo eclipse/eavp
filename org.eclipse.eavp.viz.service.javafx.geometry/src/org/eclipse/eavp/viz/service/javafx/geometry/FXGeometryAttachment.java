@@ -15,6 +15,7 @@ import org.eclipse.eavp.geometry.view.javafx.decorators.FXOpacityDecorator;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXScaleDecorator;
 import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.color.ColorProvider;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
@@ -25,7 +26,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.PickResult;
 import javafx.scene.shape.MeshView;
-import model.IRenderElement;
 
 /**
  * <p>

@@ -5,10 +5,9 @@ package model.tests;
 import java.io.File;
 import java.io.IOException;
 
-import model.MeshCache;
-import model.ModelFactory;
-import model.ModelPackage;
-
+import org.eclipse.eavp.geometry.view.model.MeshCache;
+import org.eclipse.eavp.geometry.view.model.ModelFactory;
+import org.eclipse.eavp.geometry.view.model.ModelPackage;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 

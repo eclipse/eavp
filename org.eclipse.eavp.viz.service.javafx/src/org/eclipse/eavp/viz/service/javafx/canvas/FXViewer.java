@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.canvas;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.modeling.ShapeController;
 import org.eclipse.eavp.viz.service.javafx.internal.model.FXCameraAttachment;
 import org.eclipse.eavp.viz.service.javafx.internal.scene.camera.CenteredCameraController;
@@ -41,7 +42,6 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.Shape3D;
-import model.IRenderElement;
 
 /**
  * <p>
