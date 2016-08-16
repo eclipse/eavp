@@ -33,6 +33,7 @@ Import-Package: com.google.gson,
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
  org.eclipse.ui,
+ org.eclipse.ui.browser,
  org.eclipse.ui.forms,
  org.eclipse.ui.part,
  org.osgi.framework;version="1.8.0",
@@ -42,5 +43,3 @@ Export-Package: org.eclipse.eavp.viz.service.paraview,
  org.eclipse.eavp.viz.service.paraview.proxy
 Service-Component: OSGI-INF/*.xml
 Bundle-Vendor: Oak Ridge National Laboratory
-Require-Bundle: org.eclipse.ui.browser,
- org.eclipse.eavp.geometry.view.model

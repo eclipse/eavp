@@ -6,6 +6,7 @@ Bundle-Version: 2.1.8.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/ControllerFactory.xml
 Import-Package: javafx.embed.swt,
+ org.eclipse.core.runtime;version="3.5.0",
  org.eclipse.eavp.geometry.view.model,
  org.eclipse.eavp.viz.datastructures.VizObject,
  org.eclipse.eavp.viz.modeling,
@@ -17,14 +18,27 @@ Import-Package: javafx.embed.swt,
  org.eclipse.january.geometry.xtext.mTL,
  org.eclipse.january.geometry.xtext.mtlimport,
  org.eclipse.january.geometry.xtext.obj.importer,
+ org.eclipse.jface.action,
  org.eclipse.jface.databinding.swt,
+ org.eclipse.jface.dialogs,
+ org.eclipse.jface.resource,
+ org.eclipse.jface.viewers,
+ org.eclipse.jface.window,
+ org.eclipse.swt,
+ org.eclipse.swt.custom,
+ org.eclipse.swt.events,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.layout,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui,
+ org.eclipse.ui.internal.util,
+ org.eclipse.ui.part,
+ org.osgi.framework;version="1.8.0",
  org.slf4j;version="1.7.2"
 Bundle-Vendor: Oak Ridge National Laboratory
 Eclipse-ExtensibleAPI: true
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- org.eclipse.eavp.viz.modeling
 Export-Package: 
  org.eclipse.eavp.viz.service.geometry.widgets
+Require-Bundle: org.eclipse.ui;bundle-version="3.108.0"
  
 

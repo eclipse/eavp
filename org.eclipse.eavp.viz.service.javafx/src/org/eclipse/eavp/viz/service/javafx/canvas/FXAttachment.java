@@ -425,7 +425,6 @@ public class FXAttachment extends BasicAttachment {
 			knownPartControllers.add(geom);
 			handleUpdate(geom);
 
-
 		}
 	}
 
