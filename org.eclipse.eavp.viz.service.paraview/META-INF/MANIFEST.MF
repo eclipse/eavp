@@ -43,3 +43,4 @@ Export-Package: org.eclipse.eavp.viz.service.paraview,
  org.eclipse.eavp.viz.service.paraview.proxy
 Service-Component: OSGI-INF/*.xml
 Bundle-Vendor: Oak Ridge National Laboratory
+Require-Bundle: org.eclipse.ui.browser;bundle-version="3.5.0"
