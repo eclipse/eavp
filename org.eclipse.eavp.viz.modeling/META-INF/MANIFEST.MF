@@ -44,10 +44,6 @@ Import-Package: com.google.gson;version="2.2.4",
  org.osgi.framework;version="1.7.0",
  org.osgi.service.prefs;version="1.1.1",
  org.slf4j;version="1.7.2"
-Require-Bundle: org.eclipse.nebula.visualization.widgets;bundle-version="1.0.0",
- org.eclipse.nebula.visualization.xygraph;bundle-version="1.0.0",
- org.eclipse.ui.workbench,
- org.eclipse.ui.ide
 Export-Package: org.eclipse.eavp.viz.modeling,
  org.eclipse.eavp.viz.modeling.base,
  org.eclipse.eavp.viz.modeling.factory,
