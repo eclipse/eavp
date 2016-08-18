@@ -24,10 +24,43 @@ import javafx.scene.shape.MeshView;
  * A Decorator for an FXRenderObject that sets the displayed material for the
  * object and all of its children.
  * 
+ * The decorator will read properties from its source IRenderElement in order to
+ * configure itself. The properties used for this decorator are:
+ * 
+ * "red"- The integer red RGB value for the color. A negative value means that
+ * the decorator will attempt to use the material instead.
+ * 
+ * "green"- The integer green RGB value for the color. A negative value means
+ * that the decorator will attempt to use the material instead.
+ * 
+ * "blue"- The integer blue RGB value for the color. A negative value means that
+ * the decorator will attempt to use the material instead.
+ * 
+ * "material"- The JavaFX PhongMaterial that will be displayed for the element
+ * if no color is set. A null value will mean that the decorator will not change
+ * the element's color.
+ * 
  * @author Robert Smith
  *
  */
 public class FXColorDecorator extends ColorDecoratorImpl<Group> {
+
+	/**
+	 * The material used for this decorator. If this is not set, then the
+	 * default material with a color given by the red, green, and blue channels
+	 * will be used instead.
+	 */
+	private PhongMaterial material;
+
+	/**
+	 * Gets the material used for this decorator. If this is null, will rather
+	 * use the red, green, and blue channels set for this decorator.
+	 * 
+	 * @return The material for the decorator
+	 */
+	public PhongMaterial getMaterial() {
+		return material;
+	}
 
 	/**
 	 * Set all the MeshViews in the group to the given material, as well as the
@@ -67,20 +100,30 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		Group group = source.getMesh();
 
 		PhongMaterial material = getMaterial();
-		
+
 		if (material == null) {
-			// Negative color values will serve as a signal to allow the children
+			// Negative color values will serve as a signal to allow the
+			// children
 			// meshes to keep their current colors.
 			if (red >= 0 && green >= 0 && blue >= 0) {
-		
+
 				// Create a material of the specified color and set it.
-				material = new PhongMaterial(
-						Color.rgb(red, green, blue));
+				material = new PhongMaterial(Color.rgb(red, green, blue));
 				material.setSpecularColor(Color.WHITE);
 				this.setMaterial(material);
 			}
 
 		}
+
+		else {
+
+			if (red >= 0 && green >= 0 && blue >= 0) {
+				material.setDiffuseColor(
+						Color.color(red / 255.0, green / 255.0, blue / 255.0));
+				setMaterial(material);
+			}
+		}
+
 		// Set the material for the group and pass it along
 		setMaterial(group, material);
 
@@ -105,9 +148,9 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		if (notification.getNewValue() instanceof Integer) {
 			colorVal = (int) notification.getNewValue();
 		} else if (notification.getNewValue() instanceof Double) {
-			colorVal = ((Double)notification.getNewValue()).intValue();
+			colorVal = ((Double) notification.getNewValue()).intValue();
 		}
-		
+
 		// Set the red, green, or blue values
 		if ("red".equals(property)) {
 			setRed(colorVal);
@@ -116,15 +159,27 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		} else if ("blue".equals(property)) {
 			setBlue(colorVal);
 		}
-		
+
 		// Set the material, if it is valid
-		if ("material".equals(property) && notification.getNewValue() 
-				instanceof PhongMaterial) {
-			setMaterial((PhongMaterial)notification.getNewValue());
+		if ("material".equals(property)
+				&& notification.getNewValue() instanceof PhongMaterial) {
+			setMaterial((PhongMaterial) notification.getNewValue());
 		}
 
 		// Pass the update along to own listeners
 		super.handleUpdate(notification);
+	}
+
+	/**
+	 * Sets the phong material used for this decorator. Setting this to null
+	 * will allow the red, green, and blue channels to control the material
+	 * color.
+	 * 
+	 * @param newMaterial
+	 *            The material to use for this decorator
+	 */
+	public void setMaterial(PhongMaterial newMaterial) {
+		material = newMaterial;
 	}
 
 	/*

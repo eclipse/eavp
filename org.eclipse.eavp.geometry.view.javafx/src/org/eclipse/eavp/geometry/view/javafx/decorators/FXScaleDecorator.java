@@ -18,6 +18,12 @@ import javafx.scene.Group;
 /**
  * A Decorator for an FXRenderObject that sets the object's scale.
  * 
+ * The decorator will read properties from its source IRenderElement in order to
+ * configure itself. The properties used for this decorator are:
+ * 
+ * "scale"- A double defining how large to draw the shape, with 1 representing
+ * the element drawn at its normal scale.
+ * 
  * @author Robert Smith
  *
  */

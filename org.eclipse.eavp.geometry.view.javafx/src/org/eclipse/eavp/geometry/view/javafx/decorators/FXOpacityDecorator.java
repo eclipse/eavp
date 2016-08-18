@@ -18,6 +18,13 @@ import javafx.scene.Group;
 /**
  * A decorator for FXRenderObjects that allows the shape to be made transparent.
  * 
+ * The decorator will read properties from its source IRenderElement in order to
+ * configure itself. The properties used for this decorator are:
+ * 
+ * "opacity"- A double that sets how transparent the element is, with 0 being
+ * fully transparent and 100 being fully opaque. Negative values will signal
+ * that the decorator should make no change to the element.
+ * 
  * @author Robert Smith
  *
  */
@@ -40,7 +47,11 @@ public class FXOpacityDecorator extends OpacityDecoratorImpl<Group> {
 		// Set the group's opacity.
 		if (!(opacity < 100)) {
 			group.setOpacity(1);
-		} else {
+		}
+
+		// Opacities below 0 will be a special value signaling that the
+		// decorator will make no change.
+		else if (opacity >= 0) {
 			group.setOpacity(0);
 		}
 

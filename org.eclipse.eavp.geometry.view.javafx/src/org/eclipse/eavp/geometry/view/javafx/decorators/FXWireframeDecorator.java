@@ -22,6 +22,12 @@ import javafx.scene.shape.MeshView;
  * A decorator for FXRenderObjects that will allow them to be drawn in wireframe
  * mode.
  * 
+ * The decorator will read properties from its source IRenderElement in order to
+ * configure itself. The properties used for this decorator are:
+ * 
+ * "wireframe"- A boolean value. True makes the shape wireframe, false makes it
+ * solid.
+ * 
  * @author Robert Smith
  *
  */

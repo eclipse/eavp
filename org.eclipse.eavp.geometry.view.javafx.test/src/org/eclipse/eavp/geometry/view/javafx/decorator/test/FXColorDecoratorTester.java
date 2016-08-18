@@ -20,6 +20,8 @@ import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.Shape;
 import org.junit.Test;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 
 /**
@@ -39,7 +41,7 @@ public class FXColorDecoratorTester {
 		// Create a render object
 		Shape shape = GeometryFactory.eINSTANCE.createShape();
 		FXRenderObject object = new FXRenderObject(
-				GeometryFactory.eINSTANCE.createShape(), new FXMeshCache());
+				GeometryFactory.eINSTANCE.createCube(), new FXMeshCache());
 
 		// Create a color decorator for it
 		FXColorDecorator decorator = new FXColorDecorator();
@@ -64,5 +66,13 @@ public class FXColorDecoratorTester {
 		assertEquals(2, decorator.getGreen());
 		decorator.setProperty("blue", 3);
 		assertEquals(3, decorator.getBlue());
+
+		// Set a material to the object
+		PhongMaterial material = new PhongMaterial(Color.AQUA);
+		object.setProperty("material", material);
+
+		// The material should have been saved by the decorator.
+		assertEquals(material, decorator.getMaterial());
+
 	}
 }
