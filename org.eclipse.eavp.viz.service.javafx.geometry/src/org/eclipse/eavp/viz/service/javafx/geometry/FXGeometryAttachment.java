@@ -158,7 +158,7 @@ public class FXGeometryAttachment extends FXAttachment {
 		// Search the rendered elements to see if the shape is
 		// already in the list
 		for (IRenderElement<Group> render : renderedNodes) {
-			if (render.getBase().equals(node)) {
+			if (render.getBase() == node) {
 				returnRender = render;
 				break;
 			}

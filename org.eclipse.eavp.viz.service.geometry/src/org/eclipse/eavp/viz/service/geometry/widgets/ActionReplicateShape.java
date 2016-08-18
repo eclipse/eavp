@@ -214,21 +214,38 @@ public class ActionReplicateShape extends Action {
 			// A list of all new shapes added by the clone operation
 			ArrayList<INode> newShapes = new ArrayList<INode>();
 
-			// Add the clone and all of its children
-			newShapes.add(replicateUnion.getNodes().get(i));
-			for (int j = 0; j < newShapes.size(); j++) {
-				newShapes.addAll(newShapes.get(j).getNodes());
-			}
-
 			// Get the original set of renders, in the same order as the
 			// clones are in their own list
 			ArrayList<IRenderElement> originalRenders = new ArrayList<IRenderElement>();
-			originalRenders.add(selectedShape);
-			for (int j = 0; j < originalRenders.size(); j++) {
-				for (INode node : originalRenders.get(j).getBase().getNodes()) {
-					originalRenders.add(holder.getRender(node));
+
+			for(int j = 0; j < quantity; j++){
+				originalRenders.add(selectedShape);
+			}
+			
+			// Add the clone and all of its children
+			newShapes.addAll(replicateUnion.getNodes());
+			
+			for (int j = 0; j < newShapes.size(); j++) {
+				newShapes.addAll(newShapes.get(j).getNodes());
+				
+				if(j >= quantity){
+					for(INode newNode : originalRenders.get(j).getBase().getNodes()){
+						originalRenders.add(holder.getRender(newNode));
+					}
 				}
 			}
+
+
+
+			
+			
+
+//			originalRenders.add(selectedShape);
+//			for (int j = 0; j < originalRenders.size(); j++) {
+//				for (INode node : originalRenders.get(j).getBase().getNodes()) {
+//					originalRenders.add(holder.getRender(node));
+//				}
+//			}
 
 			// Copy the color information from the original renders
 			for (int j = 0; j < newShapes.size(); j++) {
@@ -253,6 +270,10 @@ public class ActionReplicateShape extends Action {
 				element.setProperty("defaultRed", red);
 				element.setProperty("defaultGreen", green);
 				element.setProperty("defaultBlue", blue);
+
+				// Copy the material as well
+				element.setProperty("material",
+						originalElement.getProperty("material"));
 			}
 
 		}

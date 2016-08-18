@@ -130,7 +130,7 @@ public class FXAttachment extends BasicAttachment {
 					// Search the rendered elements to see if the shape is
 					// already in the list
 					for (IRenderElement<Group> render : renderedNodes) {
-						if (render.getBase().equals(node)) {
+						if (render.getBase() == node) {
 							found = true;
 							break;
 						}
@@ -174,8 +174,10 @@ public class FXAttachment extends BasicAttachment {
 				// Search for the render element(s) that are based on the
 				// removed nodes and add them to the list to remove.
 				for (IRenderElement<Group> render : renderedNodes) {
-					if (removedNodes.contains(render.getBase())) {
-						oldRenders.add(render);
+					for (org.eclipse.january.geometry.INode removedNode : removedNodes) {
+						if (removedNode == render.getBase()) {
+							oldRenders.add(render);
+						}
 					}
 				}
 
@@ -199,7 +201,7 @@ public class FXAttachment extends BasicAttachment {
 				// Search the rendered elements to see if the shape is
 				// already in the list
 				for (IRenderElement<Group> render : renderedNodes) {
-					if (render.getBase().equals(node)) {
+					if (render.getBase() == node) {
 						found = true;
 						break;
 					}
@@ -248,13 +250,16 @@ public class FXAttachment extends BasicAttachment {
 
 					// If a render's source is in the list of child sources, add
 					// that render to the list of child renders
-					if (children.contains(renderCandidate.getBase())) {
-						childRenders.add(renderCandidate);
+					for (org.eclipse.january.geometry.INode child : children) {
+						if (child == renderCandidate.getBase()) {
+							childRenders.add(renderCandidate);
 
-						// This render had a parent, so it is not on the top
-						// level of the hierarchy
-						topRenders.remove(renderCandidate);
+							// This render had a parent, so it is not on the top
+							// level of the hierarchy
+							topRenders.remove(renderCandidate);
+						}
 					}
+
 				}
 
 			}
@@ -424,7 +429,6 @@ public class FXAttachment extends BasicAttachment {
 			// Have the geometry refreshed when it is added
 			knownPartControllers.add(geom);
 			handleUpdate(geom);
-
 
 		}
 	}

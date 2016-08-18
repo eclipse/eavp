@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.decorators;
 
+import org.eclipse.eavp.geometry.view.model.ColorDecorator;
 import org.eclipse.eavp.geometry.view.model.impl.ColorDecoratorImpl;
 import org.eclipse.emf.common.notify.Notification;
 
@@ -111,6 +112,9 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 				material = new PhongMaterial(Color.rgb(red, green, blue));
 				material.setSpecularColor(Color.WHITE);
 				this.setMaterial(material);
+				
+				// Set the material for the group and pass it along
+				setMaterial(group, material);
 			}
 
 		}
@@ -121,11 +125,13 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 				material.setDiffuseColor(
 						Color.color(red / 255.0, green / 255.0, blue / 255.0));
 				setMaterial(material);
+
+				// Set the material for the group and pass it along
+				setMaterial(group, material);
 			}
+
 		}
 
-		// Set the material for the group and pass it along
-		setMaterial(group, material);
 
 		return group;
 	}
@@ -196,5 +202,33 @@ public class FXColorDecorator extends ColorDecoratorImpl<Group> {
 		// Copy this object's data into the clone
 		clone.copy(this);
 		return clone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see model.impl.RenderObjectDecoratorImpl#copy(java.lang.Object)
+	 */
+	@Override
+	public void copy(Object source) {
+
+		// If the source is not a ColorDecorator, fail silently
+		if (source instanceof ColorDecorator) {
+
+			// Copy the supertype data
+			super.copy(source);
+
+			// Cast the other object
+			FXColorDecorator castSource = (FXColorDecorator) source;
+
+			// Copy the color fields
+			red = castSource.getRed();
+			green = castSource.getGreen();
+			blue = castSource.getBlue();
+
+			// Copy the material
+			material = new PhongMaterial(
+					castSource.getMaterial().getDiffuseColor());
+		}
 	}
 }
