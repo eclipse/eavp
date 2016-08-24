@@ -14,6 +14,7 @@ Import-Package: javafx.embed.swt,
  org.eclipse.eavp.viz.modeling.properties,
  org.eclipse.eavp.viz.service,
  org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
  org.eclipse.january.geometry,
  org.eclipse.january.geometry.xtext.mTL,
  org.eclipse.january.geometry.xtext.mtlimport,
@@ -33,11 +34,14 @@ Import-Package: javafx.embed.swt,
  org.eclipse.ui,
  org.eclipse.ui.internal.util,
  org.eclipse.ui.part,
+ org.eclipse.ui.views.properties,
+ org.eclipse.ui.views.properties.tabbed,
  org.osgi.framework;version="1.8.0",
  org.slf4j;version="1.7.2"
 Bundle-Vendor: Oak Ridge National Laboratory
 Eclipse-ExtensibleAPI: true
 Export-Package: 
+ org.eclipse.eavp.viz.service.geometry.properties,
  org.eclipse.eavp.viz.service.geometry.widgets
 Require-Bundle: org.eclipse.ui;bundle-version="3.108.0"
  

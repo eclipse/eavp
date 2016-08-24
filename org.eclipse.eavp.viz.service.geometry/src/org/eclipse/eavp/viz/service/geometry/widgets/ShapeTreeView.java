@@ -33,6 +33,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * <p>
@@ -44,7 +47,7 @@ import org.eclipse.ui.part.ViewPart;
  * Jordan Deyton
  */
 public class ShapeTreeView extends ViewPart
-		implements ISelectionChangedListener {
+		implements ISelectionChangedListener, ITabbedPropertySheetPageContributor {
 
 	/**
 	 * <p>
@@ -111,6 +114,9 @@ public class ShapeTreeView extends ViewPart
 		ShapeTreeLabelProvider labelProvider = new ShapeTreeLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
 
+		//Set the viewer as a selection provider
+		getSite().setSelectionProvider(treeViewer);
+		
 		// Add selection listener to TreeViewer
 
 		treeViewer.addSelectionChangedListener(this);
@@ -500,5 +506,26 @@ public class ShapeTreeView extends ViewPart
 			}
 		}
 		return val;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
+	 */
+	@Override
+	public String getContributorId() {
+		return getSite().getId();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
+	 */
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySheetPage.class) {
+			return new TabbedPropertySheetPage(this);
+		}
+		return super.getAdapter(adapter);
 	}
 }
