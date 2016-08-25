@@ -13,18 +13,20 @@ package org.eclipse.eavp.viz.service.geometry.properties;
 import java.util.ArrayList;
 
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.tabbed.AbstractSectionDescriptor;
 import org.eclipse.ui.views.properties.tabbed.AbstractTabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ISection;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * This class provides the Properties View for the ShapeTreeView.
@@ -35,135 +37,115 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 public class ShapeTabDescriptorProvider implements ITabDescriptorProvider {
 
 	/**
-	 * The category for the properties. This must match exactly the category specified in the plugin.xml file extension point. 
+	 * The category for the properties. This must match exactly the category
+	 * specified in the plugin.xml file extension point.
 	 */
 	private static final String CATEGORY = "GeometrySelection";
-	
+
 	/**
-	 * The filter the SectionDescriptors will use to determine whether or not to create a tab.
+	 * The filter the SectionDescriptors will use to determine whether or not to
+	 * create a tab.
 	 */
 	private final IFilter filter = new IFilter() {
 		@Override
 		public boolean select(Object toTest) {
-			
-			//To be valid, the selection must be an IRenderElement
+
+			// To be valid, the selection must be an IRenderElement
 			return (toTest instanceof IRenderElement);
 		}
 	};
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider#getTabDescriptors(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	 * 
+	 * @see org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider#
+	 * getTabDescriptors(org.eclipse.ui.IWorkbenchPart,
+	 * org.eclipse.jface.viewers.ISelection)
 	 */
 	@Override
-	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part, ISelection selection) {
-		
+	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part,
+			ISelection selection) {
+
 		ArrayList<ITabDescriptor> descriptors = new ArrayList<ITabDescriptor>();
-		
-		if(selection instanceof IStructuredSelection && !selection.isEmpty()){
-			
-			IRenderElement element = (IRenderElement) ((IStructuredSelection) selection).getFirstElement();
-			
-			AbstractTabDescriptor tabDescriptor = new AbstractTabDescriptor(){
 
-				@Override
-				public String getCategory() {
-					return CATEGORY;
-				}
+		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
 
-				@Override
-				public String getId() {
-					return "Properties";
-				}
+			IRenderElement element = (IRenderElement) ((IStructuredSelection) selection)
+					.getFirstElement();
 
-				@Override
-				public String getLabel() {
-					return element.getBase().getName() + " " + element.getBase().getId();
-				}
-				
-			};
-			
-			descriptors.add(tabDescriptor);
-			
-			ArrayList<ISectionDescriptor> sectionDescriptors = new ArrayList<ISectionDescriptor>();
-			
-			sectionDescriptors.add(new AbstractSectionDescriptor() {
-				@Override
-				public String getTargetTab() {
-					return CATEGORY;
-				}
+			ArrayList<INode> nodes = new ArrayList<INode>();
+			nodes.add(element.getBase());
 
-				@Override
-				public ISection getSectionClass() {
-					return new ISection(){
+			for (int i = 0; i < nodes.size(); i++) {
+				nodes.addAll(nodes.get(i).getNodes());
+			}
 
-						@Override
-						public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
-							// TODO Auto-generated method stub
-							
-						}
+			IRenderElementHolder holder = ((ShapeTreeView) PlatformUI
+					.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.findView(ShapeTreeView.ID)).getHolder();
 
-						@Override
-						public void setInput(IWorkbenchPart part, ISelection selection) {
-							// TODO Auto-generated method stub
-							
-						}
+			for (int i = 0; i < nodes.size(); i++) {
 
-						@Override
-						public void aboutToBeShown() {
-							// TODO Auto-generated method stub
-							
-						}
+				final IRenderElement finalElement = holder
+						.getRender(nodes.get(i));
 
-						@Override
-						public void aboutToBeHidden() {
-							// TODO Auto-generated method stub
-							
-						}
+				AbstractTabDescriptor tabDescriptor = new AbstractTabDescriptor() {
 
-						@Override
-						public void dispose() {
-							// TODO Auto-generated method stub
-							
-						}
+					@Override
+					public String getCategory() {
+						return CATEGORY;
+					}
 
-						@Override
-						public int getMinimumHeight() {
-							// TODO Auto-generated method stub
-							return 0;
-						}
+					@Override
+					public String getId() {
+						return finalElement.getBase().getName()
+								+ finalElement.getBase().getId();
+					}
 
-						@Override
-						public boolean shouldUseExtraSpace() {
-							// TODO Auto-generated method stub
-							return false;
-						}
+					@Override
+					public String getLabel() {
+						return finalElement.getBase().getName() + " "
+								+ finalElement.getBase().getId();
+					}
 
-						@Override
-						public void refresh() {
-							// TODO Auto-generated method stub
-							
-						}
-						
-					};
-				}
+				};
 
-				@Override
-				public String getId() {
-					return "Properties" + ".general";
-				}
+				descriptors.add(tabDescriptor);
 
-				@Override
-				public IFilter getFilter() {
-					return filter;
-				}
-			});
-			
-			tabDescriptor.setSectionDescriptors(sectionDescriptors);
-			
-			
+				ArrayList<ISectionDescriptor> sectionDescriptors = new ArrayList<ISectionDescriptor>();
+
+				final int finalI = i;
+
+				sectionDescriptors.add(new AbstractSectionDescriptor() {
+
+					int ID = finalI;
+
+					@Override
+					public String getTargetTab() {
+						return CATEGORY;
+					}
+
+					@Override
+					public ISection getSectionClass() {
+						return new ShapeSection(ID);
+					}
+
+					@Override
+					public String getId() {
+						return "Properties" + ".general";
+					}
+
+					@Override
+					public IFilter getFilter() {
+						return filter;
+					}
+				});
+
+				tabDescriptor.setSectionDescriptors(sectionDescriptors);
+			}
+
 		}
-		
+
 		return descriptors.toArray(new ITabDescriptor[descriptors.size()]);
 	}
 

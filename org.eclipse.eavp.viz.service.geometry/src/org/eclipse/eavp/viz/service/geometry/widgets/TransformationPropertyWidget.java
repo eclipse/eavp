@@ -12,8 +12,10 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import org.eclipse.january.geometry.INode;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 /**
@@ -73,13 +75,18 @@ public class TransformationPropertyWidget {
 		// Save the reference to the parent
 		this.parent = parent;
 
+		// Get the system's white color
+		Color white = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
+
 		// Create a label and spinner
 		label = new Label(parent, SWT.NONE);
 		label.setLayoutData(
-				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+				new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		label.setBackground(white);
 		spinner = new RealSpinner(parent);
 		spinner.getControl().setLayoutData(
-				new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+				new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		spinner.getControl().setBackground(white);
 
 		// Set the controls to be invisible, initially
 		// label.setVisible(false);
