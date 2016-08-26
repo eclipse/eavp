@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.properties;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +23,8 @@ import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.geometry.widgets.TransformationPropertyWidget;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Triangle;
 import org.eclipse.january.geometry.Vertex;
-import org.eclipse.jface.databinding.swt.IWidgetValueProperty;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -37,6 +38,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -45,6 +47,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -61,20 +66,14 @@ public class ShapeSection extends AbstractPropertySection {
 	final static private int NUM_PROPERTIES = 5;
 
 	/**
-	 * The object whose properties are displayed by this section.
+	 * The text box in which the INode's ID will be editable.
 	 */
-	IRenderElement source;
-
-	Text nameText;
-
-	Text idText;
-
-	int ID;
+	private Text idText;
 
 	/**
-	 * The tree spinners that set the object's center
+	 * The text box in which the INode's name will be editable
 	 */
-	private RealSpinner[] translateSpinners = new RealSpinner[3];
+	private Text nameText;
 
 	/**
 	 * A list of optional spinners which have been added to the view to expose
@@ -83,20 +82,54 @@ public class ShapeSection extends AbstractPropertySection {
 	private ArrayList<RealSpinner> propertySpinners = new ArrayList<RealSpinner>();
 
 	/**
-	 * A combo box listing the options for how to display the shape.
-	 */
-	private Combo opacityCombo;
-
-	/**
 	 * The list of widgets which will allow the shape's properties to be
 	 * displayed and edited.
 	 */
 	private ArrayList<TransformationPropertyWidget> propertyWidgets;
 
-	public ShapeSection(int ID) {
-		super();
+	/**
+	 * The object whose properties are displayed by this section.
+	 */
+	private IRenderElement source;
 
-		this.ID = ID;
+	/**
+	 * The index showing where in the tree of the selected object to find the
+	 * source IRenderElement. The tree is laid out linearly according to a
+	 * breadth first search for the purpose of this index.
+	 */
+	private int sourceIndex;
+
+	/**
+	 * The tree spinners that set the object's center
+	 */
+	private RealSpinner[] translateSpinners = new RealSpinner[3];
+
+	/**
+	 * The table showing the coordinates for the triangle vertices of the
+	 * shape's mesh.
+	 */
+	private Table triangleTable;
+
+	/**
+	 * A combo box listing the options for how to display the shape.
+	 */
+	private Combo opacityCombo;
+
+	/**
+	 * A constructor allowing for the section to be set to display one of the
+	 * selected object's children instead of the object itself.
+	 * 
+	 * @param index
+	 *            The index showing where in the tree of the selected object to
+	 *            find the source IRenderElement. The tree is laid out linearly
+	 *            according to a breadth first search for the purpose of this
+	 *            index, so an index of 0 will display the selected
+	 *            IRenderElement itself.
+	 *
+	 */
+	public ShapeSection(int index) {
+		super();
+		sourceIndex = index;
 	}
 
 	/*
@@ -110,13 +143,7 @@ public class ShapeSection extends AbstractPropertySection {
 	public void createControls(Composite parent,
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 
-		// Create a scrolled composite - scroll bars!
-		// ScrolledComposite scrolledParent = new ScrolledComposite(parent,
-		// SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		// Create a sub-composite to hold the actual widgets
-		// final Composite realParent = new Composite(scrolledParent, SWT.NONE);
-
-		// Create the layout for the view
+		// Set the parent to a FormLayout so that it will resize with the view
 		parent.getParent().setLayout(new FormLayout());
 		FormData parentData = new FormData();
 		parentData.top = new FormAttachment(0);
@@ -124,30 +151,17 @@ public class ShapeSection extends AbstractPropertySection {
 		parentData.right = new FormAttachment(100);
 		parentData.bottom = new FormAttachment(100);
 		parent.setLayoutData(parentData);
-		layout(parent);
-
-		// Tell the scrolled composite to watch the real parent composite
-		// scrolledParent.setContent(realParent);
-		// Set the expansion sizes and minimum size of the scrolled composite
-		// scrolledParent.setExpandHorizontal(true);
-		// scrolledParent.setExpandVertical(true);
-		// scrolledParent
-		// .setMinSize(realParent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		// scrolledParent.setShowFocusedControl(true);
-	}
-
-	private void layout(Composite parent) {
+		parent.setLayout(new FormLayout());
 
 		// Get the system's white color
 		Color white = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 
-		// Main layout
-		parent.setLayout(new FormLayout());
-		// parent.setLayoutData(
-		// new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-
+		// Create a group for the IRenderElement's INode's data, taking up the
+		// left half of the screen.
 		Group dataGroup = createGroup(parent, "Data", 0, 0, 50, 100);
 
+		// A compposite to hold the nameLabel and nameText, located in the upper
+		// left corner
 		Composite nameComp = new Composite(dataGroup, SWT.NONE);
 		FormData nameData = new FormData();
 		nameData.top = new FormAttachment(0, 5);
@@ -157,10 +171,13 @@ public class ShapeSection extends AbstractPropertySection {
 		nameComp.setLayout(new GridLayout(2, false));
 		nameComp.setBackground(white);
 
+		// A label reading "Name:"
 		Label nameLabel = new Label(nameComp, SWT.CENTER);
 		nameLabel.setText("Name:");
 		nameLabel.setBackground(white);
 
+		// A text box in which the INode's name will be displayed and can be
+		// edited.
 		nameText = new Text(nameComp, SWT.BORDER);
 		nameText.setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -170,8 +187,7 @@ public class ShapeSection extends AbstractPropertySection {
 			@Override
 			public void handleEvent(Event event) {
 
-				// Validate the text and select all in the text box
-
+				// Set the INode's name to the textbox's value
 				source.getBase().setName(nameText.getText());
 				nameText.selectAll();
 			}
@@ -183,19 +199,19 @@ public class ShapeSection extends AbstractPropertySection {
 			public void focusGained(FocusEvent event) {
 
 				// Select all the text in the Text widget
-
 				nameText.selectAll();
 			}
 
 			@Override
 			public void focusLost(FocusEvent event) {
 
-				// Just validate the text
-
+				// Set the INode's name to the textbox's value
 				source.getBase().setName(nameText.getText());
 			}
 		});
 
+		// A composite to hold the idLabel and idText, located to the right of
+		// nameComp
 		Composite idComp = new Composite(dataGroup, SWT.NONE);
 		FormData idData = new FormData();
 		idData.top = new FormAttachment(0, 5);
@@ -205,26 +221,52 @@ public class ShapeSection extends AbstractPropertySection {
 		idComp.setLayout(new GridLayout(2, false));
 		idComp.setBackground(white);
 
+		// A label containing the text "ID:"
 		Label idLabel = new Label(idComp, SWT.NONE);
 		idLabel.setText("ID:");
 		idLabel.setBackground(white);
 
+		// A text box in which the INode's ID will be displayed and can be
+		// edited.
 		idText = new Text(idComp, SWT.BORDER);
 		idText.setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
+		idText.addListener(SWT.DefaultSelection, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+
+				// Set the INode's ID to the textbox's value
+				source.getBase().setId(Long.valueOf(idText.getText()));
+				idText.selectAll();
+			}
+		});
+
+		idText.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent event) {
+
+				// Select all the text in the Text widget
+				idText.selectAll();
+			}
+
+			@Override
+			public void focusLost(FocusEvent event) {
+
+				// Set the INode's ID to the textbox's value
+				source.getBase().setId(Long.valueOf(idText.getText()));
+			}
+		});
+
+		// A group containing the three coordinates of the shape's center, along
+		// with labels for them
 		Group centerGroup = createGroup(dataGroup, "Center", null, null, idComp,
-				0, null, 70, null, null);// new Group(dataGroup, SWT.NONE);
+				0, null, 70, null, null);
 		centerGroup.setLayout(new GridLayout(3, true));
-		// FormData centerGroupData = new FormData();
-		// centerGroupData.left = new FormAttachment(10, 0);
-		// centerGroupData.right = new FormAttachment(40, 0);
-		// centerGroup.setLayoutData(centerGroupData);
-		// centerGroup.setText("Center");
-		// centerGroup.setBackground(white);
 
 		// Coordinate labels
-
 		Label labelX = new Label(centerGroup, SWT.NONE);
 		labelX.setLayoutData(
 				new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
@@ -243,7 +285,7 @@ public class ShapeSection extends AbstractPropertySection {
 		labelZ.setText("Z");
 		labelZ.setBackground(white);
 
-		// Translation
+		// The three spinners that will control translation for the center point
 		for (int i = 0; i < 3; i++) {
 			translateSpinners[i] = new RealSpinner(centerGroup);
 			translateSpinners[i].getControl().setLayoutData(
@@ -252,32 +294,11 @@ public class ShapeSection extends AbstractPropertySection {
 			translateSpinners[i].setBounds(-1.0e6, 1.0e6);
 		}
 
-		Group displayGroup = createGroup(parent, "Display", 0, 50, 100, 100);
-
-		Group opacityGroup = new Group(displayGroup, SWT.NONE);
-		FormData opacityGroupData = new FormData();
-		opacityGroupData.left = new FormAttachment(centerGroup, 0);
-		opacityGroup.setLayoutData(opacityGroupData);
-		opacityGroup.setText("Opacity");
-		opacityGroup.setBackground(white);
-		opacityGroup.setLayout(new GridLayout());
-
-		// // Create a label for the opacity combo
-		// Label opacityLabel = new Label(parent, SWT.NONE);
-		// // opacityLabel.setLayoutData(
-		// // new GridData(SWT.NONE, SWT.NONE, false, false, 1, 1));
-		// opacityLabel.setText("Opacity:");
-		// opacityLabel.setBackground(white);
-
-		// Initialize the opacity combo box
-		opacityCombo = new Combo(opacityGroup, SWT.READ_ONLY);
-		// opacityCombo.setLayoutData(
-		// new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		opacityCombo
-				.setItems(new String[] { "Solid", "Wireframe", "Transparent" });
-
+		// A group to display the INode's properties, located below the
+		// centerGroup
 		Group meshPropertiesGroup = createGroup(dataGroup, "Mesh Properties",
-				25, 0, 100, 60);
+				centerGroup, 0, null, 0, null, 100, null, null);
+		meshPropertiesGroup.setLayout(new RowLayout());
 
 		// Create property widgets to display any properties the shape has.
 		propertyWidgets = new ArrayList<TransformationPropertyWidget>();
@@ -285,8 +306,6 @@ public class ShapeSection extends AbstractPropertySection {
 
 			// Create a child composite to hold the widget
 			Composite widgetComp = new Composite(meshPropertiesGroup, SWT.NONE);
-			// widgetComp.setLayoutData(
-			// new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 			widgetComp.setLayout(new GridLayout(2, false));
 			widgetComp.setBackground(white);
 
@@ -297,53 +316,68 @@ public class ShapeSection extends AbstractPropertySection {
 		// Empty the old list of property spinners
 		propertySpinners.clear();
 
-		// // Iterate through the shape's properties, giving each one its own
-		// // section in the view
-		// if (source != null) {
-		// for (String property : source.getBase().getPropertyNames()) {
-		//
-		// // Create a label with the property's name
-		// Label propertyLabel = new Label(parent, SWT.NONE);
-		// // propertyLabel.setLayoutData(
-		// // new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		// propertyLabel.setText(property + ":");
-		//
-		// // Create a spinner for the property's value. All properties
-		// // have
-		// // doubles for values.
-		// RealSpinner propertySpinner = new RealSpinner(parent);
-		// // propertySpinner.getControl().setLayoutData(
-		// // new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		// propertySpinner.setBounds(-1.0e6, 1.0e6);
-		//
-		// // Set the spinner's name
-		// propertySpinner.setName(property);
-		//
-		// // Add the spinner to the list
-		// propertySpinners.add(propertySpinner);
-		// }
-		//
-		// // Create an extra spinner to control scale
-		// // Create a label with the property's name
-		// Label propertyLabel = new Label(parent, SWT.NONE);
-		// // propertyLabel.setLayoutData(
-		// // new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-		// propertyLabel.setText("scale:");
-		//
-		// // Create a spinner for the property's value. All properties
-		// // have
-		// // doubles for values.
-		// RealSpinner propertySpinner = new RealSpinner(parent);
-		// // propertySpinner.getControl().setLayoutData(
-		// // new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		// propertySpinner.setBounds(-1.0e6, 1.0e6);
-		//
-		// // Set the spinner's name
-		// propertySpinner.setName("scale");
-		//
-		// // Add the spinner to the list
-		// propertySpinners.add(propertySpinner);
-		// }
+		// A group that will contain the table of triangle data, located below
+		// the meshPropertiesGroup
+		Group meshDataGroup = createGroup(dataGroup, "Triangle Mesh Data",
+				meshPropertiesGroup, 0, null, 0, null, 100, null, 100);
+		meshDataGroup.setLayout(new FormLayout());
+
+		// A table which will display the nine coordinates that define each
+		// triangle, in the order XYZ for each of the three vertices in turn.
+		// This table should fit inside the screen, displaying the full table
+		// only with a scrollbar.
+		triangleTable = new Table(meshDataGroup,
+				SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
+		FormData tableData = new FormData();
+		tableData.top = new FormAttachment(0);
+		tableData.left = new FormAttachment(0);
+		tableData.right = new FormAttachment(100);
+		tableData.height = 90;
+		triangleTable.setLayoutData(tableData);
+
+		// Create and name the nine columns
+		TableColumn x1 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn y1 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn z1 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn x2 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn y2 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn z2 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn x3 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn y3 = new TableColumn(triangleTable, SWT.CENTER);
+		TableColumn z3 = new TableColumn(triangleTable, SWT.CENTER);
+		x1.setText("X1");
+		y1.setText("Y1");
+		z1.setText("Z1");
+		x2.setText("X2");
+		y2.setText("Y2");
+		z2.setText("Z2");
+		x3.setText("X3");
+		y3.setText("Y3");
+		z3.setText("Z3");
+
+		// Set up the table's visibility
+		triangleTable.setHeaderVisible(true);
+		triangleTable.setLinesVisible(true);
+
+		// A display group taking up the right half of the view. This group will
+		// display the properties of the IRenderElement, which control how the
+		// data is displayed.
+		Group displayGroup = createGroup(parent, "Display", 0, 50, 100, 100);
+
+		Group opacityGroup = new Group(displayGroup, SWT.NONE);
+		FormData opacityGroupData = new FormData();
+		opacityGroupData.left = new FormAttachment(centerGroup, 0);
+		opacityGroup.setLayoutData(opacityGroupData);
+		opacityGroup.setText("Opacity");
+		opacityGroup.setBackground(white);
+		opacityGroup.setLayout(new GridLayout());
+
+		// Initialize the opacity combo box
+		opacityCombo = new Combo(opacityGroup, SWT.READ_ONLY);
+		// opacityCombo.setLayoutData(
+		// new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
+		opacityCombo
+				.setItems(new String[] { "Solid", "Wireframe", "Transparent" });
 
 		// Set the initial shape
 		createListeners();
@@ -351,22 +385,85 @@ public class ShapeSection extends AbstractPropertySection {
 		refresh();
 	}
 
-	private Group createGroup(Composite parent, String name, int top, int left,
-			int right, int bottom) {
+	/**
+	 * Create a new Group with a FormLayoutData.
+	 * 
+	 * @param parent
+	 *            The parent Composite in which the Group will be made.
+	 * @param name
+	 *            The name to display as the Group's header.
+	 * @param top
+	 *            The offset from the top of the parent. If null, no attachment
+	 *            will be created for this side.
+	 * @param left
+	 *            The offset from the left side of the parent. If null, no
+	 *            attachment will be created for this side.
+	 * @param right
+	 *            The offset from the right side of the parent. If null, no
+	 *            attachment will be created for this side.
+	 * @param bottom
+	 *            The offset from the bottom of the parent. If null, no
+	 *            attachment will be created for this side.
+	 * @return A Group contained in parent, named name, with a FormData
+	 *         containing the given offsets from parent's sides.
+	 */
+	private Group createGroup(Composite parent, String name, Integer top,
+			Integer left, Integer right, Integer bottom) {
 		return createGroup(parent, name, null, top, null, left, null, right,
 				null, bottom);
 	}
 
+	/**
+	 * Create a new Group with a FormLayoutData.
+	 * 
+	 * @param parent
+	 *            The parent Composite in which the Group will be made.
+	 * @param name
+	 *            The name to display as the Group's header.
+	 * @param topNeighbor
+	 *            The Control defining the top edge of the Group. If null, the
+	 *            offset will apply from parent.
+	 * @param topOffset
+	 *            The offset from the top of the parent. If null, no attachment
+	 *            will be created for this side.
+	 * @param leftNeighbor
+	 *            The Control defining the left edge of the Group. If null, the
+	 *            offset will apply from parent.
+	 * @param leftOffset
+	 *            The offset from the left side of the parent. If null, no
+	 *            attachment will be created for this side.
+	 * @param rightNeighbor
+	 *            The Control defining the right edge of the Group. If null, the
+	 *            offset will apply from parent.
+	 * @param rightOffset
+	 *            The offset from the right side of the parent. If null, no
+	 *            attachment will be created for this side.
+	 * @param bottomNeighbor
+	 *            The Control defining the bottom edge of the Group. If null,
+	 *            the offset will apply from parent.
+	 * @param bottomOffset
+	 *            The offset from the bottom of the parent. If null, no
+	 *            attachment will be created for this side.
+	 * @return A Group contained in parent, named name, with its boundaries set
+	 *         according to the rules for given by the neighbor and offset
+	 *         parameters.
+	 */
 	private Group createGroup(Composite parent, String name,
 			Control topNeighbor, Integer topOffset, Control leftNeighbor,
 			Integer leftOffset, Control rightNeighbor, Integer rightOffset,
 			Control bottomNeighbor, Integer bottomOffset) {
 
+		// The group to return. Set it up.
 		Group group = new Group(parent, SWT.NONE);
 		group.setText(name);
-
+		group.setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		group.setLayout(new FormLayout());
 		FormData data = new FormData();
 
+		// For each of the sides, if the offset is null, ignore that side. If
+		// not, set the group to have an attachment to either the parent, if the
+		// neighbor argument is null, or the neighbor, with the given offset.
 		if (topOffset != null) {
 			data.top = topNeighbor == null ? new FormAttachment(topOffset)
 					: new FormAttachment(topNeighbor, 5, topOffset);
@@ -385,13 +482,8 @@ public class ShapeSection extends AbstractPropertySection {
 					: new FormAttachment(bottomNeighbor, 5, bottomOffset);
 		}
 
+		// Set the constructed layout data
 		group.setLayoutData(data);
-
-		group.setBackground(
-				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-
-		group.setLayout(new FormLayout());
-
 		return group;
 	}
 
@@ -400,8 +492,6 @@ public class ShapeSection extends AbstractPropertySection {
 	 */
 	private void createListeners() {
 
-		IWidgetValueProperty property = WidgetProperties.selection();
-
 		// Create anonymous listener
 
 		RealSpinnerListener listener = new RealSpinnerListener() {
@@ -409,8 +499,7 @@ public class ShapeSection extends AbstractPropertySection {
 			@Override
 			public void update(RealSpinner realSpinner) {
 
-				// Handle a null currentShape
-
+				// Handle a null source
 				if (source == null) {
 					return;
 				}
@@ -510,6 +599,7 @@ public class ShapeSection extends AbstractPropertySection {
 	public void refresh() {
 		if (source != null) {
 
+			// Set the name and ID text boxs' values.
 			nameText.setText(source.getBase().getName());
 			idText.setText(String.valueOf(source.getBase().getId()));
 
@@ -572,6 +662,46 @@ public class ShapeSection extends AbstractPropertySection {
 							property, value);
 				}
 			}
+
+			// Remove all rows from the current table
+			for (int i = 0; i < triangleTable.getItemCount(); i++) {
+				triangleTable.remove(i);
+			}
+
+			// Create the formatter that will set the coordinates' strings
+			DecimalFormat formatter = new DecimalFormat("#.#####");
+			formatter.setRoundingMode(RoundingMode.DOWN);
+
+			// Update the triangle mesh data
+			List<Triangle> triangles = source.getBase().getTriangles();
+			for (Triangle triangle : triangles) {
+
+				// Get the vertices for the current triangle
+				List<Vertex> vertices = triangle.getVertices();
+				Vertex v1 = vertices.get(0);
+				Vertex v2 = vertices.get(1);
+				Vertex v3 = vertices.get(2);
+
+				// Add a new row containing the coordinates
+				TableItem row = new TableItem(triangleTable, SWT.NONE);
+
+				// The row will contain each coordinate, formatted correctly
+				row.setText(new String[] { formatter.format(v1.getX()),
+						formatter.format(v1.getY()),
+						formatter.format(v1.getZ()),
+						formatter.format(v2.getX()),
+						formatter.format(v2.getY()),
+						formatter.format(v2.getZ()),
+						formatter.format(v3.getX()),
+						formatter.format(v3.getY()),
+						formatter.format(v3.getZ()) });
+			}
+
+		}
+
+		// Resize the columns in the table
+		for (TableColumn column : triangleTable.getColumns()) {
+			column.pack();
 		}
 
 		// Set the enabled state of the spinners, depending on whether the
@@ -584,6 +714,7 @@ public class ShapeSection extends AbstractPropertySection {
 			spinner.getControl().setEnabled(source != null);
 		}
 		opacityCombo.setEnabled(source != null);
+
 	}
 
 	/*
@@ -597,25 +728,31 @@ public class ShapeSection extends AbstractPropertySection {
 	public void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
 
+		// Check that the selection is valid before attempting to set it
 		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
 
+			// The list of all elements in the tree starting with the selected
+			// node
 			ArrayList<INode> elements = new ArrayList<INode>();
 
+			// Get the selected INode
 			elements.add(((IRenderElement) ((IStructuredSelection) selection)
 					.getFirstElement()).getBase());
 
+			// Get the holder that associates IRenderElements with INodes
 			IRenderElementHolder holder = ((ShapeTreeView) PlatformUI
 					.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 					.findView(ShapeTreeView.ID)).getHolder();
 
+			// Find the index in the flattenned tree and set it as the source.
 			for (int i = 0; i < elements.size(); i++) {
-
-				if (ID < elements.size()) {
-					source = holder.getRender(elements.get(ID));
+				if (sourceIndex < elements.size()) {
+					source = holder.getRender(elements.get(sourceIndex));
 					refresh();
 					return;
 				}
 
+				// Add more elements if the tree does not let contain the index
 				elements.addAll(elements.get(i).getNodes());
 			}
 
