@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.eavp.geometry.view.model.DisplayOption;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.geometry.view.model.MeshCache;
 import org.eclipse.eavp.geometry.view.model.ModelFactory;
@@ -36,6 +37,7 @@ import org.eclipse.swt.widgets.Display;
  *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getRender <em>Render</em>}</li>
  *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getDisplayOptions <em>Display Options</em>}</li>
  * </ul>
  *
  * @generated
@@ -93,6 +95,16 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	 * @ordered
 	 */
 	protected EList<IRenderElement<T>> children;
+
+	/**
+	 * The cached value of the '{@link #getDisplayOptions() <em>Display Options</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * @see #getDisplayOptions()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<DisplayOption<?>> displayOptions;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -214,6 +226,18 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<DisplayOption<?>> getDisplayOptions() {
+		if (displayOptions == null) {
+			displayOptions = new EObjectContainmentEList<DisplayOption<?>>(DisplayOption.class, this, ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS);
+		}
+		return displayOptions;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated NOT
 	 */
@@ -223,7 +247,32 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 		// Handle any child nodes
 		handleChildren(children);
 
+		// Apply each active display option to the render
+		for (DisplayOption option : getDisplayOptions()) {
+			if (option.isActive()) {
+				option.modify(render);
+			}
+		}
+
 		return render;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public void registerOption(DisplayOption option) {
+		getDisplayOptions().add(option);
+
+		// The map of default properties
+		Map<String, Object> defaultsMap = option.getDefaultProperties();
+
+		// Initialize each entry in the defaults map for the properties map
+		for (String property : defaultsMap.keySet()) {
+			properties.put(property, defaultsMap.get(property));
+		}
 	}
 
 	/**
@@ -246,7 +295,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	 */
 	@Override
 	public void handleChildren(EList<IRenderElement<T>> children) {
-		//Nothing to do for the base implementation
+		// Nothing to do for the base implementation
 	}
 
 	/**
@@ -344,6 +393,8 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 		switch (featureID) {
 			case ModelPackage.RENDER_OBJECT__CHILDREN:
 				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
+			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+				return ((InternalEList<?>)getDisplayOptions()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -364,6 +415,8 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 				return getSource();
 			case ModelPackage.RENDER_OBJECT__CHILDREN:
 				return getChildren();
+			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+				return getDisplayOptions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -389,6 +442,10 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 				getChildren().clear();
 				getChildren().addAll((Collection<? extends IRenderElement<T>>)newValue);
 				return;
+			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+				getDisplayOptions().clear();
+				getDisplayOptions().addAll((Collection<? extends DisplayOption<?>>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -412,6 +469,9 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 			case ModelPackage.RENDER_OBJECT__CHILDREN:
 				getChildren().clear();
 				return;
+			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+				getDisplayOptions().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -431,6 +491,8 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
 			case ModelPackage.RENDER_OBJECT__CHILDREN:
 				return children != null && !children.isEmpty();
+			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+				return displayOptions != null && !displayOptions.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -446,6 +508,9 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 		switch (operationID) {
 			case ModelPackage.RENDER_OBJECT___GET_MESH:
 				return getMesh();
+			case ModelPackage.RENDER_OBJECT___REGISTER_OPTION__DISPLAYOPTION:
+				registerOption((DisplayOption)arguments.get(0));
+				return null;
 			case ModelPackage.RENDER_OBJECT___GET_BASE:
 				return getBase();
 			case ModelPackage.RENDER_OBJECT___HANDLE_CHILDREN__ELIST:
@@ -498,7 +563,8 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 			// If this notification is on the UI thread, launch a new thread to
 			// handle it
 			Display currDisplay = Display.getCurrent();
-			if (currDisplay != null && Thread.currentThread() == currDisplay.getThread()) {
+			if (currDisplay != null
+					&& Thread.currentThread() == currDisplay.getThread()) {
 
 				Thread updateThread = new Thread() {
 

@@ -40,58 +40,76 @@ public interface ModelFactory extends EFactory {
 	<T> RenderObject<T> createRenderObject();
 
 	/**
-	 * Returns a new object of class '<em>Render Object Decorator</em>'.
+	 * Returns a new object of class '<em>Display Option</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Render Object Decorator</em>'.
+	 * @return a new object of class '<em>Display Option</em>'.
 	 * @generated
 	 */
-	<T> RenderObjectDecorator<T> createRenderObjectDecorator();
+	<T> DisplayOption<T> createDisplayOption();
 
 	/**
-	 * Returns a new object of class '<em>Texture Decorator</em>'.
+	 * Returns a new object of class '<em>Opacity Option</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Texture Decorator</em>'.
+	 * @return a new object of class '<em>Opacity Option</em>'.
 	 * @generated
 	 */
-	<T> TextureDecorator<T> createTextureDecorator();
+	<T> OpacityOption<T> createOpacityOption();
 
 	/**
-	 * Returns a new object of class '<em>Opacity Decorator</em>'.
+	 * Returns a new object of class '<em>Scale Option</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Opacity Decorator</em>'.
+	 * @return a new object of class '<em>Scale Option</em>'.
 	 * @generated
 	 */
-	<T> OpacityDecorator<T> createOpacityDecorator();
+	<T> ScaleOption<T> createScaleOption();
 
 	/**
-	 * Returns a new object of class '<em>Scale Decorator</em>'.
+	 * Returns a new object of class '<em>Wireframe Option</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Scale Decorator</em>'.
+	 * @return a new object of class '<em>Wireframe Option</em>'.
 	 * @generated
 	 */
-	<T> ScaleDecorator<T> createScaleDecorator();
+	<T> WireframeOption<T> createWireframeOption();
 
 	/**
-	 * Returns a new object of class '<em>Wireframe Decorator</em>'.
+	 * Returns a new object of class '<em>Color Option</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Wireframe Decorator</em>'.
+	 * @return a new object of class '<em>Color Option</em>'.
 	 * @generated
 	 */
-	<T> WireframeDecorator<T> createWireframeDecorator();
+	<T> ColorOption<T> createColorOption();
 
 	/**
-	 * Returns a new object of class '<em>Color Decorator</em>'.
+	 * Returns a new object of class '<em>Combo Display Option Data</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Color Decorator</em>'.
+	 * @return a new object of class '<em>Combo Display Option Data</em>'.
 	 * @generated
 	 */
-	<T> ColorDecorator<T> createColorDecorator();
+	ComboDisplayOptionData createComboDisplayOptionData();
+
+	/**
+	 * Returns a new object of class '<em>Double Text Display Option Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Double Text Display Option Data</em>'.
+	 * @generated
+	 */
+	DoubleTextDisplayOptionData createDoubleTextDisplayOptionData();
+
+	/**
+	 * Returns a new object of class '<em>Integer Text Display Option Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Integer Text Display Option Data</em>'.
+	 * @generated
+	 */
+	IntegerTextDisplayOptionData createIntegerTextDisplayOptionData();
 
 	/**
 	 * Returns the package supported by this factory.

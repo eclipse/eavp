@@ -202,12 +202,12 @@ public class ActionReplicateShape extends Action {
 		IRenderElementHolder holder = view.getHolder();
 
 		IRenderElement unionRender = holder.getRender(replicateUnion);
-		unionRender.setProperty("red", -1);
-		unionRender.setProperty("green", -1);
-		unionRender.setProperty("blue", -1);
-		unionRender.setProperty("defaultRed", -1);
-		unionRender.setProperty("defaultGreen", -1);
-		unionRender.setProperty("defaultBlue", -1);
+		// unionRender.setProperty("red", -1);
+		// unionRender.setProperty("green", -1);
+		// unionRender.setProperty("blue", -1);
+		// unionRender.setProperty("defaultRed", -1);
+		// unionRender.setProperty("defaultGreen", -1);
+		// unionRender.setProperty("defaultBlue", -1);
 
 		for (int i = 0; i < quantity; i++) {
 
@@ -218,34 +218,30 @@ public class ActionReplicateShape extends Action {
 			// clones are in their own list
 			ArrayList<IRenderElement> originalRenders = new ArrayList<IRenderElement>();
 
-			for(int j = 0; j < quantity; j++){
+			for (int j = 0; j < quantity; j++) {
 				originalRenders.add(selectedShape);
 			}
-			
+
 			// Add the clone and all of its children
 			newShapes.addAll(replicateUnion.getNodes());
-			
+
 			for (int j = 0; j < newShapes.size(); j++) {
 				newShapes.addAll(newShapes.get(j).getNodes());
-				
-				if(j >= quantity){
-					for(INode newNode : originalRenders.get(j).getBase().getNodes()){
+
+				if (j >= quantity) {
+					for (INode newNode : originalRenders.get(j).getBase()
+							.getNodes()) {
 						originalRenders.add(holder.getRender(newNode));
 					}
 				}
 			}
 
-
-
-			
-			
-
-//			originalRenders.add(selectedShape);
-//			for (int j = 0; j < originalRenders.size(); j++) {
-//				for (INode node : originalRenders.get(j).getBase().getNodes()) {
-//					originalRenders.add(holder.getRender(node));
-//				}
-//			}
+			// originalRenders.add(selectedShape);
+			// for (int j = 0; j < originalRenders.size(); j++) {
+			// for (INode node : originalRenders.get(j).getBase().getNodes()) {
+			// originalRenders.add(holder.getRender(node));
+			// }
+			// }
 
 			// Copy the color information from the original renders
 			for (int j = 0; j < newShapes.size(); j++) {

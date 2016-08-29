@@ -13,9 +13,18 @@ package org.eclipse.eavp.viz.service.geometry.properties;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData;
+import org.eclipse.eavp.geometry.view.model.DisplayOption;
+import org.eclipse.eavp.geometry.view.model.DisplayOptionType;
+import org.eclipse.eavp.geometry.view.model.IDisplayOptionData;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.RenderObject;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.RealSpinner;
 import org.eclipse.eavp.viz.service.geometry.widgets.RealSpinnerListener;
@@ -110,10 +119,12 @@ public class ShapeSection extends AbstractPropertySection {
 	 */
 	private Table triangleTable;
 
+	private Group displayGroup;
+
 	/**
 	 * A combo box listing the options for how to display the shape.
 	 */
-	private Combo opacityCombo;
+	// private Combo opacityCombo;
 
 	/**
 	 * A constructor allowing for the section to be set to display one of the
@@ -362,7 +373,10 @@ public class ShapeSection extends AbstractPropertySection {
 		// A display group taking up the right half of the view. This group will
 		// display the properties of the IRenderElement, which control how the
 		// data is displayed.
-		Group displayGroup = createGroup(parent, "Display", 0, 50, 100, 100);
+		displayGroup = createGroup(parent, "Display", 0, 50, 100, 100);
+
+		// The Display options will be created in rows
+		// displayGroup.setLayout(new RowLayout());
 
 		Group opacityGroup = new Group(displayGroup, SWT.NONE);
 		FormData opacityGroupData = new FormData();
@@ -373,16 +387,88 @@ public class ShapeSection extends AbstractPropertySection {
 		opacityGroup.setLayout(new GridLayout());
 
 		// Initialize the opacity combo box
-		opacityCombo = new Combo(opacityGroup, SWT.READ_ONLY);
+		// opacityCombo = new Combo(opacityGroup, SWT.READ_ONLY);
 		// opacityCombo.setLayoutData(
 		// new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		opacityCombo
-				.setItems(new String[] { "Solid", "Wireframe", "Transparent" });
+		// opacityCombo
+		// .setItems(new String[] { "Solid", "Wireframe", "Transparent" });
 
 		// Set the initial shape
 		createListeners();
 
 		refresh();
+	}
+
+	private void createComboControl(Group displayGroup, String groupName,
+			List<IDisplayOptionData> options) {
+		Group comboGroup = new Group(displayGroup, SWT.NONE);
+		comboGroup.setText(groupName);
+
+		Set<String> textOptions = new HashSet<String>();
+
+		for (IDisplayOptionData option : options) {
+			textOptions.addAll(((ComboDisplayOptionData) option)
+					.getTextToPropertyValuesMap().keySet());
+		}
+
+		textOptions.remove("default");
+
+		final HashMap<String, HashMap<String, Object>> propertyValueMap = new HashMap<String, HashMap<String, Object>>();
+
+		for (String displayText : textOptions) {
+
+			HashMap<String, Object> propertyValues = new HashMap<String, Object>();
+
+			for (IDisplayOptionData option : options) {
+
+				Map<String, Object> value = ((ComboDisplayOptionData) option)
+						.getTextToPropertyValuesMap().get(displayText);
+
+				if (value != null) {
+					String propertyName = (String) value.keySet().toArray()[0];// wireframe
+					propertyValues.put(propertyName, value.get(propertyName));// wireframe
+																				// >
+																				// false
+				} else {
+					value = ((ComboDisplayOptionData) option)
+							.getTextToPropertyValuesMap().get("default");
+					String propertyName = (String) value.keySet().toArray()[0];
+					propertyValues.put(propertyName, value.get("default"));
+				}
+			}
+
+			propertyValueMap.put(displayText, propertyValues);
+		}
+
+		textOptions.toArray(new String[textOptions.size()]);
+
+		Combo combo = new Combo(comboGroup, SWT.READ_ONLY);
+		combo.setItems(textOptions.toArray(new String[textOptions.size()]));
+
+		combo.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				// // Get the combo's contents
+				// String selection = opacityCombo.getText();
+				//
+				// HashMap<String, Object> propertySettings = propertyValueMap
+				// .get(selection);
+				//
+				// for (String propertyName : propertySettings.keySet()) {
+				// source.setProperty(propertyName,
+				// propertySettings.get(propertyName));
+				// }
+
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Nothing to do
+			}
+
+		});
 	}
 
 	/**
@@ -523,40 +609,40 @@ public class ShapeSection extends AbstractPropertySection {
 		}
 
 		// Add a listener for the combo that will set the shape's opacity
-		opacityCombo.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				// Get the combo's contents
-				String selection = opacityCombo.getText();
-
-				// If it is opaque, set both properties to false
-				if ("Solid".equals(selection)) {
-					source.setProperty("opacity", 100d);
-					source.setProperty("wireframe", false);
-				}
-
-				// If it is transparent, set it to transparent, leaving its
-				// wireframe value alone
-				else if ("Transparent".equals(selection)) {
-					source.setProperty("opacity", 0d);
-				}
-
-				// If it is wireframe, set transparency off but wireframe on
-				else {
-					source.setProperty("opacity", 100d);
-					source.setProperty("wireframe", true);
-				}
-
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Nothing to do
-			}
-
-		});
+		// opacityCombo.addSelectionListener(new SelectionListener() {
+		//
+		// @Override
+		// public void widgetSelected(SelectionEvent e) {
+		//
+		// // Get the combo's contents
+		// String selection = opacityCombo.getText();
+		//
+		// // If it is opaque, set both properties to false
+		// if ("Solid".equals(selection)) {
+		// source.setProperty("opacity", 100d);
+		// source.setProperty("wireframe", false);
+		// }
+		//
+		// // If it is transparent, set it to transparent, leaving its
+		// // wireframe value alone
+		// else if ("Transparent".equals(selection)) {
+		// source.setProperty("opacity", 0d);
+		// }
+		//
+		// // If it is wireframe, set transparency off but wireframe on
+		// else {
+		// source.setProperty("opacity", 100d);
+		// source.setProperty("wireframe", true);
+		// }
+		//
+		// }
+		//
+		// @Override
+		// public void widgetDefaultSelected(SelectionEvent e) {
+		// // Nothing to do
+		// }
+		//
+		// });
 
 		// Create a spinner listener that will update the shape's properties
 		RealSpinnerListener propertyListener = new RealSpinnerListener() {
@@ -611,13 +697,13 @@ public class ShapeSection extends AbstractPropertySection {
 
 			// Set the opacity combo's value based on the shape's transparency
 			// and wireframe status
-			if (opacity == 0) {
-				opacityCombo.select(2);
-			} else if (wireframe) {
-				opacityCombo.select(1);
-			} else {
-				opacityCombo.select(0);
-			}
+			// if (opacity == 0) {
+			// opacityCombo.select(2);
+			// } else if (wireframe) {
+			// opacityCombo.select(1);
+			// } else {
+			// opacityCombo.select(0);
+			// }
 
 			// Set the spinner values
 
@@ -713,7 +799,39 @@ public class ShapeSection extends AbstractPropertySection {
 		for (RealSpinner spinner : propertySpinners) {
 			spinner.getControl().setEnabled(source != null);
 		}
-		opacityCombo.setEnabled(source != null);
+
+		HashMap<String, ArrayList<IDisplayOptionData>> optionGroupMap = new HashMap<String, ArrayList<IDisplayOptionData>>();
+
+		List<DisplayOption> optionList = ((RenderObject) source)
+				.getDisplayOptions();
+		for (DisplayOption option : optionList) {
+
+			String type = option.getOptionGroup();
+
+			ArrayList<IDisplayOptionData> options;
+
+			if (!optionGroupMap.containsKey(type)) {
+				options = new ArrayList<IDisplayOptionData>();
+			} else {
+				options = optionGroupMap.get(type);
+			}
+
+			options.add(option.getDisplayOptionData());
+			optionGroupMap.put(type, options);
+		}
+
+		for (String group : optionGroupMap.keySet()) {
+
+			DisplayOptionType type = optionGroupMap.get(group).get(0)
+					.getDisplayOptionType();
+
+			if (type == DisplayOptionType.COMBO) {
+				createComboControl(displayGroup, group,
+						optionGroupMap.get(group));
+			}
+		}
+
+		// opacityCombo.setEnabled(source != null);
 
 	}
 

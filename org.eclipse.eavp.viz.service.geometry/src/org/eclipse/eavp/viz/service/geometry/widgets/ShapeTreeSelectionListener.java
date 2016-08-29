@@ -15,6 +15,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.util.ArrayList;
 
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -112,18 +113,19 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 
 			// If the shape has default values, set them to the current values
 			if (red != null) {
-				shape.setProperty("red", (double) red);
-				shape.setProperty("green",
+				shape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED,
+						(double) red);
+				shape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
 						(double) shape.getProperty("defaultGreen"));
-				shape.setProperty("blue",
+				shape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
 						(double) shape.getProperty("defaultBlue"));
 			}
 
 			// If the shape lacks defaults, set it to grey
 			else {
-				shape.setProperty("red", 127d);
-				shape.setProperty("green", 127d);
-				shape.setProperty("blue", 127d);
+				shape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, 127d);
+				shape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN, 127d);
+				shape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, 127d);
 			}
 		}
 
@@ -141,9 +143,12 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 				IRenderElement selectedShape = (IRenderElement) selectedObject;
 
 				// Set the shape to red
-				selectedShape.setProperty("red", 255);
-				selectedShape.setProperty("green", 0);
-				selectedShape.setProperty("blue", 0);
+				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED,
+						255);
+				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
+						0);
+				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
+						0);
 
 				// Add the shape to the list of selected shapes
 				selectedShapes.add(selectedShape);

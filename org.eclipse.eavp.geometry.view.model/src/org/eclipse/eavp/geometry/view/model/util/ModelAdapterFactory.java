@@ -76,32 +76,44 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createRenderObjectAdapter();
 			}
 			@Override
-			public <T> Adapter caseRenderObjectDecorator(RenderObjectDecorator<T> object) {
-				return createRenderObjectDecoratorAdapter();
-			}
-			@Override
-			public <T> Adapter caseTextureDecorator(TextureDecorator<T> object) {
-				return createTextureDecoratorAdapter();
-			}
-			@Override
-			public <T> Adapter caseOpacityDecorator(OpacityDecorator<T> object) {
-				return createOpacityDecoratorAdapter();
-			}
-			@Override
-			public <T> Adapter caseScaleDecorator(ScaleDecorator<T> object) {
-				return createScaleDecoratorAdapter();
-			}
-			@Override
-			public <T> Adapter caseWireframeDecorator(WireframeDecorator<T> object) {
-				return createWireframeDecoratorAdapter();
-			}
-			@Override
-			public <T> Adapter caseColorDecorator(ColorDecorator<T> object) {
-				return createColorDecoratorAdapter();
-			}
-			@Override
 			public <T> Adapter caseIRenderElement(IRenderElement<T> object) {
 				return createIRenderElementAdapter();
+			}
+			@Override
+			public <T> Adapter caseDisplayOption(DisplayOption<T> object) {
+				return createDisplayOptionAdapter();
+			}
+			@Override
+			public <T> Adapter caseOpacityOption(OpacityOption<T> object) {
+				return createOpacityOptionAdapter();
+			}
+			@Override
+			public <T> Adapter caseScaleOption(ScaleOption<T> object) {
+				return createScaleOptionAdapter();
+			}
+			@Override
+			public <T> Adapter caseWireframeOption(WireframeOption<T> object) {
+				return createWireframeOptionAdapter();
+			}
+			@Override
+			public <T> Adapter caseColorOption(ColorOption<T> object) {
+				return createColorOptionAdapter();
+			}
+			@Override
+			public Adapter caseIDisplayOptionData(IDisplayOptionData object) {
+				return createIDisplayOptionDataAdapter();
+			}
+			@Override
+			public Adapter caseComboDisplayOptionData(ComboDisplayOptionData object) {
+				return createComboDisplayOptionDataAdapter();
+			}
+			@Override
+			public Adapter caseDoubleTextDisplayOptionData(DoubleTextDisplayOptionData object) {
+				return createDoubleTextDisplayOptionDataAdapter();
+			}
+			@Override
+			public Adapter caseIntegerTextDisplayOptionData(IntegerTextDisplayOptionData object) {
+				return createIntegerTextDisplayOptionDataAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -152,90 +164,6 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.RenderObjectDecorator <em>Render Object Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.eavp.geometry.view.model.RenderObjectDecorator
-	 * @generated
-	 */
-	public Adapter createRenderObjectDecoratorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.TextureDecorator <em>Texture Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.eavp.geometry.view.model.TextureDecorator
-	 * @generated
-	 */
-	public Adapter createTextureDecoratorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.OpacityDecorator <em>Opacity Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.eavp.geometry.view.model.OpacityDecorator
-	 * @generated
-	 */
-	public Adapter createOpacityDecoratorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.ScaleDecorator <em>Scale Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.eavp.geometry.view.model.ScaleDecorator
-	 * @generated
-	 */
-	public Adapter createScaleDecoratorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.WireframeDecorator <em>Wireframe Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.eavp.geometry.view.model.WireframeDecorator
-	 * @generated
-	 */
-	public Adapter createWireframeDecoratorAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.ColorDecorator <em>Color Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.eavp.geometry.view.model.ColorDecorator
-	 * @generated
-	 */
-	public Adapter createColorDecoratorAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.IRenderElement <em>IRender Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -246,6 +174,132 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIRenderElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.DisplayOption <em>Display Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption
+	 * @generated
+	 */
+	public Adapter createDisplayOptionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.OpacityOption <em>Opacity Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.OpacityOption
+	 * @generated
+	 */
+	public Adapter createOpacityOptionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.ScaleOption <em>Scale Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.ScaleOption
+	 * @generated
+	 */
+	public Adapter createScaleOptionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.WireframeOption <em>Wireframe Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.WireframeOption
+	 * @generated
+	 */
+	public Adapter createWireframeOptionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.ColorOption <em>Color Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.ColorOption
+	 * @generated
+	 */
+	public Adapter createColorOptionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.IDisplayOptionData <em>IDisplay Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.IDisplayOptionData
+	 * @generated
+	 */
+	public Adapter createIDisplayOptionDataAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData <em>Combo Display Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData
+	 * @generated
+	 */
+	public Adapter createComboDisplayOptionDataAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData <em>Double Text Display Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData
+	 * @generated
+	 */
+	public Adapter createDoubleTextDisplayOptionDataAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData <em>Integer Text Display Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData
+	 * @generated
+	 */
+	public Adapter createIntegerTextDisplayOptionDataAdapter() {
 		return null;
 	}
 

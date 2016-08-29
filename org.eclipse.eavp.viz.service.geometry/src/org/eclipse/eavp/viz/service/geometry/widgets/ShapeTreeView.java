@@ -17,11 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
-import org.eclipse.january.geometry.INode;
-import org.eclipse.january.geometry.Triangle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -44,10 +43,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * </p>
  * 
  * @author Andrew P. Belt, Kasper Gammeltoft, Robert Smith, Jay Jay Billings,
- * Jordan Deyton
+ *         Jordan Deyton
  */
-public class ShapeTreeView extends ViewPart
-		implements ISelectionChangedListener, ITabbedPropertySheetPageContributor {
+public class ShapeTreeView extends ViewPart implements
+		ISelectionChangedListener, ITabbedPropertySheetPageContributor {
 
 	/**
 	 * <p>
@@ -79,7 +78,7 @@ public class ShapeTreeView extends ViewPart
 	private Action duplicateShapes;
 	private Action replicateShapes;
 	private Action deleteShape;
-	
+
 	private Action importSTL;
 
 	/**
@@ -104,7 +103,7 @@ public class ShapeTreeView extends ViewPart
 		// Make a TreeViewer and add a content provider to it
 
 		treeViewer = new TreeViewer(parent);
-		
+
 		ShapeTreeContentProvider contentProvider = new ShapeTreeContentProvider(
 				holder);
 		treeViewer.setContentProvider(contentProvider);
@@ -114,32 +113,35 @@ public class ShapeTreeView extends ViewPart
 		ShapeTreeLabelProvider labelProvider = new ShapeTreeLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
 
-		//Set the viewer as a selection provider
+		// Set the viewer as a selection provider
 		getSite().setSelectionProvider(treeViewer);
-		
+
 		// Add selection listener to TreeViewer
 
 		treeViewer.addSelectionChangedListener(this);
 	}
-	
+
 	public List<IRenderElement> getSelectedElements() {
 		return selectedShapes;
 	}
-	
+
 	/**
 	 * Sets the selected item in the tree viewer
-	 * @param selection The node to select 
+	 * 
+	 * @param selection
+	 *            The node to select
 	 */
 	public void setSelected(IRenderElement selection) {
-		ArrayList<IRenderElement> selectionElements = 
-				new ArrayList<IRenderElement>();
+		ArrayList<IRenderElement> selectionElements = new ArrayList<IRenderElement>();
 		selectionElements.add(selection);
 		setSelected(selectionElements);
 	}
-	
+
 	/**
-	 * Sets the selected items in the tree viwer 
-	 * @param selection The nodes to select in the viewer
+	 * Sets the selected items in the tree viwer
+	 * 
+	 * @param selection
+	 *            The nodes to select in the viewer
 	 */
 	public void setSelected(List<IRenderElement> selection) {
 		// Create a tree selection for the new selected elements
@@ -182,33 +184,33 @@ public class ShapeTreeView extends ViewPart
 			@Override
 			public TreePath[] getPaths() {
 				TreePath[] paths = new TreePath[selection.size()];
-				for (int i = 0; i<selection.size(); i++) {
-					paths[i] = new TreePath(new IRenderElement[] {selection.get(i)});
+				for (int i = 0; i < selection.size(); i++) {
+					paths[i] = new TreePath(
+							new IRenderElement[] { selection.get(i) });
 				}
 				return paths;
-			}	
-			
+			}
+
 			@Override
 			public TreePath[] getPathsFor(Object element) {
-				return new TreePath[] {
-						new TreePath( new IRenderElement[] {
-								selection.get(selection.indexOf(element))
-						})
-				};
+				return new TreePath[] { new TreePath(new IRenderElement[] {
+						selection.get(selection.indexOf(element)) }) };
 			}
-			
+
 		};
 		treeViewer.setSelection(treeSelection);
 	}
-	
+
 	/**
 	 * Toggles if the given element is selected or not. If the element is
 	 * selected, it becomes unselected, and if unselected, becomes selected.
-	 * @param selected The element who's selected state should be toggled. 
+	 * 
+	 * @param selected
+	 *            The element who's selected state should be toggled.
 	 */
 	public void toggleSelected(IRenderElement selected) {
 		if (selected != null) {
-			// Try removing it from selected shapes, it will succeed 
+			// Try removing it from selected shapes, it will succeed
 			// if the element is selected
 			if (!selectedShapes.remove(selected)) {
 				// If not in selected shapes, add this element
@@ -237,7 +239,7 @@ public class ShapeTreeView extends ViewPart
 		IToolBarManager toolbarManager = actionBars.getToolBarManager();
 
 		importSTL = new ActionImportGeometry(this);
-		
+
 		// Create the add shapes menu managers
 
 		addPrimitiveShapes = new DropdownAction("Add Primitives");
@@ -283,7 +285,7 @@ public class ShapeTreeView extends ViewPart
 		deleteShape = new ActionDeleteShape(this);
 
 		toolbarManager.add(importSTL);
-		
+
 		// Add the top level menus to the toolbar
 		toolbarManager.add(addPrimitiveShapes);
 		toolbarManager.add(addComplexShapes);
@@ -336,14 +338,15 @@ public class ShapeTreeView extends ViewPart
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	/**
-	 * Helper method used to re-color a shape that was unselected in the 
-	 * editor. 
-	 * @param selectedShape The shape that is being unselected.
+	 * Helper method used to re-color a shape that was unselected in the editor.
+	 * 
+	 * @param selectedShape
+	 *            The shape that is being unselected.
 	 */
 	private void unselect(IRenderElement selectedShape) {
-		
+
 		// Get default colors for the selected shape
 		int red = selectedShape.getProperty("defaultRed") != null
 				? getIntValue(selectedShape.getProperty("defaultRed")) : 127;
@@ -352,10 +355,10 @@ public class ShapeTreeView extends ViewPart
 		int blue = selectedShape.getProperty("defaultBlue") != null
 				? getIntValue(selectedShape.getProperty("defaultBlue")) : 127;
 		// Reset the shape's colors
-		selectedShape.setProperty("red", red);
-		selectedShape.setProperty("green", green);
-		selectedShape.setProperty("blue", blue);
-		
+		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, red);
+		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN, green);
+		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, blue);
+
 	}
 
 	/**
@@ -451,15 +454,19 @@ public class ShapeTreeView extends ViewPart
 		for (IRenderElement selectedShape : selectedShapes) {
 
 			int red = selectedShape.getProperty("defaultRed") != null
-					? getIntValue(selectedShape.getProperty("defaultRed")) : 127;
+					? getIntValue(selectedShape.getProperty("defaultRed"))
+					: 127;
 			int green = selectedShape.getProperty("defaultGreen") != null
-					? getIntValue(selectedShape.getProperty("defaultGreen")) : 127;
+					? getIntValue(selectedShape.getProperty("defaultGreen"))
+					: 127;
 			int blue = selectedShape.getProperty("defaultBlue") != null
-					? getIntValue(selectedShape.getProperty("defaultBlue")) : 127;
+					? getIntValue(selectedShape.getProperty("defaultBlue"))
+					: 127;
 
-			selectedShape.setProperty("red", red);
-			selectedShape.setProperty("green", green);
-			selectedShape.setProperty("blue", blue);
+			selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, red);
+			selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
+					green);
+			selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, blue);
 		}
 
 		// Update the list of last-selected shapes
@@ -475,50 +482,57 @@ public class ShapeTreeView extends ViewPart
 
 				// Set the shape's color to red to mark it as selected
 				IRenderElement selectedShape = (IRenderElement) selectedObject;
-				selectedShape.setProperty("red", 255);
-				selectedShape.setProperty("green", 0);
-				selectedShape.setProperty("blue", 0);
+				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED,
+						255);
+				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
+						0);
+				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
+						0);
 				selectedShapes.add(selectedShape);
 			}
 		}
 	}
 
-
 	/**
 	 * Converts the given object to an integer
-	 * @param obj The object to get the integer value of
-	 * @return Returns an int- giving the best 
+	 * 
+	 * @param obj
+	 *            The object to get the integer value of
+	 * @return Returns an int- giving the best
 	 */
 	private int getIntValue(Object obj) {
 		int val = -1;
 		// If it is an int, cast it
 		if (obj instanceof Integer) {
 			val = (Integer) obj;
-		// If it is a double, get the int value
+			// If it is a double, get the int value
 		} else if (obj instanceof Double) {
 			val = ((Double) obj).intValue();
 		} else {
 			// Try to get an int value from it
 			try {
 				val = Integer.parseInt(obj.toString());
-			} catch(NumberFormatException e) {
-				//TODO Some warning here in the logger
+			} catch (NumberFormatException e) {
+				// TODO Some warning here in the logger
 			}
 		}
 		return val;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
+	 * 
+	 * @see org.eclipse.ui.views.properties.tabbed.
+	 * ITabbedPropertySheetPageContributor#getContributorId()
 	 */
 	@Override
 	public String getContributorId() {
 		return getSite().getId();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
 	@Override

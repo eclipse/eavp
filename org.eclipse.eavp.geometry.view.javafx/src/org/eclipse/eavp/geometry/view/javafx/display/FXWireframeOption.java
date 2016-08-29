@@ -8,10 +8,10 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.geometry.view.javafx.decorators;
+package org.eclipse.eavp.geometry.view.javafx.display;
 
-import org.eclipse.eavp.geometry.view.model.impl.WireframeDecoratorImpl;
-import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.eavp.geometry.view.model.RenderObject;
+import org.eclipse.eavp.geometry.view.model.impl.WireframeOptionImpl;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -19,19 +19,31 @@ import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 
 /**
- * A decorator for FXRenderObjects that will allow them to be drawn in wireframe
- * mode.
+ * A FXRenderElement that will allow them to be drawn in wireframe mode.
  * 
  * The decorator will read properties from its source IRenderElement in order to
  * configure itself. The properties used for this decorator are:
  * 
- * "wireframe"- A boolean value. True makes the shape wireframe, false makes it
+ * "Wireframe"- A boolean value. True makes the shape wireframe, false makes it
  * solid.
  * 
  * @author Robert Smith
  *
  */
-public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
+public class FXWireframeOption extends WireframeOptionImpl<Group> {
+
+	/**
+	 * The default constructor.
+	 * 
+	 * @param parent
+	 *            The parent render object which this option will be applied to.
+	 */
+	public FXWireframeOption(RenderObject parent) {
+		super();
+
+		this.parent = parent;
+		parent.registerOption(this);
+	}
 
 	/**
 	 * Set all the MeshViews in the group to the given draw mode, as well as the
@@ -62,59 +74,21 @@ public class FXWireframeDecorator extends WireframeDecoratorImpl<Group> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see model.impl.RenderObjectDecoratorImpl#getMesh()
+	 * @see
+	 * org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#modify(java.
+	 * lang.Object)
 	 */
 	@Override
-	public Group getMesh() {
+	public void modify(Group element) {
 
-		// Get the source's group
-		Group group = source.getMesh();
+		boolean wireframe = (boolean) parent
+				.getProperty(PROPERTY_NAME_WIREFRAME);
 
 		// Set the group's children to the correct drawing mode.
 		if (!wireframe) {
-			setMode(group, DrawMode.FILL);
+			setMode(element, DrawMode.FILL);
 		} else {
-			setMode(group, DrawMode.LINE);
+			setMode(element, DrawMode.LINE);
 		}
-
-		return group;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * model.impl.RenderObjectDecoratorImpl#handleUpdate(org.eclipse.emf.common.
-	 * notify.Notification)
-	 */
-	@Override
-	protected void handleUpdate(Notification notification) {
-
-		// If the wireframe was changed, update to the new value
-		if ("wireframe".equals(notification.getOldValue())) {
-
-			// Set the local wireframe variable according to the new
-			// value
-			wireframe = (boolean) notification.getNewValue();
-		}
-
-		// Pass on the update to own observers
-		super.handleUpdate(notification);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see model.impl.RenderObjectDecoratorImpl#clone()
-	 */
-	@Override
-	public Object clone() {
-
-		// Create a new wireframe decorator
-		FXWireframeDecorator clone = new FXWireframeDecorator();
-
-		// Copy this object's data into the clone
-		clone.copy(this);
-		return clone;
 	}
 }

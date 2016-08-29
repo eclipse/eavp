@@ -79,56 +79,70 @@ public class ModelSwitch<T1> extends Switch<T1> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelPackage.RENDER_OBJECT_DECORATOR: {
-				RenderObjectDecorator<?> renderObjectDecorator = (RenderObjectDecorator<?>)theEObject;
-				T1 result = caseRenderObjectDecorator(renderObjectDecorator);
-				if (result == null) result = caseIRenderElement(renderObjectDecorator);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.TEXTURE_DECORATOR: {
-				TextureDecorator<?> textureDecorator = (TextureDecorator<?>)theEObject;
-				T1 result = caseTextureDecorator(textureDecorator);
-				if (result == null) result = caseRenderObjectDecorator(textureDecorator);
-				if (result == null) result = caseIRenderElement(textureDecorator);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.OPACITY_DECORATOR: {
-				OpacityDecorator<?> opacityDecorator = (OpacityDecorator<?>)theEObject;
-				T1 result = caseOpacityDecorator(opacityDecorator);
-				if (result == null) result = caseRenderObjectDecorator(opacityDecorator);
-				if (result == null) result = caseIRenderElement(opacityDecorator);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.SCALE_DECORATOR: {
-				ScaleDecorator<?> scaleDecorator = (ScaleDecorator<?>)theEObject;
-				T1 result = caseScaleDecorator(scaleDecorator);
-				if (result == null) result = caseRenderObjectDecorator(scaleDecorator);
-				if (result == null) result = caseIRenderElement(scaleDecorator);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.WIREFRAME_DECORATOR: {
-				WireframeDecorator<?> wireframeDecorator = (WireframeDecorator<?>)theEObject;
-				T1 result = caseWireframeDecorator(wireframeDecorator);
-				if (result == null) result = caseRenderObjectDecorator(wireframeDecorator);
-				if (result == null) result = caseIRenderElement(wireframeDecorator);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.COLOR_DECORATOR: {
-				ColorDecorator<?> colorDecorator = (ColorDecorator<?>)theEObject;
-				T1 result = caseColorDecorator(colorDecorator);
-				if (result == null) result = caseRenderObjectDecorator(colorDecorator);
-				if (result == null) result = caseIRenderElement(colorDecorator);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case ModelPackage.IRENDER_ELEMENT: {
 				IRenderElement<?> iRenderElement = (IRenderElement<?>)theEObject;
 				T1 result = caseIRenderElement(iRenderElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.DISPLAY_OPTION: {
+				DisplayOption<?> displayOption = (DisplayOption<?>)theEObject;
+				T1 result = caseDisplayOption(displayOption);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.OPACITY_OPTION: {
+				OpacityOption<?> opacityOption = (OpacityOption<?>)theEObject;
+				T1 result = caseOpacityOption(opacityOption);
+				if (result == null) result = (T1)caseDisplayOption(opacityOption);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.SCALE_OPTION: {
+				ScaleOption<?> scaleOption = (ScaleOption<?>)theEObject;
+				T1 result = caseScaleOption(scaleOption);
+				if (result == null) result = (T1)caseDisplayOption(scaleOption);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.WIREFRAME_OPTION: {
+				WireframeOption<?> wireframeOption = (WireframeOption<?>)theEObject;
+				T1 result = caseWireframeOption(wireframeOption);
+				if (result == null) result = (T1)caseDisplayOption(wireframeOption);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.COLOR_OPTION: {
+				ColorOption<?> colorOption = (ColorOption<?>)theEObject;
+				T1 result = caseColorOption(colorOption);
+				if (result == null) result = (T1)caseDisplayOption(colorOption);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.IDISPLAY_OPTION_DATA: {
+				IDisplayOptionData iDisplayOptionData = (IDisplayOptionData)theEObject;
+				T1 result = caseIDisplayOptionData(iDisplayOptionData);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.COMBO_DISPLAY_OPTION_DATA: {
+				ComboDisplayOptionData comboDisplayOptionData = (ComboDisplayOptionData)theEObject;
+				T1 result = caseComboDisplayOptionData(comboDisplayOptionData);
+				if (result == null) result = caseIDisplayOptionData(comboDisplayOptionData);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA: {
+				DoubleTextDisplayOptionData doubleTextDisplayOptionData = (DoubleTextDisplayOptionData)theEObject;
+				T1 result = caseDoubleTextDisplayOptionData(doubleTextDisplayOptionData);
+				if (result == null) result = caseIDisplayOptionData(doubleTextDisplayOptionData);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.INTEGER_TEXT_DISPLAY_OPTION_DATA: {
+				IntegerTextDisplayOptionData integerTextDisplayOptionData = (IntegerTextDisplayOptionData)theEObject;
+				T1 result = caseIntegerTextDisplayOptionData(integerTextDisplayOptionData);
+				if (result == null) result = caseIDisplayOptionData(integerTextDisplayOptionData);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -167,96 +181,6 @@ public class ModelSwitch<T1> extends Switch<T1> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Render Object Decorator</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Render Object Decorator</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public <T> T1 caseRenderObjectDecorator(RenderObjectDecorator<T> object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Texture Decorator</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Texture Decorator</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public <T> T1 caseTextureDecorator(TextureDecorator<T> object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Opacity Decorator</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Opacity Decorator</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public <T> T1 caseOpacityDecorator(OpacityDecorator<T> object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Scale Decorator</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Scale Decorator</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public <T> T1 caseScaleDecorator(ScaleDecorator<T> object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Wireframe Decorator</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Wireframe Decorator</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public <T> T1 caseWireframeDecorator(WireframeDecorator<T> object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Color Decorator</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Color Decorator</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public <T> T1 caseColorDecorator(ColorDecorator<T> object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>IRender Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -268,6 +192,141 @@ public class ModelSwitch<T1> extends Switch<T1> {
 	 * @generated
 	 */
 	public <T> T1 caseIRenderElement(IRenderElement<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Display Option</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Display Option</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseDisplayOption(DisplayOption<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Opacity Option</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Opacity Option</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseOpacityOption(OpacityOption<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Scale Option</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Scale Option</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseScaleOption(ScaleOption<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Wireframe Option</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Wireframe Option</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseWireframeOption(WireframeOption<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Color Option</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Color Option</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public <T> T1 caseColorOption(ColorOption<T> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IDisplay Option Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IDisplay Option Data</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseIDisplayOptionData(IDisplayOptionData object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Combo Display Option Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Combo Display Option Data</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseComboDisplayOptionData(ComboDisplayOptionData object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Double Text Display Option Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Double Text Display Option Data</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseDoubleTextDisplayOptionData(DoubleTextDisplayOptionData object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Integer Text Display Option Data</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Integer Text Display Option Data</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T1 caseIntegerTextDisplayOptionData(IntegerTextDisplayOptionData object) {
 		return null;
 	}
 

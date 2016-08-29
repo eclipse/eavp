@@ -41,6 +41,9 @@
       </eAnnotations>
       <eGenericType eTypeParameter="#//RenderObject/T"/>
     </eOperations>
+    <eOperations name="registerOption">
+      <eParameters name="option" eType="#//DisplayOption"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="meshCache">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The cache from which the mesh will be pulled. It is intended that all RenderObjects in the same context should share the same meshCache."/>
@@ -70,103 +73,14 @@
         <eTypeArguments eTypeParameter="#//RenderObject/T"/>
       </eGenericType>
     </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//IRenderElement">
-      <eTypeArguments eTypeParameter="#//RenderObject/T"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RenderObjectDecorator">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A decorator for a RenderObject. A RenderObjectDecorator will be responsible for applying a single, well defined graphical change to the RenderObject to which it is applied."/>
-    </eAnnotations>
-    <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="source">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The wrapped object to which this object will apply its change."/>
-      </eAnnotations>
-      <eGenericType eClassifier="#//IRenderElement">
-        <eTypeArguments eTypeParameter="#//RenderObjectDecorator/T"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displayOptions" upperBound="-1"
+        containment="true">
+      <eGenericType eClassifier="#//DisplayOption">
+        <eTypeArguments/>
       </eGenericType>
     </eStructuralFeatures>
     <eGenericSuperTypes eClassifier="#//IRenderElement">
-      <eTypeArguments eTypeParameter="#//RenderObjectDecorator/T"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TextureDecorator">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A decorator which applies a texture to the wrapped object's rendering."/>
-    </eAnnotations>
-    <eTypeParameters name="T"/>
-    <eGenericSuperTypes eClassifier="#//RenderObjectDecorator">
-      <eTypeArguments eTypeParameter="#//TextureDecorator/T"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OpacityDecorator">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A decorator which sets the wrapped object's rendering to a specified amount of opacity."/>
-    </eAnnotations>
-    <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="opacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
-        defaultValueLiteral="100.0">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="How opaque to render the object. Opacity is measured on a scale from 0 (fully transparent) to 1 (fully opaque)."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//RenderObjectDecorator">
-      <eTypeArguments eTypeParameter="#//OpacityDecorator/T"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ScaleDecorator">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A decorator which scales the wrapped object's rendering to a specified multiple of the base size."/>
-    </eAnnotations>
-    <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scale" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
-        defaultValueLiteral="1">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="How large the object is to be displayed in comparision to its actual data. A value of 1 is equivalent to the original object and a value of less than 0 will cause the decorator to make no changes to the object."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//RenderObjectDecorator">
-      <eTypeArguments eTypeParameter="#//ScaleDecorator/T"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="WireframeDecorator">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A decorator which can change the object's rendering to appear in wireframe mode."/>
-    </eAnnotations>
-    <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wireframe" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="Whether the object is to be rendered as a wireframe. If true, it will be displayed as a wireframe and if false it will be displayed as a solid object."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//RenderObjectDecorator">
-      <eTypeArguments eTypeParameter="#//WireframeDecorator/T"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ColorDecorator">
-    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="A decorator which applies a color to a rendered object."/>
-    </eAnnotations>
-    <eTypeParameters name="T"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="red" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The amount of red in the object's color, on a scale from 0 to 255."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="green" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The amount of green in the object's color, on a scale from 0 to 255."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="blue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The amount of blue in the object's color, on a scale from 0 to 255."/>
-      </eAnnotations>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//RenderObjectDecorator">
-      <eTypeArguments eTypeParameter="#//ColorDecorator/T"/>
+      <eTypeArguments eTypeParameter="#//RenderObject/T"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IRenderElement" abstract="true" interface="true">
@@ -226,4 +140,121 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Triangle" instanceClassName="org.eclipse.january.geometry.Triangle"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="newDataType3"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DisplayOption">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This class contains additional optional rendering information that will be applied to the containing RenderObject's data. A DisplayOption will offer addional functionality beyond that provided by the RenderObject simply specifiyng the geometry for the shape."/>
+    </eAnnotations>
+    <eTypeParameters name="T"/>
+    <eOperations name="modify">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Apply this option's modifications to the given mesh."/>
+      </eAnnotations>
+      <eParameters name="element">
+        <eGenericType eTypeParameter="#//DisplayOption/T"/>
+      </eParameters>
+    </eOperations>
+    <eOperations name="getDefaultProperties">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="#//Object"/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="getDisplayOptionData" eType="#//IDisplayOptionData"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="active" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Whether the option is currently active. If false, the DisplayOption will not have any effect, the same as if it were not in the RenderObject's list of options. If true, it will apply its changes to the RenderObject's mesh."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="optionGroup" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The option group to which this DisplayOption belongs. The option group will determing the name under which the DisplayOption's controls will be published to users and will allow conceptually related options to share the same control."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent">
+      <eGenericType eClassifier="#//RenderObject">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DisplayOptionType">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The type of control which best corresponds to this class's configuraiton options."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OpacityOption" eSuperTypes="#//DisplayOption">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An option that will allow the RenderObject to display with a non-default opacity. "/>
+    </eAnnotations>
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ScaleOption" eSuperTypes="#//DisplayOption">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="A DisplayOption which will control the size at which the object is displayed."/>
+    </eAnnotations>
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WireframeOption" eSuperTypes="#//DisplayOption">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An option which allows a mesh to be rendered as a wireframe."/>
+    </eAnnotations>
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ColorOption" eSuperTypes="#//DisplayOption">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="An option which will set the mesh's color. "/>
+    </eAnnotations>
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DisplayOptionType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="The type of control which a DisplayOption will be associated with."/>
+    </eAnnotations>
+    <eLiterals name="COMBO" literal="COMBO"/>
+    <eLiterals name="DOUBLE_TEXT" value="1" literal="DOUBLE_TEXT"/>
+    <eLiterals name="INTEGER_TEXT" value="2" literal="INTEGER_TEXT"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IDisplayOptionData" abstract="true"
+      interface="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="This interface is for objects which contain information on the configuration data for a DisplayOption."/>
+    </eAnnotations>
+    <eOperations name="getDisplayOptionType" eType="#//DisplayOptionType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="displayOption">
+      <eGenericType eClassifier="#//DisplayOption">
+        <eTypeArguments/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComboDisplayOptionData" eSuperTypes="#//IDisplayOptionData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textToPropertyValuesMap"
+        transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+          <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          <eTypeArguments eClassifier="#//Object"/>
+        </eTypeArguments>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoubleTextDisplayOptionData" eSuperTypes="#//IDisplayOptionData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyToValueMap" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="#//Double"/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Double" instanceClassName="java.lang.Double"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceClassName="java.lang.Integer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerTextDisplayOptionData" eSuperTypes="#//IDisplayOptionData">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyToValueMap" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="#//Integer"/>
+      </eGenericType>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceClassName="java.lang.Boolean"/>
 </ecore:EPackage>

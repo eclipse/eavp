@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Cube;
@@ -268,9 +269,12 @@ public class ActionAddShape extends Action {
 		}
 
 		// Initialize the color to the default
-		render.setProperty("red", render.getProperty("defaultRed"));
-		render.setProperty("green", render.getProperty("defaultGreen"));
-		render.setProperty("blue", render.getProperty("defaultBlue"));
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_RED,
+				render.getProperty("defaultRed"));
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
+				render.getProperty("defaultGreen"));
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
+				render.getProperty("defaultBlue"));
 
 		// Expand the child in the tree if a ComplexShape was added
 

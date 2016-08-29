@@ -5,6 +5,7 @@ package org.eclipse.eavp.geometry.view.model;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -115,7 +116,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getIRenderElement()
 	 * @generated
 	 */
-	int IRENDER_ELEMENT = 8;
+	int IRENDER_ELEMENT = 2;
 
 	/**
 	 * The number of structural features of the '<em>IRender Element</em>' class.
@@ -245,13 +246,22 @@ public interface ModelPackage extends EPackage {
 	int RENDER_OBJECT__CHILDREN = IRENDER_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Display Options</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT__DISPLAY_OPTIONS = IRENDER_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Render Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_FEATURE_COUNT = IRENDER_ELEMENT_FEATURE_COUNT + 4;
+	int RENDER_OBJECT_FEATURE_COUNT = IRENDER_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The operation id for the '<em>Get Base</em>' operation.
@@ -317,667 +327,698 @@ public interface ModelPackage extends EPackage {
 	int RENDER_OBJECT___GET_MESH = IRENDER_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The operation id for the '<em>Register Option</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RENDER_OBJECT___REGISTER_OPTION__DISPLAYOPTION = IRENDER_ELEMENT_OPERATION_COUNT + 1;
+
+	/**
 	 * The number of operations of the '<em>Render Object</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_OPERATION_COUNT = IRENDER_ELEMENT_OPERATION_COUNT + 1;
+	int RENDER_OBJECT_OPERATION_COUNT = IRENDER_ELEMENT_OPERATION_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectDecoratorImpl <em>Render Object Decorator</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl <em>Display Option</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.eavp.geometry.view.model.impl.RenderObjectDecoratorImpl
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getRenderObjectDecorator()
+	 * @see org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDisplayOption()
 	 * @generated
 	 */
-	int RENDER_OBJECT_DECORATOR = 2;
+	int DISPLAY_OPTION = 3;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR__SOURCE = IRENDER_ELEMENT_FEATURE_COUNT + 0;
+	int DISPLAY_OPTION__ACTIVE = 0;
 
 	/**
-	 * The number of structural features of the '<em>Render Object Decorator</em>' class.
+	 * The feature id for the '<em><b>Option Group</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR_FEATURE_COUNT = IRENDER_ELEMENT_FEATURE_COUNT + 1;
+	int DISPLAY_OPTION__OPTION_GROUP = 1;
 
 	/**
-	 * The operation id for the '<em>Get Mesh</em>' operation.
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___GET_MESH = IRENDER_ELEMENT___GET_MESH;
+	int DISPLAY_OPTION__PARENT = 2;
 
 	/**
-	 * The operation id for the '<em>Get Base</em>' operation.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___GET_BASE = IRENDER_ELEMENT___GET_BASE;
+	int DISPLAY_OPTION__TYPE = 3;
 
 	/**
-	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * The number of structural features of the '<em>Display Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST = IRENDER_ELEMENT___HANDLE_CHILDREN__ELIST;
+	int DISPLAY_OPTION_FEATURE_COUNT = 4;
 
 	/**
-	 * The operation id for the '<em>Get Property</em>' operation.
+	 * The operation id for the '<em>Modify</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING = IRENDER_ELEMENT___GET_PROPERTY__STRING;
+	int DISPLAY_OPTION___MODIFY__OBJECT = 0;
 
 	/**
-	 * The operation id for the '<em>Set Property</em>' operation.
+	 * The operation id for the '<em>Get Default Properties</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT = IRENDER_ELEMENT___SET_PROPERTY__STRING_OBJECT;
+	int DISPLAY_OPTION___GET_DEFAULT_PROPERTIES = 1;
 
 	/**
-	 * The operation id for the '<em>Copy</em>' operation.
+	 * The operation id for the '<em>Get Display Option Data</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___COPY__OBJECT = IRENDER_ELEMENT___COPY__OBJECT;
+	int DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA = 2;
 
 	/**
-	 * The operation id for the '<em>Clone</em>' operation.
+	 * The number of operations of the '<em>Display Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR___CLONE = IRENDER_ELEMENT___CLONE;
+	int DISPLAY_OPTION_OPERATION_COUNT = 3;
 
 	/**
-	 * The number of operations of the '<em>Render Object Decorator</em>' class.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.OpacityOptionImpl <em>Opacity Option</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.impl.OpacityOptionImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getOpacityOption()
 	 * @generated
-	 * @ordered
 	 */
-	int RENDER_OBJECT_DECORATOR_OPERATION_COUNT = IRENDER_ELEMENT_OPERATION_COUNT + 0;
+	int OPACITY_OPTION = 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.TextureDecoratorImpl <em>Texture Decorator</em>}' class.
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.eavp.geometry.view.model.impl.TextureDecoratorImpl
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getTextureDecorator()
 	 * @generated
+	 * @ordered
 	 */
-	int TEXTURE_DECORATOR = 3;
+	int OPACITY_OPTION__ACTIVE = DISPLAY_OPTION__ACTIVE;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * The feature id for the '<em><b>Option Group</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR__SOURCE = RENDER_OBJECT_DECORATOR__SOURCE;
+	int OPACITY_OPTION__OPTION_GROUP = DISPLAY_OPTION__OPTION_GROUP;
 
 	/**
-	 * The number of structural features of the '<em>Texture Decorator</em>' class.
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR_FEATURE_COUNT = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 0;
+	int OPACITY_OPTION__PARENT = DISPLAY_OPTION__PARENT;
 
 	/**
-	 * The operation id for the '<em>Get Mesh</em>' operation.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+	int OPACITY_OPTION__TYPE = DISPLAY_OPTION__TYPE;
 
 	/**
-	 * The operation id for the '<em>Get Base</em>' operation.
+	 * The number of structural features of the '<em>Opacity Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+	int OPACITY_OPTION_FEATURE_COUNT = DISPLAY_OPTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * The operation id for the '<em>Modify</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+	int OPACITY_OPTION___MODIFY__OBJECT = DISPLAY_OPTION___MODIFY__OBJECT;
 
 	/**
-	 * The operation id for the '<em>Get Property</em>' operation.
+	 * The operation id for the '<em>Get Default Properties</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
+	int OPACITY_OPTION___GET_DEFAULT_PROPERTIES = DISPLAY_OPTION___GET_DEFAULT_PROPERTIES;
 
 	/**
-	 * The operation id for the '<em>Set Property</em>' operation.
+	 * The operation id for the '<em>Get Display Option Data</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+	int OPACITY_OPTION___GET_DISPLAY_OPTION_DATA = DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA;
 
 	/**
-	 * The operation id for the '<em>Copy</em>' operation.
+	 * The number of operations of the '<em>Opacity Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+	int OPACITY_OPTION_OPERATION_COUNT = DISPLAY_OPTION_OPERATION_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Clone</em>' operation.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.ScaleOptionImpl <em>Scale Option</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ScaleOptionImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getScaleOption()
 	 * @generated
-	 * @ordered
 	 */
-	int TEXTURE_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
+	int SCALE_OPTION = 5;
 
 	/**
-	 * The number of operations of the '<em>Texture Decorator</em>' class.
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXTURE_DECORATOR_OPERATION_COUNT = RENDER_OBJECT_DECORATOR_OPERATION_COUNT + 0;
+	int SCALE_OPTION__ACTIVE = DISPLAY_OPTION__ACTIVE;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.OpacityDecoratorImpl <em>Opacity Decorator</em>}' class.
+	 * The feature id for the '<em><b>Option Group</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.eavp.geometry.view.model.impl.OpacityDecoratorImpl
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getOpacityDecorator()
 	 * @generated
+	 * @ordered
 	 */
-	int OPACITY_DECORATOR = 4;
+	int SCALE_OPTION__OPTION_GROUP = DISPLAY_OPTION__OPTION_GROUP;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR__SOURCE = RENDER_OBJECT_DECORATOR__SOURCE;
+	int SCALE_OPTION__PARENT = DISPLAY_OPTION__PARENT;
 
 	/**
-	 * The feature id for the '<em><b>Opacity</b></em>' attribute.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR__OPACITY = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 0;
+	int SCALE_OPTION__TYPE = DISPLAY_OPTION__TYPE;
 
 	/**
-	 * The number of structural features of the '<em>Opacity Decorator</em>' class.
+	 * The number of structural features of the '<em>Scale Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR_FEATURE_COUNT = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 1;
+	int SCALE_OPTION_FEATURE_COUNT = DISPLAY_OPTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Get Mesh</em>' operation.
+	 * The operation id for the '<em>Modify</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+	int SCALE_OPTION___MODIFY__OBJECT = DISPLAY_OPTION___MODIFY__OBJECT;
 
 	/**
-	 * The operation id for the '<em>Get Base</em>' operation.
+	 * The operation id for the '<em>Get Default Properties</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+	int SCALE_OPTION___GET_DEFAULT_PROPERTIES = DISPLAY_OPTION___GET_DEFAULT_PROPERTIES;
 
 	/**
-	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * The operation id for the '<em>Get Display Option Data</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+	int SCALE_OPTION___GET_DISPLAY_OPTION_DATA = DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA;
 
 	/**
-	 * The operation id for the '<em>Get Property</em>' operation.
+	 * The number of operations of the '<em>Scale Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
+	int SCALE_OPTION_OPERATION_COUNT = DISPLAY_OPTION_OPERATION_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Set Property</em>' operation.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.WireframeOptionImpl <em>Wireframe Option</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.impl.WireframeOptionImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getWireframeOption()
 	 * @generated
-	 * @ordered
 	 */
-	int OPACITY_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+	int WIREFRAME_OPTION = 6;
 
 	/**
-	 * The operation id for the '<em>Copy</em>' operation.
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+	int WIREFRAME_OPTION__ACTIVE = DISPLAY_OPTION__ACTIVE;
 
 	/**
-	 * The operation id for the '<em>Clone</em>' operation.
+	 * The feature id for the '<em><b>Option Group</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
+	int WIREFRAME_OPTION__OPTION_GROUP = DISPLAY_OPTION__OPTION_GROUP;
 
 	/**
-	 * The number of operations of the '<em>Opacity Decorator</em>' class.
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPACITY_DECORATOR_OPERATION_COUNT = RENDER_OBJECT_DECORATOR_OPERATION_COUNT + 0;
+	int WIREFRAME_OPTION__PARENT = DISPLAY_OPTION__PARENT;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.ScaleDecoratorImpl <em>Scale Decorator</em>}' class.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ScaleDecoratorImpl
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getScaleDecorator()
 	 * @generated
+	 * @ordered
 	 */
-	int SCALE_DECORATOR = 5;
+	int WIREFRAME_OPTION__TYPE = DISPLAY_OPTION__TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * The number of structural features of the '<em>Wireframe Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR__SOURCE = RENDER_OBJECT_DECORATOR__SOURCE;
+	int WIREFRAME_OPTION_FEATURE_COUNT = DISPLAY_OPTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Scale</b></em>' attribute.
+	 * The operation id for the '<em>Modify</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR__SCALE = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 0;
+	int WIREFRAME_OPTION___MODIFY__OBJECT = DISPLAY_OPTION___MODIFY__OBJECT;
 
 	/**
-	 * The number of structural features of the '<em>Scale Decorator</em>' class.
+	 * The operation id for the '<em>Get Default Properties</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR_FEATURE_COUNT = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 1;
+	int WIREFRAME_OPTION___GET_DEFAULT_PROPERTIES = DISPLAY_OPTION___GET_DEFAULT_PROPERTIES;
 
 	/**
-	 * The operation id for the '<em>Get Mesh</em>' operation.
+	 * The operation id for the '<em>Get Display Option Data</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+	int WIREFRAME_OPTION___GET_DISPLAY_OPTION_DATA = DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA;
 
 	/**
-	 * The operation id for the '<em>Get Base</em>' operation.
+	 * The number of operations of the '<em>Wireframe Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+	int WIREFRAME_OPTION_OPERATION_COUNT = DISPLAY_OPTION_OPERATION_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl <em>Color Option</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getColorOption()
 	 * @generated
-	 * @ordered
 	 */
-	int SCALE_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+	int COLOR_OPTION = 7;
 
 	/**
-	 * The operation id for the '<em>Get Property</em>' operation.
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
+	int COLOR_OPTION__ACTIVE = DISPLAY_OPTION__ACTIVE;
 
 	/**
-	 * The operation id for the '<em>Set Property</em>' operation.
+	 * The feature id for the '<em><b>Option Group</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+	int COLOR_OPTION__OPTION_GROUP = DISPLAY_OPTION__OPTION_GROUP;
 
 	/**
-	 * The operation id for the '<em>Copy</em>' operation.
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+	int COLOR_OPTION__PARENT = DISPLAY_OPTION__PARENT;
 
 	/**
-	 * The operation id for the '<em>Clone</em>' operation.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
+	int COLOR_OPTION__TYPE = DISPLAY_OPTION__TYPE;
 
 	/**
-	 * The number of operations of the '<em>Scale Decorator</em>' class.
+	 * The number of structural features of the '<em>Color Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_DECORATOR_OPERATION_COUNT = RENDER_OBJECT_DECORATOR_OPERATION_COUNT + 0;
+	int COLOR_OPTION_FEATURE_COUNT = DISPLAY_OPTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.WireframeDecoratorImpl <em>Wireframe Decorator</em>}' class.
+	 * The operation id for the '<em>Modify</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.eavp.geometry.view.model.impl.WireframeDecoratorImpl
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getWireframeDecorator()
 	 * @generated
+	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR = 6;
+	int COLOR_OPTION___MODIFY__OBJECT = DISPLAY_OPTION___MODIFY__OBJECT;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * The operation id for the '<em>Get Default Properties</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR__SOURCE = RENDER_OBJECT_DECORATOR__SOURCE;
+	int COLOR_OPTION___GET_DEFAULT_PROPERTIES = DISPLAY_OPTION___GET_DEFAULT_PROPERTIES;
 
 	/**
-	 * The feature id for the '<em><b>Wireframe</b></em>' attribute.
+	 * The operation id for the '<em>Get Display Option Data</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR__WIREFRAME = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 0;
+	int COLOR_OPTION___GET_DISPLAY_OPTION_DATA = DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA;
 
 	/**
-	 * The number of structural features of the '<em>Wireframe Decorator</em>' class.
+	 * The number of operations of the '<em>Color Option</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR_FEATURE_COUNT = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 1;
+	int COLOR_OPTION_OPERATION_COUNT = DISPLAY_OPTION_OPERATION_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Get Mesh</em>' operation.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.IDisplayOptionData <em>IDisplay Option Data</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.IDisplayOptionData
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getIDisplayOptionData()
 	 * @generated
-	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+	int IDISPLAY_OPTION_DATA = 8;
 
 	/**
-	 * The operation id for the '<em>Get Base</em>' operation.
+	 * The feature id for the '<em><b>Display Option</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+	int IDISPLAY_OPTION_DATA__DISPLAY_OPTION = 0;
 
 	/**
-	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * The number of structural features of the '<em>IDisplay Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+	int IDISPLAY_OPTION_DATA_FEATURE_COUNT = 1;
 
 	/**
-	 * The operation id for the '<em>Get Property</em>' operation.
+	 * The operation id for the '<em>Get Display Option Type</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
+	int IDISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE = 0;
 
 	/**
-	 * The operation id for the '<em>Set Property</em>' operation.
+	 * The number of operations of the '<em>IDisplay Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+	int IDISPLAY_OPTION_DATA_OPERATION_COUNT = 1;
 
 	/**
-	 * The operation id for the '<em>Copy</em>' operation.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.ComboDisplayOptionDataImpl <em>Combo Display Option Data</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ComboDisplayOptionDataImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getComboDisplayOptionData()
 	 * @generated
-	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+	int COMBO_DISPLAY_OPTION_DATA = 9;
 
 	/**
-	 * The operation id for the '<em>Clone</em>' operation.
+	 * The feature id for the '<em><b>Display Option</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
+	int COMBO_DISPLAY_OPTION_DATA__DISPLAY_OPTION = IDISPLAY_OPTION_DATA__DISPLAY_OPTION;
 
 	/**
-	 * The number of operations of the '<em>Wireframe Decorator</em>' class.
+	 * The feature id for the '<em><b>Text To Property Values Map</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIREFRAME_DECORATOR_OPERATION_COUNT = RENDER_OBJECT_DECORATOR_OPERATION_COUNT + 0;
+	int COMBO_DISPLAY_OPTION_DATA__TEXT_TO_PROPERTY_VALUES_MAP = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.ColorDecoratorImpl <em>Color Decorator</em>}' class.
+	 * The number of structural features of the '<em>Combo Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ColorDecoratorImpl
-	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getColorDecorator()
 	 * @generated
+	 * @ordered
 	 */
-	int COLOR_DECORATOR = 7;
+	int COMBO_DISPLAY_OPTION_DATA_FEATURE_COUNT = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * The operation id for the '<em>Get Display Option Type</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR__SOURCE = RENDER_OBJECT_DECORATOR__SOURCE;
+	int COMBO_DISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE = IDISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Red</b></em>' attribute.
+	 * The number of operations of the '<em>Combo Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR__RED = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 0;
+	int COMBO_DISPLAY_OPTION_DATA_OPERATION_COUNT = IDISPLAY_OPTION_DATA_OPERATION_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Green</b></em>' attribute.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.DoubleTextDisplayOptionDataImpl <em>Double Text Display Option Data</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.impl.DoubleTextDisplayOptionDataImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDoubleTextDisplayOptionData()
 	 * @generated
-	 * @ordered
 	 */
-	int COLOR_DECORATOR__GREEN = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 1;
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA = 10;
 
 	/**
-	 * The feature id for the '<em><b>Blue</b></em>' attribute.
+	 * The feature id for the '<em><b>Display Option</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR__BLUE = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 2;
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA__DISPLAY_OPTION = IDISPLAY_OPTION_DATA__DISPLAY_OPTION;
 
 	/**
-	 * The number of structural features of the '<em>Color Decorator</em>' class.
+	 * The feature id for the '<em><b>Property To Value Map</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR_FEATURE_COUNT = RENDER_OBJECT_DECORATOR_FEATURE_COUNT + 3;
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Get Mesh</em>' operation.
+	 * The number of structural features of the '<em>Double Text Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___GET_MESH = RENDER_OBJECT_DECORATOR___GET_MESH;
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA_FEATURE_COUNT = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Get Base</em>' operation.
+	 * The operation id for the '<em>Get Display Option Type</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___GET_BASE = RENDER_OBJECT_DECORATOR___GET_BASE;
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE = IDISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE;
 
 	/**
-	 * The operation id for the '<em>Handle Children</em>' operation.
+	 * The number of operations of the '<em>Double Text Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___HANDLE_CHILDREN__ELIST = RENDER_OBJECT_DECORATOR___HANDLE_CHILDREN__ELIST;
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA_OPERATION_COUNT = IDISPLAY_OPTION_DATA_OPERATION_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Get Property</em>' operation.
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.impl.IntegerTextDisplayOptionDataImpl <em>Integer Text Display Option Data</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.impl.IntegerTextDisplayOptionDataImpl
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getIntegerTextDisplayOptionData()
 	 * @generated
+	 */
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA = 11;
+
+	/**
+	 * The feature id for the '<em><b>Display Option</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___GET_PROPERTY__STRING = RENDER_OBJECT_DECORATOR___GET_PROPERTY__STRING;
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA__DISPLAY_OPTION = IDISPLAY_OPTION_DATA__DISPLAY_OPTION;
 
 	/**
-	 * The operation id for the '<em>Set Property</em>' operation.
+	 * The feature id for the '<em><b>Property To Value Map</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___SET_PROPERTY__STRING_OBJECT = RENDER_OBJECT_DECORATOR___SET_PROPERTY__STRING_OBJECT;
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 0;
 
 	/**
-	 * The operation id for the '<em>Copy</em>' operation.
+	 * The number of structural features of the '<em>Integer Text Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___COPY__OBJECT = RENDER_OBJECT_DECORATOR___COPY__OBJECT;
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA_FEATURE_COUNT = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 1;
 
 	/**
-	 * The operation id for the '<em>Clone</em>' operation.
+	 * The operation id for the '<em>Get Display Option Type</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLOR_DECORATOR___CLONE = RENDER_OBJECT_DECORATOR___CLONE;
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE = IDISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE;
 
 	/**
-	 * The number of operations of the '<em>Color Decorator</em>' class.
+	 * The number of operations of the '<em>Integer Text Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
+	 */
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA_OPERATION_COUNT = IDISPLAY_OPTION_DATA_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.eavp.geometry.view.model.DisplayOptionType <em>Display Option Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOptionType
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDisplayOptionType()
+	 * @generated
 	 */
-	int COLOR_DECORATOR_OPERATION_COUNT = RENDER_OBJECT_DECORATOR_OPERATION_COUNT + 0;
+	int DISPLAY_OPTION_TYPE = 12;
 
 	/**
 	 * The meta object id for the '<em>INode</em>' data type.
@@ -987,7 +1028,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getINode()
 	 * @generated
 	 */
-	int INODE = 9;
+	int INODE = 13;
 
 
 	/**
@@ -998,7 +1039,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getTriangle()
 	 * @generated
 	 */
-	int TRIANGLE = 10;
+	int TRIANGLE = 14;
 
 
 	/**
@@ -1009,7 +1050,40 @@ public interface ModelPackage extends EPackage {
 	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getObject()
 	 * @generated
 	 */
-	int OBJECT = 11;
+	int OBJECT = 15;
+
+
+	/**
+	 * The meta object id for the '<em>Double</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Double
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDouble()
+	 * @generated
+	 */
+	int DOUBLE = 16;
+
+
+	/**
+	 * The meta object id for the '<em>Integer</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Integer
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getInteger()
+	 * @generated
+	 */
+	int INTEGER = 17;
+
+
+	/**
+	 * The meta object id for the '<em>Boolean</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.lang.Boolean
+	 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getBoolean()
+	 * @generated
+	 */
+	int BOOLEAN = 18;
 
 
 	/**
@@ -1097,6 +1171,17 @@ public interface ModelPackage extends EPackage {
 	EReference getRenderObject_Children();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.eavp.geometry.view.model.RenderObject#getDisplayOptions <em>Display Options</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Display Options</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.RenderObject#getDisplayOptions()
+	 * @see #getRenderObject()
+	 * @generated
+	 */
+	EReference getRenderObject_DisplayOptions();
+
+	/**
 	 * Returns the meta object for the '{@link org.eclipse.eavp.geometry.view.model.RenderObject#getMesh() <em>Get Mesh</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1107,141 +1192,14 @@ public interface ModelPackage extends EPackage {
 	EOperation getRenderObject__GetMesh();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.RenderObjectDecorator <em>Render Object Decorator</em>}'.
+	 * Returns the meta object for the '{@link org.eclipse.eavp.geometry.view.model.RenderObject#registerOption(org.eclipse.eavp.geometry.view.model.DisplayOption) <em>Register Option</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Render Object Decorator</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.RenderObjectDecorator
+	 * @return the meta object for the '<em>Register Option</em>' operation.
+	 * @see org.eclipse.eavp.geometry.view.model.RenderObject#registerOption(org.eclipse.eavp.geometry.view.model.DisplayOption)
 	 * @generated
 	 */
-	EClass getRenderObjectDecorator();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.eavp.geometry.view.model.RenderObjectDecorator#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Source</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.RenderObjectDecorator#getSource()
-	 * @see #getRenderObjectDecorator()
-	 * @generated
-	 */
-	EReference getRenderObjectDecorator_Source();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.TextureDecorator <em>Texture Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Texture Decorator</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.TextureDecorator
-	 * @generated
-	 */
-	EClass getTextureDecorator();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.OpacityDecorator <em>Opacity Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Opacity Decorator</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.OpacityDecorator
-	 * @generated
-	 */
-	EClass getOpacityDecorator();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.OpacityDecorator#getOpacity <em>Opacity</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Opacity</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.OpacityDecorator#getOpacity()
-	 * @see #getOpacityDecorator()
-	 * @generated
-	 */
-	EAttribute getOpacityDecorator_Opacity();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.ScaleDecorator <em>Scale Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Scale Decorator</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.ScaleDecorator
-	 * @generated
-	 */
-	EClass getScaleDecorator();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.ScaleDecorator#getScale <em>Scale</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Scale</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.ScaleDecorator#getScale()
-	 * @see #getScaleDecorator()
-	 * @generated
-	 */
-	EAttribute getScaleDecorator_Scale();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.WireframeDecorator <em>Wireframe Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Wireframe Decorator</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.WireframeDecorator
-	 * @generated
-	 */
-	EClass getWireframeDecorator();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.WireframeDecorator#isWireframe <em>Wireframe</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Wireframe</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.WireframeDecorator#isWireframe()
-	 * @see #getWireframeDecorator()
-	 * @generated
-	 */
-	EAttribute getWireframeDecorator_Wireframe();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.ColorDecorator <em>Color Decorator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Color Decorator</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.ColorDecorator
-	 * @generated
-	 */
-	EClass getColorDecorator();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.ColorDecorator#getRed <em>Red</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Red</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.ColorDecorator#getRed()
-	 * @see #getColorDecorator()
-	 * @generated
-	 */
-	EAttribute getColorDecorator_Red();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.ColorDecorator#getGreen <em>Green</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Green</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.ColorDecorator#getGreen()
-	 * @see #getColorDecorator()
-	 * @generated
-	 */
-	EAttribute getColorDecorator_Green();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.ColorDecorator#getBlue <em>Blue</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Blue</em>'.
-	 * @see org.eclipse.eavp.geometry.view.model.ColorDecorator#getBlue()
-	 * @see #getColorDecorator()
-	 * @generated
-	 */
-	EAttribute getColorDecorator_Blue();
+	EOperation getRenderObject__RegisterOption__DisplayOption();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.IRenderElement <em>IRender Element</em>}'.
@@ -1324,6 +1282,234 @@ public interface ModelPackage extends EPackage {
 	EOperation getIRenderElement__Clone();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.DisplayOption <em>Display Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Display Option</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption
+	 * @generated
+	 */
+	EClass getDisplayOption();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.DisplayOption#isActive <em>Active</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Active</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption#isActive()
+	 * @see #getDisplayOption()
+	 * @generated
+	 */
+	EAttribute getDisplayOption_Active();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.DisplayOption#getOptionGroup <em>Option Group</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Option Group</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption#getOptionGroup()
+	 * @see #getDisplayOption()
+	 * @generated
+	 */
+	EAttribute getDisplayOption_OptionGroup();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.eavp.geometry.view.model.DisplayOption#getParent <em>Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parent</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption#getParent()
+	 * @see #getDisplayOption()
+	 * @generated
+	 */
+	EReference getDisplayOption_Parent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.DisplayOption#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption#getType()
+	 * @see #getDisplayOption()
+	 * @generated
+	 */
+	EAttribute getDisplayOption_Type();
+
+	/**
+	 * Returns the meta object for the '{@link org.eclipse.eavp.geometry.view.model.DisplayOption#modify(java.lang.Object) <em>Modify</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Modify</em>' operation.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption#modify(java.lang.Object)
+	 * @generated
+	 */
+	EOperation getDisplayOption__Modify__Object();
+
+	/**
+	 * Returns the meta object for the '{@link org.eclipse.eavp.geometry.view.model.DisplayOption#getDefaultProperties() <em>Get Default Properties</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Default Properties</em>' operation.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption#getDefaultProperties()
+	 * @generated
+	 */
+	EOperation getDisplayOption__GetDefaultProperties();
+
+	/**
+	 * Returns the meta object for the '{@link org.eclipse.eavp.geometry.view.model.DisplayOption#getDisplayOptionData() <em>Get Display Option Data</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Display Option Data</em>' operation.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOption#getDisplayOptionData()
+	 * @generated
+	 */
+	EOperation getDisplayOption__GetDisplayOptionData();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.OpacityOption <em>Opacity Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Opacity Option</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.OpacityOption
+	 * @generated
+	 */
+	EClass getOpacityOption();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.ScaleOption <em>Scale Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Scale Option</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.ScaleOption
+	 * @generated
+	 */
+	EClass getScaleOption();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.WireframeOption <em>Wireframe Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Wireframe Option</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.WireframeOption
+	 * @generated
+	 */
+	EClass getWireframeOption();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.ColorOption <em>Color Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Color Option</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.ColorOption
+	 * @generated
+	 */
+	EClass getColorOption();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.IDisplayOptionData <em>IDisplay Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IDisplay Option Data</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.IDisplayOptionData
+	 * @generated
+	 */
+	EClass getIDisplayOptionData();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.eavp.geometry.view.model.IDisplayOptionData#getDisplayOption <em>Display Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Display Option</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.IDisplayOptionData#getDisplayOption()
+	 * @see #getIDisplayOptionData()
+	 * @generated
+	 */
+	EReference getIDisplayOptionData_DisplayOption();
+
+	/**
+	 * Returns the meta object for the '{@link org.eclipse.eavp.geometry.view.model.IDisplayOptionData#getDisplayOptionType() <em>Get Display Option Type</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Display Option Type</em>' operation.
+	 * @see org.eclipse.eavp.geometry.view.model.IDisplayOptionData#getDisplayOptionType()
+	 * @generated
+	 */
+	EOperation getIDisplayOptionData__GetDisplayOptionType();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData <em>Combo Display Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Combo Display Option Data</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData
+	 * @generated
+	 */
+	EClass getComboDisplayOptionData();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData#getTextToPropertyValuesMap <em>Text To Property Values Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text To Property Values Map</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData#getTextToPropertyValuesMap()
+	 * @see #getComboDisplayOptionData()
+	 * @generated
+	 */
+	EAttribute getComboDisplayOptionData_TextToPropertyValuesMap();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData <em>Double Text Display Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Double Text Display Option Data</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData
+	 * @generated
+	 */
+	EClass getDoubleTextDisplayOptionData();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData#getPropertyToValueMap <em>Property To Value Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Property To Value Map</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData#getPropertyToValueMap()
+	 * @see #getDoubleTextDisplayOptionData()
+	 * @generated
+	 */
+	EAttribute getDoubleTextDisplayOptionData_PropertyToValueMap();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData <em>Integer Text Display Option Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Integer Text Display Option Data</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData
+	 * @generated
+	 */
+	EClass getIntegerTextDisplayOptionData();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData#getPropertyToValueMap <em>Property To Value Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Property To Value Map</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData#getPropertyToValueMap()
+	 * @see #getIntegerTextDisplayOptionData()
+	 * @generated
+	 */
+	EAttribute getIntegerTextDisplayOptionData_PropertyToValueMap();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.eavp.geometry.view.model.DisplayOptionType <em>Display Option Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Display Option Type</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DisplayOptionType
+	 * @generated
+	 */
+	EEnum getDisplayOptionType();
+
+	/**
 	 * Returns the meta object for data type '{@link org.eclipse.january.geometry.INode <em>INode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1355,6 +1541,39 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EDataType getObject();
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Double <em>Double</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Double</em>'.
+	 * @see java.lang.Double
+	 * @model instanceClass="java.lang.Double"
+	 * @generated
+	 */
+	EDataType getDouble();
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Integer <em>Integer</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Integer</em>'.
+	 * @see java.lang.Integer
+	 * @model instanceClass="java.lang.Integer"
+	 * @generated
+	 */
+	EDataType getInteger();
+
+	/**
+	 * Returns the meta object for data type '{@link java.lang.Boolean <em>Boolean</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>Boolean</em>'.
+	 * @see java.lang.Boolean
+	 * @model instanceClass="java.lang.Boolean"
+	 * @generated
+	 */
+	EDataType getBoolean();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1448,6 +1667,14 @@ public interface ModelPackage extends EPackage {
 		EReference RENDER_OBJECT__CHILDREN = eINSTANCE.getRenderObject_Children();
 
 		/**
+		 * The meta object literal for the '<em><b>Display Options</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RENDER_OBJECT__DISPLAY_OPTIONS = eINSTANCE.getRenderObject_DisplayOptions();
+
+		/**
 		 * The meta object literal for the '<em><b>Get Mesh</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1456,120 +1683,12 @@ public interface ModelPackage extends EPackage {
 		EOperation RENDER_OBJECT___GET_MESH = eINSTANCE.getRenderObject__GetMesh();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectDecoratorImpl <em>Render Object Decorator</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.eavp.geometry.view.model.impl.RenderObjectDecoratorImpl
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getRenderObjectDecorator()
-		 * @generated
-		 */
-		EClass RENDER_OBJECT_DECORATOR = eINSTANCE.getRenderObjectDecorator();
-
-		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Register Option</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RENDER_OBJECT_DECORATOR__SOURCE = eINSTANCE.getRenderObjectDecorator_Source();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.TextureDecoratorImpl <em>Texture Decorator</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.eavp.geometry.view.model.impl.TextureDecoratorImpl
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getTextureDecorator()
-		 * @generated
-		 */
-		EClass TEXTURE_DECORATOR = eINSTANCE.getTextureDecorator();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.OpacityDecoratorImpl <em>Opacity Decorator</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.eavp.geometry.view.model.impl.OpacityDecoratorImpl
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getOpacityDecorator()
-		 * @generated
-		 */
-		EClass OPACITY_DECORATOR = eINSTANCE.getOpacityDecorator();
-
-		/**
-		 * The meta object literal for the '<em><b>Opacity</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute OPACITY_DECORATOR__OPACITY = eINSTANCE.getOpacityDecorator_Opacity();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.ScaleDecoratorImpl <em>Scale Decorator</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ScaleDecoratorImpl
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getScaleDecorator()
-		 * @generated
-		 */
-		EClass SCALE_DECORATOR = eINSTANCE.getScaleDecorator();
-
-		/**
-		 * The meta object literal for the '<em><b>Scale</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SCALE_DECORATOR__SCALE = eINSTANCE.getScaleDecorator_Scale();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.WireframeDecoratorImpl <em>Wireframe Decorator</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.eavp.geometry.view.model.impl.WireframeDecoratorImpl
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getWireframeDecorator()
-		 * @generated
-		 */
-		EClass WIREFRAME_DECORATOR = eINSTANCE.getWireframeDecorator();
-
-		/**
-		 * The meta object literal for the '<em><b>Wireframe</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute WIREFRAME_DECORATOR__WIREFRAME = eINSTANCE.getWireframeDecorator_Wireframe();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.ColorDecoratorImpl <em>Color Decorator</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ColorDecoratorImpl
-		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getColorDecorator()
-		 * @generated
-		 */
-		EClass COLOR_DECORATOR = eINSTANCE.getColorDecorator();
-
-		/**
-		 * The meta object literal for the '<em><b>Red</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute COLOR_DECORATOR__RED = eINSTANCE.getColorDecorator_Red();
-
-		/**
-		 * The meta object literal for the '<em><b>Green</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute COLOR_DECORATOR__GREEN = eINSTANCE.getColorDecorator_Green();
-
-		/**
-		 * The meta object literal for the '<em><b>Blue</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute COLOR_DECORATOR__BLUE = eINSTANCE.getColorDecorator_Blue();
+		EOperation RENDER_OBJECT___REGISTER_OPTION__DISPLAYOPTION = eINSTANCE.getRenderObject__RegisterOption__DisplayOption();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.IRenderElement <em>IRender Element</em>}' class.
@@ -1638,6 +1757,202 @@ public interface ModelPackage extends EPackage {
 		EOperation IRENDER_ELEMENT___CLONE = eINSTANCE.getIRenderElement__Clone();
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl <em>Display Option</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDisplayOption()
+		 * @generated
+		 */
+		EClass DISPLAY_OPTION = eINSTANCE.getDisplayOption();
+
+		/**
+		 * The meta object literal for the '<em><b>Active</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DISPLAY_OPTION__ACTIVE = eINSTANCE.getDisplayOption_Active();
+
+		/**
+		 * The meta object literal for the '<em><b>Option Group</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DISPLAY_OPTION__OPTION_GROUP = eINSTANCE.getDisplayOption_OptionGroup();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DISPLAY_OPTION__PARENT = eINSTANCE.getDisplayOption_Parent();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DISPLAY_OPTION__TYPE = eINSTANCE.getDisplayOption_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Modify</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DISPLAY_OPTION___MODIFY__OBJECT = eINSTANCE.getDisplayOption__Modify__Object();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Default Properties</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DISPLAY_OPTION___GET_DEFAULT_PROPERTIES = eINSTANCE.getDisplayOption__GetDefaultProperties();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Display Option Data</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA = eINSTANCE.getDisplayOption__GetDisplayOptionData();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.OpacityOptionImpl <em>Opacity Option</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.OpacityOptionImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getOpacityOption()
+		 * @generated
+		 */
+		EClass OPACITY_OPTION = eINSTANCE.getOpacityOption();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.ScaleOptionImpl <em>Scale Option</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ScaleOptionImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getScaleOption()
+		 * @generated
+		 */
+		EClass SCALE_OPTION = eINSTANCE.getScaleOption();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.WireframeOptionImpl <em>Wireframe Option</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.WireframeOptionImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getWireframeOption()
+		 * @generated
+		 */
+		EClass WIREFRAME_OPTION = eINSTANCE.getWireframeOption();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl <em>Color Option</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getColorOption()
+		 * @generated
+		 */
+		EClass COLOR_OPTION = eINSTANCE.getColorOption();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.IDisplayOptionData <em>IDisplay Option Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.IDisplayOptionData
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getIDisplayOptionData()
+		 * @generated
+		 */
+		EClass IDISPLAY_OPTION_DATA = eINSTANCE.getIDisplayOptionData();
+
+		/**
+		 * The meta object literal for the '<em><b>Display Option</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IDISPLAY_OPTION_DATA__DISPLAY_OPTION = eINSTANCE.getIDisplayOptionData_DisplayOption();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Display Option Type</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation IDISPLAY_OPTION_DATA___GET_DISPLAY_OPTION_TYPE = eINSTANCE.getIDisplayOptionData__GetDisplayOptionType();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.ComboDisplayOptionDataImpl <em>Combo Display Option Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ComboDisplayOptionDataImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getComboDisplayOptionData()
+		 * @generated
+		 */
+		EClass COMBO_DISPLAY_OPTION_DATA = eINSTANCE.getComboDisplayOptionData();
+
+		/**
+		 * The meta object literal for the '<em><b>Text To Property Values Map</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMBO_DISPLAY_OPTION_DATA__TEXT_TO_PROPERTY_VALUES_MAP = eINSTANCE.getComboDisplayOptionData_TextToPropertyValuesMap();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.DoubleTextDisplayOptionDataImpl <em>Double Text Display Option Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.DoubleTextDisplayOptionDataImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDoubleTextDisplayOptionData()
+		 * @generated
+		 */
+		EClass DOUBLE_TEXT_DISPLAY_OPTION_DATA = eINSTANCE.getDoubleTextDisplayOptionData();
+
+		/**
+		 * The meta object literal for the '<em><b>Property To Value Map</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = eINSTANCE.getDoubleTextDisplayOptionData_PropertyToValueMap();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.IntegerTextDisplayOptionDataImpl <em>Integer Text Display Option Data</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.impl.IntegerTextDisplayOptionDataImpl
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getIntegerTextDisplayOptionData()
+		 * @generated
+		 */
+		EClass INTEGER_TEXT_DISPLAY_OPTION_DATA = eINSTANCE.getIntegerTextDisplayOptionData();
+
+		/**
+		 * The meta object literal for the '<em><b>Property To Value Map</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = eINSTANCE.getIntegerTextDisplayOptionData_PropertyToValueMap();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.DisplayOptionType <em>Display Option Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.eavp.geometry.view.model.DisplayOptionType
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDisplayOptionType()
+		 * @generated
+		 */
+		EEnum DISPLAY_OPTION_TYPE = eINSTANCE.getDisplayOptionType();
+
+		/**
 		 * The meta object literal for the '<em>INode</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1666,6 +1981,36 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EDataType OBJECT = eINSTANCE.getObject();
+
+		/**
+		 * The meta object literal for the '<em>Double</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Double
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getDouble()
+		 * @generated
+		 */
+		EDataType DOUBLE = eINSTANCE.getDouble();
+
+		/**
+		 * The meta object literal for the '<em>Integer</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Integer
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getInteger()
+		 * @generated
+		 */
+		EDataType INTEGER = eINSTANCE.getInteger();
+
+		/**
+		 * The meta object literal for the '<em>Boolean</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.lang.Boolean
+		 * @see org.eclipse.eavp.geometry.view.model.impl.ModelPackageImpl#getBoolean()
+		 * @generated
+		 */
+		EDataType BOOLEAN = eINSTANCE.getBoolean();
 
 	}
 

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.INode;
@@ -192,9 +193,11 @@ public class ActionDuplicateShape extends Action {
 					int blue = (int) originalElement.getProperty("defaultBlue");
 
 					// Set the clone's default and current colors
-					element.setProperty("red", red);
-					element.setProperty("green", green);
-					element.setProperty("blue", blue);
+					element.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, red);
+					element.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
+							green);
+					element.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
+							blue);
 					element.setProperty("defaultRed", red);
 					element.setProperty("defaultGreen", green);
 					element.setProperty("defaultBlue", blue);

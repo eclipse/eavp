@@ -272,10 +272,10 @@ public class TransformationView extends ViewPart {
 		if (shape != null) {
 
 			// Get the shape's current status
-			double opacity = shape.getProperty("opacity") == null ? 100d
-					: (double) shape.getProperty("opacity");
-			boolean wireframe = shape.getProperty("wireframe") == null ? false
-					: (boolean) shape.getProperty(("wireframe"));
+			double opacity = shape.getProperty("Opacity") == null ? 100d
+					: (double) shape.getProperty("Opacity");
+			boolean wireframe = shape.getProperty("Wireframe") == null ? false
+					: (boolean) shape.getProperty(("Wireframe"));
 
 			// Set the opacity combo's value based on the shape's transparency
 			// and wireframe status
@@ -387,20 +387,20 @@ public class TransformationView extends ViewPart {
 
 				// If it is opaque, set both properties to false
 				if ("Solid".equals(selection)) {
-					currentShape.setProperty("opacity", 100d);
-					currentShape.setProperty("wireframe", false);
+					currentShape.setProperty("Opacity", 100d);
+					currentShape.setProperty("Wireframe", false);
 				}
 
 				// If it is transparent, set it to transparent, leaving its
 				// wireframe value alone
 				else if ("Transparent".equals(selection)) {
-					currentShape.setProperty("opacity", 0d);
+					currentShape.setProperty("Opacity", 0d);
 				}
 
 				// If it is wireframe, set transparency off but wireframe on
 				else {
-					currentShape.setProperty("opacity", 100d);
-					currentShape.setProperty("wireframe", true);
+					currentShape.setProperty("Opacity", 100d);
+					currentShape.setProperty("Wireframe", true);
 				}
 
 			}

@@ -10,12 +10,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry;
 
-import org.eclipse.eavp.geometry.view.javafx.decorators.FXColorDecorator;
-import org.eclipse.eavp.geometry.view.javafx.decorators.FXOpacityDecorator;
-import org.eclipse.eavp.geometry.view.javafx.decorators.FXScaleDecorator;
-import org.eclipse.eavp.geometry.view.javafx.decorators.FXWireframeDecorator;
+import org.eclipse.eavp.geometry.view.javafx.display.FXColorOption;
+import org.eclipse.eavp.geometry.view.javafx.display.FXOpacityOption;
+import org.eclipse.eavp.geometry.view.javafx.display.FXScaleOption;
+import org.eclipse.eavp.geometry.view.javafx.display.FXWireframeOption;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 import org.eclipse.eavp.viz.service.color.ColorProvider;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
@@ -122,9 +123,8 @@ public class FXGeometryAttachment extends FXAttachment {
 		// Create the base render object
 		FXRenderObject render = new FXRenderObject(node, cache);
 
-		// Add a color decorator
-		FXColorDecorator colorDecorator = new FXColorDecorator();
-		colorDecorator.setSource(render);
+		// Add a color option
+		FXColorOption colorOption = new FXColorOption(render);
 
 		// Give the render a default color from the provider
 		int[] color = ColorProvider.getNextColor();
@@ -132,23 +132,16 @@ public class FXGeometryAttachment extends FXAttachment {
 		render.setProperty("defaultGreen", color[1]);
 		render.setProperty("defaultBlue", color[2]);
 
-		render.setProperty("red", render.getProperty("defaultRed"));
-		render.setProperty("green", render.getProperty("defaultGreen"));
-		render.setProperty("blue", render.getProperty("defaultBlue"));
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, color[0]);
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN, color[1]);
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, color[2]);
 
-		// Add an opacity decorator
-		FXOpacityDecorator opacityDecorator = new FXOpacityDecorator();
-		opacityDecorator.setSource(colorDecorator);
+		// Add the other options
+		FXOpacityOption opacityOption = new FXOpacityOption(render);
+		FXScaleOption scaleOption = new FXScaleOption(render);
+		FXWireframeOption wireframeOption = new FXWireframeOption(render);
 
-		// Add a scale decorator
-		FXScaleDecorator scaleDecorator = new FXScaleDecorator();
-		scaleDecorator.setSource(opacityDecorator);
-
-		// Add a wireframe decorator
-		FXWireframeDecorator wireframeDecorator = new FXWireframeDecorator();
-		wireframeDecorator.setSource(scaleDecorator);
-
-		return wireframeDecorator;
+		return render;
 	}
 
 	@Override
