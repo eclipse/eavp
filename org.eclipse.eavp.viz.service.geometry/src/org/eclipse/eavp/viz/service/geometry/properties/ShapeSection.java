@@ -22,12 +22,15 @@ import java.util.Set;
 import org.eclipse.eavp.geometry.view.model.ComboDisplayOptionData;
 import org.eclipse.eavp.geometry.view.model.DisplayOption;
 import org.eclipse.eavp.geometry.view.model.DisplayOptionType;
+import org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData;
 import org.eclipse.eavp.geometry.view.model.IDisplayOptionData;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData;
 import org.eclipse.eavp.geometry.view.model.RenderObject;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.eavp.viz.service.geometry.widgets.ISpinner;
+import org.eclipse.eavp.viz.service.geometry.widgets.ISpinnerListener;
 import org.eclipse.eavp.viz.service.geometry.widgets.RealSpinner;
-import org.eclipse.eavp.viz.service.geometry.widgets.RealSpinnerListener;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.geometry.widgets.TransformationPropertyWidget;
 import org.eclipse.january.geometry.GeometryFactory;
@@ -47,7 +50,9 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -73,6 +78,16 @@ public class ShapeSection extends AbstractPropertySection {
 	 * displayed or edited in this view.
 	 */
 	final static private int NUM_PROPERTIES = 5;
+
+	/**
+	 * The display group
+	 */
+	private Group displayGroup;
+
+	/**
+	 * A list of controls in the display which need to be disposed.
+	 */
+	private ArrayList<Control> disposableControls;
 
 	/**
 	 * The text box in which the INode's ID will be editable.
@@ -119,13 +134,6 @@ public class ShapeSection extends AbstractPropertySection {
 	 */
 	private Table triangleTable;
 
-	private Group displayGroup;
-
-	/**
-	 * A combo box listing the options for how to display the shape.
-	 */
-	// private Combo opacityCombo;
-
 	/**
 	 * A constructor allowing for the section to be set to display one of the
 	 * selected object's children instead of the object itself.
@@ -141,6 +149,7 @@ public class ShapeSection extends AbstractPropertySection {
 	public ShapeSection(int index) {
 		super();
 		sourceIndex = index;
+		disposableControls = new ArrayList<Control>();
 	}
 
 	/*
@@ -375,100 +384,230 @@ public class ShapeSection extends AbstractPropertySection {
 		// data is displayed.
 		displayGroup = createGroup(parent, "Display", 0, 50, 100, 100);
 
-		// The Display options will be created in rows
-		// displayGroup.setLayout(new RowLayout());
-
-		Group opacityGroup = new Group(displayGroup, SWT.NONE);
-		FormData opacityGroupData = new FormData();
-		opacityGroupData.left = new FormAttachment(centerGroup, 0);
-		opacityGroup.setLayoutData(opacityGroupData);
-		opacityGroup.setText("Opacity");
-		opacityGroup.setBackground(white);
-		opacityGroup.setLayout(new GridLayout());
-
-		// Initialize the opacity combo box
-		// opacityCombo = new Combo(opacityGroup, SWT.READ_ONLY);
-		// opacityCombo.setLayoutData(
-		// new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		// opacityCombo
-		// .setItems(new String[] { "Solid", "Wireframe", "Transparent" });
-
 		// Set the initial shape
 		createListeners();
-
 		refresh();
 	}
 
-	private void createComboControl(Group displayGroup, String groupName,
-			List<IDisplayOptionData> options) {
+	/**
+	 * Create the controls for an option group with data of type
+	 * ComboDisplayOptionData. This will consist of a group containing a combo
+	 * box.
+	 * 
+	 * @param displayGroup
+	 *            The parent group in which the controls will be created.
+	 * @param groupName
+	 *            The text to display for the group.
+	 * @param options
+	 *            The data containing the text and properties settings needed to
+	 *            configure this option.
+	 * @return A list of all the controls that should be activated when this
+	 *         option group is active. It will consist solely of the combo box.
+	 */
+	private ArrayList<Control> createComboControl(Group displayGroup,
+			String groupName, List<IDisplayOptionData> options) {
+
+		// All the controls which need to be activated in this group
+		ArrayList<Control> activatedControls = new ArrayList<Control>();
+
+		// Create a group to contain the controls
 		Group comboGroup = new Group(displayGroup, SWT.NONE);
 		comboGroup.setText(groupName);
+		comboGroup.setLayout(new GridLayout());
+		comboGroup.setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 
+		// This group should be disposed when no longer used
+		disposableControls.add(comboGroup);
+
+		// A set of all text values for the combo box, combined from those
+		// available to all options.
 		Set<String> textOptions = new HashSet<String>();
-
 		for (IDisplayOptionData option : options) {
 			textOptions.addAll(((ComboDisplayOptionData) option)
 					.getTextToPropertyValuesMap().keySet());
 		}
 
+		// Remove the special "default" text string, which should not be
+		// displayed to the user
 		textOptions.remove("default");
 
+		// The map from combo options to maps between property names and
+		// property values
 		final HashMap<String, HashMap<String, Object>> propertyValueMap = new HashMap<String, HashMap<String, Object>>();
 
+		// Populate the map for each of the text strings in the combo box
 		for (String displayText : textOptions) {
 
+			// A map of property names to the values they should be set to when
+			// this selection is made from the combo box
 			HashMap<String, Object> propertyValues = new HashMap<String, Object>();
 
+			// Populate the map with values from each DisplayOption.
 			for (IDisplayOptionData option : options) {
 
+				// Get the values map for the current combo box selection
 				Map<String, Object> value = ((ComboDisplayOptionData) option)
 						.getTextToPropertyValuesMap().get(displayText);
 
-				if (value != null) {
-					String propertyName = (String) value.keySet().toArray()[0];// wireframe
-					propertyValues.put(propertyName, value.get(propertyName));// wireframe
-																				// >
-																				// false
-				} else {
+				// if the map was not found, then this DisplayOption did not
+				// have values set for this combo selection. Get the default
+				// values for it instead.
+				if (value == null) {
 					value = ((ComboDisplayOptionData) option)
 							.getTextToPropertyValuesMap().get("default");
-					String propertyName = (String) value.keySet().toArray()[0];
-					propertyValues.put(propertyName, value.get("default"));
+				}
+
+				// Place the property values into the map under the property's
+				// name
+				for (String propertyName : value.keySet()) {
+					propertyValues.put(propertyName, value.get(propertyName));
 				}
 			}
 
+			// Put the map of all property values in the map, keyed on the combo
+			// box selection
 			propertyValueMap.put(displayText, propertyValues);
 		}
 
-		textOptions.toArray(new String[textOptions.size()]);
-
+		// Create a combo box containing the list of options
 		Combo combo = new Combo(comboGroup, SWT.READ_ONLY);
+		combo.setLayoutData(
+				new GridData(SWT.NONE, SWT.NONE, false, false, 1, 1));
 		combo.setItems(textOptions.toArray(new String[textOptions.size()]));
+		activatedControls.add(combo);
+
+		// Find the current selection for the combo box by finding the source's
+		// current proeprties
+		for (String textOption : textOptions) {
+
+			// Whether the current combo box selection matched the properties
+			boolean match = true;
+
+			// Get the property settings for this selection
+			Map<String, Object> textOptionMap = propertyValueMap
+					.get(textOption);
+
+			// Check each of the properties in the map. If any are different,
+			// this is not a match
+			for (String propertyName : textOptionMap.keySet()) {
+				if (!textOptionMap.get(propertyName)
+						.equals(source.getProperty(propertyName))) {
+					match = false;
+					break;
+				}
+			}
+
+			// If a matching set of properties was found, set the combo to that
+			// selection
+			if (match) {
+				combo.setText(textOption);
+				break;
+			}
+		}
 
 		combo.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				// // Get the combo's contents
-				// String selection = opacityCombo.getText();
-				//
-				// HashMap<String, Object> propertySettings = propertyValueMap
-				// .get(selection);
-				//
-				// for (String propertyName : propertySettings.keySet()) {
-				// source.setProperty(propertyName,
-				// propertySettings.get(propertyName));
-				// }
+				// Get the user selected value
+				String selection = combo.getText();
+
+				// Get the property map for the user selection
+				Map<String, Object> selectionMap = propertyValueMap
+						.get(selection);
+
+				// Set each property to the value associated with this selection
+				for (String property : selectionMap.keySet()) {
+					source.setProperty(property, selectionMap.get(property));
+				}
 
 			}
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				// Nothing to do
+
+				// Get the user selected value
+				String selection = combo.getText();
+
+				// Get the property map for the user selection
+				Map<String, Object> selectionMap = propertyValueMap
+						.get(selection);
+
+				// Set each property to the value associated with this selection
+				for (String property : selectionMap.keySet()) {
+					source.setProperty(property, selectionMap.get(property));
+				}
 			}
 
 		});
+
+		return activatedControls;
+	}
+
+	/**
+	 * Create the controls for an option group with data of type
+	 * DoublTextDisplayOptionData. This will consist of a group containing a
+	 * series of labels and text boxes, one for each property, which accept
+	 * double values.
+	 * 
+	 * @param displayGroup
+	 *            The parent group in which the controls will be created.
+	 * @param groupName
+	 *            The text to display for the group.
+	 * @param options
+	 *            The data containing the text and properties settings needed to
+	 *            configure this option.
+	 * @return A list of all the controls that should be activated when this
+	 *         option group is active. It will consist of the editable Text
+	 *         boxes.
+	 */
+	private List<Control> createDoubleTextControl(Group displayGroup,
+			String groupName, List<IDisplayOptionData> options) {
+
+		// Create a group for the properties
+		Group textGroup = new Group(displayGroup, SWT.NONE);
+		textGroup.setText(groupName);
+		textGroup.setLayout(new RowLayout());
+		textGroup.setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+
+		// The group needs to be disposed of when no longer in user
+		disposableControls.add(textGroup);
+
+		// The list of controls that need to be activated
+		ArrayList<Control> activatedControls = new ArrayList<Control>();
+
+		// The set of property names
+		Set<String> propertyNames = new HashSet<String>();
+
+		// Get all the properties required by all the DisplayOptions
+		for (IDisplayOptionData option : options) {
+			propertyNames.addAll(((DoubleTextDisplayOptionData) option)
+					.getPropertyToValueMap().keySet());
+		}
+
+		// Add controls for each property
+		for (String property : propertyNames) {
+
+			// Create a child composite to hold the widget
+			Composite widgetComp = new Composite(textGroup, SWT.NONE);
+			widgetComp.setLayout(new GridLayout(2, false));
+			widgetComp.setLayoutData(new RowData());
+			widgetComp.setBackground(
+					Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+
+			// Create a widget that will display the given property
+			TransformationPropertyWidget widget = new TransformationPropertyWidget(
+					widgetComp);
+			widget.setDecoratorProperty(true);
+			widget.setProperty(source.getBase(), property,
+					(double) source.getProperty(property));
+			activatedControls.add(widget.getTextControl());
+		}
+
+		return activatedControls;
 	}
 
 	/**
@@ -574,16 +713,82 @@ public class ShapeSection extends AbstractPropertySection {
 	}
 
 	/**
+	 * Create the controls for an option group with data of type
+	 * DoublTextDisplayOptionData. This will consist of a group containing a
+	 * series of labels and text boxes, one for each property, which accept
+	 * integer values.
+	 * 
+	 * @param displayGroup
+	 *            The parent group in which the controls will be created.
+	 * @param groupName
+	 *            The text to display for the group.
+	 * @param options
+	 *            The data containing the text and properties settings needed to
+	 *            configure this option.
+	 * @return A list of all the controls that should be activated when this
+	 *         option group is active. It will consist of the editable Text
+	 *         boxes.
+	 */
+	private List<Control> createIntegerTextControl(Group displayGroup,
+			String groupName, List<IDisplayOptionData> options) {
+
+		// Create a group for the properties
+		Group textGroup = new Group(displayGroup, SWT.NONE);
+		textGroup.setText(groupName);
+		textGroup.setLayout(new RowLayout());
+		textGroup.setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+
+		// The group needs to be disposed of when no longer in use
+		disposableControls.add(textGroup);
+
+		// The controls which needed to be activated to activate this option
+		// group
+		ArrayList<Control> activatedControls = new ArrayList<Control>();
+
+		// The set of all property names for this option group
+		Set<String> propertyNames = new HashSet<String>();
+
+		// Add each DisplayOption's properties to the list
+		for (IDisplayOptionData option : options) {
+			propertyNames.addAll(((IntegerTextDisplayOptionData) option)
+					.getPropertyToValueMap().keySet());
+		}
+
+		// Create a widget for each property
+		for (String property : propertyNames) {
+
+			// Create a child composite to hold the widget
+			Composite widgetComp = new Composite(textGroup, SWT.NONE);
+			widgetComp.setLayout(new GridLayout(2, false));
+			widgetComp.setLayoutData(new RowData());
+			widgetComp.setBackground(
+					Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+
+			// Create a widget to allow the property to be edited.
+			TransformationPropertyWidget widget = new TransformationPropertyWidget(
+					widgetComp);
+			widget.setDecoratorProperty(true);
+			widget.setProperty(source.getBase(), property,
+					(int) source.getProperty(property));
+
+			activatedControls.add(widget.getTextControl());
+		}
+
+		return activatedControls;
+	}
+
+	/**
 	 * Create the listeners for each control on the view.
 	 */
 	private void createListeners() {
 
 		// Create anonymous listener
 
-		RealSpinnerListener listener = new RealSpinnerListener() {
+		ISpinnerListener listener = new ISpinnerListener() {
 
 			@Override
-			public void update(RealSpinner realSpinner) {
+			public void update(ISpinner realSpinner) {
 
 				// Handle a null source
 				if (source == null) {
@@ -604,73 +809,31 @@ public class ShapeSection extends AbstractPropertySection {
 		};
 
 		// Add the listener to each spinner
-		for (RealSpinner spinner : translateSpinners) {
+		for (ISpinner spinner : translateSpinners) {
 			spinner.listen(listener);
 		}
 
-		// Add a listener for the combo that will set the shape's opacity
-		// opacityCombo.addSelectionListener(new SelectionListener() {
-		//
-		// @Override
-		// public void widgetSelected(SelectionEvent e) {
-		//
-		// // Get the combo's contents
-		// String selection = opacityCombo.getText();
-		//
-		// // If it is opaque, set both properties to false
-		// if ("Solid".equals(selection)) {
-		// source.setProperty("opacity", 100d);
-		// source.setProperty("wireframe", false);
-		// }
-		//
-		// // If it is transparent, set it to transparent, leaving its
-		// // wireframe value alone
-		// else if ("Transparent".equals(selection)) {
-		// source.setProperty("opacity", 0d);
-		// }
-		//
-		// // If it is wireframe, set transparency off but wireframe on
-		// else {
-		// source.setProperty("opacity", 100d);
-		// source.setProperty("wireframe", true);
-		// }
-		//
-		// }
-		//
-		// @Override
-		// public void widgetDefaultSelected(SelectionEvent e) {
-		// // Nothing to do
-		// }
-		//
-		// });
-
 		// Create a spinner listener that will update the shape's properties
-		RealSpinnerListener propertyListener = new RealSpinnerListener() {
+		ISpinnerListener propertyListener = new ISpinnerListener() {
 
 			@Override
-			public void update(RealSpinner realSpinner) {
+			public void update(ISpinner realSpinner) {
 
 				// Get the spinner's name and value
 				String name = realSpinner.getName();
-				double value = realSpinner.getValue();
+				double value = (double) realSpinner.getValue();
 
-				if (!"scale".equals(name)) {
-					// If the value in the spinner has been changed, set the new
-					// value to the shape
-					if (value != source.getBase().getProperty(name)) {
-						source.setProperty(realSpinner.getName(),
-								realSpinner.getValue());
-					}
-				}
-
-				else {
-					source.setProperty("scale", value);
+				// If the value in the spinner has been changed, set the new
+				// value to the shape
+				if (value != source.getBase().getProperty(name)) {
+					source.setProperty(realSpinner.getName(),
+							realSpinner.getValue());
 				}
 			}
 		};
 
 		// Add the listener to each of the property spinners
-		for (RealSpinner spinner : propertySpinners) {
+		for (ISpinner spinner : propertySpinners) {
 			spinner.listen(propertyListener);
 		}
 	}
@@ -683,7 +846,14 @@ public class ShapeSection extends AbstractPropertySection {
 	 */
 	@Override
 	public void refresh() {
+
+		// Only populate the section if the source is valid
 		if (source != null) {
+
+			for (Control control : disposableControls) {
+				control.dispose();
+			}
+			disposableControls.clear();
 
 			// Set the name and ID text boxs' values.
 			nameText.setText(source.getBase().getName());
@@ -716,7 +886,6 @@ public class ShapeSection extends AbstractPropertySection {
 
 			// Set the properties
 			List<String> properties = source.getBase().getPropertyNames();
-			properties.add("scale");
 
 			// Pad the list to the correct number of properties
 			while (properties.size() < NUM_PROPERTIES) {
@@ -729,24 +898,13 @@ public class ShapeSection extends AbstractPropertySection {
 				// Get the property name
 				String property = properties.get(i);
 
-				if (!"scale".equals(property)) {
-					double value = (property != null)
-							? source.getBase().getProperty(property) : 0d;
+				double value = (property != null)
+						? source.getBase().getProperty(property) : 0d;
 
-					// Set the property widget to display this property
-					propertyWidgets.get(i).setProperty(source.getBase(),
-							property, value);
-				}
+				// Set the property widget to display this property
+				propertyWidgets.get(i).setProperty(source.getBase(), property,
+						value);
 
-				// Handle scale
-				else {
-					double value = (source.getProperty("scale") != null)
-							? (double) source.getProperty(property) : 1d;
-
-					// Set the property widget to display this property
-					propertyWidgets.get(i).setProperty(source.getBase(),
-							property, value);
-				}
 			}
 
 			// Remove all rows from the current table
@@ -783,6 +941,97 @@ public class ShapeSection extends AbstractPropertySection {
 						formatter.format(v3.getZ()) });
 			}
 
+			HashMap<String, ArrayList<IDisplayOptionData>> optionGroupMap = new HashMap<String, ArrayList<IDisplayOptionData>>();
+
+			List<DisplayOption> optionList = ((RenderObject) source)
+					.getDisplayOptions();
+			for (DisplayOption option : optionList) {
+
+				String type = option.getOptionGroup();
+
+				ArrayList<IDisplayOptionData> options;
+
+				if (!optionGroupMap.containsKey(type)) {
+					options = new ArrayList<IDisplayOptionData>();
+				} else {
+					options = optionGroupMap.get(type);
+				}
+
+				options.add(option.getDisplayOptionData());
+				optionGroupMap.put(type, options);
+			}
+
+			displayGroup.setLayout(new RowLayout());
+
+			for (String group : optionGroupMap.keySet()) {
+
+				final List<IDisplayOptionData> groupData = optionGroupMap
+						.get(group);
+
+				Button activator = new Button(displayGroup, SWT.CHECK);
+				disposableControls.add(activator);
+
+				boolean active = groupData.get(0).getDisplayOption().isActive();
+
+				activator.setSelection(active);
+
+				DisplayOptionType type = groupData.get(0)
+						.getDisplayOptionType();
+
+				List<Control> activatedControls = null;
+
+				// TODO Replace this switch
+				if (type == DisplayOptionType.COMBO) {
+					activatedControls = createComboControl(displayGroup, group,
+							optionGroupMap.get(group));
+				} else if (type == DisplayOptionType.DOUBLE_TEXT) {
+					activatedControls = createDoubleTextControl(displayGroup,
+							group, optionGroupMap.get(group));
+				} else if (type == DisplayOptionType.INTEGER_TEXT) {
+					activatedControls = createIntegerTextControl(displayGroup,
+							group, optionGroupMap.get(group));
+				}
+
+				if (activatedControls != null) {
+
+					for (Control child : activatedControls) {
+						child.setEnabled(active);
+					}
+
+					final List<Control> finalControls = activatedControls;
+
+					activator.addSelectionListener(new SelectionListener() {
+
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+
+							boolean active = activator.getSelection();
+
+							for (IDisplayOptionData data : groupData) {
+								data.getDisplayOption().setActive(active);
+							}
+
+							for (Control child : finalControls) {
+								child.setEnabled(active);
+							}
+						}
+
+						@Override
+						public void widgetDefaultSelected(SelectionEvent e) {
+							boolean active = activator.getSelection();
+
+							for (IDisplayOptionData data : groupData) {
+								data.getDisplayOption().setActive(active);
+							}
+
+							for (Control child : finalControls) {
+								child.setEnabled(active);
+							}
+						}
+					});
+				}
+			}
+
 		}
 
 		// Resize the columns in the table
@@ -793,43 +1042,14 @@ public class ShapeSection extends AbstractPropertySection {
 		// Set the enabled state of the spinners, depending on whether the
 		// shape parameter is null
 		// Enable each spinner
-		for (RealSpinner translateSpinner : translateSpinners) {
+		for (ISpinner translateSpinner : translateSpinners) {
 			translateSpinner.getControl().setEnabled(source != null);
 		}
-		for (RealSpinner spinner : propertySpinners) {
+		for (ISpinner spinner : propertySpinners) {
 			spinner.getControl().setEnabled(source != null);
 		}
 
-		HashMap<String, ArrayList<IDisplayOptionData>> optionGroupMap = new HashMap<String, ArrayList<IDisplayOptionData>>();
-
-		List<DisplayOption> optionList = ((RenderObject) source)
-				.getDisplayOptions();
-		for (DisplayOption option : optionList) {
-
-			String type = option.getOptionGroup();
-
-			ArrayList<IDisplayOptionData> options;
-
-			if (!optionGroupMap.containsKey(type)) {
-				options = new ArrayList<IDisplayOptionData>();
-			} else {
-				options = optionGroupMap.get(type);
-			}
-
-			options.add(option.getDisplayOptionData());
-			optionGroupMap.put(type, options);
-		}
-
-		for (String group : optionGroupMap.keySet()) {
-
-			DisplayOptionType type = optionGroupMap.get(group).get(0)
-					.getDisplayOptionType();
-
-			if (type == DisplayOptionType.COMBO) {
-				createComboControl(displayGroup, group,
-						optionGroupMap.get(group));
-			}
-		}
+		displayGroup.layout();
 
 		// opacityCombo.setEnabled(source != null);
 

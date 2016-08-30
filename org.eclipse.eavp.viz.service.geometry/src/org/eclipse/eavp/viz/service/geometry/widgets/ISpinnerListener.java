@@ -20,7 +20,7 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
  * 
  * @author Andrew P. Belt
  */
-public interface RealSpinnerListener {
+public interface ISpinnerListener {
     /**
      * <p>
      * The function to call when RealSpinner is updated
@@ -28,5 +28,5 @@ public interface RealSpinnerListener {
      * 
      * @param realSpinner
      */
-    public void update(RealSpinner realSpinner);
+    public void update(ISpinner realSpinner);
 }

@@ -13,8 +13,9 @@ package org.eclipse.eavp.viz.service.geometry.test.widgets;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.eavp.viz.service.geometry.widgets.ISpinner;
 import org.eclipse.eavp.viz.service.geometry.widgets.RealSpinner;
-import org.eclipse.eavp.viz.service.geometry.widgets.RealSpinnerListener;
+import org.eclipse.eavp.viz.service.geometry.widgets.ISpinnerListener;
 import org.eclipse.eavp.viz.service.geometry.widgets.TransformationPropertyWidget;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.Shape;
@@ -152,10 +153,10 @@ public class TransformationPropertyWidgetTester {
 			spinner.setVisible(false);
 
 			// Listen to the spinner
-			spinner.listen(new RealSpinnerListener() {
+			spinner.listen(new ISpinnerListener() {
 
 				@Override
-				public void update(RealSpinner realSpinner) {
+				public void update(ISpinner realSpinner) {
 
 					// Get the spinner's new value and update the source's
 					// property
@@ -184,7 +185,7 @@ public class TransformationPropertyWidgetTester {
 		 * 
 		 * @return The widget's spinner
 		 */
-		public RealSpinner getSpinner() {
+		public ISpinner getSpinner() {
 			return spinner;
 		}
 

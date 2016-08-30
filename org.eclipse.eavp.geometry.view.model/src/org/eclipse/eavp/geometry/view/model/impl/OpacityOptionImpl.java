@@ -69,6 +69,9 @@ public class OpacityOptionImpl<T> extends DisplayOptionImpl<T>
 		DoubleTextDisplayOptionData data = ModelFactory.eINSTANCE
 				.createDoubleTextDisplayOptionData();
 
+		// Set the data's reference to its parent option
+		data.setDisplayOption(this);
+
 		// Get the opacity property from the parent object and set it to the
 		// data's map
 		Map<String, Double> dataMap = data.getPropertyToValueMap();

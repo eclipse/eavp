@@ -124,11 +124,11 @@ public class IntegerTextDisplayOptionDataImpl extends
 	 */
 	@Override
 	public Map<String, Integer> getPropertyToValueMap() {
-
 		if (propertyToValueMap != null) {
 			return propertyToValueMap;
 		} else {
-			return new HashMap<String, Integer>();
+			propertyToValueMap = new HashMap<String, Integer>();
+			return propertyToValueMap;
 		}
 	}
 

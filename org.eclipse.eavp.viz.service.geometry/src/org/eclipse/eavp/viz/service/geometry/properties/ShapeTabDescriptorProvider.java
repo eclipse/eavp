@@ -66,29 +66,40 @@ public class ShapeTabDescriptorProvider implements ITabDescriptorProvider {
 	public ITabDescriptor[] getTabDescriptors(IWorkbenchPart part,
 			ISelection selection) {
 
+		// The list of all descriptors for this selection
 		ArrayList<ITabDescriptor> descriptors = new ArrayList<ITabDescriptor>();
 
+		// If the selection is invalid, do nothing
 		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
 
+			// TODO Handle multiple-element selection
+			// Get the selected element
 			IRenderElement element = (IRenderElement) ((IStructuredSelection) selection)
 					.getFirstElement();
 
+			// The list of all INodes for which a tab will be displayed
 			ArrayList<INode> nodes = new ArrayList<INode>();
 			nodes.add(element.getBase());
 
+			// For each node, add all of its children to the list
 			for (int i = 0; i < nodes.size(); i++) {
 				nodes.addAll(nodes.get(i).getNodes());
 			}
 
+			// Get the holder that associates INodes with IRenderElements
 			IRenderElementHolder holder = ((ShapeTreeView) PlatformUI
 					.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 					.findView(ShapeTreeView.ID)).getHolder();
 
+			// Create a tab for each node
 			for (int i = 0; i < nodes.size(); i++) {
 
+				// A final reference to the current node
 				final IRenderElement finalElement = holder
 						.getRender(nodes.get(i));
 
+				// Create a tab descriptor that combines the element's name and
+				// ID
 				AbstractTabDescriptor tabDescriptor = new AbstractTabDescriptor() {
 
 					@Override
@@ -112,8 +123,11 @@ public class ShapeTabDescriptorProvider implements ITabDescriptorProvider {
 
 				descriptors.add(tabDescriptor);
 
+				// Create a section descriptor to populate the tab
 				ArrayList<ISectionDescriptor> sectionDescriptors = new ArrayList<ISectionDescriptor>();
 
+				// The index of where in the list of all nodes in the
+				// PropertiesView the section should display
 				final int finalI = i;
 
 				sectionDescriptors.add(new AbstractSectionDescriptor() {
@@ -127,6 +141,7 @@ public class ShapeTabDescriptorProvider implements ITabDescriptorProvider {
 
 					@Override
 					public ISection getSectionClass() {
+						// Create a shape section pointing to the correct index
 						return new ShapeSection(ID);
 					}
 

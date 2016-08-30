@@ -128,7 +128,8 @@ public class ComboDisplayOptionDataImpl extends MinimalEObjectImpl.Container
 		if (textToPropertyValuesMap != null) {
 			return textToPropertyValuesMap;
 		} else {
-			return new HashMap<String, Map<String, Object>>();
+			textToPropertyValuesMap = new HashMap<String, Map<String, Object>>();
+			return textToPropertyValuesMap;
 		}
 	}
 

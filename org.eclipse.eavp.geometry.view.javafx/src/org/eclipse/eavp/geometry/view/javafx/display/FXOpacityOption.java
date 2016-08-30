@@ -87,6 +87,9 @@ public class FXOpacityOption extends OpacityOptionImpl<Group> {
 		ComboDisplayOptionData data = ModelFactory.eINSTANCE
 				.createComboDisplayOptionData();
 
+		// Set the data's reference to its parent option
+		data.setDisplayOption(this);
+
 		// Get the data's map
 		Map<String, Map<String, Object>> dataMap = data
 				.getTextToPropertyValuesMap();

@@ -103,6 +103,7 @@ public class FXColorOption extends ColorOptionImpl<Group> {
 			PhongMaterial material = new PhongMaterial(
 					Color.rgb(red, green, blue));
 			material.setSpecularColor(Color.WHITE);
+			material.setSpecularPower(320);
 
 			// Set the material for the group and pass it along
 			setMaterial(element, material);

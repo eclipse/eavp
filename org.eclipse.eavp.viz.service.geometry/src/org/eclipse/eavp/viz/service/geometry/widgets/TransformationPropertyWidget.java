@@ -12,9 +12,9 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import org.eclipse.january.geometry.INode;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
@@ -29,6 +29,12 @@ import org.eclipse.swt.widgets.Label;
  *
  */
 public class TransformationPropertyWidget {
+
+	/**
+	 * Whether this widget is currently displaying a property for the source's
+	 * IRenderElement rather than the INode itself.
+	 */
+	protected boolean decoratorProperty;
 
 	/**
 	 * The label displaying the property name.
@@ -54,12 +60,12 @@ public class TransformationPropertyWidget {
 	/**
 	 * The text box allowing the property's value to be edited.
 	 */
-	protected RealSpinner spinner;
+	protected ISpinner spinner;
 
 	/**
 	 * The current property value.
 	 */
-	protected double value;
+	protected Number value;
 
 	/**
 	 * The default constructor, giving the two controls that the widget will
@@ -75,44 +81,35 @@ public class TransformationPropertyWidget {
 		// Save the reference to the parent
 		this.parent = parent;
 
-		// Get the system's white color
-		Color white = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
-
 		// Create a label and spinner
 		label = new Label(parent, SWT.NONE);
 		label.setLayoutData(
 				new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		label.setBackground(white);
-		spinner = new RealSpinner(parent);
-		spinner.getControl().setLayoutData(
-				new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		spinner.getControl().setBackground(white);
+		label.setBackground(
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+	}
 
-		// Set the controls to be invisible, initially
-		// label.setVisible(false);
-		spinner.setVisible(false);
+	/**
+	 * Getter method for the widget's wrapped Text control.
+	 * 
+	 * @return The widget's text control.
+	 */
+	public Control getTextControl() {
+		return spinner.getControl();
+	}
 
-		// Listen to the spinner
-		spinner.listen(new RealSpinnerListener() {
-
-			@Override
-			public void update(RealSpinner realSpinner) {
-
-				// Get the spinner's new value and update the source's property
-				// with it
-				value = realSpinner.getValue();
-
-				// Set the source's property if the widget currently has a
-				// source
-				if (!"scale".equals(name)) {
-					source.setProperty(name, value);
-				} else {
-					source.changeDecoratorProperty(name, value);
-				}
-
-			}
-
-		});
+	/**
+	 * Set the widget to handle a property of either the source or its
+	 * IRenderElement.
+	 * 
+	 * @param decoratorProperty
+	 *            The widget's new assignment for the location of its managed
+	 *            property. If false, the property will be set the the source
+	 *            INode. If true, the property will be set to the source's
+	 *            IRenderElement.
+	 */
+	public void setDecoratorProperty(boolean decoratorProperty) {
+		this.decoratorProperty = decoratorProperty;
 	}
 
 	/**
@@ -130,15 +127,58 @@ public class TransformationPropertyWidget {
 	 *            The property's current value, which will initialize the
 	 *            spinner.
 	 */
-	public void setProperty(INode source, String name, double value) {
+	public void setProperty(INode source, String name, Number newValue) {
 
 		// Save the variables
 		this.name = name;
-		this.value = value;
+		this.value = newValue;
 		this.source = source;
 
 		// If the property is valid, handle it
 		if (source != null && name != null) {
+
+			// Dispose the old spinner
+			if (spinner != null) {
+				spinner.getControl().dispose();
+			}
+
+			// Create a new one of the correct type for the input
+			if (value.getClass() == Double.class) {
+				spinner = new RealSpinner(parent);
+			} else {
+				spinner = new IntegerSpinner(parent);
+			}
+			spinner.getControl().setLayoutData(
+					new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+			spinner.getControl().setBackground(
+					Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+
+			// Set the controls to be invisible, initially
+			// label.setVisible(false);
+			spinner.setVisible(false);
+
+			// Listen to the spinner
+			spinner.listen(new ISpinnerListener() {
+
+				@Override
+				public void update(ISpinner realSpinner) {
+
+					// Get the spinner's new value and update the source's
+					// property
+					// with it
+					value = realSpinner.getValue();
+
+					// Set the source's property if the widget currently has a
+					// source
+					if (!decoratorProperty) {
+						source.setProperty(name, value.doubleValue());
+					} else {
+						source.changeDecoratorProperty(name, value);
+					}
+
+				}
+
+			});
 
 			// Set up the controls to have the correct information
 			label.setText(name);
@@ -159,7 +199,9 @@ public class TransformationPropertyWidget {
 		// If the property cannot be displayed, hide the controls instead
 		else {
 			label.setVisible(false);
-			spinner.setVisible(false);
+			if (spinner != null) {
+				spinner.setVisible(false);
+			}
 		}
 	}
 }

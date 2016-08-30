@@ -94,10 +94,10 @@ public class TransformationView extends ViewPart {
 	private void setSpinnersEnabled(boolean enabled) {
 
 		// Enable each spinner
-		for (RealSpinner translateSpinner : translateSpinners) {
+		for (ISpinner translateSpinner : translateSpinners) {
 			translateSpinner.getControl().setEnabled(enabled);
 		}
-		for (RealSpinner spinner : propertySpinners) {
+		for (ISpinner spinner : propertySpinners) {
 			spinner.getControl().setEnabled(enabled);
 		}
 
@@ -298,7 +298,6 @@ public class TransformationView extends ViewPart {
 
 			// Set the properties
 			List<String> properties = shape.getBase().getPropertyNames();
-			properties.add("scale");
 
 			// Pad the list to the correct number of properties
 			while (properties.size() < NUM_PROPERTIES) {
@@ -347,10 +346,10 @@ public class TransformationView extends ViewPart {
 
 		// Create anonymous listener
 
-		RealSpinnerListener listener = new RealSpinnerListener() {
+		ISpinnerListener listener = new ISpinnerListener() {
 
 			@Override
-			public void update(RealSpinner realSpinner) {
+			public void update(ISpinner realSpinner) {
 
 				// Handle a null currentShape
 
@@ -372,7 +371,7 @@ public class TransformationView extends ViewPart {
 		};
 
 		// Add the listener to each spinner
-		for (RealSpinner spinner : translateSpinners) {
+		for (ISpinner spinner : translateSpinners) {
 			spinner.listen(listener);
 		}
 
@@ -413,14 +412,14 @@ public class TransformationView extends ViewPart {
 		});
 
 		// Create a spinner listener that will update the shape's properties
-		RealSpinnerListener propertyListener = new RealSpinnerListener() {
+		ISpinnerListener propertyListener = new ISpinnerListener() {
 
 			@Override
-			public void update(RealSpinner realSpinner) {
+			public void update(ISpinner realSpinner) {
 
 				// Get the spinner's name and value
 				String name = realSpinner.getName();
-				double value = realSpinner.getValue();
+				double value = (double) realSpinner.getValue();
 
 				if (!"scale".equals(name)) {
 					// If the value in the spinner has been changed, set the new
@@ -438,7 +437,7 @@ public class TransformationView extends ViewPart {
 		};
 
 		// Add the listener to each of the property spinners
-		for (RealSpinner spinner : propertySpinners) {
+		for (ISpinner spinner : propertySpinners) {
 			spinner.listen(propertyListener);
 		}
 	}

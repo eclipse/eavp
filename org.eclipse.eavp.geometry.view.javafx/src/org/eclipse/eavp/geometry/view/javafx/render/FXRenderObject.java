@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.geometry.view.javafx.render;
 
+import org.eclipse.eavp.geometry.view.model.DisplayOption;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.geometry.view.model.MeshCache;
 import org.eclipse.eavp.geometry.view.model.impl.MeshCacheImpl;
@@ -17,6 +18,7 @@ import org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.january.geometry.GeometryPackage;
 import org.eclipse.january.geometry.INode;
 import org.eclipse.january.geometry.Vertex;
 
@@ -97,6 +99,15 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	 */
 	protected void handleUpdate(Notification notification) {
 
+		// If a changeDecoratorProperty() function was called, then update own
+		// properties according to the special message format of the old value
+		// being the property name and the new value being the property value
+		if (notification.getFeatureID(
+				GeometryPackage.class) == GeometryPackage.INODE___CHANGE_DECORATOR_PROPERTY__STRING_OBJECT) {
+			properties.put(notification.getOldStringValue(),
+					notification.getNewValue());
+		}
+
 		// Cast the cache as a cache of TriangleMeshes
 		MeshCacheImpl<TriangleMesh> castCache = (MeshCacheImpl<TriangleMesh>) meshCache;
 
@@ -167,6 +178,26 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#registerOption
+	 * (org.eclipse.eavp.geometry.view.model.DisplayOption)
+	 */
+	@Override
+	public void registerOption(DisplayOption option) {
+		super.registerOption(option);
+
+		// Listen to the option, refreshing the mesh when it changes
+		option.eAdapters().add(new AdapterImpl() {
+			@Override
+			public void notifyChanged(Notification notification) {
+				handleUpdate(notification);
+			}
+		});
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see model.impl.RenderObjectImpl#clone()
 	 */
 	@Override
@@ -180,4 +211,5 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 		clone.copy(this);
 		return clone;
 	}
+
 }

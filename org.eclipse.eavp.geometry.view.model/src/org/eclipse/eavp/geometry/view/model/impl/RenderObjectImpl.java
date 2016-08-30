@@ -33,11 +33,16 @@ import org.eclipse.swt.widgets.Display;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getMeshCache <em>Mesh Cache</em>}</li>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getRender <em>Render</em>}</li>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getSource <em>Source</em>}</li>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getChildren <em>Children</em>}</li>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getDisplayOptions <em>Display Options</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getMeshCache
+ * <em>Mesh Cache</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getRender
+ * <em>Render</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getSource
+ * <em>Source</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getChildren
+ * <em>Children</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl#getDisplayOptions
+ * <em>Display Options</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,8 +50,9 @@ import org.eclipse.swt.widgets.Display;
 public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 		implements RenderObject<T> {
 	/**
-	 * The cached value of the '{@link #getMeshCache() <em>Mesh Cache</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMeshCache() <em>Mesh Cache</em>}'
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMeshCache()
 	 * @generated
 	 * @ordered
@@ -56,6 +62,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #getRender() <em>Render</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRender()
 	 * @generated
 	 * @ordered
@@ -70,8 +77,9 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	protected Map<String, Object> properties;
 
 	/**
-	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getSource() <em>Source</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -81,6 +89,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -88,8 +97,9 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	protected INode source = SOURCE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getChildren()
 	 * @generated
 	 * @ordered
@@ -97,9 +107,10 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	protected EList<IRenderElement<T>> children;
 
 	/**
-	 * The cached value of the '{@link #getDisplayOptions() <em>Display Options</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getDisplayOptions() <em>Display
+	 * Options</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #getDisplayOptions()
 	 * @generated
 	 * @ordered
@@ -119,6 +130,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -128,17 +140,20 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public MeshCache<?> getMeshCache() {
 		if (meshCache != null && meshCache.eIsProxy()) {
-			InternalEObject oldMeshCache = (InternalEObject)meshCache;
-			meshCache = (MeshCache<?>)eResolveProxy(oldMeshCache);
+			InternalEObject oldMeshCache = (InternalEObject) meshCache;
+			meshCache = (MeshCache<?>) eResolveProxy(oldMeshCache);
 			if (meshCache != oldMeshCache) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.RENDER_OBJECT__MESH_CACHE, oldMeshCache, meshCache));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							ModelPackage.RENDER_OBJECT__MESH_CACHE,
+							oldMeshCache, meshCache));
 			}
 		}
 		return meshCache;
@@ -146,6 +161,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public MeshCache<?> basicGetMeshCache() {
@@ -154,6 +170,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -161,11 +178,14 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 		MeshCache<?> oldMeshCache = meshCache;
 		meshCache = newMeshCache;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RENDER_OBJECT__MESH_CACHE, oldMeshCache, meshCache));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.RENDER_OBJECT__MESH_CACHE, oldMeshCache,
+					meshCache));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -175,17 +195,20 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setRender(T newRender) {
 		T oldRender = render;
 		render = newRender;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.RENDER_OBJECT__RENDER, oldRender, render));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.RENDER_OBJECT__RENDER, oldRender, render));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -214,24 +237,30 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<IRenderElement<T>> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentEList<IRenderElement<T>>(IRenderElement.class, this, ModelPackage.RENDER_OBJECT__CHILDREN);
+			children = new EObjectContainmentEList<IRenderElement<T>>(
+					IRenderElement.class, this,
+					ModelPackage.RENDER_OBJECT__CHILDREN);
 		}
 		return children;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<DisplayOption<?>> getDisplayOptions() {
 		if (displayOptions == null) {
-			displayOptions = new EObjectContainmentEList<DisplayOption<?>>(DisplayOption.class, this, ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS);
+			displayOptions = new EObjectContainmentEList<DisplayOption<?>>(
+					DisplayOption.class, this,
+					ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS);
 		}
 		return displayOptions;
 	}
@@ -385,120 +414,132 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModelPackage.RENDER_OBJECT__CHILDREN:
-				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
-			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
-				return ((InternalEList<?>)getDisplayOptions()).basicRemove(otherEnd, msgs);
+		case ModelPackage.RENDER_OBJECT__CHILDREN:
+			return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
+					msgs);
+		case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+			return ((InternalEList<?>) getDisplayOptions())
+					.basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.RENDER_OBJECT__MESH_CACHE:
-				if (resolve) return getMeshCache();
-				return basicGetMeshCache();
-			case ModelPackage.RENDER_OBJECT__RENDER:
-				return getRender();
-			case ModelPackage.RENDER_OBJECT__SOURCE:
-				return getSource();
-			case ModelPackage.RENDER_OBJECT__CHILDREN:
-				return getChildren();
-			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
-				return getDisplayOptions();
+		case ModelPackage.RENDER_OBJECT__MESH_CACHE:
+			if (resolve)
+				return getMeshCache();
+			return basicGetMeshCache();
+		case ModelPackage.RENDER_OBJECT__RENDER:
+			return getRender();
+		case ModelPackage.RENDER_OBJECT__SOURCE:
+			return getSource();
+		case ModelPackage.RENDER_OBJECT__CHILDREN:
+			return getChildren();
+		case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+			return getDisplayOptions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.RENDER_OBJECT__MESH_CACHE:
-				setMeshCache((MeshCache<?>)newValue);
-				return;
-			case ModelPackage.RENDER_OBJECT__RENDER:
-				setRender((T)newValue);
-				return;
-			case ModelPackage.RENDER_OBJECT__SOURCE:
-				setSource((INode)newValue);
-				return;
-			case ModelPackage.RENDER_OBJECT__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll((Collection<? extends IRenderElement<T>>)newValue);
-				return;
-			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
-				getDisplayOptions().clear();
-				getDisplayOptions().addAll((Collection<? extends DisplayOption<?>>)newValue);
-				return;
+		case ModelPackage.RENDER_OBJECT__MESH_CACHE:
+			setMeshCache((MeshCache<?>) newValue);
+			return;
+		case ModelPackage.RENDER_OBJECT__RENDER:
+			setRender((T) newValue);
+			return;
+		case ModelPackage.RENDER_OBJECT__SOURCE:
+			setSource((INode) newValue);
+			return;
+		case ModelPackage.RENDER_OBJECT__CHILDREN:
+			getChildren().clear();
+			getChildren()
+					.addAll((Collection<? extends IRenderElement<T>>) newValue);
+			return;
+		case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+			getDisplayOptions().clear();
+			getDisplayOptions()
+					.addAll((Collection<? extends DisplayOption<?>>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.RENDER_OBJECT__MESH_CACHE:
-				setMeshCache((MeshCache<?>)null);
-				return;
-			case ModelPackage.RENDER_OBJECT__RENDER:
-				setRender((T)null);
-				return;
-			case ModelPackage.RENDER_OBJECT__SOURCE:
-				setSource(SOURCE_EDEFAULT);
-				return;
-			case ModelPackage.RENDER_OBJECT__CHILDREN:
-				getChildren().clear();
-				return;
-			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
-				getDisplayOptions().clear();
-				return;
+		case ModelPackage.RENDER_OBJECT__MESH_CACHE:
+			setMeshCache((MeshCache<?>) null);
+			return;
+		case ModelPackage.RENDER_OBJECT__RENDER:
+			setRender((T) null);
+			return;
+		case ModelPackage.RENDER_OBJECT__SOURCE:
+			setSource(SOURCE_EDEFAULT);
+			return;
+		case ModelPackage.RENDER_OBJECT__CHILDREN:
+			getChildren().clear();
+			return;
+		case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+			getDisplayOptions().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.RENDER_OBJECT__MESH_CACHE:
-				return meshCache != null;
-			case ModelPackage.RENDER_OBJECT__RENDER:
-				return render != null;
-			case ModelPackage.RENDER_OBJECT__SOURCE:
-				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
-			case ModelPackage.RENDER_OBJECT__CHILDREN:
-				return children != null && !children.isEmpty();
-			case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
-				return displayOptions != null && !displayOptions.isEmpty();
+		case ModelPackage.RENDER_OBJECT__MESH_CACHE:
+			return meshCache != null;
+		case ModelPackage.RENDER_OBJECT__RENDER:
+			return render != null;
+		case ModelPackage.RENDER_OBJECT__SOURCE:
+			return SOURCE_EDEFAULT == null ? source != null
+					: !SOURCE_EDEFAULT.equals(source);
+		case ModelPackage.RENDER_OBJECT__CHILDREN:
+			return children != null && !children.isEmpty();
+		case ModelPackage.RENDER_OBJECT__DISPLAY_OPTIONS:
+			return displayOptions != null && !displayOptions.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -506,37 +547,39 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
-			case ModelPackage.RENDER_OBJECT___GET_MESH:
-				return getMesh();
-			case ModelPackage.RENDER_OBJECT___REGISTER_OPTION__DISPLAYOPTION:
-				registerOption((DisplayOption)arguments.get(0));
-				return null;
-			case ModelPackage.RENDER_OBJECT___GET_BASE:
-				return getBase();
-			case ModelPackage.RENDER_OBJECT___HANDLE_CHILDREN__ELIST:
-				handleChildren((EList<IRenderElement<T>>)arguments.get(0));
-				return null;
-			case ModelPackage.RENDER_OBJECT___GET_PROPERTY__STRING:
-				return getProperty((String)arguments.get(0));
-			case ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT:
-				setProperty((String)arguments.get(0), arguments.get(1));
-				return null;
-			case ModelPackage.RENDER_OBJECT___COPY__OBJECT:
-				copy(arguments.get(0));
-				return null;
-			case ModelPackage.RENDER_OBJECT___CLONE:
-				return clone();
+		case ModelPackage.RENDER_OBJECT___GET_MESH:
+			return getMesh();
+		case ModelPackage.RENDER_OBJECT___REGISTER_OPTION__DISPLAYOPTION:
+			registerOption((DisplayOption) arguments.get(0));
+			return null;
+		case ModelPackage.RENDER_OBJECT___GET_BASE:
+			return getBase();
+		case ModelPackage.RENDER_OBJECT___HANDLE_CHILDREN__ELIST:
+			handleChildren((EList<IRenderElement<T>>) arguments.get(0));
+			return null;
+		case ModelPackage.RENDER_OBJECT___GET_PROPERTY__STRING:
+			return getProperty((String) arguments.get(0));
+		case ModelPackage.RENDER_OBJECT___SET_PROPERTY__STRING_OBJECT:
+			setProperty((String) arguments.get(0), arguments.get(1));
+			return null;
+		case ModelPackage.RENDER_OBJECT___COPY__OBJECT:
+			copy(arguments.get(0));
+			return null;
+		case ModelPackage.RENDER_OBJECT___CLONE:
+			return clone();
 		}
 		return super.eInvoke(operationID, arguments);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (render: ");

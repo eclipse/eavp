@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2014 UT-Battelle, LLC.
+ * Copyright (c) 2012, 2014, 2016 UT-Battelle, LLC.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +9,7 @@
  *   Initial API and implementation and/or initial documentation - Jay Jay Billings,
  *   Jordan H. Deyton, Dasha Gorin, Alexander J. McCaskey, Taylor Patterson,
  *   Claire Saunders, Matthew Wang, Anna Wojtowicz
+ *   Robert Smith
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
@@ -29,13 +30,13 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * <p>
- * Wrapper for a spinner-like SWT widget which supports real numbers and helpful
- * key commands for value manipulation
+ * Wrapper for a spinner-like SWT widget which supports integers and helpful key
+ * commands for value manipulation
  * </p>
  * 
- * @author Andrew P. Belt
+ * @author Andrew P. Belt, Robert Smith
  */
-public class RealSpinner implements ISpinner<Double> {
+public class IntegerSpinner implements ISpinner<Integer> {
 	/**
 	 * <p>
 	 * The internal text box
@@ -47,12 +48,12 @@ public class RealSpinner implements ISpinner<Double> {
 	/**
 	 * The minimum value to allow, inclusive
 	 */
-	private double minimum = Double.NEGATIVE_INFINITY;
+	private int minimum = Integer.MIN_VALUE;
 
 	/**
 	 * The maximum value to allow, inclusive
 	 */
-	private double maximum = Double.POSITIVE_INFINITY;
+	private int maximum = Integer.MAX_VALUE;
 
 	/**
 	 * A human readable name describing the property represented by this
@@ -63,7 +64,7 @@ public class RealSpinner implements ISpinner<Double> {
 	/**
 	 * The latest valid value
 	 */
-	private double value;
+	private int value;
 
 	/**
 	 * The listeners to be notified of changes to the value
@@ -80,7 +81,7 @@ public class RealSpinner implements ISpinner<Double> {
 	 *            The parent of the new RealSpinner
 	 *            </p>
 	 */
-	public RealSpinner(Composite parent) {
+	public IntegerSpinner(Composite parent) {
 
 		textWidget = new Text(parent, SWT.LEFT | SWT.BORDER);
 
@@ -130,30 +131,22 @@ public class RealSpinner implements ISpinner<Double> {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
-				double change;
+				int change;
 
 				// Calculate the change amount depending on the button pressed
 
 				if (e.keyCode == SWT.ARROW_UP) {
-					change = 1.0;
+					change = 1;
 				} else if (e.keyCode == SWT.ARROW_DOWN) {
-					change = -1.0;
+					change = -1;
 				} else if (e.keyCode == SWT.PAGE_UP) {
-					change = 10.0;
+					change = 10;
 				} else if (e.keyCode == SWT.PAGE_DOWN) {
-					change = -10.0;
+					change = -10;
 				} else {
 					return;
 				}
-				// Scale the change amount by the modifier keys
 
-				if (e.stateMask == SWT.CTRL) {
-					change *= 0.1;
-				} else if (e.stateMask == SWT.SHIFT) {
-					change *= 0.01;
-				} else if (e.stateMask == (SWT.CTRL | SWT.SHIFT)) {
-					change *= 0.001;
-				}
 				// Increase the RealSpinner value by the computed amount
 
 				setValue(value + change);
@@ -164,7 +157,7 @@ public class RealSpinner implements ISpinner<Double> {
 
 		// Set the value to zero as a default
 
-		setValue(0d);
+		setValue(0);
 
 	}
 
@@ -179,7 +172,7 @@ public class RealSpinner implements ISpinner<Double> {
 	 *            </p>
 	 */
 	@Override
-	public void setValue(Double value) {
+	public void setValue(Integer value) {
 
 		// Clip the value to the closest allowed number
 
@@ -202,13 +195,18 @@ public class RealSpinner implements ISpinner<Double> {
 
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * <p>
+	 * Returns the real input value
+	 * </p>
 	 * 
-	 * @see org.eclipse.eavp.viz.service.geometry.widgets.ISpinner#getValue()
+	 * @return
+	 *         <p>
+	 *         The value
+	 *         </p>
 	 */
 	@Override
-	public Double getValue() {
+	public Integer getValue() {
 
 		// Return the last value
 
@@ -216,15 +214,22 @@ public class RealSpinner implements ISpinner<Double> {
 
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * <p>
+	 * Sets the minimum and maximum bounds (inclusive)
+	 * </p>
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.geometry.widgets.ISpinner#setBounds(double,
-	 * double)
+	 * @param minimum
+	 *            <p>
+	 *            The minimum value to enforce
+	 *            </p>
+	 * @param maximum
+	 *            <p>
+	 *            The maximum value to enforce
+	 *            </p>
 	 */
 	@Override
-	public void setBounds(Double minimum, Double maximum) {
+	public void setBounds(Integer minimum, Integer maximum) {
 
 		// Assert that the bounds contain at least one possible allowed value
 
@@ -242,12 +247,12 @@ public class RealSpinner implements ISpinner<Double> {
 
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Adds a RealSpinnerListener to its listeners list to be notified of
+	 * changes to the value
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.geometry.widgets.ISpinner#listen(org.eclipse
-	 * .eavp.viz.service.geometry.widgets.RealSpinnerListener)
+	 * @param listener
+	 *            The listener to notified of changes to the value
 	 */
 	@Override
 	public void listen(ISpinnerListener listener) {
@@ -259,32 +264,31 @@ public class RealSpinner implements ISpinner<Double> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns the Text control widget wrapped in this RealSpinner instance
 	 * 
-	 * @see org.eclipse.eavp.viz.service.geometry.widgets.ISpinner#getControl()
+	 * @return The Text widget
 	 */
 	@Override
 	public Control getControl() {
 		return textWidget;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Getter method for the name.
 	 * 
-	 * @see org.eclipse.eavp.viz.service.geometry.widgets.ISpinner#getName()
+	 * @return The name of the property controlled by this spinner
 	 */
 	@Override
 	public String getName() {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Setter method for the name.
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.geometry.widgets.ISpinner#setName(java.lang.
-	 * String)
+	 * @param name
+	 *            The name for the property controlled by this spinner.
 	 */
 	@Override
 	public void setName(String name) {
@@ -302,7 +306,7 @@ public class RealSpinner implements ISpinner<Double> {
 		try {
 			// Parse the text and set it as the new value
 
-			double newValue = Double.valueOf(textWidget.getText());
+			int newValue = Integer.valueOf(textWidget.getText());
 
 			setValue(newValue);
 		} catch (NumberFormatException e) {
@@ -313,11 +317,12 @@ public class RealSpinner implements ISpinner<Double> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets the spinner's visibility.
 	 * 
-	 * @see org.eclipse.eavp.viz.service.geometry.widgets.ISpinner#setVisible(
-	 * boolean)
+	 * @param visible
+	 *            If false, the spinner's text widget will not be drawn.
+	 *            Otherwise, the text box will be made visible.
 	 */
 	@Override
 	public void setVisible(boolean visible) {

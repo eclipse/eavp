@@ -127,7 +127,8 @@ public class DoubleTextDisplayOptionDataImpl extends
 		if (propertyToValueMap != null) {
 			return propertyToValueMap;
 		} else {
-			return new HashMap<String, Double>();
+			propertyToValueMap = new HashMap<String, Double>();
+			return propertyToValueMap;
 		}
 	}
 
@@ -154,9 +155,7 @@ public class DoubleTextDisplayOptionDataImpl extends
 	 */
 	@Override
 	public DisplayOptionType getDisplayOptionType() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return DisplayOptionType.DOUBLE_TEXT;
 	}
 
 	/**

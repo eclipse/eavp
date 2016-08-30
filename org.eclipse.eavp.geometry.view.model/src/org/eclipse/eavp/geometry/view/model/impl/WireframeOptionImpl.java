@@ -24,7 +24,7 @@ public class WireframeOptionImpl<T> extends DisplayOptionImpl<T>
 	/**
 	 * This object's option group.
 	 */
-	protected final String GROUP = "Wireframe";
+	protected final String GROUP = "Opacity";
 
 	/**
 	 * The name of the IRenderElement property for wireframe mode.
@@ -83,6 +83,9 @@ public class WireframeOptionImpl<T> extends DisplayOptionImpl<T>
 	public IDisplayOptionData getDisplayOptionData() {
 		ComboDisplayOptionData data = ModelFactory.eINSTANCE
 				.createComboDisplayOptionData();
+
+		// Set the data's reference to its parent option
+		data.setDisplayOption(this);
 
 		// A map setting the wireframe property to false
 		HashMap<String, Object> falseMap = new HashMap<String, Object>();

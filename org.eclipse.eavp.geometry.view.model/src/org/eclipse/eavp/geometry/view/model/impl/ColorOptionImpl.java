@@ -93,6 +93,9 @@ public class ColorOptionImpl<T> extends DisplayOptionImpl<T>
 		IntegerTextDisplayOptionData data = ModelFactory.eINSTANCE
 				.createIntegerTextDisplayOptionData();
 
+		// Set the data's reference to its parent option
+		data.setDisplayOption(this);
+
 		// Instantiate all the properties with their values in the map
 		Map<String, Integer> dataMap = data.getPropertyToValueMap();
 		dataMap.put(PROPERTY_NAME_RED,
