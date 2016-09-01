@@ -10,9 +10,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.eavp.geometry.view.model;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.junit;visibility:=reexport
+ org.junit;visibility:=reexport,
+ org.eclipse.swt;bundle-version="3.105.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.january.geometry,
  org.eclipse.january.geometry.impl,
- org.eclipse.swt,
  org.eclipse.ui
