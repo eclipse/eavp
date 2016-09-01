@@ -428,50 +428,6 @@ public class ShapeTreeView extends ViewPart implements
 				deleteShape.setEnabled(false);
 			}
 		}
-
-		// Reset the shapes to their default colors to show they are no longer
-		// selected
-
-		for (IRenderElement selectedShape : selectedShapes) {
-
-			int red = selectedShape.getProperty("defaultRed") != null
-					? getIntValue(selectedShape.getProperty("defaultRed"))
-					: 127;
-			int green = selectedShape.getProperty("defaultGreen") != null
-					? getIntValue(selectedShape.getProperty("defaultGreen"))
-					: 127;
-			int blue = selectedShape.getProperty("defaultBlue") != null
-					? getIntValue(selectedShape.getProperty("defaultBlue"))
-					: 127;
-
-			selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, red);
-			selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
-					green);
-			selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, blue);
-		}
-
-		// Update the list of last-selected shapes
-
-		selectedShapes.clear();
-
-		for (TreePath path : paths) {
-			Object selectedObject = path.getLastSegment();
-
-			// Only include IShapes, not ShapeTreeLabelProvider::BlankShapes
-
-			if (selectedObject instanceof IRenderElement) {
-
-				// Set the shape's color to red to mark it as selected
-				IRenderElement selectedShape = (IRenderElement) selectedObject;
-				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED,
-						255);
-				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
-						0);
-				selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
-						0);
-				selectedShapes.add(selectedShape);
-			}
-		}
 	}
 
 	/**

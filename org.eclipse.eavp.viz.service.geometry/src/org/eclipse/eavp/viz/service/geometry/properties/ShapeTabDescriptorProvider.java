@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.viewers.IFilter;
@@ -71,6 +72,12 @@ public class ShapeTabDescriptorProvider implements ITabDescriptorProvider {
 
 		// If the selection is invalid, do nothing
 		if (selection instanceof IStructuredSelection && !selection.isEmpty()) {
+
+			// If the selection is a dummy shape, there are not tabs to make
+			if (((IStructuredSelection) selection).getFirstElement()
+					.getClass() == BlankShape.class) {
+				return new ITabDescriptor[] {};
+			}
 
 			// TODO Handle multiple-element selection
 			// Get the selected element

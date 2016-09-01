@@ -90,7 +90,8 @@ public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 		for (Triangle tri : triangles) {
 
 			// Add each vertex to the face
-			for (Vertex vert : tri.getVertices()) {
+			for (int i = 0; i < 3; i++) {
+				Vertex vert = tri.getVertices().get(i);
 
 				// Get the vertex's x coordinate
 				Map<Double, Map<Double, Integer>> yCoords = xCoords
@@ -146,9 +147,8 @@ public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 				// Save the modified y coordinate map
 				xCoords.put(vert.getX(), yCoords);
 
-				// Also add a dummy coordinate for the texture, as we do not
-				// provide a texture by default
-				facesList.add(0);
+				// Add one of the three default texture vertices
+				facesList.add(i);
 			}
 		}
 
@@ -192,11 +192,11 @@ public class FXMeshCache extends MeshCacheImpl<TriangleMesh> {
 			faces[i] = facesList.get(i);
 		}
 
-		// Set all the points on the mesh and faces to the mesh, putting a dummy
-		// coordinate in the texture coordinates as we will not provide a
-		// texture by default.
+		// Set all the points on the mesh and faces to the mesh, setting the
+		// texture to simply be a triangle cut from one side of the texture
+		// image to the center point of the opposite side.
 		mesh.getPoints().setAll(points);
-		mesh.getTexCoords().setAll(new float[] { 0f, 0f });
+		mesh.getTexCoords().setAll(new float[] { 0.5f, 0.5f, 0f, 1f, 1f, 1f });
 		mesh.getFaces().setAll(faces);
 
 		return mesh;
