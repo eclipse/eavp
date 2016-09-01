@@ -91,9 +91,13 @@
     </genClasses>
     <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData/propertyToValueMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData/propertyMinValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData/propertyMaxValues"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData/propertyToValueMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData/propertyMinValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData/propertyMaxValues"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

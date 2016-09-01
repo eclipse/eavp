@@ -99,6 +99,18 @@ public class TransformationPropertyWidget {
 	}
 
 	/**
+	 * Set the inclusive bounds for the widget's possible values.
+	 * 
+	 * @param min
+	 *            The minimum value the widget will accept.
+	 * @param max
+	 *            The maximum value the widget will accept.
+	 */
+	public void setBounds(Number min, Number max) {
+		spinner.setBounds(min, max);
+	}
+
+	/**
 	 * Set the widget to handle a property of either the source or its
 	 * IRenderElement.
 	 * 

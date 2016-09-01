@@ -105,6 +105,20 @@ public class ColorOptionImpl<T> extends DisplayOptionImpl<T>
 		dataMap.put(PROPERTY_NAME_BLUE,
 				(int) parent.getProperty(PROPERTY_NAME_BLUE));
 
+		// Instantiate the minimum values to 0.
+		Map<String, Integer> minMap = new HashMap<String, Integer>();
+		minMap.put(PROPERTY_NAME_RED, 0);
+		minMap.put(PROPERTY_NAME_GREEN, 0);
+		minMap.put(PROPERTY_NAME_BLUE, 0);
+		data.setPropertyMinValues(minMap);
+
+		// Instantiate the maximum values to 0.
+		Map<String, Integer> maxMap = new HashMap<String, Integer>();
+		maxMap.put(PROPERTY_NAME_RED, 255);
+		maxMap.put(PROPERTY_NAME_GREEN, 255);
+		maxMap.put(PROPERTY_NAME_BLUE, 255);
+		data.setPropertyMaxValues(maxMap);
+
 		return data;
 	}
 

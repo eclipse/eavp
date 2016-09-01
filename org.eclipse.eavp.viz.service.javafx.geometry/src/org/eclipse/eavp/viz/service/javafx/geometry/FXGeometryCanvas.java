@@ -15,8 +15,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.eavp.geometry.view.model.IRenderElement;
-import org.eclipse.eavp.viz.service.geometry.widgets.TransformationView;
+import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXSelection;
@@ -37,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.Scene;
 import javafx.scene.image.WritableImage;
 
 /**
@@ -86,17 +84,15 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	@Override
 	protected void handleSelectionChanged(SelectionChangedEvent event) {
 		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-				.getActivePage().findView(TransformationView.ID);
+				.getActivePage().findView(ShapeTreeView.ID);
 
-		if (view == null || !(view instanceof TransformationView)) {
+		if (view == null || !(view instanceof ShapeTreeView)) {
 			return;
 		}
 
-		TransformationView transformView = (TransformationView) view;
-
 		FXSelection selection = (FXSelection) event.getSelection();
 
-		transformView.setShape((IRenderElement) selection.getShape());
+		((ShapeTreeView) view).setSelected(selection.getShape());
 	}
 
 	/*

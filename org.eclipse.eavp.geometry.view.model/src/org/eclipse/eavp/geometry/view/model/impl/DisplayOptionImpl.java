@@ -3,6 +3,7 @@
 package org.eclipse.eavp.geometry.view.model.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.eavp.geometry.view.model.DisplayOption;
@@ -24,10 +25,14 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#isActive <em>Active</em>}</li>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#getOptionGroup <em>Option Group</em>}</li>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#getParent <em>Parent</em>}</li>
- *   <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#isActive
+ * <em>Active</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#getOptionGroup
+ * <em>Option Group</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#getParent
+ * <em>Parent</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.DisplayOptionImpl#getType
+ * <em>Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -37,6 +42,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The default value of the '{@link #isActive() <em>Active</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isActive()
 	 * @generated
 	 * @ordered
@@ -46,6 +52,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #isActive() <em>Active</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isActive()
 	 * @generated
 	 * @ordered
@@ -53,8 +60,9 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 	protected boolean active = ACTIVE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getOptionGroup() <em>Option Group</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getOptionGroup() <em>Option
+	 * Group</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOptionGroup()
 	 * @generated
 	 * @ordered
@@ -62,8 +70,9 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 	protected static final String OPTION_GROUP_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getOptionGroup() <em>Option Group</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getOptionGroup() <em>Option Group</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOptionGroup()
 	 * @generated
 	 * @ordered
@@ -73,6 +82,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #getParent() <em>Parent</em>}' reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getParent()
 	 * @generated
 	 * @ordered
@@ -82,6 +92,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -91,6 +102,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -99,6 +111,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected DisplayOptionImpl() {
@@ -107,6 +120,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -116,6 +130,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -125,6 +140,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -132,11 +148,13 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 		boolean oldActive = active;
 		active = newActive;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DISPLAY_OPTION__ACTIVE, oldActive, active));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DISPLAY_OPTION__ACTIVE, oldActive, active));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -146,6 +164,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -153,21 +172,26 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 		String oldOptionGroup = optionGroup;
 		optionGroup = newOptionGroup;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DISPLAY_OPTION__OPTION_GROUP, oldOptionGroup, optionGroup));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DISPLAY_OPTION__OPTION_GROUP, oldOptionGroup,
+					optionGroup));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public RenderObject<?> getParent() {
 		if (parent != null && parent.eIsProxy()) {
-			InternalEObject oldParent = (InternalEObject)parent;
-			parent = (RenderObject<?>)eResolveProxy(oldParent);
+			InternalEObject oldParent = (InternalEObject) parent;
+			parent = (RenderObject<?>) eResolveProxy(oldParent);
 			if (parent != oldParent) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.DISPLAY_OPTION__PARENT, oldParent, parent));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							ModelPackage.DISPLAY_OPTION__PARENT, oldParent,
+							parent));
 			}
 		}
 		return parent;
@@ -175,6 +199,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public RenderObject<?> basicGetParent() {
@@ -183,6 +208,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -190,11 +216,13 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 		RenderObject<?> oldParent = parent;
 		parent = newParent;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DISPLAY_OPTION__PARENT, oldParent, parent));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DISPLAY_OPTION__PARENT, oldParent, parent));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -204,6 +232,7 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -211,153 +240,162 @@ public class DisplayOptionImpl<T> extends MinimalEObjectImpl.Container
 		DisplayOptionType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DISPLAY_OPTION__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DISPLAY_OPTION__TYPE, oldType, type));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * 
+	 * @generated NOT
 	 */
 	@Override
 	public void modify(T element) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		// Nothing to do for the default implementation
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
+	 * 
+	 * @generated NOT
 	 */
 	@Override
 	public Map<String, Object> getDefaultProperties() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IDisplayOptionData getDisplayOptionData() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		// Return an empty map by default
+		return new HashMap<String, Object>();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public IDisplayOptionData getDisplayOptionData() {
+		// Nothing to do by default
+		return null;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.DISPLAY_OPTION__ACTIVE:
-				return isActive();
-			case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
-				return getOptionGroup();
-			case ModelPackage.DISPLAY_OPTION__PARENT:
-				if (resolve) return getParent();
-				return basicGetParent();
-			case ModelPackage.DISPLAY_OPTION__TYPE:
-				return getType();
+		case ModelPackage.DISPLAY_OPTION__ACTIVE:
+			return isActive();
+		case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
+			return getOptionGroup();
+		case ModelPackage.DISPLAY_OPTION__PARENT:
+			if (resolve)
+				return getParent();
+			return basicGetParent();
+		case ModelPackage.DISPLAY_OPTION__TYPE:
+			return getType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.DISPLAY_OPTION__ACTIVE:
-				setActive((Boolean)newValue);
-				return;
-			case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
-				setOptionGroup((String)newValue);
-				return;
-			case ModelPackage.DISPLAY_OPTION__PARENT:
-				setParent((RenderObject<?>)newValue);
-				return;
-			case ModelPackage.DISPLAY_OPTION__TYPE:
-				setType((DisplayOptionType)newValue);
-				return;
+		case ModelPackage.DISPLAY_OPTION__ACTIVE:
+			setActive((Boolean) newValue);
+			return;
+		case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
+			setOptionGroup((String) newValue);
+			return;
+		case ModelPackage.DISPLAY_OPTION__PARENT:
+			setParent((RenderObject<?>) newValue);
+			return;
+		case ModelPackage.DISPLAY_OPTION__TYPE:
+			setType((DisplayOptionType) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.DISPLAY_OPTION__ACTIVE:
-				setActive(ACTIVE_EDEFAULT);
-				return;
-			case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
-				setOptionGroup(OPTION_GROUP_EDEFAULT);
-				return;
-			case ModelPackage.DISPLAY_OPTION__PARENT:
-				setParent((RenderObject<?>)null);
-				return;
-			case ModelPackage.DISPLAY_OPTION__TYPE:
-				setType(TYPE_EDEFAULT);
-				return;
+		case ModelPackage.DISPLAY_OPTION__ACTIVE:
+			setActive(ACTIVE_EDEFAULT);
+			return;
+		case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
+			setOptionGroup(OPTION_GROUP_EDEFAULT);
+			return;
+		case ModelPackage.DISPLAY_OPTION__PARENT:
+			setParent((RenderObject<?>) null);
+			return;
+		case ModelPackage.DISPLAY_OPTION__TYPE:
+			setType(TYPE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.DISPLAY_OPTION__ACTIVE:
-				return active != ACTIVE_EDEFAULT;
-			case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
-				return OPTION_GROUP_EDEFAULT == null ? optionGroup != null : !OPTION_GROUP_EDEFAULT.equals(optionGroup);
-			case ModelPackage.DISPLAY_OPTION__PARENT:
-				return parent != null;
-			case ModelPackage.DISPLAY_OPTION__TYPE:
-				return type != TYPE_EDEFAULT;
+		case ModelPackage.DISPLAY_OPTION__ACTIVE:
+			return active != ACTIVE_EDEFAULT;
+		case ModelPackage.DISPLAY_OPTION__OPTION_GROUP:
+			return OPTION_GROUP_EDEFAULT == null ? optionGroup != null
+					: !OPTION_GROUP_EDEFAULT.equals(optionGroup);
+		case ModelPackage.DISPLAY_OPTION__PARENT:
+			return parent != null;
+		case ModelPackage.DISPLAY_OPTION__TYPE:
+			return type != TYPE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
-			case ModelPackage.DISPLAY_OPTION___MODIFY__OBJECT:
-				modify((T)arguments.get(0));
-				return null;
-			case ModelPackage.DISPLAY_OPTION___GET_DEFAULT_PROPERTIES:
-				return getDefaultProperties();
-			case ModelPackage.DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA:
-				return getDisplayOptionData();
+		case ModelPackage.DISPLAY_OPTION___MODIFY__OBJECT:
+			modify((T) arguments.get(0));
+			return null;
+		case ModelPackage.DISPLAY_OPTION___GET_DEFAULT_PROPERTIES:
+			return getDefaultProperties();
+		case ModelPackage.DISPLAY_OPTION___GET_DISPLAY_OPTION_DATA:
+			return getDisplayOptionData();
 		}
 		return super.eInvoke(operationID, arguments);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (active: ");

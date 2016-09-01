@@ -28,6 +28,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <em>Display Option</em>}</li>
  * <li>{@link org.eclipse.eavp.geometry.view.model.impl.DoubleTextDisplayOptionDataImpl#getPropertyToValueMap
  * <em>Property To Value Map</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.DoubleTextDisplayOptionDataImpl#getPropertyMinValues
+ * <em>Property Min Values</em>}</li>
+ * <li>{@link org.eclipse.eavp.geometry.view.model.impl.DoubleTextDisplayOptionDataImpl#getPropertyMaxValues
+ * <em>Property Max Values</em>}</li>
  * </ul>
  *
  * @generated
@@ -53,6 +57,16 @@ public class DoubleTextDisplayOptionDataImpl extends
 	 * @ordered
 	 */
 	protected Map<String, Double> propertyToValueMap;
+
+	/**
+	 * A map from property names to their minimum values.
+	 */
+	protected Map<String, Double> propertyMinValues;
+
+	/**
+	 * A map from property names to their maximum values.
+	 */
+	protected Map<String, Double> propertyMaxValues;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -151,7 +165,63 @@ public class DoubleTextDisplayOptionDataImpl extends
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public Map<String, Double> getPropertyMinValues() {
+		if (propertyMinValues == null) {
+			propertyMinValues = new HashMap<String, Double>();
+		}
+		return propertyMinValues;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
+	 */
+	@Override
+	public void setPropertyMinValues(Map<String, Double> newPropertyMinValues) {
+		Map<String, Double> oldPropertyMinValues = propertyMinValues;
+		propertyMinValues = newPropertyMinValues;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES,
+					oldPropertyMinValues, propertyMinValues));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	@Override
+	public Map<String, Double> getPropertyMaxValues() {
+		if (propertyMaxValues == null) {
+			propertyMaxValues = new HashMap<String, Double>();
+		}
+		return propertyMaxValues;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void setPropertyMaxValues(Map<String, Double> newPropertyMaxValues) {
+		Map<String, Double> oldPropertyMaxValues = propertyMaxValues;
+		propertyMaxValues = newPropertyMaxValues;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES,
+					oldPropertyMaxValues, propertyMaxValues));
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
 	 */
 	@Override
 	public DisplayOptionType getDisplayOptionType() {
@@ -172,6 +242,10 @@ public class DoubleTextDisplayOptionDataImpl extends
 			return basicGetDisplayOption();
 		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP:
 			return getPropertyToValueMap();
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES:
+			return getPropertyMinValues();
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES:
+			return getPropertyMaxValues();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -191,6 +265,12 @@ public class DoubleTextDisplayOptionDataImpl extends
 		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP:
 			setPropertyToValueMap((Map<String, Double>) newValue);
 			return;
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES:
+			setPropertyMinValues((Map<String, Double>) newValue);
+			return;
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES:
+			setPropertyMaxValues((Map<String, Double>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -209,6 +289,12 @@ public class DoubleTextDisplayOptionDataImpl extends
 		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP:
 			setPropertyToValueMap((Map<String, Double>) null);
 			return;
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES:
+			setPropertyMinValues((Map<String, Double>) null);
+			return;
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES:
+			setPropertyMaxValues((Map<String, Double>) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -225,6 +311,10 @@ public class DoubleTextDisplayOptionDataImpl extends
 			return displayOption != null;
 		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP:
 			return propertyToValueMap != null;
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES:
+			return propertyMinValues != null;
+		case ModelPackage.DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES:
+			return propertyMaxValues != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -257,6 +347,10 @@ public class DoubleTextDisplayOptionDataImpl extends
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (propertyToValueMap: ");
 		result.append(propertyToValueMap);
+		result.append(", propertyMinValues: ");
+		result.append(propertyMinValues);
+		result.append(", propertyMaxValues: ");
+		result.append(propertyMaxValues);
 		result.append(')');
 		return result.toString();
 	}

@@ -373,11 +373,6 @@ public class ShapeTreeView extends ViewPart implements
 		ITreeSelection selection = (ITreeSelection) event.getSelection();
 		TreePath[] paths = selection.getPaths();
 
-		// Get the TransformationView
-
-		TransformationView transformationView = (TransformationView) getSite()
-				.getPage().findView(TransformationView.ID);
-
 		if (paths.length == 1) {
 
 			// Only one item is selected
@@ -386,12 +381,6 @@ public class ShapeTreeView extends ViewPart implements
 
 			if (selectedObject instanceof IRenderElement) {
 				IRenderElement selectedShape = (IRenderElement) selectedObject;
-
-				// Set the TransformationView's shape
-
-				if (transformationView != null) {
-					transformationView.setShape(selectedShape);
-				}
 
 				// Enable/disable action buttons
 
@@ -410,19 +399,11 @@ public class ShapeTreeView extends ViewPart implements
 				replicateShapes.setEnabled(false);
 				deleteShape.setEnabled(false);
 
-				// Set the TransformationView to a blank state
-
-				if (transformationView != null) {
-					transformationView.setShape(null);
-				}
 			}
 		} else {
 
 			// Multiple or zero items are selected
 
-			if (transformationView != null) {
-				transformationView.setShape(null);
-			}
 			if (paths.length > 1) {
 
 				// Multiple items are selected.

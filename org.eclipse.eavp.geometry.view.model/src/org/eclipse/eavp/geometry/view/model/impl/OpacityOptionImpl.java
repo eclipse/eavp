@@ -29,7 +29,7 @@ public class OpacityOptionImpl<T> extends DisplayOptionImpl<T>
 	/**
 	 * The name of the opacity property.
 	 */
-	protected final String PROPERTY_NAME_OPACITY = "Opacity";
+	public final static String PROPERTY_NAME_OPACITY = "Opacity";
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -77,6 +77,16 @@ public class OpacityOptionImpl<T> extends DisplayOptionImpl<T>
 		Map<String, Double> dataMap = data.getPropertyToValueMap();
 		dataMap.put(PROPERTY_NAME_OPACITY,
 				(double) parent.getProperty(PROPERTY_NAME_OPACITY));
+
+		// The minimum value is 0
+		Map<String, Double> min = new HashMap<String, Double>();
+		min.put(PROPERTY_NAME_OPACITY, 0d);
+		data.setPropertyMinValues(min);
+
+		// The maximum value is 100
+		Map<String, Double> max = new HashMap<String, Double>();
+		max.put(PROPERTY_NAME_OPACITY, 0d);
+		data.setPropertyMinValues(max);
 
 		return data;
 	}

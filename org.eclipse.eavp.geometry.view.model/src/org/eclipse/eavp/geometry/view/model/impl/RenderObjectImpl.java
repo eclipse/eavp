@@ -294,6 +294,7 @@ public class RenderObjectImpl<T> extends MinimalEObjectImpl.Container
 	@Override
 	public void registerOption(DisplayOption option) {
 		getDisplayOptions().add(option);
+		option.setParent(this);
 
 		// The map of default properties
 		Map<String, Object> defaultsMap = option.getDefaultProperties();

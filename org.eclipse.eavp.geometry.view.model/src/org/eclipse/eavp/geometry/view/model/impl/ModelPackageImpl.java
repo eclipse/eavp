@@ -579,6 +579,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getDoubleTextDisplayOptionData_PropertyMinValues() {
+		return (EAttribute)doubleTextDisplayOptionDataEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDoubleTextDisplayOptionData_PropertyMaxValues() {
+		return (EAttribute)doubleTextDisplayOptionDataEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIntegerTextDisplayOptionData() {
 		return integerTextDisplayOptionDataEClass;
 	}
@@ -590,6 +608,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	public EAttribute getIntegerTextDisplayOptionData_PropertyToValueMap() {
 		return (EAttribute)integerTextDisplayOptionDataEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIntegerTextDisplayOptionData_PropertyMinValues() {
+		return (EAttribute)integerTextDisplayOptionDataEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIntegerTextDisplayOptionData_PropertyMaxValues() {
+		return (EAttribute)integerTextDisplayOptionDataEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -731,9 +767,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		doubleTextDisplayOptionDataEClass = createEClass(DOUBLE_TEXT_DISPLAY_OPTION_DATA);
 		createEAttribute(doubleTextDisplayOptionDataEClass, DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP);
+		createEAttribute(doubleTextDisplayOptionDataEClass, DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES);
+		createEAttribute(doubleTextDisplayOptionDataEClass, DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES);
 
 		integerTextDisplayOptionDataEClass = createEClass(INTEGER_TEXT_DISPLAY_OPTION_DATA);
 		createEAttribute(integerTextDisplayOptionDataEClass, INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP);
+		createEAttribute(integerTextDisplayOptionDataEClass, INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES);
+		createEAttribute(integerTextDisplayOptionDataEClass, INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES);
 
 		// Create enums
 		displayOptionTypeEEnum = createEEnum(DISPLAY_OPTION_TYPE);
@@ -775,10 +815,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		ETypeParameter renderObjectEClass_T = addETypeParameter(renderObjectEClass, "T");
 		ETypeParameter iRenderElementEClass_T = addETypeParameter(iRenderElementEClass, "T");
 		ETypeParameter displayOptionEClass_T = addETypeParameter(displayOptionEClass, "T");
-		addETypeParameter(opacityOptionEClass, "T");
-		addETypeParameter(scaleOptionEClass, "T");
-		addETypeParameter(wireframeOptionEClass, "T");
-		addETypeParameter(colorOptionEClass, "T");
+		ETypeParameter opacityOptionEClass_T = addETypeParameter(opacityOptionEClass, "T");
+		ETypeParameter scaleOptionEClass_T = addETypeParameter(scaleOptionEClass, "T");
+		ETypeParameter wireframeOptionEClass_T = addETypeParameter(wireframeOptionEClass, "T");
+		ETypeParameter colorOptionEClass_T = addETypeParameter(colorOptionEClass, "T");
 
 		// Set bounds for type parameters
 
@@ -787,10 +827,22 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		EGenericType g2 = createEGenericType(renderObjectEClass_T);
 		g1.getETypeArguments().add(g2);
 		renderObjectEClass.getEGenericSuperTypes().add(g1);
-		opacityOptionEClass.getESuperTypes().add(this.getDisplayOption());
-		scaleOptionEClass.getESuperTypes().add(this.getDisplayOption());
-		wireframeOptionEClass.getESuperTypes().add(this.getDisplayOption());
-		colorOptionEClass.getESuperTypes().add(this.getDisplayOption());
+		g1 = createEGenericType(this.getDisplayOption());
+		g2 = createEGenericType(opacityOptionEClass_T);
+		g1.getETypeArguments().add(g2);
+		opacityOptionEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getDisplayOption());
+		g2 = createEGenericType(scaleOptionEClass_T);
+		g1.getETypeArguments().add(g2);
+		scaleOptionEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getDisplayOption());
+		g2 = createEGenericType(wireframeOptionEClass_T);
+		g1.getETypeArguments().add(g2);
+		wireframeOptionEClass.getEGenericSuperTypes().add(g1);
+		g1 = createEGenericType(this.getDisplayOption());
+		g2 = createEGenericType(colorOptionEClass_T);
+		g1.getETypeArguments().add(g2);
+		colorOptionEClass.getEGenericSuperTypes().add(g1);
 		comboDisplayOptionDataEClass.getESuperTypes().add(this.getIDisplayOptionData());
 		doubleTextDisplayOptionDataEClass.getESuperTypes().add(this.getIDisplayOptionData());
 		integerTextDisplayOptionDataEClass.getESuperTypes().add(this.getIDisplayOptionData());
@@ -921,6 +973,18 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		g2 = createEGenericType(this.getDouble());
 		g1.getETypeArguments().add(g2);
 		initEAttribute(getDoubleTextDisplayOptionData_PropertyToValueMap(), g1, "propertyToValueMap", null, 0, 1, DoubleTextDisplayOptionData.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(ecorePackage.getEMap());
+		g2 = createEGenericType(ecorePackage.getEString());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getDouble());
+		g1.getETypeArguments().add(g2);
+		initEAttribute(getDoubleTextDisplayOptionData_PropertyMinValues(), g1, "propertyMinValues", null, 0, 1, DoubleTextDisplayOptionData.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(ecorePackage.getEMap());
+		g2 = createEGenericType(ecorePackage.getEString());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getDouble());
+		g1.getETypeArguments().add(g2);
+		initEAttribute(getDoubleTextDisplayOptionData_PropertyMaxValues(), g1, "propertyMaxValues", null, 0, 1, DoubleTextDisplayOptionData.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(integerTextDisplayOptionDataEClass, IntegerTextDisplayOptionData.class, "IntegerTextDisplayOptionData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		g1 = createEGenericType(ecorePackage.getEMap());
@@ -929,6 +993,18 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		g2 = createEGenericType(this.getInteger());
 		g1.getETypeArguments().add(g2);
 		initEAttribute(getIntegerTextDisplayOptionData_PropertyToValueMap(), g1, "propertyToValueMap", null, 0, 1, IntegerTextDisplayOptionData.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(ecorePackage.getEMap());
+		g2 = createEGenericType(ecorePackage.getEString());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getInteger());
+		g1.getETypeArguments().add(g2);
+		initEAttribute(getIntegerTextDisplayOptionData_PropertyMinValues(), g1, "propertyMinValues", null, 0, 1, IntegerTextDisplayOptionData.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		g1 = createEGenericType(ecorePackage.getEMap());
+		g2 = createEGenericType(ecorePackage.getEString());
+		g1.getETypeArguments().add(g2);
+		g2 = createEGenericType(this.getInteger());
+		g1.getETypeArguments().add(g2);
+		initEAttribute(getIntegerTextDisplayOptionData_PropertyMaxValues(), g1, "propertyMaxValues", null, 0, 1, IntegerTextDisplayOptionData.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(displayOptionTypeEEnum, DisplayOptionType.class, "DisplayOptionType");

@@ -89,18 +89,6 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 
-		// Get the TransformationView if it is open
-
-		TransformationView transformationView = (TransformationView) workbenchPage
-				.findView(TransformationView.ID);
-
-		// Return if not
-
-		if (transformationView == null) {
-			return;
-		}
-		// Get the tree paths
-
 		ITreeSelection selection = (ITreeSelection) event.getSelection();
 		TreePath[] paths = selection.getPaths();
 
@@ -153,26 +141,6 @@ public class ShapeTreeSelectionListener implements ISelectionChangedListener {
 				// Add the shape to the list of selected shapes
 				selectedShapes.add(selectedShape);
 			}
-		}
-
-		// Set the TransformationView shape to null if nothing is selected
-		// or there are multiple selections
-
-		if (paths.length != 1) {
-			transformationView.setShape(null);
-			return;
-		}
-
-		Object selectedObject = paths[0].getLastSegment();
-
-		// Determine if the shape of the TransformationView should be set
-
-		if (selectedObject instanceof IRenderElement) {
-			transformationView.setShape((IRenderElement) selectedObject);
-		}
-
-		else {
-			transformationView.setShape(null);
 		}
 
 	}

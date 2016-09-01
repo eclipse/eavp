@@ -29,7 +29,7 @@ public class WireframeOptionImpl<T> extends DisplayOptionImpl<T>
 	/**
 	 * The name of the IRenderElement property for wireframe mode.
 	 */
-	protected final String PROPERTY_NAME_WIREFRAME = "Wireframe";
+	public static final String PROPERTY_NAME_WIREFRAME = "Wireframe";
 
 	/**
 	 * The text string to display that corresponds to a Wireframe property of

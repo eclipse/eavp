@@ -180,7 +180,7 @@ public class ShapeSection extends AbstractPropertySection {
 		// left half of the screen.
 		Group dataGroup = createGroup(parent, "Data", 0, 0, 50, 100);
 
-		// A compposite to hold the nameLabel and nameText, located in the upper
+		// A composite to hold the nameLabel and nameText, located in the upper
 		// left corner
 		Composite nameComp = new Composite(dataGroup, SWT.NONE);
 		FormData nameData = new FormData();
@@ -582,10 +582,36 @@ public class ShapeSection extends AbstractPropertySection {
 		// The set of property names
 		Set<String> propertyNames = new HashSet<String>();
 
+		// The bounds for each property, if any
+		HashMap<String, Double> minValues = new HashMap<String, Double>();
+		HashMap<String, Double> maxValues = new HashMap<String, Double>();
+
 		// Get all the properties required by all the DisplayOptions
 		for (IDisplayOptionData option : options) {
-			propertyNames.addAll(((DoubleTextDisplayOptionData) option)
-					.getPropertyToValueMap().keySet());
+
+			// Get the names of all properties in this data
+			Set<String> properties = ((DoubleTextDisplayOptionData) option)
+					.getPropertyToValueMap().keySet();
+			propertyNames.addAll(properties);
+
+			// Get the minimum and maximum values from the data
+			Map<String, Double> mins = ((DoubleTextDisplayOptionData) option)
+					.getPropertyMinValues();
+			Map<String, Double> maxes = ((DoubleTextDisplayOptionData) option)
+					.getPropertyMaxValues();
+
+			// For each property, set the minimum and maximum values
+			for (String property : properties) {
+				Double min = mins.get(property);
+				if (min != null) {
+					minValues.put(property, min);
+				}
+
+				Double max = maxes.get(property);
+				if (max != null) {
+					maxValues.put(property, max);
+				}
+			}
 		}
 
 		// Add controls for each property
@@ -605,6 +631,14 @@ public class ShapeSection extends AbstractPropertySection {
 			widget.setProperty(source.getBase(), property,
 					(double) source.getProperty(property));
 			activatedControls.add(widget.getTextControl());
+
+			// Set the bounds on the widget, if specified
+			if (minValues.get(property) != null
+					|| maxValues.get(property) != null) {
+				widget.setBounds(minValues.get(property),
+						maxValues.get(property));
+			}
+
 		}
 
 		return activatedControls;
@@ -749,10 +783,37 @@ public class ShapeSection extends AbstractPropertySection {
 		// The set of all property names for this option group
 		Set<String> propertyNames = new HashSet<String>();
 
+		// The bounds for each property, if any
+		HashMap<String, Integer> minValues = new HashMap<String, Integer>();
+		HashMap<String, Integer> maxValues = new HashMap<String, Integer>();
+
 		// Add each DisplayOption's properties to the list
+		// Get all the properties required by all the DisplayOptions
 		for (IDisplayOptionData option : options) {
-			propertyNames.addAll(((IntegerTextDisplayOptionData) option)
-					.getPropertyToValueMap().keySet());
+
+			// Get the names of all properties in this data
+			Set<String> properties = ((IntegerTextDisplayOptionData) option)
+					.getPropertyToValueMap().keySet();
+			propertyNames.addAll(properties);
+
+			// Get the minimum and maximum values from the data
+			Map<String, Integer> mins = ((IntegerTextDisplayOptionData) option)
+					.getPropertyMinValues();
+			Map<String, Integer> maxes = ((IntegerTextDisplayOptionData) option)
+					.getPropertyMaxValues();
+
+			// For each property, set the minimum and maximum values
+			for (String property : properties) {
+				Integer min = mins.get(property);
+				if (min != null) {
+					minValues.put(property, min);
+				}
+
+				Integer max = maxes.get(property);
+				if (max != null) {
+					maxValues.put(property, max);
+				}
+			}
 		}
 
 		// Create a widget for each property
@@ -771,8 +832,16 @@ public class ShapeSection extends AbstractPropertySection {
 			widget.setDecoratorProperty(true);
 			widget.setProperty(source.getBase(), property,
 					(int) source.getProperty(property));
+			widget.getTextControl().setLayoutData(new GridData(30, 15));
 
 			activatedControls.add(widget.getTextControl());
+
+			// Set the bounds on the widget, if specified
+			if (minValues.get(property) != null
+					|| maxValues.get(property) != null) {
+				widget.setBounds(minValues.get(property),
+						maxValues.get(property));
+			}
 		}
 
 		return activatedControls;
@@ -859,22 +928,6 @@ public class ShapeSection extends AbstractPropertySection {
 			nameText.setText(source.getBase().getName());
 			idText.setText(String.valueOf(source.getBase().getId()));
 
-			// Get the shape's current status
-			double opacity = source.getProperty("opacity") == null ? 100d
-					: (double) source.getProperty("opacity");
-			boolean wireframe = source.getProperty("wireframe") == null ? false
-					: (boolean) source.getProperty(("wireframe"));
-
-			// Set the opacity combo's value based on the shape's transparency
-			// and wireframe status
-			// if (opacity == 0) {
-			// opacityCombo.select(2);
-			// } else if (wireframe) {
-			// opacityCombo.select(1);
-			// } else {
-			// opacityCombo.select(0);
-			// }
-
 			// Set the spinner values
 
 			Vertex center = source.getBase().getCenter();
@@ -941,14 +994,20 @@ public class ShapeSection extends AbstractPropertySection {
 						formatter.format(v3.getZ()) });
 			}
 
+			// The map from option groups to the IDisplayOptionData objects
+			// publishing their configurations to that group
 			HashMap<String, ArrayList<IDisplayOptionData>> optionGroupMap = new HashMap<String, ArrayList<IDisplayOptionData>>();
 
+			// All options for the present object
 			List<DisplayOption> optionList = ((RenderObject) source)
 					.getDisplayOptions();
-			for (DisplayOption option : optionList) {
 
+			// Add each option to the correct group
+			for (DisplayOption option : optionList) {
 				String type = option.getOptionGroup();
 
+				// Get the current list of IDisplayOptionData for this group, or
+				// a new one if none exists.
 				ArrayList<IDisplayOptionData> options;
 
 				if (!optionGroupMap.containsKey(type)) {
@@ -957,30 +1016,37 @@ public class ShapeSection extends AbstractPropertySection {
 					options = optionGroupMap.get(type);
 				}
 
+				// Add the new option to the map
 				options.add(option.getDisplayOptionData());
 				optionGroupMap.put(type, options);
 			}
 
 			displayGroup.setLayout(new RowLayout());
 
+			// Add the controls for each group
 			for (String group : optionGroupMap.keySet()) {
 
+				// The list of all IDisplayOptionData for this option group
 				final List<IDisplayOptionData> groupData = optionGroupMap
 						.get(group);
 
+				// Add a check box to activate/deactivate the option.
 				Button activator = new Button(displayGroup, SWT.CHECK);
 				disposableControls.add(activator);
 
+				// Set the checkbox to the data's current active state
 				boolean active = groupData.get(0).getDisplayOption().isActive();
-
 				activator.setSelection(active);
 
+				// The Controls that will be turned on or off by activator
+				List<Control> activatedControls = null;
+
+				// The type of controls made
 				DisplayOptionType type = groupData.get(0)
 						.getDisplayOptionType();
 
-				List<Control> activatedControls = null;
-
 				// TODO Replace this switch
+				// Create an appropriate group for this type of data
 				if (type == DisplayOptionType.COMBO) {
 					activatedControls = createComboControl(displayGroup, group,
 							optionGroupMap.get(group));
@@ -992,12 +1058,15 @@ public class ShapeSection extends AbstractPropertySection {
 							group, optionGroupMap.get(group));
 				}
 
+				// Set up the active controls, if any
 				if (activatedControls != null) {
 
+					// Disable the controls if the option is deactivated
 					for (Control child : activatedControls) {
 						child.setEnabled(active);
 					}
 
+					// Get a final reference to the group's controls
 					final List<Control> finalControls = activatedControls;
 
 					activator.addSelectionListener(new SelectionListener() {
@@ -1005,6 +1074,8 @@ public class ShapeSection extends AbstractPropertySection {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
 
+							// When the activator is selected, disable/enable
+							// the controls and the options
 							boolean active = activator.getSelection();
 
 							for (IDisplayOptionData data : groupData) {
@@ -1018,6 +1089,9 @@ public class ShapeSection extends AbstractPropertySection {
 
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
+
+							// When the activator is selected, disable/enable
+							// the controls and the options
 							boolean active = activator.getSelection();
 
 							for (IDisplayOptionData data : groupData) {
@@ -1049,9 +1123,8 @@ public class ShapeSection extends AbstractPropertySection {
 			spinner.getControl().setEnabled(source != null);
 		}
 
+		// Layout the group now that it is fully populated
 		displayGroup.layout();
-
-		// opacityCombo.setEnabled(source != null);
 
 	}
 

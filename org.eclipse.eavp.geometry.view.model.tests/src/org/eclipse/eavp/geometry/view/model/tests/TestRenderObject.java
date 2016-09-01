@@ -8,7 +8,7 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package model.tests;
+package org.eclipse.eavp.geometry.view.model.tests;
 
 import org.eclipse.eavp.geometry.view.model.impl.RenderObjectImpl;
 

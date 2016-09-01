@@ -15,6 +15,7 @@ import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
@@ -103,7 +104,8 @@ public class FXColorOption extends ColorOptionImpl<Group> {
 			PhongMaterial material = new PhongMaterial(
 					Color.rgb(red, green, blue));
 			material.setSpecularColor(Color.WHITE);
-			material.setSpecularPower(320);
+			material.setDiffuseMap(new Image(
+					getClass().getResource("diffuse.jpg").toExternalForm()));
 
 			// Set the material for the group and pass it along
 			setMaterial(element, material);

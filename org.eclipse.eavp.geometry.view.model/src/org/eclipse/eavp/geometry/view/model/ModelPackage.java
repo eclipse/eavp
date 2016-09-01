@@ -929,13 +929,31 @@ public interface ModelPackage extends EPackage {
 	int DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Property Min Values</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Property Max Values</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Double Text Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DOUBLE_TEXT_DISPLAY_OPTION_DATA_FEATURE_COUNT = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 1;
+	int DOUBLE_TEXT_DISPLAY_OPTION_DATA_FEATURE_COUNT = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 3;
 
 	/**
 	 * The operation id for the '<em>Get Display Option Type</em>' operation.
@@ -984,13 +1002,31 @@ public interface ModelPackage extends EPackage {
 	int INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Property Min Values</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Property Max Values</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Integer Text Display Option Data</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTEGER_TEXT_DISPLAY_OPTION_DATA_FEATURE_COUNT = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 1;
+	int INTEGER_TEXT_DISPLAY_OPTION_DATA_FEATURE_COUNT = IDISPLAY_OPTION_DATA_FEATURE_COUNT + 3;
 
 	/**
 	 * The operation id for the '<em>Get Display Option Type</em>' operation.
@@ -1479,6 +1515,28 @@ public interface ModelPackage extends EPackage {
 	EAttribute getDoubleTextDisplayOptionData_PropertyToValueMap();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData#getPropertyMinValues <em>Property Min Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Property Min Values</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData#getPropertyMinValues()
+	 * @see #getDoubleTextDisplayOptionData()
+	 * @generated
+	 */
+	EAttribute getDoubleTextDisplayOptionData_PropertyMinValues();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData#getPropertyMaxValues <em>Property Max Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Property Max Values</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.DoubleTextDisplayOptionData#getPropertyMaxValues()
+	 * @see #getDoubleTextDisplayOptionData()
+	 * @generated
+	 */
+	EAttribute getDoubleTextDisplayOptionData_PropertyMaxValues();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData <em>Integer Text Display Option Data</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1498,6 +1556,28 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIntegerTextDisplayOptionData_PropertyToValueMap();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData#getPropertyMinValues <em>Property Min Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Property Min Values</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData#getPropertyMinValues()
+	 * @see #getIntegerTextDisplayOptionData()
+	 * @generated
+	 */
+	EAttribute getIntegerTextDisplayOptionData_PropertyMinValues();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData#getPropertyMaxValues <em>Property Max Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Property Max Values</em>'.
+	 * @see org.eclipse.eavp.geometry.view.model.IntegerTextDisplayOptionData#getPropertyMaxValues()
+	 * @see #getIntegerTextDisplayOptionData()
+	 * @generated
+	 */
+	EAttribute getIntegerTextDisplayOptionData_PropertyMaxValues();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.eavp.geometry.view.model.DisplayOptionType <em>Display Option Type</em>}'.
@@ -1925,6 +2005,22 @@ public interface ModelPackage extends EPackage {
 		EAttribute DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = eINSTANCE.getDoubleTextDisplayOptionData_PropertyToValueMap();
 
 		/**
+		 * The meta object literal for the '<em><b>Property Min Values</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES = eINSTANCE.getDoubleTextDisplayOptionData_PropertyMinValues();
+
+		/**
+		 * The meta object literal for the '<em><b>Property Max Values</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOUBLE_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES = eINSTANCE.getDoubleTextDisplayOptionData_PropertyMaxValues();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.impl.IntegerTextDisplayOptionDataImpl <em>Integer Text Display Option Data</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1941,6 +2037,22 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_TO_VALUE_MAP = eINSTANCE.getIntegerTextDisplayOptionData_PropertyToValueMap();
+
+		/**
+		 * The meta object literal for the '<em><b>Property Min Values</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MIN_VALUES = eINSTANCE.getIntegerTextDisplayOptionData_PropertyMinValues();
+
+		/**
+		 * The meta object literal for the '<em><b>Property Max Values</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTEGER_TEXT_DISPLAY_OPTION_DATA__PROPERTY_MAX_VALUES = eINSTANCE.getIntegerTextDisplayOptionData_PropertyMaxValues();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.eavp.geometry.view.model.DisplayOptionType <em>Display Option Type</em>}' enum.

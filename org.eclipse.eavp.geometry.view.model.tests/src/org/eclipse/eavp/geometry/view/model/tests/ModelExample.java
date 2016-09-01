@@ -1,6 +1,6 @@
 /**
  */
-package model.tests;
+package org.eclipse.eavp.geometry.view.model.tests;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.eclipse.eavp.geometry.view.model.MeshCache;
 import org.eclipse.eavp.geometry.view.model.ModelFactory;
 import org.eclipse.eavp.geometry.view.model.ModelPackage;
+
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 

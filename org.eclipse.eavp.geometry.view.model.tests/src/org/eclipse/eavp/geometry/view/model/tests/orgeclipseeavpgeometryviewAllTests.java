@@ -1,6 +1,6 @@
 /**
  */
-package model.tests;
+package org.eclipse.eavp.geometry.view.model.tests;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -9,11 +9,11 @@ import junit.textui.TestRunner;
 
 /**
  * <!-- begin-user-doc -->
- * A test suite for the '<em><b>Model</b></em>' model.
+ * A test suite for the '<em><b>org.eclipse.eavp.geometry.view</b></em>' model.
  * <!-- end-user-doc -->
  * @generated
  */
-public class ModelAllTests extends TestSuite {
+public class orgeclipseeavpgeometryviewAllTests extends TestSuite {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -30,7 +30,7 @@ public class ModelAllTests extends TestSuite {
 	 * @generated
 	 */
 	public static Test suite() {
-		TestSuite suite = new ModelAllTests("Model Tests");
+		TestSuite suite = new orgeclipseeavpgeometryviewAllTests("org.eclipse.eavp.geometry.view Tests");
 		suite.addTest(ModelTests.suite());
 		return suite;
 	}
@@ -40,8 +40,8 @@ public class ModelAllTests extends TestSuite {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelAllTests(String name) {
+	public orgeclipseeavpgeometryviewAllTests(String name) {
 		super(name);
 	}
 
-} //ModelAllTests
+} //orgeclipseeavpgeometryviewAllTests

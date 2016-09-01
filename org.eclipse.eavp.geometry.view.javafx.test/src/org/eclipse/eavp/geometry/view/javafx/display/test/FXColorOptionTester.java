@@ -8,20 +8,18 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.geometry.view.javafx.decorator.test;
+package org.eclipse.eavp.geometry.view.javafx.display.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.geometry.view.javafx.decorators.FXColorDecorator;
+import org.eclipse.eavp.geometry.view.javafx.display.FXColorOption;
 import org.eclipse.eavp.geometry.view.javafx.render.FXMeshCache;
 import org.eclipse.eavp.geometry.view.javafx.render.FXRenderObject;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.Shape;
 import org.junit.Test;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 
 /**
@@ -30,7 +28,7 @@ import javafx.scene.shape.MeshView;
  * @author Robert Smith
  *
  */
-public class FXColorDecoratorTester {
+public class FXColorOptionTester {
 
 	/**
 	 * Check that the decorator will set the object's material correctly.
@@ -44,35 +42,18 @@ public class FXColorDecoratorTester {
 				GeometryFactory.eINSTANCE.createCube(), new FXMeshCache());
 
 		// Create a color decorator for it
-		FXColorDecorator decorator = new FXColorDecorator();
-		decorator.setSource(object);
+		FXColorOption decorator = new FXColorOption(object);
 
 		// Set the color
-		decorator.setBlue(0);
-		decorator.setGreen(100);
-		decorator.setRed(200);
+		object.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, 200);
+		object.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN, 100);
+		object.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, 0);
 
 		// We cannot test PhongMaterials for equality as JavaFX does not
 		// overload equals() or provide methods for getting a PhongMaterial's
 		// attributes, so instead just check that the decorator returned a
 		// meshview.
-		assertTrue(
-				decorator.getMesh().getChildren().get(0) instanceof MeshView);
-
-		// Setting the properties should also set the variables
-		decorator.setProperty("red", 1);
-		assertEquals(1, decorator.getRed());
-		decorator.setProperty("green", 2);
-		assertEquals(2, decorator.getGreen());
-		decorator.setProperty("blue", 3);
-		assertEquals(3, decorator.getBlue());
-
-		// Set a material to the object
-		PhongMaterial material = new PhongMaterial(Color.AQUA);
-		object.setProperty("material", material);
-
-		// The material should have been saved by the decorator.
-		assertEquals(material, decorator.getMaterial());
+		assertTrue(object.getMesh().getChildren().get(0) instanceof MeshView);
 
 	}
 }

@@ -29,7 +29,7 @@ public class ScaleOptionImpl<T> extends DisplayOptionImpl<T>
 	/**
 	 * The name for the scale property
 	 */
-	protected final String PROPERTY_NAME_SCALE = "Scale";
+	public static final String PROPERTY_NAME_SCALE = "Scale";
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

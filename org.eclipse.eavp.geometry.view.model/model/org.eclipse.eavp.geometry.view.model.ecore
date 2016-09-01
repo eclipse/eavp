@@ -182,29 +182,41 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OpacityOption" eSuperTypes="#//DisplayOption">
+  <eClassifiers xsi:type="ecore:EClass" name="OpacityOption">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An option that will allow the RenderObject to display with a non-default opacity. "/>
     </eAnnotations>
     <eTypeParameters name="T"/>
+    <eGenericSuperTypes eClassifier="#//DisplayOption">
+      <eTypeArguments eTypeParameter="#//OpacityOption/T"/>
+    </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ScaleOption" eSuperTypes="#//DisplayOption">
+  <eClassifiers xsi:type="ecore:EClass" name="ScaleOption">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A DisplayOption which will control the size at which the object is displayed."/>
     </eAnnotations>
     <eTypeParameters name="T"/>
+    <eGenericSuperTypes eClassifier="#//DisplayOption">
+      <eTypeArguments eTypeParameter="#//ScaleOption/T"/>
+    </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="WireframeOption" eSuperTypes="#//DisplayOption">
+  <eClassifiers xsi:type="ecore:EClass" name="WireframeOption">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An option which allows a mesh to be rendered as a wireframe."/>
     </eAnnotations>
     <eTypeParameters name="T"/>
+    <eGenericSuperTypes eClassifier="#//DisplayOption">
+      <eTypeArguments eTypeParameter="#//WireframeOption/T"/>
+    </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ColorOption" eSuperTypes="#//DisplayOption">
+  <eClassifiers xsi:type="ecore:EClass" name="ColorOption">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An option which will set the mesh's color. "/>
     </eAnnotations>
     <eTypeParameters name="T"/>
+    <eGenericSuperTypes eClassifier="#//DisplayOption">
+      <eTypeArguments eTypeParameter="#//ColorOption/T"/>
+    </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DisplayOptionType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -245,11 +257,35 @@
         <eTypeArguments eClassifier="#//Double"/>
       </eGenericType>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyMinValues" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="#//Double"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyMaxValues" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="#//Double"/>
+      </eGenericType>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="Double" instanceClassName="java.lang.Double"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceClassName="java.lang.Integer"/>
   <eClassifiers xsi:type="ecore:EClass" name="IntegerTextDisplayOptionData" eSuperTypes="#//IDisplayOptionData">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyToValueMap" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="#//Integer"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyMinValues" transient="true">
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eTypeArguments eClassifier="#//Integer"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyMaxValues" transient="true">
       <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
         <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         <eTypeArguments eClassifier="#//Integer"/>

@@ -94,28 +94,28 @@ public class ModelSwitch<T1> extends Switch<T1> {
 			case ModelPackage.OPACITY_OPTION: {
 				OpacityOption<?> opacityOption = (OpacityOption<?>)theEObject;
 				T1 result = caseOpacityOption(opacityOption);
-				if (result == null) result = (T1)caseDisplayOption(opacityOption);
+				if (result == null) result = caseDisplayOption(opacityOption);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ModelPackage.SCALE_OPTION: {
 				ScaleOption<?> scaleOption = (ScaleOption<?>)theEObject;
 				T1 result = caseScaleOption(scaleOption);
-				if (result == null) result = (T1)caseDisplayOption(scaleOption);
+				if (result == null) result = caseDisplayOption(scaleOption);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ModelPackage.WIREFRAME_OPTION: {
 				WireframeOption<?> wireframeOption = (WireframeOption<?>)theEObject;
 				T1 result = caseWireframeOption(wireframeOption);
-				if (result == null) result = (T1)caseDisplayOption(wireframeOption);
+				if (result == null) result = caseDisplayOption(wireframeOption);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case ModelPackage.COLOR_OPTION: {
 				ColorOption<?> colorOption = (ColorOption<?>)theEObject;
 				T1 result = caseColorOption(colorOption);
-				if (result == null) result = (T1)caseDisplayOption(colorOption);
+				if (result == null) result = caseDisplayOption(colorOption);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
