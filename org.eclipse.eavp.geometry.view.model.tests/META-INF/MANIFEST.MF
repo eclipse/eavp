@@ -13,4 +13,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.january.geometry,
- org.eclipse.january.geometry.impl
+ org.eclipse.january.geometry.impl,
+ org.eclipse.swt,
+ org.eclipse.ui
