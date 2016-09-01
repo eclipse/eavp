@@ -7,12 +7,9 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.eavp.geometry.view.model;visibility:=reexport,
+Require-Bundle: org.eclipse.eavp.geometry.view.model;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.junit;visibility:=reexport,
- org.eclipse.swt;bundle-version="3.105.0"
+ org.junit;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.january.geometry,
- org.eclipse.january.geometry.impl,
- org.eclipse.ui
+ org.eclipse.january.geometry.impl
