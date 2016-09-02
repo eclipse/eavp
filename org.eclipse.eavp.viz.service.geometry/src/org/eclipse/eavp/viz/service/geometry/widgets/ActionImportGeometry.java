@@ -10,7 +10,9 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.eavp.geometry.view.model.DisplayOption;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.RenderObject;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
@@ -197,6 +199,19 @@ public class ActionImportGeometry extends Action {
 				if (parentComplexShape == null) {
 					synchronized (geometry) {
 						geometry.addNode(importedUnion);
+
+						// Operators should have their color display options off
+						// by default,
+						// to allow their childrens' colors to take precedence.
+						List<DisplayOption> options = ((RenderObject) view
+								.getHolder().getRender(importedUnion))
+										.getDisplayOptions();
+						for (DisplayOption option : options) {
+							if ("Color".equals(option.getOptionGroup())) {
+								option.setActive(false);
+							}
+						}
+
 					}
 
 					// Import into the parent shape
@@ -204,6 +219,18 @@ public class ActionImportGeometry extends Action {
 
 					synchronized (geometry) {
 						parentComplexShape.addNode(importedUnion);
+
+						// Operators should have their color display options off
+						// by default,
+						// to allow their childrens' colors to take precedence.
+						List<DisplayOption> options = ((RenderObject) view
+								.getHolder().getRender(importedUnion))
+										.getDisplayOptions();
+						for (DisplayOption option : options) {
+							if ("Color".equals(option.getOptionGroup())) {
+								option.setActive(false);
+							}
+						}
 					}
 
 				}
@@ -225,6 +252,7 @@ public class ActionImportGeometry extends Action {
 				if (parentComplexShape == null) {
 					synchronized (geometry) {
 						geometry.addNode(importedNode);
+
 					}
 
 					// Import into the parent shape

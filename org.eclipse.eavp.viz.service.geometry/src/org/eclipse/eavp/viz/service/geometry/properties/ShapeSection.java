@@ -79,6 +79,8 @@ public class ShapeSection extends AbstractPropertySection {
 	 */
 	final static private int NUM_PROPERTIES = 5;
 
+	private boolean triangleDataLoaded;
+
 	/**
 	 * The display group
 	 */
@@ -340,7 +342,11 @@ public class ShapeSection extends AbstractPropertySection {
 		// the meshPropertiesGroup
 		Group meshDataGroup = createGroup(dataGroup, "Triangle Mesh Data",
 				meshPropertiesGroup, 0, null, 0, null, 100, null, 100);
-		meshDataGroup.setLayout(new FormLayout());
+		meshDataGroup.setLayout(new GridLayout(2, false));
+
+		// Add a button that will dispaly or hide the table
+		Button tableToggle = new Button(meshDataGroup, SWT.PUSH);
+		tableToggle.setText("Show");
 
 		// A table which will display the nine coordinates that define each
 		// triangle, in the order XYZ for each of the three vertices in turn.
@@ -348,12 +354,71 @@ public class ShapeSection extends AbstractPropertySection {
 		// only with a scrollbar.
 		triangleTable = new Table(meshDataGroup,
 				SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
-		FormData tableData = new FormData();
-		tableData.top = new FormAttachment(0);
-		tableData.left = new FormAttachment(0);
-		tableData.right = new FormAttachment(100);
-		tableData.height = 90;
+		GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		triangleTable.setLayoutData(tableData);
+		triangleTable.setVisible(false);
+
+		triangleDataLoaded = false;
+
+		tableToggle.addListener(SWT.CHECK, new Listener() {
+
+			boolean displayed = false;
+
+			@Override
+			public void handleEvent(Event event) {
+
+				displayed = !displayed;
+
+				tableData.exclude = !displayed;
+				triangleTable.setVisible(displayed);
+
+				if (!triangleDataLoaded) {
+					triangleDataLoaded = true;
+
+					// Remove all rows from the current table
+					for (int i = 0; i < triangleTable.getItemCount(); i++) {
+						triangleTable.remove(i);
+					}
+
+					// Create the formatter that will set the coordinates'
+					// strings
+					DecimalFormat formatter = new DecimalFormat("#.#####");
+					formatter.setRoundingMode(RoundingMode.DOWN);
+
+					// Update the triangle mesh data
+					List<Triangle> triangles = source.getBase().getTriangles();
+					for (Triangle triangle : triangles) {
+
+						// Get the vertices for the current triangle
+						List<Vertex> vertices = triangle.getVertices();
+						Vertex v1 = vertices.get(0);
+						Vertex v2 = vertices.get(1);
+						Vertex v3 = vertices.get(2);
+
+						// Add a new row containing the coordinates
+						TableItem row = new TableItem(triangleTable, SWT.NONE);
+
+						// The row will contain each coordinate, formatted
+						// correctly
+						row.setText(new String[] { formatter.format(v1.getX()),
+								formatter.format(v1.getY()),
+								formatter.format(v1.getZ()),
+								formatter.format(v2.getX()),
+								formatter.format(v2.getY()),
+								formatter.format(v2.getZ()),
+								formatter.format(v3.getX()),
+								formatter.format(v3.getY()),
+								formatter.format(v3.getZ()) });
+					}
+
+					// Resize the columns in the table
+					for (TableColumn column : triangleTable.getColumns()) {
+						column.pack();
+					}
+				}
+			}
+
+		});
 
 		// Create and name the nine columns
 		TableColumn x1 = new TableColumn(triangleTable, SWT.CENTER);
@@ -960,40 +1025,6 @@ public class ShapeSection extends AbstractPropertySection {
 
 			}
 
-			// Remove all rows from the current table
-			for (int i = 0; i < triangleTable.getItemCount(); i++) {
-				triangleTable.remove(i);
-			}
-
-			// Create the formatter that will set the coordinates' strings
-			DecimalFormat formatter = new DecimalFormat("#.#####");
-			formatter.setRoundingMode(RoundingMode.DOWN);
-
-			// Update the triangle mesh data
-			List<Triangle> triangles = source.getBase().getTriangles();
-			for (Triangle triangle : triangles) {
-
-				// Get the vertices for the current triangle
-				List<Vertex> vertices = triangle.getVertices();
-				Vertex v1 = vertices.get(0);
-				Vertex v2 = vertices.get(1);
-				Vertex v3 = vertices.get(2);
-
-				// Add a new row containing the coordinates
-				TableItem row = new TableItem(triangleTable, SWT.NONE);
-
-				// The row will contain each coordinate, formatted correctly
-				row.setText(new String[] { formatter.format(v1.getX()),
-						formatter.format(v1.getY()),
-						formatter.format(v1.getZ()),
-						formatter.format(v2.getX()),
-						formatter.format(v2.getY()),
-						formatter.format(v2.getZ()),
-						formatter.format(v3.getX()),
-						formatter.format(v3.getY()),
-						formatter.format(v3.getZ()) });
-			}
-
 			// The map from option groups to the IDisplayOptionData objects
 			// publishing their configurations to that group
 			HashMap<String, ArrayList<IDisplayOptionData>> optionGroupMap = new HashMap<String, ArrayList<IDisplayOptionData>>();
@@ -1106,11 +1137,6 @@ public class ShapeSection extends AbstractPropertySection {
 				}
 			}
 
-		}
-
-		// Resize the columns in the table
-		for (TableColumn column : triangleTable.getColumns()) {
-			column.pack();
 		}
 
 		// Set the enabled state of the spinners, depending on whether the

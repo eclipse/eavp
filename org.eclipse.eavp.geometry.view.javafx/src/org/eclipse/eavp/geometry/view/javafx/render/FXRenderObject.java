@@ -104,8 +104,20 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 		// being the property name and the new value being the property value
 		if (notification.getFeatureID(
 				GeometryPackage.class) == GeometryPackage.INODE___CHANGE_DECORATOR_PROPERTY__STRING_OBJECT) {
-			properties.put(notification.getOldStringValue(),
-					notification.getNewValue());
+
+			String propertyName = notification.getOldStringValue();
+			Object propertyValue = notification.getNewValue();
+
+			// If the property already had this value, ignore it
+			if (propertyValue == null
+					|| !propertyValue.equals(properties.get(propertyName))) {
+				properties.put(notification.getOldStringValue(),
+						notification.getNewValue());
+			} else {
+
+				// If nothing changed, there are no need for further updates
+				return;
+			}
 		}
 
 		// Cast the cache as a cache of TriangleMeshes

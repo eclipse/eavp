@@ -38,6 +38,12 @@ import org.eclipse.ui.views.properties.tabbed.ITabDescriptorProvider;
 public class ShapeTabDescriptorProvider implements ITabDescriptorProvider {
 
 	/**
+	 * A list of previously created ISectionDescriptors. The descriptor at index
+	 * i is set up to display the ith tab.
+	 */
+	ArrayList<ISectionDescriptor> sectionDescriptors = new ArrayList<ISectionDescriptor>();
+
+	/**
 	 * The category for the properties. This must match exactly the category
 	 * specified in the plugin.xml file extension point.
 	 */
@@ -130,40 +136,45 @@ public class ShapeTabDescriptorProvider implements ITabDescriptorProvider {
 
 				descriptors.add(tabDescriptor);
 
-				// Create a section descriptor to populate the tab
-				ArrayList<ISectionDescriptor> sectionDescriptors = new ArrayList<ISectionDescriptor>();
+				if (sectionDescriptors.size() <= i) {
 
-				// The index of where in the list of all nodes in the
-				// PropertiesView the section should display
-				final int finalI = i;
+					// The index of where in the list of all nodes in the
+					// PropertiesView the section should display
+					final int finalI = i;
 
-				sectionDescriptors.add(new AbstractSectionDescriptor() {
+					sectionDescriptors.add(new AbstractSectionDescriptor() {
 
-					int ID = finalI;
+						int ID = finalI;
 
-					@Override
-					public String getTargetTab() {
-						return CATEGORY;
-					}
+						@Override
+						public String getTargetTab() {
+							return CATEGORY;
+						}
 
-					@Override
-					public ISection getSectionClass() {
-						// Create a shape section pointing to the correct index
-						return new ShapeSection(ID);
-					}
+						@Override
+						public ISection getSectionClass() {
+							// Create a shape section pointing to the correct
+							// index
+							return new ShapeSection(ID);
+						}
 
-					@Override
-					public String getId() {
-						return "Properties" + ".general";
-					}
+						@Override
+						public String getId() {
+							return "Properties" + ".general";
+						}
 
-					@Override
-					public IFilter getFilter() {
-						return filter;
-					}
-				});
+						@Override
+						public IFilter getFilter() {
+							return filter;
+						}
+					});
+				}
 
-				tabDescriptor.setSectionDescriptors(sectionDescriptors);
+				// Get the current section descriptor and set it to the tab
+				// descriptor
+				ArrayList<ISectionDescriptor> currentDescriptors = new ArrayList<ISectionDescriptor>();
+				currentDescriptors.add(sectionDescriptors.get(i));
+				tabDescriptor.setSectionDescriptors(currentDescriptors);
 			}
 
 		}
