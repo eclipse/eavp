@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2016 UT-Battelle, LLC.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Kasper Gammeltoft, Robert Smith
+ *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.nio.file.FileSystems;
@@ -12,14 +22,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.eavp.viz.service.geometry.internal.GeometryImporterFactoryHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
-import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
 import org.eclipse.january.geometry.Shape;
+import org.eclipse.january.geometry.model.importer.IGeometryImporterService;
+import org.eclipse.january.geometry.model.importer.IGeometryImporterServiceFactory;
 import org.eclipse.january.geometry.xtext.mTL.Material;
 import org.eclipse.january.geometry.xtext.mtlimport.MTLImporter;
-import org.eclipse.january.geometry.xtext.obj.importer.OBJGeometryImporter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -96,6 +107,7 @@ public class ActionImportGeometry extends Action {
 		if (filePath != null && ((filePath.toLowerCase(Locale.ENGLISH)
 				.endsWith(".stl"))
 				|| (filePath.toLowerCase(Locale.ENGLISH).endsWith(".obj")))) {
+
 			// Get current selection in shape tree view
 			ITreeSelection selection = (ITreeSelection) view.treeViewer
 					.getSelection();
@@ -122,13 +134,20 @@ public class ActionImportGeometry extends Action {
 			Path path = FileSystems.getDefault().getPath(filePath);
 			Geometry imported = null;
 
+			// The file extension
+			String extension = filePath.toLowerCase(Locale.ENGLISH)
+					.substring(filePath.lastIndexOf('.') + 1);
+
+			// Check each IGeometryImporter, importing from the first that can
+			// handle this file type
+			IGeometryImporterServiceFactory factory = GeometryImporterFactoryHolder
+					.getFactory();
 			try {
-				if (filePath.toLowerCase(Locale.ENGLISH).endsWith(".stl")) {
-					imported = GeometryFactory.eINSTANCE
-							.createSTLGeometryImporter().load(path);
-				} else if (filePath.toLowerCase(Locale.ENGLISH)
-						.endsWith(".obj")) {
-					imported = new OBJGeometryImporter().load(path);
+				for (IGeometryImporterService service : factory.getAll()) {
+					if (service.getSupportedExtensions().contains(extension)) {
+						imported = service.importFile(path);
+						break;
+					}
 				}
 			} catch (Exception e) {
 
@@ -139,10 +158,6 @@ public class ActionImportGeometry extends Action {
 								"org.eclipse.viz.service.geometry.widgets",
 								e.toString()));
 				return;
-			}
-
-			if (imported == null) {
-
 			}
 
 			// Try to find a parent shape to import into
