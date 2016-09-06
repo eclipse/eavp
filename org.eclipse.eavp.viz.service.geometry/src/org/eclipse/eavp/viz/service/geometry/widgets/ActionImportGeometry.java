@@ -20,13 +20,17 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.eavp.geometry.view.model.DisplayOption;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.RenderObject;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.internal.GeometryImporterFactoryHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
 import org.eclipse.january.geometry.Shape;
+import org.eclipse.january.geometry.Union;
 import org.eclipse.january.geometry.model.importer.IGeometryImporterService;
 import org.eclipse.january.geometry.model.importer.IGeometryImporterServiceFactory;
 import org.eclipse.january.geometry.xtext.mTL.Material;
@@ -184,32 +188,100 @@ public class ActionImportGeometry extends Action {
 				}
 
 			}
+
 			ArrayList<INode> addedNodes = new ArrayList<INode>();
-			// If no complex shape, import into the base geometry
-			if (parentComplexShape == null) {
+
+			// If multiple shapes are in the imported file, collect them into a
+			// union
+			if (imported.getNodes().size() > 1) {
+
+				Union importedUnion = GeometryFactory.eINSTANCE.createUnion();
+				importedUnion.setName(filePath.substring(
+						filePath.lastIndexOf(
+								System.getProperty("file.separator")) + 1,
+						filePath.lastIndexOf('.')));
+				importedUnion.setId(0);
+
+				// Add each node to the union
 				synchronized (geometry) {
 					for (int i = 0; i < imported.getNodes().size(); i++) {
 						INode node = (INode) imported.getNodes().get(i).clone();
-						geometry.addNode(node);
+						importedUnion.addNode(node);
 						addedNodes.add(node);
 					}
 				}
 
-				view.treeViewer.refresh();
+				// If no complex shape, import into the base geometry
+				if (parentComplexShape == null) {
+					synchronized (geometry) {
+						geometry.addNode(importedUnion);
 
-				// Import into the parent shape
-			} else {
+						// Operators should have their color display options off
+						// by default,
+						// to allow their childrens' colors to take precedence.
+						List<DisplayOption> options = ((RenderObject) view
+								.getHolder().getRender(importedUnion))
+										.getDisplayOptions();
+						for (DisplayOption option : options) {
+							if ("Color".equals(option.getOptionGroup())) {
+								option.setActive(false);
+							}
+						}
 
-				synchronized (geometry) {
-					for (int i = 0; i < imported.getNodes().size(); i++) {
-						INode node = (INode) imported.getNodes().get(i).clone();
-						parentComplexShape.addNode(node);
-						addedNodes.add(node);
 					}
+
+					// Import into the parent shape
+				} else {
+
+					synchronized (geometry) {
+						parentComplexShape.addNode(importedUnion);
+
+						// Operators should have their color display options off
+						// by default,
+						// to allow their childrens' colors to take precedence.
+						List<DisplayOption> options = ((RenderObject) view
+								.getHolder().getRender(importedUnion))
+										.getDisplayOptions();
+						for (DisplayOption option : options) {
+							if ("Color".equals(option.getOptionGroup())) {
+								option.setActive(false);
+							}
+						}
+					}
+
 				}
 
-				view.treeViewer.refresh();
 			}
+
+			// If there was only one node, it can be added directly
+			else {
+
+				// The single new node
+				INode importedNode = imported.getNodes().get(0);
+				importedNode.setName(filePath.substring(
+						filePath.lastIndexOf(
+								System.getProperty("file.separator")) + 1,
+						filePath.lastIndexOf('.')));
+				addedNodes.add(importedNode);
+
+				// If no complex shape, import into the base geometry
+				if (parentComplexShape == null) {
+					synchronized (geometry) {
+						geometry.addNode(importedNode);
+
+					}
+
+					// Import into the parent shape
+				} else {
+
+					synchronized (geometry) {
+						parentComplexShape.addNode(importedNode);
+					}
+
+				}
+			}
+
+			view.treeViewer.refresh();
 
 			// Create a map of the materials and their names from the specified
 			// material source files

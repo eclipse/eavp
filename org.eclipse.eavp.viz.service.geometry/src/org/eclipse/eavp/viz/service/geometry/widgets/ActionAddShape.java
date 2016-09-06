@@ -15,9 +15,12 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.eavp.geometry.view.model.DisplayOption;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.RenderObject;
 import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
@@ -261,11 +264,15 @@ public class ActionAddShape extends Action {
 			render.setProperty("defaultBlue", 255);
 		} else if (operatorTypes.contains(type)) {
 
-			// Operators will have negative default colors to signal that they
-			// should by default not override their childrens' colors.
-			render.setProperty("defaultRed", -1);
-			render.setProperty("defaultGreen", -1);
-			render.setProperty("defaultBlue", -1);
+			// Operators should have their color display options off by default,
+			// to allow their childrens' colors to take precedence.
+			List<DisplayOption> options = ((RenderObject) render)
+					.getDisplayOptions();
+			for (DisplayOption option : options) {
+				if ("Color".equals(option.getOptionGroup())) {
+					option.setActive(false);
+				}
+			}
 		}
 
 		// Initialize the color to the default
