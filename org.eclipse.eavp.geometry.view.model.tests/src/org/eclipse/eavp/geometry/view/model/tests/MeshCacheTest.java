@@ -196,16 +196,21 @@ public class MeshCacheTest extends TestCase {
 		// The cache should return different meshes for different inputs
 		assertFalse(cache.getMesh(list1).equals(cache.getMesh(list2)));
 
-		// The mesh should always return references to the same mesh for the
-		// same input
-		assertTrue(cache.getMesh(list2) == cache.getMesh(list2));
-
-		// Check that the correct mesh is returned for two different lists with
-		// identical values
-		EList<Triangle> list3 = new BasicEList<Triangle>();
-		list3.add(tri3);
-		list3.add(tri4);
-		assertTrue(cache.getMesh(list2) == cache.getMesh(list3));
+		// TODO This part of the test is currently disabled because the current
+		// algorithm for the cache is slower than making a new mesh from
+		// scratch. Uncomment this section when the cache is set up to provided
+		// the cached meshes again.
+		// // The mesh should always return references to the same mesh for the
+		// // same input
+		// assertTrue(cache.getMesh(list2) == cache.getMesh(list2));
+		//
+		// // Check that the correct mesh is returned for two different lists
+		// with
+		// // identical values
+		// EList<Triangle> list3 = new BasicEList<Triangle>();
+		// list3.add(tri3);
+		// list3.add(tri4);
+		// assertTrue(cache.getMesh(list2) == cache.getMesh(list3));
 	}
 
 	/**

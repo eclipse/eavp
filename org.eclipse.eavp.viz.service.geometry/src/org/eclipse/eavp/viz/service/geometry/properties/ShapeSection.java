@@ -37,8 +37,19 @@ import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
 import org.eclipse.january.geometry.Triangle;
 import org.eclipse.january.geometry.Vertex;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ILazyContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -134,7 +145,9 @@ public class ShapeSection extends AbstractPropertySection {
 	 * The table showing the coordinates for the triangle vertices of the
 	 * shape's mesh.
 	 */
-	private Table triangleTable;
+	private TableViewer triangleTable;
+	
+	private ArrayList<TableViewerColumn> triangleTableColumns;
 
 	/**
 	 * A constructor allowing for the section to be set to display one of the
@@ -344,105 +357,318 @@ public class ShapeSection extends AbstractPropertySection {
 				meshPropertiesGroup, 0, null, 0, null, 100, null, 100);
 		meshDataGroup.setLayout(new GridLayout(2, false));
 
-		// Add a button that will dispaly or hide the table
-		Button tableToggle = new Button(meshDataGroup, SWT.PUSH);
-		tableToggle.setText("Show");
-
 		// A table which will display the nine coordinates that define each
 		// triangle, in the order XYZ for each of the three vertices in turn.
 		// This table should fit inside the screen, displaying the full table
-		// only with a scrollbar.
-		triangleTable = new Table(meshDataGroup,
-				SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
-		GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		triangleTable.setLayoutData(tableData);
-		triangleTable.setVisible(false);
-
-		triangleDataLoaded = false;
-
-		tableToggle.addListener(SWT.CHECK, new Listener() {
-
-			boolean displayed = false;
+		// only with a scrollbar and only load those values currently visible
+		triangleTable = new TableViewer(meshDataGroup , SWT.FULL_SELECTION | SWT.VIRTUAL | SWT.BORDER);
+		GridData tableData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		tableData.heightHint = 90;
+		triangleTable.getTable().setLayoutData(tableData);
+		triangleTable.getTable().setHeaderVisible(true);
+	
+		// Create the formatter that will set the coordinates'
+		// strings
+		DecimalFormat formatter = new DecimalFormat("#.########");
+		formatter.setRoundingMode(RoundingMode.DOWN);
+		
+		//Create the X column for the first vertex
+		TableViewerColumn col1X = new TableViewerColumn(triangleTable, SWT.NONE);
+		col1X.getColumn().setText("X1");
+		col1X.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(0).getX());
+			}
+		});
+		col1X.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
 
 			@Override
-			public void handleEvent(Event event) {
-
-				displayed = !displayed;
-
-				tableData.exclude = !displayed;
-				triangleTable.setVisible(displayed);
-
-				if (!triangleDataLoaded) {
-					triangleDataLoaded = true;
-
-					// Remove all rows from the current table
-					for (int i = 0; i < triangleTable.getItemCount(); i++) {
-						triangleTable.remove(i);
-					}
-
-					// Create the formatter that will set the coordinates'
-					// strings
-					DecimalFormat formatter = new DecimalFormat("#.#####");
-					formatter.setRoundingMode(RoundingMode.DOWN);
-
-					// Update the triangle mesh data
-					List<Triangle> triangles = source.getBase().getTriangles();
-					for (Triangle triangle : triangles) {
-
-						// Get the vertices for the current triangle
-						List<Vertex> vertices = triangle.getVertices();
-						Vertex v1 = vertices.get(0);
-						Vertex v2 = vertices.get(1);
-						Vertex v3 = vertices.get(2);
-
-						// Add a new row containing the coordinates
-						TableItem row = new TableItem(triangleTable, SWT.NONE);
-
-						// The row will contain each coordinate, formatted
-						// correctly
-						row.setText(new String[] { formatter.format(v1.getX()),
-								formatter.format(v1.getY()),
-								formatter.format(v1.getZ()),
-								formatter.format(v2.getX()),
-								formatter.format(v2.getY()),
-								formatter.format(v2.getZ()),
-								formatter.format(v3.getX()),
-								formatter.format(v3.getY()),
-								formatter.format(v3.getZ()) });
-					}
-
-					// Resize the columns in the table
-					for (TableColumn column : triangleTable.getColumns()) {
-						column.pack();
-					}
-				}
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(0).getX());
 			}
 
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(0).setX(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
 		});
+		
+		TableViewerColumn col1Y = new TableViewerColumn(triangleTable, SWT.NONE);
+		col1Y.getColumn().setText("Y1");
+		col1Y.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(0).getY());
+			}
+		});
+		col1Y.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
 
-		// Create and name the nine columns
-		TableColumn x1 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn y1 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn z1 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn x2 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn y2 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn z2 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn x3 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn y3 = new TableColumn(triangleTable, SWT.CENTER);
-		TableColumn z3 = new TableColumn(triangleTable, SWT.CENTER);
-		x1.setText("X1");
-		y1.setText("Y1");
-		z1.setText("Z1");
-		x2.setText("X2");
-		y2.setText("Y2");
-		z2.setText("Z2");
-		x3.setText("X3");
-		y3.setText("Y3");
-		z3.setText("Z3");
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(0).getY());
+			}
 
-		// Set up the table's visibility
-		triangleTable.setHeaderVisible(true);
-		triangleTable.setLinesVisible(true);
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(0).setY(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		TableViewerColumn col1Z = new TableViewerColumn(triangleTable, SWT.NONE);
+		col1Z.getColumn().setText("Z1");
+		col1Z.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(0).getZ());
+			}
+		});
+		col1Z.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
+
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(0).getZ());
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(0).setZ(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		TableViewerColumn col2X = new TableViewerColumn(triangleTable, SWT.NONE);
+		col2X.getColumn().setText("X2");
+		col2X.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(1).getX());
+			}
+		});
+		col2X.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
+
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(1).getX());
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(1).setX(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		TableViewerColumn col2Y = new TableViewerColumn(triangleTable, SWT.NONE);
+		col2Y.getColumn().setText("Y2");
+		col2Y.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(1).getY());
+			}
+		});
+		col2Y.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
+
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(1).getY());
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(1).setY(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		TableViewerColumn col2Z = new TableViewerColumn(triangleTable, SWT.NONE);
+		col2Z.getColumn().setText("Z2");
+		col2Z.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(1).getZ());
+			}
+		});
+		col2Z.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
+
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(1).getZ());
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(1).setZ(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		TableViewerColumn col3X = new TableViewerColumn(triangleTable, SWT.NONE);
+		col3X.getColumn().setText("X3");
+		col3X.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(2).getX());
+			}
+		});
+		col3X.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
+
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(2).getX());
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(2).setX(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		TableViewerColumn col3Y = new TableViewerColumn(triangleTable, SWT.NONE);
+		col3Y.getColumn().setText("Y3");
+		col3Y.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(2).getY());
+			}
+		});
+		col3Y.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
+
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(2).getY());
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(2).setY(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		TableViewerColumn col3Z = new TableViewerColumn(triangleTable, SWT.NONE);
+		col3Z.getColumn().setText("Z3");
+		col3Z.setLabelProvider(new ColumnLabelProvider(){
+			@Override
+			public String getText(Object triangle){
+				
+				//Each cell will display the value of the corresponding vertex's coordinate
+				return formatter.format(((Triangle) triangle).getVertices().get(2).getZ());
+			}
+		});
+		col3Z.setEditingSupport(new TriangleTableEditingSupport(triangleTable){
+
+			@Override
+			protected Object getValue(Object element) {
+				
+				//Display the full value of the cell for editing purposes
+				return String.valueOf(((Triangle) element).getVertices().get(2).getZ());
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				
+				//Set the value to the coordinate.
+				((Triangle) element).getVertices().get(2).setZ(Double.valueOf((String) value));
+				triangleTable.update(element, null);
+			}
+			
+		});
+		
+		//Set the table to lazily load the list of triangles
+		triangleTable.setContentProvider(new ILazyContentProvider(){
+
+			//All the triangles belonging to the source shape
+			private List<Triangle> triangles;
+			
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput){
+				triangles = (List<Triangle>) newInput;
+			}
+			
+			@Override
+			public void updateElement(int index) {
+				triangleTable.replace(triangles.get(index), index);
+			}
+			
+		});
+		
+		//Save the columns to the list
+		triangleTableColumns = new ArrayList<TableViewerColumn>();
+		triangleTableColumns.add(col1X);
+		triangleTableColumns.add(col1Y);
+		triangleTableColumns.add(col1Z);
+		triangleTableColumns.add(col2X);
+		triangleTableColumns.add(col2Y);
+		triangleTableColumns.add(col2Z);
+		triangleTableColumns.add(col3X);
+		triangleTableColumns.add(col3Y);
+		triangleTableColumns.add(col3Z);
+		
+		//Set up the triangle table to load dynamically
+		triangleTable.setUseHashlookup(true);
+		
+		//Set the table to be empty initially
+		triangleTable.setInput(new ArrayList<Triangle>());
+		triangleTable.setItemCount(0);
 
 		// A display group taking up the right half of the view. This group will
 		// display the properties of the IRenderElement, which control how the
@@ -1137,6 +1363,16 @@ public class ShapeSection extends AbstractPropertySection {
 				}
 			}
 
+			// Update the triangle mesh data
+			List<Triangle> triangles = source.getBase().getTriangles();
+			triangleTable.setInput(triangles);
+			triangleTable.setItemCount(triangles.size());
+
+			//Resize the columns to fit their new contents
+			for(TableViewerColumn column : triangleTableColumns){
+				column.getColumn().pack();
+			}
+			
 		}
 
 		// Set the enabled state of the spinners, depending on whether the
@@ -1199,4 +1435,36 @@ public class ShapeSection extends AbstractPropertySection {
 		return;
 	}
 
+	/**
+	 * An editing support for use with the triangle table in this section. 
+	 */
+	private abstract class TriangleTableEditingSupport extends EditingSupport{
+
+		//The editor to be displayed when the cell is selected
+		private CellEditor editor;
+		
+		public TriangleTableEditingSupport(ColumnViewer viewer) {
+			super(viewer);
+			 editor = new TextCellEditor(triangleTable.getTable());
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
+		 */
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
+		 */
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+		
+	}
 }

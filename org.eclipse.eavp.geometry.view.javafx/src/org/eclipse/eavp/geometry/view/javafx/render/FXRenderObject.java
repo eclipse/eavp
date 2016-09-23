@@ -103,7 +103,8 @@ public class FXRenderObject extends RenderObjectImpl<Group> {
 		// properties according to the special message format of the old value
 		// being the property name and the new value being the property value
 		if (notification.getFeatureID(
-				GeometryPackage.class) == GeometryPackage.INODE___CHANGE_DECORATOR_PROPERTY__STRING_OBJECT) {
+				GeometryPackage.class) == GeometryPackage.INODE___CHANGE_DECORATOR_PROPERTY__STRING_OBJECT
+				|| notification.getEventType() == Notification.NO_FEATURE_ID) {
 
 			String propertyName = notification.getOldStringValue();
 			Object propertyValue = notification.getNewValue();

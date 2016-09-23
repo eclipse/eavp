@@ -98,44 +98,66 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 	@Override
 	public T getMesh(EList<Triangle> triangles) {
 
-		// The ID of the triangle list
-		int ID = -1;
-
-		// Whether the triangle list has been found in the cache
-		boolean found = false;
-
-		// Treat null as an empty list
-		if (triangles == null) {
-			triangles = new BasicEList<Triangle>();
-		}
-
-		// Convert the list to a set
-		Set<Triangle> triangleSet = new HashSet(triangles);
-
-		// Check each set in the cache for a match
-		for (int i : sourceTriangleCache.keySet()) {
-			ID = i;
-
-			// If a match is found, stop the search
-			if (triangleSet.equals(sourceTriangleCache.get(i))) {
-				found = true;
-				break;
-			}
-		}
-
-		// If the list was found, return the mesh with the same ID
-		if (found) {
-			return triangleCache.get(ID);
-		}
+		//TODO This method of checking for old meshes is slower than creating a new mesh. Find a replacement algorithm.
+//		// The ID of the triangle list
+//		int ID = 0;
+//
+//		// Whether the triangle list has been found in the cache
+//		boolean found = false;
+//
+//		// Treat null as an empty list
+//		if (triangles == null) {
+//			triangles = new BasicEList<Triangle>();
+//		}
+//
+//		// Convert the list to a set
+//		Set<Triangle> triangleSet = new HashSet();
+//		
+//		// Add each triangle to the set
+//		for(Triangle tri : triangles){
+//			triangleSet.add(tri);
+//		}
+//
+//		// Check each set in the cache for a match
+//		for (int i : sourceTriangleCache.keySet()) {
+//
+//			// If a match is found, stop the search
+//			if (triangleSet.equals(sourceTriangleCache.get(i))) {
+//
+//				found = true;
+//				
+//				Set<Triangle> cached = sourceTriangleCache.get(i);
+//				
+//				//Check each triangle to see if any have been changed
+//				for(Triangle tri : triangleSet){
+//					if(!sourceTriangleCache.get(i).contains(tri)){
+//						
+//						//If any triangles have been changed, then the cached mesh has been invalidated 
+//						found = false;
+//						break;
+//					}
+//				}
+//				
+//				break;
+//			}
+//			
+//			//Set the ID to the next un-checked mesh
+//			ID = i + 1;
+//		}
+//
+//		// If the list was found, return the mesh with the same ID
+//		if (found) {
+//			return triangleCache.get(ID);
+//		}
 
 		// If the list was not found, create a mesh based on it and insert both
 		// into the caches.
-		else {
-			sourceTriangleCache.put(ID, triangleSet);
+		//else {
+			//sourceTriangleCache.put(ID, triangleSet);
 			T mesh = createMesh(triangles);
-			triangleCache.put(ID, mesh);
+		//	triangleCache.put(ID, mesh);
 			return mesh;
-		}
+		//}
 	}
 
 	/**
