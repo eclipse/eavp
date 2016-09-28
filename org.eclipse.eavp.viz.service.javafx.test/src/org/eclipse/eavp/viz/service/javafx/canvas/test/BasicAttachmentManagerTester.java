@@ -16,11 +16,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.junit.Test;
 
 /**
@@ -47,27 +48,20 @@ public class BasicAttachmentManagerTester {
 				BasicAttachment attachment = new BasicAttachment() {
 
 					@Override
-					public void removeGeometry(IController geom) {
-						// TODO Auto-generated method stub
-
+					public void removeGeometry(Geometry geom) {
 					}
 
 					@Override
 					public Class<?> getType() {
-						// TODO Auto-generated method stub
 						return null;
 					}
 
 					@Override
-					protected void processShape(IController shape) {
-						// TODO Auto-generated method stub
-
+					protected void processShape(INode shape) {
 					}
 
 					@Override
-					protected void disposeShape(IController shape) {
-						// TODO Auto-generated method stub
-
+					protected void disposeShape(INode shape) {
 					}
 				};
 

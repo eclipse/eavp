@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.eavp.viz.service.AbstractPlot;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.january.geometry.Geometry;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,6 +51,12 @@ public class AbstractPlotTester {
 	@Before
 	public void beforeEachTest() {
 		plot = new AbstractPlot() {
+
+			@Override
+			public IRenderElementHolder getRenderElementHolder(
+					Geometry geometry) {
+				return null;
+			}
 
 		};
 	}

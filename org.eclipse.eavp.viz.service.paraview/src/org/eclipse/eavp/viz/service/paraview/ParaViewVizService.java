@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
+import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
@@ -23,6 +24,7 @@ import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyBuilder;
 import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyFactory;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * This class is responsible for providing a service to connect to (or launch)
@@ -183,5 +185,17 @@ public class ParaViewVizService
 		// The ParaView visualization service does not make use of the model
 		// framework, so it has no factory
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizService#createCanvas(geometry.Geometry)
+	 */
+	@Override
+	public IVizCanvas createCanvas(Geometry geometry) throws Exception {
+		throw new NoSuchMethodException(
+				"The ParaViewVizService can not display a geometry.");
 	}
 }

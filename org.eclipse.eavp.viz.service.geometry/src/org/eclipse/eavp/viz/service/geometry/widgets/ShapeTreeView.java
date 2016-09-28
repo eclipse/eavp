@@ -13,14 +13,14 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.shapes.OperatorType;
-import org.eclipse.eavp.viz.service.geometry.shapes.ShapeType;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -32,6 +32,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * <p>
@@ -39,18 +42,11 @@ import org.eclipse.ui.part.ViewPart;
  * structure and elements in a Constructive Solid Geometry (CSG) tree
  * </p>
  * 
- * @author Andrew P. Belt
+ * @author Andrew P. Belt, Kasper Gammeltoft, Robert Smith, Jay Jay Billings,
+ *         Jordan Deyton
  */
-public class ShapeTreeView extends ViewPart
-		implements ISelectionChangedListener {
-
-	/**
-	 * <p>
-	 * The currently displayed GeometryComponent
-	 * </p>
-	 * 
-	 */
-	private IController geometry;
+public class ShapeTreeView extends ViewPart implements
+		ISelectionChangedListener, ITabbedPropertySheetPageContributor {
 
 	/**
 	 * <p>
@@ -61,12 +57,6 @@ public class ShapeTreeView extends ViewPart
 	TreeViewer treeViewer;
 
 	/**
-	 * The factory responsible for creating graphics program specific
-	 * representations of the tree's contents.
-	 */
-	IControllerProviderFactory factory;
-
-	/**
 	 * Eclipse view ID
 	 */
 	public static final String ID = "org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView";
@@ -74,7 +64,13 @@ public class ShapeTreeView extends ViewPart
 	/**
 	 * A list of shapes of the last selection event
 	 */
-	private ArrayList<ShapeController> selectedShapes = new ArrayList<ShapeController>();
+	private ArrayList<IRenderElement> selectedShapes = new ArrayList<IRenderElement>();
+
+	/**
+	 * The holder for the render elements used to model the view's contents in
+	 * 3D.
+	 */
+	private IRenderElementHolder holder;
 
 	// The actions for manipulating shapes
 	private DropdownAction addPrimitiveShapes;
@@ -83,9 +79,13 @@ public class ShapeTreeView extends ViewPart
 	private Action replicateShapes;
 	private Action deleteShape;
 
+	private Action importSTL;
+
 	/**
 	 * <p>
-	 * Creates the SWT controls for this ShapeTreeView
+	 * Creates the SWT controls for this ShapeTreeView. It is assumed that
+	 * setRenderElementHolder() has already been called so that the content
+	 * provider will have access to the render elements.
 	 * </p>
 	 * 
 	 * @param parent
@@ -104,7 +104,8 @@ public class ShapeTreeView extends ViewPart
 
 		treeViewer = new TreeViewer(parent);
 
-		ShapeTreeContentProvider contentProvider = new ShapeTreeContentProvider();
+		ShapeTreeContentProvider contentProvider = new ShapeTreeContentProvider(
+				holder);
 		treeViewer.setContentProvider(contentProvider);
 
 		// Add label provider to TreeViewer
@@ -112,10 +113,115 @@ public class ShapeTreeView extends ViewPart
 		ShapeTreeLabelProvider labelProvider = new ShapeTreeLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
 
+		// Set the viewer as a selection provider
+		getSite().setSelectionProvider(treeViewer);
+
 		// Add selection listener to TreeViewer
 
 		treeViewer.addSelectionChangedListener(this);
+	}
 
+	public List<IRenderElement> getSelectedElements() {
+		return selectedShapes;
+	}
+
+	/**
+	 * Sets the selected item in the tree viewer
+	 * 
+	 * @param selection
+	 *            The node to select
+	 */
+	public void setSelected(IRenderElement selection) {
+		ArrayList<IRenderElement> selectionElements = new ArrayList<IRenderElement>();
+		selectionElements.add(selection);
+		setSelected(selectionElements);
+	}
+
+	/**
+	 * Sets the selected items in the tree viwer
+	 * 
+	 * @param selection
+	 *            The nodes to select in the viewer
+	 */
+	public void setSelected(List<IRenderElement> selection) {
+		// Create a tree selection for the new selected elements
+		ITreeSelection treeSelection = new ITreeSelection() {
+
+			@Override
+			public Object getFirstElement() {
+				if (selection.isEmpty()) {
+					return null;
+				} else {
+					return selection.get(0);
+				}
+			}
+
+			@Override
+			public Iterator iterator() {
+				return selection.iterator();
+			}
+
+			@Override
+			public int size() {
+				return selection.size();
+			}
+
+			@Override
+			public Object[] toArray() {
+				return selection.toArray();
+			}
+
+			@Override
+			public List toList() {
+				return selection;
+			}
+
+			@Override
+			public boolean isEmpty() {
+				return selection.isEmpty();
+			}
+
+			@Override
+			public TreePath[] getPaths() {
+				TreePath[] paths = new TreePath[selection.size()];
+				for (int i = 0; i < selection.size(); i++) {
+					paths[i] = new TreePath(
+							new IRenderElement[] { selection.get(i) });
+				}
+				return paths;
+			}
+
+			@Override
+			public TreePath[] getPathsFor(Object element) {
+				return new TreePath[] { new TreePath(new IRenderElement[] {
+						selection.get(selection.indexOf(element)) }) };
+			}
+
+		};
+		treeViewer.setSelection(treeSelection);
+	}
+
+	/**
+	 * Toggles if the given element is selected or not. If the element is
+	 * selected, it becomes unselected, and if unselected, becomes selected.
+	 * 
+	 * @param selected
+	 *            The element who's selected state should be toggled.
+	 */
+	public void toggleSelected(IRenderElement selected) {
+		if (selected != null) {
+			// Try removing it from selected shapes, it will succeed
+			// if the element is selected
+			if (!selectedShapes.remove(selected)) {
+				// If not in selected shapes, add this element
+				selectedShapes.add(selected);
+			} else {
+				// Unselect the shape
+				unselect(selected);
+			}
+			// Update the selections in the tree viewer
+			this.setSelected(selectedShapes);
+		}
 	}
 
 	/**
@@ -132,6 +238,8 @@ public class ShapeTreeView extends ViewPart
 		IActionBars actionBars = getViewSite().getActionBars();
 		IToolBarManager toolbarManager = actionBars.getToolBarManager();
 
+		importSTL = new ActionImportGeometry(this);
+
 		// Create the add shapes menu managers
 
 		addPrimitiveShapes = new DropdownAction("Add Primitives");
@@ -139,30 +247,28 @@ public class ShapeTreeView extends ViewPart
 
 		// Add the PrimitiveShape actions
 
-		Action addSphere = new ActionAddShape(this, ShapeType.Sphere);
+		Action addSphere = new ActionAddShape(this, "sphere");
 		addPrimitiveShapes.addAction(addSphere);
 
-		Action addCube = new ActionAddShape(this, ShapeType.Cube);
+		Action addCube = new ActionAddShape(this, "cube");
 		addPrimitiveShapes.addAction(addCube);
 
-		Action addCylinder = new ActionAddShape(this, ShapeType.Cylinder);
+		Action addCylinder = new ActionAddShape(this, "cylinder");
 		addPrimitiveShapes.addAction(addCylinder);
 
-		Action addTube = new ActionAddShape(this, ShapeType.Tube);
+		Action addTube = new ActionAddShape(this, "tube");
 		addPrimitiveShapes.addAction(addTube);
 
 		// Add the ComplexShape actions
 
-		Action addUnion = new ActionAddShape(this, OperatorType.Union);
+		Action addUnion = new ActionAddShape(this, "union");
 		addComplexShapes.addAction(addUnion);
 
-		Action addIntersection = new ActionAddShape(this,
-				OperatorType.Intersection);
+		Action addIntersection = new ActionAddShape(this, "intersection");
 		addIntersection.setEnabled(false);
 		addComplexShapes.addAction(addIntersection);
 
-		Action addComplement = new ActionAddShape(this,
-				OperatorType.Complement);
+		Action addComplement = new ActionAddShape(this, "complement");
 		addComplement.setEnabled(false);
 		addComplexShapes.addAction(addComplement);
 
@@ -178,6 +284,8 @@ public class ShapeTreeView extends ViewPart
 
 		deleteShape = new ActionDeleteShape(this);
 
+		toolbarManager.add(importSTL);
+
 		// Add the top level menus to the toolbar
 		toolbarManager.add(addPrimitiveShapes);
 		toolbarManager.add(addComplexShapes);
@@ -188,16 +296,35 @@ public class ShapeTreeView extends ViewPart
 	}
 
 	/**
+	 * Getter method for the holder.
+	 * 
+	 * @return The holder for the IRenderElements displayed by this view.
+	 */
+	public IRenderElementHolder getHolder() {
+		return holder;
+	}
+
+	/**
+	 * Set the holder for the render elements used to model the view in 3D.
+	 * 
+	 * @param holder
+	 *            The new render element holder.
+	 */
+	public void setRenderElementHolder(IRenderElementHolder holder) {
+		this.holder = holder;
+		((ShapeTreeContentProvider) treeViewer.getContentProvider())
+				.setRenderElementHolder(holder);
+
+	}
+
+	/**
 	 * 
 	 * @param geometry
 	 */
-	public void setGeometry(IController geometry) {
-
-		this.geometry = geometry;
+	public void setGeometry(Geometry renderElements) {
 
 		// Set the TreeViewer's input
-
-		this.treeViewer.setInput(geometry);
+		this.treeViewer.setInput(renderElements);
 
 	}
 
@@ -213,6 +340,28 @@ public class ShapeTreeView extends ViewPart
 	}
 
 	/**
+	 * Helper method used to re-color a shape that was unselected in the editor.
+	 * 
+	 * @param selectedShape
+	 *            The shape that is being unselected.
+	 */
+	private void unselect(IRenderElement selectedShape) {
+
+		// Get default colors for the selected shape
+		int red = selectedShape.getProperty("defaultRed") != null
+				? getIntValue(selectedShape.getProperty("defaultRed")) : 127;
+		int green = selectedShape.getProperty("defaultGreen") != null
+				? getIntValue(selectedShape.getProperty("defaultGreen")) : 127;
+		int blue = selectedShape.getProperty("defaultBlue") != null
+				? getIntValue(selectedShape.getProperty("defaultBlue")) : 127;
+		// Reset the shape's colors
+		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, red);
+		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN, green);
+		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, blue);
+
+	}
+
+	/**
 	 * Updates the disabled state of the action icons and the state of the
 	 * TransformationView
 	 */
@@ -224,25 +373,15 @@ public class ShapeTreeView extends ViewPart
 		ITreeSelection selection = (ITreeSelection) event.getSelection();
 		TreePath[] paths = selection.getPaths();
 
-		// Get the TransformationView
-
-		TransformationView transformationView = (TransformationView) getSite()
-				.getPage().findView(TransformationView.ID);
-
 		if (paths.length == 1) {
 
 			// Only one item is selected
 
 			Object selectedObject = paths[0].getLastSegment();
 
-			if (selectedObject instanceof ShapeController) {
-				ShapeController selectedShape = (ShapeController) selectedObject;
+			if (selectedObject instanceof IRenderElement) {
+				IRenderElement selectedShape = (IRenderElement) selectedObject;
 
-				// Set the TransformationView's shape
-
-				if (transformationView != null) {
-					transformationView.setShape(selectedShape);
-				}
 				// Enable/disable action buttons
 
 				addPrimitiveShapes.setEnabled(true);
@@ -260,19 +399,11 @@ public class ShapeTreeView extends ViewPart
 				replicateShapes.setEnabled(false);
 				deleteShape.setEnabled(false);
 
-				// Set the TransformationView to a blank state
-
-				if (transformationView != null) {
-					transformationView.setShape(null);
-				}
 			}
 		} else {
 
 			// Multiple or zero items are selected
 
-			if (transformationView != null) {
-				transformationView.setShape(null);
-			}
 			if (paths.length > 1) {
 
 				// Multiple items are selected.
@@ -297,47 +428,55 @@ public class ShapeTreeView extends ViewPart
 				deleteShape.setEnabled(false);
 			}
 		}
+	}
 
-		// Edit the shapes' selection property
-
-		for (ShapeController selectedShape : selectedShapes) {
-			selectedShape.setProperty(MeshProperty.SELECTED, "False");
-		}
-
-		// Update the list of last-selected shapes
-
-		selectedShapes.clear();
-
-		for (TreePath path : paths) {
-			Object selectedObject = path.getLastSegment();
-
-			// Only include IShapes, not ShapeTreeLabelProvider::BlankShapes
-
-			if (selectedObject instanceof ShapeController) {
-
-				ShapeController selectedShape = (ShapeController) selectedObject;
-				selectedShape.setProperty(MeshProperty.SELECTED, "True");
-				selectedShapes.add(selectedShape);
+	/**
+	 * Converts the given object to an integer
+	 * 
+	 * @param obj
+	 *            The object to get the integer value of
+	 * @return Returns an int- giving the best
+	 */
+	private int getIntValue(Object obj) {
+		int val = -1;
+		// If it is an int, cast it
+		if (obj instanceof Integer) {
+			val = (Integer) obj;
+			// If it is a double, get the int value
+		} else if (obj instanceof Double) {
+			val = ((Double) obj).intValue();
+		} else {
+			// Try to get an int value from it
+			try {
+				val = Integer.parseInt(obj.toString());
+			} catch (NumberFormatException e) {
+				// TODO Some warning here in the logger
 			}
 		}
+		return val;
 	}
 
-	/**
-	 * Getter method for the factory.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return The factory
+	 * @see org.eclipse.ui.views.properties.tabbed.
+	 * ITabbedPropertySheetPageContributor#getContributorId()
 	 */
-	public IControllerProviderFactory getFactory() {
-		return factory;
+	@Override
+	public String getContributorId() {
+		return getSite().getId();
 	}
 
-	/**
-	 * Setter method for the factory
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param factory
-	 *            The new factory to store in this view
+	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	public void setFactory(IControllerProviderFactory factory) {
-		this.factory = factory;
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySheetPage.class) {
+			return new TabbedPropertySheetPage(this);
+		}
+		return super.getAdapter(adapter);
 	}
 }

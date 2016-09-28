@@ -20,6 +20,7 @@ import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * This is a fake IVizService that is used in testing. The only thing it really
@@ -107,6 +108,15 @@ public class FakeVizService implements IVizService {
 	 */
 	@Override
 	public IControllerProviderFactory getControllerProviderFactory() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.IVizService#createCanvas(geometry.Geometry)
+	 */
+	@Override
+	public IVizCanvas createCanvas(Geometry geometry) throws Exception {
 		return null;
 	}
 

@@ -13,15 +13,15 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
+import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.Shape;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.base.Transformation;
-import org.eclipse.eavp.viz.modeling.factory.IControllerProvider;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Union;
+import org.eclipse.january.geometry.Vertex;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -54,12 +54,6 @@ public class ActionReplicateShape extends Action {
 	 * The image descriptor associated with the duplicate action's icon
 	 */
 	private ImageDescriptor imageDescriptor;
-
-	/**
-	 * The controller provider that creates views and controllers for the
-	 * replicated meshes
-	 */
-	private IControllerProvider provider;
 
 	/**
 	 * <p>
@@ -100,12 +94,7 @@ public class ActionReplicateShape extends Action {
 	@Override
 	public void run() {
 
-		// Get the provider from the factory if it is currently null
-		if (provider == null) {
-			provider = view.getFactory().createProvider(new Shape());
-		}
-
-		IController geometry = (IController) view.treeViewer.getInput();
+		Geometry geometry = (Geometry) view.treeViewer.getInput();
 
 		// Check that only one shape is selected
 
@@ -120,16 +109,17 @@ public class ActionReplicateShape extends Action {
 
 		Object selectedObject = paths[0].getLastSegment();
 
-		if (!(selectedObject instanceof ShapeController)) {
+		if (!(selectedObject instanceof IRenderElement)) {
 			return;
 		}
-		ShapeController selectedShape = (ShapeController) selectedObject;
+		IRenderElement selectedShape = (IRenderElement) selectedObject;
 
 		// Create a transformation, initialized from the selected shape's
 		// transformation
-
-		Transformation accumulatedTransformation = (Transformation) selectedShape
-				.getTransformation().clone();
+		Vertex selectedCenter = selectedShape.getBase().getCenter();
+		double accumulatedX = selectedCenter.getX();
+		double accumulatedY = selectedCenter.getY();
+		double accumulatedZ = selectedCenter.getZ();
 
 		// Open the dialog
 
@@ -153,51 +143,36 @@ public class ActionReplicateShape extends Action {
 		// If the selected shape is a direct child of a GeometryComponent,
 		// its parent shape is null.
 
-		ShapeController parentShape = (ShapeController) selectedShape
-				.getEntitiesFromCategory(MeshCategory.PARENT).get(0);
-
-		// Remove the selected shape from its original parent
-
-		synchronized (geometry) {
-			if (parentShape != null) {
-				parentShape.removeEntity(selectedShape);
-			} else {
-				geometry.removeEntity(selectedShape);
-			}
-		}
+		INode parentShape = selectedShape.getBase().getParent();
 
 		// Create a new parent union shape
 
-		Shape replicateUnionComponent = new Shape();
-		ShapeController replicateUnion = (ShapeController) provider
-				.createController(replicateUnionComponent);
-		replicateUnion.setProperty(GeometryMeshProperty.OPERATOR, "Union");
+		Union replicateUnion = GeometryFactory.eINSTANCE.createUnion();
 
-		replicateUnion.setProperty(MeshProperty.NAME, "Replication");
-		replicateUnion.setProperty(MeshProperty.ID,
-				selectedShape.getProperty(MeshProperty.ID));
+		replicateUnion.setName("Replication");
+		replicateUnion.setId(selectedShape.getBase().getId());
 
 		for (int i = 1; i <= quantity; i++) {
 
-			// Clone the selected shape and remove its "selected" property
+			// Clone the selected shape
 
-			ShapeController clonedShape = (ShapeController) selectedShape
-					.clone();
-			clonedShape.setProperty(MeshProperty.SELECTED, "False");
-			clonedShape.setProperty(MeshProperty.ID, Integer.toString(i));
+			IRenderElement clonedShape = (IRenderElement) selectedShape.clone();
+			clonedShape.getBase().setId(i);
 
 			// Add the translation
-
-			clonedShape.setTransformation(
-					(Transformation) accumulatedTransformation.clone());
+			Vertex clonedCenter = clonedShape.getBase().getCenter();
+			clonedCenter.setX(accumulatedX);
+			clonedCenter.setY(accumulatedY);
+			clonedCenter.setZ(accumulatedZ);
 
 			// Add it to the replicated union
 
-			replicateUnion.addEntity(clonedShape);
+			replicateUnion.addNode(clonedShape.getBase());
 
 			// Shift the transform for the next shape
-
-			accumulatedTransformation.translate(shift);
+			accumulatedX += shift[0];
+			accumulatedY += shift[1];
+			accumulatedZ += shift[2];
 		}
 
 		// Refresh the TreeViewer
@@ -207,7 +182,7 @@ public class ActionReplicateShape extends Action {
 			// The parent is an IShape
 
 			synchronized (geometry) {
-				parentShape.addEntity(replicateUnion);
+				parentShape.addNode(replicateUnion);
 				replicateUnion.setParent(parentShape);
 			}
 
@@ -217,13 +192,101 @@ public class ActionReplicateShape extends Action {
 			// The parent is the root GeometryComponent
 
 			synchronized (geometry) {
-				geometry.addEntity(replicateUnion);
+				geometry.addNode(replicateUnion);
 			}
 
 			view.treeViewer.refresh();
 		}
 
+		// Get the render elements
+		IRenderElementHolder holder = view.getHolder();
+
+		IRenderElement unionRender = holder.getRender(replicateUnion);
+		// unionRender.setProperty("red", -1);
+		// unionRender.setProperty("green", -1);
+		// unionRender.setProperty("blue", -1);
+		// unionRender.setProperty("defaultRed", -1);
+		// unionRender.setProperty("defaultGreen", -1);
+		// unionRender.setProperty("defaultBlue", -1);
+
+		for (int i = 0; i < quantity; i++) {
+
+			// A list of all new shapes added by the clone operation
+			ArrayList<INode> newShapes = new ArrayList<INode>();
+
+			// Get the original set of renders, in the same order as the
+			// clones are in their own list
+			ArrayList<IRenderElement> originalRenders = new ArrayList<IRenderElement>();
+
+			for (int j = 0; j < quantity; j++) {
+				originalRenders.add(selectedShape);
+			}
+
+			// Add the clone and all of its children
+			newShapes.addAll(replicateUnion.getNodes());
+
+			for (int j = 0; j < newShapes.size(); j++) {
+				newShapes.addAll(newShapes.get(j).getNodes());
+
+				if (j >= quantity) {
+					for (INode newNode : originalRenders.get(j).getBase()
+							.getNodes()) {
+						originalRenders.add(holder.getRender(newNode));
+					}
+				}
+			}
+
+			// originalRenders.add(selectedShape);
+			// for (int j = 0; j < originalRenders.size(); j++) {
+			// for (INode node : originalRenders.get(j).getBase().getNodes()) {
+			// originalRenders.add(holder.getRender(node));
+			// }
+			// }
+
+			// Copy the color information from the original renders
+			for (int j = 0; j < newShapes.size(); j++) {
+
+				// Get the new and original shapes
+				INode node = newShapes.get(j);
+				IRenderElement originalElement = originalRenders.get(j);
+
+				// Get the cloned node's render
+				IRenderElement element = holder.getRender(node);
+
+				// Get the default values for the colors from the original
+				// shape
+				int red = (int) originalElement.getProperty("defaultRed");
+				int green = (int) originalElement.getProperty("defaultGreen");
+				int blue = (int) originalElement.getProperty("defaultBlue");
+
+				// Set the clone's default and current colors
+				element.setProperty("red", red);
+				element.setProperty("green", green);
+				element.setProperty("blue", blue);
+				element.setProperty("defaultRed", red);
+				element.setProperty("defaultGreen", green);
+				element.setProperty("defaultBlue", blue);
+
+				// Copy the material as well
+				element.setProperty("material",
+						originalElement.getProperty("material"));
+			}
+
+		}
+
+		// Remove the selected shape from its original parent
+
+		synchronized (geometry) {
+			if (parentShape != null) {
+				parentShape.removeNode(selectedShape.getBase());
+			} else {
+				geometry.removeNode(selectedShape.getBase());
+			}
+		}
+
 		view.treeViewer.expandToLevel(parentShape, 1);
+
+		view.treeViewer.refresh();
 
 	}
 }

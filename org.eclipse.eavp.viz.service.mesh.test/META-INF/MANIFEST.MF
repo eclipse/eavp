@@ -12,7 +12,6 @@ Import-Package: javafx.scene;version="2.2.0",
  org.apache.log4j,
  org.eclipse.eavp.viz.modeling,
  org.eclipse.eavp.viz.modeling.test.utils,
- org.eclipse.eavp.viz.service.geometry.reactor.test,
  org.eclipse.eavp.viz.service.mesh.datastructures
 Bundle-Vendor: Oak Ridge National Laboratory
 Export-Package: org.eclipse.eavp.viz.service.mesh.datastructures.test

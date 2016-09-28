@@ -399,8 +399,8 @@ public class FXMeshViewer extends FXViewer {
 					// Check each polygon in the mesh to see if it should be
 					// deleted
 					for (IController polygon : ((FXAttachment) attachmentManager
-							.getAttachments().get(1)).getKnownParts().get(0)
-									.getEntities()) {
+							.getAttachments().get(1)).getKnownPartControllers()
+									.get(0).getEntities()) {
 
 						// Whether or not the polygon is completely selected
 						boolean selected = true;
@@ -424,7 +424,7 @@ public class FXMeshViewer extends FXViewer {
 						// from the mesh
 						if (selected) {
 							((FXAttachment) attachmentManager.getAttachments()
-									.get(1)).getKnownParts().get(0)
+									.get(1)).getKnownPartControllers().get(0)
 											.removeEntity(polygon);
 						}
 					}
@@ -462,7 +462,7 @@ public class FXMeshViewer extends FXViewer {
 
 		// Get each of the polygons originally in the hierarchy
 		for (IController polygon : ((FXMeshAttachment) attachmentManager
-				.getAttachments().get(1)).getKnownParts().get(0)
+				.getAttachments().get(1)).getKnownPartControllers().get(0)
 						.getEntities()) {
 
 			// Get each of the vertices in the polygon
@@ -478,7 +478,7 @@ public class FXMeshViewer extends FXViewer {
 
 		// Read the current polygons to set the next IDs to use
 		for (IController face : ((FXAttachment) attachmentManager
-				.getAttachments().get(1)).getKnownParts().get(0)
+				.getAttachments().get(1)).getKnownPartControllers().get(0)
 						.getEntities()) {
 
 			// Set the next polygon's ID higher than the face's, if neccesary
@@ -557,7 +557,7 @@ public class FXMeshViewer extends FXViewer {
 
 			// Add the new polygon to the mesh permanently
 			((FXAttachment) attachmentManager.getAttachments().get(1))
-					.getKnownParts().get(0).addEntity(newFace);
+					.getKnownPartControllers().get(0).addEntity(newFace);
 
 			// Empty the lists of temporary constructs
 			clearSelection();

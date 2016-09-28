@@ -26,6 +26,7 @@ import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.BasicVizServiceFactory;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.ISeries;
+import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.csv.CSVSeries;
@@ -34,6 +35,7 @@ import org.eclipse.eavp.viz.service.test.FakePlot;
 import org.eclipse.eavp.viz.service.test.FakeSeries;
 import org.eclipse.eavp.viz.service.test.utils.AbstractSWTTester;
 import org.eclipse.eavp.viz.service.widgets.PlotGridComposite;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -154,6 +156,11 @@ public class PlotGridCompositeTester extends AbstractSWTTester {
 
 			@Override
 			public IControllerProviderFactory getControllerProviderFactory() {
+				return null;
+			}
+
+			@Override
+			public IVizCanvas createCanvas(Geometry geometry) throws Exception {
 				return null;
 			}
 		};

@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.eavp.viz.modeling.base.IController;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * This is a pluggable service interface whereby visualization engines can
@@ -57,6 +58,20 @@ public interface IVizService {
 	 *             a canvas with the given object and giving the reason why.
 	 */
 	public IVizCanvas createCanvas(IController object) throws Exception;
+	
+	/**
+	 * This operation directs the IVizService to create a new canvas displaying
+	 * the given Geometry and to return a handle to that canvas to the caller so
+	 * that it may modify the canvas.
+	 * 
+	 * @param geometry
+	 *            The input object which will be rendered in the new canvas.
+	 * @return The IVizCanvas that will render the object
+	 * @throws Exception
+	 *             An exception indicating that the IVizService could not create
+	 *             a canvas with the given object and giving the reason why.
+	 */
+	public IVizCanvas createCanvas(Geometry geometry) throws Exception;
 
 	/**
 	 * Returns a factory which will create views and controllers for model parts

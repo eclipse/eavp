@@ -13,13 +13,13 @@ package org.eclipse.eavp.viz.service.javafx.canvas.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.modeling.base.BasicController;
-import org.eclipse.eavp.viz.modeling.base.BasicMesh;
-import org.eclipse.eavp.viz.modeling.base.BasicView;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachmentManager;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Shape;
 import org.junit.Test;
 
 /**
@@ -43,15 +43,14 @@ public class FXAttachmentTester {
 
 					@Override
 					public IAttachment allocate() {
-						// TODO Auto-generated method stub
 						return null;
 					}
 
 				});
 
 		// Give the attachment a root IController
-		attachment.addGeometry(
-				new BasicController(new BasicMesh(), new BasicView()));
+		Geometry geometry = GeometryFactory.eINSTANCE.createGeometry();
+		attachment.addGeometry(geometry);
 
 		// Create a node for it to attach to
 		GNode node = new GNode();
@@ -64,9 +63,8 @@ public class FXAttachmentTester {
 		assertTrue(attachment.getFxNode().isVisible());
 
 		// Add a shape without a representation.
-		BasicController empty = new BasicController(new BasicMesh(),
-				new BasicView());
-		attachment.addGeometry(empty);
+		Shape empty = GeometryFactory.eINSTANCE.createShape();
+		geometry.getNodes().add(empty);
 		assertTrue(attachment.getKnownParts().contains(empty));
 
 	}

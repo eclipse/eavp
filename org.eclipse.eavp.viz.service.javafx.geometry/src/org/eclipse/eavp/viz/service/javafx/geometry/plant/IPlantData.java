@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.plant;
 
-import org.eclipse.eavp.viz.modeling.base.BasicController;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * An interface for objects which contain the data which will be set to an
@@ -26,6 +26,6 @@ public interface IPlantData {
 	 * 
 	 * @return The root of the tree structure containing the plant.
 	 */
-	public BasicController getPlant();
+	public Geometry getPlant();
 
 }

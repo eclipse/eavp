@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
-import org.eclipse.jface.util.Geometry;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * <p>
@@ -28,16 +30,23 @@ import org.eclipse.jface.util.Geometry;
  * @author Tony McCrary (tmccrary@l33tlabs.com)
  *
  */
-public abstract class BasicAttachment extends Attachment implements IModelPart {
+public abstract class BasicAttachment extends Attachment
+		implements IModelPart, IRenderElementHolder {
 
 	/**
-	 * Geometry that has been added but has not been integrated as the node
+	 * Geometry that have been added but has not been integrated as the node
 	 * hasn't been attached yet.
 	 */
-	private List<IController> queuedGeometry;
+	private List<Geometry> queuedGeometry;
+
+	/**
+	 * Geometry controllers that have been added but has not been integrated as
+	 * the node hasn't been attached yet.
+	 */
+	private List<IController> queuedGeometryControllers;
 
 	/** List of shapes that have been added via Geometry instances. */
-	private List<IController> shapes;
+	private List<org.eclipse.january.geometry.INode> shapes;
 
 	/** */
 	private boolean visible;
@@ -49,7 +58,15 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	private boolean immutable;
 
 	/** */
-	protected IController currentGeom = null;
+	protected Geometry currentGeom = null;
+
+	/** */
+	protected IController currentGeomController = null;
+
+	/**
+	 * The list of elements representing the rendered nodes.
+	 */
+	protected ArrayList<IRenderElement> renderedNodes;
 
 	/**
 	 * 
@@ -62,7 +79,7 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * 
 	 * @param shape
 	 */
-	protected void checkMesh(IController shape) {
+	protected void checkMesh(org.eclipse.january.geometry.INode shape) {
 	}
 
 	/**
@@ -70,6 +87,33 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 */
 	@Override
 	public void addGeometry(IController geom) {
+		if (geom == null) {
+			return;
+		}
+
+		if (currentGeomController == geom) {
+			return;
+		} else {
+			currentGeomController = geom;
+		}
+
+		if (owner == null) {
+			if (queuedGeometryControllers == null) {
+				queuedGeometryControllers = new ArrayList<>();
+			}
+
+			queuedGeometryControllers.add(geom);
+
+			return;
+		}
+
+	}
+
+	/**
+	 * @see IModelPart#addGeometry(Geometry)
+	 */
+	@Override
+	public void addGeometry(Geometry geom) {
 		if (geom == null) {
 			return;
 		}
@@ -96,7 +140,7 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * @see IModelPart#addShape(Geometry)
 	 */
 	@Override
-	public void addShape(IController shape) {
+	public void addShape(org.eclipse.january.geometry.INode shape) {
 		checkMesh(shape);
 
 		if (shapes == null) {
@@ -119,8 +163,8 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 			return;
 		}
 
-		for (IController geom : queuedGeometry) {
-			for (IController shape : geom.getEntities()) {
+		for (Geometry geom : queuedGeometry) {
+			for (org.eclipse.january.geometry.INode shape : geom.getNodes()) {
 				addShape(shape);
 			}
 		}
@@ -152,13 +196,14 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * @param shape
 	 *            ICE shape to visualize
 	 */
-	protected abstract void processShape(IController shape);
+	protected abstract void processShape(
+			org.eclipse.january.geometry.INode shape);
 
 	/**
 	 * @see IModelPart#addShape(Geometry)
 	 */
 	@Override
-	public void removeShape(IController shape) {
+	public void removeShape(org.eclipse.january.geometry.INode shape) {
 		if (shapes == null) {
 			return;
 		}
@@ -176,13 +221,14 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * 
 	 * @param shape
 	 */
-	protected abstract void disposeShape(IController shape);
+	protected abstract void disposeShape(
+			org.eclipse.january.geometry.INode shape);
 
 	/**
 	 * 
 	 */
 	@Override
-	public boolean hasShape(IController shape) {
+	public boolean hasShape(org.eclipse.january.geometry.INode shape) {
 		if (shapes == null) {
 			return false;
 		}
@@ -194,7 +240,7 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * 
 	 */
 	@Override
-	public IController getShape(int index) {
+	public org.eclipse.january.geometry.INode getShape(int index) {
 		if (shapes == null || shapes.size() < index) {
 			return null;
 		}
@@ -208,13 +254,13 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 	 * @return
 	 */
 	@Override
-	public List<IController> getShapes(boolean copy) {
+	public List<org.eclipse.january.geometry.INode> getShapes(boolean copy) {
 		if (shapes == null) {
 			return Collections.emptyList();
 		}
 
 		if (copy) {
-			return new ArrayList<IController>(shapes);
+			return new ArrayList<org.eclipse.january.geometry.INode>(shapes);
 		} else {
 			return shapes;
 		}
@@ -265,4 +311,35 @@ public abstract class BasicAttachment extends Attachment implements IModelPart {
 		this.immutable = immutable;
 	}
 
+	/**
+	 * Get the IRenderElements contained by this attachment.
+	 * 
+	 * @return The list of IRenderElements corresponding to the Geometry added
+	 *         to this attachment.
+	 */
+	public ArrayList<IRenderElement> getRenderedNodes() {
+		return renderedNodes;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.geometry.shapes.IRenderElementHolder#
+	 * getRender(geometry.INode)
+	 */
+	@Override
+	public IRenderElement getRender(org.eclipse.january.geometry.INode node) {
+
+		// Search the list of rendered nodes
+		for (IRenderElement element : renderedNodes) {
+
+			// If an element has the node as its base, return it
+			if (node == element.getBase()) {
+				return element;
+			}
+		}
+
+		// If no element containing the node was found, return null
+		return null;
+	}
 }

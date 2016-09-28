@@ -160,7 +160,7 @@ public class GeneralInfoSection extends AbstractPropertySection {
 		idLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		idLabel.setBackground(bg);
 
-		// Create a label for the transparency boxy
+		// Create a label for the transparency box
 		label = new Label(composite, SWT.CENTER);
 		disposableControls.add(label);
 		label.setText("Opacity:");

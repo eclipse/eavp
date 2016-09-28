@@ -13,6 +13,7 @@ package org.eclipse.eavp.viz.service.javafx.canvas;
 import java.util.List;
 
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * <p>
@@ -35,44 +36,46 @@ public interface IModelPart {
 	public void addGeometry(IController geom);
 
 	/**
-	 * <p>
-	 * Adds an IShape to this entity.
-	 * </p>
-	 * 
-	 * @param shape
-	 *            an ICE IShape instance
-	 */
-	public void addShape(IController shape);
-
-	/**
-	 * Removes a part from the list of top level parts in the model.
+	 * Adds a Geometry instance to this entity.
 	 * 
 	 * @param geom
-	 *            The top level node to be removed.
+	 *            Geometry instance
 	 */
-	public void removeGeometry(IController geom);
+	public void addGeometry(Geometry geom);
 
 	/**
-	 * <p>
-	 * Removes the supplied IShape from this entity.
-	 * </p>
+	 * Adds a shape to this entity.
 	 * 
 	 * @param shape
-	 *            the ICE IShape to remove
+	 *            An EAVP CSG INode instance.
 	 */
-	public void removeShape(IController shape);
+	public void addShape(org.eclipse.january.geometry.INode shape);
 
 	/**
-	 * <p>
-	 * Returns true if the entity contains the supplied IShape, false otherwise.
-	 * </p>
+	 * Removes a geometry from those displayed in the model.
 	 * 
-	 * @param the
-	 *            ICE IShape to test for
-	 * 
-	 * @return true if the entity contains the supplied IShape, false otherwise.
+	 * @param geom
+	 *            The geometry to be removed.
 	 */
-	public boolean hasShape(IController shape);
+	public void removeGeometry(Geometry geom);
+
+	/**
+	 * Removes the supplied INode from this entity.
+	 * 
+	 * @param shape
+	 *            The EAVP INode to remove.
+	 */
+	public void removeShape(org.eclipse.january.geometry.INode shape);
+
+	/**
+	 * Returns true if the entity contains the supplied INode, false otherwise.
+	 * 
+	 * @param shape
+	 *            EAVP CSG INode to test for
+	 * 
+	 * @return true if the entity contains the supplied INode, false otherwise.
+	 */
+	public boolean hasShape(org.eclipse.january.geometry.INode shape);
 
 	/**
 	 * <p>
@@ -82,9 +85,9 @@ public interface IModelPart {
 	 * @param index
 	 *            the index to retrieve the IShape at
 	 * 
-	 * @return an IShape instance or null if one cannot be found
+	 * @return a CSG INode instance or null if one cannot be found
 	 */
-	public IController getShape(int index);
+	public org.eclipse.january.geometry.INode getShape(int index);
 
 	/**
 	 * <p>
@@ -98,9 +101,9 @@ public interface IModelPart {
 	 * @param copy
 	 *            if true, the returned list will be a copy
 	 * 
-	 * @return a List of IShapes associated with this shape.
+	 * @return a List of INodes associated with this shape.
 	 */
-	public List<IController> getShapes(boolean copy);
+	public List<org.eclipse.january.geometry.INode> getShapes(boolean copy);
 
 	/**
 	 * <p>

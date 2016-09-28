@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 UT-Battelle, LLC.
+ * Copyright (c) 2015-2016 UT-Battelle, LLC.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,11 +14,12 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
-import org.eclipse.eavp.viz.modeling.base.BasicController;
 import org.eclipse.eavp.viz.modeling.base.IController;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.scene.base.GNode;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
@@ -56,28 +57,43 @@ public class FXVizCanvas implements IVizCanvas {
 	/** The JFace viewer for displaying viz geometry. */
 	protected BasicViewer viewer;
 
-	/** The modeling object that is currently set on the viewer. */
-	protected IController root;
+	/**
+	 * The modeling object that is currently set on the viewer.
+	 */
+	protected Geometry root;
+
+	/**
+	 * The modeling object that is currently set on the viewer.
+	 */
+	protected IController rootController;
 
 	/** The active rootnode in the scene. */
 	private INode rootNode;
 
 	/** The active root geometry. */
-	protected BasicAttachment rootAtachment;
+	protected BasicAttachment rootAttachment;
 
 	/** ICE properties. */
 	private Map<String, String> properties;
 
 	/**
-	 * <p>
 	 * Creates a canvas for the supplied geometry.
-	 * </p>
 	 * 
 	 * @param geometry
-	 *            ICE Geometry instance to visualizer in the canvas.
+	 *            EAVP Geometry instance to visualize in the canvas.
 	 */
 	public FXVizCanvas(IController geometry) {
-		this.root = geometry;
+		rootController = geometry;
+	}
+
+	/**
+	 * Creates a canvas for the supplied geometry.
+	 * 
+	 * @param geometry
+	 *            EAVP Geometry instance to visualize in the canvas.
+	 */
+	public FXVizCanvas(Geometry geometry) {
+		root = geometry;
 	}
 
 	/**
@@ -107,6 +123,7 @@ public class FXVizCanvas implements IVizCanvas {
 		createAttachment();
 
 		loadPart(root);
+		loadPart(rootController);
 
 		return viewerParent;
 	}
@@ -145,32 +162,30 @@ public class FXVizCanvas implements IVizCanvas {
 	 * @param root
 	 *            the geometry to visualize
 	 */
-	protected void loadPart(IController root) {
+	protected void loadPart(Geometry root) {
 		if (root == null) {
 			return;
 		}
-
 		this.root = root;
 
 		rootNode = new GNode();
 
 		createAttachment();
-		rootAtachment.addGeometry(root);
+		rootAttachment.addGeometry(root);
 
-		rootNode.attach(rootAtachment);
+		rootNode.attach(rootAttachment);
 
 		viewer.setInput(rootNode);
 	}
 
 	/**
-	 * Adds a part as a top level node of the scene graph that is contained
-	 * directly by the canvas's attachment.
+	 * Adds a geometry to the canvas.
 	 * 
 	 * @param part
 	 *            The part to be added
 	 */
-	public void addRoot(BasicController part) {
-		rootAtachment.addGeometry(part);
+	public void addRoot(Geometry part) {
+		rootAttachment.addGeometry(part);
 	}
 
 	/**
@@ -178,7 +193,7 @@ public class FXVizCanvas implements IVizCanvas {
 	 * type.
 	 */
 	protected void createAttachment() {
-		rootAtachment = (BasicAttachment) viewer.getRenderer()
+		rootAttachment = (BasicAttachment) viewer.getRenderer()
 				.createAttachment(FXAttachment.class);
 	}
 
@@ -195,14 +210,13 @@ public class FXVizCanvas implements IVizCanvas {
 	}
 
 	/**
-	 * Removes one of the top level nodes of the scene graph that is contained
-	 * directly by the canvas's attachment.
+	 * Removes a geoemtry from the canvas.
 	 * 
 	 * @param part
 	 *            The part to be removed
 	 */
-	public void removeRoot(IController part) {
-		rootAtachment.removeGeometry(part);
+	public void removeRoot(Geometry part) {
+		rootAttachment.removeGeometry(part);
 	}
 
 	/**
@@ -275,4 +289,41 @@ public class FXVizCanvas implements IVizCanvas {
 		this.properties = props;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(geometry.
+	 * Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		return rootAttachment;
+	}
+
+	/**
+	 * <p>
+	 * Handles the processing and setting up the canvas' supplied geometry for
+	 * visualization.
+	 * </p>
+	 * 
+	 * @param root
+	 *            the geometry to visualize
+	 */
+	protected void loadPart(IController root) {
+		if (root == null) {
+			return;
+		}
+
+		this.rootController = root;
+
+		rootNode = new GNode();
+
+		createAttachment();
+		rootAttachment.addGeometry(root);
+
+		rootNode.attach(rootAttachment);
+
+		viewer.setInput(rootNode);
+	}
 }

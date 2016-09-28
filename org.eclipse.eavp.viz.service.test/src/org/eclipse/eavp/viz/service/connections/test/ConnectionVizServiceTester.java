@@ -23,6 +23,8 @@ import java.util.Set;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.IPlot;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
@@ -30,6 +32,7 @@ import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -129,14 +132,18 @@ public class ConnectionVizServiceTester {
 					public String createAdditionalPage(
 							MultiPageEditorPart parent, IFileEditorInput file,
 							int pageNum) {
-						// TODO Auto-generated method stub
 						return null;
 					}
 
 					@Override
 					public int getNumAdditionalPages() {
-						// TODO Auto-generated method stub
 						return 0;
+					}
+
+					@Override
+					public IRenderElementHolder getRenderElementHolder(
+							Geometry geometry) {
+						return null;
 					}
 				};
 			}
@@ -155,6 +162,11 @@ public class ConnectionVizServiceTester {
 
 			@Override
 			public IControllerProviderFactory getControllerProviderFactory() {
+				return null;
+			}
+
+			@Override
+			public IVizCanvas createCanvas(Geometry geometry) throws Exception {
 				return null;
 			}
 		};

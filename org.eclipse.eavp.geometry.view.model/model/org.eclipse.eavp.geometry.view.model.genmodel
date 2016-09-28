@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.eavp.geometry.view.model/src" modelPluginID="org.eclipse.eavp.geometry.view.model"
+    modelName="org.eclipse.eavp.geometry.view" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>org.eclipse.eavp.geometry.view.model.ecore</foreignModel>
+  <genPackages prefix="Model" basePackage="org.eclipse.eavp.geometry.view" disposableProviderFactory="true"
+      ecorePackage="org.eclipse.eavp.geometry.view.model.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOptionType">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOptionType/COMBO"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOptionType/DOUBLE_TEXT"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOptionType/INTEGER_TEXT"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="org.eclipse.eavp.geometry.view.model.ecore#//INode"/>
+    <genDataTypes ecoreDataType="org.eclipse.eavp.geometry.view.model.ecore#//Triangle"/>
+    <genDataTypes ecoreDataType="org.eclipse.eavp.geometry.view.model.ecore#//Object"/>
+    <genDataTypes ecoreDataType="org.eclipse.eavp.geometry.view.model.ecore#//Double"/>
+    <genDataTypes ecoreDataType="org.eclipse.eavp.geometry.view.model.ecore#//Integer"/>
+    <genDataTypes ecoreDataType="org.eclipse.eavp.geometry.view.model.ecore#//Boolean"/>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//MeshCache">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//MeshCache/T"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//MeshCache/getMesh">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//MeshCache/getMesh/type"/>
+      </genOperations>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//MeshCache/getMesh.1">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//MeshCache/getMesh.1/triangles"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//RenderObject">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/T"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/meshCache"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/render"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/children"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/displayOptions"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/getMesh"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/registerOption">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//RenderObject/registerOption/option"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/T"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/getMesh"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/getBase"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/handleChildren">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/handleChildren/children"/>
+      </genOperations>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/getProperty">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/getProperty/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/setProperty">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/setProperty/property"/>
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/setProperty/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/copy">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/copy/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IRenderElement/clone"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/T"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/active"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/optionGroup"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/parent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/type"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/modify">
+        <genParameters ecoreParameter="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/modify/element"/>
+      </genOperations>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/getDefaultProperties"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//DisplayOption/getDisplayOptionData"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//OpacityOption">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//OpacityOption/T"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//ScaleOption">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//ScaleOption/T"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//WireframeOption">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//WireframeOption/T"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//ColorOption">
+      <genTypeParameters ecoreTypeParameter="org.eclipse.eavp.geometry.view.model.ecore#//ColorOption/T"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//IDisplayOptionData">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference org.eclipse.eavp.geometry.view.model.ecore#//IDisplayOptionData/displayOption"/>
+      <genOperations ecoreOperation="org.eclipse.eavp.geometry.view.model.ecore#//IDisplayOptionData/getDisplayOptionType"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//ComboDisplayOptionData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//ComboDisplayOptionData/textToPropertyValuesMap"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData/propertyToValueMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData/propertyMinValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//DoubleTextDisplayOptionData/propertyMaxValues"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData/propertyToValueMap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData/propertyMinValues"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.eavp.geometry.view.model.ecore#//IntegerTextDisplayOptionData/propertyMaxValues"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

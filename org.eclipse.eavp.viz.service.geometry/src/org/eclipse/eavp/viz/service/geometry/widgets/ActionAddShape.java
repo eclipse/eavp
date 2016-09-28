@@ -13,19 +13,24 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.Shape;
-import org.eclipse.eavp.viz.modeling.Tube;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
-import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
-import org.eclipse.eavp.viz.service.geometry.shapes.OperatorType;
-import org.eclipse.eavp.viz.service.geometry.shapes.ShapeType;
+import org.eclipse.eavp.geometry.view.model.DisplayOption;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.RenderObject;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
+import org.eclipse.january.geometry.Cube;
+import org.eclipse.january.geometry.Cylinder;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.Sphere;
+import org.eclipse.january.geometry.Tube;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -59,18 +64,7 @@ public class ActionAddShape extends Action {
 	 * </p>
 	 * 
 	 */
-	private ShapeType shapeType;
-	/**
-	 * <p>
-	 * The OperatorType used to create new ComplexShapes when the AddShape
-	 * action is triggered
-	 * </p>
-	 * <p>
-	 * If the value is null, the ShapeType is used to create PrimitiveShapes.
-	 * </p>
-	 * 
-	 */
-	private OperatorType operatorType;
+	private String type;
 
 	/**
 	 * <p>
@@ -91,6 +85,17 @@ public class ActionAddShape extends Action {
 	private ImageDescriptor imageDescriptor;
 
 	/**
+	 * A list of all the primitive shape types that this kind of action can add.
+	 */
+	private ArrayList<String> shapeTypes;
+
+	/**
+	 * A list of all the complex operator types that this kind of action can
+	 * add.
+	 */
+	private ArrayList<String> operatorTypes;
+
+	/**
 	 * <p>
 	 * Constructor for creating new PrimitiveShapes with a given ShapeType
 	 * </p>
@@ -105,23 +110,40 @@ public class ActionAddShape extends Action {
 	 *            triggered
 	 *            </p>
 	 */
-	public ActionAddShape(ShapeTreeView view, ShapeType shapeType) {
+	public ActionAddShape(ShapeTreeView view, String shapeType) {
 
+		// Initialize the data members
 		this.view = view;
-		this.shapeType = shapeType;
-		operatorType = null;
+		type = shapeType;
 		currentShapeId = 0;
+		shapeTypes = new ArrayList<String>();
+		operatorTypes = new ArrayList<String>();
+
+		// Populate the type lists
+		shapeTypes.add("sphere");
+		shapeTypes.add("cube");
+		shapeTypes.add("cylinder");
+		shapeTypes.add("tube");
+		operatorTypes.add("union");
+		operatorTypes.add("intersection");
+		operatorTypes.add("complement");
 
 		// Set the Action's name to "Add {ShapeType}"
-		setText("Add " + shapeType.toString());
+		setText("Add " + shapeType);
 
 		// Create a map which stores the filenames of the icons, relative
 		// to the icons/ directory
-		Map<ShapeType, String> shapeIcons = new HashMap<ShapeType, String>();
-		shapeIcons.put(ShapeType.Sphere, "sphere.gif");
-		shapeIcons.put(ShapeType.Cube, "cube.gif");
-		shapeIcons.put(ShapeType.Cylinder, "cylinder.gif");
-		shapeIcons.put(ShapeType.Tube, "tube.gif");
+		Map<String, String> shapeIcons = new HashMap<String, String>();
+
+		// Add the shape types to the map
+		for (String type : shapeTypes) {
+			shapeIcons.put(type, type + ".gif");
+		}
+
+		// Add the operator types to the map
+		for (String type : operatorTypes) {
+			shapeIcons.put(type, type + ".gif");
+		}
 
 		// Create the image descriptor from the file path
 		Bundle bundle = FrameworkUtil.getBundle(getClass());
@@ -130,49 +152,6 @@ public class ActionAddShape extends Action {
 		imageDescriptor = ImageDescriptor.createFromURL(imagePath);
 
 		return;
-	}
-
-	/**
-	 * <p>
-	 * Constructor for creating new ComplexShapes with a given OperatorType
-	 * </p>
-	 * 
-	 * @param view
-	 *            <p>
-	 *            The current ShapeTreeViewer
-	 *            </p>
-	 * @param operatorType
-	 *            <p>
-	 *            The type of ComplexShape to create with the action is
-	 *            triggered
-	 *            </p>
-	 */
-	public ActionAddShape(ShapeTreeView view, OperatorType operatorType) {
-
-		this.view = view;
-		this.shapeType = null;
-		this.operatorType = operatorType;
-		currentShapeId = 0;
-
-		// Set the Action's name to "Add {ShapeType}"
-
-		this.setText("Add " + operatorType.toString());
-
-		// Create a map which stores the filenames of the icons, relative
-		// to the icons/ directory
-
-		Map<OperatorType, String> operatorIcons = new HashMap<OperatorType, String>();
-		operatorIcons.put(OperatorType.Union, "union.gif");
-		operatorIcons.put(OperatorType.Intersection, "intersection.gif");
-		operatorIcons.put(OperatorType.Complement, "complement.gif");
-
-		// Create the image descriptor from the file path
-
-		Bundle bundle = FrameworkUtil.getBundle(getClass());
-		URL imagePath = BundleUtility.find(bundle,
-				"icons/" + operatorIcons.get(operatorType));
-		imageDescriptor = ImageDescriptor.createFromURL(imagePath);
-
 	}
 
 	/**
@@ -201,7 +180,7 @@ public class ActionAddShape extends Action {
 		}
 		// Get the GeometryComponent from the ShapeTreeView's TreeViewer
 
-		IController geometry = (IController) view.treeViewer.getInput();
+		Geometry geometry = (Geometry) view.treeViewer.getInput();
 
 		if (geometry == null) {
 			return;
@@ -209,7 +188,7 @@ public class ActionAddShape extends Action {
 		// Get the parent shape, regardless of whether an IShape or BlankShape
 		// is selected
 
-		IController parentComplexShape = null;
+		INode parentComplexShape = null;
 
 		if (paths.length == 1) {
 
@@ -217,19 +196,18 @@ public class ActionAddShape extends Action {
 
 			Object selectedObject = paths[0].getLastSegment();
 
-			if (selectedObject instanceof ShapeController) {
+			if (selectedObject instanceof IRenderElement) {
 
 				// Get the selected shape's parent
 
-				ShapeController selectedShape = (ShapeController) selectedObject;
-				parentComplexShape = selectedShape
-						.getEntitiesFromCategory(MeshCategory.PARENT).get(0);
+				IRenderElement selectedShape = (IRenderElement) selectedObject;
+				parentComplexShape = selectedShape.getBase().getParent();
 			} else if (selectedObject instanceof BlankShape) {
 
 				// Get the selected blank shape's parent
 
 				BlankShape selectedBlank = (BlankShape) selectedObject;
-				parentComplexShape = selectedBlank.getParent();
+				parentComplexShape = selectedBlank.getParent().getBase();
 			}
 
 		}
@@ -237,14 +215,14 @@ public class ActionAddShape extends Action {
 		// Add a child shape to either the GeometryComponent or the parent
 		// ComplexShape
 
-		ShapeController childShape = createShape();
+		INode childShape = createShape();
 
 		if (parentComplexShape == null) {
 
 			// Add a new shape to the root GeometryComponent
 
 			synchronized (geometry) {
-				geometry.addEntity(childShape);
+				geometry.addNode(childShape);
 			}
 
 			view.treeViewer.refresh();
@@ -255,15 +233,59 @@ public class ActionAddShape extends Action {
 			// Create a new shape and add it to the parentComplexShape
 
 			synchronized (geometry) {
-				parentComplexShape.addEntity(childShape);
+				parentComplexShape.addNode(childShape);
 			}
 
-			view.treeViewer.refresh(parentComplexShape);
+			view.treeViewer.refresh();
 		}
+
+		// Get the set of render elements from the view
+		IRenderElementHolder holder = view.getHolder();
+
+		// Get the render of the new shape
+		IRenderElement render = holder.getRender(childShape);
+
+		// Set a different color for each type
+		if ("cube".equals(type)) {
+			render.setProperty("defaultRed", 50);
+			render.setProperty("defaultGreen", 50);
+			render.setProperty("defaultBlue", 255);
+		} else if ("cylinder".equals(type)) {
+			render.setProperty("defaultRed", 0);
+			render.setProperty("defaultGreen", 181);
+			render.setProperty("defaultBlue", 255);
+		} else if ("sphere".equals(type)) {
+			render.setProperty("defaultRed", 131);
+			render.setProperty("defaultGreen", 0);
+			render.setProperty("defaultBlue", 157);
+		} else if ("tube".equals(type)) {
+			render.setProperty("defaultRed", 0);
+			render.setProperty("defaultGreen", 255);
+			render.setProperty("defaultBlue", 255);
+		} else if (operatorTypes.contains(type)) {
+
+			// Operators should have their color display options off by default,
+			// to allow their childrens' colors to take precedence.
+			List<DisplayOption> options = ((RenderObject) render)
+					.getDisplayOptions();
+			for (DisplayOption option : options) {
+				if ("Color".equals(option.getOptionGroup())) {
+					option.setActive(false);
+				}
+			}
+		}
+
+		// Initialize the color to the default
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_RED,
+				render.getProperty("defaultRed"));
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
+				render.getProperty("defaultGreen"));
+		render.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
+				render.getProperty("defaultBlue"));
 
 		// Expand the child in the tree if a ComplexShape was added
 
-		if (childShape != null && operatorType != null) {
+		if (childShape != null && operatorTypes.contains(type)) {
 			view.treeViewer.expandToLevel(childShape, 1);
 		}
 	}
@@ -290,56 +312,38 @@ public class ActionAddShape extends Action {
 	 *         The newly created shape
 	 *         </p>
 	 */
-	public ShapeController createShape() {
+	public INode createShape() {
 
-		ShapeController shape = null;
+		// The shape being created
+		INode shape = null;
 
-		// Determine which type of shape should be created
-
-		if (shapeType != null && operatorType == null) {
-
-			// Instantiate a PrimitiveShape and set its name and ID
-			Shape shapeComponent;
-
-			// Tubes require a tubemesh instead of a generic shapemesh
-			if (shapeType != ShapeType.Tube) {
-				shapeComponent = new Shape();
-			} else {
-				shapeComponent = new Tube();
-				((Tube) shapeComponent).setAxialSamples(3);
-				((Tube) shapeComponent).setInnerRadius(40);
-				((Tube) shapeComponent).setLength(50);
-				((Tube) shapeComponent).setRadius(50);
-			}
-			shape = (ShapeController) view.getFactory()
-					.createProvider(shapeComponent)
-					.createController(shapeComponent);
-
-			shape.setProperty(MeshProperty.TYPE, shapeType.toString());
-
-			currentShapeId++;
-			shape.setProperty(MeshProperty.NAME, shapeType.toString());
-			shape.setProperty(MeshProperty.ID,
-					Integer.toString(currentShapeId));
+		// Create a node of the approrpiate type
+		if ("cube".equals(type)) {
+			shape = GeometryFactory.eINSTANCE.createCube();
+			((Cube) shape).setSideLength(50);
+		} else if ("cylinder".equals(type)) {
+			shape = GeometryFactory.eINSTANCE.createCylinder();
+			((Cylinder) shape).setHeight(50);
+			((Cylinder) shape).setRadius(50);
+		} else if ("sphere".equals(type)) {
+			shape = GeometryFactory.eINSTANCE.createSphere();
+			((Sphere) shape).setRadius(50);
+		} else if ("tube".equals(type)) {
+			shape = GeometryFactory.eINSTANCE.createTube();
+			((Tube) shape).setHeight(50);
+			((Tube) shape).setInnerRadius(30);
+			((Tube) shape).setRadius(45);
+		} else if ("union".equals(type)) {
+			shape = GeometryFactory.eINSTANCE.createUnion();
+		} else if ("complement".equals(type)) {
+			shape = GeometryFactory.eINSTANCE.createComplement();
+		} else if ("intersection".equals(type)) {
+			shape = GeometryFactory.eINSTANCE.createIntersection();
 		}
 
-		else if (operatorType != null && shapeType == null) {
-
-			// Instantiate a ComplexShape and set its name
-
-			Shape shapeComponent = new Shape();
-			shape = (ShapeController) view.getFactory()
-					.createProvider(shapeComponent)
-					.createController(shapeComponent);
-
-			shape.setProperty(GeometryMeshProperty.OPERATOR,
-					operatorType.toString());
-
-			currentShapeId++;
-			shape.setProperty(MeshProperty.NAME, operatorType.toString());
-			shape.setProperty(MeshProperty.ID,
-					Integer.toString(currentShapeId));
-		}
+		currentShapeId++;
+		shape.setName(type);
+		shape.setId(currentShapeId);
 
 		// Return the shape
 		// If none of the conditions above passed, this will return null.

@@ -16,14 +16,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.eavp.viz.modeling.base.BasicController;
-import org.eclipse.eavp.viz.modeling.base.BasicMesh;
-import org.eclipse.eavp.viz.modeling.base.BasicView;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Shape;
 import org.junit.Test;
 
 /**
@@ -44,50 +42,39 @@ public class BasicAttachmentTester {
 		BasicAttachment attachment = new BasicAttachment() {
 
 			@Override
-			public void removeGeometry(IController geom) {
-				// TODO Auto-generated method stub
-
+			public void removeGeometry(Geometry geom) {
 			}
 
 			@Override
 			public Class<?> getType() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			protected void processShape(IController shape) {
-				// TODO Auto-generated method stub
-
+			protected void processShape(
+					org.eclipse.january.geometry.INode shape) {
 			}
 
 			@Override
-			protected void disposeShape(IController shape) {
-				// TODO Auto-generated method stub
-
+			protected void disposeShape(
+					org.eclipse.january.geometry.INode shape) {
 			}
-
 		};
 
 		// Create some AbstractControllers for the attachment to contain
-		BasicController geometry1 = new BasicController(new BasicMesh(),
-				new BasicView());
-		BasicController geometry2 = new BasicController(new BasicMesh(),
-				new BasicView());
-		BasicController shape1 = new BasicController(new BasicMesh(),
-				new BasicView());
-		shape1.setProperty(MeshProperty.NAME, "shape1");
-		BasicController shape2 = new BasicController(new BasicMesh(),
-				new BasicView());
-		shape2.setProperty(MeshProperty.NAME, "shape2");
-		BasicController shape3 = new BasicController(new BasicMesh(),
-				new BasicView());
-		shape3.setProperty(MeshProperty.NAME, "shape3");
+		Geometry geometry1 = GeometryFactory.eINSTANCE.createGeometry();
+		Geometry geometry2 = GeometryFactory.eINSTANCE.createGeometry();
+		Shape shape1 = GeometryFactory.eINSTANCE.createShape();
+		shape1.setName("shape1");
+		Shape shape2 = GeometryFactory.eINSTANCE.createShape();
+		shape2.setName("shape2");
+		Shape shape3 = GeometryFactory.eINSTANCE.createShape();
+		shape3.setName("shape3");
 
 		// Geometry 1 has shape1, geometry2 has the other two shapes
-		geometry1.addEntity(shape1);
-		geometry2.addEntity(shape2);
-		geometry2.addEntity(shape3);
+		geometry1.addNode(shape1);
+		geometry2.addNode(shape2);
+		geometry2.addNode(shape3);
 
 		// Add the first geometry to the attachment, the shapes should be null
 		// since it is not attached to a node
@@ -135,29 +122,23 @@ public class BasicAttachmentTester {
 		BasicAttachment attachment = new BasicAttachment() {
 
 			@Override
-			public void removeGeometry(IController geom) {
-				// TODO Auto-generated method stub
-
+			public void removeGeometry(Geometry geom) {
 			}
 
 			@Override
 			public Class<?> getType() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			protected void processShape(IController shape) {
-				// TODO Auto-generated method stub
-
+			protected void processShape(
+					org.eclipse.january.geometry.INode shape) {
 			}
 
 			@Override
-			protected void disposeShape(IController shape) {
-				// TODO Auto-generated method stub
-
+			protected void disposeShape(
+					org.eclipse.january.geometry.INode shape) {
 			}
-
 		};
 
 		// Check the immutable field
@@ -183,115 +164,88 @@ public class BasicAttachmentTester {
 
 		@Override
 		public INode getParent() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void setParent(INode parent) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public String getName() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void addChild(INode node) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void removeChild(INode node) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void removeAllChildren() {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public List<INode> getChildren(boolean copy) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void setVisible(boolean visible) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public boolean isVisible() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public void attach(IAttachment attachment) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void detach(IAttachment attachment) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public boolean hasAttachment(Class<?> attachmentClass) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public boolean supports(IAttachment attachment) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		public Map<Class<?>, List<IAttachment>> getAttachments() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public List<IAttachment> getAttachments(Class<?> clazz) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public Map<String, Object> getProperties() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public Object getProperty(String key) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void setProperty(String key, Object value) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public boolean hasProperty(String key) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 

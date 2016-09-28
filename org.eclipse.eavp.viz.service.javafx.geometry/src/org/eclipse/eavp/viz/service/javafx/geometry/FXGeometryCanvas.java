@@ -15,11 +15,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.base.IWireframeController;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.service.geometry.widgets.TransformationView;
+import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeView;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicAttachment;
 import org.eclipse.eavp.viz.service.javafx.canvas.BasicViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXSelection;
@@ -27,6 +23,8 @@ import org.eclipse.eavp.viz.service.javafx.canvas.FXViewer;
 import org.eclipse.eavp.viz.service.javafx.canvas.FXVizCanvas;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantData;
 import org.eclipse.eavp.viz.service.javafx.geometry.plant.IPlantView;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -56,13 +54,12 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 			.getLogger(FXGeometryCanvas.class);
 
 	/**
-	 * The default constructor
+	 * The default constructor.
 	 * 
 	 * @param source
-	 *            The shape under which all parts in the model will be contained
-	 *            as children
+	 *            The geometry to be displayed in the canvas.
 	 */
-	public FXGeometryCanvas(IController source) {
+	public FXGeometryCanvas(Geometry source) {
 		super(source);
 	}
 
@@ -74,7 +71,7 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	 */
 	@Override
 	protected void createAttachment() {
-		rootAtachment = (BasicAttachment) viewer.getRenderer()
+		rootAttachment = (BasicAttachment) viewer.getRenderer()
 				.createAttachment(FXGeometryAttachment.class);
 	}
 
@@ -87,17 +84,15 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	@Override
 	protected void handleSelectionChanged(SelectionChangedEvent event) {
 		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-				.getActivePage().findView(TransformationView.ID);
+				.getActivePage().findView(ShapeTreeView.ID);
 
-		if (view == null || !(view instanceof TransformationView)) {
+		if (view == null || !(view instanceof ShapeTreeView)) {
 			return;
 		}
 
-		TransformationView transformView = (TransformationView) view;
-
 		FXSelection selection = (FXSelection) event.getSelection();
 
-		transformView.setShape((ShapeController) selection.getShape());
+		((ShapeTreeView) view).setSelected(selection.getShape());
 	}
 
 	/*
@@ -192,31 +187,8 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	@Override
 	public void setWireframe(boolean wireframe) {
 
-		// Set all objects in the tree to wireframe mode
-		setWireframe((IWireframeController) root, wireframe);
-	}
-
-	/**
-	 * Set the target object and all of its descendants to display in wireframe
-	 * mode or fill mode.
-	 * 
-	 * @param target
-	 *            The object whose descendants (self included) will have their
-	 *            modes set.
-	 * @param wireframe
-	 *            If true, the parts will be set to wireframe mode. Otherwise,
-	 *            they will be removed from wireframe mode.
-	 */
-	private void setWireframe(IWireframeController target, boolean wireframe) {
-
-		// Set this object to the correct mode
-		target.setWireframeMode(wireframe);
-
-		// Iterate over each of its children, setting them to the correct mode
-		for (IWireframeController child : target.getEntitiesFromCategory(
-				MeshCategory.CHILDREN, IWireframeController.class)) {
-			child.setWireframeMode(wireframe);
-		}
+		// Set the root's wireframe property
+		root.changeDecoratorProperty("wireframe", wireframe);
 	}
 
 	/*
@@ -346,11 +318,11 @@ public class FXGeometryCanvas extends FXVizCanvas implements IPlantView {
 	public void setPlant(IPlantData plant) {
 
 		// Convert the plant composite into an AbstractController
-		IController newRoot = plant.getPlant();
+		Geometry newRoot = plant.getPlant();
 
 		// Remove everything from the root to ensure it will be
-		for (IController entity : root.getEntities()) {
-			root.removeEntity(entity);
+		for (INode entity : root.getNodes()) {
+			root.removeNode(entity);
 		}
 
 		root = newRoot;

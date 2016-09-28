@@ -12,9 +12,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
-import org.eclipse.eavp.viz.modeling.base.BasicController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -69,14 +67,14 @@ public class ShapeTreeLabelProvider extends LabelProvider {
 
 		// Check that the element is an ICEObject and is not null
 
-		if (element instanceof BasicController) {
+		if (element instanceof IRenderElement) {
 
-			// Return the ICEObject's name property with its ICEObject ID
+			// Return the INode's name property with its INode ID
 			// appended with a space separator
 
-			IController iceElement = (IController) element;
-			return iceElement.getProperty(MeshProperty.NAME) + " "
-					+ iceElement.getProperty(MeshProperty.ID);
+			IRenderElement nodeElement = (IRenderElement) element;
+			return nodeElement.getBase().getName() + " "
+					+ nodeElement.getBase().getId();
 		}
 
 		else if (element instanceof ShapeTreeContentProvider.BlankShape) {

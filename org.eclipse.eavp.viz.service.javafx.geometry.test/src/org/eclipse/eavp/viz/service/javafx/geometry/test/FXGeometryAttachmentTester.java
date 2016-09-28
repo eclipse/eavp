@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.javafx.geometry.test;
 
-import org.eclipse.eavp.viz.modeling.Shape;
-import org.eclipse.eavp.viz.modeling.base.Representation;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.javafx.geometry.FXGeometryAttachment;
 import org.eclipse.eavp.viz.service.javafx.geometry.FXGeometryAttachmentManager;
-import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeController;
-import org.eclipse.eavp.viz.service.javafx.geometry.datatypes.FXShapeView;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.GeometryFactory;
+import org.eclipse.january.geometry.Sphere;
 import org.junit.Test;
 
 import javafx.scene.Group;
@@ -40,17 +38,18 @@ public class FXGeometryAttachmentTester {
 				new FXGeometryAttachmentManager());
 
 		// Create a sphere shape
-		Shape mesh = new Shape();
-		mesh.setProperty(MeshProperty.TYPE, "Sphere");
-		FXShapeController shape = new FXShapeController(mesh,
-				new FXShapeView(mesh));
+		Sphere sphere = GeometryFactory.eINSTANCE.createSphere();
+		sphere.setRadius(1);
+
+		Geometry geometry = GeometryFactory.eINSTANCE.createGeometry();
+		geometry.addNode(sphere);
 
 		// Set the shape to the attachment
-		attachment.addGeometry(shape);
+		attachment.addGeometry(geometry);
 
 		// The attachment's JavaFX node should now contain the shape's JavaFX
 		// representation
-		Representation<Group> representation = shape.getRepresentation();
-		attachment.getFxNode().getChildren().contains(representation.getData());
+		((Group) attachment.getFxNode().getChildren().get(0)).getChildren()
+				.contains(attachment.getRender(sphere).getMesh());
 	}
 }

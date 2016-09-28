@@ -16,10 +16,12 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IPlotListener;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.ProxyPlot;
 import org.eclipse.eavp.viz.service.ProxySeries;
 import org.eclipse.eavp.viz.service.styles.XYZSeriesStyle;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.DisposeEvent;
@@ -94,12 +96,12 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 			// Create a plot composite.
 			plotComposite = new CSVPlotComposite(parent, SWT.BORDER);
 			plotComposite.setPlot(this);
-			
+
 			// Make sure the plot data has been loaded
-			while (!((CSVPlot)getSource()).isLoaded()) {
+			while (!((CSVPlot) getSource()).isLoaded()) {
 				Thread.sleep(200);
 			}
-			
+
 			// Tell it to update based on the new plot.
 			plotComposite.refresh();
 
@@ -137,9 +139,8 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.ProxyPlot#getDependentSeries(java.lang.String
-	 * )
+	 * @see org.eclipse.eavp.viz.service.ProxyPlot#getDependentSeries(java.lang.
+	 * String )
 	 */
 	@Override
 	public List<ISeries> getDependentSeries(String category) {
@@ -161,8 +162,8 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 		if (!loaded) {
 			reloadSeries();
 		}
-		
-		// Wrap the source IPlot's independent series and return it. 
+
+		// Wrap the source IPlot's independent series and return it.
 		return createProxySeries(getSource().getIndependentSeries());
 	}
 
@@ -216,11 +217,11 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 			// Load the dependent series (and categories) in the default way.
 			super.reloadSeries();
 
-			// Enable the first dependent series.
+			// Enable the first dependent series, if any exist.
 			for (String category : getCategories()) {
 				List<ISeries> series = getDependentSeries(category);
-				if (series != null && !series.isEmpty()) {
-					series.iterator().next().setEnabled(true);
+				if (series != null && series.size() > 1) {
+					series.get(1).setEnabled(true);
 					break;
 				}
 			}
@@ -239,18 +240,17 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.eclipse
-	 * .ice.viz.service.ISeries)
+	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setIndependentSeries(org.
+	 * eclipse .ice.viz.service.ISeries)
 	 */
 	@Override
 	public void setIndependentSeries(ISeries series) {
-		
-		//Set own independent series as well as the source plot's
+
+		// Set own independent series as well as the source plot's
 		super.setIndependentSeries(series);
 		getSource().setIndependentSeries(series);
-		
-		//Create a proxy for the independent series and reload
+
+		// Create a proxy for the independent series and reload
 		independentProxy = createProxySeries(series);
 		loaded = false;
 		getSource().redraw();
@@ -260,8 +260,8 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.eavp.viz.service.ProxyPlot#setSource(org.eclipse.eavp.viz.service
-	 * .IPlot)
+	 * org.eclipse.eavp.viz.service.ProxyPlot#setSource(org.eclipse.eavp.viz.
+	 * service .IPlot)
 	 */
 	@Override
 	public void setSource(IPlot source) {
@@ -274,15 +274,20 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.
+	 * part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
 	 */
 	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
+	public String createAdditionalPage(MultiPageEditorPart parent,
+			IFileEditorInput file, int pageNum) {
 		return source.createAdditionalPage(parent, file, pageNum);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
 	 */
 	@Override
@@ -292,6 +297,7 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#save()
 	 */
 	@Override
@@ -301,11 +307,25 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#saveAs()
 	 */
 	@Override
 	public void saveAs() {
 		source.saveAs();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(geometry.
+	 * Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		// CSVProxyPlots do not use IRenderElements
+		return null;
 	}
 
 }

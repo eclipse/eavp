@@ -17,10 +17,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
+import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.visit.connections.VisItConnectionManager;
+import org.eclipse.january.geometry.Geometry;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 
@@ -96,6 +98,8 @@ public class VisItVizService extends ConnectionVizService<VisItSwtConnection> {
 		extensions.add("visit");
 		// Add supported Silo file format extensions.
 		extensions.add("silo");
+		//Add supported nek5000 file format extensions.
+		extensions.add("nek5000");
 		return extensions;
 	}
 
@@ -140,5 +144,17 @@ public class VisItVizService extends ConnectionVizService<VisItSwtConnection> {
 		// The VisIt visualization service does not make use of the model
 		// framework, so it has no factory
 		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizService#createCanvas(geometry.Geometry)
+	 */
+	@Override
+	public IVizCanvas createCanvas(Geometry geometry) throws Exception {
+		throw new NoSuchMethodException(
+				"The VisItVizService can not display a geometry.");
 	}
 }

@@ -12,11 +12,12 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.base.BasicController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.service.geometry.shapes.GeometryMeshProperty;
+import java.util.List;
+
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -29,6 +30,7 @@ import org.eclipse.jface.viewers.Viewer;
  * @author Andrew P. Belt
  */
 public class ShapeTreeContentProvider implements ITreeContentProvider {
+
 	/**
 	 * <p>
 	 * Temporary variable for setting the return value of getChildren when the
@@ -39,6 +41,32 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	private Object[] temporaryChildren = null;
 
 	/**
+	 * The object holding the full list of IRenderElements.
+	 */
+	private IRenderElementHolder holder;
+
+	/**
+	 * The default constructor.
+	 * 
+	 * @param holder
+	 *            The holder class for the render elements accessed by the
+	 *            provider.
+	 */
+	public ShapeTreeContentProvider(IRenderElementHolder holder) {
+		this.holder = holder;
+	}
+
+	/**
+	 * Setter method for the holder from which the content provider will pull
+	 * IRenderElements.
+	 * 
+	 * @param holder
+	 */
+	public void setRenderElementHolder(IRenderElementHolder holder) {
+		this.holder = holder;
+	}
+
+	/**
 	 * <p>
 	 * Returns the child shapes of the given parent shape, if any
 	 * </p>
@@ -47,7 +75,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 * operation returns an empty array of Objects.
 	 * </p>
 	 * 
-	 * @param parentElement
+	 * @param parentShape
 	 *            <p>
 	 *            The parent IShape element
 	 *            </p>
@@ -57,34 +85,43 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 *         </p>
 	 */
 	@Override
-	public Object[] getChildren(Object parentElement) {
+	public Object[] getChildren(Object parentShape) {
 
 		// If the element is an IShape, call its accept() operation to
 		// trigger the visit() call
 
-		if (parentElement instanceof ShapeController) {
+		if (parentShape instanceof IRenderElement) {
 			temporaryChildren = null;
 
 			// Call the parentShape's accept operation to call the appropriate
 			// visit member function in this class
 
-			ShapeController parentShape = (ShapeController) parentElement;
+			// TODO Find a cleaner way to do this than listing all the operators
+			String type = ((IRenderElement) parentShape).getBase().getType();
 
-			if (parentShape
-					.getProperty(GeometryMeshProperty.OPERATOR) != null) {
+			if ("union".equals(type) || "complement".equals(type)
+					|| "intersection".equals(type)) {
 
 				// IShape is a ComplexShape, so put its children in the
 				// temporary children field
 
-				temporaryChildren = parentShape
-						.getEntitiesFromCategory(MeshCategory.CHILDREN)
-						.toArray();
+				List childrenList = ((IRenderElement) parentShape).getBase()
+						.getNodes();
+
+				// If the input is a geometry, get its children
+				temporaryChildren = new Object[childrenList.size()];
+
+				// Replace each node with its wrapping RenderElement
+				for (int i = 0; i < temporaryChildren.length; i++) {
+					temporaryChildren[i] = holder
+							.getRender((INode) childrenList.get(i));
+				}
 
 				// Use a blank state if there are no children to display
 
 				if (temporaryChildren.length == 0) {
 					temporaryChildren = new Object[] {
-							new BlankShape(parentShape) };
+							new BlankShape((IRenderElement) parentShape) };
 				}
 			} else {
 
@@ -93,10 +130,27 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 				temporaryChildren = new Object[0];
 			}
 
-			// Return the result of the visit() operation
-
 			return temporaryChildren;
 
+		} else if (parentShape instanceof Geometry) {
+
+			List childrenList = ((Geometry) parentShape).getNodes();
+
+			// If the input is a geometry, get its children
+			temporaryChildren = new Object[childrenList.size()];
+
+			// Replace each node with its wrapping RenderElement
+			for (int i = 0; i < temporaryChildren.length; i++) {
+				temporaryChildren[i] = holder
+						.getRender((INode) childrenList.get(i));
+			}
+
+			// If the geometry has no children, display nothing
+			if (temporaryChildren.length == 0) {
+				temporaryChildren = new Object[0];
+			}
+
+			return temporaryChildren;
 		} else {
 			return null;
 		}
@@ -120,15 +174,36 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
+		// Return an array of a geometry's nodes
+		if (inputElement instanceof Geometry) {
+			List childrenList = ((Geometry) inputElement).getNodes();
 
-		// If the element is a GeometryComponent, return its shapes
-		if (inputElement instanceof BasicController) {
+			Object[] children = new Object[childrenList.size()];
+
+			// Replace each node with its wrapping RenderElement
+			for (int i = 0; i < children.length; i++) {
+				children[i] = holder.getRender((INode) childrenList.get(i));
+				if (children[i] == null) {
+					
+				}
+			}
+
+			return children;
+		} else if (inputElement instanceof INode) {
 			// Return an array of the GeometryComponent's shapes
-			IController parentGeometry = (IController) inputElement;
-			return parentGeometry.getEntitiesFromCategory(MeshCategory.CHILDREN)
-					.toArray();
+			IRenderElement parentGeometry = holder
+					.getRender((INode) inputElement);
+			Object[] children = parentGeometry.getBase().getNodes().toArray();
+
+			// Replace each node with its wrapping RenderElement
+			for (int i = 0; i < temporaryChildren.length; i++) {
+				temporaryChildren[i] = holder
+						.getRender((INode) temporaryChildren[i]);
+			}
+
+			return children;
 		} else {
-			return null;
+			return new Object[] {};
 		}
 
 	}
@@ -152,13 +227,13 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 
 		// Return null if the element is not an IShape
 
-		if (!(element instanceof ShapeController)) {
+		if (!(element instanceof INode)) {
 			return null;
 		}
 		// Return the object's parent
 
-		ShapeController shape = (ShapeController) element;
-		return shape.getEntitiesFromCategory(MeshCategory.PARENT);
+		INode shape = (INode) element;
+		return holder.getRender(shape.getParent());
 
 	}
 
@@ -198,7 +273,6 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
@@ -221,7 +295,6 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-
 		// The state of this class does not depend on the input, so we do not
 		// need to change the state when the input of the TreeViewer changes.
 
@@ -245,7 +318,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		/**
 		 * The shape which "contains" this blank shape object
 		 */
-		private ShapeController parent;
+		private IRenderElement parent;
 
 		/**
 		 * Initializes the BlankShape with a parent
@@ -253,7 +326,7 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		 * @param parent
 		 *            The parent shape in the TreeViewer hierarchy
 		 */
-		public BlankShape(ShapeController parent) {
+		public BlankShape(IRenderElement parent) {
 			this.parent = parent;
 		}
 
@@ -262,9 +335,8 @@ public class ShapeTreeContentProvider implements ITreeContentProvider {
 		 * 
 		 * @return The parent shape
 		 */
-		public ShapeController getParent() {
+		public IRenderElement getParent() {
 			return parent;
 		}
 	}
-
 }

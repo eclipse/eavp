@@ -18,6 +18,7 @@ package org.eclipse.eavp.viz.service;
 import java.net.URI;
 import java.util.Map;
 
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -81,6 +82,18 @@ public interface IVizCanvas {
 	 * @return A map of the properties.
 	 */
 	public Map<String, String> getProperties();
+
+	/**
+	 * Get the list of render elements used to display the given geometry in
+	 * this canvas.
+	 * 
+	 * @param geometry
+	 *            The geometry whose corresponding IRenderElements are sought.
+	 * @return An array list of each of the top level IRenderElements in the
+	 *         hierarchy, corresponding to the geometry's nodes list from
+	 *         getNodes()
+	 */
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry);
 
 	/**
 	 * This operation retrieves the hostname for this IPlot's data source.

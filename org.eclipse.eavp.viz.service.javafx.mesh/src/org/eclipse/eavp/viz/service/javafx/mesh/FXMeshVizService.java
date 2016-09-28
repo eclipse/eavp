@@ -19,6 +19,7 @@ import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.javafx.mesh.datatypes.FXMeshControllerProviderFactory;
+import org.eclipse.january.geometry.Geometry;
 
 /**
  * <p>
@@ -82,4 +83,15 @@ public class FXMeshVizService extends AbstractVizService {
 		return new FXMeshControllerProviderFactory();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizService#createCanvas(geometry.Geometry)
+	 */
+	@Override
+	public IVizCanvas createCanvas(Geometry geometry) throws Exception {
+		throw new NoSuchMethodException(
+				"The FXMeshVizService can not display a geometry.");
+	}
 }

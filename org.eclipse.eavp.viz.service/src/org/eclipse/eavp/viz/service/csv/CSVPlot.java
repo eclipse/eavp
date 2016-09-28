@@ -28,7 +28,9 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.eavp.viz.service.AbstractPlot;
 import org.eclipse.eavp.viz.service.IPlot;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
+import org.eclipse.january.geometry.Geometry;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
@@ -69,7 +71,7 @@ public class CSVPlot extends AbstractPlot {
 	 * A map containing all dependent series, keyed on the categories.
 	 */
 	private final Map<String, List<ISeries>> dataSeries;
-	
+
 	/**
 	 * The TextEditor which contains the plot's data in an editable text form.
 	 */
@@ -123,7 +125,7 @@ public class CSVPlot extends AbstractPlot {
 		// If the page number is not supported, return null
 		return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -152,9 +154,10 @@ public class CSVPlot extends AbstractPlot {
 		}
 		return series;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
 	 */
 	@Override
@@ -208,8 +211,8 @@ public class CSVPlot extends AbstractPlot {
 
 				// Force the loading thread to report unhandled exceptions to
 				// this thread's exception handler.
-				loadingThread.setUncaughtExceptionHandler(Thread
-						.currentThread().getUncaughtExceptionHandler());
+				loadingThread.setUncaughtExceptionHandler(
+						Thread.currentThread().getUncaughtExceptionHandler());
 
 				// Start the thread
 				loadingThread.start();
@@ -271,10 +274,9 @@ public class CSVPlot extends AbstractPlot {
 
 		} catch (IOException e) {
 			// Complain
-			logger.error(
-					getClass().getName()
-							+ " Exception! Could not read in data from file: "
-							+ file.getName() + ".", e);
+			logger.error(getClass().getName()
+					+ " Exception! Could not read in data from file: "
+					+ file.getName() + ".", e);
 		}
 
 		if (!lines.isEmpty()) {
@@ -311,7 +313,8 @@ public class CSVPlot extends AbstractPlot {
 				}
 			}
 
-			// If the independent series has not been set, use the default value just created 
+			// If the independent series has not been set, use the default value
+			// just created
 			if (getIndependentSeries() == null) {
 				// Just set the first series as the independent series for now
 				setIndependentSeries(series[0]);
@@ -325,14 +328,13 @@ public class CSVPlot extends AbstractPlot {
 					}
 				}
 			}
-			
+
 			// Add the rest of the series as dependent series
 			List<ISeries> dependentSeries = new ArrayList<ISeries>(
 					series.length);
-			for (int i = 1; i < series.length; i++) {
+			for (int i = 0; i < series.length; i++) {
 				dependentSeries.add(series[i]);
 			}
-			dependentSeries.add(series[0]);
 			dataSeries.put(IPlot.DEFAULT_CATEGORY, dependentSeries);
 
 		}
@@ -362,7 +364,8 @@ public class CSVPlot extends AbstractPlot {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.eavp.viz.service.AbstractPlot#setDataSource(java.net.URI)
+	 * @see
+	 * org.eclipse.eavp.viz.service.AbstractPlot#setDataSource(java.net.URI)
 	 */
 	@Override
 	public boolean setDataSource(URI uri) throws Exception {
@@ -379,24 +382,40 @@ public class CSVPlot extends AbstractPlot {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.IProgressMonitor)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.
+	 * IProgressMonitor)
 	 */
 	@Override
 	public void save(IProgressMonitor monitor) {
-		
-		//Only the text editor can be saved
+
+		// Only the text editor can be saved
 		editor.doSave(monitor);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#saveAs()
 	 */
 	@Override
 	public void saveAs() {
-		
-		//Only the text editor can be saved
+
+		// Only the text editor can be saved
 		editor.doSaveAs();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#getRenderElementHolder(geometry.
+	 * Geometry)
+	 */
+	@Override
+	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
+		// A CSVPlot does not use IRenderElements
+		return null;
 	}
 
 }

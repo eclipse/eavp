@@ -13,12 +13,14 @@
 package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
-import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.eavp.geometry.view.model.impl.ColorOptionImpl;
+import org.eclipse.eavp.viz.service.IRenderElementHolder;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -77,7 +79,7 @@ public class ActionDuplicateShape extends Action {
 	@Override
 	public void run() {
 
-		IController geometry = (IController) view.treeViewer.getInput();
+		Geometry geometry = (Geometry) view.treeViewer.getInput();
 
 		// Get selection
 
@@ -90,32 +92,27 @@ public class ActionDuplicateShape extends Action {
 		for (TreePath path : paths) {
 			Object selectedObject = path.getLastSegment();
 
-			if (selectedObject instanceof ShapeController) {
-				ShapeController selectedShape = (ShapeController) selectedObject;
+			if (selectedObject instanceof IRenderElement) {
+				IRenderElement selectedShape = (IRenderElement) selectedObject;
 
 				// Clone the shape
 
-				ShapeController clonedShape = (ShapeController) selectedShape
+				IRenderElement clonedShape = (IRenderElement) selectedShape
 						.clone();
-
-				// Remove the selected state from the cloned shape
-
-				clonedShape.setProperty(MeshProperty.SELECTED, "False");
 
 				// Try to get the selected shape's parent shape
 				// We can assume that if the parent exists, it is a ComplexShape
 
-				ShapeController parentShape = (ShapeController) selectedShape
-						.getEntitiesFromCategory(MeshCategory.PARENT).get(0);
+				INode parentShape = selectedShape.getBase().getParent();
 
 				if (parentShape != null) {
 
 					// Find the index of the selected shape in the list of its
 					// siblings
 
-					List<IController> childShapes = parentShape
-							.getEntitiesFromCategory(MeshCategory.CHILDREN);
-					int selectedShapeIndex = childShapes.indexOf(selectedShape);
+					List<INode> childShapes = parentShape.getNodes();
+					int selectedShapeIndex = childShapes
+							.indexOf(selectedShape.getBase());
 
 					if (selectedShapeIndex < 0) {
 						continue;
@@ -123,7 +120,7 @@ public class ActionDuplicateShape extends Action {
 					// Add the cloned shape to the original shape's parent
 
 					synchronized (geometry) {
-						parentShape.addEntity(clonedShape);
+						parentShape.addNode(clonedShape.getBase());
 					}
 
 					view.treeViewer.refresh(parentShape);
@@ -132,14 +129,13 @@ public class ActionDuplicateShape extends Action {
 					// Find the index of the selected shape in the list of its
 					// siblings
 
-					List<IController> childShapes = geometry
-							.getEntitiesFromCategory(MeshCategory.CHILDREN);
+					List<INode> childShapes = geometry.getNodes();
 					int selectedShapeIndex = childShapes.indexOf(selectedShape);
 
 					// Add the cloned shape to the root GeometryComponent
 
 					synchronized (geometry) {
-						geometry.addEntity(clonedShape);
+						geometry.addNode(clonedShape.getBase());
 					}
 
 					view.treeViewer.refresh();
@@ -155,6 +151,58 @@ public class ActionDuplicateShape extends Action {
 						.createChildPath(clonedShape);
 				TreeSelection clonedSelection = new TreeSelection(clonedPath);
 				view.treeViewer.setSelection(clonedSelection);
+
+				// Get the render elements
+				IRenderElementHolder holder = view.getHolder();
+
+				// A list of all new shapes added by the clone operation
+				ArrayList<INode> newShapes = new ArrayList<INode>();
+
+				// Add the clone and all of its children
+				newShapes.add(clonedShape.getBase());
+				for (int i = 0; i < newShapes.size(); i++) {
+					newShapes.addAll(newShapes.get(i).getNodes());
+				}
+
+				// Get the original set of renders, in the same order as the
+				// clones are in their own list
+				ArrayList<IRenderElement> originalRenders = new ArrayList<IRenderElement>();
+				originalRenders.add(selectedShape);
+				for (int i = 0; i < originalRenders.size(); i++) {
+					for (INode node : originalRenders.get(i).getBase()
+							.getNodes()) {
+						originalRenders.add(holder.getRender(node));
+					}
+				}
+
+				// Copy the color information from the original renders
+				for (int i = 0; i < newShapes.size(); i++) {
+
+					// Get the new and original shapes
+					INode node = newShapes.get(i);
+					IRenderElement originalElement = originalRenders.get(i);
+
+					// Get the cloned node's render
+					IRenderElement element = holder.getRender(node);
+
+					// Get the default values for the colors from the original
+					// shape
+					int red = (int) originalElement.getProperty("defaultRed");
+					int green = (int) originalElement
+							.getProperty("defaultGreen");
+					int blue = (int) originalElement.getProperty("defaultBlue");
+
+					// Set the clone's default and current colors
+					element.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, red);
+					element.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN,
+							green);
+					element.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE,
+							blue);
+					element.setProperty("defaultRed", red);
+					element.setProperty("defaultGreen", green);
+					element.setProperty("defaultBlue", blue);
+				}
+
 			}
 		}
 

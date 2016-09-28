@@ -14,9 +14,9 @@ package org.eclipse.eavp.viz.service.geometry.widgets;
 
 import java.net.URL;
 
-import org.eclipse.eavp.viz.modeling.ShapeController;
-import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
+import org.eclipse.eavp.geometry.view.model.IRenderElement;
+import org.eclipse.january.geometry.Geometry;
+import org.eclipse.january.geometry.INode;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITreeSelection;
@@ -101,7 +101,7 @@ public class ActionDeleteShape extends Action {
 				.getSelection();
 		TreePath[] paths = selection.getPaths();
 
-		IController geometry = (IController) view.treeViewer.getInput();
+		Geometry geometry = (Geometry) view.treeViewer.getInput();
 
 		// Loop through each TreePath
 
@@ -111,32 +111,32 @@ public class ActionDeleteShape extends Action {
 
 			// Check if the selected object is an IShape
 
-			if (selectedObject instanceof ShapeController) {
+			if (selectedObject instanceof IRenderElement) {
 
-				ShapeController selectedShape = (ShapeController) selectedObject;
-				ShapeController parentShape = (ShapeController) selectedShape
-						.getEntitiesFromCategory(MeshCategory.PARENT).get(0);
+				IRenderElement selectedShape = (IRenderElement) selectedObject;
+				INode parentShape = selectedShape.getBase().getParent();
 
-				if (parentShape instanceof ShapeController) {
+				if (parentShape instanceof Geometry) {
 
-					// Remove the selected shape from the parent
-
-					synchronized (geometry) {
-						parentShape.removeEntity(selectedShape);
-					}
-
-					view.treeViewer.refresh(parentShape);
-				}
-
-				else if (parentShape == null) {
-
-					// The parent shape may be the root GeometryComponent,
+					// The parent shape is the root GeometryComponent,
 					// so try removing it from there.
 
 					synchronized (geometry) {
-						geometry.removeEntity(selectedShape);
+						geometry.removeNode(selectedShape.getBase());
 					}
 					view.treeViewer.refresh();
+
+				}
+
+				else {
+					// Remove the selected shape from the parent
+
+					synchronized (geometry) {
+						parentShape.removeNode(selectedShape.getBase());
+					}
+
+					view.treeViewer.refresh();
+
 				}
 			}
 		}

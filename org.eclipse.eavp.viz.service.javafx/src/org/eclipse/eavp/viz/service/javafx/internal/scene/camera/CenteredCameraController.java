@@ -11,9 +11,9 @@
 package org.eclipse.eavp.viz.service.javafx.internal.scene.camera;
 
 import javafx.embed.swt.FXCanvas;
-import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -62,6 +62,18 @@ public class CenteredCameraController extends BasicCameraController {
 	private Rotate z;
 
 	/**
+	 * Flag indicating if the x rotation and x-directional translations should
+	 * be inverted when the user drags the mouse.
+	 */
+	private boolean shouldInvertX;
+
+	/**
+	 * Flag indicating if the y rotation and y-directional translations should
+	 * be inverted when the user drags the mouse.
+	 */
+	private boolean shouldInvertY;
+
+	/**
 	 * The default constructor.
 	 * 
 	 * @param camera
@@ -77,11 +89,12 @@ public class CenteredCameraController extends BasicCameraController {
 
 		// Initialize the data members
 		dragStarted = false;
+		shouldInvertX = false;
+		shouldInvertY = false;
 
 		// Set the x axis rotation for the affine transformation
 		x = new Rotate();
 		x.setAxis(Rotate.X_AXIS);
-		xform.getTransforms().add(x);
 
 		// Set the y axis rotation for the affine transformation
 		y = new Rotate();
@@ -136,6 +149,18 @@ public class CenteredCameraController extends BasicCameraController {
 			mouseDeltaX = (mousePosX - mouseOldX);
 			mouseDeltaY = (mousePosY - mouseOldY);
 
+			// Controls sign of parameters- depending on current camera position
+			int invX = 1;
+			int invY = 1;
+
+			if (shouldInvertX) {
+				invX = -1;
+			}
+
+			if (shouldInvertY) {
+				invY = -1;
+			}
+
 			// If the primary button is held, then change the camera's position
 			if (event.isPrimaryButtonDown()) {
 				if (!event.isShiftDown()) {
@@ -143,8 +168,8 @@ public class CenteredCameraController extends BasicCameraController {
 					// If neither control nor shift are down, rotate about the
 					// center
 					if (!event.isControlDown()) {
-						y.setAngle(y.getAngle() - mouseDeltaX);
-						x.setAngle(x.getAngle() + mouseDeltaY);
+						y.setAngle(y.getAngle() + mouseDeltaX * invY);
+						x.setAngle(x.getAngle() - mouseDeltaY * invX);
 					}
 
 					// If control is down, zoom
@@ -155,7 +180,9 @@ public class CenteredCameraController extends BasicCameraController {
 
 				// If shift is down, change the center
 				else {
-					affine.appendTranslation(mouseDeltaX, mouseDeltaY, 0);
+					strafeCamera(-mouseDeltaX * invX);
+					raiseCamera(-mouseDeltaY * invY);
+
 				}
 			}
 		}
@@ -164,6 +191,33 @@ public class CenteredCameraController extends BasicCameraController {
 		// not be properly initialized during it
 		else {
 			dragStarted = true;
+
+			// Get the positive angle from the y rotation, 0-359
+			double yRotation = y.getAngle() % 360;
+			if (yRotation < 0) {
+				yRotation += 360;
+			}
+
+			// Update the invert variable for x
+			if (yRotation > 90 && yRotation < 270) {
+				shouldInvertX = true;
+			} else {
+				shouldInvertX = false;
+			}
+
+			// Get the positive angle from the x rotation, 0-359
+			double xRotation = x.getAngle() % 360;
+			if (xRotation < 0) {
+				xRotation += 360;
+			}
+
+			// Update the invert variable for y
+			if (xRotation > 90 && xRotation < 270) {
+				shouldInvertY = true;
+			} else {
+				shouldInvertY = false;
+			}
+
 		}
 	}
 
@@ -195,6 +249,31 @@ public class CenteredCameraController extends BasicCameraController {
 		zoom(event.getDeltaY());
 	}
 
+	/**
+	 * Sets the point where the camera should pivot when rotating the scene.
+	 * 
+	 * @param x
+	 *            The x coordinate for the pivot
+	 * @param y
+	 *            The y coordinate for the pivot
+	 * @param z
+	 *            The z coordinate for the pivot
+	 */
+	public void setCameraPivot(double x, double y, double z) {
+		this.x.setPivotX(x);
+		this.x.setPivotY(y);
+		this.x.setPivotZ(z);
+
+		this.y.setPivotX(x);
+		this.y.setPivotY(y);
+		this.y.setPivotX(z);
+
+		this.z.setPivotX(x);
+		this.z.setPivotY(y);
+		this.z.setPivotZ(z);
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -214,7 +293,7 @@ public class CenteredCameraController extends BasicCameraController {
 
 		// Zoom the camera back to a default distance from the origin.
 		affine = new Affine();
-		affine.appendTranslation(0, 0, -2000);
+		affine.appendTranslation(0, 0, -1000);
 
 		// If x, y, and z exist, apply them to the camera
 		if (x != null) {
@@ -226,6 +305,8 @@ public class CenteredCameraController extends BasicCameraController {
 			xform.getTransforms().setAll(affine);
 		}
 
+		camera.setTranslateZ(-1000);
+
 	}
 
 	/*
@@ -236,8 +317,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void pitchCamera(double radians) {
-		affine.append(
-				new Rotate(radians * 180 / Math.PI, new Point3D(1, 0, 0)));
+		x.setAngle(x.getAngle() + (180 * radians) / Math.PI);
 	}
 
 	/*
@@ -248,8 +328,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void rollCamera(double radians) {
-		affine.append(
-				new Rotate(radians * 180 / Math.PI, new Point3D(0, 0, 1)));
+		z.setAngle(z.getAngle() + (180 * radians) / Math.PI);
 	}
 
 	/*
@@ -260,7 +339,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void raiseCamera(double distance) {
-		affine.appendTranslation(0, -distance * SPEED, 0);
+		affine.appendTranslation(0, -distance, 0);
 	}
 
 	/*
@@ -271,7 +350,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void strafeCamera(double distance) {
-		affine.appendTranslation(distance * SPEED, 0, 0);
+		affine.appendTranslation(distance, 0, 0);
 	}
 
 	/*
@@ -282,7 +361,7 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void thrustCamera(double distance) {
-		affine.appendTranslation(0, 0, distance * SPEED);
+		affine.appendTranslation(0, 0, distance);
 	}
 
 	/*
@@ -293,26 +372,43 @@ public class CenteredCameraController extends BasicCameraController {
 	 */
 	@Override
 	public void yawCamera(double radians) {
-		affine.append(
-				new Rotate(radians * 180 / Math.PI, new Point3D(0, 1, 0)));
+		y.setAngle(y.getAngle() + (180 * radians) / Math.PI);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.javafx.internal.scene.camera.
+	 * BasicCameraController#initCamera()
+	 */
 	@Override
 	protected void initCamera() {
-		// TODO Auto-generated method stub
-
+		// Nothing to do
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.javafx.internal.scene.camera.
+	 * BasicCameraController#handleKeyPressed(javafx.scene.input.KeyEvent)
+	 */
 	@Override
 	public void handleKeyPressed(KeyEvent event) {
-		// TODO Auto-generated method stub
 
+		if (event.getCode() == KeyCode.R) {
+			reset();
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.javafx.internal.scene.camera.
+	 * BasicCameraController#handleMousePressed(javafx.scene.input.MouseEvent)
+	 */
 	@Override
 	public void handleMousePressed(MouseEvent event) {
-		// TODO Auto-generated method stub
-
+		// Nothing to do
 	}
 
 }
