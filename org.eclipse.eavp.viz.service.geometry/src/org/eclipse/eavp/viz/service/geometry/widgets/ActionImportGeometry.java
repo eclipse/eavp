@@ -110,7 +110,7 @@ public class ActionImportGeometry extends Action {
 		// Only import if a valid stl file
 		if (filePath != null && ((filePath.toLowerCase(Locale.ENGLISH)
 				.endsWith(".stl"))
-				|| (filePath.toLowerCase(Locale.ENGLISH).endsWith(".obj")))) {
+				|| (filePath.toLowerCase(Locale.ENGLISH).endsWith(".obj") || (filePath.toLowerCase(Locale.ENGLISH).endsWith(".vtk"))))) {
 
 			// Get current selection in shape tree view
 			ITreeSelection selection = (ITreeSelection) view.treeViewer

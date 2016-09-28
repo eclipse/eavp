@@ -57,6 +57,10 @@
   	<module>../org.eclipse.january.geometry.xtext.obj.test</module>
   	<module>../org.eclipse.january.geometry.xtext.obj.ide</module>
   	<module>../org.eclipse.january.geometry.xtext.obj.ui</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk.tests</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk.ide</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk.ui</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>
   </modules>
