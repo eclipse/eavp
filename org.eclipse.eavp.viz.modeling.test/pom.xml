@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.eclipse.eavp</groupId>
 		<artifactId>org.eclipse.eavp.build</artifactId>
-		<version>2.1.8-SNAPSHOT</version>
+		<version>0.1.1-SNAPSHOT</version>
 		<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
 	</parent>
 	<groupId>org.eclipse.eavp</groupId>
 	<artifactId>org.eclipse.eavp.viz.modeling.test</artifactId>
-	<version>2.1.8-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
