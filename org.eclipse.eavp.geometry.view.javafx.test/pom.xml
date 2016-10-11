@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>org.eclipse.eavp.test</groupId>
 	<artifactId>org.eclipse.eavp.geometry.view.javafx.test</artifactId>
-	<packaging>eclipse-plugin</packaging>
+	<packaging>eclipse-test-plugin</packaging>
 
 	<build>
 		<pluginManagement>

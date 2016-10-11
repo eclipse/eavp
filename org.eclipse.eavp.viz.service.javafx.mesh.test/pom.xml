@@ -11,5 +11,5 @@
 	</parent>
 	<groupId>org.eclipse.eavp</groupId>
 	<artifactId>org.eclipse.eavp.viz.service.javafx.mesh.test</artifactId>
-	<packaging>eclipse-plugin</packaging>
+	<packaging>eclipse-test-plugin</packaging>
 </project>

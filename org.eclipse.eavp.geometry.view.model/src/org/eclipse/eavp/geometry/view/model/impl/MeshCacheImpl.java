@@ -4,7 +4,6 @@ package org.eclipse.eavp.geometry.view.model.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.eavp.geometry.view.model.MeshCache;
@@ -42,6 +41,7 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -98,70 +98,73 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 	@Override
 	public T getMesh(EList<Triangle> triangles) {
 
-		//TODO This method of checking for old meshes is slower than creating a new mesh. Find a replacement algorithm.
-//		// The ID of the triangle list
-//		int ID = 0;
-//
-//		// Whether the triangle list has been found in the cache
-//		boolean found = false;
-//
-//		// Treat null as an empty list
-//		if (triangles == null) {
-//			triangles = new BasicEList<Triangle>();
-//		}
-//
-//		// Convert the list to a set
-//		Set<Triangle> triangleSet = new HashSet();
-//		
-//		// Add each triangle to the set
-//		for(Triangle tri : triangles){
-//			triangleSet.add(tri);
-//		}
-//
-//		// Check each set in the cache for a match
-//		for (int i : sourceTriangleCache.keySet()) {
-//
-//			// If a match is found, stop the search
-//			if (triangleSet.equals(sourceTriangleCache.get(i))) {
-//
-//				found = true;
-//				
-//				Set<Triangle> cached = sourceTriangleCache.get(i);
-//				
-//				//Check each triangle to see if any have been changed
-//				for(Triangle tri : triangleSet){
-//					if(!sourceTriangleCache.get(i).contains(tri)){
-//						
-//						//If any triangles have been changed, then the cached mesh has been invalidated 
-//						found = false;
-//						break;
-//					}
-//				}
-//				
-//				break;
-//			}
-//			
-//			//Set the ID to the next un-checked mesh
-//			ID = i + 1;
-//		}
-//
-//		// If the list was found, return the mesh with the same ID
-//		if (found) {
-//			return triangleCache.get(ID);
-//		}
+		// TODO This method of checking for old meshes is slower than creating a
+		// new mesh. Find a replacement algorithm.
+		// // The ID of the triangle list
+		// int ID = 0;
+		//
+		// // Whether the triangle list has been found in the cache
+		// boolean found = false;
+		//
+		// Treat null as an empty list
+		if (triangles == null) {
+			triangles = new BasicEList<Triangle>();
+		}
+		//
+		// // Convert the list to a set
+		// Set<Triangle> triangleSet = new HashSet();
+		//
+		// // Add each triangle to the set
+		// for(Triangle tri : triangles){
+		// triangleSet.add(tri);
+		// }
+		//
+		// // Check each set in the cache for a match
+		// for (int i : sourceTriangleCache.keySet()) {
+		//
+		// // If a match is found, stop the search
+		// if (triangleSet.equals(sourceTriangleCache.get(i))) {
+		//
+		// found = true;
+		//
+		// Set<Triangle> cached = sourceTriangleCache.get(i);
+		//
+		// //Check each triangle to see if any have been changed
+		// for(Triangle tri : triangleSet){
+		// if(!sourceTriangleCache.get(i).contains(tri)){
+		//
+		// //If any triangles have been changed, then the cached mesh has been
+		// invalidated
+		// found = false;
+		// break;
+		// }
+		// }
+		//
+		// break;
+		// }
+		//
+		// //Set the ID to the next un-checked mesh
+		// ID = i + 1;
+		// }
+		//
+		// // If the list was found, return the mesh with the same ID
+		// if (found) {
+		// return triangleCache.get(ID);
+		// }
 
 		// If the list was not found, create a mesh based on it and insert both
 		// into the caches.
-		//else {
-			//sourceTriangleCache.put(ID, triangleSet);
-			T mesh = createMesh(triangles);
-		//	triangleCache.put(ID, mesh);
-			return mesh;
-		//}
+		// else {
+		// sourceTriangleCache.put(ID, triangleSet);
+		T mesh = createMesh(triangles);
+		// triangleCache.put(ID, mesh);
+		return mesh;
+		// }
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -169,10 +172,10 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 	public Object eInvoke(int operationID, EList<?> arguments)
 			throws InvocationTargetException {
 		switch (operationID) {
-			case ModelPackage.MESH_CACHE___GET_MESH__STRING:
-				return getMesh((String)arguments.get(0));
-			case ModelPackage.MESH_CACHE___GET_MESH__ELIST:
-				return getMesh((EList<Triangle>)arguments.get(0));
+		case ModelPackage.MESH_CACHE___GET_MESH__STRING:
+			return getMesh((String) arguments.get(0));
+		case ModelPackage.MESH_CACHE___GET_MESH__ELIST:
+			return getMesh((EList<Triangle>) arguments.get(0));
 		}
 		return super.eInvoke(operationID, arguments);
 	}
@@ -214,7 +217,8 @@ public class MeshCacheImpl<T> extends MinimalEObjectImpl.Container
 			// If this notification is on the UI thread, launch a new thread to
 			// handle it
 			Display currDisplay = Display.getCurrent();
-			if (currDisplay != null && Thread.currentThread() == currDisplay.getThread()) {
+			if (currDisplay != null
+					&& Thread.currentThread() == currDisplay.getThread()) {
 
 				Thread updateThread = new Thread() {
 

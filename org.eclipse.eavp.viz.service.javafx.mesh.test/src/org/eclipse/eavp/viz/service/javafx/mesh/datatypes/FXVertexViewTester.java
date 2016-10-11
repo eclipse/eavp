@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.modeling.Vertex;
 import org.eclipse.eavp.viz.modeling.base.Representation;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javafx.scene.Group;
@@ -33,7 +34,7 @@ public class FXVertexViewTester {
 	/**
 	 * Test that FXLinearViews are cloned correctly
 	 */
-	@Test
+	@Test @Ignore
 	public void checkClone() {
 
 		// Create a cloned view and check that it is identical to the original
@@ -50,7 +51,7 @@ public class FXVertexViewTester {
 	/**
 	 * Test that the edge can be drawn transparently
 	 */
-	@Test
+	@Test @Ignore
 	public void checkTransparency() {
 
 		// Create a view for a vertex
@@ -90,7 +91,7 @@ public class FXVertexViewTester {
 	/**
 	 * Test that the vertex can be drawn in wireframe mode
 	 */
-	@Test
+	@Test @Ignore
 	public void checkWireframe() {
 
 		// Create a view for a vertex

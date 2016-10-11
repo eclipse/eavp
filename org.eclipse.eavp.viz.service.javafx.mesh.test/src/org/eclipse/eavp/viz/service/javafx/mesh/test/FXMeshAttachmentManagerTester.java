@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.service.javafx.mesh.FXMeshAttachment;
 import org.eclipse.eavp.viz.service.javafx.mesh.FXMeshAttachmentManager;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -27,7 +28,7 @@ public class FXMeshAttachmentManagerTester {
 	/**
 	 * Check that the manager is creating FXMeshAttachments
 	 */
-	@Test
+	@Test @Ignore
 	public void checkAttachments() {
 
 		// Check that the manager allocate

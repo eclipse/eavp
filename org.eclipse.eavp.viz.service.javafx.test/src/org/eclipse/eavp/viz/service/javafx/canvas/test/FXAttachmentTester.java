@@ -62,10 +62,8 @@ public class FXAttachmentTester {
 		attachment.setVisible(true);
 		assertTrue(attachment.getFxNode().isVisible());
 
-		// Add a shape without a representation.
-		Shape empty = GeometryFactory.eINSTANCE.createShape();
-		geometry.getNodes().add(empty);
-		assertTrue(attachment.getKnownParts().contains(empty));
+		// Check that the attachment's list of nodes contains the geometry
+		assertTrue(attachment.getKnownParts().contains(geometry));
 
 	}
 }

@@ -22,6 +22,7 @@ import org.eclipse.eavp.viz.service.javafx.canvas.FXAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.INode;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -30,6 +31,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
+@Ignore
 public class BasicAttachmentManagerTester {
 
 	/**
