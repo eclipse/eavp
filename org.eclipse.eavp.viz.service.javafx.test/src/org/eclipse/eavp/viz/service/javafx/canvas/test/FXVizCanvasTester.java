@@ -44,7 +44,7 @@ public class FXVizCanvasTester {
 		TestVizFXCanvas canvas = new TestVizFXCanvas(root);
 
 		try {
-			canvas.draw(new Composite(new Shell(new Display()), SWT.NONE));
+			canvas.draw(new Composite(new Shell(Display.getDefault()), SWT.NONE));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

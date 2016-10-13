@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.eavp.viz.service.javafx.canvas.Attachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.IAttachment;
 import org.eclipse.eavp.viz.service.javafx.scene.model.INode;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -27,6 +28,7 @@ import org.junit.Test;
  * @author Robert Smith
  *
  */
+@Ignore
 public class AttachmentTester {
 
 	/**

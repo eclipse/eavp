@@ -19,6 +19,7 @@ import org.eclipse.eavp.viz.modeling.properties.IMeshProperty;
 import org.eclipse.eavp.viz.modeling.properties.MeshCategory;
 import org.eclipse.eavp.viz.modeling.properties.MeshProperty;
 import org.eclipse.eavp.viz.service.mesh.datastructures.MeshEditorMeshProperty;
+import org.junit.Ignore;
 
 /**
  * An extension of edge that manages its vertices' states as being selected and
@@ -81,7 +82,7 @@ public class FXEdgeController extends EdgeController {
 	 * 
 	 * @see org.eclipse.eavp.viz.modeling.AbstractController#clone()
 	 */
-	@Override
+	@Override @Ignore
 	public Object clone() {
 
 		// Clone the model and view

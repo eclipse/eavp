@@ -8,7 +8,7 @@
   <parent>
   	<groupId>org.eclipse.eavp</groupId>
   	<artifactId>org.eclipse.eavp.build</artifactId>
-  	<version>2.1.8-SNAPSHOT</version>
+  	<version>0.1.1-SNAPSHOT</version>
   	<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
   </parent>
   <modules>
@@ -57,6 +57,10 @@
   	<module>../org.eclipse.january.geometry.xtext.obj.test</module>
   	<module>../org.eclipse.january.geometry.xtext.obj.ide</module>
   	<module>../org.eclipse.january.geometry.xtext.obj.ui</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk.tests</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk.ide</module>
+  	<module>../org.eclipse.january.geometry.xtext.vtk.ui</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>
   </modules>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.january.geometry.model;singleton:=true
-Bundle-Version: 2.1.8.qualifier
+Bundle-Version: 0.1.1.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -35,5 +35,6 @@ Import-Package: com.google.inject,
  org.eclipse.xtext.services,
  org.eclipse.xtext.util,
  org.slf4j
-Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.12.0",
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;bundle-version="2.12.0";visibility:=reexport,
  org.eclipse.xtext;bundle-version="2.10.0"
