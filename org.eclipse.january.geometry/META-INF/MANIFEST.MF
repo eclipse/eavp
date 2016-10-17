@@ -6,6 +6,7 @@ Bundle-Version: 0.1.1.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/importerFactory.xml,
  OSGI-INF/importerService.xml
