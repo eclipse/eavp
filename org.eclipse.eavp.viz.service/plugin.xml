@@ -35,5 +35,11 @@
             class="org.eclipse.eavp.viz.service.BasicVizServiceFactory">
       </client>
    </extension>
+   <extension
+         point="org.eclipse.eavp.viz.service.IVizService">
+      <client
+            class="org.eclipse.eavp.viz.service.csv.CSVVizService">
+      </client>
+   </extension>
    
 </plugin>

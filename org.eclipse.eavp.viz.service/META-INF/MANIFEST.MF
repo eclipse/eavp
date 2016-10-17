@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.eavp.viz.service;singleton:=true
 Bundle-Version: 0.1.1.qualifier
 Bundle-Vendor: Oak Ridge National Laboratory
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Eclipse-ExtensibleAPI: true
 Import-Package: ca.odell.glazedlists,
  ca.odell.glazedlists.event,
  ca.odell.glazedlists.gui,

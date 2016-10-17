@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.january.geometry.xtext.vtk
 Bundle-Vendor: My Company
 Bundle-Version: 0.1.1.qualifier
+Eclipse-ExtensibleAPI: true
 Bundle-SymbolicName: org.eclipse.january.geometry.xtext.vtk; singleton:=true
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/importerFactory.xml

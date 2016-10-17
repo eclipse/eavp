@@ -18,13 +18,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.eavp.geometry.view.model.DisplayOption;
 import org.eclipse.eavp.geometry.view.model.IRenderElement;
 import org.eclipse.eavp.geometry.view.model.RenderObject;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
-import org.eclipse.eavp.viz.service.geometry.internal.GeometryImporterFactoryHolder;
 import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.BlankShape;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.GeometryFactory;
@@ -32,7 +34,6 @@ import org.eclipse.january.geometry.INode;
 import org.eclipse.january.geometry.Shape;
 import org.eclipse.january.geometry.Union;
 import org.eclipse.january.geometry.model.importer.IGeometryImporterService;
-import org.eclipse.january.geometry.model.importer.IGeometryImporterServiceFactory;
 import org.eclipse.january.geometry.xtext.mTL.Material;
 import org.eclipse.january.geometry.xtext.mtlimport.MTLImporter;
 import org.eclipse.jface.action.Action;
@@ -42,11 +43,18 @@ import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 
 public class ActionImportGeometry extends Action {
+
+	/**
+	 * The logger that will handle error output for this class.
+	 */
+	private Logger logger = LoggerFactory.getLogger(ActionImportGeometry.class);
 
 	/**
 	 * <p>
@@ -110,7 +118,9 @@ public class ActionImportGeometry extends Action {
 		// Only import if a valid stl file
 		if (filePath != null && ((filePath.toLowerCase(Locale.ENGLISH)
 				.endsWith(".stl"))
-				|| (filePath.toLowerCase(Locale.ENGLISH).endsWith(".obj") || (filePath.toLowerCase(Locale.ENGLISH).endsWith(".vtk"))))) {
+				|| (filePath.toLowerCase(Locale.ENGLISH).endsWith(".obj")
+						|| (filePath.toLowerCase(Locale.ENGLISH)
+								.endsWith(".vtk"))))) {
 
 			// Get current selection in shape tree view
 			ITreeSelection selection = (ITreeSelection) view.treeViewer
@@ -142,26 +152,38 @@ public class ActionImportGeometry extends Action {
 			String extension = filePath.toLowerCase(Locale.ENGLISH)
 					.substring(filePath.lastIndexOf('.') + 1);
 
-			// Check each IGeometryImporter, importing from the first that can
-			// handle this file type
-			IGeometryImporterServiceFactory factory = GeometryImporterFactoryHolder
-					.getFactory();
-			try {
-				for (IGeometryImporterService service : factory.getAll()) {
+			// Get all the extensions for the viz services
+			IConfigurationElement[] configurationElements = Platform
+					.getExtensionRegistry().getConfigurationElementsFor(
+							"org.eclipse.january.geometry.model.org.eclipse.january.geometry.model.IGeometryImporterService");
+
+			// TODO Provide a better way of choosing a service
+			// Iterate through each element, checking to see if it can handle
+			// this file
+			for (IConfigurationElement configurationElement : configurationElements) {
+				try {
+					IGeometryImporterService service = (IGeometryImporterService) configurationElement
+							.createExecutableExtension("class");
+
+					// If this service is valid for the selected file extension,
+					// use it to import
 					if (service.getSupportedExtensions().contains(extension)) {
 						imported = service.importFile(path);
 						break;
 					}
-				}
-			} catch (Exception e) {
+				} catch (CoreException e) {
+					logger.error(
+							"Problem creating IGeometryImporterService from importer extension point.");
+				} catch (Exception e) {
 
-				// Create a dialog if an error occurred
-				ErrorDialog.openError(Display.getCurrent().getActiveShell(),
-						"Error Importing Geometry File", "File import failed.",
-						new Status(IStatus.ERROR,
-								"org.eclipse.viz.service.geometry.widgets",
-								e.toString()));
-				return;
+					// Create a dialog if any other error occurred
+					ErrorDialog.openError(Display.getCurrent().getActiveShell(),
+							"Error Importing Geometry File",
+							"File import failed.",
+							new Status(IStatus.ERROR,
+									"org.eclipse.viz.service.geometry.widgets",
+									e.toString()));
+				}
 			}
 
 			// Try to find a parent shape to import into
