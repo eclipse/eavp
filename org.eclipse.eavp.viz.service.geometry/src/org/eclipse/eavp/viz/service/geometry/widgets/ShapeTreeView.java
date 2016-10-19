@@ -346,19 +346,7 @@ public class ShapeTreeView extends ViewPart implements
 	 *            The shape that is being unselected.
 	 */
 	private void unselect(IRenderElement selectedShape) {
-
-		// Get default colors for the selected shape
-		int red = selectedShape.getProperty("defaultRed") != null
-				? getIntValue(selectedShape.getProperty("defaultRed")) : 127;
-		int green = selectedShape.getProperty("defaultGreen") != null
-				? getIntValue(selectedShape.getProperty("defaultGreen")) : 127;
-		int blue = selectedShape.getProperty("defaultBlue") != null
-				? getIntValue(selectedShape.getProperty("defaultBlue")) : 127;
-		// Reset the shape's colors
-		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_RED, red);
-		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_GREEN, green);
-		selectedShape.setProperty(ColorOptionImpl.PROPERTY_NAME_BLUE, blue);
-
+		//Nothing to do for current implementations
 	}
 
 	/**
@@ -426,6 +414,22 @@ public class ShapeTreeView extends ViewPart implements
 				duplicateShapes.setEnabled(false);
 				replicateShapes.setEnabled(false);
 				deleteShape.setEnabled(false);
+			}
+		}
+
+		// Update the list of last-selected shapes
+
+		selectedShapes.clear();
+
+		for (TreePath path : paths) {
+			Object selectedObject = path.getLastSegment();
+
+			// Only include IShapes, not ShapeTreeLabelProvider::BlankShapes
+
+			if (selectedObject instanceof IRenderElement) {
+
+				// Set the shape's color to red to mark it as selected
+				selectedShapes.add((IRenderElement) selectedObject);
 			}
 		}
 	}

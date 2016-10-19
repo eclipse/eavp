@@ -50,8 +50,6 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -76,12 +74,12 @@ public class FXGeometryViewer extends FXViewer {
 	 * The gizmo containing the three lines that will display the axes.
 	 */
 	private TransformGizmo axes;
-	
+
 	/**
 	 * The wireframe square that displays the XZ plane.
 	 */
 	private Box plane;
-	
+
 	/**
 	 * The subScene containing the three dimensional geometry.
 	 */
@@ -125,9 +123,9 @@ public class FXGeometryViewer extends FXViewer {
 
 		// The bounds of the area to fit on the camera
 		BoundingBox bounds = null;
-		
-		//Fail silently if nothing is selected
-		if(selection.isEmpty()){
+
+		// Fail silently if nothing is selected
+		if (selection.isEmpty()) {
 			return;
 		}
 
@@ -175,7 +173,7 @@ public class FXGeometryViewer extends FXViewer {
 
 		// Handle the case where the x dimension is the smallest, so
 		// the camera will look down the x axis
-		if (xDim <= yDim && xDim <= yDim) {
+		if (xDim <= yDim && xDim <= zDim) {
 
 			// Find the size of the largest perpindeiculr dimension
 			double size = Math.max(yDim, zDim);
@@ -234,7 +232,7 @@ public class FXGeometryViewer extends FXViewer {
 			cameraController.reset();
 
 			// Move the camera to the center
-			cameraController.strafeCamera(-center.getX());
+			cameraController.strafeCamera(center.getX());
 			cameraController.raiseCamera(-center.getY());
 			cameraController.thrustCamera(center.getZ());
 
@@ -270,9 +268,9 @@ public class FXGeometryViewer extends FXViewer {
 
 		// Create a button with the reset icon
 		Button cameraResetButton = new Button("Reset Camera");
-		//TODO Figure out how to draw on images from bundle for JavaFX
-//		cameraResetButton.setGraphic(new ImageView(new Image(
-//				separator + "icons" + separator + "iu_update_obj.gif")));
+		// TODO Figure out how to draw on images from bundle for JavaFX
+		// cameraResetButton.setGraphic(new ImageView(new Image(
+		// separator + "icons" + separator + "iu_update_obj.gif")));
 		cameraResetButton.setTooltip(new Tooltip("Reset Camera"));
 
 		// The button will reset the camera when pressed
@@ -297,10 +295,10 @@ public class FXGeometryViewer extends FXViewer {
 				fitZoom();
 			}
 		});
-		
+
 		Button toggleAxesButton = new Button("Toggle Axes");
 		toggleAxesButton.setTooltip(new Tooltip("Toggle Axes"));
-		
+
 		// The button will remove/add the axes and plane when pressed.
 		toggleAxesButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -309,33 +307,35 @@ public class FXGeometryViewer extends FXViewer {
 				plane.setVisible(!plane.isVisible());
 			}
 		});
-		
-		//Add a button to set the axis size
+
+		// Add a button to set the axis size
 		Button changeAxesSizeButton = new Button("Set Axis Size");
 		changeAxesSizeButton.setTooltip(new Tooltip("Set Axis Size"));
-		
+
 		changeAxesSizeButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				
-				//Pop open a dialog to prompt the user for the new scale
+
+				// Pop open a dialog to prompt the user for the new scale
 				Display d = Display.getCurrent();
 				Shell s = new Shell(d);
 				double f = axes.getScale();
-				
-				AxisSizeDialog dialog = new AxisSizeDialog(new Shell(Display.getCurrent()), axes.getScale());
+
+				AxisSizeDialog dialog = new AxisSizeDialog(
+						new Shell(Display.getCurrent()), axes.getScale());
 				dialog.open();
 				double input = dialog.getInput();
-				
-				//If the user selected value was valid, set the axis size
-				if(input > 0){
-				axes.setAxisSize(input);
+
+				// If the user selected value was valid, set the axis size
+				if (input > 0) {
+					axes.setAxisSize(input);
 				}
 			}
 		});
 
 		// The toolbar displaying all controls for the editor
-		ToolBar toolbar = new ToolBar(cameraResetButton, zoomFitButton, toggleAxesButton, changeAxesSizeButton);
+		ToolBar toolbar = new ToolBar(cameraResetButton, zoomFitButton,
+				toggleAxesButton, changeAxesSizeButton);
 		pane.setTop(toolbar);
 		scene = new Scene(pane, 100, 100, true);
 
@@ -409,6 +409,7 @@ public class FXGeometryViewer extends FXViewer {
 
 	}
 
+	@Override
 	protected void setupSceneInternals(Group parent) {
 		// Create scene plane for frame of reference.
 		plane = new Box(1000, 0, 1000);
@@ -441,7 +442,7 @@ public class FXGeometryViewer extends FXViewer {
 				ambientLight);
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
