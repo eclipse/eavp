@@ -94,7 +94,7 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 						// for each operating system
 						if ((os.indexOf("mac") >= 0)
 								|| (os.indexOf("darwin") >= 0)) {
-							defaultPath = "/Applications/VisIt";
+							defaultPath = "/Applications";
 						} else if (os.indexOf("win") >= 0) {
 							defaultPath = "C:\\Users\\"
 									+ System.getProperty("user.name")
