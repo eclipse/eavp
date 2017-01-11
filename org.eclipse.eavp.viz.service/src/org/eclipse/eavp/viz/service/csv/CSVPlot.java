@@ -185,6 +185,16 @@ public class CSVPlot extends AbstractPlot {
 		return loaded.get();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#isMultiSeriesEnabled()
+	 */
+	@Override
+	public boolean isMultiSeriesEnabled() {
+		return true;
+	}
+
 	/**
 	 * This operation loads the data that will be plotted. It uses a separate
 	 * thread to avoid hanging the UI in the event that the file is large. It
