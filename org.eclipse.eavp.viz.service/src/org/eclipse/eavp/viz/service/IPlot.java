@@ -63,16 +63,18 @@ public interface IPlot extends IVizCanvas {
 	 */
 	public String createAdditionalPage(MultiPageEditorPart parent,
 			IFileEditorInput file, int pageNum);
-	
+
 	/**
 	 * Gets all of the categories currently associated with this plot.
 	 * 
 	 * @return The categories for this plot.
 	 */
 	public List<String> getCategories();
-	
+
 	/**
-	 * Get the list of Actions available to this plot. These are intended to be used to populate the plot editor's toolbar with custom buttons specific to the plot type.
+	 * Get the list of Actions available to this plot. These are intended to be
+	 * used to populate the plot editor's toolbar with custom buttons specific
+	 * to the plot type.
 	 * 
 	 * @return A list of Actions which the IPlot can be directed to perform.
 	 */
@@ -103,7 +105,7 @@ public interface IPlot extends IVizCanvas {
 	 *         there is only one page.
 	 */
 	public int getNumAdditionalPages();
-	
+
 	/**
 	 * Gets the title of the plot to be displayed in whatever visualization
 	 * service is rendering this plot
@@ -111,14 +113,25 @@ public interface IPlot extends IVizCanvas {
 	 * @return String The plot title
 	 */
 	public String getPlotTitle();
-	
+
+	/**
+	 * Whether or not this plot can draw multiple ISeries at once. If false, at
+	 * most one ISeries should be enabled at any time. All others should be
+	 * disabled.
+	 * 
+	 * @return True if the IPlot can draw multiple ISeries at once. False
+	 *         otherwise.
+	 */
+	boolean isMultiSeriesEnabled();
+
 	/**
 	 * Save the contents of the plot to the source file.
 	 * 
-	 * @param monitor The monitor for the save action's progress.
+	 * @param monitor
+	 *            The monitor for the save action's progress.
 	 */
 	public void save(IProgressMonitor monitor);
-	
+
 	/**
 	 * Open a dialog to save the plot's contents.
 	 */

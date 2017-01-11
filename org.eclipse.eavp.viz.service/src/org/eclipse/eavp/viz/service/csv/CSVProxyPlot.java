@@ -170,6 +170,16 @@ public class CSVProxyPlot extends ProxyPlot implements IPlotListener {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#isMultiSeriesEnabled()
+	 */
+	@Override
+	public boolean isMultiSeriesEnabled() {
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * org.eclipse.eavp.viz.service.IPlotListener#plotUpdated(org.eclipse.ice
 	 * .viz.service.IPlot, java.lang.String, java.lang.String)

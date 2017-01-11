@@ -205,9 +205,10 @@ public class PlotEditor extends MultiPageEditorPart {
 				Composite parent = getPlotComposite().getParent();
 				IPlot plot = getPlot();
 
-				// Open the dialog. Only allow one selection at a time.
+				// Open the dialog.
 				Shell shell = parent.getShell();
-				if (provider.openDialog(shell, plot, false) == Window.OK) {
+				if (provider.openDialog(shell, plot,
+						plot.isMultiSeriesEnabled()) == Window.OK) {
 					// Disable all de-selected series.
 					for (Object element : provider
 							.getUnselectedLeafElements()) {

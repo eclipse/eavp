@@ -330,4 +330,14 @@ public class FakePlot implements IPlot {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#isMultiSeriesEnabled()
+	 */
+	@Override
+	public boolean isMultiSeriesEnabled() {
+		return false;
+	}
+
 }
