@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EAVP Data Structure Plugin Test Bundle
+Bundle-SymbolicName: org.eclipse.eavp.tests.viz.datastructures
+Bundle-Version: 0.1.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: ca.odell.glazedlists,
+ ca.odell.glazedlists.event,
+ ca.odell.glazedlists.gui,
+ org.apache.log4j,
+ org.eclipse.eavp.viz.datastructures,
+ org.eclipse.eavp.viz.datastructures.VizObject,
+ org.eclipse.eavp.viz.datastructures.resource,
+ org.hamcrest.core;version="1.3.0",
+ org.junit;version="4.12.0"
+Bundle-Vendor: Oak Ridge National Laboratory
+Export-Package: org.eclipse.eavp.tests.viz.service.datastructures.VizObject
