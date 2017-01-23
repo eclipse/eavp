@@ -38,6 +38,8 @@
   	<module>../org.eclipse.eavp.tests.viz</module>
   	<module>../org.eclipse.eavp.viz.datastructures</module>
   	<module>../org.eclipse.eavp.tests.viz.datastructures</module>
+  	<module>../org.eclipse.eavp.viz.datastructures.ui</module>
+  	<module>../org.eclipse.eavp.tests.viz.datastructures.ui</module>
   	<module>../org.eclipse.eavp.viz.modeling</module>
   	<module>../org.eclipse.eavp.tests.viz.modeling</module>
   	<module>../org.eclipse.eavp.tests.viz.service.javafx.mesh</module>
