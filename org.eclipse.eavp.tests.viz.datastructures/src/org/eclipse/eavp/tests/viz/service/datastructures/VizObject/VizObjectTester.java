@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import org.eclipse.eavp.tests.viz.service.datastructures.TestVizComponentListener;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizJAXBHandler;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
 import org.junit.Test;
