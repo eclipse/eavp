@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizActionTree;
+import org.eclipse.eavp.viz.datastructures.ui.VizActionTree;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;

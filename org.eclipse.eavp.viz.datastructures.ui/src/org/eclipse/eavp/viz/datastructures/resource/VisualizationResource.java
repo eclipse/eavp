@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * The VizResource is used for loading a data set that should be visualized in

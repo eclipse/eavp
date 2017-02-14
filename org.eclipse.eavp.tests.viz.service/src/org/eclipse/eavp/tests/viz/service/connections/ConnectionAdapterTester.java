@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.eclipse.eavp.viz.service.connections.ConnectionAdapter;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.junit.Test;

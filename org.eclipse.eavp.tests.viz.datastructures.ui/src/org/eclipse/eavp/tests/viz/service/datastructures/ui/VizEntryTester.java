@@ -10,7 +10,7 @@
  *   Jordan H. Deyton, Dasha Gorin, Alexander J. McCaskey, Taylor Patterson,
  *   Claire Saunders, Matthew Wang, Anna Wojtowicz
  *******************************************************************************/
-package org.eclipse.eavp.tests.viz.service.datastructures;
+package org.eclipse.eavp.tests.viz.service.datastructures.ui;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -27,11 +27,11 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizJAXBHandler;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.junit.Test;
 
 /**

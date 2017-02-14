@@ -14,8 +14,8 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.eclipse.swt.graphics.Image;
 
 /**

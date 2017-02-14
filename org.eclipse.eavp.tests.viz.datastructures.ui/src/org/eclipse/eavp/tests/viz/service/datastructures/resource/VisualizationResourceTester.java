@@ -27,12 +27,12 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizJAXBHandler;
 import org.eclipse.eavp.viz.datastructures.resource.IResource;
 import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
 import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.junit.Test;
 
 /**

@@ -21,8 +21,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntryContentProvider;
 import org.junit.Test;
 

@@ -14,8 +14,8 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
 
 /**
  * This class provides a basic content provider for {@link PortEntry}s. Some

@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizObject;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * <p>

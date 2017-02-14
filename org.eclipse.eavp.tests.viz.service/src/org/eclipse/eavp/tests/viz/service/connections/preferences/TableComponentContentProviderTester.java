@@ -16,8 +16,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
-import org.eclipse.eavp.viz.datastructures.VizTableComponent;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizTableComponent;
 import org.eclipse.eavp.viz.service.connections.preferences.TableComponentContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;

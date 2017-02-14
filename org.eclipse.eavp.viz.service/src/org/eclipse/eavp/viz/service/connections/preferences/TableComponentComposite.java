@@ -14,7 +14,7 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizTableComponent;
+import org.eclipse.eavp.viz.datastructures.ui.VizTableComponent;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
