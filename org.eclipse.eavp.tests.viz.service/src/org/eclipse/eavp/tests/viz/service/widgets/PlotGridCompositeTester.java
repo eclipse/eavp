@@ -110,7 +110,7 @@ public class PlotGridCompositeTester extends AbstractSWTTester {
 		// Add the fake viz service to the factory used by the
 		// PlotGridComposite.
 		factory = new BasicVizServiceFactory();
-		VizServiceFactoryHolder.setVizServiceFactory(factory);
+		new VizServiceFactoryHolder().setVizServiceFactory(factory);
 
 		return;
 	}

@@ -50,6 +50,14 @@ public class PlotEditorTester {
 	 */
 	private static SWTWorkbenchBot bot;
 
+	/**
+	 * An instance of the factory holder class.
+	 */
+	private static VizServiceFactoryHolder factoryHolder;
+	
+	/**
+	 * The real IVizServiceFactory that will be set back to the holder after the test.
+	 */
 	private static IVizServiceFactory realFactory;
 
 	/*
@@ -59,6 +67,7 @@ public class PlotEditorTester {
 	public static void beforeClass() throws Exception {
 		bot = new SWTWorkbenchBot();
 		realFactory = VizServiceFactoryHolder.getFactory();
+		factoryHolder = new VizServiceFactoryHolder();
 
 		// Set the bot's timeout and playback rate
 		SWTBotPreferences.TIMEOUT = 3000;
@@ -115,7 +124,7 @@ public class PlotEditorTester {
 		IVizServiceFactory fakeFactory = new BasicVizServiceFactory();
 		fakeFactory.register(new CSVVizService());
 
-		VizServiceFactoryHolder.setVizServiceFactory(fakeFactory);
+		factoryHolder.setVizServiceFactory(fakeFactory);
 
 		// Close the initial eclipse welcome view, if one exists
 		try {
@@ -151,7 +160,7 @@ public class PlotEditorTester {
 
 	@AfterClass
 	public static void afterClass() throws Exception {
-		VizServiceFactoryHolder.setVizServiceFactory(realFactory);
+		factoryHolder.setVizServiceFactory(realFactory);
 
 	}
 }

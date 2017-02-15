@@ -113,7 +113,7 @@ public class ParaViewProxyFactory implements IParaViewProxyFactory {
 	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyFactory#registerProxyBuilder(org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyBuilder)
 	 */
 	@Override
-	public boolean registerProxyBuilder(IParaViewProxyBuilder builder) {
+	public void registerProxyBuilder(IParaViewProxyBuilder builder) {
 		boolean registered = false;
 		if (builder != null) {
 			// Add the builder to the *end* of the list of builders for each
@@ -148,8 +148,6 @@ public class ParaViewProxyFactory implements IParaViewProxyFactory {
 			logger.info("ParaViewProxyFactory message: " + "\""
 					+ builder.getName() + "\" registered.");
 		}
-
-		return registered;
 	}
 
 	/*
@@ -157,7 +155,7 @@ public class ParaViewProxyFactory implements IParaViewProxyFactory {
 	 * @see org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyFactory#unregisterProxyBuilder(org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxyBuilder)
 	 */
 	@Override
-	public boolean unregisterProxyBuilder(IParaViewProxyBuilder builder) {
+	public void unregisterProxyBuilder(IParaViewProxyBuilder builder) {
 		boolean unregistered = false;
 		if (builder != null) {
 			// Remove the builder from the list of builders for each supported
@@ -187,7 +185,5 @@ public class ParaViewProxyFactory implements IParaViewProxyFactory {
 			logger.info("ParaViewProxyFactory message: " + "\""
 					+ builder.getName() + "\" unregistered.");
 		}
-
-		return unregistered;
 	}
 }

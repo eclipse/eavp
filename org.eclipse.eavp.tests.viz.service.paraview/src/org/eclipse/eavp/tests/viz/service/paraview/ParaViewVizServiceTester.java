@@ -166,14 +166,12 @@ public class ParaViewVizServiceTester {
 		// Create a fake factory that has a few supported extensions.
 		IParaViewProxyFactory factory = new IParaViewProxyFactory() {
 			@Override
-			public boolean unregisterProxyBuilder(
+			public void unregisterProxyBuilder(
 					IParaViewProxyBuilder builder) {
-				return false;
 			}
 
 			@Override
-			public boolean registerProxyBuilder(IParaViewProxyBuilder builder) {
-				return false;
+			public void registerProxyBuilder(IParaViewProxyBuilder builder) {
 			}
 
 			@Override
