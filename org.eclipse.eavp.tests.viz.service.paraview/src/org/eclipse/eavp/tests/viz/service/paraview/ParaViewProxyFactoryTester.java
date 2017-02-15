@@ -111,6 +111,8 @@ public class ParaViewProxyFactoryTester {
 
 		// Registering new builders with supported extensions should
 		// register those extensions
+		factory.registerProxyBuilder(fakeExodusProxyBuilder);
+		factory.registerProxyBuilder(fakeSiloProxyBuilder);		
 		assertTrue(factory.getExtensions().contains("ex"));
 		assertTrue(factory.getExtensions().contains("silo"));
 
