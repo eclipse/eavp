@@ -20,8 +20,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.beanutils.ConvertUtils;
@@ -100,8 +102,7 @@ public class CSVPlot extends AbstractPlot {
 	 * eclipse. swt.widgets.Composite, java.net.URI, int)
 	 */
 	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent,
-			IFileEditorInput file, int pageNum) {
+	public String createAdditionalPage(MultiPageEditorPart parent, IFileEditorInput file, int pageNum) {
 
 		// Create the specified page
 		switch (pageNum) {
@@ -116,8 +117,7 @@ public class CSVPlot extends AbstractPlot {
 				parent.addPage(editor, file);
 				return "Data";
 			} catch (PartInitException e) {
-				logger.error(
-						"Error initializing text editor for CSV Plot Editor.");
+				logger.error("Error initializing text editor for CSV Plot Editor.");
 			}
 			break;
 		}
@@ -207,7 +207,7 @@ public class CSVPlot extends AbstractPlot {
 		if (uri != null) {
 			// Only load the file if it is a CSV file.
 			final File file = new File(uri);
-			if (file.getName().endsWith(".csv")) {
+			if (file.getName().endsWith(".csv") || file.getName().endsWith(".dat")) {
 				// Loading has not completed.
 				loaded.set(false);
 
@@ -221,14 +221,13 @@ public class CSVPlot extends AbstractPlot {
 
 				// Force the loading thread to report unhandled exceptions to
 				// this thread's exception handler.
-				loadingThread.setUncaughtExceptionHandler(
-						Thread.currentThread().getUncaughtExceptionHandler());
+				loadingThread.setUncaughtExceptionHandler(Thread.currentThread().getUncaughtExceptionHandler());
 
 				// Start the thread
 				loadingThread.start();
 			} else {
-				logger.error(getClass().getName() + ": Failed to load file "
-						+ file.getName() + ", it must be of type .csv");
+				logger.error(
+						getClass().getName() + ": Failed to load file " + file.getName() + ", it must be of type .csv");
 			}
 		}
 
@@ -259,6 +258,25 @@ public class CSVPlot extends AbstractPlot {
 			// Grab the contents of the file
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = null;
+
+			String delimiter = null;
+
+			Set<Character> numericalChars = new HashSet<Character>();
+			numericalChars.add('-');
+			numericalChars.add('+');
+			numericalChars.add('0');
+			numericalChars.add('1');
+			numericalChars.add('2');
+			numericalChars.add('3');
+			numericalChars.add('4');
+			numericalChars.add('5');
+			numericalChars.add('6');
+			numericalChars.add('7');
+			numericalChars.add('8');
+			numericalChars.add('9');
+			numericalChars.add('e');
+			numericalChars.add('E');
+
 			while ((line = reader.readLine()) != null) {
 				// Skip lines that pure comments
 				if (!line.startsWith("#")) {
@@ -268,8 +286,37 @@ public class CSVPlot extends AbstractPlot {
 						int index = line.indexOf("#");
 						line = line.substring(0, index);
 					}
+
+					// On the first parsable line, detect the delimiter
+					if (delimiter == null) {
+
+						// If commas appear, assume they are the delimiter
+						if (line.trim().split(",").length > 1) {
+							delimiter = ",";
+						}
+
+						// Otherwise, scan the string until a character which is
+						// not part of a number is found, and assume this is the
+						// delimiter
+						else {
+							for (int i = 0; i < line.length(); i++) {
+								if (!numericalChars.contains(line.charAt(i))) {
+									delimiter = Character.toString(line.charAt(i));
+								}
+							}
+						}
+					}
+
+					// If no delimiter was found, there's nothing to plot
+					if (delimiter == null) {
+						logger.error(getClass().getName()
+								+ "Exception! No data demiliter recognized. File cannot be plotted.");
+						reader.close();
+						return;
+					}
+
 					// Clean up any bad stuff on the line
-					String[] lineArray = line.trim().split(",");
+					String[] lineArray = line.trim().split(delimiter);
 					String[] trimmedLine = new String[lineArray.length];
 					// And clean up any bad stuff on each split piece
 					for (int i = 0; i < lineArray.length; i++) {
@@ -284,9 +331,8 @@ public class CSVPlot extends AbstractPlot {
 
 		} catch (IOException e) {
 			// Complain
-			logger.error(getClass().getName()
-					+ " Exception! Could not read in data from file: "
-					+ file.getName() + ".", e);
+			logger.error(getClass().getName() + " Exception! Could not read in data from file: " + file.getName() + ".",
+					e);
 		}
 
 		if (!lines.isEmpty()) {
@@ -316,8 +362,7 @@ public class CSVPlot extends AbstractPlot {
 
 			// Load the data as doubles
 			for (int i = 0; i < lines.size(); i++) {
-				double[] values = (double[]) ConvertUtils.convert(lines.get(i),
-						Double.TYPE);
+				double[] values = (double[]) ConvertUtils.convert(lines.get(i), Double.TYPE);
 				for (int j = 0; j < values.length; j++) {
 					series[j].add(values[j]);
 				}
@@ -340,8 +385,7 @@ public class CSVPlot extends AbstractPlot {
 			}
 
 			// Add the rest of the series as dependent series
-			List<ISeries> dependentSeries = new ArrayList<ISeries>(
-					series.length);
+			List<ISeries> dependentSeries = new ArrayList<ISeries>(series.length);
 			for (int i = 0; i < series.length; i++) {
 				dependentSeries.add(series[i]);
 			}
