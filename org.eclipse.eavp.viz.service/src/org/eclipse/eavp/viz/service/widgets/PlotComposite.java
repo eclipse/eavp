@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import org.eclipse.eavp.viz.datastructures.VizActionTree;
+import org.eclipse.eavp.viz.datastructures.ui.VizActionTree;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.jface.action.Action;

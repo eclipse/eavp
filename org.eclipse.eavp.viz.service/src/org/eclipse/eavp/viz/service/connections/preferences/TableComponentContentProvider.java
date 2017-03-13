@@ -15,10 +15,10 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
-import org.eclipse.eavp.viz.datastructures.VizTableComponent;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizTableComponent;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;

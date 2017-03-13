@@ -14,14 +14,23 @@ package org.eclipse.eavp.viz.service.paraview.connections;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
+import org.eclipse.eavp.viz.service.IVizService;
+import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
+import org.eclipse.eavp.viz.service.connections.preferences.KeyEntry;
+import org.eclipse.eavp.viz.service.connections.preferences.KeyEntryContentProvider;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntryContentProvider;
 import org.eclipse.eavp.viz.service.connections.preferences.VizConnectionPreferencePage;
 import org.eclipse.eavp.viz.service.paraview.ParaViewVizService;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IWorkbench;
 
 /**
@@ -53,79 +62,121 @@ public class ParaViewConnectionPreferencePage
 			@Override
 			protected ArrayList<VizEntry> createConnectionTemplate() {
 
-				// Create a default template
-				ArrayList<VizEntry> template = super.createConnectionTemplate();
+//				// Create a default template
+//				ArrayList<VizEntry> template = super.createConnectionTemplate();
+//
+//				// Create a provider for arbitrary strings
+//				IVizEntryContentProvider provider = new BasicVizEntryContentProvider();
+//				provider.setDefaultValue(System.getProperty("user.home"));
+//
+//				// Create a port provider
+//				PortEntryContentProvider portProvider = new PortEntryContentProvider();
+//				portProvider.setDefaultValue("9601");
+//
+//				// Create a provider for operating system names
+//				IVizEntryContentProvider osProvider = new BasicVizEntryContentProvider();
+//				provider.setDefaultValue("");
+//				ArrayList<String> osNames = new ArrayList<String>();
+//				osNames.add("");
+//				osNames.add("Linux");
+//				osNames.add("OSx");
+//				osNames.add("Windows");
+//				osProvider.setAllowedValues(osNames);
+//
+//				// Create a provider for arbitrary strings with the latest
+//				// paraview version as the default value
+//				IVizEntryContentProvider versionProvider = new BasicVizEntryContentProvider();
+//				versionProvider.setDefaultValue("5.0");
+//
+//				// Create an entry for the path to the server script
+//				VizEntry serverEntry = new VizEntry(provider);
+//				serverEntry.setName("Server Script Path");
+//
+//				// Create an entry for the web visualizer port
+//				VizEntry portEntry = new PortEntry(portProvider);
+//				portEntry.setName("Visualizer Port");
+//
+//				// Create an entry for the remote OS
+//				VizEntry osEntry = new VizEntry(osProvider);
+//				osEntry.setName("Remote OS");
+//
+//				// Create an entry for the version number
+//				VizEntry versionEntry = new VizEntry(versionProvider);
+//				versionEntry.setName("Remote ParaView Version Number");
+//
+//				for (VizEntry entry : template) {
+//					if ("Path".equals(entry.getName())) {
+//
+//						// The default path for the ParaView installation
+//						String defaultPath = "";
+//
+//						// Get the name of the operating system
+//						String os = System.getProperty("os.name", "generic")
+//								.toLowerCase(Locale.ENGLISH);
+//
+//						// Set the default path to a standard installation
+//						// directory for that kind of OS
+//						if (os.indexOf("darwin") >= 0
+//								|| os.indexOf("mac") >= 0) {
+//							defaultPath = "/Applications";
+//						} else if (os.indexOf("win") >= 0) {
+//							// TODO Find the default windows ParaView
+//							// installation location
+//						} else if (os.indexOf("nux") >= 0) {
+//							defaultPath = System.getProperty("user.home");
+//						}
+//
+//						entry.setValue(defaultPath);
+//					}
+//				}
+//
+//				// Add the custom entry to the template and return it
+//				template.add(serverEntry);
+//				template.add(portEntry);
+//				template.add(osEntry);
+//				template.add(versionEntry);
+//				return template;
+				
+				ArrayList<VizEntry> template = new ArrayList<VizEntry>();
 
-				// Create a provider for arbitrary strings
-				IVizEntryContentProvider provider = new BasicVizEntryContentProvider();
-				provider.setDefaultValue(System.getProperty("user.home"));
+				IVizEntryContentProvider contentProvider;
 
-				// Create a port provider
-				PortEntryContentProvider portProvider = new PortEntryContentProvider();
-				portProvider.setDefaultValue("9601");
-
-				// Create a provider for operating system names
-				IVizEntryContentProvider osProvider = new BasicVizEntryContentProvider();
-				provider.setDefaultValue("");
-				ArrayList<String> osNames = new ArrayList<String>();
-				osNames.add("");
-				osNames.add("Linux");
-				osNames.add("OSx");
-				osNames.add("Windows");
-				osProvider.setAllowedValues(osNames);
-
-				// Create a provider for arbitrary strings with the latest
-				// paraview version as the default value
-				IVizEntryContentProvider versionProvider = new BasicVizEntryContentProvider();
-				versionProvider.setDefaultValue("5.0");
-
-				// Create an entry for the path to the server script
-				VizEntry serverEntry = new VizEntry(provider);
-				serverEntry.setName("Server Script Path");
-
-				// Create an entry for the web visualizer port
-				VizEntry portEntry = new PortEntry(portProvider);
-				portEntry.setName("Visualizer Port");
-
-				// Create an entry for the remote OS
-				VizEntry osEntry = new VizEntry(osProvider);
-				osEntry.setName("Remote OS");
-
-				// Create an entry for the version number
-				VizEntry versionEntry = new VizEntry(versionProvider);
-				versionEntry.setName("Remote ParaView Version Number");
-
-				for (VizEntry entry : template) {
-					if ("Path".equals(entry.getName())) {
-
-						// The default path for the ParaView installation
-						String defaultPath = "";
-
-						// Get the name of the operating system
-						String os = System.getProperty("os.name", "generic")
-								.toLowerCase(Locale.ENGLISH);
-
-						// Set the default path to a standard installation
-						// directory for that kind of OS
-						if (os.indexOf("darwin") >= 0
-								|| os.indexOf("mac") >= 0) {
-							defaultPath = "/Applications";
-						} else if (os.indexOf("win") >= 0) {
-							// TODO Find the default windows ParaView
-							// installation location
-						} else if (os.indexOf("nux") >= 0) {
-							defaultPath = System.getProperty("user.home");
-						}
-
-						entry.setValue(defaultPath);
+				// ---- name ---- //
+				KeyEntryContentProvider keyContentProvider = new KeyEntryContentProvider(
+						keyManager);
+				VizEntry keyEntry = new KeyEntry(keyContentProvider);
+				keyEntry.setName("ID");
+				keyEntry.setDescription(
+						"The name of the connection. This must be unique.");
+				template.add(keyEntry);
+				// ---- host ---- //
+				contentProvider = new BasicVizEntryContentProvider();
+				contentProvider.setDefaultValue("ParaView");
+				contentProvider.setAllowedValueType(VizAllowedValueType.Discrete);
+				ArrayList<String> allowedValues = new ArrayList<String>();
+				
+				IConfigurationElement[] elements = Platform.getExtensionRegistry()
+						.getConfigurationElementsFor(
+								"org.eclipse.eavp.viz.service.IVizServiceFactory");
+				try {
+					IVizServiceFactory factory = (IVizServiceFactory) elements[0].createExecutableExtension("class");
+					for(String serviceName : factory.getServiceNames()) {
+						allowedValues.add(factory.get(serviceName).getName());
 					}
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				allowedValues.add("VisIt");
+				allowedValues.add("ParaView");
+				contentProvider.setAllowedValues(allowedValues);
+				VizEntry hostEntry = new VizEntry(contentProvider);
+				hostEntry.setName("Visualization Service");
+				hostEntry.setDescription("The FQDN or IP address of the remote host.%n"
+						+ "For local launches, this should be \"localhost\".");
+				template.add(hostEntry);
 
-				// Add the custom entry to the template and return it
-				template.add(serverEntry);
-				template.add(portEntry);
-				template.add(osEntry);
-				template.add(versionEntry);
+
 				return template;
 			}
 		};

@@ -47,5 +47,5 @@ Import-Package: ca.odell.glazedlists,
  org.osgi.framework;version="1.7.0",
  org.osgi.service.prefs;version="1.1.1",
  org.slf4j;version="1.7.2"
-Export-Package: org.eclipse.eavp.viz.datastructures,
- org.eclipse.eavp.viz.datastructures.resource
+Export-Package: org.eclipse.eavp.viz.datastructures.ui,
+ org.eclipse.eavp.viz.datastructures.ui.resource

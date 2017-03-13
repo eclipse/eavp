@@ -11,7 +11,7 @@
  *    Claire Saunders, Matthew Wang, Anna Wojtowicz
  *     
  *******************************************************************************/
-package org.eclipse.eavp.viz.datastructures;
+package org.eclipse.eavp.viz.datastructures.ui;
 
 import java.util.ArrayList;
 import java.util.List;

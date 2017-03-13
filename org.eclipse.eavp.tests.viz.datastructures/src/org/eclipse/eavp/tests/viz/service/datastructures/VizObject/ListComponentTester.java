@@ -30,8 +30,8 @@ import org.eclipse.eavp.viz.datastructures.VizObject.IElementSource;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizJAXBHandler;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizListComponent;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
-import org.eclipse.eavp.viz.datastructures.resource.IResource;
-import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.ui.resource.IResource;
+import org.eclipse.eavp.viz.datastructures.ui.resource.VisualizationResource;
 import org.junit.Test;
 
 import ca.odell.glazedlists.EventList;

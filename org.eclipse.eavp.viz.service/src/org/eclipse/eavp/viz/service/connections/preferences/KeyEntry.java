@@ -11,9 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections.preferences;
 
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * A {@code KeyEntry} is essentially a basic {@link Entry} with a single caveat:

@@ -18,9 +18,9 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * This class provides an adapter that wraps a connection. It provides feedback

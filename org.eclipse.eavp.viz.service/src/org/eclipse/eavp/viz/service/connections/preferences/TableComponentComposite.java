@@ -14,7 +14,7 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizTableComponent;
+import org.eclipse.eavp.viz.datastructures.ui.VizTableComponent;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -218,6 +218,15 @@ public class TableComponentComposite extends Composite {
 	 */
 	public VizTableComponent getTableComponent() {
 		return tableComponent;
+	}
+	
+	/**
+	 * Getter method for the TableViewer. 
+	 * 
+	 * @return The backing TableViewer displayed by the component.
+	 */
+	public TableViewer getTableViewer() {
+		return tableViewer;
 	}
 
 	/**

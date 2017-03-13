@@ -20,10 +20,10 @@ import java.util.Iterator;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
-import org.eclipse.eavp.viz.datastructures.resource.IResource;
-import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
-import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
-import org.eclipse.eavp.viz.datastructures.resource.VizResourceComponent;
+import org.eclipse.eavp.viz.datastructures.ui.resource.IResource;
+import org.eclipse.eavp.viz.datastructures.ui.resource.IVizResource;
+import org.eclipse.eavp.viz.datastructures.ui.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.ui.resource.VizResourceComponent;
 import org.eclipse.eavp.viz.service.PlotEditor;
 import org.eclipse.eavp.viz.service.PlotEditorInput;
 import org.eclipse.eavp.viz.service.csv.CSVPlot;

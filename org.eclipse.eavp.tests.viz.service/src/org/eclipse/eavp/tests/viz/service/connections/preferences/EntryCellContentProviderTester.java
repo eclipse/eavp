@@ -16,7 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.EntryCellContentProvider;
 import org.junit.Test;
 

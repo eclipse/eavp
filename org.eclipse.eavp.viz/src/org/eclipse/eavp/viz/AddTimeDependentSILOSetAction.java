@@ -21,8 +21,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
-import org.eclipse.eavp.viz.datastructures.resource.VisualizationResource;
+import org.eclipse.eavp.viz.datastructures.ui.resource.IVizResource;
+import org.eclipse.eavp.viz.datastructures.ui.resource.VisualizationResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;

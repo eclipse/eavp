@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
-import org.eclipse.eavp.viz.datastructures.VizTableComponent;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizTableComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

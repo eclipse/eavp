@@ -10,7 +10,7 @@
  *   Jordan H. Deyton, Dasha Gorin, Alexander J. McCaskey, Taylor Patterson,
  *   Claire Saunders, Matthew Wang, Anna Wojtowicz
  *******************************************************************************/
-package org.eclipse.eavp.tests.viz.service.datastructures;
+package org.eclipse.eavp.tests.viz.service.datastructures.ui;
 
 import static org.junit.Assert.fail;
 

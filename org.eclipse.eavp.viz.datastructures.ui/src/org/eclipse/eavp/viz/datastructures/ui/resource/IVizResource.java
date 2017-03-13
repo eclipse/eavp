@@ -10,7 +10,7 @@
  *   Jordan H. Deyton, Dasha Gorin, Alexander J. McCaskey, Taylor Patterson,
  *   Claire Saunders, Matthew Wang, Anna Wojtowicz
  *******************************************************************************/
-package org.eclipse.eavp.viz.datastructures.resource;
+package org.eclipse.eavp.viz.datastructures.ui.resource;
 
 import java.util.ArrayList;
 

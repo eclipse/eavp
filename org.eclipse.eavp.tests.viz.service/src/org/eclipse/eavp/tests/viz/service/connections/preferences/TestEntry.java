@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.tests.viz.service.connections.preferences;
 
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * A test implementation of VizEntry with preset allowed values and convenience

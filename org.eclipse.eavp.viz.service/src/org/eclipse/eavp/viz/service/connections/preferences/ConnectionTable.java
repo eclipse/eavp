@@ -18,13 +18,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
-import org.eclipse.eavp.viz.datastructures.VizTableComponent;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizTableComponent;
 
 /**
  * This class manages a list of uniquely-keyed connections within an ICE
@@ -64,7 +64,7 @@ public class ConnectionTable extends VizTableComponent {
 	 * corresponds to its name and must be unique, although there is no
 	 * restriction on allowed names.
 	 */
-	private final IKeyManager keyManager;
+	protected final IKeyManager keyManager;
 
 	/**
 	 * A map from the user-friendly name/key of a connection to its row index as
@@ -145,6 +145,9 @@ public class ConnectionTable extends VizTableComponent {
 			};
 			keyListeners.add(keyListener);
 			keyEntry.register(keyListener);
+			
+			//Alert listeners to the added row
+			updateListeners();
 		}
 
 		return index;
@@ -281,6 +284,9 @@ public class ConnectionTable extends VizTableComponent {
 					key = getRow(i).get(0).getValue();
 					keyToIndexMap.put(key, i);
 				}
+				
+				//Alert listeners to the removed row
+				updateListeners();
 			}
 		}
 		return deleted;
@@ -315,6 +321,15 @@ public class ConnectionTable extends VizTableComponent {
 	@Override
 	public void setRowTemplate(ArrayList<VizEntry> template) {
 		// Do nothing...
+	}
+	
+	/**
+	 * Update all listeners to alert them that a change has taken place.
+	 */
+	private void updateListeners() {
+		for(IVizUpdateableListener listener : listeners) {
+			listener.update(this);
+		}
 	}
 
 }

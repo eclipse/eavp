@@ -10,9 +10,9 @@ Import-Package: ca.odell.glazedlists,
  org.apache.log4j,
  org.eclipse.eavp.tests.viz.service.datastructures.VizObject,
  org.eclipse.eavp.tests.viz.service.mesh.datastructures,
- org.eclipse.eavp.viz.datastructures,
  org.eclipse.eavp.viz.datastructures.VizObject,
- org.eclipse.eavp.viz.datastructures.resource,
+ org.eclipse.eavp.viz.datastructures.ui,
+ org.eclipse.eavp.viz.datastructures.ui.resource,
  org.hamcrest.core;version="1.3.0",
  org.junit;version="4.12.0"
 Bundle-Vendor: Oak Ridge National Laboratory

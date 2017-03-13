@@ -10,7 +10,7 @@
  *   Jordan H. Deyton, Dasha Gorin, Alexander J. McCaskey, Taylor Patterson,
  *   Claire Saunders, Matthew Wang, Anna Wojtowicz
  *******************************************************************************/
-package org.eclipse.eavp.viz.datastructures.resource;
+package org.eclipse.eavp.viz.datastructures.ui.resource;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +28,8 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * The VizResource is used for loading a data set that should be visualized in
