@@ -68,8 +68,8 @@ import com.google.gson.JsonPrimitive;
  * the properties. This is indexed exactly the same as the "ui" array. Each
  * element may include the following properties:
  * <ul>
- * <li><b>"name"</b> - The name of the property, used for lookup. This is
- * usually different from the "name" in the "ui" array.</li>
+ * <li><b>"name"</b> - The name of the property, used for lookup. This must
+ * exactly match the "name" in the "ui" array.</li>
  * <li><b>"value"</b> - If the corresponding "widget" is {@code list-n}, this is
  * an array of the selected values. Otherwise, it is the current value.</li>
  * <li>(and more...)</li>
@@ -123,11 +123,6 @@ public abstract class ProxyProperty {
 	 * corresponding array element in the "ui" array.
 	 */
 	public final String name;
-	/**
-	 * The index of the property in its parent proxy's "ui" and "properties"
-	 * JsonArrays.
-	 */
-	public final int index;
 
 	/**
 	 * The type of property. This dictates the format of the "values" and
@@ -150,11 +145,6 @@ public abstract class ProxyProperty {
 	 * <b><i>not</i></b> {@link PropertyType#DISCRETE_MULTI}.
 	 */
 	private String value;
-
-	/**
-	 * The name of the property in the "properties" JsonArray.
-	 */
-	private String propertyName;
 
 	/**
 	 * The default constructor.
@@ -188,7 +178,6 @@ public abstract class ProxyProperty {
 		connection = null;
 
 		this.name = name;
-		this.index = index;
 		this.type = (type != null ? type : PropertyType.DISCRETE);
 
 		// Initialize the hash maps.
@@ -224,7 +213,7 @@ public abstract class ProxyProperty {
 		JsonArray updatedProperties = new JsonArray();
 		JsonObject repProperty = new JsonObject();
 		repProperty.addProperty("id", Integer.toString(getProxyId()));
-		repProperty.addProperty("name", propertyName);
+		repProperty.addProperty("name", name);
 
 		// Determine the "value" property to be a string or a JsonArray.
 		if (type != PropertyType.DISCRETE_MULTI) {
@@ -280,7 +269,15 @@ public abstract class ProxyProperty {
 		try {
 			// Get the corresponding entry in the "ui" JsonArray.
 			JsonArray ui = proxyObj.get("ui").getAsJsonArray();
-			JsonObject entry = ui.get(index).getAsJsonObject();
+			JsonObject entry = ui.get(0).getAsJsonObject();
+			
+			//Search the ui field for the entry of the corresponding name
+			int j = 1;
+			while(!name.equals(entry.get("name").getAsString())) {
+				entry = ui.get(j).getAsJsonObject();
+				j++;
+			}
+			
 			// Add all values from its "values" array to the set.
 			JsonArray array = entry.get("values").getAsJsonArray();
 			int size = array.size();
@@ -294,33 +291,6 @@ public abstract class ProxyProperty {
 		}
 
 		return allowedValues != null ? allowedValues : new ArrayList<String>(0);
-	}
-
-	/**
-	 * Finds the name of the property in the "properties" array of the proxy
-	 * object.
-	 * 
-	 * @param client
-	 *            The client used to fetch the allowed values.
-	 * @return The name of the corresponding element in the "properties" array.
-	 */
-	protected String findPropertyName(IParaViewWebClient client) {
-		String name = null;
-
-		// Get the proxy object (file, view, or rep JsonObject).
-		JsonObject proxyObj = getProxyObject();
-		try {
-			// Get the corresponding entry in the "properties" JsonArray.
-			JsonArray properties = proxyObj.get("properties").getAsJsonArray();
-			JsonObject entry = properties.get(index).getAsJsonObject();
-			// Get its name.
-			name = entry.get("name").getAsString();
-		} catch (NullPointerException | ClassCastException
-				| IllegalStateException e) {
-			e.printStackTrace();
-		}
-
-		return name;
 	}
 
 	/**
@@ -340,7 +310,15 @@ public abstract class ProxyProperty {
 		try {
 			// Get the corresponding entry in the "properties" JsonArray.
 			JsonArray properties = proxyObj.get("properties").getAsJsonArray();
-			JsonObject entry = properties.get(index).getAsJsonObject();
+			JsonObject entry = properties.get(0).getAsJsonObject();
+			
+			//If the format is not as expected, try to find the correct entry
+			int j = 1;
+			while(!name.equals(entry.get("name").getAsString())) {
+				entry = properties.get(j).getAsJsonObject();
+				j++;
+			}
+			
 			// Get its value.
 			value = entry.get("value").getAsString();
 		} catch (NullPointerException | ClassCastException
@@ -368,7 +346,15 @@ public abstract class ProxyProperty {
 		try {
 			// Get the corresponding entry in the "properties" JsonArray.
 			JsonArray properties = proxyObj.get("properties").getAsJsonArray();
-			JsonObject entry = properties.get(index).getAsJsonObject();
+			JsonObject entry = properties.get(0).getAsJsonObject();
+			
+			//Find the entry in ui with the correct name
+			int j = 1;
+			while(!name.equals(entry.get("name").getAsString())) {
+				entry = properties.get(j).getAsJsonObject();
+				j++;
+			}
+			
 			// Add all values from its "value" array to the set.
 			JsonArray array = entry.get("value").getAsJsonArray();
 			int size = array.size();
@@ -464,7 +450,6 @@ public abstract class ProxyProperty {
 			this.connection = connection;
 
 			// Reset everything.
-			propertyName = null;
 			allowedValues.clear();
 			values.clear();
 			value = null;
@@ -472,9 +457,6 @@ public abstract class ProxyProperty {
 			if (connection != null
 					&& connection.getState() == ConnectionState.Connected) {
 				IParaViewWebClient client = connection.getWidget();
-
-				// Find the name of the property in the "properties" object.
-				propertyName = findPropertyName(client);
 
 				// Reset the allowed values.
 				allowedValues.addAll(findAllowedValues(client));

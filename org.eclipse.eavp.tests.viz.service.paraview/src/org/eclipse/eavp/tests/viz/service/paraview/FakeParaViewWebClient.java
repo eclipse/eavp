@@ -126,9 +126,7 @@ public class FakeParaViewWebClient implements IParaViewWebClient {
 				
 				// Add the "ui" and "properties" objects for each property.
 				Map<Integer, FakeProxyFeature> map = new TreeMap<Integer, FakeProxyFeature>();
-				for (FakeProxyFeature property : properties) {
-					map.put(property.index, property);
-				}
+
 				for (FakeProxyFeature property : map.values()) {
 					// Add the property to the "ui" array.
 					object = new JsonObject();

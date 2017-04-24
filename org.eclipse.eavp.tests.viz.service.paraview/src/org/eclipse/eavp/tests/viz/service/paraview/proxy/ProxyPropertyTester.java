@@ -131,7 +131,7 @@ public class ProxyPropertyTester {
 		};
 		// Check the public final fields.
 		assertEquals("...I Care Because You Do", property.name);
-		assertEquals(2, property.index);
+
 		// Check that the getters return empty or null values when appropriate.
 		assertNotNull(property.getAllowedValues());
 		assertTrue(property.getAllowedValues().isEmpty());
@@ -149,7 +149,7 @@ public class ProxyPropertyTester {
 		};
 		// Check the public final fields.
 		assertEquals("Richard D. James Album", property.name);
-		assertEquals(3, property.index);
+		//assertEquals(3, property.index);
 		// Check that the getters return empty or null values when appropriate.
 		assertNotNull(property.getAllowedValues());
 		assertTrue(property.getAllowedValues().isEmpty());

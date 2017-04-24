@@ -45,7 +45,7 @@ public class ProxyFeatureTester {
 		feature = new FakeProxyFeature("xia", 0);
 		// Check its properties.
 		assertEquals("xia", feature.name);
-		assertEquals(0, feature.index);
+
 		assertEquals(defaultType, feature.getPropertyType());
 		assertFalse(feature.getCanColorBy()); // Cannot color by this feature!
 		assertEquals(defaultMode, feature.getColorByMode());
@@ -56,7 +56,7 @@ public class ProxyFeatureTester {
 				ColorByLocation.CELLS);
 		// Check its properties.
 		assertEquals("shang", feature.name);
-		assertEquals(1, feature.index);
+
 		assertEquals(defaultType, feature.getPropertyType());
 		assertTrue(feature.getCanColorBy());
 		assertEquals(ColorByMode.ARRAY, feature.getColorByMode());
@@ -67,7 +67,7 @@ public class ProxyFeatureTester {
 		feature = new FakeProxyFeature("zhou", 3, null, null);
 		// Check its properties.
 		assertEquals("zhou", feature.name);
-		assertEquals(3, feature.index);
+
 		assertEquals(defaultType, feature.getPropertyType());
 		assertFalse(feature.getCanColorBy()); // Cannot color by this feature!
 		assertEquals(defaultMode, feature.getColorByMode());
@@ -78,7 +78,7 @@ public class ProxyFeatureTester {
 				ColorByMode.SOLID, ColorByLocation.POINTS);
 		// Check its properties.
 		assertEquals("qin", feature.name);
-		assertEquals(4, feature.index);
+
 		assertEquals(PropertyType.UNDEFINED, feature.getPropertyType());
 		assertTrue(feature.getCanColorBy());
 		assertEquals(ColorByMode.SOLID, feature.getColorByMode());
@@ -89,7 +89,7 @@ public class ProxyFeatureTester {
 		feature = new FakeProxyFeature("qin", 4, null, null, null);
 		// Check its properties.
 		assertEquals("qin", feature.name);
-		assertEquals(4, feature.index);
+
 		assertEquals(defaultType, feature.getPropertyType());
 		assertFalse(feature.getCanColorBy()); // Cannot color by this feature!
 		assertEquals(defaultMode, feature.getColorByMode());
