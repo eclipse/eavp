@@ -273,7 +273,7 @@ public abstract class ProxyProperty {
 			
 			//Search the ui field for the entry of the corresponding name
 			int j = 1;
-			while(!name.equals(entry.get("name").getAsString())) {
+			while(entry.get("name") == null || !name.equals(entry.get("name").getAsString())) {
 				entry = ui.get(j).getAsJsonObject();
 				j++;
 			}
@@ -314,9 +314,17 @@ public abstract class ProxyProperty {
 			
 			//If the format is not as expected, try to find the correct entry
 			int j = 1;
-			while(!name.equals(entry.get("name").getAsString())) {
+			while(entry.get("name") == null || !name.equals(entry.get("name").getAsString())) {
+				
+				//If property was not found, value is null
+				if(properties.size() == j){
+					value = null;
+					return value;
+				}
+				
 				entry = properties.get(j).getAsJsonObject();
 				j++;
+				
 			}
 			
 			// Get its value.
@@ -350,7 +358,14 @@ public abstract class ProxyProperty {
 			
 			//Find the entry in ui with the correct name
 			int j = 1;
-			while(!name.equals(entry.get("name").getAsString())) {
+			while(entry.get("name") == null || !name.equals(entry.get("name").getAsString())) {
+				
+				//If property was not found, value is null
+				if(properties.size() == j){
+					values = new ArrayList<String>();
+					return values;
+				}
+				
 				entry = properties.get(j).getAsJsonObject();
 				j++;
 			}

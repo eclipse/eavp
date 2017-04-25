@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.eavp.tests.viz.service.paraview.FakeParaViewWebClient;
 import org.eclipse.eavp.viz.service.paraview.proxy.ProxyFeature;
 import org.eclipse.eavp.viz.service.paraview.proxy.ProxyProperty;
+import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
 
 /**
  * This class provides a fake that can be used to test both
@@ -72,5 +73,16 @@ public class FakeProxyFeature extends ProxyFeature {
 	@Override
 	protected int getProxyId() {
 		return 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.paraview.proxy.ProxyProperty#findAllowedValues(org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient)
+	 */
+	@Override
+	protected List<String> findAllowedValues(IParaViewWebClient client) {
+		
+		//Allowed values will be set manually instead of drawn from the connection
+		return allowedValues;
 	}
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.eavp.viz.service.paraview.proxy.AbstractParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.proxy.ProxyFeature;
 import org.eclipse.eavp.viz.service.paraview.proxy.ProxyProperty;
+import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
 
 /**
  * A fake proxy that extends {@link AbstractParaViewProxy} and exposes certiain

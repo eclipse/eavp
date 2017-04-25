@@ -92,7 +92,7 @@ public class AbstractParaViewProxyTester {
 		// Add some features.
 		// Add a "europe" feature with the initial value of "london".
 		fakeFeature = new FakeProxyFeature("europe", 2, PropertyType.DISCRETE);
-		fakeFeature.propertyName = "eu";
+		fakeFeature.propertyName = "europe";
 		fakeFeature.initialValue = "london";
 		fakeFeature.setAllowedValues("berlin", "madrid", "paris", "london",
 				"zagreb");
@@ -100,7 +100,7 @@ public class AbstractParaViewProxyTester {
 		// Add a "north america" feature with the initial value of "havanna".
 		fakeFeature = new FakeProxyFeature("north america", 3,
 				PropertyType.DISCRETE);
-		fakeFeature.propertyName = "na";
+		fakeFeature.propertyName = "north america";
 		fakeFeature.initialValue = "havanna";
 		fakeFeature.setAllowedValues("ottawa", "mexico city", "havanna",
 				"san salvador");
@@ -108,26 +108,26 @@ public class AbstractParaViewProxyTester {
 		// Add some properties.
 		fakeFeature = new FakeProxyFeature("south america", 4,
 				PropertyType.DISCRETE);
-		fakeFeature.propertyName = "sa";
+		fakeFeature.propertyName = "south america";
 		fakeFeature.initialValue = "caracas";
 		fakeFeature.setAllowedValues("bogota", "brasilia", "caracas",
 				"buenos aires");
 		fakeProxy.properties.add(fakeFeature);
 		fakeFeature = new FakeProxyFeature("africa", 5, PropertyType.DISCRETE);
-		fakeFeature.propertyName = "af";
+		fakeFeature.propertyName = "africa";
 		fakeFeature.initialValue = "johannesburg";
 		fakeFeature.setAllowedValues("johannesburg", "cairo", "abuja",
 				"djibouti");
 		fakeProxy.properties.add(fakeFeature);
 		fakeFeature = new FakeProxyFeature("asia", 6, PropertyType.DISCRETE);
-		fakeFeature.propertyName = "as";
+		fakeFeature.propertyName = "asia";
 		fakeFeature.initialValue = "tokyo";
 		fakeFeature.setAllowedValues("ulaanbaatar", "beijing", "tokyo", "seoul",
 				"new delhi");
 		fakeProxy.properties.add(fakeFeature);
 		fakeFeature = new FakeProxyFeature("australia", 7,
 				PropertyType.DISCRETE);
-		fakeFeature.propertyName = "au";
+		fakeFeature.propertyName = "australia";
 		fakeFeature.initialValue = "canberra";
 		fakeFeature.setAllowedValues("canberra");
 		fakeProxy.properties.add(fakeFeature);
