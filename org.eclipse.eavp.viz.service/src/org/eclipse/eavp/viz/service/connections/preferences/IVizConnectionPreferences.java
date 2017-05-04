@@ -46,9 +46,17 @@ public interface IVizConnectionPreferences {
 	 * Produce a comma delimited String representing the contents of this
 	 * object.
 	 * 
+	 * Fields are to be placed in the string in alphabetical order for the base
+	 * class which implements this interface. Each subclass is to append its own
+	 * data members to the string created by the parent class.
+	 * 
+	 * @param delimiter
+	 *            The delimiter to be placed between each field in the
+	 *            serialized object's string representation.
+	 * 
 	 * @return A String representation of all this object's data.
 	 */
-	String serialize();
+	String serialize(String delimiter);
 
 	/**
 	 * Setter method for the name of the remote connection from which some

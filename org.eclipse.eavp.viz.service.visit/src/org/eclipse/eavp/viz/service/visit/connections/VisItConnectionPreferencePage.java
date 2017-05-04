@@ -24,6 +24,8 @@ import org.eclipse.eavp.viz.service.visit.VisItVizService;
 import org.eclipse.remote.core.IRemoteConnection;
 import org.eclipse.remote.ui.widgets.RemoteFileWidget;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -224,7 +226,7 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 		// A composite for the proxy information
 		Composite proxyComp = new Composite(parent, SWT.NONE);
 		proxyComp.setLayoutData(
-				new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false, 1, 1));
+				new GridData(SWT.FILL, SWT.FILL, false, false, 5, 5));
 		proxyComp.setLayout(new GridLayout(2, false));
 		proxyComp.setBackground(white);
 
@@ -234,8 +236,7 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 		proxyLabel.setBackground(white);
 
 		// A text box in which the connection's port will be displayed and can
-		// be
-		// edited.
+		// be edited.
 		Text proxyText = new Text(proxyComp, SWT.BORDER);
 		proxyText.setLayoutData(
 				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -269,6 +270,22 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 		// "Select the remote files you would like to view in VisIt", ".",
 		// SWT.MULTI);
 
+		executableWidget = new RemoteFileWidget(parent, SWT.NONE, 0, "9700",
+				"9701");
+
+		executableWidget.setLayoutData(
+				new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+
+		executableWidget.addModifyListener(new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				((VisItVizConnectionPreferences) currentPreferences)
+						.setExecutablePath(executableWidget.getLocationPath());
+			}
+
+		});
+
 		resetFileWidgetConnection();
 
 		// Change the connection when the host combo is changed
@@ -286,6 +303,12 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 
 		});
 
+		VisItVizConnectionPreferences castPreferences = (VisItVizConnectionPreferences) currentPreferences;
+
+		proxyText.setText(castPreferences.getProxy());
+		proxyPortText.setText(Integer.toString(castPreferences.getProxyPort()));
+		executableWidget.setLocationPath(castPreferences.getExecutablePath());
+
 	}
 
 	/*
@@ -295,8 +318,17 @@ public class VisItConnectionPreferencePage extends VizConnectionPreferencePage {
 	 * VizConnectionPreferencePage#createVizConnectionPreferences()
 	 */
 	@Override
-	protected IVizConnectionPreferences createVizConnectionPreferences() {
-		return new VisItVizConnectionPreferences();
+	protected IVizConnectionPreferences createVizConnectionPreferences(
+			String data) {
+
+		// If a data string was provided, load it into a preferences set and
+		// return it. Otherwise, return a new default preferences.
+		if (data != null && !"".equals(data)) {
+			return new VisItVizConnectionPreferences(data,
+					getConnectionPreferenceDelimiter());
+		} else {
+			return new VisItVizConnectionPreferences();
+		}
 	}
 
 	private void resetFileWidgetConnection() {

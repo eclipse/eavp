@@ -41,6 +41,8 @@ import org.eclipse.remote.core.exception.RemoteConnectionException;
 import org.eclipse.remote.ui.IRemoteUIConnectionService;
 import org.eclipse.remote.ui.IRemoteUIConnectionWizard;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
@@ -92,7 +94,16 @@ public abstract class VizConnectionPreferencePage
 	 */
 	protected IRemoteConnectionType sshConnections;
 
+	/**
+	 * A map of all connection names to the preferences for that connection.
+	 */
 	protected Map<String, IVizConnectionPreferences> connections;
+
+	/**
+	 * The preferences for the connection currently displayed in the details
+	 * section.
+	 */
+	protected IVizConnectionPreferences currentPreferences;
 
 	/**
 	 * Default value for the port field. Individual subclasses should overwrite
@@ -111,6 +122,11 @@ public abstract class VizConnectionPreferencePage
 	 * The category for local connections.
 	 */
 	protected IRemoteConnectionType localConnections;
+
+	/**
+	 * The text widget for the port number.
+	 */
+	protected Text portText;
 
 	/**
 	 * The {@code ConnectionTable} used by this preference page. It is
@@ -268,7 +284,7 @@ public abstract class VizConnectionPreferencePage
 				// org.eclipse.swt.graphics.Color(null, 70, 0 , 140));
 				// table.setLayout(new FillLayout());
 
-				table = createConnectionTable();
+				// table = createConnectionTable();
 				table.register(selfReference);
 				// table = new ConnectionTable() {
 				// /**
@@ -357,12 +373,10 @@ public abstract class VizConnectionPreferencePage
 							if (selectedRows == null) {
 								selectedRows = new ArrayList<Integer>();
 							}
-							selectedRows.add(1);
 							StructuredSelection selection = new StructuredSelection(
 									selectedRows);
-							System.out.println(selection.iterator().next());
-							managedForm.fireSelectionChanged(tablePart,
-									selection);
+							// managedForm.fireSelectionChanged(tablePart,
+							// selection);
 						}
 
 					}
@@ -459,6 +473,8 @@ public abstract class VizConnectionPreferencePage
 				// });
 				detailsPart.setPageProvider(new IDetailsPageProvider() {
 
+					Map<Object, IDetailsPage> pages = new HashMap<Object, IDetailsPage>();
+
 					@Override
 					public Object getPageKey(Object object) {
 						return object;
@@ -466,18 +482,23 @@ public abstract class VizConnectionPreferencePage
 
 					@Override
 					public IDetailsPage getPage(Object key) {
-						return new IDetailsPage() {
+
+						// If this page has been displayed before, retrieve it
+						if (pages.containsKey(key)) {
+							return pages.get(key);
+						}
+
+						// Otherwise instantiate a new page
+						IDetailsPage page = new IDetailsPage() {
 
 							@Override
 							public void initialize(IManagedForm form) {
-								// TODO Auto-generated method stub
-
+								System.out.println("Initialize");
 							}
 
 							@Override
 							public void dispose() {
-								// TODO Auto-generated method stub
-
+								System.out.println("dispose");
 							}
 
 							@Override
@@ -494,14 +515,13 @@ public abstract class VizConnectionPreferencePage
 
 							@Override
 							public boolean setFormInput(Object input) {
-								// TODO Auto-generated method stub
+								System.out.println("set form input");
 								return false;
 							}
 
 							@Override
 							public void setFocus() {
-								// TODO Auto-generated method stub
-
+								System.out.println("set focus");
 							}
 
 							@Override
@@ -512,13 +532,79 @@ public abstract class VizConnectionPreferencePage
 
 							@Override
 							public void refresh() {
-								// TODO Auto-generated method stub
 
 							}
 
 							@Override
 							public void selectionChanged(IFormPart part,
 									ISelection selection) {
+
+								Object tableEntry = ((ArrayList) ((StructuredSelection) selection)
+										.getFirstElement()).get(0);
+
+								if (KeyEntry.class == tableEntry.getClass()) {
+
+									String connectionName = ((KeyEntry) tableEntry)
+											.getValue();
+									IVizConnectionPreferences preferences = connections
+											.get(connectionName);
+
+									hostCombo.removeAll();
+									hostCombo.add("localhost");
+
+									// Refresh the list of available connections
+									BundleContext context = FrameworkUtil
+											.getBundle(getClass())
+											.getBundleContext();
+
+									// Get the remote services manager
+									if (context != null) {
+										ServiceReference<IRemoteServicesManager> ref = context
+												.getServiceReference(
+														IRemoteServicesManager.class);
+
+										List<IRemoteConnectionType> types = context
+												.getService(ref)
+												.getRemoteConnectionTypes();
+
+										// Find the SSH connections
+										for (IRemoteConnectionType type : types) {
+											if ("SSH".equals(type.getName())) {
+
+												// Save this type
+												sshConnections = type;
+
+												// Get the names of all current
+												// connections
+												for (IRemoteConnection connection : type
+														.getConnections()) {
+													hostCombo.add(connection
+															.getName());
+												}
+											}
+										}
+									}
+
+									// The list of all options in the combo
+									String[] comboConnections = hostCombo
+											.getItems();
+
+									// Search for the option in the preferences
+									// and set it. If the connection is missing,
+									// the combo will default to localhost.
+									for (int i = 0; i < comboConnections.length; i++) {
+										if (comboConnections[i]
+												.equals(currentPreferences
+														.getConnectionName())) {
+											hostCombo.select(i);
+											break;
+										}
+									}
+
+									// Load port value
+									portText.setText(Integer
+											.toString(preferences.getPort()));
+								}
 
 							}
 
@@ -539,29 +625,14 @@ public abstract class VizConnectionPreferencePage
 								nameComp.setLayout(new GridLayout(2, false));
 								nameComp.setBackground(white);
 
-								// A label reading "VisIt User:"
-								Label userLabel = new Label(nameComp,
-										SWT.CENTER);
-								userLabel.setText("Name:");
-								userLabel.setBackground(white);
-
-								// A text box in which the INode's name will be
-								// displayed and can be
-								// edited.
-								Text userText = new Text(nameComp, SWT.BORDER);
-								userText.setLayoutData(new GridData(SWT.FILL,
-										SWT.FILL, true, true, 1, 1));
-
 								// Create a combo for the connection names
 								hostCombo = new Combo(parent, SWT.NONE);
 								hostCombo.add("localhost");
-								hostCombo.select(0);
 
 								BundleContext context = FrameworkUtil
 										.getBundle(getClass())
 										.getBundleContext();
 
-								// TODO Move this to refresh once it's working
 								// Get the remote services manager
 								if (context != null) {
 									ServiceReference<IRemoteServicesManager> ref = context
@@ -596,6 +667,22 @@ public abstract class VizConnectionPreferencePage
 										}
 									}
 								}
+
+								hostCombo.addSelectionListener(
+										new SelectionAdapter() {
+
+											@Override
+											public void widgetSelected(
+													SelectionEvent event) {
+
+												// Update the preferences when
+												// the combo is changed.
+												currentPreferences
+														.setConnectionName(
+																hostCombo
+																		.getText());
+											}
+										});
 
 								Button newConnectionButton = new Button(parent,
 										SWT.PUSH);
@@ -680,7 +767,7 @@ public abstract class VizConnectionPreferencePage
 								// A text box in which the connection's port
 								// will be displayed and can be
 								// edited.
-								Text portText = new Text(portComp, SWT.BORDER);
+								portText = new Text(portComp, SWT.BORDER);
 								portText.setLayoutData(new GridData(SWT.FILL,
 										SWT.FILL, true, true, 1, 1));
 								portText.setText(defaultPortNumber);
@@ -729,9 +816,51 @@ public abstract class VizConnectionPreferencePage
 											}
 										});
 
+								portText.addModifyListener(
+										new ModifyListener() {
+
+											@Override
+											public void modifyText(
+													ModifyEvent e) {
+												currentPreferences.setPort(
+														Integer.valueOf(portText
+																.getText()));
+											}
+
+										});
+
+								// Set the current preferences based on the name
+								// of the row selected in the table
+								currentPreferences = connections.get(table
+										.getRow(table.getSelectedRows().get(0))
+										.get(0).getValue());
+
+								// Load the setting's defaults into the widgets
+								portText.setText(Integer.toString(
+										currentPreferences.getPort()));
+
+								// The list of all options in the combo
+								String[] comboConnections = hostCombo
+										.getItems();
+
+								// Search for the option in the preferences
+								// and set it. If the connection is missing,
+								// the combo will default to localhost.
+								for (int i = 0; i < comboConnections.length; i++) {
+									if (currentPreferences.getConnectionName()
+											.equals(comboConnections[i])) {
+										hostCombo.select(i);
+										break;
+									}
+								}
+
 								selfReference.createDetailsPageContents(parent);
 							}
 						};
+
+						// Store the page for future use
+						pages.put(key, page);
+						return page;
 					}
 				});
 			}
@@ -772,11 +901,18 @@ public abstract class VizConnectionPreferencePage
 	}
 
 	/**
-	 * Create an IVizConnectionPreferences appropriate to the subclass.
+	 * Create an IVizConnectionPreferences appropriate to the subclass,
+	 * optionally loaded from a string.
+	 * 
+	 * @param data
+	 *            The string representation of an IVizConnectionPreferences to
+	 *            be loaded into the new object. An empty string or null will
+	 *            create a new object through the default constructor instead.
 	 * 
 	 * @return A new IVizConnectionPreferences of the correct type
 	 */
-	abstract protected IVizConnectionPreferences createVizConnectionPreferences();
+	abstract protected IVizConnectionPreferences createVizConnectionPreferences(
+			String data);
 
 	/**
 	 * Gets the delimiter used when saving/loading connection preferences.
@@ -836,12 +972,15 @@ public abstract class VizConnectionPreferencePage
 		try {
 			existingKeys = node.keys();
 			for (String key : existingKeys) {
-				// int index = table.addRow();
-				// List<VizEntry> row = table.getRow(index);
-				//
-				// // Update the key/name in the table.
-				// row.get(0).setValue(key);
-				// // Update the other properties.
+				int index = table.addRow();
+				List<VizEntry> row = table.getRow(index);
+
+				// Update the key/name in the table.
+				row.get(0).setValue(key);
+				// Update the other properties.
+				connections.put(key,
+						createVizConnectionPreferences(node.get(key, null)));
+
 				// String[] preferences = unserializeConnectionPreferences(
 				// node.get(key, null));
 				// for (int i = 0; i < preferences.length; i++) {
@@ -896,11 +1035,12 @@ public abstract class VizConnectionPreferencePage
 		try {
 			existingNames = node.keys();
 			for (String name : existingNames) {
-				row = table.getConnection(name);
+				IVizConnectionPreferences preferences = connections.get(name);
 				// If the connection name has a row in the table, it will need
 				// to be updated in the preferences.
-				if (row != null) {
-					node.put(name, serializeConnectionPreferences(row));
+				if (preferences != null) {
+					node.put(name, preferences
+							.serialize(getConnectionPreferenceDelimiter()));
 					updated.remove(name);
 				}
 				// Otherwise, the connection was removed from the table and
@@ -915,8 +1055,9 @@ public abstract class VizConnectionPreferencePage
 
 		// Add all new connections to the preferences.
 		for (String name : updated) {
-			row = table.getConnection(name);
-			node.put(name, serializeConnectionPreferences(row));
+			IVizConnectionPreferences preferences = connections.get(name);
+			node.put(name,
+					preferences.serialize(getConnectionPreferenceDelimiter()));
 		}
 
 		return;
@@ -983,6 +1124,9 @@ public abstract class VizConnectionPreferencePage
 
 	@Override
 	public void update(IVizUpdateable component) {
+
+		ArrayList<String> oldConnections = new ArrayList<String>();
+
 		if (component == table) {
 			if (table.numberOfRows() < connections.keySet().size()) {
 				for (String connection : connections.keySet()) {
@@ -998,24 +1142,37 @@ public abstract class VizConnectionPreferencePage
 					}
 
 					if (!inTable) {
-						connections.remove(connection);
+						oldConnections.add(connection);
+					}
+				}
+
+				for (String connection : oldConnections) {
+					connections.remove(connection);
+				}
+			}
+
+			else if (table.numberOfRows() > connections.keySet().size()) {
+				for (int i = 0; i < table.numberOfRows(); i++) {
+
+					String name = table.getRow(i).get(0).getValue();
+
+					if (!connections.keySet().contains(name)) {
+
+						IVizConnectionPreferences preferences = createVizConnectionPreferences(
+								"");
+						preferences.setName(name);
+						connections.put(name, preferences);
 					}
 				}
 			}
-		}
 
-		else if (table.numberOfRows() > connections.keySet().size()) {
-			for (int i = 0; i < table.numberOfRows(); i++) {
-
-				String name = table.getRow(i).get(0).getValue();
-
-				if (!connections.keySet().contains(name)) {
-
-					IVizConnectionPreferences preferences = createVizConnectionPreferences();
-					preferences.setName(name);
-					connections.put(name, preferences);
-				}
+			if (table.getSelectedRows() != null) {
+				String selectedConnectionName = table
+						.getRow(table.getSelectedRows().get(0)).get(0)
+						.getValue();
+				currentPreferences = connections.get(selectedConnectionName);
 			}
 		}
+
 	}
 }

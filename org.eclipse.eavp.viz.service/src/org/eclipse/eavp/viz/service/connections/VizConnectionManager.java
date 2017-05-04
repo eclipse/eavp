@@ -25,6 +25,8 @@ import java.util.concurrent.Future;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+import org.eclipse.eavp.viz.service.connections.preferences.AbstractVizConnectionPreferences;
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.osgi.service.prefs.BackingStoreException;
 import org.slf4j.Logger;
@@ -468,21 +470,18 @@ public abstract class VizConnectionManager<T>
 			String preferences) {
 		boolean requiresReset = false;
 
-		// Split the string using the delimiter. The -1 is necessary to include
-		// empty values from the split.
-		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
-				-1);
+		// Reconstruct the preferences from the preference store's contents.
+		IVizConnectionPreferences connectionPreferences = new AbstractVizConnectionPreferences(
+				preferences, getConnectionPreferenceDelimiter()) {
+		};
 
 		try {
-			// Get the host, port, and path, if possible.
-			String host = split[0];
-			int port = Integer.parseInt(split[1]);
-			String path = split[2];
 
 			// If any of these change, the connection will need to be reset.
-			requiresReset |= connection.setHost(host);
-			requiresReset |= connection.setPort(port);
-			requiresReset |= connection.setPath(path);
+			requiresReset |= connection
+					.setHost(connectionPreferences.getConnectionName());
+			requiresReset |= connection
+					.setPort(connectionPreferences.getPort());
 		} catch (IndexOutOfBoundsException | NullPointerException
 				| NumberFormatException e) {
 			// Cannot update the connection.

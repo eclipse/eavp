@@ -11,8 +11,16 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.visit.connections;
 
+import java.util.List;
+
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
+import org.eclipse.remote.core.IRemoteConnection;
+import org.eclipse.remote.core.IRemoteConnectionType;
+import org.eclipse.remote.core.IRemoteServicesManager;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 
 import gov.lbnl.visit.swt.VisItSwtConnection;
 
@@ -28,7 +36,9 @@ public class VisItConnectionManager
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnectionManager#createConnection(java.lang.String, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnectionManager#
+	 * createConnection(java.lang.String, java.lang.String)
 	 */
 	@Override
 	protected VizConnection<VisItSwtConnection> createConnection(String name,
@@ -62,7 +72,10 @@ public class VisItConnectionManager
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnectionManager#updateConnectionPreferences(org.eclipse.eavp.viz.service.connections.VizConnection, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnectionManager#
+	 * updateConnectionPreferences(org.eclipse.eavp.viz.service.connections.
+	 * VizConnection, java.lang.String)
 	 */
 	@Override
 	protected boolean updateConnectionPreferences(
@@ -70,15 +83,44 @@ public class VisItConnectionManager
 		boolean requiresReset = super.updateConnectionPreferences(connection,
 				preferences);
 
-		// Split the string using the delimiter. The -1 is necessary to include
-		// empty values from the split.
-		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
-				-1);
+		VisItVizConnectionPreferences connectionPreferences = new VisItVizConnectionPreferences(
+				preferences, ",");
+
 		try {
 			// Get the additional properties, if possible.
-			String gateway = split[3];
-			int gatewayPort = Integer.parseInt(split[4]);
-			String username = split[5];
+			String gateway = connectionPreferences.getProxy();
+			int gatewayPort = connectionPreferences.getProxyPort();
+			// String username = split[5];
+
+			BundleContext context = FrameworkUtil.getBundle(getClass())
+					.getBundleContext();
+
+			// Get the remote services manager
+			if (context != null) {
+				ServiceReference<IRemoteServicesManager> ref = context
+						.getServiceReference(IRemoteServicesManager.class);
+
+				List<IRemoteConnectionType> types = context.getService(ref)
+						.getRemoteConnectionTypes();
+
+				// Find the SSH connections
+				for (IRemoteConnectionType type : types) {
+					if ("SSH".equals(type.getName())) {
+
+						// Get the names of all current
+						// connections
+						for (IRemoteConnection remoteConnection : type
+								.getConnections()) {
+							if (remoteConnection.getName()
+									.equals(connectionPreferences
+											.getConnectionName())) {
+								remoteConnection.getName();
+							}
+						}
+					}
+				}
+			}
+			String username = "test";
 
 			// If any of these change, the connection will need to be reset.
 			requiresReset |= connection.setProperty("gateway", gateway);

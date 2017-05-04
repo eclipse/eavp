@@ -35,6 +35,42 @@ abstract public class AbstractVizConnectionPreferences
 		port = 0;
 	}
 
+	/**
+	 * A constructor for loading preferences from a string, using the same
+	 * format as those created by serialize().
+	 * 
+	 * @param data
+	 *            The string representation of an
+	 *            AbstractVizConnectionPreferences to load into the new object.
+	 * @param delimiter
+	 *            The delimiter separating data fields within the data string.
+	 */
+	public AbstractVizConnectionPreferences(String data, String delimiter) {
+
+		// Split the string by the delimiter to separate the data fields
+		String[] tokens = data.split(delimiter, -1);
+
+		// If string wasn't properly formatted, use the default values instead
+		if (tokens.length < 3) {
+			connectionName = "localhost";
+			name = "";
+			port = 0;
+		} else {
+
+			// Apply the data to the fields in alphabetic order
+			connectionName = tokens[0];
+			name = tokens[1];
+
+			try {
+				port = Integer.parseInt(tokens[2]);
+			} catch (NumberFormatException e) {
+
+				// If port was not a number, use the default
+				port = 0;
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -66,6 +102,17 @@ abstract public class AbstractVizConnectionPreferences
 	@Override
 	public int getPort() {
 		return port;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * IVizConnectionPreferences#serialize()
+	 */
+	@Override
+	public String serialize(String delimiter) {
+		return connectionName + delimiter + name + delimiter + port;
 	}
 
 	/*
