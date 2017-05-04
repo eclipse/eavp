@@ -66,7 +66,7 @@ public interface IParaViewProxyFactory {
 	 *         (including the case where the builder has no supported
 	 *         extensions).
 	 */
-	public boolean registerProxyBuilder(IParaViewProxyBuilder builder);
+	public void registerProxyBuilder(IParaViewProxyBuilder builder);
 
 	/**
 	 * Unregisters the specified proxy builder. Its extensions should no longer
@@ -82,5 +82,5 @@ public interface IParaViewProxyFactory {
 	 *         (including the case where the builder has no supported
 	 *         extensions).
 	 */
-	public boolean unregisterProxyBuilder(IParaViewProxyBuilder builder);
+	public void unregisterProxyBuilder(IParaViewProxyBuilder builder);
 }

@@ -92,6 +92,7 @@ public class CSVVizService extends AbstractVizService {
 	protected Set<String> findSupportedExtensions() {
 		Set<String> extensions = new HashSet<String>();
 		extensions.add("csv");
+		extensions.add(".dat");
 		return extensions;
 	}
 

@@ -42,16 +42,18 @@ public class VizServiceFactoryHolderTester {
 		String serviceName = "TestService";
 		IVizService service = new FakeVizService(serviceName);
 		factory.register(service);
+		
+		VizServiceFactoryHolder factoryHolder = new VizServiceFactoryHolder();
 
 		// Test that the factory has been registered
-		VizServiceFactoryHolder.setVizServiceFactory(factory);
+		factoryHolder.setVizServiceFactory(factory);
 		assertNotNull(VizServiceFactoryHolder.getFactory());
 
 		// Test that the factory in the holder is the same factory registered.
 		assertEquals("TestService", VizServiceFactoryHolder.getFactory().getServiceNames()[0]);
 
 		// Test that the holder is empty after removing the factory.
-		VizServiceFactoryHolder.unsetVizServiceFactory(factory);
+		factoryHolder.unsetVizServiceFactory(factory);
 		assertNull(VizServiceFactoryHolder.getFactory());
 
 	}

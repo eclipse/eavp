@@ -11,7 +11,6 @@ import org.xtext.example.mydsl.MyDslStandaloneSetupGenerated;
 @SuppressWarnings("all")
 public class MyDslStandaloneSetup extends MyDslStandaloneSetupGenerated {
   public static void doSetup() {
-    MyDslStandaloneSetup _myDslStandaloneSetup = new MyDslStandaloneSetup();
-    _myDslStandaloneSetup.createInjectorAndDoEMFRegistration();
+    new MyDslStandaloneSetup().createInjectorAndDoEMFRegistration();
   }
 }

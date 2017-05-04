@@ -109,23 +109,18 @@ public class ParaViewProxyFactoryTester {
 
 		final IParaViewProxyBuilder nullBuilder = null;
 
-		// Registering new builders with supported extensions should return
-		// true.
-		assertTrue(factory.registerProxyBuilder(fakeExodusProxyBuilder));
-		assertTrue(factory.registerProxyBuilder(fakeSiloProxyBuilder));
+		// Registering new builders with supported extensions should
+		// register those extensions
+		factory.registerProxyBuilder(fakeExodusProxyBuilder);
+		factory.registerProxyBuilder(fakeSiloProxyBuilder);		
+		assertTrue(factory.getExtensions().contains("ex"));
+		assertTrue(factory.getExtensions().contains("silo"));
 
-		// Registering the same builder again should still return true, as it
-		// becomes the preferred builder for its supported extensions.
-		assertTrue(factory.registerProxyBuilder(fakeExodusProxyBuilder));
-		assertTrue(factory.registerProxyBuilder(fakeSiloProxyBuilder));
+		// Registering a builder with no supported extensions should not fail
+		factory.registerProxyBuilder(fakeEmptyProxyBuilder);
 
-		// Registering a builder with no supported extensions should return
-		// false (because nothing was registered!).
-		assertFalse(factory.registerProxyBuilder(fakeEmptyProxyBuilder));
-
-		// Registering a null builder should return false (because nothing was
-		// registered!).
-		assertFalse(factory.registerProxyBuilder(nullBuilder));
+		// Registering a null builder should not fail
+		factory.registerProxyBuilder(nullBuilder);
 
 		return;
 	}
@@ -139,11 +134,11 @@ public class ParaViewProxyFactoryTester {
 
 		final IParaViewProxyBuilder nullBuilder = null;
 
-		// Unregistering a builder that's not registered should return false.
-		assertFalse(factory.unregisterProxyBuilder(fakeExodusProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(fakeSiloProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(fakeEmptyProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(nullBuilder));
+		// Unregistering a builder that's not registered should not fail
+		factory.unregisterProxyBuilder(fakeExodusProxyBuilder);
+		factory.unregisterProxyBuilder(fakeSiloProxyBuilder);
+		factory.unregisterProxyBuilder(fakeEmptyProxyBuilder);
+		factory.unregisterProxyBuilder(nullBuilder);
 
 		// Register the builders. Note that really only the Exodus and Silo
 		// builders will be registered.
@@ -153,19 +148,12 @@ public class ParaViewProxyFactoryTester {
 		factory.registerProxyBuilder(nullBuilder);
 
 		// We should now be able to unregister the Exodus and Silo builders.
-		// Those requests will return true. The other two reqquests will return
-		// false because nothing was unregistered.
-		assertTrue(factory.unregisterProxyBuilder(fakeExodusProxyBuilder));
-		assertTrue(factory.unregisterProxyBuilder(fakeSiloProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(fakeEmptyProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(nullBuilder));
-
-		// Make sure everything was really unregistered. If so, then nothing
-		// will be unregistered, and all calls will return false.
-		assertFalse(factory.unregisterProxyBuilder(fakeExodusProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(fakeSiloProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(fakeEmptyProxyBuilder));
-		assertFalse(factory.unregisterProxyBuilder(nullBuilder));
+		// Afterwords, the list of extensions should be empty.
+		factory.unregisterProxyBuilder(fakeExodusProxyBuilder);
+		factory.unregisterProxyBuilder(fakeSiloProxyBuilder);
+		factory.unregisterProxyBuilder(fakeEmptyProxyBuilder);
+		factory.unregisterProxyBuilder(nullBuilder);
+		assertTrue(factory.getExtensions().isEmpty());
 
 		return;
 	}
