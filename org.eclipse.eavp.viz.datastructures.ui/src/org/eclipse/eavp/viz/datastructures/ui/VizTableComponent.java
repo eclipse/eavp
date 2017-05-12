@@ -28,12 +28,12 @@ import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
  * The TableComponent class is a Component that contains a set of Entries that
  * are related to each other within a single row of a table and it can contain
  * many rows. Each row of the table contains a set of Entries that only make
- * sense when they are considered as a set, such as "Hostname,"
- * "Operating System" and "Install Path" for a particular executable application
- * or script. The structure of the Table is defined by its "Row Template" that
- * contains a default Entry for each column. So, if we wanted a table with a
- * column for "Hostname," "Operating System" and "Install Path" we would set the
- * row template on the TableComponent with a set of three Entries, one for each
+ * sense when they are considered as a set, such as "Hostname," "Operating
+ * System" and "Install Path" for a particular executable application or script.
+ * The structure of the Table is defined by its "Row Template" that contains a
+ * default Entry for each column. So, if we wanted a table with a column for
+ * "Hostname," "Operating System" and "Install Path" we would set the row
+ * template on the TableComponent with a set of three Entries, one for each
  * property, that describes the default configuration. The row template is the
  * canonical row configuration of the TableComponent. Once the template is set
  * it can not be changed, although it can be retrieved for reference. Adding a
@@ -47,7 +47,7 @@ import org.eclipse.eavp.viz.datastructures.VizObject.VizObject;
  */
 @XmlRootElement(name = "TableComponent")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class VizTableComponent extends VizObject{
+public class VizTableComponent extends VizObject {
 
 	/**
 	 * <p>
@@ -103,7 +103,8 @@ public class VizTableComponent extends VizObject{
 	 * This operation returns the number of rows that are stored in the table.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The total number of rows in the table.
 	 *         </p>
 	 */
@@ -126,7 +127,8 @@ public class VizTableComponent extends VizObject{
 	 * TableComponent is built off of a row template.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The number of columns.
 	 *         </p>
 	 */
@@ -147,7 +149,8 @@ public class VizTableComponent extends VizObject{
 	 *            <p>
 	 *            The row's index or id in the table.
 	 *            </p>
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The set of Entries that represent the row in the table.
 	 *         </p>
 	 */
@@ -158,7 +161,8 @@ public class VizTableComponent extends VizObject{
 		// not considered rows.
 		// Also do not return a row if the index is negative
 		// Boolean operation
-		if (!(!rowComponents.isEmpty() & index < rowComponents.size() - 1 & index >= 0)) {
+		if (!(!rowComponents.isEmpty() & index < rowComponents.size() - 1
+				& index >= 0)) {
 			return null;
 		}
 
@@ -171,8 +175,8 @@ public class VizTableComponent extends VizObject{
 		// Add one to index to compensate.
 		for (int i = 0; i < rowComponents.get(index + 1).retrieveAllEntries()
 				.size(); i++) {
-			rowArray.add(rowComponents.get(index + 1).retrieveAllEntries()
-					.get(i));
+			rowArray.add(
+					rowComponents.get(index + 1).retrieveAllEntries().get(i));
 		}
 
 		return rowArray;
@@ -188,7 +192,8 @@ public class VizTableComponent extends VizObject{
 	 * this operation cannot add a row and it returns -1.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The index of the new row in the table.
 	 *         </p>
 	 */
@@ -215,7 +220,8 @@ public class VizTableComponent extends VizObject{
 		dataComponent.setDescription("This is a row");
 
 		// copy contents of template into new row
-		for (int i = 0; i < rowComponents.get(0).retrieveAllEntries().size(); i++) {
+		for (int i = 0; i < rowComponents.get(0).retrieveAllEntries()
+				.size(); i++) {
 			dataComponent.addEntry((VizEntry) rowComponents.get(0)
 					.retrieveAllEntries().get(i).clone());
 		}
@@ -239,7 +245,8 @@ public class VizTableComponent extends VizObject{
 	 *            <p>
 	 *            The index of the row that should be deleted.
 	 *            </p>
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         True if the row was deleted and false if some problem was
 	 *         encountered, like an incorrect row id.
 	 *         </p>
@@ -252,7 +259,8 @@ public class VizTableComponent extends VizObject{
 		// decrement by one from index
 		// Also do not delete row if index is negative
 		// Optimized for boolean operation
-		if (!(!rowComponents.isEmpty() & index < rowComponents.size() - 1 & index >= 0)) {
+		if (!(!rowComponents.isEmpty() & index < rowComponents.size() - 1
+				& index >= 0)) {
 			return false;
 		}
 
@@ -327,7 +335,8 @@ public class VizTableComponent extends VizObject{
 	 * This operation returns the row template for this TableComponent.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The set of Entries that represent the canonical row of this
 	 *         table.
 	 *         </p>
@@ -357,7 +366,8 @@ public class VizTableComponent extends VizObject{
 	 * the table.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The set of ids or indices for the rows in the table.
 	 *         </p>
 	 */
@@ -385,7 +395,8 @@ public class VizTableComponent extends VizObject{
 	 * This operation returns the names of the table's columns.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The names of the columns.
 	 *         </p>
 	 */
@@ -433,8 +444,8 @@ public class VizTableComponent extends VizObject{
 		this.rowComponents.clear();
 		for (int i = 0; i < otherTableComponent.rowComponents.size(); i++) {
 			this.rowComponents
-					.add((DataComponent) otherTableComponent.rowComponents.get(
-							i).clone());
+					.add((DataComponent) otherTableComponent.rowComponents
+							.get(i).clone());
 		}
 
 		// Copy the selected rows
@@ -451,7 +462,8 @@ public class VizTableComponent extends VizObject{
 	 * This operation provides a deep copy of the TableComponent.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         A clone of the TableComponent.
 	 *         </p>
 	 */
@@ -478,7 +490,8 @@ public class VizTableComponent extends VizObject{
 	 *            <p>
 	 *            The TableComponent that should be checked for equality.
 	 *            </p>
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         True if the TableComponents are equal, false if not
 	 *         </p>
 	 */
@@ -518,7 +531,8 @@ public class VizTableComponent extends VizObject{
 	 * This operation returns the hashcode value of the TableComponent.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The hashcode
 	 *         </p>
 	 */
@@ -545,14 +559,16 @@ public class VizTableComponent extends VizObject{
 	 * selected in the table.
 	 * </p>
 	 * 
-	 * @return <p>
+	 * @return
+	 *         <p>
 	 *         The set of rows in the table that have been marked as selected or
 	 *         null if none have been selected.
 	 *         </p>
 	 */
 	public ArrayList<Integer> getSelectedRows() {
-		return ((!selectedRows.isEmpty()) ? (ArrayList<Integer>) selectedRows
-				.clone() : null);
+		return ((!selectedRows.isEmpty())
+				? (ArrayList<Integer>) selectedRows.clone()
+				: null);
 	}
 
 	/**
@@ -578,14 +594,45 @@ public class VizTableComponent extends VizObject{
 					rowsToStore.add(rowId);
 				}
 			}
+
 			// Update the list if it exists
-			if (!rowsToStore.isEmpty()) {
-				selectedRows = rowsToStore;
-			}
+			selectedRows = rowsToStore;
 		}
 
 		return;
 	}
 
+	/**
+	 * Get the indices for the selected rows. The return values from this
+	 * function can be used with getRow(int index) to get the rows corresponding
+	 * to the ID numbers returned by getSelectedRows().
+	 * 
+	 * @return An array of the indices into this table's list of rows which will
+	 *         correspond to the row IDs returned by getSelectedRows()
+	 */
+	public ArrayList<Integer> getSelectedRowIndices() {
+
+		// The list of indices to return
+		ArrayList<Integer> indices = new ArrayList<Integer>();
+
+		// The ID numbers of the selected rows
+		ArrayList<Integer> selectedRows = getSelectedRows();
+
+		// For each selected ID number...
+		if (selectedRows != null) {
+			for (Integer row : selectedRows) {
+
+				// ...search the table for a row with a matching ID
+				for (DataComponent rowComponent : rowComponents) {
+					if (rowComponent.getId() == row) {
+						indices.add(rowComponent.getId());
+						break;
+					}
+				}
+			}
+		}
+
+		return indices;
+	}
 
 }

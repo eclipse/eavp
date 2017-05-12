@@ -12,6 +12,7 @@
 package org.eclipse.eavp.viz.service.connections.preferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -134,7 +135,15 @@ public abstract class VizConnectionPreferencePage
 	 */
 	private ConnectionTable table;
 
+	/**
+	 * The part containing the connections table
+	 */
 	private SectionPart tablePart;
+
+	/**
+	 * The composite containing the details section of the MasterDetails block.
+	 */
+	private Composite DetailsComposite;
 
 	/**
 	 * The default constructor.
@@ -156,9 +165,8 @@ public abstract class VizConnectionPreferencePage
 		return new ConnectionTable() {
 			@Override
 			protected ArrayList<VizEntry> createConnectionTemplate() {
-				// // Get the default connection template so we can add
-				// additional
-				// // columns.
+				// Get the default connection template so we can add
+				// additional columns.
 				ArrayList<VizEntry> template = super.createConnectionTemplate();
 
 				// TODO These Entries need descriptions.
@@ -237,8 +245,6 @@ public abstract class VizConnectionPreferencePage
 	@Override
 	protected Control createContents(Composite parent) {
 
-		// createConnectionTable();
-
 		// Create the default layout initially. This also gives us the return
 		// value.
 		Control control = super.createContents(parent);
@@ -248,17 +254,6 @@ public abstract class VizConnectionPreferencePage
 		Composite container = getFieldEditorParent();
 		container.setLayout(new FillLayout());
 
-		// // Create a ConnectionComposite to show all of the cached connection
-		// // preferences.
-		// TableComponentComposite connections = new TableComponentComposite(
-		// container, SWT.NONE);
-		// GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true,
-		// gridLayout.numColumns, 1);
-		// connections.setLayoutData(gridData);
-		//
-		// // Set the custom Composite's TableComponent to fill the table.
-		// connections.setTableComponent(table);
-
 		VizConnectionPreferencePage selfReference = this;
 
 		MasterDetailsBlock block = new MasterDetailsBlock() {
@@ -267,6 +262,7 @@ public abstract class VizConnectionPreferencePage
 			protected void createMasterPart(IManagedForm managedForm,
 					Composite parent) {
 
+				// Set up the master panel with a table
 				FormToolkit toolkit = managedForm.getToolkit();
 				Section tableSection = toolkit.createSection(parent,
 						Section.TITLE_BAR);
@@ -275,78 +271,10 @@ public abstract class VizConnectionPreferencePage
 						.createComposite(tableSection, SWT.NONE);
 				masterComposite.setLayout(new GridLayout());
 
-				// Composite tableComposite = new Composite(masterComposite,
-				// SWT.NONE);
-				// tableComposite.setLayout(new FillLayout());
-
-				// Table table = new Table(tableComposite, SWT.NONE);
-				// //masterComposite.setBackground(new
-				// org.eclipse.swt.graphics.Color(null, 70, 0 , 140));
-				// table.setLayout(new FillLayout());
-
-				// table = createConnectionTable();
 				table.register(selfReference);
-				// table = new ConnectionTable() {
-				// /**
-				// * Gets the row template for a connection as defined in the
-				// * {@link ConnectionTable documentation for the class}.
-				// *
-				// * @return An {@code ArrayList<Entry>} containing the template
-				// {@code Entry}
-				// * s for each exposed connection property.
-				// */
-				// protected ArrayList<VizEntry> createConnectionTemplate() {
-				// ArrayList<VizEntry> template = new ArrayList<VizEntry>();
-				//
-				// IVizEntryContentProvider contentProvider;
-				//
-				// // ---- name ---- //
-				// KeyEntryContentProvider keyContentProvider = new
-				// KeyEntryContentProvider(
-				// keyManager);
-				// VizEntry keyEntry = new KeyEntry(keyContentProvider);
-				// keyEntry.setName("ID");
-				// keyEntry.setDescription(
-				// "The name of the connection. This must be unique.");
-				// template.add(keyEntry);
-				// // ---- host ---- //
-				// contentProvider = new BasicVizEntryContentProvider();
-				// contentProvider.setDefaultValue("ice-plot");
-				// contentProvider.setAllowedValueType(VizAllowedValueType.Discrete);
-				// ArrayList<String> allowedValues = new ArrayList<String>();
-				//
-				// IConfigurationElement[] elements =
-				// Platform.getExtensionRegistry()
-				// .getConfigurationElementsFor(
-				// "org.eclipse.eavp.viz.service.IVizService");
-				// try {
-				// IVizService factory = (IVizService)
-				// elements[0].createExecutableExtension("class");
-				// //for(String serviceName : factory.getServiceNames()) {
-				// allowedValues.add(factory.getName());
-				// //}
-				// } catch (CoreException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-				// }
-				// allowedValues.add("VisIt");
-				// allowedValues.add("ParaView");
-				// contentProvider.setAllowedValues(allowedValues);
-				// VizEntry hostEntry = new VizEntry(contentProvider);
-				// hostEntry.setName("Visualization Service");
-				// hostEntry.setDescription("The FQDN or IP address of the
-				// remote host.%n"
-				// + "For local launches, this should be \"localhost\".");
-				// template.add(hostEntry);
-				//
-				//
-				// return template;
-				// }
-				// };
 
-				// // Create a ConnectionComposite to show all of the cached
-				// connection
-				// // preferences.
+				// Create a ConnectionComposite to show all of the cached
+				// connection preferences.
 				TableComponentComposite connections = new TableComponentComposite(
 						masterComposite, SWT.NONE);
 				GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true,
@@ -354,123 +282,20 @@ public abstract class VizConnectionPreferencePage
 				connections.setLayoutData(gridData);
 				connections.setTableComponent(table);
 
+				// Register to listen to the table to detect new connections
 				connections.getTableViewer()
 						.addSelectionChangedListener(selfReference);
 
+				// Add the table to the master part
 				tableSection.setClient(masterComposite);
 				tablePart = new SectionPart(tableSection);
 				managedForm.addPart(tablePart);
-
-				table.register(new IVizUpdateableListener() {
-
-					@Override
-					public void update(IVizUpdateable component) {
-
-						if (table == component) {
-
-							ArrayList<Integer> selectedRows = table
-									.getSelectedRows();
-							if (selectedRows == null) {
-								selectedRows = new ArrayList<Integer>();
-							}
-							StructuredSelection selection = new StructuredSelection(
-									selectedRows);
-							// managedForm.fireSelectionChanged(tablePart,
-							// selection);
-						}
-
-					}
-				});
-
-				// TableColumn column1 = new TableColumn(table, SWT.NONE);
-				// column1.setText("ID");
-				// column1.pack();
-				// TableColumn column2 = new TableColumn(table, SWT.NONE);
-				// column2.setText("Service");
-				// column2.pack();
-				//
-				// TableItem item = new TableItem(table, SWT.NONE);
-				// item.setText("item");
-				// item.setText(0, "ID");
-				// item.setText(1, "typwe");
-				//
-				// Composite buttonComposite = new Composite(masterComposite,
-				// SWT.NONE);
-				// buttonComposite.setLayout(new GridLayout());
-				//
-				// Button addButton = new Button(buttonComposite, SWT.PUSH);
-				// addButton.setText("+");
-				//
-				// Button removeButton = new Button(buttonComposite, SWT.PUSH);
-				// removeButton.setText("-");
 
 			}
 
 			@Override
 			protected void registerPages(DetailsPart detailsPart) {
-				// detailsPart.registerPage(Object.class, new IDetailsPage() {
-				//
-				// @Override
-				// public void initialize(IManagedForm form) {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				//
-				// @Override
-				// public void dispose() {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				//
-				// @Override
-				// public boolean isDirty() {
-				// // TODO Auto-generated method stub
-				// return false;
-				// }
-				//
-				// @Override
-				// public void commit(boolean onSave) {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				//
-				// @Override
-				// public boolean setFormInput(Object input) {
-				// // TODO Auto-generated method stub
-				// return false;
-				// }
-				//
-				// @Override
-				// public void setFocus() {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				//
-				// @Override
-				// public boolean isStale() {
-				// // TODO Auto-generated method stub
-				// return false;
-				// }
-				//
-				// @Override
-				// public void refresh() {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				//
-				// @Override
-				// public void selectionChanged(IFormPart part, ISelection
-				// selection) {
-				// System.out.println(selection);
-				// }
-				//
-				// @Override
-				// public void createContents(Composite parent) {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				//
-				// });
+
 				detailsPart.setPageProvider(new IDetailsPageProvider() {
 
 					Map<Object, IDetailsPage> pages = new HashMap<Object, IDetailsPage>();
@@ -493,12 +318,12 @@ public abstract class VizConnectionPreferencePage
 
 							@Override
 							public void initialize(IManagedForm form) {
-								System.out.println("Initialize");
+								// TODO Auto-generated method stub
 							}
 
 							@Override
 							public void dispose() {
-								System.out.println("dispose");
+								// TODO Auto-generated method stub
 							}
 
 							@Override
@@ -515,13 +340,13 @@ public abstract class VizConnectionPreferencePage
 
 							@Override
 							public boolean setFormInput(Object input) {
-								System.out.println("set form input");
+								// TODO Auto-generated method stub
 								return false;
 							}
 
 							@Override
 							public void setFocus() {
-								System.out.println("set focus");
+								// TODO Auto-generated method stub
 							}
 
 							@Override
@@ -532,7 +357,7 @@ public abstract class VizConnectionPreferencePage
 
 							@Override
 							public void refresh() {
-
+								// TODO Auto-generated method stub
 							}
 
 							@Override
@@ -542,17 +367,21 @@ public abstract class VizConnectionPreferencePage
 								Object tableEntry = ((ArrayList) ((StructuredSelection) selection)
 										.getFirstElement()).get(0);
 
+								// If a key entry was selected, display the
+								// associated details part
 								if (KeyEntry.class == tableEntry.getClass()) {
 
+									// Get the connection name and its
+									// associated preferences
 									String connectionName = ((KeyEntry) tableEntry)
 											.getValue();
 									IVizConnectionPreferences preferences = connections
 											.get(connectionName);
-
-									hostCombo.removeAll();
-									hostCombo.add("localhost");
+									currentPreferences = preferences;
 
 									// Refresh the list of available connections
+									hostCombo.removeAll();
+									hostCombo.add("localhost");
 									BundleContext context = FrameworkUtil
 											.getBundle(getClass())
 											.getBundleContext();
@@ -611,250 +440,289 @@ public abstract class VizConnectionPreferencePage
 							@Override
 							public void createContents(Composite parent) {
 
-								parent.setLayout(new GridLayout());
+								// Set the current preferences based on the name
+								// of the row selected in the table
+								ArrayList<Integer> selectedRows = table
+										.getSelectedRowIndices();
+								ArrayList<VizEntry> selectedRow = null;
+								if (!selectedRows.isEmpty()) {
+									selectedRow = table
+											.getRow(selectedRows.get(0));
+								}
 
-								// Get the system's white color
-								Color white = Display.getCurrent()
-										.getSystemColor(SWT.COLOR_WHITE);
+								if (selectedRow != null) {
+									currentPreferences = connections.get(
+											table.getRow(selectedRows.get(0))
+													.get(0).getValue());
 
-								Composite nameComp = new Composite(parent,
-										SWT.NONE);
-								nameComp.setLayoutData(new GridData(
-										SWT.BEGINNING, SWT.BEGINNING, false,
-										false, 1, 1));
-								nameComp.setLayout(new GridLayout(2, false));
-								nameComp.setBackground(white);
+									parent.setLayout(new GridLayout());
 
-								// Create a combo for the connection names
-								hostCombo = new Combo(parent, SWT.NONE);
-								hostCombo.add("localhost");
+									// Get the system's white color
+									Color white = Display.getCurrent()
+											.getSystemColor(SWT.COLOR_WHITE);
 
-								BundleContext context = FrameworkUtil
-										.getBundle(getClass())
-										.getBundleContext();
+									Composite nameComp = new Composite(parent,
+											SWT.NONE);
+									nameComp.setLayoutData(new GridData(
+											SWT.BEGINNING, SWT.BEGINNING, false,
+											false, 1, 1));
+									nameComp.setLayout(
+											new GridLayout(2, false));
+									nameComp.setBackground(white);
 
-								// Get the remote services manager
-								if (context != null) {
-									ServiceReference<IRemoteServicesManager> ref = context
-											.getServiceReference(
-													IRemoteServicesManager.class);
+									// Create a combo for the connection names
+									hostCombo = new Combo(parent, SWT.NONE);
+									hostCombo.add("localhost");
 
-									// Get the local connections
-									IRemoteServicesManager manager = context
-											.getService(ref);
-									localConnections = manager
-											.getLocalConnectionType();
+									BundleContext context = FrameworkUtil
+											.getBundle(getClass())
+											.getBundleContext();
 
-									List<IRemoteConnectionType> types = manager
-											.getRemoteConnectionTypes();
+									// Get the remote services manager
+									if (context != null) {
+										ServiceReference<IRemoteServicesManager> ref = context
+												.getServiceReference(
+														IRemoteServicesManager.class);
 
-									// Find the SSH connections
-									for (IRemoteConnectionType type : types) {
-										if ("SSH".equals(type.getName())) {
+										// Get the local connections
+										IRemoteServicesManager manager = context
+												.getService(ref);
+										localConnections = manager
+												.getLocalConnectionType();
 
-											// Save this type
-											if (sshConnections == null) {
-												sshConnections = type;
-											}
+										List<IRemoteConnectionType> types = manager
+												.getRemoteConnectionTypes();
 
-											// Get the names of all current
-											// connections
-											for (IRemoteConnection connection : type
-													.getConnections()) {
-												hostCombo.add(
-														connection.getName());
+										// Find the SSH connections
+										for (IRemoteConnectionType type : types) {
+											if ("SSH".equals(type.getName())) {
+
+												// Save this type
+												if (sshConnections == null) {
+													sshConnections = type;
+												}
+
+												// Get the names of all current
+												// connections
+												for (IRemoteConnection connection : type
+														.getConnections()) {
+													hostCombo.add(connection
+															.getName());
+												}
 											}
 										}
 									}
-								}
 
-								hostCombo.addSelectionListener(
-										new SelectionAdapter() {
+									hostCombo.addSelectionListener(
+											new SelectionAdapter() {
 
-											@Override
-											public void widgetSelected(
-													SelectionEvent event) {
+												@Override
+												public void widgetSelected(
+														SelectionEvent event) {
 
-												// Update the preferences when
-												// the combo is changed.
-												currentPreferences
-														.setConnectionName(
-																hostCombo
-																		.getText());
-											}
-										});
+													// Update the preferences
+													// when
+													// the combo is changed.
+													currentPreferences
+															.setConnectionName(
+																	hostCombo
+																			.getText());
+												}
+											});
 
-								Button newConnectionButton = new Button(parent,
-										SWT.PUSH);
-								newConnectionButton.setText("New Connection");
+									// Add a button to create a new PTP
+									// connection
+									Button newConnectionButton = new Button(
+											parent, SWT.PUSH);
+									newConnectionButton
+											.setText("New Connection");
 
-								newConnectionButton.addSelectionListener(
-										new SelectionAdapter() {
-											@Override
-											public void widgetSelected(
-													SelectionEvent event) {
+									newConnectionButton.addSelectionListener(
+											new SelectionAdapter() {
+												@Override
+												public void widgetSelected(
+														SelectionEvent event) {
 
-												// Get a final reference to the
-												// connection type
-												final IRemoteConnectionType finalType = sshConnections;
+													// Get a final reference to
+													// the
+													// connection type
+													final IRemoteConnectionType finalType = sshConnections;
 
-												// Open the Remote Connection
-												// Wizard
-												Display.getDefault().asyncExec(
-														new Runnable() {
-															@Override
-															public void run() {
+													// Open the Remote
+													// Connection
+													// Wizard
+													Display.getDefault()
+															.asyncExec(
+																	new Runnable() {
+																		@Override
+																		public void run() {
 
-																// Get the UI
-																// Connection
-																// Service
-																IRemoteUIConnectionService remoteUI = finalType
-																		.getService(
-																				IRemoteUIConnectionService.class);
+																			// Get
+																			// the
+																			// UI
+																			// Connection
+																			// Service
+																			IRemoteUIConnectionService remoteUI = finalType
+																					.getService(
+																							IRemoteUIConnectionService.class);
 
-																// Create a UI
-																// Connection
-																// Wizard
-																IRemoteUIConnectionWizard wizard = remoteUI
-																		.getConnectionWizard(
-																				PlatformUI
-																						.getWorkbench()
-																						.getActiveWorkbenchWindow()
-																						.getShell());
+																			// Create
+																			// a
+																			// UI
+																			// Connection
+																			// Wizard
+																			IRemoteUIConnectionWizard wizard = remoteUI
+																					.getConnectionWizard(
+																							PlatformUI
+																									.getWorkbench()
+																									.getActiveWorkbenchWindow()
+																									.getShell());
 
-																// If valid,
-																// open it and
-																// save/open the
-																// IRemoteConnection
-																if (wizard != null) {
-																	// wizard.setConnectionName(host);
-																	try {
-																		IRemoteConnection newConnection = wizard
-																				.open()
-																				.save();
-																		if (newConnection != null) {
-																			hostCombo
-																					.add(newConnection
-																							.getName());
+																			// If
+																			// valid,
+																			// open
+																			// it
+																			// and
+																			// save/open
+																			// the
+																			// IRemoteConnection
+																			if (wizard != null) {
+																				try {
+																					IRemoteConnection newConnection = wizard
+																							.open()
+																							.save();
+																					if (newConnection != null) {
+																						hostCombo
+																								.add(newConnection
+																										.getName());
+																					}
+																				} catch (RemoteConnectionException e) {
+																					// logger.error(getClass().getName()
+																					// +
+																					// "Exception!",
+																					// e);
+																				}
+																			}
 																		}
-																	} catch (RemoteConnectionException e) {
-																		// logger.error(getClass().getName()
-																		// + "
-																		// Exception!",
-																		// e);
-																	}
-																}
-															}
-														});
-											}
-										});
+																	});
+												}
+											});
 
-								// A composite for the port information
-								Composite portComp = new Composite(parent,
-										SWT.NONE);
-								portComp.setLayoutData(new GridData(
-										SWT.BEGINNING, SWT.BEGINNING, false,
-										false, 1, 1));
-								portComp.setLayout(new GridLayout(2, false));
-								portComp.setBackground(white);
+									// A composite for the port information
+									Composite portComp = new Composite(parent,
+											SWT.NONE);
+									portComp.setLayoutData(new GridData(
+											SWT.BEGINNING, SWT.BEGINNING, false,
+											false, 1, 1));
+									portComp.setLayout(
+											new GridLayout(2, false));
+									portComp.setBackground(white);
 
-								// A label reading "Port:"
-								Label portLabel = new Label(portComp,
-										SWT.CENTER);
-								portLabel.setText("Port:");
-								portLabel.setBackground(white);
+									// A label reading "Port:"
+									Label portLabel = new Label(portComp,
+											SWT.CENTER);
+									portLabel.setText("Port:");
+									portLabel.setBackground(white);
 
-								// A text box in which the connection's port
-								// will be displayed and can be
-								// edited.
-								portText = new Text(portComp, SWT.BORDER);
-								portText.setLayoutData(new GridData(SWT.FILL,
-										SWT.FILL, true, true, 1, 1));
-								portText.setText(defaultPortNumber);
+									// A text box in which the connection's port
+									// will be displayed and can be
+									// edited.
+									portText = new Text(portComp, SWT.BORDER);
+									portText.setLayoutData(
+											new GridData(SWT.FILL, SWT.FILL,
+													true, true, 1, 1));
+									portText.setText(defaultPortNumber);
+									portText.setSize(200, 50);
 
-								// Allow only valid port numbers to be entered
-								portText.addVerifyListener(
-										new VerifyListener() {
+									// Allow only valid port numbers to be
+									// entered
+									portText.addVerifyListener(
+											new VerifyListener() {
 
-											@Override
-											public void verifyText(
-													VerifyEvent e) {
+												@Override
+												public void verifyText(
+														VerifyEvent e) {
 
-												// Get the edited widget
-												Text widget = (Text) e.widget;
+													// Get the edited widget
+													Text widget = (Text) e.widget;
 
-												// Construct the port number as
-												// it would be if the proposed
-												// change where applied
-												String newValue = widget
-														.getText()
-														.substring(0, e.start)
-														+ e.text
-														+ widget.getText()
-																.substring(
-																		e.end);
+													// Construct the port number
+													// as
+													// it would be if the
+													// proposed
+													// change where applied
+													String newValue = widget
+															.getText()
+															.substring(0,
+																	e.start)
+															+ e.text
+															+ widget.getText()
+																	.substring(
+																			e.end);
 
-												try {
+													try {
 
-													// If the port is outside
-													// the range of port
-													// numbers, reject the
-													// change
-													int port = Integer
-															.valueOf(newValue);
-													if (port < 0
-															|| port > 65535) {
+														// If the port is
+														// outside
+														// the range of port
+														// numbers, reject the
+														// change
+														int port = Integer
+																.valueOf(
+																		newValue);
+														if (port < 0
+																|| port > 65535) {
+															e.doit = false;
+														}
+													} catch (NumberFormatException f) {
+
+														// If the port entered
+														// text
+														// is not an integer,
+														// reject
+														// the change
 														e.doit = false;
 													}
-												} catch (NumberFormatException f) {
-
-													// If the port entered text
-													// is not an integer, reject
-													// the change
-													e.doit = false;
 												}
-											}
-										});
+											});
 
-								portText.addModifyListener(
-										new ModifyListener() {
+									portText.addModifyListener(
+											new ModifyListener() {
 
-											@Override
-											public void modifyText(
-													ModifyEvent e) {
-												currentPreferences.setPort(
-														Integer.valueOf(portText
-																.getText()));
-											}
+												@Override
+												public void modifyText(
+														ModifyEvent e) {
+													currentPreferences.setPort(
+															Integer.valueOf(
+																	portText.getText()));
+												}
 
-										});
+											});
 
-								// Set the current preferences based on the name
-								// of the row selected in the table
-								currentPreferences = connections.get(table
-										.getRow(table.getSelectedRows().get(0))
-										.get(0).getValue());
+									// Load the setting's defaults into the
+									// widgets
+									portText.setText(Integer.toString(
+											currentPreferences.getPort()));
 
-								// Load the setting's defaults into the widgets
-								portText.setText(Integer.toString(
-										currentPreferences.getPort()));
+									// The list of all options in the combo
+									String[] comboConnections = hostCombo
+											.getItems();
 
-								// The list of all options in the combo
-								String[] comboConnections = hostCombo
-										.getItems();
-
-								// Search for the option in the preferences
-								// and set it. If the connection is missing,
-								// the combo will default to localhost.
-								for (int i = 0; i < comboConnections.length; i++) {
-									if (currentPreferences.getConnectionName()
-											.equals(comboConnections[i])) {
-										hostCombo.select(i);
-										break;
+									// Search for the option in the preferences
+									// and set it. If the connection is missing,
+									// the combo will default to localhost.
+									for (int i = 0; i < comboConnections.length; i++) {
+										if (currentPreferences
+												.getConnectionName()
+												.equals(comboConnections[i])) {
+											hostCombo.select(i);
+											break;
+										}
 									}
-								}
 
-								selfReference.createDetailsPageContents(parent);
+									selfReference
+											.createDetailsPageContents(parent);
+								}
 							}
 						};
 
@@ -980,12 +848,6 @@ public abstract class VizConnectionPreferencePage
 				// Update the other properties.
 				connections.put(key,
 						createVizConnectionPreferences(node.get(key, null)));
-
-				// String[] preferences = unserializeConnectionPreferences(
-				// node.get(key, null));
-				// for (int i = 0; i < preferences.length; i++) {
-				// row.get(i + 1).setValue(preferences[i]);
-				// }
 			}
 		} catch (BackingStoreException e) {
 			e.printStackTrace();
@@ -1028,7 +890,6 @@ public abstract class VizConnectionPreferencePage
 		// operation, only the connections in the table will be in the
 		// preferences.
 		Set<String> updated = new HashSet<String>(table.getConnectionNames());
-		List<VizEntry> row;
 
 		// Update old connections in the preferences.
 		String[] existingNames;
@@ -1055,9 +916,8 @@ public abstract class VizConnectionPreferencePage
 
 		// Add all new connections to the preferences.
 		for (String name : updated) {
-			IVizConnectionPreferences preferences = connections.get(name);
-			node.put(name,
-					preferences.serialize(getConnectionPreferenceDelimiter()));
+			node.put(name, connections.get(name)
+					.serialize(getConnectionPreferenceDelimiter()));
 		}
 
 		return;
@@ -1117,60 +977,138 @@ public abstract class VizConnectionPreferencePage
 		table.addRow();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.
+	 * eclipse.jface.viewers.SelectionChangedEvent)
+	 */
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
+
+		// Redirect the event to the form, alerting it that the change
+		// originated from the table
 		form.fireSelectionChanged(tablePart, event.getSelection());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener#
+	 * update(org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable)
+	 */
 	@Override
 	public void update(IVizUpdateable component) {
 
+		// The list of all connections already in the table
 		ArrayList<String> oldConnections = new ArrayList<String>();
 
+		// Only update on events from the table
 		if (component == table) {
-			if (table.numberOfRows() < connections.keySet().size()) {
-				for (String connection : connections.keySet()) {
 
-					boolean inTable = false;
+			// // The the table has less rows than the number of known
+			// connections,
+			// // connections have been deleted.
+			// if (table.numberOfRows() < connections.keySet().size()) {
+			// for (String connection : connections.keySet()) {
+			//
+			// // Whether this connection was in the table
+			// boolean inTable = false;
+			//
+			// // Search the table for rows with the same name as this
+			// // connection.
+			// for (int i = 0; i < table.numberOfRows(); i++) {
+			// if (connection
+			// .equals(table.getRow(i).get(0).getValue())) {
+			// inTable = true;
+			// break;
+			// }
+			// }
+			//
+			// // If the connection was not found, schedule it for removal
+			// if (!inTable) {
+			// oldConnections.add(connection);
+			// }
+			// }
+			//
+			// // Remove all connections that are gone from the table
+			// for (String connection : oldConnections) {
+			// connections.remove(connection);
+			// }
+			// }
+			//
+			// // If the table is larger than the map of connections,
+			// connections
+			// // have been added.
+			// else if (table.numberOfRows() > connections.keySet().size()) {
+			// for (int i = 0; i < table.numberOfRows(); i++) {
+			//
+			// String name = table.getRow(i).get(0).getValue();
+			//
+			// if (!connections.keySet().contains(name)) {
+			//
+			// IVizConnectionPreferences preferences =
+			// createVizConnectionPreferences(
+			// "");
+			// preferences.setName(name);
+			// connections.put(name, preferences);
+			// }
+			// }
+			// }
 
-					for (int i = 0; i < table.numberOfRows(); i++) {
-						if (connection
-								.equals(table.getRow(i).get(0).getValue())) {
-							inTable = true;
-							break;
-						}
-					}
+			// Get the highest id for the table
+			int lastRow = 0;
+			if (!table.getRowIds().isEmpty()) {
+				lastRow = Collections.max(table.getRowIds());
+			}
 
-					if (!inTable) {
-						oldConnections.add(connection);
-					}
-				}
+			// Create a list of all connection names in the table
+			ArrayList<String> tableRowNames = new ArrayList<String>();
 
-				for (String connection : oldConnections) {
-					connections.remove(connection);
+			for (int i = 0; i <= lastRow; i++) {
+				ArrayList<VizEntry> row = table.getRow(i);
+				if (row != null) {
+					tableRowNames.add(row.get(0).getValue());
 				}
 			}
 
-			else if (table.numberOfRows() > connections.keySet().size()) {
-				for (int i = 0; i < table.numberOfRows(); i++) {
+			// A list of all connections names in the local map
+			ArrayList<String> mapRowNames = new ArrayList<String>();
+			for (String name : connections.keySet()) {
+				mapRowNames.add(name);
+			}
 
-					String name = table.getRow(i).get(0).getValue();
-
-					if (!connections.keySet().contains(name)) {
-
-						IVizConnectionPreferences preferences = createVizConnectionPreferences(
-								"");
-						preferences.setName(name);
-						connections.put(name, preferences);
-					}
+			// If a row is in the table but not the map, add a new connection
+			for (String tableRow : tableRowNames) {
+				if (!mapRowNames.contains(tableRow)) {
+					IVizConnectionPreferences preferences = createVizConnectionPreferences(
+							"");
+					preferences.setName(tableRow);
+					connections.put(tableRow, preferences);
 				}
 			}
 
-			if (table.getSelectedRows() != null) {
-				String selectedConnectionName = table
-						.getRow(table.getSelectedRows().get(0)).get(0)
-						.getValue();
-				currentPreferences = connections.get(selectedConnectionName);
+			// If a connection is in the map but not the table, it has been
+			// deleted, so remove it
+			for (String mapRow : mapRowNames) {
+				if (!tableRowNames.contains(mapRow)) {
+					connections.remove(mapRow);
+				}
+			}
+
+			// Set the current preferences to the selected row in the table
+			if (!table.getSelectedRowIndices().isEmpty()) {
+
+				ArrayList<VizEntry> row = table
+						.getRow(table.getSelectedRowIndices().get(0));
+
+				if (row != null) {
+					String selectedConnectionName = row.get(0).getValue();
+					currentPreferences = connections
+							.get(selectedConnectionName);
+				}
 			}
 		}
 

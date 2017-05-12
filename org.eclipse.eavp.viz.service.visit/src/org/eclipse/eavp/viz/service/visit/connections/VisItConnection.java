@@ -161,21 +161,29 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 		properties.put("useTunneling",
 				"localhost".equals(getHost()) ? "false" : "true");
 
-		//Get the host name, discarding the username if present
+		// Get the host name, discarding the username if present
 		String hostname = properties.get("url");
-        if (hostname.contains("@")) {
-            hostname = hostname.split("@")[1];
-        }
-		
+		if (hostname.contains("@")) {
+			hostname = hostname.split("@")[1];
+		}
+
 		try {
+
+			// The SWT VisIt server takes the path to the VisIt directory,
+			// not the executable, so get the containing directory.
+			String filePath = properties.get("visDir");
+			int lastSep = filePath.lastIndexOf('/');
+			if (lastSep == -1) {
+				lastSep = filePath.lastIndexOf('\\');
+			}
+			String dirPath = filePath.substring(0, lastSep + 1);
+			File dir = new File(dirPath);
+			properties.put("visDir", dirPath);
 
 			// Check the host name to see if this is a local launch
 			InetAddress host = InetAddress.getByName(hostname);
 			if (host.isAnyLocalAddress() || host.isLoopbackAddress()
 					|| NetworkInterface.getByInetAddress(host) != null) {
-
-				// Get the specified directory
-				File dir = new File(properties.get("visDir"));
 
 				// If the directory exists, search inside it
 				if (dir.exists()) {
@@ -206,15 +214,21 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 											+ "\".");
 						}
 					} else if (os.indexOf("nux") >= 0) {
-						if (!new File(dir + "/visit").exists() && !new File(dir + "/visit").getAbsoluteFile().exists()) {
-							
-							//THe visit java client won't check inside the bin directory so change the path if it is located there
-							if(!new File(dir + "/bin/visit").exists() || !new File(dir + "bin/visit").getAbsoluteFile().exists()){
+						if (!new File(dir + "/visit").exists()
+								&& !new File(dir + "/visit").getAbsoluteFile()
+										.exists()) {
+
+							// The visit java client won't check inside the bin
+							// directory so change the path if it is located
+							// there
+							if (!new File(dir + "/bin/visit").exists()
+									|| !new File(dir + "bin/visit")
+											.getAbsoluteFile().exists()) {
 								properties.put("visDir", dir + "/bin");
-							} else{
-							addErrorMessage(
-									"Could not find VisIt in directory \"" + dir
-											+ "\".");
+							} else {
+								addErrorMessage(
+										"Could not find VisIt in directory \""
+												+ dir + "\".");
 							}
 						}
 					}

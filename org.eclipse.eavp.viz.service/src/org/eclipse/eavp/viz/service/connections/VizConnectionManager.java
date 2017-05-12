@@ -145,8 +145,8 @@ public abstract class VizConnectionManager<T>
 			// Ensure the connection's basic preferences are set.
 			connection.setName(name);
 			connection.setHost(split[0]);
-			connection.setPort(Integer.parseInt(split[1]));
-			connection.setPath(split[2]);
+			connection.setPort(Integer.parseInt(split[2]));
+			connection.setPath(split[3]);
 
 			// Add the connection to the map of connections by name.
 			connectionsByName.put(name, connection);
@@ -208,7 +208,7 @@ public abstract class VizConnectionManager<T>
 			@Override
 			public void preferenceChange(PreferenceChangeEvent event) {
 				String name = event.getKey();
-				Object oldValue = event.getOldValue();
+				Object oldValue = connectionsByName.get(name);
 				Object newValue = event.getNewValue();
 
 				// Add, update, or remove depending on whether the old/new

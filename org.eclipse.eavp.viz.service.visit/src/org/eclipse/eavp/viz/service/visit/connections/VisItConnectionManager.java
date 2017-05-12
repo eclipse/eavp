@@ -45,27 +45,73 @@ public class VisItConnectionManager
 			String preferences) {
 		VisItConnection connection = new VisItConnection();
 
-		// Split the string using the delimiter. The -1 is necessary to include
-		// empty values from the split.
-		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
-				-1);
+		VisItVizConnectionPreferences connectionPreferences = new VisItVizConnectionPreferences(
+				preferences, ",");
 
-		try {
-			// Get the additional properties, if possible.
-			String gateway = split[3];
-			int gatewayPort = Integer.parseInt(split[4]);
-			String username = split[5];
+		// // Split the string using the delimiter. The -1 is necessary to
+		// include
+		// // empty values from the split.
+		// String[] split =
+		// preferences.split(getConnectionPreferenceDelimiter(),
+		// -1);
+		//
+		// try {
+		// // Get the additional properties, if possible.
+		// String gateway = split[3];
+		// int gatewayPort = Integer.parseInt(split[4]);
+		// String username = split[5];
+		//
+		// // Set the connection's properties.
+		// connection.setProperty("gateway", gateway);
+		// connection.setProperty("localGatewayPort",
+		// Integer.toString(gatewayPort));
+		// connection.setProperty("username", username);
+		// } catch (IndexOutOfBoundsException | NullPointerException
+		// | NumberFormatException e) {
+		// // Cannot add the connection.
+		// connection = null;
+		// }
 
-			// Set the connection's properties.
-			connection.setProperty("gateway", gateway);
-			connection.setProperty("localGatewayPort",
-					Integer.toString(gatewayPort));
-			connection.setProperty("username", username);
-		} catch (IndexOutOfBoundsException | NullPointerException
-				| NumberFormatException e) {
-			// Cannot add the connection.
-			connection = null;
+		// Get the additional properties, if possible.
+		String gateway = connectionPreferences.getProxy();
+		int gatewayPort = connectionPreferences.getProxyPort();
+		String username = "";
+
+		BundleContext context = FrameworkUtil.getBundle(getClass())
+				.getBundleContext();
+
+		// Get the remote services manager
+		if (context != null) {
+			ServiceReference<IRemoteServicesManager> ref = context
+					.getServiceReference(IRemoteServicesManager.class);
+
+			List<IRemoteConnectionType> types = context.getService(ref)
+					.getRemoteConnectionTypes();
+
+			// Find the SSH connections
+			for (IRemoteConnectionType type : types) {
+				if ("SSH".equals(type.getName())) {
+
+					// Get the names of all current
+					// connections
+					for (IRemoteConnection remoteConnection : type
+							.getConnections()) {
+						if (remoteConnection.getName().equals(
+								connectionPreferences.getConnectionName())) {
+							// remoteConnection.getName();
+							username = remoteConnection.getWorkingCopy()
+									.getAttribute("USERNAME_ATTR");
+						}
+					}
+				}
+			}
 		}
+
+		// Set the preferences to the connection
+		connection.setProperty("gateway", gateway);
+		connection.setProperty("localGatewayPort",
+				Integer.toString(gatewayPort));
+		connection.setProperty("username", username);
 
 		return connection;
 	}
@@ -90,7 +136,7 @@ public class VisItConnectionManager
 			// Get the additional properties, if possible.
 			String gateway = connectionPreferences.getProxy();
 			int gatewayPort = connectionPreferences.getProxyPort();
-			// String username = split[5];
+			String username = "";
 
 			BundleContext context = FrameworkUtil.getBundle(getClass())
 					.getBundleContext();
@@ -114,19 +160,22 @@ public class VisItConnectionManager
 							if (remoteConnection.getName()
 									.equals(connectionPreferences
 											.getConnectionName())) {
-								remoteConnection.getName();
+								// remoteConnection.getName();
+								username = remoteConnection.getWorkingCopy()
+										.getAttribute("USERNAME_ATTR");
 							}
 						}
 					}
 				}
 			}
-			String username = "test";
 
 			// If any of these change, the connection will need to be reset.
 			requiresReset |= connection.setProperty("gateway", gateway);
 			requiresReset |= connection.setProperty("localGatewayPort",
 					Integer.toString(gatewayPort));
 			requiresReset |= connection.setProperty("username", username);
+			requiresReset |= connection
+					.setPath(connectionPreferences.getExecutablePath());
 		} catch (IndexOutOfBoundsException | NullPointerException
 				| NumberFormatException e) {
 			// Cannot update the connection.
