@@ -625,7 +625,7 @@ public class VizTableComponent extends VizObject {
 				// ...search the table for a row with a matching ID
 				for (DataComponent rowComponent : rowComponents) {
 					if (rowComponent.getId() == row) {
-						indices.add(rowComponent.getId());
+						indices.add(rowComponents.indexOf(rowComponent));
 						break;
 					}
 				}

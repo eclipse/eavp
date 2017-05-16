@@ -371,6 +371,12 @@ public abstract class VizConnectionPreferencePage
 								// associated details part
 								if (KeyEntry.class == tableEntry.getClass()) {
 
+									// Save the current preferences to the
+									// connection table
+									connections.put(
+											currentPreferences.getName(),
+											currentPreferences);
+
 									// Get the connection name and its
 									// associated preferences
 									String connectionName = ((KeyEntry) tableEntry)
@@ -443,7 +449,7 @@ public abstract class VizConnectionPreferencePage
 								// Set the current preferences based on the name
 								// of the row selected in the table
 								ArrayList<Integer> selectedRows = table
-										.getSelectedRowIndices();
+										.getSelectedRows();
 								ArrayList<VizEntry> selectedRow = null;
 								if (!selectedRows.isEmpty()) {
 									selectedRow = table
@@ -612,7 +618,7 @@ public abstract class VizConnectionPreferencePage
 									Composite portComp = new Composite(parent,
 											SWT.NONE);
 									portComp.setLayoutData(new GridData(
-											SWT.BEGINNING, SWT.BEGINNING, false,
+											SWT.FILL, SWT.BEGINNING, true,
 											false, 1, 1));
 									portComp.setLayout(
 											new GridLayout(2, false));
@@ -881,6 +887,12 @@ public abstract class VizConnectionPreferencePage
 	 *            The table containing the new connection preferences to store.
 	 */
 	private void savePreferences(ConnectionTable table) {
+
+		// First update the current preferences in the connections map
+		if (connections.containsKey(currentPreferences.getName())) {
+			connections.put(currentPreferences.getName(), currentPreferences);
+		}
+
 		// Get the preference node for connection preferences.
 		CustomScopedPreferenceStore store = (CustomScopedPreferenceStore) getPreferenceStore();
 		IEclipsePreferences node = store
