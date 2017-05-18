@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.visit.connections;
 
-import org.eclipse.eavp.viz.service.connections.preferences.AbstractVizConnectionPreferences;
+import org.eclipse.eavp.viz.service.connections.preferences.RCPVizConnectionPreferences;
 
 /**
  * A class containing the custom preferences for a VisIt connection page.
@@ -19,8 +19,12 @@ import org.eclipse.eavp.viz.service.connections.preferences.AbstractVizConnectio
  * @author Robert Smith
  *
  */
-public class VisItVizConnectionPreferences
-		extends AbstractVizConnectionPreferences {
+public class VisItVizConnectionPreferences extends RCPVizConnectionPreferences {
+
+	/**
+	 * There is one preference added for VisIt applications.
+	 */
+	private static final int numVisItPrefs = 3;
 
 	/**
 	 * The path to the VisIt executable.
@@ -47,25 +51,35 @@ public class VisItVizConnectionPreferences
 		proxyPort = 0;
 	}
 
-	public VisItVizConnectionPreferences(String data, String delimiter) {
-		super(data, delimiter);
+	/**
+	 * The constructor for building a preferences set from a string
+	 * representation, as from serialize()
+	 * 
+	 * @param data
+	 *            The serialized representation of the preferences
+	 */
+	public VisItVizConnectionPreferences(String data) {
+		super(data);
+
+		// The index of the start of this subclass's preferences in the string
+		int start = super.getNumPreferences();
 
 		// Split the data into tokens for the various data fields
-		String[] tokens = data.split(delimiter, -1);
+		String[] tokens = data.split(",", -1);
 
 		// If the string was not formatted correctly, use the default values
-		if (tokens.length < 6) {
+		if (tokens.length < getNumPreferences()) {
 			executablePath = "";
 			proxy = "";
 			proxyPort = 0;
 		} else {
 
 			// Place the data into the class variables
-			executablePath = tokens[3];
-			proxy = tokens[4];
+			executablePath = tokens[start];
+			proxy = tokens[start + 1];
 
 			try {
-				proxyPort = Integer.parseInt(tokens[5]);
+				proxyPort = Integer.parseInt(tokens[start + 2]);
 			} catch (NumberFormatException e) {
 
 				// Use the default value if the proxyPort is not a number
@@ -101,18 +115,6 @@ public class VisItVizConnectionPreferences
 		return proxyPort;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.connections.preferences.
-	 * AbstractVizConnectionPreferences#serialize(java.lang.String)
-	 */
-	@Override
-	public String serialize(String delimiter) {
-		return super.serialize(delimiter) + delimiter + executablePath
-				+ delimiter + proxy + delimiter + proxyPort;
-	}
-
 	/**
 	 * Setter method for the executable path.
 	 * 
@@ -142,5 +144,25 @@ public class VisItVizConnectionPreferences
 	 */
 	public void setProxyPort(int proxyPort) {
 		this.proxyPort = proxyPort;
+	}
+
+	/**
+	 * Get the number of different preferences values held by this class.
+	 */
+	@Override
+	protected int getNumPreferences() {
+		return super.getNumPreferences() + numVisItPrefs;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.preferences.
+	 * AbstractVizConnectionPreferences#serialize(java.lang.String)
+	 */
+	@Override
+	public String serialize() {
+		return super.serialize() + "," + executablePath + "," + proxy + ","
+				+ proxyPort;
 	}
 }

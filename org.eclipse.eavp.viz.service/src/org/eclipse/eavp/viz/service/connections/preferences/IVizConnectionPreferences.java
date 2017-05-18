@@ -21,15 +21,15 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 public interface IVizConnectionPreferences {
 
 	/**
-	 * Getter method for name of the remote connection from which some
-	 * preferences are drawn.
+	 * Getter method for name of the host machine.
 	 * 
-	 * @return
+	 * @return The hostname for the machine being connected to.
 	 */
-	String getConnectionName();
+	String getHostName();
 
 	/**
-	 * Getter method for the connection's name.
+	 * Getter method for the connection's name. For connections of the same
+	 * type, this should be unique.
 	 * 
 	 * @return The connection's name
 	 */
@@ -43,30 +43,33 @@ public interface IVizConnectionPreferences {
 	int getPort();
 
 	/**
+	 * Getter method for the connection's username.
+	 * 
+	 * @return The username for use when connecting, or an empty string if no
+	 *         username is to be used.
+	 */
+	String getUsername();
+
+	/**
 	 * Produce a comma delimited String representing the contents of this
 	 * object.
 	 * 
 	 * Fields are to be placed in the string in alphabetical order for the base
-	 * class which implements this interface. Each subclass is to append its own
-	 * data members to the string created by the parent class.
-	 * 
-	 * @param delimiter
-	 *            The delimiter to be placed between each field in the
-	 *            serialized object's string representation.
+	 * class which implements this interface, separated by commas. Each subclass
+	 * is to append its own data members to the string created by the parent
+	 * class.
 	 * 
 	 * @return A String representation of all this object's data.
 	 */
-	String serialize(String delimiter);
+	String serialize();
 
 	/**
-	 * Setter method for the name of the remote connection from which some
-	 * preferences are drawn. The connection name should be either localhost or
-	 * the name of a PTP remote connection.
+	 * Setter method for the name of the machine to be connected to.
 	 * 
-	 * @param connectionName
-	 *            the new connection name
+	 * @param hostName
+	 *            the new host name
 	 */
-	void setConnectionName(String connectionName);
+	void setHostName(String hostName);
 
 	/**
 	 * Setter method for the connection's name. Names should be unique among
@@ -84,4 +87,12 @@ public interface IVizConnectionPreferences {
 	 *            The new port number for the connection.
 	 */
 	void setPort(int port);
+
+	/**
+	 * Setter method for the connection's username.
+	 * 
+	 * @param username
+	 *            The username for use when connecting.
+	 */
+	void setUsername(String username);
 }

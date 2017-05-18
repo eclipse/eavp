@@ -73,14 +73,16 @@ public abstract class ConnectionVizService<T> extends AbstractVizService {
 	 * viz connection that can handle the URI based on its host (a {@code null}
 	 * host is assumed to be local).
 	 */
+	@Override
 	public IPlot createPlot(URI uri) throws Exception {
 		// Check for a null URI and an unsupported extension.
 		super.createPlot(uri);
 
-		// TODO Provide a way to specify which of the available connections should be used.
+		// TODO Provide a way to specify which of the available connections
+		// should be used.
 		// Get the host from the URI.
 		String host = uri.getHost();
-		
+
 		if (host == null) {
 			host = "localhost";
 		}

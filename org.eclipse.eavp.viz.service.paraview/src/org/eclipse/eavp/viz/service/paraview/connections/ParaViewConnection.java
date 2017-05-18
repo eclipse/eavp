@@ -23,6 +23,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
 import org.eclipse.eavp.viz.service.paraview.web.HttpParaViewWebClient;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
 import org.eclipse.eavp.viz.service.widgets.RemoteConnectionUserInfo;
@@ -412,6 +413,16 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 			}
 		}
 		return closed;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#setPreferences(org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences)
+	 */
+	@Override
+	public void setPreferences(IVizConnectionPreferences preferences) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

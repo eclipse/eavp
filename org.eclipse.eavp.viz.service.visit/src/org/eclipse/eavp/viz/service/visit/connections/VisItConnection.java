@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
@@ -470,5 +471,32 @@ public class VisItConnection extends VizConnection<VisItSwtConnection> {
 	@Override
 	public boolean setPort(int port) {
 		return setProperty("port", Integer.toString(port));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#setPreferences(
+	 * org.eclipse.eavp.viz.service.connections.preferences.
+	 * IVizConnectionPreferences)
+	 */
+	@Override
+	public void setPreferences(IVizConnectionPreferences preferences) {
+
+		// Cast the preferences to VisIt preferences
+		VisItVizConnectionPreferences castPreferences = (VisItVizConnectionPreferences) preferences;
+
+		// Configure connection variables and properties according to the new
+		// preferences
+		setName(preferences.getName());
+		setHost(preferences.getHostName());
+		setPort(preferences.getPort());
+		setProperty("username", castPreferences.getUsername());
+		setPath(castPreferences.getExecutablePath());
+		setProperty("gateway", castPreferences.getProxy());
+		setProperty("localGatewayPort",
+				String.valueOf(castPreferences.getProxyPort()));
+
 	}
 }

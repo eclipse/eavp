@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
 import org.eclipse.remote.core.IRemoteConnection;
 import org.eclipse.remote.core.IRemoteConnectionType;
 import org.eclipse.remote.core.IRemoteServicesManager;
@@ -41,36 +42,10 @@ public class VisItConnectionManager
 	 * createConnection(java.lang.String, java.lang.String)
 	 */
 	@Override
-	protected VizConnection<VisItSwtConnection> createConnection(String name,
-			String preferences) {
+	protected VizConnection<VisItSwtConnection> createConnection() {
 		VisItConnection connection = new VisItConnection();
 
-		VisItVizConnectionPreferences connectionPreferences = new VisItVizConnectionPreferences(
-				preferences, ",");
-
-		// // Split the string using the delimiter. The -1 is necessary to
-		// include
-		// // empty values from the split.
-		// String[] split =
-		// preferences.split(getConnectionPreferenceDelimiter(),
-		// -1);
-		//
-		// try {
-		// // Get the additional properties, if possible.
-		// String gateway = split[3];
-		// int gatewayPort = Integer.parseInt(split[4]);
-		// String username = split[5];
-		//
-		// // Set the connection's properties.
-		// connection.setProperty("gateway", gateway);
-		// connection.setProperty("localGatewayPort",
-		// Integer.toString(gatewayPort));
-		// connection.setProperty("username", username);
-		// } catch (IndexOutOfBoundsException | NullPointerException
-		// | NumberFormatException e) {
-		// // Cannot add the connection.
-		// connection = null;
-		// }
+		VisItVizConnectionPreferences connectionPreferences = new VisItVizConnectionPreferences();
 
 		// Get the additional properties, if possible.
 		String gateway = connectionPreferences.getProxy();
@@ -130,7 +105,7 @@ public class VisItConnectionManager
 				preferences);
 
 		VisItVizConnectionPreferences connectionPreferences = new VisItVizConnectionPreferences(
-				preferences, ",");
+				preferences);
 
 		try {
 			// Get the additional properties, if possible.
@@ -183,5 +158,17 @@ public class VisItConnectionManager
 		}
 
 		return requiresReset;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnectionManager#
+	 * createPreferences(java.lang.String)
+	 */
+	@Override
+	protected IVizConnectionPreferences createPreferences(
+			String serialPreferences) {
+		return new VisItVizConnectionPreferences(serialPreferences);
 	}
 }

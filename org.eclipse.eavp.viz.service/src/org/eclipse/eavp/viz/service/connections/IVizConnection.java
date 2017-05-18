@@ -13,6 +13,8 @@ package org.eclipse.eavp.viz.service.connections;
 
 import java.util.Map;
 
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
+
 /**
  * This is an interface for connections intended solely for <i>consumption</i>
  * by viz services or their plots. It provides access to a connection's current
@@ -150,4 +152,11 @@ public interface IVizConnection<T> {
 	 *         the listener was not already listening).
 	 */
 	public boolean removeListener(IVizConnectionListener<T> listener);
+	
+	/**
+	 * Configure the connection according to the contents of the given preferences object.
+	 * 
+	 * @param preferences The new preferences for this connection.
+	 */
+	public void setPreferences(IVizConnectionPreferences preferences);
 }

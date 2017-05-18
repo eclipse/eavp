@@ -112,8 +112,12 @@ public abstract class VizConnectionManager<T>
 	 * 
 	 * @return The Future state of the connection being added.
 	 */
-	private Future<ConnectionState> addConnection(String name,
-			String preferences) {
+	@Override
+	public Future<ConnectionState> addConnection(
+			IVizConnectionPreferences preferences) {
+
+		String name = preferences.getName();
+
 		logger.debug("VizConnectionManager message: " + "Adding connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
@@ -124,7 +128,7 @@ public abstract class VizConnectionManager<T>
 		if (!oldConnections.keySet().contains(name)) {
 
 			// If a connection by the given name does not exist, create one
-			connection = createConnection(name, preferences);
+			connection = createConnection();
 		} else {
 
 			// If this is a recognized connection being re-added to the table
@@ -132,22 +136,14 @@ public abstract class VizConnectionManager<T>
 			connection = oldConnections.get(name);
 		}
 
-		// Split the string using the delimiter. The -1 is necessary to include
-		// empty values from the split.
-		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
-				-1);
+		// Set the preferences to the connection
+		connection.setPreferences(preferences);
 
 		// A future reference to the connection's state after the attempted
 		// operation is completed
 		Future<ConnectionState> state = null;
 
 		try {
-			// Ensure the connection's basic preferences are set.
-			connection.setName(name);
-			connection.setHost(split[0]);
-			connection.setPort(Integer.parseInt(split[2]));
-			connection.setPath(split[3]);
-
 			// Add the connection to the map of connections by name.
 			connectionsByName.put(name, connection);
 
@@ -185,16 +181,23 @@ public abstract class VizConnectionManager<T>
 	 * three required preferences.
 	 * </p>
 	 * 
-	 * @param name
-	 *            The name of the connection.
-	 * @param preferences
-	 *            The preference string from the store.
 	 * @return A new viz connection instance using the provided name and
 	 *         preferences, or {@code null} if the properties could not be
 	 *         sufficiently read from the string to create a connection.
 	 */
-	protected abstract VizConnection<T> createConnection(String name,
-			String preferences);
+	protected abstract VizConnection<T> createConnection();
+
+	/**
+	 * Create a viz connection preferences store based on the serialized
+	 * preference representation.
+	 * 
+	 * @param serialPreferences
+	 *            The serialized preferences, as returned from a call to
+	 *            .serialize() in IVizConnectionPreferences.
+	 * @return
+	 */
+	protected abstract IVizConnectionPreferences createPreferences(
+			String serialPreferences);
 
 	/**
 	 * Creates a listener that appropriately adds, updates, or removes
@@ -220,7 +223,7 @@ public abstract class VizConnectionManager<T>
 						removeConnection(name);
 					}
 				} else if (newValue != null) {
-					addConnection(name, newValue.toString());
+					addConnection(createPreferences(newValue.toString()));
 				}
 
 				return;
@@ -288,7 +291,8 @@ public abstract class VizConnectionManager<T>
 	 * @param name
 	 *            The name of the connection to remove.
 	 */
-	private void removeConnection(String name) {
+	@Override
+	public void removeConnection(String name) {
 		logger.debug("VizConnectionManager message: " + "Removing connection \""
 				+ name + "\".");
 
@@ -360,7 +364,8 @@ public abstract class VizConnectionManager<T>
 					String[] connectionNames = node.keys();
 					for (String connection : connectionNames) {
 						String preferences = node.get(connection, null);
-						states.add(addConnection(connection, preferences));
+						states.add(
+								addConnection(createPreferences(preferences)));
 					}
 				} catch (BackingStoreException e) {
 					e.printStackTrace();
@@ -472,14 +477,14 @@ public abstract class VizConnectionManager<T>
 
 		// Reconstruct the preferences from the preference store's contents.
 		IVizConnectionPreferences connectionPreferences = new AbstractVizConnectionPreferences(
-				preferences, getConnectionPreferenceDelimiter()) {
+				preferences) {
 		};
 
 		try {
 
 			// If any of these change, the connection will need to be reset.
 			requiresReset |= connection
-					.setHost(connectionPreferences.getConnectionName());
+					.setHost(connectionPreferences.getHostName());
 			requiresReset |= connection
 					.setPort(connectionPreferences.getPort());
 		} catch (IndexOutOfBoundsException | NullPointerException

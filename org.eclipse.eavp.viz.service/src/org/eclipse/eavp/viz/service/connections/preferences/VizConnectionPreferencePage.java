@@ -35,32 +35,22 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.remote.core.IRemoteConnection;
 import org.eclipse.remote.core.IRemoteConnectionType;
-import org.eclipse.remote.core.IRemoteServicesManager;
-import org.eclipse.remote.core.exception.RemoteConnectionException;
-import org.eclipse.remote.ui.IRemoteUIConnectionService;
-import org.eclipse.remote.ui.IRemoteUIConnectionWizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IDetailsPageProvider;
@@ -71,9 +61,6 @@ import org.eclipse.ui.forms.MasterDetailsBlock;
 import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 import org.osgi.service.prefs.BackingStoreException;
 
 /**
@@ -115,11 +102,6 @@ public abstract class VizConnectionPreferencePage
 	protected IManagedForm form;
 
 	/**
-	 * The combo box containing list of names for available connections.
-	 */
-	protected Combo hostCombo;
-
-	/**
 	 * The category for local connections.
 	 */
 	protected IRemoteConnectionType localConnections;
@@ -133,7 +115,7 @@ public abstract class VizConnectionPreferencePage
 	 * The {@code ConnectionTable} used by this preference page. It is
 	 * represented by a {@link TableComponentComposite} on the page.
 	 */
-	private ConnectionTable table;
+	protected ConnectionTable table;
 
 	/**
 	 * The part containing the connections table
@@ -385,60 +367,6 @@ public abstract class VizConnectionPreferencePage
 											.get(connectionName);
 									currentPreferences = preferences;
 
-									// Refresh the list of available connections
-									hostCombo.removeAll();
-									hostCombo.add("localhost");
-									BundleContext context = FrameworkUtil
-											.getBundle(getClass())
-											.getBundleContext();
-
-									// Get the remote services manager
-									if (context != null) {
-										ServiceReference<IRemoteServicesManager> ref = context
-												.getServiceReference(
-														IRemoteServicesManager.class);
-
-										List<IRemoteConnectionType> types = context
-												.getService(ref)
-												.getRemoteConnectionTypes();
-
-										// Find the SSH connections
-										for (IRemoteConnectionType type : types) {
-											if ("SSH".equals(type.getName())) {
-
-												// Save this type
-												sshConnections = type;
-
-												// Get the names of all current
-												// connections
-												for (IRemoteConnection connection : type
-														.getConnections()) {
-													hostCombo.add(connection
-															.getName());
-												}
-											}
-										}
-									}
-
-									// The list of all options in the combo
-									String[] comboConnections = hostCombo
-											.getItems();
-
-									// Search for the option in the preferences
-									// and set it. If the connection is missing,
-									// the combo will default to localhost.
-									for (int i = 0; i < comboConnections.length; i++) {
-										if (comboConnections[i]
-												.equals(currentPreferences
-														.getConnectionName())) {
-											hostCombo.select(i);
-											break;
-										}
-									}
-
-									// Load port value
-									portText.setText(Integer
-											.toString(preferences.getPort()));
 								}
 
 							}
@@ -475,144 +403,6 @@ public abstract class VizConnectionPreferencePage
 									nameComp.setLayout(
 											new GridLayout(2, false));
 									nameComp.setBackground(white);
-
-									// Create a combo for the connection names
-									hostCombo = new Combo(parent, SWT.NONE);
-									hostCombo.add("localhost");
-
-									BundleContext context = FrameworkUtil
-											.getBundle(getClass())
-											.getBundleContext();
-
-									// Get the remote services manager
-									if (context != null) {
-										ServiceReference<IRemoteServicesManager> ref = context
-												.getServiceReference(
-														IRemoteServicesManager.class);
-
-										// Get the local connections
-										IRemoteServicesManager manager = context
-												.getService(ref);
-										localConnections = manager
-												.getLocalConnectionType();
-
-										List<IRemoteConnectionType> types = manager
-												.getRemoteConnectionTypes();
-
-										// Find the SSH connections
-										for (IRemoteConnectionType type : types) {
-											if ("SSH".equals(type.getName())) {
-
-												// Save this type
-												if (sshConnections == null) {
-													sshConnections = type;
-												}
-
-												// Get the names of all current
-												// connections
-												for (IRemoteConnection connection : type
-														.getConnections()) {
-													hostCombo.add(connection
-															.getName());
-												}
-											}
-										}
-									}
-
-									hostCombo.addSelectionListener(
-											new SelectionAdapter() {
-
-												@Override
-												public void widgetSelected(
-														SelectionEvent event) {
-
-													// Update the preferences
-													// when
-													// the combo is changed.
-													currentPreferences
-															.setConnectionName(
-																	hostCombo
-																			.getText());
-												}
-											});
-
-									// Add a button to create a new PTP
-									// connection
-									Button newConnectionButton = new Button(
-											parent, SWT.PUSH);
-									newConnectionButton
-											.setText("New Connection");
-
-									newConnectionButton.addSelectionListener(
-											new SelectionAdapter() {
-												@Override
-												public void widgetSelected(
-														SelectionEvent event) {
-
-													// Get a final reference to
-													// the
-													// connection type
-													final IRemoteConnectionType finalType = sshConnections;
-
-													// Open the Remote
-													// Connection
-													// Wizard
-													Display.getDefault()
-															.asyncExec(
-																	new Runnable() {
-																		@Override
-																		public void run() {
-
-																			// Get
-																			// the
-																			// UI
-																			// Connection
-																			// Service
-																			IRemoteUIConnectionService remoteUI = finalType
-																					.getService(
-																							IRemoteUIConnectionService.class);
-
-																			// Create
-																			// a
-																			// UI
-																			// Connection
-																			// Wizard
-																			IRemoteUIConnectionWizard wizard = remoteUI
-																					.getConnectionWizard(
-																							PlatformUI
-																									.getWorkbench()
-																									.getActiveWorkbenchWindow()
-																									.getShell());
-
-																			// If
-																			// valid,
-																			// open
-																			// it
-																			// and
-																			// save/open
-																			// the
-																			// IRemoteConnection
-																			if (wizard != null) {
-																				try {
-																					IRemoteConnection newConnection = wizard
-																							.open()
-																							.save();
-																					if (newConnection != null) {
-																						hostCombo
-																								.add(newConnection
-																										.getName());
-																					}
-																				} catch (RemoteConnectionException e) {
-																					// logger.error(getClass().getName()
-																					// +
-																					// "Exception!",
-																					// e);
-																				}
-																			}
-																		}
-																	});
-												}
-											});
 
 									// A composite for the port information
 									Composite portComp = new Composite(parent,
@@ -710,22 +500,7 @@ public abstract class VizConnectionPreferencePage
 									portText.setText(Integer.toString(
 											currentPreferences.getPort()));
 
-									// The list of all options in the combo
-									String[] comboConnections = hostCombo
-											.getItems();
-
-									// Search for the option in the preferences
-									// and set it. If the connection is missing,
-									// the combo will default to localhost.
-									for (int i = 0; i < comboConnections.length; i++) {
-										if (currentPreferences
-												.getConnectionName()
-												.equals(comboConnections[i])) {
-											hostCombo.select(i);
-											break;
-										}
-									}
-
+									// Create subclass's custom widgets
 									selfReference
 											.createDetailsPageContents(parent);
 								}
@@ -912,8 +687,7 @@ public abstract class VizConnectionPreferencePage
 				// If the connection name has a row in the table, it will need
 				// to be updated in the preferences.
 				if (preferences != null) {
-					node.put(name, preferences
-							.serialize(getConnectionPreferenceDelimiter()));
+					node.put(name, preferences.serialize());
 					updated.remove(name);
 				}
 				// Otherwise, the connection was removed from the table and
@@ -928,8 +702,7 @@ public abstract class VizConnectionPreferencePage
 
 		// Add all new connections to the preferences.
 		for (String name : updated) {
-			node.put(name, connections.get(name)
-					.serialize(getConnectionPreferenceDelimiter()));
+			node.put(name, connections.get(name).serialize());
 		}
 
 		return;
@@ -1019,56 +792,6 @@ public abstract class VizConnectionPreferencePage
 
 		// Only update on events from the table
 		if (component == table) {
-
-			// // The the table has less rows than the number of known
-			// connections,
-			// // connections have been deleted.
-			// if (table.numberOfRows() < connections.keySet().size()) {
-			// for (String connection : connections.keySet()) {
-			//
-			// // Whether this connection was in the table
-			// boolean inTable = false;
-			//
-			// // Search the table for rows with the same name as this
-			// // connection.
-			// for (int i = 0; i < table.numberOfRows(); i++) {
-			// if (connection
-			// .equals(table.getRow(i).get(0).getValue())) {
-			// inTable = true;
-			// break;
-			// }
-			// }
-			//
-			// // If the connection was not found, schedule it for removal
-			// if (!inTable) {
-			// oldConnections.add(connection);
-			// }
-			// }
-			//
-			// // Remove all connections that are gone from the table
-			// for (String connection : oldConnections) {
-			// connections.remove(connection);
-			// }
-			// }
-			//
-			// // If the table is larger than the map of connections,
-			// connections
-			// // have been added.
-			// else if (table.numberOfRows() > connections.keySet().size()) {
-			// for (int i = 0; i < table.numberOfRows(); i++) {
-			//
-			// String name = table.getRow(i).get(0).getValue();
-			//
-			// if (!connections.keySet().contains(name)) {
-			//
-			// IVizConnectionPreferences preferences =
-			// createVizConnectionPreferences(
-			// "");
-			// preferences.setName(name);
-			// connections.put(name, preferences);
-			// }
-			// }
-			// }
 
 			// Get the highest id for the table
 			int lastRow = 0;
