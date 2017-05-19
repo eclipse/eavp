@@ -52,14 +52,26 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public void applySettings(IChartSettings chartSettings) {
 
-		/*
-		 * Assign the settings instance and apply the settings.
-		 */
 		this.chartSettings = chartSettings;
+		/*
+		 * Modify the chart.
+		 */
 		baseChart.suspendUpdate(true);
-		//
-		sliderVertical.setVisible(chartSettings.isVerticalSliderVisible());
-		sliderHorizontal.setVisible(chartSettings.isHorizontalSliderVisible());
+		modifyChart();
+		baseChart.suspendUpdate(false);
+		/*
+		 * Adjust the series.
+		 */
+		ISeriesSet seriesSet = baseChart.getSeriesSet();
+		if(seriesSet.getSeries().length > 0) {
+			adjustRange(true);
+			baseChart.redraw();
+		}
+	}
+
+	private void modifyChart() {
+
+		setSliderVisibility();
 		//
 		baseChart.getTitle().setText(chartSettings.getTitle());
 		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
@@ -85,13 +97,23 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.enableCompress(chartSettings.isEnableCompress());
 		baseChart.setUseZeroX(chartSettings.isUseZeroX());
 		baseChart.setUseZeroY(chartSettings.isUseZeroY());
+	}
+
+	private void setSliderVisibility() {
+
+		/*
+		 * pack(); doesn't work???!!! Why? It should!
+		 * Exclude and layout did the trick.
+		 */
+		GridData gridDataVertical = (GridData)sliderVertical.getLayoutData();
+		gridDataVertical.exclude = !chartSettings.isVerticalSliderVisible();
+		sliderVertical.setVisible(chartSettings.isVerticalSliderVisible());
 		//
-		baseChart.suspendUpdate(false);
-		ISeriesSet seriesSet = baseChart.getSeriesSet();
-		if(seriesSet.getSeries().length > 0) {
-			adjustRange(true);
-			baseChart.redraw();
-		}
+		GridData gridDataHorizontal = (GridData)sliderHorizontal.getLayoutData();
+		gridDataHorizontal.exclude = !chartSettings.isHorizontalSliderVisible();
+		sliderHorizontal.setVisible(chartSettings.isHorizontalSliderVisible());
+		//
+		layout(false);
 	}
 
 	@Override
