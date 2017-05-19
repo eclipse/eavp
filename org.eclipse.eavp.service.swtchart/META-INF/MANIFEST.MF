@@ -13,10 +13,12 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.eavp.service.swtchart.barcharts,
+ org.eclipse.eavp.service.swtchart.converter,
  org.eclipse.eavp.service.swtchart.core,
  org.eclipse.eavp.service.swtchart.customcharts,
  org.eclipse.eavp.service.swtchart.exceptions,
  org.eclipse.eavp.service.swtchart.impl,
  org.eclipse.eavp.service.swtchart.linecharts,
+ org.eclipse.eavp.service.swtchart.parts,
  org.eclipse.eavp.service.swtchart.scattercharts
 Import-Package: javax.annotation
