@@ -169,7 +169,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private void fireUpdateCustomSelectionHandlers(Event event) {
+	protected void fireUpdateCustomSelectionHandlers(Event event) {
 
 		/*
 		 * Handle the custom user selection handlers.

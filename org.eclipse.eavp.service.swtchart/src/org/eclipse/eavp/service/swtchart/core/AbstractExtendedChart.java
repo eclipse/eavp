@@ -118,6 +118,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
+	@Override
 	public void setRange(IAxis axis, double start, double stop, boolean adjustMinMax) {
 
 		if(axis != null && Math.abs(stop - start) > 0 && !isUpdateSuspended()) {

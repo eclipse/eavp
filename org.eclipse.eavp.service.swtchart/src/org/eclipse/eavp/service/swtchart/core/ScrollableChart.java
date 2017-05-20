@@ -138,6 +138,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
+	public void setRange(String axis, Range range) {
+
+		if(axis != null && range != null) {
+			setRange(axis, range.lower, range.upper);
+		}
+	}
+
+	@Override
 	public void setRange(String axis, double start, double stop) {
 
 		baseChart.setRange(axis, start, stop);
@@ -279,6 +287,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						baseChart.adjustMinMaxRange(xAxis);
 						adjustSecondaryXAxes();
 					}
+					//
+					baseChart.fireUpdateCustomSelectionHandlers(event);
 					baseChart.redraw();
 				}
 			}
@@ -335,6 +345,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						baseChart.adjustMinMaxRange(yAxis);
 						adjustSecondaryYAxes();
 					}
+					//
+					baseChart.fireUpdateCustomSelectionHandlers(event);
 					baseChart.redraw();
 				}
 			}

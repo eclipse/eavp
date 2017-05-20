@@ -45,7 +45,7 @@ public interface IExtendedChart {
 	 * It's only possible to set the range for the primary axes as
 	 * the range for secondary axes is calculated dynamically.
 	 * 
-	 * Use: X_AXIS or Y_AXIS.
+	 * Use: IExtendedChart.X_AXIS or IExtendedChart.Y_AXIS.
 	 * 
 	 * @param axis
 	 * @param start
