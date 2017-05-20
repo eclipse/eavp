@@ -13,6 +13,8 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
@@ -35,6 +37,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
 	private IChartSettings chartSettings;
+	private RangeInfoUI rangeInfoUI;
 	private BaseChart baseChart;
 
 	public ScrollableChart(Composite parent, int style) {
@@ -72,6 +75,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void modifyChart() {
 
 		setSliderVisibility();
+		setRangeInfoVisibility();
 		//
 		baseChart.getTitle().setText(chartSettings.getTitle());
 		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
@@ -112,6 +116,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		GridData gridDataHorizontal = (GridData)sliderHorizontal.getLayoutData();
 		gridDataHorizontal.exclude = !chartSettings.isHorizontalSliderVisible();
 		sliderHorizontal.setVisible(chartSettings.isHorizontalSliderVisible());
+		//
+		layout(false);
+	}
+
+	private void setRangeInfoVisibility() {
+
+		GridData gridData = (GridData)rangeInfoUI.getLayoutData();
+		gridData.exclude = !chartSettings.isRangeInfoVisible();
+		rangeInfoUI.setVisible(chartSettings.isRangeInfoVisible());
 		//
 		layout(false);
 	}
@@ -294,9 +307,20 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			}
 		});
 		/*
-		 * Chart
+		 * Chart Area
 		 */
-		baseChart = new BaseChart(composite, SWT.NONE);
+		Composite compositeChartArea = new Composite(composite, SWT.NONE);
+		compositeChartArea.setLayoutData(new GridData(GridData.FILL_BOTH));
+		compositeChartArea.setLayout(new GridLayout(1, true));
+		/*
+		 * Chart Range Settings
+		 */
+		rangeInfoUI = new RangeInfoUI(compositeChartArea, SWT.NONE);
+		rangeInfoUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		/*
+		 * Chart Plot
+		 */
+		baseChart = new BaseChart(compositeChartArea, SWT.NONE);
 		baseChart.setLayoutData(new GridData(GridData.FILL_BOTH));
 		baseChart.addCustomSelectionHandler(new ICustomSelectionHandler() {
 
@@ -304,6 +328,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			public void handleUserSelection(Event event) {
 
 				setSliderSelection(false);
+			}
+		});
+		baseChart.addMouseMoveListener(new MouseMoveListener() {
+
+			@Override
+			public void mouseMove(MouseEvent e) {
+
+				// TODO Show chart settings composite if hidden.
+				// System.out.println(e.x + "\t" + e.y);
 			}
 		});
 		//

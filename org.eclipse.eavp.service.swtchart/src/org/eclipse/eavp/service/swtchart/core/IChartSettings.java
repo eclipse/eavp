@@ -17,6 +17,10 @@ import org.eclipse.swt.graphics.Color;
 
 public interface IChartSettings {
 
+	boolean isRangeInfoVisible();
+
+	void setRangeInfoVisible(boolean rangeInfoVisible);
+
 	boolean isVerticalSliderVisible();
 
 	void setVerticalSliderVisible(boolean verticalSliderVisible);

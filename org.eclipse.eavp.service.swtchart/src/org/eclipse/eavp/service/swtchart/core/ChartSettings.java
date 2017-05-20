@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class ChartSettings implements IChartSettings {
 
+	private boolean rangeInfoVisible;
 	private boolean verticalSliderVisible;
 	private boolean horizontalSliderVisible;
 	//
@@ -46,6 +47,7 @@ public class ChartSettings implements IChartSettings {
 		/*
 		 * Set the chart.
 		 */
+		rangeInfoVisible = false;
 		verticalSliderVisible = false; // https://bugs.eclipse.org/bugs/show_bug.cgi?id=511257
 		horizontalSliderVisible = true;
 		/*
@@ -69,6 +71,18 @@ public class ChartSettings implements IChartSettings {
 		enableCompress = true;
 		useZeroY = true;
 		useZeroX = true;
+	}
+
+	@Override
+	public boolean isRangeInfoVisible() {
+
+		return rangeInfoVisible;
+	}
+
+	@Override
+	public void setRangeInfoVisible(boolean rangeInfoVisible) {
+
+		this.rangeInfoVisible = rangeInfoVisible;
 	}
 
 	@Override
