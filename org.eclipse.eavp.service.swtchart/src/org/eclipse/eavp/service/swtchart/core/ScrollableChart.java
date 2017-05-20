@@ -89,6 +89,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		IAxis yAxisPrimary = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 		setAxisSettings(yAxisPrimary, chartSettings.getPrimaryAxisSettingsY());
 		/*
+		 * Range Info
+		 */
+		rangeInfoUI.setXYLabels(xAxisPrimary.getTitle().getText(), yAxisPrimary.getTitle().getText());
+		/*
 		 * Secondary axes
 		 */
 		addSecondaryAxesX(axisSet, chartSettings);
@@ -301,7 +305,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						adjustSecondaryXAxes();
 					}
 					//
-					baseChart.fireUpdateCustomSelectionHandlers(event);
+					fireUpdateCustomSelectionHandlers(event);
 					baseChart.redraw();
 				}
 			}
@@ -335,8 +339,20 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			@Override
 			public void mouseMove(MouseEvent e) {
 
-				// TODO Show chart settings composite if hidden.
-				// System.out.println(e.x + "\t" + e.y);
+				if(chartSettings.isRangeInfoVisible()) {
+					if(!rangeInfoUI.isVisible()) {
+						if(e.y <= 5) {
+							/*
+							 * Show the range info composite.
+							 */
+							System.out.println("Improve show range info composite");
+							GridData gridData = (GridData)rangeInfoUI.getLayoutData();
+							gridData.exclude = false;
+							rangeInfoUI.setVisible(true);
+							layout(false);
+						}
+					}
+				}
 			}
 		});
 		//
@@ -379,7 +395,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						adjustSecondaryYAxes();
 					}
 					//
-					baseChart.fireUpdateCustomSelectionHandlers(event);
+					fireUpdateCustomSelectionHandlers(event);
 					baseChart.redraw();
 				}
 			}
@@ -526,5 +542,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				}
 			}
 		}
+	}
+
+	private void fireUpdateCustomSelectionHandlers(Event event) {
+
+		baseChart.fireUpdateCustomSelectionHandlers(event);
+		//
+		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		rangeInfoUI.setXYRanges(xAxis.getRange(), yAxis.getRange());
 	}
 }

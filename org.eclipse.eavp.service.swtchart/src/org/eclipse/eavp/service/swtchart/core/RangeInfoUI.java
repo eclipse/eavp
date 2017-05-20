@@ -20,42 +20,74 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.swtchart.Range;
 
 public class RangeInfoUI extends Composite {
+
+	private Text textStartX;
+	private Text textStopX;
+	private Label labelScaleX;
+	private Text textStartY;
+	private Text textStopY;
+	private Label labelScaleY;
 
 	public RangeInfoUI(Composite parent, int style) {
 		super(parent, style);
 		createControl();
 	}
 
+	public void setXYLabels(String scaleX, String scaleY) {
+
+		labelScaleX.setText(scaleX);
+		labelScaleY.setText(scaleY);
+	}
+
+	public void setXYRanges(Range rangeX, Range rangeY) {
+
+		if(rangeX != null && rangeY != null) {
+			textStartX.setText(Double.toString(rangeX.lower));
+			textStopX.setText(Double.toString(rangeX.upper));
+			textStartY.setText(Double.toString(rangeY.lower));
+			textStopY.setText(Double.toString(rangeY.upper));
+		}
+	}
+
 	private void createControl() {
 
 		setLayout(new GridLayout(8, false));
 		//
-		Text textStartX = new Text(this, SWT.BORDER);
-		textStartX.setText("292");
+		textStartX = new Text(this, SWT.BORDER);
+		textStartX.setText("");
 		textStartX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
-		Text textStopX = new Text(this, SWT.BORDER);
-		textStopX.setText("292");
+		textStopX = new Text(this, SWT.BORDER);
+		textStopX.setText("");
 		textStopX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
-		Label labelX = new Label(this, SWT.NONE);
-		labelX.setText("X Scale");
+		labelScaleX = new Label(this, SWT.NONE);
+		labelScaleX.setText("");
 		//
-		Text textStartY = new Text(this, SWT.BORDER);
-		textStartY.setText("292");
+		textStartY = new Text(this, SWT.BORDER);
+		textStartY.setText("");
 		textStartY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
-		Text textStopY = new Text(this, SWT.BORDER);
-		textStopY.setText("292");
+		textStopY = new Text(this, SWT.BORDER);
+		textStopY.setText("");
 		textStopY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
-		Label labelY = new Label(this, SWT.NONE);
-		labelY.setText("Y Scale");
+		labelScaleY = new Label(this, SWT.NONE);
+		labelScaleY.setText("");
 		//
 		Button buttonSetRange = new Button(this, SWT.PUSH);
-		buttonSetRange.setText("Set Range");
+		buttonSetRange.setText("Set");
+		buttonSetRange.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				System.out.println("Implement Set Range.");
+			}
+		});
 		//
 		Button buttonHide = new Button(this, SWT.PUSH);
 		buttonHide.setText("Hide");
