@@ -32,6 +32,8 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
+import org.eclipse.eavp.viz.service.connections.preferences.AbstractVizConnectionPreferences;
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,12 +87,17 @@ public class VizConnectionManagerTester {
 		// Initialize the connection manager.
 		manager = new VizConnectionManager<FakeClient>() {
 			@Override
-			protected VizConnection<FakeClient> createConnection(String name,
-					String preferences) {
+			protected VizConnection<FakeClient> createConnection() {
 				// Create a new fake connection and store it in the map.
-				FakeVizConnection fakeConnection = new FakeVizConnection();
-				fakeConnections.put(name, fakeConnection);
-				return fakeConnection;
+				return new FakeVizConnection();
+			}
+
+			@Override
+			protected IVizConnectionPreferences createPreferences(
+					String serialPreferences) {
+				return new AbstractVizConnectionPreferences(serialPreferences) {
+
+				};
 			}
 		};
 
@@ -159,6 +166,7 @@ public class VizConnectionManagerTester {
 		int port;
 		String path;
 		IVizConnection<FakeClient> connection;
+		String username;
 
 		// Add a new connection. The property name is the connection name, while
 		// the value is a delimited string containing its properties.
@@ -166,7 +174,8 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(name, host + "," + port + "," + path);
+		username = "";
+		node.put(name, host + "," + name + "," + port + "," + username);
 
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
@@ -183,7 +192,6 @@ public class VizConnectionManagerTester {
 		assertEquals(name, connection.getName());
 		assertEquals(host, connection.getHost());
 		assertEquals(port, connection.getPort());
-		assertEquals(path, connection.getPath());
 
 		// The connection should have been initialized. However, this is done on
 		// a separate thread. We should give the CPU some leeway to establish
@@ -207,7 +215,7 @@ public class VizConnectionManagerTester {
 		name = "trevor something";
 		port = 9001;
 		path = "";
-		node.put(name, host + "," + port + "," + path);
+		node.put(name, host + "," + name + "," + port + "," + username);
 
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
@@ -224,8 +232,6 @@ public class VizConnectionManagerTester {
 		assertEquals(name, connection.getName());
 		assertEquals(host, connection.getHost());
 		assertEquals(port, connection.getPort());
-		assertEquals(path, connection.getPath());
-
 		// The connection should have been initialized. However, this is done on
 		// a separate thread. We should give the CPU some leeway to establish
 		// the connection.
@@ -261,18 +267,22 @@ public class VizConnectionManagerTester {
 		String host;
 		int port;
 		String path;
+		String username;
 
 		// Add two connections.
 		connection1 = "magic sword";
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(connection1, host + "," + port + "," + path);
+		username = "";
+		node.put(connection1,
+				host + "," + connection1 + "," + port + "," + username);
 		// Add the second connection.
 		connection2 = "trevor something";
 		port = 9001;
 		path = "/home/music/different/path";
-		node.put(connection2, host + "," + port + "," + path);
+		node.put(connection2,
+				host + "," + connection2 + "," + port + "," + username);
 
 		// Get the reference for the first connection
 		IVizConnection<FakeClient> conn1 = manager.getConnection(connection1);
@@ -316,7 +326,8 @@ public class VizConnectionManagerTester {
 		host = "duplicate host";
 		port = 9002;
 		path = "duplicate/path";
-		node.put(duplicate, host + "," + port + "," + path);
+		node.put(duplicate,
+				host + "," + duplicate + "," + port + "," + username);
 
 		// The only connection in the manager should be conn1, with its
 		// properties updated to those of the duplicate connection
@@ -345,6 +356,7 @@ public class VizConnectionManagerTester {
 		String host;
 		int port;
 		String path;
+		String username;
 		IVizConnection<FakeClient> connection;
 
 		final Queue<ConnectionState> states = new ConcurrentLinkedQueue<ConnectionState>();
@@ -363,14 +375,15 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(connection1, host + "," + port + "," + path);
+		username = "";
+		node.put(connection1,
+				host + "," + connection1 + "," + port + "," + username);
 
 		// Check the first connection's properties.
 		connection = manager.getConnection(connection1);
 		assertEquals(connection1, connection.getName());
 		assertEquals(host, connection.getHost());
 		assertEquals(port, connection.getPort());
-		assertEquals(path, connection.getPath());
 
 		// Make sure the connection is connected.
 		long sleepTime = 0;
@@ -394,7 +407,8 @@ public class VizConnectionManagerTester {
 		connection2 = "trevor something";
 		port = 9001;
 		path = "";
-		node.put(connection2, host + "," + port + "," + path);
+		node.put(connection2,
+				host + "," + connection2 + "," + port + "," + username);
 
 		// Both have been added.
 		assertNotNull(manager.getConnection(connection1));
@@ -408,14 +422,14 @@ public class VizConnectionManagerTester {
 
 		// Update the first connection.
 		host = "electrodungeonmaster";
-		node.put(connection1, host + "," + port + "," + path);
+		node.put(connection1,
+				host + "," + connection1 + "," + port + "," + username);
 
 		// Check the first connections properties. They should have changed.
 		connection = manager.getConnection(connection1);
 		assertEquals(connection1, connection.getName());
 		assertEquals(host, connection.getHost());
 		assertEquals(port, connection.getPort());
-		assertEquals(path, connection.getPath());
 
 		// Check querying connections by host.
 		// "electrodungeon" should now only have one connection.
@@ -452,6 +466,7 @@ public class VizConnectionManagerTester {
 		String connection1Host;
 		int connection1Port;
 		String connection1Path;
+		String connection1Username;
 		// Set up a preference node for a second connection.
 		final String nodeId2 = NODE_ID + "2";
 		IEclipsePreferences node2 = store.getNode(nodeId2);
@@ -460,6 +475,7 @@ public class VizConnectionManagerTester {
 		String connection2Host;
 		int connection2Port;
 		String connection2Path;
+		String connection2Username;
 
 		// Use a fake listener to determine that the first connection won't be
 		// disconnected even though it is removed from the manager.
@@ -470,16 +486,18 @@ public class VizConnectionManagerTester {
 		connection1Host = "electrodungeon";
 		connection1Port = 9000;
 		connection1Path = "/home/music";
-		node1.put(connection1Name, connection1Host + "," + connection1Port + ","
-				+ connection1Path);
+		connection1Username = "";
+		node1.put(connection1Name, connection1Host + "," + connection1Name + ","
+				+ connection1Port + "," + connection1Username);
 
 		// Add a connection to the second preference node.
 		connection2Name = "trevor something";
 		connection2Host = "electrodungeon";
 		connection2Port = 9001;
 		connection2Path = "/home/music/different/path";
-		node2.put(connection2Name, connection2Host + "," + connection2Port + ","
-				+ connection2Path);
+		connection2Username = "";
+		node2.put(connection2Name, connection2Host + "," + connection2Name + ","
+				+ connection2Port + "," + connection2Username);
 
 		// Set the preference store using the first node.
 		ArrayList<Future<ConnectionState>> states = manager
@@ -501,7 +519,6 @@ public class VizConnectionManagerTester {
 		assertEquals(connection1Name, connection1.getName());
 		assertEquals(connection1Host, connection1.getHost());
 		assertEquals(connection1Port, connection1.getPort());
-		assertEquals(connection1Path, connection1.getPath());
 
 		// The second connection should not yet exist.
 		assertNull(manager.getConnection(connection2Name));
@@ -557,7 +574,6 @@ public class VizConnectionManagerTester {
 		assertEquals(connection2Name, connection2.getName());
 		assertEquals(connection2Host, connection2.getHost());
 		assertEquals(connection2Port, connection2.getPort());
-		assertEquals(connection2Path, connection2.getPath());
 
 		// The first connection should not exist in the manager.
 		assertNull(manager.getConnection(connection1Name));

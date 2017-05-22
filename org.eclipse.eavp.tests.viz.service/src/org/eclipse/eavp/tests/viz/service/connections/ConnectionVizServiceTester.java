@@ -31,6 +31,8 @@ import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
+import org.eclipse.eavp.viz.service.connections.preferences.AbstractVizConnectionPreferences;
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
@@ -81,6 +83,7 @@ public class ConnectionVizServiceTester {
 		String host;
 		int port;
 		String path;
+		String username;
 
 		// Create a new, empty preference store.
 		store = new CustomScopedPreferenceStore(getClass());
@@ -92,7 +95,8 @@ public class ConnectionVizServiceTester {
 		host = LOCALHOST;
 		port = 9001;
 		path = "";
-		node.put(name, host + "," + port + "," + path);
+		username = "user";
+		node.put(name, host + "," + name + "," + port + "," + username);
 
 		// Create a connection viz service.
 		service = new ConnectionVizService<FakeClient>() {
@@ -111,9 +115,17 @@ public class ConnectionVizServiceTester {
 			protected IVizConnectionManager<FakeClient> createConnectionManager() {
 				return new VizConnectionManager<FakeClient>() {
 					@Override
-					protected VizConnection<FakeClient> createConnection(
-							String name, String preferences) {
+					protected VizConnection<FakeClient> createConnection() {
 						return new FakeVizConnection();
+					}
+
+					@Override
+					protected IVizConnectionPreferences createPreferences(
+							String serialPreferences) {
+						return new AbstractVizConnectionPreferences(
+								serialPreferences) {
+
+						};
 					}
 				};
 			}
@@ -176,7 +188,7 @@ public class ConnectionVizServiceTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(name, host + "," + port + "," + path);
+		node.put(name, host + "," + name + "," + port + "," + username);
 
 		return;
 	}
@@ -272,7 +284,9 @@ public class ConnectionVizServiceTester {
 		host = "megadrive";
 		String port = "9000";
 		path = "/home/music";
-		store.getNode(NODE_ID).put(name, host + "," + port + "," + path);
+		String username = "user";
+		store.getNode(NODE_ID).put(name,
+				host + "," + port + "," + path + "," + username);
 
 		// ---- Try a URI for the new host. ---- //
 		try {

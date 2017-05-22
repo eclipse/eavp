@@ -22,37 +22,38 @@ abstract public class AbstractVizConnectionPreferences
 	/**
 	 * There are three preferences held in this class.
 	 */
-	private static final int numAbstractPrefs = 3;
+	private static final int numAbstractPrefs = 4;
 
 	/**
 	 * The name of the remote connection (or "localhost") which will be used for
 	 * some of the preferences.
 	 */
-	private String hostName;
+	protected String hostName;
 
 	/**
 	 * The connection's name. This should be unique among
 	 * VizConnectionPreferences for the same IVizService.
 	 */
-	private String name;
+	protected String name;
 
 	/**
 	 * The port number for the connection
 	 */
-	private int port;
+	protected int port;
 
 	/**
 	 * The username used when connecting.
 	 */
-	private String username;
+	protected String username;
 
 	/**
 	 * The default constructor.
 	 */
 	public AbstractVizConnectionPreferences() {
 		hostName = "localhost";
-		name = "";
+		name = "default connection name";
 		port = 0;
+		username = "default user name";
 	}
 
 	/**
@@ -69,10 +70,11 @@ abstract public class AbstractVizConnectionPreferences
 		String[] tokens = data.split(",", -1);
 
 		// If string wasn't properly formatted, use the default values instead
-		if (tokens.length < 3) {
+		if (tokens.length < numAbstractPrefs) {
 			hostName = "localhost";
-			name = "";
+			name = "default connection name";
 			port = 0;
+			username = "default user name";
 		} else {
 
 			// Apply the data to the fields in alphabetic order
@@ -86,6 +88,8 @@ abstract public class AbstractVizConnectionPreferences
 				// If port was not a number, use the default
 				port = 0;
 			}
+
+			username = tokens[3];
 		}
 	}
 
@@ -148,7 +152,8 @@ abstract public class AbstractVizConnectionPreferences
 	 */
 	@Override
 	public String serialize() {
-		return hostName + ',' + name + ',' + port;
+		return getHostName() + ',' + getName() + ',' + getPort() + ','
+				+ getUsername();
 	}
 
 	/*

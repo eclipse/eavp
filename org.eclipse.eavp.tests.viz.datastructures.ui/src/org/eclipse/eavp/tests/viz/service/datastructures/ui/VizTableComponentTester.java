@@ -550,7 +550,6 @@ public class VizTableComponentTester {
 		assertEquals(1, (int) retSelectedRows.get(0));
 
 		// Make a selection with a row that doesn't exist
-		selectedRows.clear();
 		selectedRows.add(4);
 		selectedRows.add(5);
 		tableComponent.setSelectedRows(selectedRows);

@@ -36,6 +36,12 @@ public abstract class RCPVizConnectionPreferences
 	private static final int numRCPPrefs = 1;
 
 	/**
+	 * The bundle context from which the connection will draw the
+	 * IRemoteServicesManager.
+	 */
+	protected BundleContext context;
+
+	/**
 	 * The name of the PTP connection used to obtain some of this preference
 	 * set's preferences. It may also be "localhost" to specify default local
 	 * connection.
@@ -48,6 +54,9 @@ public abstract class RCPVizConnectionPreferences
 	public RCPVizConnectionPreferences() {
 		super();
 		connectionName = "localhost";
+
+		// Get the context for this class
+		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 	}
 
 	/**
@@ -65,12 +74,15 @@ public abstract class RCPVizConnectionPreferences
 
 		// If the string was not formatted correctly, use the default values
 		if (tokens.length < getNumPreferences()) {
-			connectionName = "";
+			connectionName = "localhost";
 		} else {
 
 			// Place the data into the class variables
 			connectionName = tokens[super.getNumPreferences()];
 		}
+
+		// Get the context for this class
+		context = FrameworkUtil.getBundle(getClass()).getBundleContext();
 	}
 
 	/**
@@ -104,12 +116,6 @@ public abstract class RCPVizConnectionPreferences
 	@Override
 	public String getHostName() {
 
-		// If the connection can't be found, return an empty hostname
-		String hostName = "";
-
-		BundleContext context = FrameworkUtil.getBundle(getClass())
-				.getBundleContext();
-
 		// Get the remote services manager
 		if (context != null) {
 			ServiceReference<IRemoteServicesManager> ref = context
@@ -130,7 +136,7 @@ public abstract class RCPVizConnectionPreferences
 
 							// Get the address attribute from the working
 							// connection
-							hostName = remoteConnection.getWorkingCopy()
+							return remoteConnection.getWorkingCopy()
 									.getAttribute("ADDRESS_ATTR");
 						}
 					}
@@ -149,12 +155,6 @@ public abstract class RCPVizConnectionPreferences
 	 */
 	@Override
 	public String getUsername() {
-
-		// If the connection can't be found, return an empty hostname
-		String username = "";
-
-		BundleContext context = FrameworkUtil.getBundle(getClass())
-				.getBundleContext();
 
 		// Get the remote services manager
 		if (context != null) {
@@ -176,7 +176,7 @@ public abstract class RCPVizConnectionPreferences
 
 							// Get the username attribute from the working
 							// connection
-							username = remoteConnection.getWorkingCopy()
+							return remoteConnection.getWorkingCopy()
 									.getAttribute("USERNAME_ATTR");
 						}
 					}
@@ -184,6 +184,8 @@ public abstract class RCPVizConnectionPreferences
 			}
 		}
 
+		// If the connection could not be found through ptp, return the set
+		// username
 		return username;
 	}
 
@@ -203,6 +205,6 @@ public abstract class RCPVizConnectionPreferences
 	 */
 	@Override
 	public String serialize() {
-		return super.serialize() + "," + connectionName;
+		return super.serialize() + "," + getConnectionName();
 	}
 }

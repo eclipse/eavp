@@ -29,6 +29,7 @@ import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionListener;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
+import org.eclipse.eavp.viz.service.connections.preferences.AbstractVizConnectionPreferences;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -988,5 +989,25 @@ public class VizConnectionTester {
 		}
 
 		return;
+	}
+
+	/**
+	 * Check that the connection correctly handles an incoming
+	 * IVizConnectionPreferences through the setPreferences() method.
+	 */
+	@Test
+	public void checkSetPreferences() {
+
+		// Create a set of default preferences and set them to the connection
+		AbstractVizConnectionPreferences prefs = new AbstractVizConnectionPreferences() {
+
+		};
+		connection.setPreferences(prefs);
+
+		// Check that connection's preferences were configured according to the
+		// preferences
+		assertEquals(prefs.getHostName(), connection.getHost());
+		assertEquals(prefs.getName(), connection.getName());
+		assertEquals(prefs.getPort(), connection.getPort());
 	}
 }

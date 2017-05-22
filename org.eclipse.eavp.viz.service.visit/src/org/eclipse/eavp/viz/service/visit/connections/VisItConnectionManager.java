@@ -111,38 +111,7 @@ public class VisItConnectionManager
 			// Get the additional properties, if possible.
 			String gateway = connectionPreferences.getProxy();
 			int gatewayPort = connectionPreferences.getProxyPort();
-			String username = "";
-
-			BundleContext context = FrameworkUtil.getBundle(getClass())
-					.getBundleContext();
-
-			// Get the remote services manager
-			if (context != null) {
-				ServiceReference<IRemoteServicesManager> ref = context
-						.getServiceReference(IRemoteServicesManager.class);
-
-				List<IRemoteConnectionType> types = context.getService(ref)
-						.getRemoteConnectionTypes();
-
-				// Find the SSH connections
-				for (IRemoteConnectionType type : types) {
-					if ("SSH".equals(type.getName())) {
-
-						// Get the names of all current
-						// connections
-						for (IRemoteConnection remoteConnection : type
-								.getConnections()) {
-							if (remoteConnection.getName()
-									.equals(connectionPreferences
-											.getConnectionName())) {
-								// remoteConnection.getName();
-								username = remoteConnection.getWorkingCopy()
-										.getAttribute("USERNAME_ATTR");
-							}
-						}
-					}
-				}
-			}
+			String username = connectionPreferences.getUsername();
 
 			// If any of these change, the connection will need to be reset.
 			requiresReset |= connection.setProperty("gateway", gateway);

@@ -70,6 +70,7 @@ public class VisItConnectionManagerTester {
 		String gateway;
 		String gatewayPort;
 		String username;
+		String ptpConnection;
 
 		// Add a new connection. The property name is the connection name, while
 		// the value is a delimited string containing its properties.
@@ -80,8 +81,11 @@ public class VisItConnectionManagerTester {
 		gateway = "";
 		gatewayPort = "22";
 		username = "";
-		node.put(name, host + "," + port + "," + path + "," + gateway + ","
-				+ gatewayPort + "," + username);
+		ptpConnection = "";
+		node.put(name,
+				host + "," + name + "," + port + "," + username + ","
+						+ ptpConnection + "," + path + "," + gateway + ","
+						+ gatewayPort);
 
 		// Check the new connection's properties.
 		connection = manager.getConnection(name);
@@ -135,6 +139,7 @@ public class VisItConnectionManagerTester {
 		String gateway;
 		String gatewayPort;
 		String username;
+		String ptpConnection;
 
 		// Add a new connection. The property name is the connection name, while
 		// the value is a delimited string containing its properties.
@@ -145,15 +150,20 @@ public class VisItConnectionManagerTester {
 		gateway = "";
 		gatewayPort = "22";
 		username = "";
-		node.put(name, host + "," + port + "," + path + "," + gateway + ","
-				+ gatewayPort + "," + username);
+		ptpConnection = "";
+		node.put(name,
+				host + "," + name + "," + port + "," + username + ","
+						+ ptpConnection + "," + path + "," + gateway + ","
+						+ gatewayPort);
 
 		// Change the VisIt-specific properties.
 		gateway = "stargate";
 		gatewayPort = "10";
 		username = "teal'c";
-		node.put(name, host + "," + port + "," + path + "," + gateway + ","
-				+ gatewayPort + "," + username);
+		node.put(name,
+				host + "," + name + "," + port + "," + username + ","
+						+ ptpConnection + "," + path + "," + gateway + ","
+						+ gatewayPort);
 
 		// Check the new connection's properties.
 		connection = manager.getConnection(name);

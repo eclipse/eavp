@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -927,7 +928,8 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 				// Return the result.
 				int statusFlag = state == ConnectionState.Disconnected
-						? Status.OK : Status.ERROR;
+						? Status.OK
+						: Status.ERROR;
 				message = VizConnection.this.getStatusMessage();
 				return new Status(statusFlag, "org.eclipse.viz.service", 1,
 						message, null);
@@ -996,5 +998,23 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 				return state;
 			}
 		});
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#setPreferences(
+	 * org.eclipse.eavp.viz.service.connections.preferences.
+	 * IVizConnectionPreferences)
+	 */
+	@Override
+	public void setPreferences(IVizConnectionPreferences preferences) {
+
+		// Set the available preferences. Username will be handled by the
+		// concrete class
+		setHost(preferences.getHostName());
+		setName(preferences.getName());
+		setPort(preferences.getPort());
 	}
 }
