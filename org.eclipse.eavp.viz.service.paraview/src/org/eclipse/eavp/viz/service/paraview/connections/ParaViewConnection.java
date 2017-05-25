@@ -91,7 +91,7 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 		if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
 
 			// For Mac, go inside the application's contents
-			osPath = "/paraview.app/Contents";
+			osPath = "/Contents";
 		}
 
 		// Get the properties for the paraview python command line
@@ -114,12 +114,12 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 			serverPath = serverPath.substring(0, path.length() - 1);
 		}
 
-		//Get the host name, discarding the username if present
+		// Get the host name, discarding the username if present
 		String hostname = host;
-        if (hostname.contains("@")) {
-            hostname = hostname.split("@")[1];
-        }
-		
+		if (hostname.contains("@")) {
+			hostname = hostname.split("@")[1];
+		}
+
 		try {
 
 			// Check the host name to see if this is a local launch
@@ -145,9 +145,8 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					// an error message
 					if ((os.indexOf("mac") >= 0)
 							|| (os.indexOf("darwin") >= 0)) {
-						if (!new File(
-								dir + "/paraview.app/Contents/bin/pvpython")
-										.exists()) {
+						if (!new File(dir + "/Contents/bin/pvpython")
+								.exists()) {
 							addErrorMessage(
 									"Could not find ParaView in directory \""
 											+ dir + "\".");
@@ -168,25 +167,11 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 							"Could not find directory \"" + dir + "\".");
 				}
 
-				// Get the directory containing the server Python script
-				File serverDir = new File(serverPath);
-
-				// Check that the server directory exists
-				if (serverDir.exists()) {
-
-					// Check if the server script can be found and give an error
-					// message if not
-					if (!new File(serverDir + "/http_pvw_server.py").exists()) {
-						addErrorMessage(
-								"Could not find http_pvw_server.py in \""
-										+ serverPath + "\".");
-					}
-				} else {
-
-					// If the server directory does no exist, give an error
-					// message
-					addErrorMessage(
-							"Could not find directory \"" + serverDir + "\".");
+				// Check if the server script can be found and give an error
+				// message if not
+				if (!new File(serverPath).exists()) {
+					addErrorMessage("Could not find http_pvw_server.py in \""
+							+ serverPath + "\".");
 				}
 
 				// A test socket for checking the port
@@ -241,8 +226,8 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 
 				ProcessBuilder serverBuilder = new ProcessBuilder(
 						path + osPath + "/bin/pvpython",
-						getProperty("serverPath") + "/http_pvw_server.py",
-						"--host", host, "--port", port);
+						getProperty("serverPath"), "--host", host, "--port",
+						port);
 
 				// Redirect the process's error stream to its output stream so
 				// we only have to deal with one
@@ -278,31 +263,24 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 			else {
 
 				// Get the operating system
-				String os = getProperty("remoteOS");
+				// String os = getProperty("remoteOS");
 
 				// The ParaView directory will have different structures on
 				// different
 				// operating systems, requiring that different places be
 				// checked in each case.
-				if ((os.indexOf("mac") >= 0) || (os.indexOf("darwin") >= 0)
-						|| os.indexOf("OSx") >= 0) {
-					osPath = "/paraview.app/Contents/bin";
-				} else if (os.indexOf("win") >= 0) {
-					// TODO Specify where pvpython is inside a Windows
-					// install
-				} else if (os.indexOf("nux") >= 0) {
-					osPath = "/bin";
-				}
 
-				// If the remote OS is not recognized, log an error
-				else {
-					addErrorMessage("Remote operating system \"" + os
-							+ "\" was not recognized. Try setting \"Linux\", \"Windows\", or \"OSx\" in the Preferences menu.");
+				// Set the osPath for Mac if the executable is an OSx .app file,
+				// otherwise set it for a Linux style directory structure.
+				if (path.endsWith(".app")) {
+					osPath = "/Contents/bin";
+				} else {
+					osPath = "/bin";
 				}
 
 				// If a username is not specified, assume that it is the same as
 				// the one used on the current machine
-				String username = System.getProperty("user.name");
+				String username = getProperty("username");
 
 				// The hostname to connect to
 				String mGateway = host;
@@ -323,8 +301,9 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 				try {
 
 					// Connect to the specified remote host
-					session = new JSch().getSession(mGatewayUser.length() == 0
-							? username : mGatewayUser, mGateway);
+					session = new JSch()
+							.getSession(mGatewayUser.length() == 0 ? username
+									: mGatewayUser, mGateway);
 					session.setUserInfo(ui);
 					session.setConfig("PreferredAuthentications",
 							"privatekey,password,keyboard-interactive");
@@ -417,12 +396,28 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnection#setPreferences(org.eclipse.eavp.viz.service.connections.preferences.IVizConnectionPreferences)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.IVizConnection#setPreferences(
+	 * org.eclipse.eavp.viz.service.connections.preferences.
+	 * IVizConnectionPreferences)
 	 */
 	@Override
 	public void setPreferences(IVizConnectionPreferences preferences) {
-		// TODO Auto-generated method stub
-		
+
+		ParaViewVizConnectionPreferences castPreferences = (ParaViewVizConnectionPreferences) preferences;
+
+		// Configure connection variables and properties according to the new
+		// preferences
+		setName(preferences.getName());
+		setHost(preferences.getHostName());
+		setPort(preferences.getPort());
+		setProperty("username", castPreferences.getUsername());
+		setPath(castPreferences.getExecutablePath());
+		setProperty("serverPath", castPreferences.getScriptPath());
+		setProperty("visualizerPort",
+				Integer.toString(castPreferences.getVisualizerPort()));
+
 	}
 
 }

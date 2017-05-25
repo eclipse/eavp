@@ -531,8 +531,8 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 					.getResource("icons" + separator + "add.png");
 		}
 		if (inImageURL == null) {
-			Path inImagePath = new Path(separator + "icons"
-					+ separator + "add.png");
+			Path inImagePath = new Path(
+					separator + "icons" + separator + "add.png");
 			inImageURL = FileLocator.find(bundle, inImagePath, null);
 		}
 		ImageDescriptor inDescriptor = ImageDescriptor
@@ -568,14 +568,15 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the minus icon image
-		URL outImageURL = bundle.getEntry("icons" + separator + "complement.gif");
+		URL outImageURL = bundle
+				.getEntry("icons" + separator + "complement.gif");
 		if (outImageURL == null) {
 			outImageURL = getClass()
 					.getResource("icons" + separator + "complement.gif");
 		}
 		if (outImageURL == null) {
-			Path outImagePath = new Path(separator + "icons"
-					+ separator + "complement.gif");
+			Path outImagePath = new Path(
+					separator + "icons" + separator + "complement.gif");
 			outImageURL = FileLocator.find(bundle, outImagePath, null);
 		}
 		ImageDescriptor outDescriptor = ImageDescriptor
@@ -611,15 +612,15 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 		};
 
 		// Get the reset icon image
-		URL resetImageURL = bundle.getEntry("icons" + separator + "iu_update_obj.gif");
+		URL resetImageURL = bundle
+				.getEntry("icons" + separator + "iu_update_obj.gif");
 		if (resetImageURL == null) {
 			resetImageURL = getClass()
 					.getResource("icons" + separator + "iu_update_obj.gif");
 		}
 		if (resetImageURL == null) {
 			Path resetImagePath = new Path(
-					separator + "icons" + separator
-							+ "iu_update_obj.gif");
+					separator + "icons" + separator + "iu_update_obj.gif");
 			resetImageURL = FileLocator.find(bundle, resetImagePath, null);
 		}
 		ImageDescriptor resetDescriptor = ImageDescriptor
@@ -655,7 +656,8 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 				viewUp.add(zero);
 				args.add(viewUp);
 
-				// Set the camera back to a spatial position along the z axis: (0, 0,
+				// Set the camera back to a spatial position along the z axis:
+				// (0, 0,
 				// 67)
 				JsonArray position = new JsonArray();
 				position.add(zero);
@@ -665,12 +667,14 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 
 				// Invoke the camera update method from ParaView
 				connection.getWidget().call("viewport.camera.update", args);
-				
-				//Create a new set of arguments, this time only including the view ID
+
+				// Create a new set of arguments, this time only including the
+				// view ID
 				JsonArray resetArgs = new JsonArray();
 				resetArgs.add(view);
-				
-				//Invoke the reset method so that the camera will be moved to the default distance away from the origin
+
+				// Invoke the reset method so that the camera will be moved to
+				// the default distance away from the origin
 				connection.getWidget().call("viewport.camera.reset", resetArgs);
 
 				// Redraw the composite from the new camera position
@@ -780,7 +784,7 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 									|| (OS.indexOf("darwin") >= 0)) {
 
 								// For Mac, go inside the application's contents
-								osPath = "/paraview.app/Contents";
+								osPath = "/Contents";
 
 								// On an X display, open pvpython, run the web
 								// visualizer server, and set the folder
@@ -832,9 +836,8 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 										path + osPath + "/bin/pvpython",
 										path + osPath + "/lib/" + version
 												+ "/site-packages/paraview/web/pv_web_visualizer.py",
-										"--content",
-										path + osPath + "/share/" + version
-												+ "/www",
+										"--content", path + osPath + "/share/"
+												+ version + "/www",
 										"--data-dir",
 										ResourcesPlugin.getWorkspace().getRoot()
 												.getLocation().toString(),

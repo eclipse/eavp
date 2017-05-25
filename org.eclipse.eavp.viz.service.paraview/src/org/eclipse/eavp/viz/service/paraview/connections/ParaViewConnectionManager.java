@@ -61,39 +61,13 @@ public class ParaViewConnectionManager
 
 		// Create the connection
 		ParaViewConnection connection = new ParaViewConnection();
-
-//		// Split the string using the delimiter. The -1 is necessary to include
-//		// empty values from the split.
-//		String[] split = preferences.split(getConnectionPreferenceDelimiter(),
-//				-1);
-//
-//		try {
-//			// Get the additional connection properties
-//			String serverPath = split[SERVER_PATH_INDEX];
-//			String visualizerPort = split[VISUALIZER_PORT_INDEX];
-//			String os = split[REMOTE_OS_INDEX];
-//			String version = split[REMOTE_VERSION_NUMBER_INDEX];
-//
-//			// Set the connection's properties.
-//			connection.setProperty("serverPath", serverPath);
-//			connection.setProperty("visualizerPort", visualizerPort);
-//			connection.setProperty("remoteOS", os);
-//			connection.setProperty("remoteVersion", version);
-//
-//		} catch (IndexOutOfBoundsException | NullPointerException
-//				| NumberFormatException e) {
-//
-//			// Cannot add the connection.
-//			connection = null;
-//		}
-
 		return connection;
 	}
 
 	@Override
-	protected IVizConnectionPreferences createPreferences(String serialPreferences) {
-		// TODO Auto-generated method stub
-		return null;
+	protected IVizConnectionPreferences createPreferences(
+			String serialPreferences) {
+		return new ParaViewVizConnectionPreferences(serialPreferences);
 	}
 
 }
