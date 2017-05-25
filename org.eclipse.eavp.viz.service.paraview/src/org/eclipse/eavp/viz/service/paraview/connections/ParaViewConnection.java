@@ -273,9 +273,9 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 				// Set the osPath for Mac if the executable is an OSx .app file,
 				// otherwise set it for a Linux style directory structure.
 				if (path.endsWith(".app")) {
-					osPath = "/Contents/bin";
+					osPath = "/Contents/bin/pvpython";
 				} else {
-					osPath = "/bin";
+					osPath = "";
 				}
 
 				// If a username is not specified, assume that it is the same as
@@ -316,9 +316,8 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 					// A shell command that will launch the server on ParaView
 					// Python using the specified host and port, with its own x
 					// display
-					String commandString = "DISPLAY=:0 " + path + osPath
-							+ "/pvpython " + getProperty("serverPath")
-							+ "/http_pvw_server.py " + "--host " + host
+					String commandString = "DISPLAY=:0 " + path + osPath + " "
+							+ getProperty("serverPath") + " " + "--host " + host
 							+ " --port " + port + " &";
 
 					// Run the command

@@ -137,7 +137,7 @@ public abstract class RCPVizConnectionPreferences
 							// Get the address attribute from the working
 							// connection
 							return remoteConnection.getWorkingCopy()
-									.getAttribute("ADDRESS_ATTR");
+									.getAttribute("JSCH_ADDRESS_ATTR");
 						}
 					}
 				}
@@ -177,7 +177,7 @@ public abstract class RCPVizConnectionPreferences
 							// Get the username attribute from the working
 							// connection
 							return remoteConnection.getWorkingCopy()
-									.getAttribute("USERNAME_ATTR");
+									.getAttribute("JSCH_USERNAME_ATTR");
 						}
 					}
 				}
