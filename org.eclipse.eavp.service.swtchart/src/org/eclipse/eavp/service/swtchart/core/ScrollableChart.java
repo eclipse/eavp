@@ -13,8 +13,8 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
@@ -34,6 +34,8 @@ import org.swtchart.Range;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
+	private static final int Y_ACTIVE_AREA_RANGE_INFO = 30;
+	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
 	private IChartSettings chartSettings;
@@ -335,24 +337,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			}
 		});
 		//
-		baseChart.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseUp(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseDown(MouseEvent e) {
-
-			}
+		baseChart.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 
 				if(chartSettings.isRangeInfoVisible()) {
 					if(!rangeInfoUI.isVisible()) {
-						if(e.y <= 30) {
+						if(e.y <= Y_ACTIVE_AREA_RANGE_INFO) {
 							/*
 							 * Show the range info composite.
 							 */
