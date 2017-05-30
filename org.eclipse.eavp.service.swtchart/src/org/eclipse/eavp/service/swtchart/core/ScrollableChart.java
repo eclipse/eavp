@@ -14,7 +14,7 @@ package org.eclipse.eavp.service.swtchart.core;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
@@ -334,18 +334,28 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				setSliderSelection(false);
 			}
 		});
-		baseChart.addMouseMoveListener(new MouseMoveListener() {
+		//
+		baseChart.addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseMove(MouseEvent e) {
+			public void mouseUp(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseDown(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
 
 				if(chartSettings.isRangeInfoVisible()) {
 					if(!rangeInfoUI.isVisible()) {
-						if(e.y <= 5) {
+						if(e.y <= 30) {
 							/*
 							 * Show the range info composite.
 							 */
-							System.out.println("Improve show range info composite");
 							GridData gridData = (GridData)rangeInfoUI.getLayoutData();
 							gridData.exclude = false;
 							rangeInfoUI.setVisible(true);
