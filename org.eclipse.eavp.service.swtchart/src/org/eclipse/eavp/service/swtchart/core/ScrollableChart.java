@@ -18,6 +18,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -44,10 +45,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
-	private IChartSettings chartSettings;
+	private Composite compositeChartArea;
 	private RangeInfoUI rangeInfoUI;
 	private BaseChart baseChart;
 	//
+	private IChartSettings chartSettings;
 	private boolean showRangeInfoHint = true;
 
 	public ScrollableChart(Composite parent, int style) {
@@ -80,67 +82,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			adjustRange(true);
 			baseChart.redraw();
 		}
-	}
-
-	private void modifyChart() {
-
-		setSliderVisibility();
-		setRangeInfoVisibility();
-		//
-		baseChart.getTitle().setText(chartSettings.getTitle());
-		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
-		baseChart.getTitle().setForeground(chartSettings.getTitleColor());
-		/*
-		 * Primary axes
-		 */
-		IAxisSet axisSet = baseChart.getAxisSet();
-		IAxis xAxisPrimary = axisSet.getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-		setAxisSettings(xAxisPrimary, chartSettings.getPrimaryAxisSettingsX());
-		IAxis yAxisPrimary = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-		setAxisSettings(yAxisPrimary, chartSettings.getPrimaryAxisSettingsY());
-		/*
-		 * Range Info
-		 */
-		rangeInfoUI.setXYLabels(xAxisPrimary.getTitle().getText(), yAxisPrimary.getTitle().getText());
-		/*
-		 * Secondary axes
-		 */
-		addSecondaryAxesX(axisSet, chartSettings);
-		addSecondaryAxesY(axisSet, chartSettings);
-		//
-		baseChart.setOrientation(chartSettings.getOrientation());
-		baseChart.getLegend().setVisible(chartSettings.isLegendVisible());
-		baseChart.setBackground(chartSettings.getBackground());
-		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundInPlotArea());
-		baseChart.enableCompress(chartSettings.isEnableCompress());
-		baseChart.setUseZeroX(chartSettings.isUseZeroX());
-		baseChart.setUseZeroY(chartSettings.isUseZeroY());
-	}
-
-	private void setSliderVisibility() {
-
-		/*
-		 * pack(); doesn't work???!!! Why? It should!
-		 * Exclude and layout did the trick.
-		 */
-		GridData gridDataVertical = (GridData)sliderVertical.getLayoutData();
-		gridDataVertical.exclude = !chartSettings.isVerticalSliderVisible();
-		sliderVertical.setVisible(chartSettings.isVerticalSliderVisible());
-		//
-		GridData gridDataHorizontal = (GridData)sliderHorizontal.getLayoutData();
-		gridDataHorizontal.exclude = !chartSettings.isHorizontalSliderVisible();
-		sliderHorizontal.setVisible(chartSettings.isHorizontalSliderVisible());
-		//
-		layout(false);
-	}
-
-	private void setRangeInfoVisibility() {
-
-		GridData gridData = (GridData)rangeInfoUI.getLayoutData();
-		gridData.exclude = !chartSettings.isRangeInfoVisible();
-		rangeInfoUI.setVisible(chartSettings.isRangeInfoVisible());
-		//
-		layout(false);
 	}
 
 	@Override
@@ -284,172 +225,65 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.paintControl(e);
 	}
 
-	private void initialize() {
+	private void modifyChart() {
 
-		this.setLayout(new FillLayout());
-		Composite composite = new Composite(this, SWT.NONE);
-		composite.setLayout(new GridLayout(2, false));
-		/*
-		 * Slider Vertical
-		 */
-		sliderVertical = new Slider(composite, SWT.VERTICAL);
-		sliderVertical.setLayoutData(new GridData(GridData.FILL_VERTICAL));
-		sliderVertical.setOrientation(SWT.RIGHT_TO_LEFT); // See Bug #511257
-		sliderVertical.setVisible(true);
-		sliderVertical.addListener(SWT.Selection, new Listener() {
-
-			@Override
-			public void handleEvent(Event event) {
-
-				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-				//
-				if(xAxis != null && yAxis != null) {
-					Range range = calculateShiftedRange(yAxis.getRange(), sliderVertical);
-					if(isOrientationHorizontal()) {
-						yAxis.setRange(range);
-						baseChart.adjustMinMaxRange(yAxis);
-						adjustSecondaryYAxes();
-					} else {
-						xAxis.setRange(range);
-						baseChart.adjustMinMaxRange(xAxis);
-						adjustSecondaryXAxes();
-					}
-					//
-					fireUpdateCustomSelectionHandlers(event);
-					baseChart.redraw();
-				}
-			}
-		});
-		/*
-		 * Chart Area
-		 */
-		Composite compositeChartArea = new Composite(composite, SWT.NONE);
-		compositeChartArea.setLayoutData(new GridData(GridData.FILL_BOTH));
-		compositeChartArea.setLayout(new GridLayout(1, true));
-		compositeChartArea.addPaintListener(new PaintListener() {
-			
-			@Override
-			public void paintControl(PaintEvent e) {
-			
-				/*
-				 * Rectangle (Double Click -> show Range Info)
-				 */
-				if(!rangeInfoUI.isVisible()) {
-					if(showRangeInfoHint) {
-						int lineWidth = 1;
-						Rectangle rectangle = compositeChartArea.getBounds();
-						int width = rectangle.width - lineWidth;
-						e.gc.setForeground(COLOR_RED);
-						e.gc.setLineWidth(lineWidth);
-						e.gc.drawRectangle(0, 0, width, Y_ACTIVE_AREA_RANGE_INFO);
-						/*
-						 * Hide the rectangle after x milliseconds.
-						 */
-						Display.getDefault().asyncExec(new Runnable() {
-							
-							@Override
-							public void run() {
-								
-								try {
-									Thread.sleep(MILLISECONDS_SHOW_RANGE_INFO_HINT);
-								} catch(InterruptedException e) {
-									System.out.println(e);
-								}
-								showRangeInfoHint = false;
-								compositeChartArea.redraw();
-							}
-						});
-					}
-				}
-			}
-		});	
-		/*
-		 * Chart Range Settings
-		 */
-		rangeInfoUI = new RangeInfoUI(compositeChartArea, SWT.NONE);
-		rangeInfoUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		/*
-		 * Chart Plot
-		 */
-		baseChart = new BaseChart(compositeChartArea, SWT.NONE);
-		baseChart.setLayoutData(new GridData(GridData.FILL_BOTH));
-		baseChart.addCustomSelectionHandler(new ICustomSelectionHandler() {
-
-			@Override
-			public void handleUserSelection(Event event) {
-
-				setSliderSelection(false);
-			}
-		});
-		baseChart.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-
-				if(chartSettings.isRangeInfoVisible()) {
-					if(!rangeInfoUI.isVisible()) {
-						if(e.y <= Y_ACTIVE_AREA_RANGE_INFO) {
-							/*
-							 * Show the range info composite.
-							 */
-							GridData gridData = (GridData)rangeInfoUI.getLayoutData();
-							gridData.exclude = false;
-							rangeInfoUI.setVisible(true);
-							Composite parent = getParent();
-							parent.layout(false);
-							showRangeInfoHint = true;
-							parent.redraw();
-						}
-					}
-				}
-			}
-		});	
+		setSliderVisibility();
+		setRangeInfoVisibility();
 		//
-		Composite plotArea = baseChart.getPlotArea();
-		plotArea.addListener(SWT.KeyDown, this);
-		plotArea.addListener(SWT.KeyUp, this);
-		plotArea.addListener(SWT.MouseMove, this);
-		plotArea.addListener(SWT.MouseDown, this);
-		plotArea.addListener(SWT.MouseUp, this);
-		plotArea.addListener(SWT.MouseWheel, this);
-		plotArea.addListener(SWT.MouseDoubleClick, this);
-		plotArea.addListener(SWT.Resize, this);
-		plotArea.addPaintListener(this);
+		baseChart.getTitle().setText(chartSettings.getTitle());
+		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
+		baseChart.getTitle().setForeground(chartSettings.getTitleColor());
 		/*
-		 * Slider Horizontal
+		 * Primary axes
 		 */
-		sliderHorizontal = new Slider(composite, SWT.HORIZONTAL);
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalSpan = 2;
-		sliderHorizontal.setLayoutData(gridData);
-		sliderHorizontal.setOrientation(SWT.LEFT_TO_RIGHT);
-		sliderHorizontal.setVisible(true);
-		sliderHorizontal.addListener(SWT.Selection, new Listener() {
+		IAxisSet axisSet = baseChart.getAxisSet();
+		IAxis xAxisPrimary = axisSet.getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+		setAxisSettings(xAxisPrimary, chartSettings.getPrimaryAxisSettingsX());
+		IAxis yAxisPrimary = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		setAxisSettings(yAxisPrimary, chartSettings.getPrimaryAxisSettingsY());
+		/*
+		 * Range Info
+		 */
+		rangeInfoUI.setXYLabels(xAxisPrimary.getTitle().getText(), yAxisPrimary.getTitle().getText());
+		/*
+		 * Secondary axes
+		 */
+		addSecondaryAxesX(axisSet, chartSettings);
+		addSecondaryAxesY(axisSet, chartSettings);
+		//
+		baseChart.setOrientation(chartSettings.getOrientation());
+		baseChart.getLegend().setVisible(chartSettings.isLegendVisible());
+		baseChart.setBackground(chartSettings.getBackground());
+		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundInPlotArea());
+		baseChart.enableCompress(chartSettings.isEnableCompress());
+		baseChart.setUseZeroX(chartSettings.isUseZeroX());
+		baseChart.setUseZeroY(chartSettings.isUseZeroY());
+	}
 
-			@Override
-			public void handleEvent(Event event) {
+	private void setSliderVisibility() {
 
-				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-				//
-				if(xAxis != null && yAxis != null) {
-					Range range = calculateShiftedRange(xAxis.getRange(), sliderHorizontal);
-					if(isOrientationHorizontal()) {
-						xAxis.setRange(range);
-						baseChart.adjustMinMaxRange(xAxis);
-						adjustSecondaryXAxes();
-					} else {
-						yAxis.setRange(range);
-						baseChart.adjustMinMaxRange(yAxis);
-						adjustSecondaryYAxes();
-					}
-					//
-					fireUpdateCustomSelectionHandlers(event);
-					baseChart.redraw();
-				}
-			}
-		});
+		/*
+		 * pack(); doesn't work???!!! Why? It should!
+		 * Exclude and layout did the trick.
+		 */
+		GridData gridDataVertical = (GridData)sliderVertical.getLayoutData();
+		gridDataVertical.exclude = !chartSettings.isVerticalSliderVisible();
+		sliderVertical.setVisible(chartSettings.isVerticalSliderVisible());
+		//
+		GridData gridDataHorizontal = (GridData)sliderHorizontal.getLayoutData();
+		gridDataHorizontal.exclude = !chartSettings.isHorizontalSliderVisible();
+		sliderHorizontal.setVisible(chartSettings.isHorizontalSliderVisible());
+		//
+		layout(false);
+	}
+
+	private void setRangeInfoVisibility() {
+
+		GridData gridData = (GridData)rangeInfoUI.getLayoutData();
+		gridData.exclude = !chartSettings.isRangeInfoVisible();
+		rangeInfoUI.setVisible(chartSettings.isRangeInfoVisible());
+		//
+		layout(false);
 	}
 
 	private void resetSlider() {
@@ -599,11 +433,184 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.fireUpdateCustomSelectionHandlers(event);
 		displayRangeInfo();
 	}
-	
+
 	private void displayRangeInfo() {
-		
+
 		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
 		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 		rangeInfoUI.setXYRanges(xAxis.getRange(), yAxis.getRange());
+	}
+
+	private void initialize() {
+
+		this.setLayout(new FillLayout());
+		Composite composite = new Composite(this, SWT.NONE);
+		composite.setLayout(new GridLayout(2, false));
+		/*
+		 * Slider Vertical
+		 */
+		sliderVertical = new Slider(composite, SWT.VERTICAL);
+		sliderVertical.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		sliderVertical.setOrientation(SWT.RIGHT_TO_LEFT); // See Bug #511257
+		sliderVertical.setVisible(true);
+		sliderVertical.addListener(SWT.Selection, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+
+				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+				//
+				if(xAxis != null && yAxis != null) {
+					Range range = calculateShiftedRange(yAxis.getRange(), sliderVertical);
+					if(isOrientationHorizontal()) {
+						yAxis.setRange(range);
+						baseChart.adjustMinMaxRange(yAxis);
+						adjustSecondaryYAxes();
+					} else {
+						xAxis.setRange(range);
+						baseChart.adjustMinMaxRange(xAxis);
+						adjustSecondaryXAxes();
+					}
+					//
+					fireUpdateCustomSelectionHandlers(event);
+					baseChart.redraw();
+				}
+			}
+		});
+		/*
+		 * Chart Area
+		 */
+		compositeChartArea = new Composite(composite, SWT.NONE);
+		compositeChartArea.setLayoutData(new GridData(GridData.FILL_BOTH));
+		compositeChartArea.setLayout(new GridLayout(1, true));
+		/*
+		 * Chart Range Settings
+		 */
+		rangeInfoUI = new RangeInfoUI(compositeChartArea, SWT.NONE);
+		rangeInfoUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		/*
+		 * Chart Plot
+		 */
+		baseChart = new BaseChart(compositeChartArea, SWT.NONE);
+		baseChart.setLayoutData(new GridData(GridData.FILL_BOTH));
+		baseChart.addCustomSelectionHandler(new ICustomSelectionHandler() {
+
+			@Override
+			public void handleUserSelection(Event event) {
+
+				setSliderSelection(false);
+			}
+		});
+		baseChart.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+
+				if(chartSettings.isRangeInfoVisible()) {
+					if(!rangeInfoUI.isVisible()) {
+						if(e.y <= Y_ACTIVE_AREA_RANGE_INFO) {
+							/*
+							 * Show the range info composite.
+							 */
+							GridData gridData = (GridData)rangeInfoUI.getLayoutData();
+							gridData.exclude = false;
+							rangeInfoUI.setVisible(true);
+							Composite parent = getParent();
+							parent.layout(false);
+							showRangeInfoHint = true;
+							parent.redraw();
+						}
+					}
+				}
+			}
+		});
+		baseChart.addPaintListener(new PaintListener() {
+
+			@Override
+			public void paintControl(PaintEvent e) {
+
+				/*
+				 * Rectangle (Double Click -> show Range Info)
+				 */
+				if(!rangeInfoUI.isVisible()) {
+					if(showRangeInfoHint) {
+						//
+						int lineWidth = 1;
+						Rectangle rectangle = baseChart.getBounds();
+						int width = rectangle.width - lineWidth;
+						e.gc.setForeground(COLOR_RED);
+						e.gc.setLineWidth(lineWidth);
+						e.gc.drawRectangle(0, 0, width, Y_ACTIVE_AREA_RANGE_INFO);
+						//
+						String label = "Double click to show range info.";
+						Point labelSize = e.gc.textExtent(label);
+						e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
+						/*
+						 * Hide the rectangle after x milliseconds.
+						 */
+						Display.getDefault().asyncExec(new Runnable() {
+
+							@Override
+							public void run() {
+
+								try {
+									Thread.sleep(MILLISECONDS_SHOW_RANGE_INFO_HINT);
+								} catch(InterruptedException e) {
+									System.out.println(e);
+								}
+								showRangeInfoHint = false;
+								baseChart.redraw();
+							}
+						});
+					}
+				}
+			}
+		});
+		//
+		Composite plotArea = baseChart.getPlotArea();
+		plotArea.addListener(SWT.KeyDown, this);
+		plotArea.addListener(SWT.KeyUp, this);
+		plotArea.addListener(SWT.MouseMove, this);
+		plotArea.addListener(SWT.MouseDown, this);
+		plotArea.addListener(SWT.MouseUp, this);
+		plotArea.addListener(SWT.MouseWheel, this);
+		plotArea.addListener(SWT.MouseDoubleClick, this);
+		plotArea.addListener(SWT.Resize, this);
+		plotArea.addPaintListener(this);
+		/*
+		 * Slider Horizontal
+		 */
+		sliderHorizontal = new Slider(composite, SWT.HORIZONTAL);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 2;
+		sliderHorizontal.setLayoutData(gridData);
+		sliderHorizontal.setOrientation(SWT.LEFT_TO_RIGHT);
+		sliderHorizontal.setVisible(true);
+		sliderHorizontal.addListener(SWT.Selection, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+
+				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+				//
+				if(xAxis != null && yAxis != null) {
+					Range range = calculateShiftedRange(xAxis.getRange(), sliderHorizontal);
+					if(isOrientationHorizontal()) {
+						xAxis.setRange(range);
+						baseChart.adjustMinMaxRange(xAxis);
+						adjustSecondaryXAxes();
+					} else {
+						yAxis.setRange(range);
+						baseChart.adjustMinMaxRange(yAxis);
+						adjustSecondaryYAxes();
+					}
+					//
+					fireUpdateCustomSelectionHandlers(event);
+					baseChart.redraw();
+				}
+			}
+		});
 	}
 }
