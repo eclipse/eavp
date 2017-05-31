@@ -226,7 +226,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void modifyChart() {
 
 		setSliderVisibility();
-		setRangeInfoVisibility();
+		setRangeInfoVisibility(chartSettings.isRangeInfoVisible());
 		//
 		baseChart.getTitle().setText(chartSettings.getTitle());
 		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
@@ -275,12 +275,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		layout(false);
 	}
 
-	private void setRangeInfoVisibility() {
+	private void setRangeInfoVisibility(boolean isVisible) {
 
 		GridData gridData = (GridData)rangeInfoUI.getLayoutData();
-		gridData.exclude = !chartSettings.isRangeInfoVisible();
-		rangeInfoUI.setVisible(chartSettings.isRangeInfoVisible());
-		//
+		gridData.exclude = !isVisible;
+		rangeInfoUI.setVisible(isVisible);
 		layout(false);
 	}
 
