@@ -24,6 +24,8 @@ import org.swtchart.Range;
 
 public class RangeInfoUI extends Composite {
 
+	private IScrollableChart scrollableChart;
+	//
 	private Text textStartX;
 	private Text textStopX;
 	private Label labelScaleX;
@@ -34,6 +36,10 @@ public class RangeInfoUI extends Composite {
 	public RangeInfoUI(Composite parent, int style) {
 		super(parent, style);
 		createControl();
+	}
+	
+	public void setScrollableChart(IScrollableChart scrollableChart) {
+		this.scrollableChart = scrollableChart;
 	}
 
 	public void setXYLabels(String scaleX, String scaleY) {
@@ -80,17 +86,36 @@ public class RangeInfoUI extends Composite {
 		//
 		Button buttonSetRange = new Button(this, SWT.PUSH);
 		buttonSetRange.setText("Set");
+		buttonSetRange.setLayoutData(getButtonGridData());
 		buttonSetRange.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				System.out.println("Implement Set Range.");
+				if(scrollableChart != null) {
+				
+					try {
+						/*
+						 * X Axis
+						 */
+						Range rangeX = new Range(Double.valueOf(textStartX.getText().trim()), Double.valueOf(textStopX.getText().trim()));
+						scrollableChart.setRange(IExtendedChart.X_AXIS, rangeX);
+						/*
+						 * Y Axis
+						 */
+						Range rangeY = new Range(Double.valueOf(textStartY.getText().trim()), Double.valueOf(textStopY.getText().trim()));
+						scrollableChart.setRange(IExtendedChart.Y_AXIS, rangeY);
+						
+					} catch(Exception e1) {
+						System.out.println(e1);
+					}
+				}
 			}
 		});
 		//
 		Button buttonHide = new Button(this, SWT.PUSH);
 		buttonHide.setText("Hide");
+		buttonHide.setLayoutData(getButtonGridData());
 		buttonHide.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -99,8 +124,17 @@ public class RangeInfoUI extends Composite {
 				GridData gridData = (GridData)getLayoutData();
 				gridData.exclude = true;
 				setVisible(false);
-				getParent().layout(false);
+				Composite parent = getParent();
+				parent.layout(false);
+				parent.redraw();
 			}
 		});
+	}
+	
+	private GridData getButtonGridData() {
+		
+		GridData gridData = new GridData();
+		gridData.widthHint = 100;
+		return gridData;
 	}
 }

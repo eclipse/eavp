@@ -16,11 +16,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Slider;
@@ -29,18 +32,23 @@ import org.swtchart.IAxis.Direction;
 import org.swtchart.IAxisSet;
 import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
+
 import org.swtchart.ISeriesSet;
 import org.swtchart.Range;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
-	private static final int Y_ACTIVE_AREA_RANGE_INFO = 30;
+	private static final int Y_ACTIVE_AREA_RANGE_INFO = 47;
+	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
+	private static final Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
 	private IChartSettings chartSettings;
 	private RangeInfoUI rangeInfoUI;
 	private BaseChart baseChart;
+	//
+	private boolean showRangeInfoHint = true;
 
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
@@ -146,6 +154,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		ISeries series = baseChart.createSeries(seriesType, xSeries, ySeries, id);
 		resetSlider();
+		displayRangeInfo();
 		return series;
 	}
 
@@ -318,6 +327,43 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		Composite compositeChartArea = new Composite(composite, SWT.NONE);
 		compositeChartArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		compositeChartArea.setLayout(new GridLayout(1, true));
+		compositeChartArea.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent e) {
+			
+				/*
+				 * Rectangle (Double Click -> show Range Info)
+				 */
+				if(!rangeInfoUI.isVisible()) {
+					if(showRangeInfoHint) {
+						int lineWidth = 1;
+						Rectangle rectangle = compositeChartArea.getBounds();
+						int width = rectangle.width - lineWidth;
+						e.gc.setForeground(COLOR_RED);
+						e.gc.setLineWidth(lineWidth);
+						e.gc.drawRectangle(0, 0, width, Y_ACTIVE_AREA_RANGE_INFO);
+						/*
+						 * Hide the rectangle after x milliseconds.
+						 */
+						Display.getDefault().asyncExec(new Runnable() {
+							
+							@Override
+							public void run() {
+								
+								try {
+									Thread.sleep(MILLISECONDS_SHOW_RANGE_INFO_HINT);
+								} catch(InterruptedException e) {
+									System.out.println(e);
+								}
+								showRangeInfoHint = false;
+								compositeChartArea.redraw();
+							}
+						});
+					}
+				}
+			}
+		});	
 		/*
 		 * Chart Range Settings
 		 */
@@ -336,7 +382,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				setSliderSelection(false);
 			}
 		});
-		//
 		baseChart.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -351,12 +396,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 							GridData gridData = (GridData)rangeInfoUI.getLayoutData();
 							gridData.exclude = false;
 							rangeInfoUI.setVisible(true);
-							layout(false);
+							Composite parent = getParent();
+							parent.layout(false);
+							showRangeInfoHint = true;
+							parent.redraw();
 						}
 					}
 				}
 			}
-		});
+		});	
 		//
 		Composite plotArea = baseChart.getPlotArea();
 		plotArea.addListener(SWT.KeyDown, this);
@@ -549,7 +597,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void fireUpdateCustomSelectionHandlers(Event event) {
 
 		baseChart.fireUpdateCustomSelectionHandlers(event);
-		//
+		displayRangeInfo();
+	}
+	
+	private void displayRangeInfo() {
+		
 		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
 		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 		rangeInfoUI.setXYRanges(xAxis.getRange(), yAxis.getRange());
