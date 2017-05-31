@@ -812,10 +812,12 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 								// followed by a decimal version number.
 								// "paraview-5.0" for example.
 								String version = "";
-
+								
+								String visPath = path.replace("/bin/pvpython", "/lib");
+								
 								// One copy of a folder with this name should be
 								// in the lib directory.
-								File lib = new File(path + osPath + "/lib");
+								File lib = new File(visPath);
 
 								// Search /lib for a folder with the correct
 								// name
@@ -833,10 +835,10 @@ public class ParaViewPlot extends ConnectionPlot<IParaViewWebClient> {
 								// visualized are located, and the port number
 								// for the server to listen to
 								builder = new ProcessBuilder(
-										path + osPath + "/bin/pvpython",
-										path + osPath + "/lib/" + version
+										path + osPath,
+										visPath + "/" + version
 												+ "/site-packages/paraview/web/pv_web_visualizer.py",
-										"--content", path + osPath + "/share/"
+										"--content", visPath + "/share/"
 												+ version + "/www",
 										"--data-dir",
 										ResourcesPlugin.getWorkspace().getRoot()

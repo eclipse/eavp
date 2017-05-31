@@ -91,7 +91,11 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 		if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
 
 			// For Mac, go inside the application's contents
-			osPath = "/Contents";
+			osPath = "/Contents/bin/pvpython";
+		} else {
+			
+			//For linux, the literal executable is already selected
+			osPath = "";
 		}
 
 		// Get the properties for the paraview python command line
@@ -155,7 +159,7 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 						// TODO Specify where pvpython is inside a Windows
 						// install
 					} else if (os.indexOf("nux") >= 0) {
-						if (!new File(dir + "/bin/pvpython").exists()) {
+						if (!dir.exists()) {
 							addErrorMessage(
 									"Could not find VisIt in directory \"" + dir
 											+ "\".");
@@ -225,7 +229,7 @@ public class ParaViewConnection extends VizConnection<IParaViewWebClient> {
 				}
 
 				ProcessBuilder serverBuilder = new ProcessBuilder(
-						path + osPath + "/bin/pvpython",
+						path + osPath,
 						getProperty("serverPath"), "--host", host, "--port",
 						port);
 
