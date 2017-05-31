@@ -37,8 +37,9 @@ public class RangeInfoUI extends Composite {
 		super(parent, style);
 		createControl();
 	}
-	
+
 	public void setScrollableChart(IScrollableChart scrollableChart) {
+
 		this.scrollableChart = scrollableChart;
 	}
 
@@ -55,6 +56,7 @@ public class RangeInfoUI extends Composite {
 			textStopX.setText(Double.toString(rangeX.upper));
 			textStartY.setText(Double.toString(rangeY.lower));
 			textStopY.setText(Double.toString(rangeY.upper));
+			scrollableChart.getBaseChart().redraw();
 		}
 	}
 
@@ -93,7 +95,6 @@ public class RangeInfoUI extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				if(scrollableChart != null) {
-				
 					try {
 						/*
 						 * X Axis
@@ -105,7 +106,6 @@ public class RangeInfoUI extends Composite {
 						 */
 						Range rangeY = new Range(Double.valueOf(textStartY.getText().trim()), Double.valueOf(textStopY.getText().trim()));
 						scrollableChart.setRange(IExtendedChart.Y_AXIS, rangeY);
-						
 					} catch(Exception e1) {
 						System.out.println(e1);
 					}
@@ -130,9 +130,9 @@ public class RangeInfoUI extends Composite {
 			}
 		});
 	}
-	
+
 	private GridData getButtonGridData() {
-		
+
 		GridData gridData = new GridData();
 		gridData.widthHint = 100;
 		return gridData;

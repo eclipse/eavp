@@ -45,7 +45,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
-	private Composite compositeChartArea;
 	private RangeInfoUI rangeInfoUI;
 	private BaseChart baseChart;
 	//
@@ -95,7 +94,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		ISeries series = baseChart.createSeries(seriesType, xSeries, ySeries, id);
 		resetSlider();
-		displayRangeInfo();
 		return series;
 	}
 
@@ -335,6 +333,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				sliderVertical.setIncrement((isHorizontal) ? incrementY : incrementX);
 				sliderHorizontal.setPageIncrement((isHorizontal) ? incrementX : incrementY);
 			}
+			//
+			displayRangeInfo(xAxis, yAxis);
 		}
 	}
 
@@ -431,13 +431,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void fireUpdateCustomSelectionHandlers(Event event) {
 
 		baseChart.fireUpdateCustomSelectionHandlers(event);
-		displayRangeInfo();
 	}
 
-	private void displayRangeInfo() {
+	private void displayRangeInfo(IAxis xAxis, IAxis yAxis) {
 
-		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 		rangeInfoUI.setXYRanges(xAxis.getRange(), yAxis.getRange());
 	}
 
@@ -447,9 +444,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 		/*
-		 * Slider Vertical
+		 * Composite
 		 */
-		sliderVertical = new Slider(composite, SWT.VERTICAL);
+		createSliderVertical(composite);
+		createChart(composite);
+		createSliderHorizontal(composite);
+	}
+
+	private void createSliderVertical(Composite parent) {
+
+		sliderVertical = new Slider(parent, SWT.VERTICAL);
 		sliderVertical.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		sliderVertical.setOrientation(SWT.RIGHT_TO_LEFT); // See Bug #511257
 		sliderVertical.setVisible(true);
@@ -473,27 +477,44 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						adjustSecondaryXAxes();
 					}
 					//
+					displayRangeInfo(xAxis, yAxis);
 					fireUpdateCustomSelectionHandlers(event);
 					baseChart.redraw();
 				}
 			}
 		});
+	}
+
+	private void createChart(Composite parent) {
+
 		/*
 		 * Chart Area
 		 */
-		compositeChartArea = new Composite(composite, SWT.NONE);
-		compositeChartArea.setLayoutData(new GridData(GridData.FILL_BOTH));
-		compositeChartArea.setLayout(new GridLayout(1, true));
-		/*
-		 * Chart Range Settings
-		 */
-		rangeInfoUI = new RangeInfoUI(compositeChartArea, SWT.NONE);
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		composite.setLayout(new GridLayout(1, true));
+		//
+		createRangeInfoUI(composite);
+		createBaseChart(composite);
+	}
+
+	private void createRangeInfoUI(Composite parent) {
+
+		rangeInfoUI = new RangeInfoUI(parent, SWT.NONE);
 		rangeInfoUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		rangeInfoUI.setScrollableChart(this);
+	}
+
+	private void createBaseChart(Composite parent) {
+
 		/*
 		 * Chart Plot
 		 */
-		baseChart = new BaseChart(compositeChartArea, SWT.NONE);
+		baseChart = new BaseChart(parent, SWT.NONE);
 		baseChart.setLayoutData(new GridData(GridData.FILL_BOTH));
+		/*
+		 * Set the slider range.
+		 */
 		baseChart.addCustomSelectionHandler(new ICustomSelectionHandler() {
 
 			@Override
@@ -502,6 +523,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				setSliderSelection(false);
 			}
 		});
+		/*
+		 * Show the range info UI on double click.
+		 */
 		baseChart.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -525,6 +549,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				}
 			}
 		});
+		/*
+		 * Show the range info hint.
+		 */
 		baseChart.addPaintListener(new PaintListener() {
 
 			@Override
@@ -567,7 +594,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				}
 			}
 		});
-		//
+		/*
+		 * Add the listeners.
+		 */
 		Composite plotArea = baseChart.getPlotArea();
 		plotArea.addListener(SWT.KeyDown, this);
 		plotArea.addListener(SWT.KeyUp, this);
@@ -578,10 +607,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		plotArea.addListener(SWT.MouseDoubleClick, this);
 		plotArea.addListener(SWT.Resize, this);
 		plotArea.addPaintListener(this);
-		/*
-		 * Slider Horizontal
-		 */
-		sliderHorizontal = new Slider(composite, SWT.HORIZONTAL);
+	}
+
+	private void createSliderHorizontal(Composite parent) {
+
+		sliderHorizontal = new Slider(parent, SWT.HORIZONTAL);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		sliderHorizontal.setLayoutData(gridData);
@@ -607,6 +637,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						adjustSecondaryYAxes();
 					}
 					//
+					displayRangeInfo(xAxis, yAxis);
 					fireUpdateCustomSelectionHandlers(event);
 					baseChart.redraw();
 				}
