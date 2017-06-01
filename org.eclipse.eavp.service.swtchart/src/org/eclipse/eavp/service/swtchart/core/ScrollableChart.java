@@ -225,7 +225,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void modifyChart() {
 
 		setSliderVisibility();
-		setRangeInfoVisibility(chartSettings.enableRangeInfo());
+		setRangeInfoVisibility(chartSettings.isEnableRangeInfo());
 		//
 		baseChart.getTitle().setText(chartSettings.getTitle());
 		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
@@ -528,7 +528,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 
-				if(chartSettings.enableRangeInfo()) {
+				if(chartSettings.isEnableRangeInfo()) {
 					if(!rangeInfoUI.isVisible()) {
 						if(e.y <= Y_ACTIVE_AREA_RANGE_INFO) {
 							/*
@@ -557,7 +557,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				/*
 				 * Rectangle (Double Click -> show Range Info)
 				 */
-				if(!rangeInfoUI.isVisible() && chartSettings.enableRangeInfo()) {
+				if(!rangeInfoUI.isVisible() && chartSettings.isEnableRangeInfo()) {
 					if(showRangeInfoHint) {
 						//
 						int lineWidth = 1;

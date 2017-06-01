@@ -74,13 +74,13 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public boolean enableRangeInfo() {
+	public boolean isEnableRangeInfo() {
 
 		return enableRangeInfo;
 	}
 
 	@Override
-	public void enableRangeInfo(boolean enableRangeInfo) {
+	public void setEnableRangeInfo(boolean enableRangeInfo) {
 
 		this.enableRangeInfo = enableRangeInfo;
 	}
