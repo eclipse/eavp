@@ -17,9 +17,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.swtchart.IAxis;
+import org.swtchart.IAxisSet;
 import org.swtchart.Range;
 
 public class RangeInfoUI extends Composite {
@@ -28,29 +30,45 @@ public class RangeInfoUI extends Composite {
 	//
 	private Text textStartX;
 	private Text textStopX;
-	private Label labelScaleX;
+	private Combo comboScaleX;
 	private Text textStartY;
 	private Text textStopY;
-	private Label labelScaleY;
+	private Combo comboScaleY;
 
-	public RangeInfoUI(Composite parent, int style) {
+	public RangeInfoUI(Composite parent, int style, ScrollableChart scrollableChart) {
 		super(parent, style);
+		this.scrollableChart = scrollableChart;
 		createControl();
 	}
 
-	public void setScrollableChart(ScrollableChart scrollableChart) {
+	public void resetRanges() {
 
-		this.scrollableChart = scrollableChart;
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		IAxisSet axisSet = baseChart.getAxisSet();
+		/*
+		 * X, Y Axes
+		 */
+		String[] itemsX = getItems(axisSet.getXAxes());
+		comboScaleX.setItems(itemsX);
+		if(itemsX.length > 0) {
+			comboScaleX.select(0);
+		}
+		//
+		String[] itemsY = getItems(axisSet.getYAxes());
+		comboScaleY.setItems(itemsY);
+		if(itemsY.length > 0) {
+			comboScaleY.select(0);
+		}
 	}
 
-	public void setXYLabels(String scaleX, String scaleY) {
+	public void adjustRanges() {
 
-		labelScaleX.setText(scaleX);
-		labelScaleY.setText(scaleY);
-	}
-
-	public void setXYRanges(Range rangeX, Range rangeY) {
-
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		Range rangeX = xAxis.getRange();
+		Range rangeY = yAxis.getRange();
+		//
 		if(rangeX != null && rangeY != null) {
 			textStartX.setText(Double.toString(rangeX.lower));
 			textStopX.setText(Double.toString(rangeX.upper));
@@ -59,9 +77,7 @@ public class RangeInfoUI extends Composite {
 			/*
 			 * Redraw the base chart.
 			 */
-			if(scrollableChart != null) {
-				scrollableChart.getBaseChart().redraw();
-			}
+			scrollableChart.getBaseChart().redraw();
 		}
 	}
 
@@ -77,8 +93,8 @@ public class RangeInfoUI extends Composite {
 		textStopX.setText("");
 		textStopX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
-		labelScaleX = new Label(this, SWT.NONE);
-		labelScaleX.setText("");
+		comboScaleX = new Combo(this, SWT.READ_ONLY);
+		comboScaleX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
 		textStartY = new Text(this, SWT.BORDER);
 		textStartY.setText("");
@@ -88,8 +104,8 @@ public class RangeInfoUI extends Composite {
 		textStopY.setText("");
 		textStopY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
-		labelScaleY = new Label(this, SWT.NONE);
-		labelScaleY.setText("");
+		comboScaleY = new Combo(this, SWT.READ_ONLY);
+		comboScaleY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		//
 		Button buttonSetRange = new Button(this, SWT.PUSH);
 		buttonSetRange.setText("Set");
@@ -99,18 +115,16 @@ public class RangeInfoUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				if(scrollableChart != null) {
-					try {
-						/*
-						 * Set the X and Y Axis
-						 */
-						Range rangeX = new Range(Double.valueOf(textStartX.getText().trim()), Double.valueOf(textStopX.getText().trim()));
-						Range rangeY = new Range(Double.valueOf(textStartY.getText().trim()), Double.valueOf(textStopY.getText().trim()));
-						scrollableChart.setRange(IExtendedChart.X_AXIS, rangeX);
-						scrollableChart.setRange(IExtendedChart.Y_AXIS, rangeY);
-					} catch(Exception e1) {
-						System.out.println(e1);
-					}
+				try {
+					/*
+					 * Set the X and Y Axis
+					 */
+					Range rangeX = new Range(Double.valueOf(textStartX.getText().trim()), Double.valueOf(textStopX.getText().trim()));
+					Range rangeY = new Range(Double.valueOf(textStartY.getText().trim()), Double.valueOf(textStopY.getText().trim()));
+					scrollableChart.setRange(IExtendedChart.X_AXIS, rangeX);
+					scrollableChart.setRange(IExtendedChart.Y_AXIS, rangeY);
+				} catch(Exception e1) {
+					System.out.println(e1);
 				}
 			}
 		});
@@ -126,16 +140,21 @@ public class RangeInfoUI extends Composite {
 				GridData gridData = (GridData)getLayoutData();
 				gridData.exclude = true;
 				setVisible(false);
-				/*
-				 * Redraw the parent.
-				 * Prefer to use the scrollable chart if it is set.
-				 */
-				// Composite parent = (scrollableChart != null) ? scrollableChart : getParent();
 				Composite parent = getParent();
 				parent.layout(false);
 				parent.redraw();
 			}
 		});
+	}
+
+	private String[] getItems(IAxis[] axes) {
+
+		int size = axes.length;
+		String[] items = new String[size];
+		for(int i = 0; i < size; i++) {
+			items[i] = axes[i].getTitle().getText();
+		}
+		return items;
 	}
 
 	private GridData getButtonGridData() {
