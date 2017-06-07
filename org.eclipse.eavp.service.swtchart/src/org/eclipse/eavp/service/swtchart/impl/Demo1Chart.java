@@ -73,7 +73,7 @@ public class Demo1Chart extends LineChart implements IChart {
 		secondaryAxisSettingsX2.setColor(ColorFormatSupport.COLOR_BLACK);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX2);
 		//
-		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Relative Intensity [%]", new RelativeIntensityConverter());
+		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Relative Intensity [%]", new RelativeIntensityConverter(SWT.VERTICAL));
 		secondaryAxisSettingsY1.setPosition(Position.Secondary);
 		secondaryAxisSettingsY1.setDecimalFormat(ColorFormatSupport.decimalFormatFixed);
 		secondaryAxisSettingsY1.setColor(ColorFormatSupport.COLOR_BLACK);

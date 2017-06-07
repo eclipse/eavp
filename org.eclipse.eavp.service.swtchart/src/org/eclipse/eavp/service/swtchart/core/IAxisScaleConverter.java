@@ -28,5 +28,21 @@ public interface IAxisScaleConverter {
 	 */
 	void setChartDataCoordinates(IChartDataCoordinates chartDataCoordinates);
 
-	double getConvertedUnit(double unit);
+	/**
+	 * Converts the primary value to the secondary axis value.
+	 * E.g.: milliseconds to minutes
+	 * 
+	 * @param primaryValue
+	 * @return double
+	 */
+	double convertToSecondaryUnit(double primaryValue);
+
+	/**
+	 * Converts the secondary axis value to the primary value.
+	 * E.g.: minutes to milliseconds
+	 * 
+	 * @param secondaryValue
+	 * @return double
+	 */
+	double convertToPrimaryUnit(double secondaryValue);
 }

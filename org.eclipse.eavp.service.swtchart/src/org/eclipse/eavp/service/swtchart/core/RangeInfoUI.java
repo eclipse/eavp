@@ -64,8 +64,8 @@ public class RangeInfoUI extends Composite {
 	public void adjustRanges() {
 
 		BaseChart baseChart = scrollableChart.getBaseChart();
-		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		IAxis xAxis = baseChart.getAxisSet().getXAxis(comboScaleX.getSelectionIndex());
+		IAxis yAxis = baseChart.getAxisSet().getYAxis(comboScaleY.getSelectionIndex());
 		Range rangeX = xAxis.getRange();
 		Range rangeY = yAxis.getRange();
 		//
@@ -95,6 +95,21 @@ public class RangeInfoUI extends Composite {
 		//
 		comboScaleX = new Combo(this, SWT.READ_ONLY);
 		comboScaleX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboScaleX.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				int selectionIndex = comboScaleX.getSelectionIndex();
+				BaseChart baseChart = scrollableChart.getBaseChart();
+				IAxis xAxis = baseChart.getAxisSet().getXAxis(selectionIndex);
+				Range rangeX = xAxis.getRange();
+				if(rangeX != null) {
+					textStartX.setText(Double.toString(rangeX.lower));
+					textStopX.setText(Double.toString(rangeX.upper));
+				}
+			}
+		});
 		//
 		textStartY = new Text(this, SWT.BORDER);
 		textStartY.setText("");
@@ -106,9 +121,24 @@ public class RangeInfoUI extends Composite {
 		//
 		comboScaleY = new Combo(this, SWT.READ_ONLY);
 		comboScaleY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboScaleY.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				int selectionIndex = comboScaleY.getSelectionIndex();
+				BaseChart baseChart = scrollableChart.getBaseChart();
+				IAxis yAxis = baseChart.getAxisSet().getYAxis(selectionIndex);
+				Range rangeY = yAxis.getRange();
+				if(rangeY != null) {
+					textStartY.setText(Double.toString(rangeY.lower));
+					textStopY.setText(Double.toString(rangeY.upper));
+				}
+			}
+		});
 		//
 		Button buttonSetRange = new Button(this, SWT.PUSH);
-		buttonSetRange.setText("Set");
+		buttonSetRange.setText("Set Range");
 		buttonSetRange.setLayoutData(getButtonGridData());
 		buttonSetRange.addSelectionListener(new SelectionAdapter() {
 
@@ -116,13 +146,8 @@ public class RangeInfoUI extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				try {
-					/*
-					 * Set the X and Y Axis
-					 */
-					Range rangeX = new Range(Double.valueOf(textStartX.getText().trim()), Double.valueOf(textStopX.getText().trim()));
-					Range rangeY = new Range(Double.valueOf(textStartY.getText().trim()), Double.valueOf(textStopY.getText().trim()));
-					scrollableChart.setRange(IExtendedChart.X_AXIS, rangeX);
-					scrollableChart.setRange(IExtendedChart.Y_AXIS, rangeY);
+					setRange(IExtendedChart.X_AXIS);
+					setRange(IExtendedChart.Y_AXIS);
 				} catch(Exception e1) {
 					System.out.println(e1);
 				}
@@ -147,12 +172,64 @@ public class RangeInfoUI extends Composite {
 		});
 	}
 
+	private void setRange(String axis) {
+
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		//
+		double valueStart;
+		double valueStop;
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			valueStart = Double.valueOf(textStartX.getText().trim());
+			valueStop = Double.valueOf(textStopX.getText().trim());
+		} else {
+			valueStart = Double.valueOf(textStartY.getText().trim());
+			valueStop = Double.valueOf(textStopY.getText().trim());
+		}
+		/*
+		 * Get the correct range.
+		 */
+		int selectedAxis;
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			selectedAxis = comboScaleX.getSelectionIndex();
+		} else {
+			selectedAxis = comboScaleY.getSelectionIndex();
+		}
+		//
+		Range range = null;
+		if(selectedAxis == 0) {
+			range = new Range(valueStart, valueStop);
+		} else {
+			IAxisScaleConverter axisScaleConverter;
+			if(axis.equals(IExtendedChart.X_AXIS)) {
+				axisScaleConverter = baseChart.getXAxisScaleConverterMap().get(selectedAxis);
+			} else {
+				axisScaleConverter = baseChart.getYAxisScaleConverterMap().get(selectedAxis);
+			}
+			//
+			if(axisScaleConverter != null) {
+				valueStart = axisScaleConverter.convertToPrimaryUnit(valueStart);
+				valueStop = axisScaleConverter.convertToPrimaryUnit(valueStop);
+				range = new Range(valueStart, valueStop);
+			}
+		}
+		/*
+		 * Apply the range.
+		 */
+		if(range != null) {
+			scrollableChart.setRange(axis, range);
+		}
+	}
+
 	private String[] getItems(IAxis[] axes) {
 
 		int size = axes.length;
 		String[] items = new String[size];
 		for(int i = 0; i < size; i++) {
-			items[i] = axes[i].getTitle().getText();
+			String label = axes[i].getTitle().getText();
+			if(label.equals("")) {
+				label = "no label available";
+			}
+			items[i] = label;
 		}
 		return items;
 	}

@@ -17,8 +17,14 @@ import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;
 public class PassThroughConverter extends AbstractAxisScaleConverter implements IAxisScaleConverter {
 
 	@Override
-	public double getConvertedUnit(double unit) {
+	public double convertToSecondaryUnit(double primaryValue) {
 
-		return unit;
+		return primaryValue;
+	}
+
+	@Override
+	public double convertToPrimaryUnit(double secondaryValue) {
+
+		return secondaryValue;
 	}
 }

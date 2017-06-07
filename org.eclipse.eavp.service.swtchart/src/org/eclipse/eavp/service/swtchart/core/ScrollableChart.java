@@ -239,14 +239,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		IAxis yAxisPrimary = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 		setAxisSettings(yAxisPrimary, chartSettings.getPrimaryAxisSettingsY());
 		/*
-		 * Range Info
-		 */
-		rangeInfoUI.resetRanges();
-		/*
 		 * Secondary axes
 		 */
 		addSecondaryAxesX(axisSet, chartSettings);
 		addSecondaryAxesY(axisSet, chartSettings);
+		/*
+		 * Range Info
+		 */
+		rangeInfoUI.resetRanges();
 		//
 		baseChart.setOrientation(chartSettings.getOrientation());
 		baseChart.getLegend().setVisible(chartSettings.isLegendVisible());

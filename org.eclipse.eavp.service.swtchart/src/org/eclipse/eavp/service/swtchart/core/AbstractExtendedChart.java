@@ -235,8 +235,8 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				IAxisScaleConverter axisScaleConverter = xAxisScaleConverterMap.get(id);
 				if(axis != null && axisScaleConverter != null) {
 					axisScaleConverter.setChartDataCoordinates(this);
-					double start = axisScaleConverter.getConvertedUnit(range.lower);
-					double end = axisScaleConverter.getConvertedUnit(range.upper);
+					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
+					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
 					Range adjustedRange = new Range(start, end);
 					axis.setRange(adjustedRange);
 				}
@@ -256,8 +256,8 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				IAxisScaleConverter axisScaleConverter = yAxisScaleConverterMap.get(id);
 				if(axis != null && axisScaleConverter != null) {
 					axisScaleConverter.setChartDataCoordinates(this);
-					double start = axisScaleConverter.getConvertedUnit(range.lower);
-					double end = axisScaleConverter.getConvertedUnit(range.upper);
+					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
+					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
 					Range adjustedRange = new Range(start, end);
 					axis.setRange(adjustedRange);
 				}

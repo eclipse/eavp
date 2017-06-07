@@ -20,6 +20,7 @@ public class MillisecondsToScanNumberConverter extends AbstractAxisScaleConverte
 	private int scanInterval;
 
 	/**
+	 * Set the parameters to convert to the data.
 	 * 
 	 * @param scanDelay
 	 * @param scanInterval
@@ -41,8 +42,20 @@ public class MillisecondsToScanNumberConverter extends AbstractAxisScaleConverte
 	}
 
 	@Override
-	public double getConvertedUnit(double unit) {
+	public double convertToSecondaryUnit(double primaryValue) {
 
-		return (int)((unit - scanDelay) / scanInterval) + 1;
+		/*
+		 * Milliseconds -> Scan Number
+		 */
+		return (int)((primaryValue - scanDelay) / scanInterval) + 1;
+	}
+
+	@Override
+	public double convertToPrimaryUnit(double secondaryValue) {
+
+		/*
+		 * Scan Number -> Milliseconds
+		 */
+		return scanDelay + secondaryValue * scanInterval;
 	}
 }
