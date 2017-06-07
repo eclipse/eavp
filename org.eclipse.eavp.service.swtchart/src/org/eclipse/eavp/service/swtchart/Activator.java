@@ -11,7 +11,18 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart;
 
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -19,9 +30,10 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
-	// The plug-in ID
+	public static final String ICON_SET_RANGE = "ICON_SET_RANGE"; // $NON-NLS-1$
+	public static final String ICON_HIDE = "ICON_HIDE"; // $NON-NLS-1$
+	//
 	public static final String PLUGIN_ID = "org.eclipse.eavp.service.swtchart"; //$NON-NLS-1$
-	// The shared instance
 	private static Activator plugin;
 
 	/**
@@ -38,6 +50,7 @@ public class Activator extends AbstractUIPlugin {
 
 		super.start(context);
 		plugin = this;
+		initializeImageRegistry();
 	}
 
 	/*
@@ -50,6 +63,11 @@ public class Activator extends AbstractUIPlugin {
 		super.stop(context);
 	}
 
+	public Image getImage(String key) {
+
+		return getImageRegistry().get(key);
+	}
+
 	/**
 	 * Returns the shared instance
 	 *
@@ -58,5 +76,38 @@ public class Activator extends AbstractUIPlugin {
 	public static Activator getDefault() {
 
 		return plugin;
+	}
+
+	private void initializeImageRegistry() {
+
+		Map<String, String> imageHashMap = new HashMap<String, String>();
+		imageHashMap.put(ICON_SET_RANGE, "icons/16x16/set_range.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_HIDE, "icons/16x16/hide.gif"); // $NON-NLS-1$
+		//
+		ImageRegistry imageRegistry = getImageRegistry();
+		if(imageRegistry != null) {
+			/*
+			 * Set the image/icon values.
+			 */
+			for(Map.Entry<String, String> entry : imageHashMap.entrySet()) {
+				imageRegistry.put(entry.getKey(), createImageDescriptor(getBundle(), entry.getValue()));
+			}
+		}
+	}
+
+	/**
+	 * Helps to create an image descriptor.
+	 * 
+	 * @param bundle
+	 * @param string
+	 * @return ImageDescriptor
+	 */
+	private ImageDescriptor createImageDescriptor(Bundle bundle, String string) {
+
+		ImageDescriptor imageDescriptor = null;
+		IPath path = new Path(string);
+		URL url = FileLocator.find(bundle, path, null);
+		imageDescriptor = ImageDescriptor.createFromURL(url);
+		return imageDescriptor;
 	}
 }

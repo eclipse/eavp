@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
+import org.eclipse.eavp.service.swtchart.Activator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -87,11 +88,11 @@ public class RangeInfoUI extends Composite {
 		//
 		textStartX = new Text(this, SWT.BORDER);
 		textStartX.setText("");
-		textStartX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		textStartX.setLayoutData(getTextGridData());
 		//
 		textStopX = new Text(this, SWT.BORDER);
 		textStopX.setText("");
-		textStopX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		textStopX.setLayoutData(getTextGridData());
 		//
 		comboScaleX = new Combo(this, SWT.READ_ONLY);
 		comboScaleX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -113,11 +114,11 @@ public class RangeInfoUI extends Composite {
 		//
 		textStartY = new Text(this, SWT.BORDER);
 		textStartY.setText("");
-		textStartY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		textStartY.setLayoutData(getTextGridData());
 		//
 		textStopY = new Text(this, SWT.BORDER);
 		textStopY.setText("");
-		textStopY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		textStopY.setLayoutData(getTextGridData());
 		//
 		comboScaleY = new Combo(this, SWT.READ_ONLY);
 		comboScaleY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -138,7 +139,9 @@ public class RangeInfoUI extends Composite {
 		});
 		//
 		Button buttonSetRange = new Button(this, SWT.PUSH);
-		buttonSetRange.setText("Set Range");
+		buttonSetRange.setText("");
+		buttonSetRange.setToolTipText("Set the current selection.");
+		buttonSetRange.setImage(Activator.getDefault().getImage(Activator.ICON_SET_RANGE));
 		buttonSetRange.setLayoutData(getButtonGridData());
 		buttonSetRange.addSelectionListener(new SelectionAdapter() {
 
@@ -155,7 +158,9 @@ public class RangeInfoUI extends Composite {
 		});
 		//
 		Button buttonHide = new Button(this, SWT.PUSH);
-		buttonHide.setText("Hide");
+		buttonHide.setText("");
+		buttonHide.setToolTipText("Hide the range info UI.");
+		buttonHide.setImage(Activator.getDefault().getImage(Activator.ICON_HIDE));
 		buttonHide.setLayoutData(getButtonGridData());
 		buttonHide.addSelectionListener(new SelectionAdapter() {
 
@@ -227,17 +232,24 @@ public class RangeInfoUI extends Composite {
 		for(int i = 0; i < size; i++) {
 			String label = axes[i].getTitle().getText();
 			if(label.equals("")) {
-				label = "no label available";
+				label = "no label available"; // TODO get default from axis.
 			}
 			items[i] = label;
 		}
 		return items;
 	}
 
+	private GridData getTextGridData() {
+
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.widthHint = 100;
+		return gridData;
+	}
+
 	private GridData getButtonGridData() {
 
 		GridData gridData = new GridData();
-		gridData.widthHint = 100;
+		gridData.widthHint = 40;
 		return gridData;
 	}
 }
