@@ -19,14 +19,16 @@ import org.eclipse.swt.SWT;
 public class RelativeIntensityConverter extends AbstractAxisScaleConverter implements IAxisScaleConverter {
 
 	private int orientation;
+	private boolean isZeroBased;
 
 	/**
 	 * Select the orientation:
 	 * X-Axis: SWT.HORIZONTAL
 	 * Y-AXis: SWT.VERTICAL
 	 */
-	public RelativeIntensityConverter(int orientation) {
+	public RelativeIntensityConverter(int orientation, boolean isZeroBased) {
 		this.orientation = orientation;
+		this.isZeroBased = isZeroBased;
 	}
 
 	@Override
@@ -36,19 +38,11 @@ public class RelativeIntensityConverter extends AbstractAxisScaleConverter imple
 		double convertedValue = 0;
 		if(chartDataCoordinates != null) {
 			/*
-			 * Delta
-			 */
-			double delta;
-			if(orientation == SWT.VERTICAL) {
-				delta = chartDataCoordinates.getMaxY() - chartDataCoordinates.getMinY();
-			} else {
-				delta = chartDataCoordinates.getMaxX() - chartDataCoordinates.getMinX();
-			}
-			/*
 			 * Calculation
 			 */
-			if(delta != 0) {
-				convertedValue = (100.0d / delta) * primaryValue;
+			double deltaRange = calculateDeltaRange(chartDataCoordinates);
+			if(deltaRange != 0) {
+				convertedValue = (100.0d / deltaRange) * primaryValue;
 			}
 		}
 		return convertedValue;
@@ -61,19 +55,27 @@ public class RelativeIntensityConverter extends AbstractAxisScaleConverter imple
 		double convertedValue = 0;
 		if(chartDataCoordinates != null) {
 			/*
-			 * Delta
-			 */
-			double delta;
-			if(orientation == SWT.VERTICAL) {
-				delta = chartDataCoordinates.getMaxY() - chartDataCoordinates.getMinY();
-			} else {
-				delta = chartDataCoordinates.getMaxX() - chartDataCoordinates.getMinX();
-			}
-			/*
 			 * Calculation
 			 */
-			convertedValue = delta * (secondaryValue / 100.0d);
+			double deltaRange = calculateDeltaRange(chartDataCoordinates);
+			convertedValue = deltaRange * (secondaryValue / 100.0d);
 		}
 		return convertedValue;
+	}
+
+	private double calculateDeltaRange(IChartDataCoordinates chartDataCoordinates) {
+
+		double min;
+		double max;
+		//
+		if(orientation == SWT.VERTICAL) {
+			min = (isZeroBased) ? 0.0d : chartDataCoordinates.getMinY();
+			max = chartDataCoordinates.getMaxY();
+		} else {
+			min = (isZeroBased) ? 0.0d : chartDataCoordinates.getMinX();
+			max = chartDataCoordinates.getMaxX();
+		}
+		///
+		return max - min;
 	}
 }

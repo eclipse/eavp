@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
@@ -51,10 +53,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	//
 	private IChartSettings chartSettings;
 	private boolean showRangeInfoHint = true;
+	/*
+	 * This list contains all scrollable charts
+	 * that are linked with the current editor.
+	 */
+	private List<ScrollableChart> linkedScrollableCharts;
 
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
 		chartSettings = new ChartSettings();
+		linkedScrollableCharts = new ArrayList<ScrollableChart>();
 		initialize();
 	}
 
@@ -62,6 +70,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public IChartSettings getChartSettings() {
 
 		return chartSettings;
+	}
+
+	public void addLinkedScrollableChart(ScrollableChart scrollableChart) {
+
+		linkedScrollableCharts.add(scrollableChart);
+	}
+
+	public void removeLinkedScrollableChart(ScrollableChart scrollableChart) {
+
+		linkedScrollableCharts.remove(scrollableChart);
 	}
 
 	@Override
@@ -555,7 +573,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			}
 		});
 		/*
-		 * Show the range info UI on double click.
+		 * Activate the range info UI on double click.
 		 */
 		baseChart.addMouseListener(new MouseAdapter() {
 
@@ -674,5 +692,22 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				}
 			}
 		});
+	}
+
+	private void updateLinkedCharts() {
+
+		IAxisSet axisSet = baseChart.getAxisSet();
+		Range rangeX = axisSet.getXAxis(BaseChart.ID_PRIMARY_X_AXIS).getRange();
+		Range rangeY = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS).getRange();
+		/*
+		 * Adjust the range of the linked charts.
+		 */
+		for(ScrollableChart linkedScrollableChart : linkedScrollableCharts) {
+			IAxisSet axisSetLinked = linkedScrollableChart.getBaseChart().getAxisSet();
+			axisSetLinked.getXAxis(BaseChart.ID_PRIMARY_X_AXIS).setRange(rangeX);
+			axisSetLinked.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS).setRange(rangeY);
+			linkedScrollableChart.getBaseChart().adjustSecondaryAxes();
+			linkedScrollableChart.redraw();
+		}
 	}
 }

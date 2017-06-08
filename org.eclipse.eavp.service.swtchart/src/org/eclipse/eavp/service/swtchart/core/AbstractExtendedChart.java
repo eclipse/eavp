@@ -228,6 +228,12 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
+	public void adjustSecondaryAxes() {
+
+		adjustSecondaryXAxes();
+		adjustSecondaryYAxes();
+	}
+
 	@Override
 	public void adjustSecondaryXAxes() {
 
