@@ -42,7 +42,6 @@ import org.swtchart.Range;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
-	private static final int Y_ACTIVE_AREA_RANGE_INFO = 47;
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
 	private static final Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 	//
@@ -589,7 +588,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 				if(chartSettings.isEnableRangeInfo()) {
 					if(!rangeInfoUI.isVisible()) {
-						if(e.y <= Y_ACTIVE_AREA_RANGE_INFO) {
+						if(e.y <= 47) {
 							/*
 							 * Show the range info composite.
 							 */
@@ -624,7 +623,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						int width = rectangle.width - lineWidth;
 						e.gc.setForeground(COLOR_RED);
 						e.gc.setLineWidth(lineWidth);
-						e.gc.drawRectangle(0, 0, width, Y_ACTIVE_AREA_RANGE_INFO);
+						Rectangle rectangleInfo = new Rectangle(0, 0, width, 26);
+						e.gc.drawRectangle(rectangleInfo);
 						//
 						String label = "Double click to show range info.";
 						Point labelSize = e.gc.textExtent(label);
