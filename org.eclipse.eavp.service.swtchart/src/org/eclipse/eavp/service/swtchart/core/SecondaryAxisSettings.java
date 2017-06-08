@@ -20,6 +20,11 @@ public class SecondaryAxisSettings extends AbstractAxisSettings implements ISeco
 		this.axisScaleConverter = axisScaleConverter;
 	}
 
+	public SecondaryAxisSettings(String title, String description, IAxisScaleConverter axisScaleConverter) {
+		super(title, description);
+		this.axisScaleConverter = axisScaleConverter;
+	}
+
 	@Override
 	public IAxisScaleConverter getAxisScaleConverter() {
 

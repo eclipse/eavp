@@ -20,14 +20,24 @@ import org.swtchart.IAxis.Position;
 
 public abstract class AbstractAxisSettings implements IAxisSettings {
 
-	private String title;
+	private String title = ""; // Chart Title
+	private String description = ""; // e.g. DropDown RangeInfoUI
 	private DecimalFormat decimalFormat;
 	private Color color;
 	private boolean visible;
 	private Position position;
 
 	public AbstractAxisSettings(String title) {
+		/*
+		 * In this case, the title is used also as
+		 * the description.
+		 */
+		this(title, title);
+	}
+
+	public AbstractAxisSettings(String title, String description) {
 		this.title = title;
+		this.description = description;
 		decimalFormat = new DecimalFormat();
 		color = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
 		visible = true;
@@ -44,6 +54,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setTitle(String title) {
 
 		this.title = title;
+	}
+
+	@Override
+	public String getDescription() {
+
+		return description;
+	}
+
+	@Override
+	public void setDescription(String description) {
+
+		this.description = description;
 	}
 
 	@Override

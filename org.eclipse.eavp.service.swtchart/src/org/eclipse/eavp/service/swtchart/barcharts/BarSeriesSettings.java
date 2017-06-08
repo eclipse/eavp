@@ -12,7 +12,7 @@
 package org.eclipse.eavp.service.swtchart.barcharts;
 
 import org.eclipse.eavp.service.swtchart.core.AbstractSeriesSettings;
-import org.eclipse.eavp.service.swtchart.core.ColorFormatSupport;
+import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.swt.graphics.Color;
 import org.swtchart.IBarSeries.BarWidthStyle;
 
@@ -24,7 +24,7 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	private BarWidthStyle barWidthStyle;
 
 	public BarSeriesSettings() {
-		barColor = ColorFormatSupport.COLOR_RED;
+		barColor = ColorAndFormatSupport.COLOR_RED;
 		barPadding = 20;
 		barWidth = 1;
 		barWidthStyle = BarWidthStyle.FIXED;

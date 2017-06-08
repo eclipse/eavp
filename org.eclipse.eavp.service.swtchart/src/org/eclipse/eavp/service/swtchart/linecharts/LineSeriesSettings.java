@@ -12,7 +12,7 @@
 package org.eclipse.eavp.service.swtchart.linecharts;
 
 import org.eclipse.eavp.service.swtchart.core.AbstractPointSeriesSettings;
-import org.eclipse.eavp.service.swtchart.core.ColorFormatSupport;
+import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
@@ -28,7 +28,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	public LineSeriesSettings() {
 		antialias = SWT.DEFAULT;
 		enableArea = true;
-		lineColor = ColorFormatSupport.COLOR_RED;
+		lineColor = ColorAndFormatSupport.COLOR_RED;
 		lineWidth = 1;
 		enableStack = false;
 		enableStep = false;

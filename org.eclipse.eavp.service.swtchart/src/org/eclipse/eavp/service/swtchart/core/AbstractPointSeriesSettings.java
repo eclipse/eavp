@@ -23,7 +23,7 @@ public abstract class AbstractPointSeriesSettings extends AbstractSeriesSettings
 	public AbstractPointSeriesSettings() {
 		symbolType = PlotSymbolType.NONE;
 		symbolSize = 8;
-		symbolColor = ColorFormatSupport.COLOR_BLACK;
+		symbolColor = ColorAndFormatSupport.COLOR_BLACK;
 	}
 
 	@Override

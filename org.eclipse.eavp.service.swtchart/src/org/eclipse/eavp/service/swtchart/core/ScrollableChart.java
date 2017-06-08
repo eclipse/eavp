@@ -231,18 +231,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
 		baseChart.getTitle().setForeground(chartSettings.getTitleColor());
 		/*
-		 * Primary axes
+		 * Primary and Secondary axes
 		 */
-		IAxisSet axisSet = baseChart.getAxisSet();
-		IAxis xAxisPrimary = axisSet.getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-		setAxisSettings(xAxisPrimary, chartSettings.getPrimaryAxisSettingsX());
-		IAxis yAxisPrimary = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-		setAxisSettings(yAxisPrimary, chartSettings.getPrimaryAxisSettingsY());
-		/*
-		 * Secondary axes
-		 */
-		addSecondaryAxesX(axisSet, chartSettings);
-		addSecondaryAxesY(axisSet, chartSettings);
+		addPrimaryAxisX(chartSettings);
+		addPrimaryAxisY(chartSettings);
+		addSecondaryAxesX(chartSettings);
+		addSecondaryAxesY(chartSettings);
 		/*
 		 * Range Info
 		 */
@@ -359,37 +353,57 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		return new Range(min, max);
 	}
 
-	private void addSecondaryAxesX(IAxisSet axisSet, IChartSettings chartSettings) {
+	private void addPrimaryAxisX(IChartSettings chartSettings) {
 
+		IAxisSet axisSet = baseChart.getAxisSet();
+		IAxis xAxisPrimary = axisSet.getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+		IPrimaryAxisSettings primaryAxisSettings = chartSettings.getPrimaryAxisSettingsX();
+		setAxisSettings(xAxisPrimary, primaryAxisSettings);
+		baseChart.getXAxisSettingsMap().put(BaseChart.ID_PRIMARY_X_AXIS, primaryAxisSettings);
+	}
+
+	private void addPrimaryAxisY(IChartSettings chartSettings) {
+
+		IAxisSet axisSet = baseChart.getAxisSet();
+		IAxis yAxisPrimary = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		IPrimaryAxisSettings primaryAxisSettings = chartSettings.getPrimaryAxisSettingsY();
+		setAxisSettings(yAxisPrimary, primaryAxisSettings);
+		baseChart.getYAxisSettingsMap().put(BaseChart.ID_PRIMARY_Y_AXIS, primaryAxisSettings);
+	}
+
+	private void addSecondaryAxesX(IChartSettings chartSettings) {
+
+		IAxisSet axisSet = baseChart.getAxisSet();
 		for(int id : axisSet.getXAxisIds()) {
 			if(id != BaseChart.ID_PRIMARY_X_AXIS) {
 				axisSet.deleteXAxis(id);
 			}
 		}
-		baseChart.getXAxisScaleConverterMap().clear();
+		baseChart.getXAxisSettingsMap().clear();
 		//
 		for(ISecondaryAxisSettings secondaryAxisSettings : chartSettings.getSecondaryAxisSettingsListX()) {
 			int xAxisId = axisSet.createXAxis();
 			IAxis xAxisSecondary = axisSet.getXAxis(xAxisId);
 			setAxisSettings(xAxisSecondary, secondaryAxisSettings);
-			baseChart.getXAxisScaleConverterMap().put(xAxisId, secondaryAxisSettings.getAxisScaleConverter());
+			baseChart.getXAxisSettingsMap().put(xAxisId, secondaryAxisSettings);
 		}
 	}
 
-	private void addSecondaryAxesY(IAxisSet axisSet, IChartSettings chartSettings) {
+	private void addSecondaryAxesY(IChartSettings chartSettings) {
 
+		IAxisSet axisSet = baseChart.getAxisSet();
 		for(int id : axisSet.getYAxisIds()) {
 			if(id != BaseChart.ID_PRIMARY_Y_AXIS) {
 				axisSet.deleteYAxis(id);
 			}
 		}
-		baseChart.getYAxisScaleConverterMap().clear();
+		baseChart.getYAxisSettingsMap().clear();
 		//
 		for(ISecondaryAxisSettings secondaryAxisSettings : chartSettings.getSecondaryAxisSettingsListY()) {
 			int yAxisId = axisSet.createYAxis();
 			IAxis yAxisSecondary = axisSet.getYAxis(yAxisId);
 			setAxisSettings(yAxisSecondary, secondaryAxisSettings);
-			baseChart.getYAxisScaleConverterMap().put(yAxisId, secondaryAxisSettings.getAxisScaleConverter());
+			baseChart.getYAxisSettingsMap().put(yAxisId, secondaryAxisSettings);
 		}
 	}
 

@@ -44,18 +44,18 @@ public class RangeInfoUI extends Composite {
 
 	public void resetRanges() {
 
-		BaseChart baseChart = scrollableChart.getBaseChart();
-		IAxisSet axisSet = baseChart.getAxisSet();
 		/*
-		 * X, Y Axes
+		 * X Axes
 		 */
-		String[] itemsX = getItems(axisSet.getXAxes());
+		String[] itemsX = getItems(IExtendedChart.X_AXIS);
 		comboScaleX.setItems(itemsX);
 		if(itemsX.length > 0) {
 			comboScaleX.select(0);
 		}
-		//
-		String[] itemsY = getItems(axisSet.getYAxes());
+		/*
+		 * Y Axes
+		 */
+		String[] itemsY = getItems(IExtendedChart.Y_AXIS);
 		comboScaleY.setItems(itemsY);
 		if(itemsY.length > 0) {
 			comboScaleY.select(0);
@@ -65,8 +65,10 @@ public class RangeInfoUI extends Composite {
 	public void adjustRanges() {
 
 		BaseChart baseChart = scrollableChart.getBaseChart();
-		IAxis xAxis = baseChart.getAxisSet().getXAxis(comboScaleX.getSelectionIndex());
-		IAxis yAxis = baseChart.getAxisSet().getYAxis(comboScaleY.getSelectionIndex());
+		int indexX = (comboScaleX.getSelectionIndex() >= 0) ? comboScaleX.getSelectionIndex() : BaseChart.ID_PRIMARY_X_AXIS;
+		int indexY = (comboScaleY.getSelectionIndex() >= 0) ? comboScaleY.getSelectionIndex() : BaseChart.ID_PRIMARY_Y_AXIS;
+		IAxis xAxis = baseChart.getAxisSet().getXAxis(indexX);
+		IAxis yAxis = baseChart.getAxisSet().getYAxis(indexY);
 		Range rangeX = xAxis.getRange();
 		Range rangeY = yAxis.getRange();
 		//
@@ -179,7 +181,6 @@ public class RangeInfoUI extends Composite {
 
 	private void setRange(String axis) {
 
-		BaseChart baseChart = scrollableChart.getBaseChart();
 		//
 		double valueStart;
 		double valueStop;
@@ -204,13 +205,7 @@ public class RangeInfoUI extends Composite {
 		if(selectedAxis == 0) {
 			range = new Range(valueStart, valueStop);
 		} else {
-			IAxisScaleConverter axisScaleConverter;
-			if(axis.equals(IExtendedChart.X_AXIS)) {
-				axisScaleConverter = baseChart.getXAxisScaleConverterMap().get(selectedAxis);
-			} else {
-				axisScaleConverter = baseChart.getYAxisScaleConverterMap().get(selectedAxis);
-			}
-			//
+			IAxisScaleConverter axisScaleConverter = getAxisScaleConverter(axis, selectedAxis);
 			if(axisScaleConverter != null) {
 				valueStart = axisScaleConverter.convertToPrimaryUnit(valueStart);
 				valueStop = axisScaleConverter.convertToPrimaryUnit(valueStop);
@@ -225,18 +220,99 @@ public class RangeInfoUI extends Composite {
 		}
 	}
 
-	private String[] getItems(IAxis[] axes) {
+	private IAxisScaleConverter getAxisScaleConverter(String axis, int id) {
 
+		IAxisScaleConverter axisScaleConverter = null;
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		//
+		IAxisSettings axisSettings = null;
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			axisSettings = baseChart.getXAxisSettingsMap().get(id);
+		} else {
+			axisSettings = baseChart.getYAxisSettingsMap().get(id);
+		}
+		//
+		if(axisSettings instanceof ISecondaryAxisSettings) {
+			axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+		}
+		//
+		return axisScaleConverter;
+	}
+
+	private String[] getItems(String axis) {
+
+		IAxis[] axes = getAxes(axis);
 		int size = axes.length;
 		String[] items = new String[size];
+		//
 		for(int i = 0; i < size; i++) {
-			String label = axes[i].getTitle().getText();
-			if(label.equals("")) {
-				label = "no label available"; // TODO get default from axis.
+			/*
+			 * Get the label.
+			 */
+			String label = "";
+			String title = axes[i].getTitle().getText();
+			String description = getAxisDescription(axis, i);
+			//
+			if(title.equals("")) {
+				/*
+				 * Title is not set.
+				 * Use the description instead or
+				 * print a note that no label is available.
+				 */
+				if(description.equals("")) {
+					label = "label not set";
+				} else {
+					label = description;
+				}
+			} else {
+				/*
+				 * Title is set.
+				 * Use description if available
+				 * otherwise the title.
+				 */
+				if(description.equals("")) {
+					label = title;
+				} else {
+					label = description;
+				}
 			}
+			/*
+			 * Set the label.
+			 */
 			items[i] = label;
 		}
 		return items;
+	}
+
+	private IAxis[] getAxes(String axis) {
+
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		IAxisSet axisSet = baseChart.getAxisSet();
+		//
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			return axisSet.getXAxes();
+		} else {
+			return axisSet.getYAxes();
+		}
+	}
+
+	private String getAxisDescription(String axis, int id) {
+
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		String description = "";
+		//
+		IAxisSettings axisSettings = null;
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			axisSettings = baseChart.getXAxisSettingsMap().get(id);
+		} else {
+			axisSettings = baseChart.getYAxisSettingsMap().get(id);
+		}
+		//
+		if(axisSettings != null) {
+			description = axisSettings.getDescription();
+		}
+		//
+		return description;
 	}
 
 	private GridData getTextGridData() {

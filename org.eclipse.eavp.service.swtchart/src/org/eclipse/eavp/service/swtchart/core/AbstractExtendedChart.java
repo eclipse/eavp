@@ -34,13 +34,18 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double maxX;
 	private double minY;
 	private double maxY;
-	private Map<Integer, IAxisScaleConverter> xAxisScaleConverterMap;
-	private Map<Integer, IAxisScaleConverter> yAxisScaleConverterMap;
+	/*
+	 * The settings are used to get the description
+	 * or to get the IAxisScaleConverter of the
+	 * secondary axes.
+	 */
+	private Map<Integer, IAxisSettings> xAxisSettingsMap;
+	private Map<Integer, IAxisSettings> yAxisSettingsMap;
 
 	public AbstractExtendedChart(Composite parent, int style) {
 		super(parent, style);
-		xAxisScaleConverterMap = new HashMap<Integer, IAxisScaleConverter>();
-		yAxisScaleConverterMap = new HashMap<Integer, IAxisScaleConverter>();
+		xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
+		yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
 		resetCoordinates();
 	}
 
@@ -98,14 +103,14 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		return maxY;
 	}
 
-	public Map<Integer, IAxisScaleConverter> getXAxisScaleConverterMap() {
+	public Map<Integer, IAxisSettings> getXAxisSettingsMap() {
 
-		return xAxisScaleConverterMap;
+		return xAxisSettingsMap;
 	}
 
-	public Map<Integer, IAxisScaleConverter> getYAxisScaleConverterMap() {
+	public Map<Integer, IAxisSettings> getYAxisSettingsMap() {
 
-		return yAxisScaleConverterMap;
+		return yAxisSettingsMap;
 	}
 
 	@Override
@@ -232,8 +237,9 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		for(int id : axisSet.getXAxisIds()) {
 			if(id != BaseChart.ID_PRIMARY_X_AXIS) {
 				IAxis axis = axisSet.getXAxis(id);
-				IAxisScaleConverter axisScaleConverter = xAxisScaleConverterMap.get(id);
-				if(axis != null && axisScaleConverter != null) {
+				IAxisSettings axisSettings = xAxisSettingsMap.get(id);
+				if(axis != null && axisSettings instanceof ISecondaryAxisSettings) {
+					IAxisScaleConverter axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
@@ -253,8 +259,9 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		for(int id : axisSet.getYAxisIds()) {
 			if(id != BaseChart.ID_PRIMARY_Y_AXIS) {
 				IAxis axis = axisSet.getYAxis(id);
-				IAxisScaleConverter axisScaleConverter = yAxisScaleConverterMap.get(id);
-				if(axis != null && axisScaleConverter != null) {
+				IAxisSettings axisSettings = xAxisSettingsMap.get(id);
+				if(axis != null && axisSettings instanceof ISecondaryAxisSettings) {
+					IAxisScaleConverter axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);

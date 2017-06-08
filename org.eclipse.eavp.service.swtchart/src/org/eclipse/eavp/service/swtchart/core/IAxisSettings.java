@@ -22,6 +22,10 @@ public interface IAxisSettings {
 
 	void setTitle(String title);
 
+	String getDescription();
+
+	void setDescription(String description);
+
 	DecimalFormat getDecimalFormat();
 
 	void setDecimalFormat(DecimalFormat decimalFormat);

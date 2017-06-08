@@ -18,7 +18,7 @@ import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
-import org.eclipse.eavp.service.swtchart.core.ColorFormatSupport;
+import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
@@ -41,13 +41,13 @@ public class Demo5Chart extends BarChart implements IChart {
 		//
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("m/z");
-		primaryAxisSettingsX.setDecimalFormat(ColorFormatSupport.decimalFormatVariable);
-		primaryAxisSettingsX.setColor(ColorFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
+		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Intensity");
-		primaryAxisSettingsY.setDecimalFormat(ColorFormatSupport.decimalFormatScientific);
-		primaryAxisSettingsY.setColor(ColorFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatScientific);
+		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		//
 		applySettings(chartSettings);
 		/*

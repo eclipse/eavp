@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * Remove this class as soon as the charts are configurable completely via settings.
  */
-public class ColorFormatSupport {
+public class ColorAndFormatSupport {
 
 	public static Color COLOR_BLACK = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
 	public static Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);

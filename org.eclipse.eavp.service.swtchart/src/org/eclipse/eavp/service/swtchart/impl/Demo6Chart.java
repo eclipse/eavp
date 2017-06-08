@@ -14,7 +14,7 @@ package org.eclipse.eavp.service.swtchart.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.eavp.service.swtchart.core.ColorFormatSupport;
+import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
@@ -41,13 +41,13 @@ public class Demo6Chart extends LineChart implements IChart {
 		//
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("Time");
-		primaryAxisSettingsX.setDecimalFormat(ColorFormatSupport.decimalFormatVariable);
-		primaryAxisSettingsX.setColor(ColorFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
+		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Intensity");
-		primaryAxisSettingsY.setDecimalFormat(ColorFormatSupport.decimalFormatVariable);
-		primaryAxisSettingsY.setColor(ColorFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
+		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		//
 		applySettings(chartSettings);
 		/*
