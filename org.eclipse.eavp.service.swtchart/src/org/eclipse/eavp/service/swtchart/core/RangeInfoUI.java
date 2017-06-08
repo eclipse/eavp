@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+
 import org.eclipse.eavp.service.swtchart.Activator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -65,6 +68,7 @@ public class RangeInfoUI extends Composite {
 	public void adjustRanges() {
 
 		BaseChart baseChart = scrollableChart.getBaseChart();
+		//
 		int indexX = (comboScaleX.getSelectionIndex() >= 0) ? comboScaleX.getSelectionIndex() : BaseChart.ID_PRIMARY_X_AXIS;
 		int indexY = (comboScaleY.getSelectionIndex() >= 0) ? comboScaleY.getSelectionIndex() : BaseChart.ID_PRIMARY_Y_AXIS;
 		IAxis xAxis = baseChart.getAxisSet().getXAxis(indexX);
@@ -72,15 +76,18 @@ public class RangeInfoUI extends Composite {
 		Range rangeX = xAxis.getRange();
 		Range rangeY = yAxis.getRange();
 		//
+		DecimalFormat decimalFormatX = getDecimalFormat(IExtendedChart.X_AXIS, indexX);
+		DecimalFormat decimalFormatY = getDecimalFormat(IExtendedChart.Y_AXIS, indexY);
+		//
 		if(rangeX != null && rangeY != null) {
-			textStartX.setText(Double.toString(rangeX.lower));
-			textStopX.setText(Double.toString(rangeX.upper));
-			textStartY.setText(Double.toString(rangeY.lower));
-			textStopY.setText(Double.toString(rangeY.upper));
+			textStartX.setText(decimalFormatX.format(rangeX.lower));
+			textStopX.setText(decimalFormatX.format(rangeX.upper));
+			textStartY.setText(decimalFormatY.format(rangeY.lower));
+			textStopY.setText(decimalFormatY.format(rangeY.upper));
 			/*
 			 * Redraw the base chart.
 			 */
-			scrollableChart.getBaseChart().redraw();
+			baseChart.redraw();
 		}
 	}
 
@@ -108,8 +115,9 @@ public class RangeInfoUI extends Composite {
 				IAxis xAxis = baseChart.getAxisSet().getXAxis(selectionIndex);
 				Range rangeX = xAxis.getRange();
 				if(rangeX != null) {
-					textStartX.setText(Double.toString(rangeX.lower));
-					textStopX.setText(Double.toString(rangeX.upper));
+					DecimalFormat decimalFormatX = getDecimalFormat(IExtendedChart.X_AXIS, selectionIndex);
+					textStartX.setText(decimalFormatX.format(rangeX.lower));
+					textStopX.setText(decimalFormatX.format(rangeX.upper));
 				}
 			}
 		});
@@ -134,8 +142,9 @@ public class RangeInfoUI extends Composite {
 				IAxis yAxis = baseChart.getAxisSet().getYAxis(selectionIndex);
 				Range rangeY = yAxis.getRange();
 				if(rangeY != null) {
-					textStartY.setText(Double.toString(rangeY.lower));
-					textStopY.setText(Double.toString(rangeY.upper));
+					DecimalFormat decimalFormatY = getDecimalFormat(IExtendedChart.Y_AXIS, selectionIndex);
+					textStartY.setText(decimalFormatY.format(rangeY.lower));
+					textStopY.setText(decimalFormatY.format(rangeY.upper));
 				}
 			}
 		});
@@ -181,16 +190,6 @@ public class RangeInfoUI extends Composite {
 
 	private void setRange(String axis) {
 
-		//
-		double valueStart;
-		double valueStop;
-		if(axis.equals(IExtendedChart.X_AXIS)) {
-			valueStart = Double.valueOf(textStartX.getText().trim());
-			valueStop = Double.valueOf(textStopX.getText().trim());
-		} else {
-			valueStart = Double.valueOf(textStartY.getText().trim());
-			valueStop = Double.valueOf(textStopY.getText().trim());
-		}
 		/*
 		 * Get the correct range.
 		 */
@@ -200,23 +199,45 @@ public class RangeInfoUI extends Composite {
 		} else {
 			selectedAxis = comboScaleY.getSelectionIndex();
 		}
-		//
-		Range range = null;
-		if(selectedAxis == 0) {
-			range = new Range(valueStart, valueStop);
-		} else {
-			IAxisScaleConverter axisScaleConverter = getAxisScaleConverter(axis, selectedAxis);
-			if(axisScaleConverter != null) {
-				valueStart = axisScaleConverter.convertToPrimaryUnit(valueStart);
-				valueStop = axisScaleConverter.convertToPrimaryUnit(valueStop);
-				range = new Range(valueStart, valueStop);
-			}
-		}
 		/*
-		 * Apply the range.
+		 * Get the decimal format.
 		 */
-		if(range != null) {
-			scrollableChart.setRange(axis, range);
+		DecimalFormat decimalFormat = getDecimalFormat(axis, selectedAxis);
+		try {
+			/*
+			 * Get the start and stop value.
+			 */
+			double valueStart;
+			double valueStop;
+			if(axis.equals(IExtendedChart.X_AXIS)) {
+				valueStart = decimalFormat.parse(textStartX.getText().trim()).doubleValue();
+				valueStop = decimalFormat.parse(textStopX.getText().trim()).doubleValue();
+			} else {
+				valueStart = decimalFormat.parse(textStartY.getText().trim()).doubleValue();
+				valueStop = decimalFormat.parse(textStopY.getText().trim()).doubleValue();
+			}
+			/*
+			 * Convert the range on demand.
+			 */
+			Range range = null;
+			if(selectedAxis == 0) {
+				range = new Range(valueStart, valueStop);
+			} else {
+				IAxisScaleConverter axisScaleConverter = getAxisScaleConverter(axis, selectedAxis);
+				if(axisScaleConverter != null) {
+					valueStart = axisScaleConverter.convertToPrimaryUnit(valueStart);
+					valueStop = axisScaleConverter.convertToPrimaryUnit(valueStop);
+					range = new Range(valueStart, valueStop);
+				}
+			}
+			/*
+			 * Apply the range.
+			 */
+			if(range != null) {
+				scrollableChart.setRange(axis, range);
+			}
+		} catch(ParseException e) {
+			System.out.println(e);
 		}
 	}
 
@@ -298,21 +319,39 @@ public class RangeInfoUI extends Composite {
 
 	private String getAxisDescription(String axis, int id) {
 
-		BaseChart baseChart = scrollableChart.getBaseChart();
 		String description = "";
 		//
+		IAxisSettings axisSettings = getAxisSettings(axis, id);
+		if(axisSettings != null) {
+			description = axisSettings.getDescription();
+		}
+		//
+		return description;
+	}
+
+	private IAxisSettings getAxisSettings(String axis, int id) {
+
+		BaseChart baseChart = scrollableChart.getBaseChart();
 		IAxisSettings axisSettings = null;
 		if(axis.equals(IExtendedChart.X_AXIS)) {
 			axisSettings = baseChart.getXAxisSettingsMap().get(id);
 		} else {
 			axisSettings = baseChart.getYAxisSettingsMap().get(id);
 		}
+		return axisSettings;
+	}
+
+	private DecimalFormat getDecimalFormat(String axis, int id) {
+
+		DecimalFormat decimalFormat;
+		IAxisSettings axisSettings = getAxisSettings(axis, id);
 		//
 		if(axisSettings != null) {
-			description = axisSettings.getDescription();
+			decimalFormat = axisSettings.getDecimalFormat();
+		} else {
+			decimalFormat = new DecimalFormat();
 		}
-		//
-		return description;
+		return decimalFormat;
 	}
 
 	private GridData getTextGridData() {

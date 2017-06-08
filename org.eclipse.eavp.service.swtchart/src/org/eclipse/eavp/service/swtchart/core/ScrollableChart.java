@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
+import java.util.Set;
+
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
@@ -379,8 +381,17 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				axisSet.deleteXAxis(id);
 			}
 		}
-		baseChart.getXAxisSettingsMap().clear();
-		//
+		/*
+		 * Remove all items except the primary axis settings.
+		 */
+		Set<Integer> keySet = baseChart.getXAxisSettingsMap().keySet();
+		keySet.remove(BaseChart.ID_PRIMARY_X_AXIS);
+		for(int key : keySet) {
+			baseChart.getXAxisSettingsMap().remove(key);
+		}
+		/*
+		 * Add the axis settings.
+		 */
 		for(ISecondaryAxisSettings secondaryAxisSettings : chartSettings.getSecondaryAxisSettingsListX()) {
 			int xAxisId = axisSet.createXAxis();
 			IAxis xAxisSecondary = axisSet.getXAxis(xAxisId);
@@ -397,8 +408,17 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				axisSet.deleteYAxis(id);
 			}
 		}
-		baseChart.getYAxisSettingsMap().clear();
-		//
+		/*
+		 * Remove all items except the primary axis settings.
+		 */
+		Set<Integer> keySet = baseChart.getYAxisSettingsMap().keySet();
+		keySet.remove(BaseChart.ID_PRIMARY_Y_AXIS);
+		for(int key : keySet) {
+			baseChart.getYAxisSettingsMap().remove(key);
+		}
+		/*
+		 * Add the axis settings.
+		 */
 		for(ISecondaryAxisSettings secondaryAxisSettings : chartSettings.getSecondaryAxisSettingsListY()) {
 			int yAxisId = axisSet.createYAxis();
 			IAxis yAxisSecondary = axisSet.getYAxis(yAxisId);

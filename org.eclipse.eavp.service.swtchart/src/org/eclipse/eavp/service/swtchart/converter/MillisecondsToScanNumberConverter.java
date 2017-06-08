@@ -47,7 +47,7 @@ public class MillisecondsToScanNumberConverter extends AbstractAxisScaleConverte
 		/*
 		 * Milliseconds -> Scan Number
 		 */
-		return (int)((primaryValue - scanDelay) / scanInterval) + 1;
+		return (int)((primaryValue - scanDelay) / scanInterval);
 	}
 
 	@Override
