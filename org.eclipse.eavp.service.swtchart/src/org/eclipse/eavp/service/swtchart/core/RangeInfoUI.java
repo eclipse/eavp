@@ -80,6 +80,9 @@ public class RangeInfoUI extends Composite {
 		DecimalFormat decimalFormatY = getDecimalFormat(IExtendedChart.Y_AXIS, indexY);
 		//
 		if(rangeX != null && rangeY != null) {
+			/*
+			 * Update the text boxes.
+			 */
 			textStartX.setText(decimalFormatX.format(rangeX.lower));
 			textStopX.setText(decimalFormatX.format(rangeX.upper));
 			textStartY.setText(decimalFormatY.format(rangeY.lower));

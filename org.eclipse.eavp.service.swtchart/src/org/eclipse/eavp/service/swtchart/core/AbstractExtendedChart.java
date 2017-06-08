@@ -259,7 +259,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		for(int id : axisSet.getYAxisIds()) {
 			if(id != BaseChart.ID_PRIMARY_Y_AXIS) {
 				IAxis axis = axisSet.getYAxis(id);
-				IAxisSettings axisSettings = xAxisSettingsMap.get(id);
+				IAxisSettings axisSettings = yAxisSettingsMap.get(id);
 				if(axis != null && axisSettings instanceof ISecondaryAxisSettings) {
 					IAxisScaleConverter axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
 					axisScaleConverter.setChartDataCoordinates(this);

@@ -72,7 +72,7 @@ public class RelativeIntensityConverter extends AbstractAxisScaleConverter imple
 			/*
 			 * Calculation
 			 */
-			convertedValue = delta * secondaryValue;
+			convertedValue = delta * (secondaryValue / 100.0d);
 		}
 		return convertedValue;
 	}
