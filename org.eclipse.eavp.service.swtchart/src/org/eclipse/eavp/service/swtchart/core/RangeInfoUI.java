@@ -163,8 +163,7 @@ public class RangeInfoUI extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				try {
-					setRange(IExtendedChart.X_AXIS);
-					setRange(IExtendedChart.Y_AXIS);
+					setRange();
 				} catch(Exception e1) {
 					System.out.println(e1);
 				}
@@ -191,57 +190,70 @@ public class RangeInfoUI extends Composite {
 		});
 	}
 
-	private void setRange(String axis) {
+	private void setRange() {
 
-		/*
-		 * Get the correct range.
-		 */
-		int selectedAxis;
-		if(axis.equals(IExtendedChart.X_AXIS)) {
-			selectedAxis = comboScaleX.getSelectionIndex();
-		} else {
-			selectedAxis = comboScaleY.getSelectionIndex();
-		}
-		/*
-		 * Get the decimal format.
-		 */
-		DecimalFormat decimalFormat = getDecimalFormat(axis, selectedAxis);
 		try {
 			/*
 			 * Get the start and stop value.
 			 */
-			double valueStart;
-			double valueStop;
-			if(axis.equals(IExtendedChart.X_AXIS)) {
-				valueStart = decimalFormat.parse(textStartX.getText().trim()).doubleValue();
-				valueStop = decimalFormat.parse(textStopX.getText().trim()).doubleValue();
-			} else {
-				valueStart = decimalFormat.parse(textStartY.getText().trim()).doubleValue();
-				valueStop = decimalFormat.parse(textStopY.getText().trim()).doubleValue();
-			}
-			/*
-			 * Convert the range on demand.
-			 */
-			Range range = null;
-			if(selectedAxis == 0) {
-				range = new Range(valueStart, valueStop);
-			} else {
-				IAxisScaleConverter axisScaleConverter = getAxisScaleConverter(axis, selectedAxis);
-				if(axisScaleConverter != null) {
-					valueStart = axisScaleConverter.convertToPrimaryUnit(valueStart);
-					valueStop = axisScaleConverter.convertToPrimaryUnit(valueStop);
-					range = new Range(valueStart, valueStop);
-				}
-			}
+			Range rangeX = getRange(IExtendedChart.X_AXIS);
+			Range rangeY = getRange(IExtendedChart.Y_AXIS);
 			/*
 			 * Apply the range.
 			 */
-			if(range != null) {
-				scrollableChart.setRange(axis, range);
+			if(rangeX != null && rangeY != null) {
+				scrollableChart.setRange(IExtendedChart.X_AXIS, rangeX);
+				scrollableChart.setRange(IExtendedChart.Y_AXIS, rangeY);
 			}
 		} catch(ParseException e) {
 			System.out.println(e);
 		}
+	}
+
+	private Range getRange(String axis) throws ParseException {
+
+		/*
+		 * Get the decimal format.
+		 */
+		DecimalFormat decimalFormat;
+		int selectedAxis;
+		//
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			selectedAxis = comboScaleX.getSelectionIndex();
+			decimalFormat = getDecimalFormat(IExtendedChart.X_AXIS, selectedAxis);
+		} else {
+			selectedAxis = comboScaleY.getSelectionIndex();
+			decimalFormat = getDecimalFormat(IExtendedChart.Y_AXIS, selectedAxis);
+		}
+		/*
+		 * Get the start and stop value.
+		 */
+		double valueStart;
+		double valueStop;
+		//
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			valueStart = decimalFormat.parse(textStartX.getText().trim()).doubleValue();
+			valueStop = decimalFormat.parse(textStopX.getText().trim()).doubleValue();
+		} else {
+			valueStart = decimalFormat.parse(textStartY.getText().trim()).doubleValue();
+			valueStop = decimalFormat.parse(textStopY.getText().trim()).doubleValue();
+		}
+		/*
+		 * Convert the range on demand.
+		 */
+		Range range = null;
+		if(selectedAxis == 0) {
+			range = new Range(valueStart, valueStop);
+		} else {
+			IAxisScaleConverter axisScaleConverter = getAxisScaleConverter(axis, selectedAxis);
+			if(axisScaleConverter != null) {
+				valueStart = axisScaleConverter.convertToPrimaryUnit(valueStart);
+				valueStop = axisScaleConverter.convertToPrimaryUnit(valueStop);
+				range = new Range(valueStart, valueStop);
+			}
+		}
+		//
+		return range;
 	}
 
 	private IAxisScaleConverter getAxisScaleConverter(String axis, int id) {
