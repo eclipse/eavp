@@ -136,6 +136,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		baseChart.setRange(axis, start, stop);
 		setSliderSelection(false);
+		updateLinkedCharts();
 	}
 
 	@Override
@@ -204,6 +205,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void handleMouseUpEvent(Event event) {
 
 		baseChart.handleMouseUpEvent(event);
+		updateLinkedCharts();
 	}
 
 	@Override
@@ -299,6 +301,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void resetSlider() {
 
 		setSliderSelection(true);
+		updateLinkedCharts();
 	}
 
 	private void setSliderSelection(boolean calculateIncrement) {
@@ -345,7 +348,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				sliderVertical.setIncrement((isHorizontal) ? incrementY : incrementX);
 				sliderHorizontal.setPageIncrement((isHorizontal) ? incrementX : incrementY);
 			}
-			//
+			/*
+			 * Set the range info and update linked charts.
+			 */
 			displayRangeInfo(xAxis, yAxis);
 		}
 	}
@@ -481,6 +486,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void fireUpdateCustomSelectionHandlers(Event event) {
 
 		baseChart.fireUpdateCustomSelectionHandlers(event);
+		updateLinkedCharts();
 	}
 
 	private void displayRangeInfo(IAxis xAxis, IAxis yAxis) {
@@ -570,6 +576,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			public void handleUserSelection(Event event) {
 
 				setSliderSelection(false);
+				updateLinkedCharts();
 			}
 		});
 		/*
@@ -707,7 +714,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			axisSetLinked.getXAxis(BaseChart.ID_PRIMARY_X_AXIS).setRange(rangeX);
 			axisSetLinked.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS).setRange(rangeY);
 			linkedScrollableChart.getBaseChart().adjustSecondaryAxes();
-			linkedScrollableChart.redraw();
+			linkedScrollableChart.getBaseChart().redraw();
+			/*
+			 * The method setSliderSelection(...) is private.
+			 * But as we are in the same class, it works.
+			 * Funny, I assumed that only protected and public
+			 * methods are accessible.
+			 */
+			linkedScrollableChart.setSliderSelection(false);
 		}
 	}
 }
