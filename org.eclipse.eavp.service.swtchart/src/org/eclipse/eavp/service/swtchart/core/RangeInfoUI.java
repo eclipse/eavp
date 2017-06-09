@@ -107,7 +107,7 @@ public class RangeInfoUI extends Composite {
 		textStopX.setLayoutData(getTextGridData());
 		//
 		comboScaleX = new Combo(this, SWT.READ_ONLY);
-		comboScaleX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboScaleX.setLayoutData(getComboGridData());
 		comboScaleX.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -134,7 +134,7 @@ public class RangeInfoUI extends Composite {
 		textStopY.setLayoutData(getTextGridData());
 		//
 		comboScaleY = new Combo(this, SWT.READ_ONLY);
-		comboScaleY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboScaleY.setLayoutData(getComboGridData());
 		comboScaleY.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -370,6 +370,13 @@ public class RangeInfoUI extends Composite {
 	}
 
 	private GridData getTextGridData() {
+
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.widthHint = 100;
+		return gridData;
+	}
+
+	private GridData getComboGridData() {
 
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.widthHint = 100;
