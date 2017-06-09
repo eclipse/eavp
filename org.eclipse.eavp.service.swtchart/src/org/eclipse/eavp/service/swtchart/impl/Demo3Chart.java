@@ -50,6 +50,6 @@ public class Demo3Chart extends LineChart implements IChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList);
+		addSeriesData(lineSeriesDataList, false);
 	}
 }

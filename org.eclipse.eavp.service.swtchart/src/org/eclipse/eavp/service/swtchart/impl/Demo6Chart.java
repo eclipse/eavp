@@ -63,6 +63,6 @@ public class Demo6Chart extends LineChart implements IChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList);
+		addSeriesData(lineSeriesDataList, false);
 	}
 }

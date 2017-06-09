@@ -63,6 +63,6 @@ public class Demo5Chart extends BarChart implements IChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(barSeriesDataList);
+		addSeriesData(barSeriesDataList, false);
 	}
 }

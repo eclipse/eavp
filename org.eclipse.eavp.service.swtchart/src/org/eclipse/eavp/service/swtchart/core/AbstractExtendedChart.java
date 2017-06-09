@@ -11,11 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
@@ -44,12 +41,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	 */
 	private Map<Integer, IAxisSettings> xAxisSettingsMap;
 	private Map<Integer, IAxisSettings> yAxisSettingsMap;
-	/*
-	 * Store the original series.
-	 * Add additional compress functionality.
-	 */
-	private double[] xSeries;
-	private double[] ySeries;
 
 	public AbstractExtendedChart(Composite parent, int style) {
 		super(parent, style);
@@ -190,70 +181,13 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		if(xSeries.length == ySeries.length) {
 			ISeriesSet seriesSet = getSeriesSet();
 			ISeries series = seriesSet.createSeries(seriesType, id);
-			/*
-			 * Store the original series.
-			 */
-			this.xSeries = xSeries;
-			this.ySeries = ySeries;
-			//
-			boolean extraCompressSeries = false; // TODO
-			if(extraCompressSeries) {
-				SeriesContainer seriesContainer = calculateCompressedSeries(xSeries, ySeries);
-				double[] xSeriesCompressed = seriesContainer.getXSeries();
-				double[] ySeriesCompressed = seriesContainer.getYSeries();
-				series.setXSeries(xSeriesCompressed);
-				series.setYSeries(ySeriesCompressed);
-			} else {
-				series.setXSeries(this.xSeries);
-				series.setYSeries(this.ySeries);
-			}
-			//
+			series.setXSeries(xSeries);
+			series.setYSeries(ySeries);
 			calculateCoordinates(series);
 			return series;
 		} else {
 			throw new SeriesException("The length of x and y series differs.");
 		}
-	}
-
-	private SeriesContainer calculateCompressedSeries(double[] xSeries, double[] ySeries) {
-
-		/*
-		 * Add the ions above the median and skip parts of the low intensity ions.
-		 */
-		List<Double> xSeriesCompressed = new ArrayList<Double>();
-		List<Double> ySeriesCompressed = new ArrayList<Double>();
-		//
-		int numberValues = getPlotArea().getBounds().width;
-		DoubleSummaryStatistics summaryStatistics = Arrays.stream(ySeries).summaryStatistics();
-		double maxY = summaryStatistics.getMax();
-		double meanY = summaryStatistics.getAverage();
-		double limitY = meanY + ((maxY - meanY) / 6.0f);
-		int moduloValue = numberValues / 100;
-		//
-		for(int i = 0; i < ySeries.length; i++) {
-			/*
-			 * Filter the values.
-			 */
-			double y = ySeries[i];
-			boolean addValue = false;
-			//
-			if(y >= limitY) {
-				addValue = true;
-			} else {
-				if(moduloValue > 0 && i % moduloValue == 0) {
-					addValue = true;
-				}
-			}
-			//
-			if(addValue) {
-				xSeriesCompressed.add(xSeries[i]);
-				ySeriesCompressed.add(y);
-			}
-		}
-		//
-		double[] xCompressed = xSeriesCompressed.stream().mapToDouble(d -> d).toArray();
-		double[] yCompressed = ySeriesCompressed.stream().mapToDouble(d -> d).toArray();
-		return new SeriesContainer(xCompressed, yCompressed);
 	}
 
 	@Override

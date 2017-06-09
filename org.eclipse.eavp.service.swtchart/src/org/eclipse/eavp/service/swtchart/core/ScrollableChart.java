@@ -243,6 +243,90 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.paintControl(e);
 	}
 
+	/**
+	 * Use compress series only if it's absolutely necessary.
+	 * 
+	 * @param xSeries
+	 * @param ySeries
+	 * @param lengthHintDataPoints
+	 * @param compressSeries
+	 * @return SeriesContainer
+	 */
+	protected SeriesContainer calculateSeries(double[] xSeries, double[] ySeries, int lengthHintDataPoints, boolean compressSeries) {
+
+		SeriesContainer seriesContainer;
+		int seriesLength = ySeries.length;
+		//
+		if(compressSeries && seriesLength > lengthHintDataPoints) {
+			/*
+			 * Capture the compressed data.
+			 * The final size is not known yet.
+			 */
+			List<Double> xSeriesCompressed = new ArrayList<Double>();
+			List<Double> ySeriesCompressed = new ArrayList<Double>();
+			/*
+			 * First x,y value.
+			 */
+			xSeriesCompressed.add(xSeries[0]);
+			ySeriesCompressed.add(ySeries[0]);
+			//
+			int moduloValue = seriesLength / lengthHintDataPoints;
+			for(int i = 1; i < ySeries.length - 1; i++) {
+				/*
+				 * Filter the values.
+				 */
+				double y = ySeries[i];
+				boolean addValue = false;
+				//
+				if(moduloValue > 0 && i % moduloValue == 0) {
+					addValue = true;
+				}
+				//
+				if(addValue) {
+					xSeriesCompressed.add(xSeries[i]);
+					ySeriesCompressed.add(y);
+				}
+			}
+			/*
+			 * Last x,y value.
+			 */
+			xSeriesCompressed.add(xSeries[xSeries.length - 1]);
+			ySeriesCompressed.add(ySeries[ySeries.length - 1]);
+			/*
+			 * Compression
+			 */
+			double[] xCompressed = xSeriesCompressed.stream().mapToDouble(d -> d).toArray();
+			double[] yCompressed = ySeriesCompressed.stream().mapToDouble(d -> d).toArray();
+			seriesContainer = new SeriesContainer(xCompressed, yCompressed);
+		} else {
+			/*
+			 * No compression.
+			 */
+			seriesContainer = new SeriesContainer(xSeries, ySeries);
+		}
+		//
+		return seriesContainer;
+	}
+
+	/**
+	 * Returns whether the series exceeds the given length hint or not.
+	 * 
+	 * @param xSeries
+	 * @param ySeries
+	 * @param lengthHintDataPoints
+	 * @return boolean
+	 */
+	protected boolean isLargeDataSet(double[] xSeries, double[] ySeries, int lengthHintDataPoints) {
+
+		boolean isLargeDataSet = false;
+		if(xSeries.length == ySeries.length) {
+			if(xSeries.length > lengthHintDataPoints) {
+				isLargeDataSet = true;
+			}
+		}
+		return isLargeDataSet;
+	}
+
 	private void modifyChart() {
 
 		setSliderVisibility();

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.eavp.service.swtchart.core.SeriesContainer;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.ILineSeries;
@@ -23,11 +24,13 @@ import org.swtchart.ISeries.SeriesType;
 
 public class LineChart extends ScrollableChart {
 
+	private static final int LENGTH_HINT_DATA_POINTS = 15000;
+
 	public LineChart(Composite parent, int style) {
 		super(parent, style);
 	}
 
-	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList) {
+	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList, boolean compressSeries) {
 
 		/*
 		 * Suspend the update when adding new data to improve the performance.
@@ -41,7 +44,8 @@ public class LineChart extends ScrollableChart {
 				 */
 				try {
 					ISeriesData seriesData = lineSeriesData.getSeriesData();
-					ILineSeries lineSeries = (ILineSeries)createSeries(SeriesType.LINE, seriesData.getXSeries(), seriesData.getYSeries(), seriesData.getId());
+					SeriesContainer seriesContainer = calculateSeries(seriesData.getXSeries(), seriesData.getYSeries(), LENGTH_HINT_DATA_POINTS, compressSeries);
+					ILineSeries lineSeries = (ILineSeries)createSeries(SeriesType.LINE, seriesContainer.getXSeries(), seriesContainer.getYSeries(), seriesData.getId());
 					//
 					ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 					lineSeries.setDescription(lineSeriesSettings.getDescription());

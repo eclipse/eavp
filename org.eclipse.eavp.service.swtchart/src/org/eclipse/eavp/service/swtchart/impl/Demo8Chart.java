@@ -64,6 +64,6 @@ public class Demo8Chart extends LineChart implements IChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList);
+		addSeriesData(lineSeriesDataList, false);
 	}
 }
