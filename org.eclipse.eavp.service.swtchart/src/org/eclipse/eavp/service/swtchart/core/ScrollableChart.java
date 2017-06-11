@@ -38,12 +38,14 @@ import org.swtchart.IAxisSet;
 import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
 import org.swtchart.ISeriesSet;
+import org.swtchart.ITitle;
 import org.swtchart.Range;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
 	private static final Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+	private static final Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
@@ -710,9 +712,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						Rectangle rectangleInfo = new Rectangle(0, 0, width, 26);
 						e.gc.drawRectangle(rectangleInfo);
 						//
-						String label = "Double click to show range info.";
-						Point labelSize = e.gc.textExtent(label);
-						e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
+						ITitle title = getBaseChart().getTitle();
+						if(title.getForeground().equals(COLOR_WHITE)) {
+							/*
+							 * Draw the message.
+							 */
+							String label = "Double click to show range info.";
+							Point labelSize = e.gc.textExtent(label);
+							e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
+						}
 						/*
 						 * Hide the rectangle after x milliseconds.
 						 */
