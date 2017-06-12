@@ -43,26 +43,6 @@
   	<module>../org.eclipse.eavp.viz.modeling</module>
   	<module>../org.eclipse.eavp.tests.viz.modeling</module>
   	<module>../org.eclipse.eavp.tests.viz.service.javafx.mesh</module>
-  	<module>../org.eclipse.january.geometry</module>
-  	<module>../org.eclipse.january.geometry.ide</module>
-  	<module>../org.eclipse.january.geometry.ui</module>
-  	<module>../org.eclipse.january.geometry.model.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.ui</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.ui.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.mtl</module>
-  	<module>../org.eclipse.january.geometry.xtext.mtl.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.mtl.ui</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj.test</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj.ui</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk.ui</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>
   </modules>

@@ -31,11 +31,11 @@ import org.eclipse.eavp.viz.service.geometry.widgets.ShapeTreeContentProvider.Bl
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.january.geometry.GeometryFactory;
 import org.eclipse.january.geometry.INode;
+import org.eclipse.january.geometry.dsl.mTL.Material;
 import org.eclipse.january.geometry.Shape;
 import org.eclipse.january.geometry.Union;
+import org.eclipse.january.geometry.dsl.mtlimport.MTLImporter;
 import org.eclipse.january.geometry.model.importer.IGeometryImporterService;
-import org.eclipse.january.geometry.xtext.mTL.Material;
-import org.eclipse.january.geometry.xtext.mtlimport.MTLImporter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -400,7 +400,7 @@ public class ActionImportGeometry extends Action {
 	 * @return Returns a javaFX color for the render
 	 */
 	private Color convertColor(
-			org.eclipse.january.geometry.xtext.mTL.Color diffuse) {
+			org.eclipse.january.geometry.dsl.mTL.Color diffuse) {
 		Color clr = Color.rgb((int) diffuse.getRed() * 255,
 				(int) diffuse.getGreen() * 255, (int) diffuse.getBlue() * 255);
 		return clr;
