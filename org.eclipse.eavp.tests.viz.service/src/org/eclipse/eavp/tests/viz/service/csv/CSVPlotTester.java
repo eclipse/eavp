@@ -20,7 +20,7 @@ import java.util.List;
 import org.eclipse.eavp.tests.viz.service.FakePlotListener;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.ISeries;
-import org.eclipse.eavp.viz.service.csv.CSVPlot;
+import org.eclipse.eavp.viz.service.rcp.csv.CSVPlot;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
