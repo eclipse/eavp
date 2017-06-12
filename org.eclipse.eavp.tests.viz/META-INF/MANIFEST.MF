@@ -9,7 +9,7 @@ Require-Bundle: org.junit,
  org.eclipse.core.runtime;bundle-version="3.9.100"
 Import-Package: org.eclipse.eavp.viz,
  org.eclipse.eavp.viz.service,
- org.eclipse.eavp.viz.service.rcp.csv,
+ org.eclipse.eavp.viz.service.csv,
  org.eclipse.eavp.viz.service.styles,
  org.eclipse.swt.graphics
 Bundle-Vendor: Oak Ridge National Laboratory

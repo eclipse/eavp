@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.ISeriesStyle;
-import org.eclipse.eavp.viz.service.rcp.csv.CSVSeries;
+import org.eclipse.eavp.viz.service.csv.CSVSeries;
 import org.eclipse.eavp.viz.service.styles.BasicErrorStyle;
 import org.eclipse.eavp.viz.service.styles.XYZSeriesStyle;
 import org.junit.Test;
