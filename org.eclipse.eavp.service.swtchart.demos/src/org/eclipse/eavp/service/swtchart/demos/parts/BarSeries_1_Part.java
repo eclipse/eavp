@@ -7,62 +7,69 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.impl;
+package org.eclipse.eavp.service.swtchart.demos.parts;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
+import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
-import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
-import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
-import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
-import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
+import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-public class Demo6Chart extends LineChart implements IChart {
+public class BarSeries_1_Part extends BarChart {
 
-	public Demo6Chart(Composite parent, int style) {
-		super(parent, style);
-		/*
-		 * Chart Settings
-		 */
+	@Inject
+	public BarSeries_1_Part(Composite parent) {
+		super(parent, SWT.NONE);
+		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		initialize();
+	}
+
+	private void initialize() {
+
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
 		chartSettings.setVerticalSliderVisible(true);
-		chartSettings.setUseZeroX(true);
+		chartSettings.setUseZeroX(false);
 		chartSettings.setUseZeroY(false);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-		primaryAxisSettingsX.setTitle("Time");
+		primaryAxisSettingsX.setTitle("m/z");
 		primaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
 		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Intensity");
-		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
+		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatScientific);
 		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		//
 		applySettings(chartSettings);
 		/*
 		 * Create series.
 		 */
-		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
-		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_2);
+		List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
+		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.BAR_SERIES_1);
 		//
-		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(false);
-		lineSeriesDataList.add(lineSeriesData);
+		IBarSeriesData barSeriesData = new BarSeriesData(seriesData);
+		IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
+		barSeriesSettings.setDescription("");
+		barSeriesDataList.add(barSeriesData);
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList, false);
+		addSeriesData(barSeriesDataList, false);
 	}
 }

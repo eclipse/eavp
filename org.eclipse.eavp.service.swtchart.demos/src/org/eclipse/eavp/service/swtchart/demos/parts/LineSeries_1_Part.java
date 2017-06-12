@@ -7,12 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.impl;
+package org.eclipse.eavp.service.swtchart.demos.parts;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
 import org.eclipse.eavp.service.swtchart.converter.MillisecondsToScanNumberConverter;
@@ -23,6 +25,7 @@ import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
+import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
@@ -31,10 +34,21 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.IAxis.Position;
 
-public class Demo1Chart extends LineChart implements IChart {
+public class LineSeries_1_Part extends LineChart {
 
-	public Demo1Chart(Composite parent, int style) {
-		super(parent, style);
+	@Inject
+	public LineSeries_1_Part(Composite parent) {
+		super(parent, SWT.NONE);
+		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		try {
+			initialize();
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	private void initialize() throws Exception {
+
 		/*
 		 * Chart Settings
 		 */
@@ -44,35 +58,40 @@ public class Demo1Chart extends LineChart implements IChart {
 		chartSettings.setVerticalSliderVisible(true);
 		chartSettings.setUseZeroX(true);
 		chartSettings.setUseZeroY(true);
-		//
+		chartSettings.setEnableRangeInfo(true);
+		/*
+		 * Primary X-Axis
+		 */
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("Retention Time (milliseconds)");
 		primaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
 		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		primaryAxisSettingsX.setPosition(Position.Secondary);
 		primaryAxisSettingsX.setVisible(false);
-		//
+		/*
+		 * Primary Y-Axis
+		 */
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Intensity");
 		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatScientific);
 		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
-		//
-		try {
-			ISecondaryAxisSettings secondaryAxisSettingsX1 = new SecondaryAxisSettings("Scan Number", new MillisecondsToScanNumberConverter(50, 50));
-			secondaryAxisSettingsX1.setPosition(Position.Primary);
-			secondaryAxisSettingsX1.setDecimalFormat(ColorAndFormatSupport.decimalFormatInteger);
-			secondaryAxisSettingsX1.setColor(ColorAndFormatSupport.COLOR_BLACK);
-			chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX1);
-		} catch(Exception e) {
-			System.out.println(e);
-		}
+		/*
+		 * Secondary X-Axes
+		 */
+		ISecondaryAxisSettings secondaryAxisSettingsX1 = new SecondaryAxisSettings("Scan Number", new MillisecondsToScanNumberConverter(50, 50));
+		secondaryAxisSettingsX1.setPosition(Position.Primary);
+		secondaryAxisSettingsX1.setDecimalFormat(ColorAndFormatSupport.decimalFormatInteger);
+		secondaryAxisSettingsX1.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX1);
 		//
 		ISecondaryAxisSettings secondaryAxisSettingsX2 = new SecondaryAxisSettings("Minutes", new MillisecondsToMinuteConverter());
 		secondaryAxisSettingsX2.setPosition(Position.Primary);
 		secondaryAxisSettingsX2.setDecimalFormat(ColorAndFormatSupport.decimalFormatFixed);
 		secondaryAxisSettingsX2.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX2);
-		//
+		/*
+		 * Secondary X-Axes
+		 */
 		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Relative Intensity [%]", new RelativeIntensityConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY1.setPosition(Position.Secondary);
 		secondaryAxisSettingsY1.setDecimalFormat(ColorAndFormatSupport.decimalFormatFixed);

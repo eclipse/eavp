@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public class ColorAndFormatSupport {
 
+	public static Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 	public static Color COLOR_BLACK = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
 	public static Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 	//

@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.impl;
+package org.eclipse.eavp.service.swtchart.demos.support;
 
 import java.io.BufferedReader;
 import java.io.IOException;

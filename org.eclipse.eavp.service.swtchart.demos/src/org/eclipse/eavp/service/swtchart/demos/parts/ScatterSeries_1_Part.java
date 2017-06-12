@@ -7,15 +7,19 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.impl;
+package org.eclipse.eavp.service.swtchart.demos.parts;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.PCAChart;
+import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesData;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.ScatterSeriesData;
@@ -25,7 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries.PlotSymbolType;
 
-public class Demo7Chart extends PCAChart implements IChart {
+public class ScatterSeries_1_Part extends PCAChart {
 
 	private Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 	private Color COLOR_BLUE = Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
@@ -35,11 +39,15 @@ public class Demo7Chart extends PCAChart implements IChart {
 	//
 	private int SYMBOL_SIZE = 8;
 
-	public Demo7Chart(Composite parent, int style) {
-		/*
-		 * Create series.
-		 */
-		super(parent, style);
+	@Inject
+	public ScatterSeries_1_Part(Composite parent) {
+		super(parent, SWT.NONE);
+		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		initialize();
+	}
+
+	private void initialize() {
+
 		List<ISeriesData> scatterSeriesList = SeriesConverter.getSeriesScatter(SeriesConverter.SCATTER_SERIES_1);
 		List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
 		//
