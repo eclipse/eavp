@@ -9,7 +9,7 @@
  *   Jordan Deyton - Initial API and implementation and/or initial documentation
  *   
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.widgets;
+package org.eclipse.eavp.viz.service.rcp.widgets;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -24,7 +24,7 @@ import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
-import org.eclipse.eavp.viz.service.widgets.TimeSliderComposite;
+import org.eclipse.eavp.viz.service.rcp.widgets.TimeSliderComposite;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;

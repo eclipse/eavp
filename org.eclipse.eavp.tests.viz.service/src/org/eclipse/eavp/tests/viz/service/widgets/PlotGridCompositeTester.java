@@ -34,7 +34,7 @@ import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.internal.VizServiceFactoryHolder;
 import org.eclipse.eavp.viz.service.rcp.csv.CSVSeries;
-import org.eclipse.eavp.viz.service.widgets.PlotGridComposite;
+import org.eclipse.eavp.viz.service.rcp.widgets.PlotGridComposite;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;

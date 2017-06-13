@@ -23,12 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.january.geometry.Geometry;
-import org.eclipse.jface.action.Action;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
 
 /**
  * This class provides a basic, limited implementation of certain features of
@@ -118,7 +113,7 @@ public abstract class AbstractPlot implements IPlot {
 	 * Composite)
 	 */
 	@Override
-	public Composite draw(Composite parent) throws Exception {
+	public void draw() throws Exception {
 		throw new UnsupportedOperationException(
 				"IPlot error: " + "This plot cannot be drawn.");
 	}
@@ -139,8 +134,8 @@ public abstract class AbstractPlot implements IPlot {
 	 * @see org.eclipse.eavp.viz.service.IPlot#getCustomActions()
 	 */
 	@Override
-	public ArrayList<Action> getCustomActions() {
-		return new ArrayList<Action>();
+	public ArrayList<IVizAction> getCustomActions() {
+		return new ArrayList<IVizAction>();
 	}
 
 	/*
@@ -411,35 +406,11 @@ public abstract class AbstractPlot implements IPlot {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.
-	 * part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
-	 */
-	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent,
-			IFileEditorInput file, int pageNum) {
-		// No additional pages, so nothing to do
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
-	 */
-	@Override
-	public int getNumAdditionalPages() {
-		return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
 	@Override
-	public void save(IProgressMonitor monitor) {
+	public void save(VizProgressMonitor monitor) {
 		// Nothing to do
 	}
 

@@ -13,7 +13,7 @@
  *   Jordan Deyton - bug 471749
  *   Jordan Deyton - bug 471750
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.widgets;
+package org.eclipse.eavp.viz.service.rcp.widgets;
 
 import java.net.URL;
 import java.util.ArrayList;

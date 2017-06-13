@@ -18,11 +18,6 @@ import java.net.UnknownHostException;
 
 import org.eclipse.eavp.viz.service.AbstractPlot;
 import org.eclipse.eavp.viz.service.IPlot;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.SWTException;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,60 +63,6 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 	public void connectionStateChanged(IVizConnection<T> connection,
 			ConnectionState state, String message) {
 		// Nothing to do.
-	}
-
-	/**
-	 * Creates a composite that renders plot content using an
-	 * {@link IVizConnection}.
-	 * 
-	 * @param parent
-	 *            The parent composite.
-	 * @return A new, basic connection plot composite.
-	 */
-	protected abstract ConnectionPlotComposite<T> createPlotComposite(
-			Composite parent);
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.AbstractPlot#draw(org.eclipse.swt.widgets.
-	 * Composite)
-	 */
-	@Override
-	public Composite draw(Composite parent) throws Exception {
-
-		// If necessary, create a new plot composite.
-		if (plotComposite == null) {
-			// Check the parent Composite.
-			if (parent == null) {
-				throw new SWTException(SWT.ERROR_NULL_ARGUMENT, "IPlot error: "
-						+ "Cannot draw plot in a null Composite.");
-			} else if (parent.isDisposed()) {
-				throw new SWTException(SWT.ERROR_WIDGET_DISPOSED,
-						"IPlot error: "
-								+ "Cannot draw plot in a disposed Composite.");
-			}
-
-			// Create a plot composite.
-			plotComposite = createPlotComposite(parent);
-			plotComposite.setConnectionPlot(this);
-			plotComposite.setConnection(connection);
-			plotComposite.refresh();
-			// Its reference should be unset when disposed.
-			plotComposite.addDisposeListener(new DisposeListener() {
-				@Override
-				public void widgetDisposed(DisposeEvent e) {
-					plotComposite = null;
-				}
-			});
-		}
-		// Otherwise, ignore the parent argument and trigger a normal refresh.
-		else {
-			plotComposite.refresh();
-		}
-
-		return plotComposite;
 	}
 
 	/**

@@ -58,7 +58,7 @@ public interface IVizService {
 	 *             a canvas with the given object and giving the reason why.
 	 */
 	public IVizCanvas createCanvas(IController object) throws Exception;
-	
+
 	/**
 	 * This operation directs the IVizService to create a new canvas displaying
 	 * the given Geometry and to return a handle to that canvas to the caller so

@@ -8,7 +8,7 @@
  * Contributors:
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.widgets;
+package org.eclipse.eavp.viz.service.rcp.widgets;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

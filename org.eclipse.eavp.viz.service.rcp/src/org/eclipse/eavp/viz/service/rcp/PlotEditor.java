@@ -10,7 +10,7 @@
  *   Kasper Gammeltoft - viz series refactor
  *   Jordan Deyton - multi-series refactor, code cleanup
  *******************************************************************************/
-package org.eclipse.eavp.viz.service;
+package org.eclipse.eavp.viz.service.rcp;
 
 import java.net.URI;
 import java.util.List;
@@ -18,8 +18,14 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.eavp.viz.service.widgets.PlotDialogProvider;
-import org.eclipse.eavp.viz.service.widgets.TreeSelectionDialogProvider;
+import org.eclipse.eavp.viz.service.IPlot;
+import org.eclipse.eavp.viz.service.ISeries;
+import org.eclipse.eavp.viz.service.IVizAction;
+import org.eclipse.eavp.viz.service.VizProgressMonitor;
+import org.eclipse.eavp.viz.service.drawhandler.IDrawHandler;
+import org.eclipse.eavp.viz.service.rcp.internal.DrawHandlerFactoryHolder;
+import org.eclipse.eavp.viz.service.rcp.widgets.PlotDialogProvider;
+import org.eclipse.eavp.viz.service.rcp.widgets.TreeSelectionDialogProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -68,7 +74,7 @@ public class PlotEditor extends MultiPageEditorPart {
 	 * The plot acquired from the input, or {@code null} if it could not be
 	 * created with an appropriate viz service.
 	 */
-	private IPlot plot;
+	private RCPPlot plot;
 
 	/**
 	 * The Composite in which the plot was drawn.
@@ -105,10 +111,17 @@ public class PlotEditor extends MultiPageEditorPart {
 		// Create a ToolBar.
 		ToolBar toolBar = createToolBar(parent);
 
+		// Get a DrawHandler for the plot
+		IDrawHandler<Composite> handler = DrawHandlerFactoryHolder.getFactory()
+				.getHandler(getPlot());
+		handler.setParent(parent);
+		getPlot().setDrawHandler(handler);
+
 		// Create the plot content.
 		plotComposite = null;
 		try {
-			plotComposite = getPlot().draw(parent);
+			getPlot().draw();
+			plotComposite = handler.getResult();
 		} catch (Exception e) {
 			throwCriticalException("Error encountered while drawing plot.",
 					"The selection could not be rendered by the selected "
@@ -222,9 +235,17 @@ public class PlotEditor extends MultiPageEditorPart {
 							((ISeries) element).setEnabled(true);
 						}
 					}
+
+					// Get a DrawHandler for the plot
+					IDrawHandler<Composite> handler = DrawHandlerFactoryHolder
+							.getFactory().getHandler(getPlot());
+					handler.setParent(parent);
+					getPlot().setDrawHandler(handler);
+
 					// Refresh the plot.
 					try {
-						plot.draw(parent);
+						getPlot().draw();
+						plotComposite = handler.getResult();
 					} catch (Exception e) {
 						logger.error(getClass().getName() + " Exception! Error "
 								+ "while refreshing the plot. ", e);
@@ -243,8 +264,10 @@ public class PlotEditor extends MultiPageEditorPart {
 		});
 
 		// Add any custom buttons from the plot
-		for (Action action : plot.getCustomActions()) {
-			toolBarManager.add(action);
+		for (IVizAction action : plot.getCustomActions()) {
+			toolBarManager.add(new Action() {
+
+			});
 		}
 
 		// Create the ToolBar widget and center the text of its buttons
@@ -285,7 +308,9 @@ public class PlotEditor extends MultiPageEditorPart {
 	public void doSave(IProgressMonitor monitor) {
 
 		// Save
-		plot.save(monitor);
+		VizProgressMonitor<IProgressMonitor> vizMonitor = new VizProgressMonitor<IProgressMonitor>(
+				monitor);
+		plot.save(vizMonitor);
 
 		// Refresh the plot
 		plot.redraw();
@@ -392,7 +417,7 @@ public class PlotEditor extends MultiPageEditorPart {
 		final Shell shell = getEditorSite().getShell();
 
 		// Print out an error dialog.
-		final Status status = new Status(IStatus.ERROR, "org.eclipse.ice", 0,
+		final Status status = new Status(IStatus.ERROR, "org.eclipse.eavp", 0,
 				logMessage, e);
 		final String message = dialogMessage;
 		shell.getDisplay().asyncExec(new Runnable() {
@@ -487,7 +512,7 @@ public class PlotEditor extends MultiPageEditorPart {
 		}
 		// If the input is plot input, we can just get the plot from it.
 		else if (editorInput instanceof PlotEditorInput) {
-			plot = ((PlotEditorInput) editorInput).getPlot();
+			plot = (RCPPlot) ((PlotEditorInput) editorInput).getPlot();
 		}
 
 		// If no plot could be created, close the editor.

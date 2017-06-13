@@ -17,8 +17,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.eavp.viz.modeling.base.IController;
-import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
-import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * This is an abstract base class for creating new {@link IVizService}s and
@@ -39,13 +37,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
  *
  */
 public abstract class AbstractVizService implements IVizService {
-
-	/**
-	 * A reference to the associated preference page's {@link IPreferenceStore}.
-	 * If this has been determined previously, then it should be returned in
-	 * {@link #getPreferenceStore()}.
-	 */
-	private IPreferenceStore preferenceStore = null;
 
 	/**
 	 * The set of supported file extensions for this viz service.
@@ -140,19 +131,6 @@ public abstract class AbstractVizService implements IVizService {
 	 * @return A set containing all supported extensions.
 	 */
 	protected abstract Set<String> findSupportedExtensions();
-
-	/**
-	 * Gets the {@link IPreferenceStore} for the associated preference page.
-	 * 
-	 * @return The {@code IPreferenceStore} whose defaults should be set.
-	 */
-	protected IPreferenceStore getPreferenceStore() {
-		if (preferenceStore == null) {
-			// Get the PreferenceStore for the bundle.
-			preferenceStore = new CustomScopedPreferenceStore(getClass());
-		}
-		return preferenceStore;
-	}
 
 	/*
 	 * (non-Javadoc)

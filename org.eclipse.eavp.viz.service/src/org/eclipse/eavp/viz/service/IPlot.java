@@ -19,11 +19,6 @@ package org.eclipse.eavp.viz.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.action.Action;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
-
 /**
  * This interface defines the principle type for plots created and handled by
  * the platform. Its primary purpose is to provide a specific interface for
@@ -46,25 +41,6 @@ public interface IPlot extends IVizCanvas {
 	public static final String DEFAULT_CATEGORY = "Other";
 
 	/**
-	 * Directs the service to draw one of its additional pages and add it to the
-	 * MultiPageEditorPart. The expected use is to call
-	 * creatAddionalPage(parent, file, 1), createAdditonalPage(parent, file, 2),
-	 * etc. until all additional pages have been drawn in separate tabs.
-	 * 
-	 * @param parent
-	 *            The part which the page will be added to.
-	 * @param file
-	 *            The file to use as input for the page.
-	 * @param pageNum
-	 *            The id of the page to be drawn.
-	 * 
-	 * @return The name of the new page, to be displayed as the title of the tab
-	 *         containing it
-	 */
-	public String createAdditionalPage(MultiPageEditorPart parent,
-			IFileEditorInput file, int pageNum);
-
-	/**
 	 * Gets all of the categories currently associated with this plot.
 	 * 
 	 * @return The categories for this plot.
@@ -72,13 +48,13 @@ public interface IPlot extends IVizCanvas {
 	public List<String> getCategories();
 
 	/**
-	 * Get the list of Actions available to this plot. These are intended to be
+	 * Get the list of IVizActions available to this plot. These are intended to be
 	 * used to populate the plot editor's toolbar with custom buttons specific
 	 * to the plot type.
 	 * 
 	 * @return A list of Actions which the IPlot can be directed to perform.
 	 */
-	public ArrayList<Action> getCustomActions();
+	public ArrayList<IVizAction> getCustomActions();
 
 	/**
 	 * Gets all of the dependent series specified for this IPlot, as a list, for
@@ -96,15 +72,6 @@ public interface IPlot extends IVizCanvas {
 	 * @return ISeries the independent series.
 	 */
 	public ISeries getIndependentSeries();
-
-	/**
-	 * Gets the number of pages this service will display in the plot editor in
-	 * addition to the main canvas.
-	 * 
-	 * @return The number of additional pages displayed by the plot editor. 0 if
-	 *         there is only one page.
-	 */
-	public int getNumAdditionalPages();
 
 	/**
 	 * Gets the title of the plot to be displayed in whatever visualization
@@ -130,7 +97,7 @@ public interface IPlot extends IVizCanvas {
 	 * @param monitor
 	 *            The monitor for the save action's progress.
 	 */
-	public void save(IProgressMonitor monitor);
+	public void save(VizProgressMonitor monitor);
 
 	/**
 	 * Open a dialog to save the plot's contents.

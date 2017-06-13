@@ -22,7 +22,7 @@ import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.rcp.csv.CSVSeries;
-import org.eclipse.eavp.viz.service.widgets.PlotGridComposite;
+import org.eclipse.eavp.viz.service.rcp.widgets.PlotGridComposite;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;

@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.eavp.tests.viz.service.utils.AbstractSWTTester;
-import org.eclipse.eavp.viz.service.widgets.TimeSliderComposite;
+import org.eclipse.eavp.viz.service.rcp.widgets.TimeSliderComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.SelectionAdapter;

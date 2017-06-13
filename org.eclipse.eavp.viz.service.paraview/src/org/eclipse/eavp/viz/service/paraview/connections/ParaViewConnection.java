@@ -25,7 +25,7 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.paraview.web.HttpParaViewWebClient;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
-import org.eclipse.eavp.viz.service.widgets.RemoteConnectionUserInfo;
+import org.eclipse.eavp.viz.service.rcp.widgets.RemoteConnectionUserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -9,8 +9,9 @@
  *   Initial API and implementation and/or initial documentation - 
  *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service;
+package org.eclipse.eavp.viz.service.rcp;
 
+import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;

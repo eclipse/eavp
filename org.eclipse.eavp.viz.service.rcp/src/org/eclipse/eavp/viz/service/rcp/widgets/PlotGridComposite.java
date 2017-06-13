@@ -9,7 +9,7 @@
  *   Jordan Deyton - Initial API and implementation and/or initial documentation
  *   Jordan Deyton - relocated to viz.service.widgets
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.widgets;
+package org.eclipse.eavp.viz.service.rcp.widgets;
 
 import java.net.URI;
 import java.util.ArrayList;

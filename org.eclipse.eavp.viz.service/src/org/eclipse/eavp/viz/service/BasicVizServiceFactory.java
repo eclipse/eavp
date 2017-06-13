@@ -14,14 +14,6 @@ package org.eclipse.eavp.viz.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.eavp.viz.service.csv.CSVVizService;
-import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.IFileEditorMapping;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.registry.EditorDescriptor;
-import org.eclipse.ui.internal.registry.EditorRegistry;
-import org.eclipse.ui.internal.registry.FileEditorMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,13 +41,6 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 	private Map<String, IVizService> serviceMap;
 
 	/**
-	 * A reference to the associated preference page's {@link IPreferenceStore}.
-	 * If this has been determined previously, then it should be returned in
-	 * {@link #getPreferenceStore()}.
-	 */
-	private IPreferenceStore preferenceStore = null;
-
-	/**
 	 * The constructor
 	 */
 	public BasicVizServiceFactory() {
@@ -65,6 +50,7 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizServiceFactory#get()
 	 */
 	@Override
@@ -74,7 +60,9 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IVizServiceFactory#get(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizServiceFactory#get(java.lang.String)
 	 */
 	@Override
 	public IVizService get(String serviceName) {
@@ -88,21 +76,9 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 		return service;
 	}
 
-	/**
-	 * Gets the {@link IPreferenceStore} for the associated preference page.
-	 *
-	 * @return The {@code IPreferenceStore} whose defaults should be set.
-	 */
-	private IPreferenceStore getPreferenceStore() {
-		if (preferenceStore == null) {
-			// Get the PreferenceStore for the bundle.
-			preferenceStore = new CustomScopedPreferenceStore(getClass());
-		}
-		return preferenceStore;
-	}
-
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizServiceFactory#getServiceNames()
 	 */
 	@Override
@@ -116,7 +92,10 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IVizServiceFactory#register(org.eclipse.eavp.viz.service.IVizService)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizServiceFactory#register(org.eclipse.eavp
+	 * .viz.service.IVizService)
 	 */
 	@Override
 	public void register(IVizService service) {
@@ -126,28 +105,6 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 			// Put the service in service map so it can be retrieved later
 			serviceMap.put(name, service);
 
-			// Register the plot editor as default editor for all file
-			// extensions handled by the new viz service
-			for (String ext : service.getSupportedExtensions()) {
-				EditorRegistry editorReg = (EditorRegistry) PlatformUI
-						.getWorkbench().getEditorRegistry();
-				EditorDescriptor editor = (EditorDescriptor) editorReg
-						.findEditor("org.eclipse.eavp.viz.service.PlotEditor");
-				FileEditorMapping mapping = new FileEditorMapping(ext);
-				mapping.addEditor(editor);
-				mapping.setDefaultEditor(editor);
-
-				IFileEditorMapping[] mappings = editorReg
-						.getFileEditorMappings();
-				FileEditorMapping[] newMappings = new FileEditorMapping[mappings.length
-						+ 1];
-				for (int i = 0; i < mappings.length; i++) {
-					newMappings[i] = (FileEditorMapping) mappings[i];
-				}
-				newMappings[mappings.length] = mapping;
-				editorReg.setFileEditorMappings(newMappings);
-			}
-
 			logger.info("VizServiceFactory message: " + "Viz service \"" + name
 					+ "\" registered.");
 		}
@@ -155,18 +112,12 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 		return;
 	}
 
-	/**
-	 * This operation starts the service, including registering the basic CSV
-	 * plotter viz service, "ice-plot," with the platform.
-	 */
-	public void start() {
-		// Initialize "ice-plot" viz service
-		register(new CSVVizService());
-	}
-
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.IVizServiceFactory#unregister(org.eclipse.eavp.viz.service.IVizService)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizServiceFactory#unregister(org.eclipse.
+	 * eavp.viz.service.IVizService)
 	 */
 	@Override
 	public void unregister(IVizService service) {

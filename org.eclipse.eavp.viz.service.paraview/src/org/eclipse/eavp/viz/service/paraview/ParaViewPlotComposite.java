@@ -29,7 +29,7 @@ import org.eclipse.eavp.viz.service.paraview.proxy.IParaViewProxy;
 import org.eclipse.eavp.viz.service.paraview.web.IParaViewWebClient;
 import org.eclipse.eavp.viz.service.paraview.widgets.ParaViewCanvas;
 import org.eclipse.eavp.viz.service.paraview.widgets.ParaViewMouseAdapter;
-import org.eclipse.eavp.viz.service.widgets.TimeSliderComposite;
+import org.eclipse.eavp.viz.service.rcp.widgets.TimeSliderComposite;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;

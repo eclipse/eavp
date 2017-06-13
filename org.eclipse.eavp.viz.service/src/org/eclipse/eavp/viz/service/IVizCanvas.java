@@ -18,8 +18,8 @@ package org.eclipse.eavp.viz.service;
 import java.net.URI;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.service.drawhandler.IDrawHandler;
 import org.eclipse.january.geometry.Geometry;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * This interface defines the principle type for canvases created and handled by
@@ -49,14 +49,15 @@ import org.eclipse.swt.widgets.Composite;
 public interface IVizCanvas {
 
 	/**
-	 * This operation draws the canvas contents onto the given parent Composite.
+	 * This operation draws the canvas contents onto the draw handler's parent.
 	 * The exact details of how the plot is drawn and what is drawn inside the
 	 * parent composite are left completely up to the implementation.
 	 * 
-	 * @param parent
+	 * After drawing, the resulting graphical object containing the canvas can be retrieved by invoking getResult() on the canvas's draw handler.
+	 * 
 	 * @throws Exception
 	 */
-	public Composite draw(Composite parent) throws Exception;
+	public void draw() throws Exception;
 
 	/**
 	 * This operation returns the data source that is plotted/drawn by this
@@ -96,6 +97,13 @@ public interface IVizCanvas {
 	public IRenderElementHolder getRenderElementHolder(Geometry geometry);
 
 	/**
+	 * Getter method for the canvas's draw handler.
+	 * 
+	 * @return The draw handler being used to perform drawing operations.
+	 */
+	public IDrawHandler getDrawHandler();
+	
+	/**
 	 * This operation retrieves the hostname for this IPlot's data source.
 	 * 
 	 * @return the hostname
@@ -121,6 +129,13 @@ public interface IVizCanvas {
 	 */
 	public void redraw();
 
+	/**
+	 * Set the IDrawHandler which will perform the drawing for this canvas.
+	 * 
+	 * @param handler The new handler to handle drawing operations for the canvas.
+	 */
+	public void setDrawHandler(IDrawHandler handler);
+	
 	/**
 	 * This operation updates the properties of the plot based on client-side
 	 * modifications. The IPlot should redraw itself as needed if the properties

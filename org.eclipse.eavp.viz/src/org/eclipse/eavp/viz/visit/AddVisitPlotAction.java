@@ -27,7 +27,7 @@ import org.eclipse.eavp.viz.datastructures.resource.IResource;
 import org.eclipse.eavp.viz.datastructures.resource.IVizResource;
 import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
 import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
-import org.eclipse.eavp.viz.service.widgets.TreeSelectionDialogProvider;
+import org.eclipse.eavp.viz.service.rcp.widgets.TreeSelectionDialogProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;

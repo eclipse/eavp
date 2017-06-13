@@ -28,6 +28,7 @@ Import-Package: ca.odell.glazedlists,
 Export-Package: org.eclipse.eavp.viz.service,
  org.eclipse.eavp.viz.service.color,
  org.eclipse.eavp.viz.service.connections,
+ org.eclipse.eavp.viz.service.drawhandler,
  org.eclipse.eavp.viz.service.internal,
  org.eclipse.eavp.viz.service.styles
 Service-Component: OSGI-INF/vizFactory.xml, OSGI-INF/VizServiceFactoryHolder.xml
