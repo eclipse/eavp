@@ -35,6 +35,8 @@ import org.eclipse.swt.widgets.Slider;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Direction;
 import org.swtchart.IAxisSet;
+import org.swtchart.IAxisTick;
+import org.swtchart.IGrid;
 import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
 import org.swtchart.ISeriesSet;
@@ -538,10 +540,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setAxisSettings(IAxis axis, IAxisSettings axisSettings) {
 
 		if(axis != null && axisSettings != null) {
-			axis.getTitle().setText(axisSettings.getTitle());
-			axis.getTick().setFormat(axisSettings.getDecimalFormat());
-			axis.getTitle().setVisible(axisSettings.isVisible());
-			axis.getTick().setVisible(axisSettings.isVisible());
+			//
+			ITitle title = axis.getTitle();
+			title.setText(axisSettings.getTitle());
+			title.setVisible(axisSettings.isVisible());
+			//
+			IAxisTick axisTick = axis.getTick();
+			axisTick.setFormat(axisSettings.getDecimalFormat());
+			axisTick.setVisible(axisSettings.isVisible());
+			//
+			IGrid grid = axis.getGrid();
+			grid.setForeground(axisSettings.getGridColor());
+			grid.setStyle(axisSettings.getGridLineStyle());
+			//
 			axis.setPosition(axisSettings.getPosition());
 			/*
 			 * Set the color on demand.

@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 
 import org.eclipse.swt.graphics.Color;
 import org.swtchart.IAxis.Position;
+import org.swtchart.LineStyle;
 
 public interface IAxisSettings {
 
@@ -41,4 +42,22 @@ public interface IAxisSettings {
 	Position getPosition();
 
 	void setPosition(Position position);
+
+	Color getGridColor();
+
+	void setGridColor(Color gridColor);
+
+	LineStyle getGridLineStyle();
+
+	/**
+	 * LineStyle.SOLID
+	 * LineStyle.DASH
+	 * LineStyle.DOT
+	 * LineStyle.DASHDOT
+	 * LineStyle.DASHDOTDOT
+	 * LineStyle.NONE
+	 * 
+	 * @param gridLineStyle
+	 */
+	void setGridLineStyle(LineStyle gridLineStyle);
 }

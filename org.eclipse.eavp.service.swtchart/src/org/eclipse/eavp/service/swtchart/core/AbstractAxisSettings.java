@@ -17,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
+import org.swtchart.LineStyle;
 
 public abstract class AbstractAxisSettings implements IAxisSettings {
 
@@ -26,6 +27,8 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private Color color;
 	private boolean visible;
 	private Position position;
+	private Color gridColor;
+	private LineStyle gridLineStyle;
 
 	public AbstractAxisSettings(String title) {
 		/*
@@ -42,6 +45,8 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		color = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
 		visible = true;
 		position = Position.Primary;
+		gridColor = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+		gridLineStyle = LineStyle.DOT;
 	}
 
 	@Override
@@ -114,5 +119,29 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setPosition(Position position) {
 
 		this.position = position;
+	}
+
+	@Override
+	public Color getGridColor() {
+
+		return gridColor;
+	}
+
+	@Override
+	public void setGridColor(Color gridColor) {
+
+		this.gridColor = gridColor;
+	}
+
+	@Override
+	public LineStyle getGridLineStyle() {
+
+		return gridLineStyle;
+	}
+
+	@Override
+	public void setGridLineStyle(LineStyle gridLineStyle) {
+
+		this.gridLineStyle = gridLineStyle;
 	}
 }

@@ -33,6 +33,7 @@ import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.IAxis.Position;
+import org.swtchart.LineStyle;
 
 public class LineSeries_1_Part extends LineChart {
 
@@ -68,6 +69,7 @@ public class LineSeries_1_Part extends LineChart {
 		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		primaryAxisSettingsX.setPosition(Position.Secondary);
 		primaryAxisSettingsX.setVisible(false);
+		primaryAxisSettingsX.setGridLineStyle(LineStyle.NONE);
 		/*
 		 * Primary Y-Axis
 		 */
@@ -75,6 +77,7 @@ public class LineSeries_1_Part extends LineChart {
 		primaryAxisSettingsY.setTitle("Intensity");
 		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatScientific);
 		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsY.setGridLineStyle(LineStyle.NONE);
 		/*
 		 * Secondary X-Axes
 		 */
@@ -90,7 +93,7 @@ public class LineSeries_1_Part extends LineChart {
 		secondaryAxisSettingsX2.setColor(ColorAndFormatSupport.COLOR_BLACK);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX2);
 		/*
-		 * Secondary X-Axes
+		 * Secondary Y-Axes
 		 */
 		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Relative Intensity [%]", new RelativeIntensityConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY1.setPosition(Position.Secondary);
