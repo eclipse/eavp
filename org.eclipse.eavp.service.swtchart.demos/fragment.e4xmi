@@ -7,10 +7,14 @@
           <children xsi:type="basic:PartStack" xmi:id="_ZRi7gE-kEeexM-n8e6XN8g" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.0">
             <children xsi:type="basic:Part" xmi:id="_bs0EEE-kEeexM-n8e6XN8g" elementId="org.eclipse.eavp.service.swtchart.demos.part.lineseries1" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_1_Part" label="Line Series 1" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
           </children>
+          <children xsi:type="basic:PartStack" xmi:id="_exNOcFKfEee9KdU-PVJmHw" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.4">
+            <children xsi:type="basic:Part" xmi:id="_e5PlkFKeEee9KdU-PVJmHw" elementId="org.eclipse.eavp.service.swtchart.demos.part.lineseries2" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_2_Part" label="Line Series 2" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+          </children>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_XxpPAE-kEeexM-n8e6XN8g" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.2" horizontal="true">
           <children xsi:type="basic:PartStack" xmi:id="_ZuBcIE-kEeexM-n8e6XN8g" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.1">
             <children xsi:type="basic:Part" xmi:id="_k2tAwE-kEeexM-n8e6XN8g" elementId="org.eclipse.eavp.service.swtchart.demos.part.barseries1" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.BarSeries_1_Part" label="Bar Series 1" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+            <children xsi:type="basic:Part" xmi:id="_bmEkoFKeEee9KdU-PVJmHw" elementId="org.eclipse.eavp.service.swtchart.demos.part.barseries2" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.BarSeries_2_Part" label="Bar Series 2" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_aCdbEE-kEeexM-n8e6XN8g" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.2">
             <children xsi:type="basic:Part" xmi:id="_lHufUE-kEeexM-n8e6XN8g" elementId="org.eclipse.eavp.service.swtchart.demos.part.scatterseries1" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.ScatterSeries_1_Part" label="Scatter Series 1" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
