@@ -104,6 +104,7 @@ public class PCAChart extends ScatterChart {
 		chartSettings.setUseZeroX(false);
 		chartSettings.setUseZeroY(false);
 		chartSettings.setUseRangeRestriction(false);
+		// chartSettings.setFactorExtend(0.0d);
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);

@@ -119,4 +119,6 @@ public interface IChartSettings {
 	double getFactorExtendMaxY();
 
 	void setFactorExtendMaxY(double factorExtendMaxY);
+
+	void setFactorExtend(double factorExtend);
 }

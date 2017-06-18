@@ -339,4 +339,13 @@ public class ChartSettings implements IChartSettings {
 
 		this.factorExtendMinY = factorExtendMinY;
 	}
+
+	@Override
+	public void setFactorExtend(double factorExtend) {
+
+		this.factorExtendMinX = factorExtend;
+		this.factorExtendMaxX = factorExtend;
+		this.factorExtendMinY = factorExtend;
+		this.factorExtendMaxY = factorExtend;
+	}
 }
