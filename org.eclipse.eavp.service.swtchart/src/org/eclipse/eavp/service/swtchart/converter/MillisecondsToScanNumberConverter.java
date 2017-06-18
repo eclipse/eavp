@@ -47,7 +47,11 @@ public class MillisecondsToScanNumberConverter extends AbstractAxisScaleConverte
 		/*
 		 * Milliseconds -> Scan Number
 		 */
-		return (int)((primaryValue - scanDelay) / scanInterval);
+		if(primaryValue < scanDelay) {
+			return 0;
+		} else {
+			return (int)((primaryValue - scanDelay) / scanInterval) + 1;
+		}
 	}
 
 	@Override
@@ -56,6 +60,10 @@ public class MillisecondsToScanNumberConverter extends AbstractAxisScaleConverte
 		/*
 		 * Scan Number -> Milliseconds
 		 */
-		return scanDelay + secondaryValue * scanInterval;
+		if(secondaryValue < 1.0d) {
+			return 0;
+		} else {
+			return scanDelay + (int)(secondaryValue - 1) * scanInterval;
+		}
 	}
 }
