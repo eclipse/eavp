@@ -231,14 +231,4 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			}
 		}
 	}
-	// private IAxis[] getAxes(int orientation) {
-	//
-	// IAxis[] axes;
-	// if(getOrientation() == orientation) {
-	// axes = getAxisSet().getXAxes();
-	// } else {
-	// axes = getAxisSet().getYAxes();
-	// }
-	// return axes;
-	// }
 }

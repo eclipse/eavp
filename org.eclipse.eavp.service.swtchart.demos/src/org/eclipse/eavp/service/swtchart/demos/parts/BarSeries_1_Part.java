@@ -16,19 +16,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
-import org.eclipse.eavp.service.swtchart.core.IChartSettings;
-import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
+import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-public class BarSeries_1_Part extends BarChart {
+public class BarSeries_1_Part extends MassSpectrumChart {
 
 	@Inject
 	public BarSeries_1_Part(Composite parent) {
@@ -39,24 +37,6 @@ public class BarSeries_1_Part extends BarChart {
 
 	private void initialize() {
 
-		IChartSettings chartSettings = getChartSettings();
-		chartSettings.setOrientation(SWT.HORIZONTAL);
-		chartSettings.setHorizontalSliderVisible(true);
-		chartSettings.setVerticalSliderVisible(true);
-		chartSettings.setUseZeroX(false);
-		chartSettings.setUseZeroY(false);
-		//
-		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-		primaryAxisSettingsX.setTitle("m/z");
-		primaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
-		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
-		//
-		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
-		primaryAxisSettingsY.setTitle("Intensity");
-		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatScientific);
-		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
-		//
-		applySettings(chartSettings);
 		/*
 		 * Create series.
 		 */
