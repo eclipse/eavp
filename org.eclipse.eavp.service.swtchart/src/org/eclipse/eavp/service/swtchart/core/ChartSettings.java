@@ -40,6 +40,7 @@ public class ChartSettings implements IChartSettings {
 	private boolean enableCompress;
 	private boolean useZeroY;
 	private boolean useZeroX;
+	private boolean useRangeRestriction;
 
 	public ChartSettings() {
 		//
@@ -71,6 +72,7 @@ public class ChartSettings implements IChartSettings {
 		enableCompress = true;
 		useZeroY = true;
 		useZeroX = true;
+		useRangeRestriction = true;
 	}
 
 	@Override
@@ -268,5 +270,17 @@ public class ChartSettings implements IChartSettings {
 	public void setUseZeroX(boolean useZeroX) {
 
 		this.useZeroX = useZeroX;
+	}
+
+	@Override
+	public boolean isUseRangeRestriction() {
+
+		return useRangeRestriction;
+	}
+
+	@Override
+	public void setUseRangeRestriction(boolean useRangeRestriction) {
+
+		this.useRangeRestriction = useRangeRestriction;
 	}
 }

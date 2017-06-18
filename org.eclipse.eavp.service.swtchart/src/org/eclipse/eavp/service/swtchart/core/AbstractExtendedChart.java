@@ -34,6 +34,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double maxX;
 	private double minY;
 	private double maxY;
+	private boolean useRangeRestriction;
 	/*
 	 * The settings are used to get the description
 	 * or to get the IAxisScaleConverter of the
@@ -101,6 +102,18 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	public double getMaxY() {
 
 		return maxY;
+	}
+
+	@Override
+	public boolean isUseRangeRestriction() {
+
+		return useRangeRestriction;
+	}
+
+	@Override
+	public void setUseRangeRestriction(boolean useRangeRestriction) {
+
+		this.useRangeRestriction = useRangeRestriction;
 	}
 
 	public Map<Integer, IAxisSettings> getXAxisSettingsMap() {

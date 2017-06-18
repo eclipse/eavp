@@ -23,6 +23,15 @@ public interface IRangeSupport {
 
 	void setUseZeroX(boolean useZeroX);
 
+	boolean isUseRangeRestriction();
+
+	/**
+	 * Set true if zooming shall not exceed the min/max values.
+	 * 
+	 * @param useRangeRestriction
+	 */
+	void setUseRangeRestriction(boolean useRangeRestriction);
+
 	/**
 	 * Sets the range, based on the start and stop coordinates of the composite.
 	 * In this case, axis.getDataCoordinate is used to get the data coordinate.

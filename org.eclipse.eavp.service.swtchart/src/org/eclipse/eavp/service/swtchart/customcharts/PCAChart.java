@@ -103,6 +103,7 @@ public class PCAChart extends ScatterChart {
 		chartSettings.setVerticalSliderVisible(false);
 		chartSettings.setUseZeroX(false);
 		chartSettings.setUseZeroY(false);
+		chartSettings.setUseRangeRestriction(false);
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);

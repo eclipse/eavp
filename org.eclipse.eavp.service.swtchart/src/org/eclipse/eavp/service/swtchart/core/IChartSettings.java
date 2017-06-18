@@ -94,4 +94,13 @@ public interface IChartSettings {
 	 * @param useZeroX
 	 */
 	void setUseZeroX(boolean useZeroX);
+
+	boolean isUseRangeRestriction();
+
+	/**
+	 * Set true if zooming shall not exceed the min/max values.
+	 * 
+	 * @param useRangeRestriction
+	 */
+	void setUseRangeRestriction(boolean useRangeRestriction);
 }

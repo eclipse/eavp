@@ -358,6 +358,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.enableCompress(chartSettings.isEnableCompress());
 		baseChart.setUseZeroX(chartSettings.isUseZeroX());
 		baseChart.setUseZeroY(chartSettings.isUseZeroY());
+		baseChart.setUseRangeRestriction(chartSettings.isUseRangeRestriction());
 	}
 
 	private void setSliderVisibility() {

@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Event;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisSet;
+import org.swtchart.Range;
 
 public class BaseChart extends AbstractExtendedChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
 
@@ -121,6 +122,54 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	}
 
 	@Override
+	public void handleMouseWheel(Event event) {
+
+		IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
+		IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
+		/*
+		 * X Axis
+		 */
+		double coordinateX = xAxis.getDataCoordinate(event.x);
+		if(event.count > 0) {
+			xAxis.zoomIn(coordinateX);
+		} else {
+			xAxis.zoomOut(coordinateX);
+		}
+		/*
+		 * Y Axis
+		 */
+		double coordinateY = yAxis.getDataCoordinate(event.y);
+		if(event.count > 0) {
+			yAxis.zoomIn(coordinateY);
+		} else {
+			yAxis.zoomOut(coordinateY);
+		}
+		/*
+		 * Adjust the range if it shall not exceed the initial
+		 * min and max values.
+		 */
+		if(isUseRangeRestriction()) {
+			/*
+			 * Adjust the primary axes.
+			 * The secondary axes are adjusted by setting the range.
+			 */
+			Range rangeX = xAxis.getRange();
+			Range rangeY = yAxis.getRange();
+			setRange(xAxis, rangeX.lower, rangeX.upper, true);
+			setRange(yAxis, rangeY.lower, rangeY.upper, true);
+		} else {
+			/*
+			 * Update the secondary axes.
+			 */
+			adjustSecondaryXAxes();
+			adjustSecondaryYAxes();
+		}
+		//
+		fireUpdateCustomSelectionHandlers(event);
+		redraw();
+	}
+
+	@Override
 	public void handleMouseDoubleClick(Event event) {
 
 		adjustRange(true);
@@ -182,4 +231,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			}
 		}
 	}
+	// private IAxis[] getAxes(int orientation) {
+	//
+	// IAxis[] axes;
+	// if(getOrientation() == orientation) {
+	// axes = getAxisSet().getXAxes();
+	// } else {
+	// axes = getAxisSet().getYAxes();
+	// }
+	// return axes;
+	// }
 }
