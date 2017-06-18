@@ -56,6 +56,8 @@ public class MassSpectrumChart extends BarChart {
 		chartSettings.setUseZeroX(false);
 		chartSettings.setUseZeroY(false);
 		chartSettings.setUseRangeRestriction(true);
+		chartSettings.setFactorExtendMinX(0.05d);
+		chartSettings.setFactorExtendMaxX(0.05d);
 		chartSettings.setFactorExtendMaxY(0.1d);
 		//
 		setPrimaryAxisSet(chartSettings);
