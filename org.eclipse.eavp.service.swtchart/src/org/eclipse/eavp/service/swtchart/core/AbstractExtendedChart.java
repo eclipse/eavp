@@ -192,10 +192,18 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minY) ? minY : range.lower;
 				}
-				//
-				if(factorExtendMaxY > 0.0d) {
-					double upper = range.upper + range.upper * factorExtendMaxY;
-					range.upper = (upper > maxY) ? maxY : upper;
+				/*
+				 * Extend the range.
+				 */
+				if(factorExtendMaxY != 0.0d) {
+					if(range.upper != maxY) {
+						double upperCalculated = range.upper + range.upper * factorExtendMaxY;
+						if(upperCalculated >= maxY) {
+							range.upper = maxY;
+						} else {
+							range.upper = (range.upper > maxY) ? maxY : range.upper;
+						}
+					}
 				} else {
 					range.upper = (range.upper > maxY) ? maxY : range.upper;
 				}
