@@ -35,6 +35,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double minY;
 	private double maxY;
 	private boolean useRangeRestriction;
+	private double factorExtendMaxY;
 	/*
 	 * The settings are used to get the description
 	 * or to get the IAxisScaleConverter of the
@@ -116,6 +117,18 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		this.useRangeRestriction = useRangeRestriction;
 	}
 
+	@Override
+	public double getFactorExtendMaxY() {
+
+		return factorExtendMaxY;
+	}
+
+	@Override
+	public void setFactorExtendMaxY(double factorExtendMaxY) {
+
+		this.factorExtendMaxY = factorExtendMaxY;
+	}
+
 	public Map<Integer, IAxisSettings> getXAxisSettingsMap() {
 
 		return xAxisSettingsMap;
@@ -179,7 +192,13 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minY) ? minY : range.lower;
 				}
-				range.upper = (range.upper > maxY) ? maxY : range.upper;
+				//
+				if(factorExtendMaxY > 0.0d) {
+					double upper = range.upper + range.upper * factorExtendMaxY;
+					range.upper = (upper > maxY) ? maxY : upper;
+				} else {
+					range.upper = (range.upper > maxY) ? maxY : range.upper;
+				}
 			}
 			/*
 			 * Adjust the range.
@@ -320,5 +339,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		maxX = Math.max(maxX, seriesMaxX);
 		minY = Math.min(minY, seriesMinY);
 		maxY = Math.max(maxY, seriesMaxY);
+		maxY += maxY * factorExtendMaxY;
 	}
 }

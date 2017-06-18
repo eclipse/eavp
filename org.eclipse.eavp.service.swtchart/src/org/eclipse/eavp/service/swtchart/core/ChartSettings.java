@@ -41,6 +41,7 @@ public class ChartSettings implements IChartSettings {
 	private boolean useZeroY;
 	private boolean useZeroX;
 	private boolean useRangeRestriction;
+	private double factorExtendMaxY;
 
 	public ChartSettings() {
 		//
@@ -73,6 +74,7 @@ public class ChartSettings implements IChartSettings {
 		useZeroY = true;
 		useZeroX = true;
 		useRangeRestriction = true;
+		factorExtendMaxY = 0.0d;
 	}
 
 	@Override
@@ -282,5 +284,17 @@ public class ChartSettings implements IChartSettings {
 	public void setUseRangeRestriction(boolean useRangeRestriction) {
 
 		this.useRangeRestriction = useRangeRestriction;
+	}
+
+	@Override
+	public double getFactorExtendMaxY() {
+
+		return factorExtendMaxY;
+	}
+
+	@Override
+	public void setFactorExtendMaxY(double factorExtendMaxY) {
+
+		this.factorExtendMaxY = factorExtendMaxY;
 	}
 }

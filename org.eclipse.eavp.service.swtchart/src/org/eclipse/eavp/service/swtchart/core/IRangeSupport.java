@@ -32,6 +32,10 @@ public interface IRangeSupport {
 	 */
 	void setUseRangeRestriction(boolean useRangeRestriction);
 
+	double getFactorExtendMaxY();
+
+	void setFactorExtendMaxY(double factorExtendMaxY);
+
 	/**
 	 * Sets the range, based on the start and stop coordinates of the composite.
 	 * In this case, axis.getDataCoordinate is used to get the data coordinate.

@@ -103,4 +103,8 @@ public interface IChartSettings {
 	 * @param useRangeRestriction
 	 */
 	void setUseRangeRestriction(boolean useRangeRestriction);
+
+	double getFactorExtendMaxY();
+
+	void setFactorExtendMaxY(double factorExtendMaxY);
 }
