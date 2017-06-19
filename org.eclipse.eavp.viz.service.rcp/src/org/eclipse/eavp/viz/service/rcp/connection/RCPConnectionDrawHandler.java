@@ -12,14 +12,16 @@
 package org.eclipse.eavp.viz.service.rcp.connection;
 
 import org.eclipse.eavp.viz.service.IVizCanvas;
-import org.eclipse.eavp.viz.service.connections.ConnectionPlotComposite;
+import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
-import org.eclipse.eavp.viz.service.drawhandler.IDrawHandler;
+import org.eclipse.eavp.viz.service.drawhandler.AbstractDrawHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An implementation of IDrawHandler that sets up a connection in RCP
@@ -27,9 +29,28 @@ import org.eclipse.swt.widgets.Composite;
  * 
  * @author Robert Smith
  *
+ * @param <T>
+ *            The subclass of IVizConnection used to manage to connection to the
+ *            remote service.
  */
-abstract public class RCPConnectionDrawHandler
-		implements IDrawHandler<Composite> {
+abstract public class RCPConnectionDrawHandler<T>
+		extends AbstractDrawHandler<Composite> {
+
+	/**
+	 * Logger for handling event messages and other information.
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(RCPConnectionDrawHandler.class);
+
+	/**
+	 * The last canvas drawn.
+	 */
+	private IVizCanvas lastCanvas;
+
+	/**
+	 * The PlotComposite which manages the resulting composite.
+	 */
+	protected ConnectionPlotComposite plotComposite;
 
 	/**
 	 * Creates a composite that renders plot content using an
@@ -52,36 +73,51 @@ abstract public class RCPConnectionDrawHandler
 	@Override
 	public void draw(IVizCanvas canvas) {
 
-		// If necessary, create a new plot composite.
-		if (plotComposite == null) {
-			// Check the parent Composite.
-			if (parent == null) {
-				throw new SWTException(SWT.ERROR_NULL_ARGUMENT, "IPlot error: "
-						+ "Cannot draw plot in a null Composite.");
-			} else if (parent.isDisposed()) {
-				throw new SWTException(SWT.ERROR_WIDGET_DISPOSED,
-						"IPlot error: "
-								+ "Cannot draw plot in a disposed Composite.");
-			}
+		// Don't try to draw an invalid canvas.
+		if (canvas != null) {
 
-			// Create a plot composite.
-			plotComposite = createPlotComposite(parent);
-			plotComposite.setConnectionPlot(this);
-			plotComposite.setConnection(connection);
-			plotComposite.refresh();
-			// Its reference should be unset when disposed.
-			plotComposite.addDisposeListener(new DisposeListener() {
-				@Override
-				public void widgetDisposed(DisposeEvent e) {
-					plotComposite = null;
+			// If necessary, create a new plot composite.
+			if (canvas != lastCanvas) {
+
+				// Check the parent Composite.
+				if (parent == null) {
+					throw new SWTException(SWT.ERROR_NULL_ARGUMENT,
+							"IPlot error: "
+									+ "Cannot draw plot in a null Composite.");
+				} else if (parent.isDisposed()) {
+					throw new SWTException(SWT.ERROR_WIDGET_DISPOSED,
+							"IPlot error: "
+									+ "Cannot draw plot in a disposed Composite.");
 				}
-			});
-		}
-		// Otherwise, ignore the parent argument and trigger a normal refresh.
-		else {
-			plotComposite.refresh();
+
+				ConnectionPlot castCanvas = (ConnectionPlot) canvas;
+
+				// Create a plot composite.
+				plotComposite = createPlotComposite(parent);
+				plotComposite.setConnectionPlot(castCanvas);
+				try {
+					plotComposite.setConnection(castCanvas.getConnection());
+				} catch (Exception e1) {
+					logger.error(
+							"RCPConnectionDrawHandler Error while setting connection to Plot Composite: "
+									+ e1.toString());
+				}
+				plotComposite.refresh();
+				// Its reference should be unset when disposed.
+				plotComposite.addDisposeListener(new DisposeListener() {
+					@Override
+					public void widgetDisposed(DisposeEvent e) {
+						plotComposite = null;
+					}
+				});
+			}
+			// Otherwise, ignore the parent argument and trigger a normal
+			// refresh.
+			else {
+				plotComposite.refresh();
+			}
 		}
 
-		return plotComposite;
+		result = plotComposite;
 	}
 }

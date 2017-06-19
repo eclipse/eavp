@@ -23,7 +23,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.eavp.viz.service.drawhandler.IDrawHandler;
 import org.eclipse.january.geometry.Geometry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class provides a basic, limited implementation of certain features of
@@ -34,6 +37,17 @@ import org.eclipse.january.geometry.Geometry;
  *
  */
 public abstract class AbstractPlot implements IPlot {
+
+	/**
+	 * Logger for handling event messages and other information.
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(AbstractPlot.class);
+
+	/**
+	 * The drawhandler which will execute the drawing operations for this plot.
+	 */
+	protected IDrawHandler drawHandler;
 
 	/**
 	 * The current independent series for the plot.
@@ -162,6 +176,16 @@ public abstract class AbstractPlot implements IPlot {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getDrawHandler()
+	 */
+	@Override
+	public IDrawHandler getDrawHandler() {
+		return drawHandler;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#getIndependentSeries()
 	 */
 	@Override
@@ -227,6 +251,35 @@ public abstract class AbstractPlot implements IPlot {
 
 		// Assume multiple series are disallowed by default
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getResult(java.lang.Class)
+	 */
+	@Override
+	public <T> T getResult(Class<T> resultType) {
+
+		// If nothing has been drawn, return null
+		if (drawHandler.isDrawn() && drawHandler.getResult() != null) {
+			try {
+
+				// Return the result of the draw handler
+				return (T) drawHandler.getResult();
+			} catch (ClassCastException e) {
+
+				// If it was not of the expected type, log an error and return
+				// null
+				logger.error(
+						"Result from Draw Handler was not of expected type "
+								+ resultType
+								+ "Make sure you have the right visualization service for your windowing system activated.");
+				return null;
+			}
+		}
+
+		return null;
 	}
 
 	/*
@@ -350,6 +403,27 @@ public abstract class AbstractPlot implements IPlot {
 		return removed;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.
+	 * IProgressMonitor)
+	 */
+	@Override
+	public void save(VizProgressMonitor monitor) {
+		drawHandler.save(monitor);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#saveAs()
+	 */
+	@Override
+	public void saveAs() {
+		drawHandler.save(null, false);
+	}
+
 	/**
 	 * Sets the URI for this plot.
 	 * 
@@ -369,6 +443,18 @@ public abstract class AbstractPlot implements IPlot {
 			this.uri = uri;
 		}
 		return changed;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.IVizCanvas#setDrawHandler(org.eclipse.eavp.
+	 * viz.service.drawhandler.IDrawHandler)
+	 */
+	@Override
+	public void setDrawHandler(IDrawHandler handler) {
+		drawHandler = handler;
 	}
 
 	/*
@@ -403,24 +489,4 @@ public abstract class AbstractPlot implements IPlot {
 		// Nothing to do.
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.
-	 * IProgressMonitor)
-	 */
-	@Override
-	public void save(VizProgressMonitor monitor) {
-		// Nothing to do
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.IPlot#saveAs()
-	 */
-	@Override
-	public void saveAs() {
-		// Nothing to do
-	}
 }

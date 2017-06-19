@@ -12,7 +12,7 @@ package org.eclipse.eavp.tests.viz.service.styles;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.service.styles.XYZSeriesStyle;
+import org.eclipse.eavp.viz.service.rcp.csv.series.XYZSeriesStyle;
 import org.eclipse.swt.graphics.Color;
 import org.junit.Test;
 

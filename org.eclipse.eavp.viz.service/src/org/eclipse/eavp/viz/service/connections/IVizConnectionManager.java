@@ -11,11 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections;
 
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.concurrent.Future;
-
-import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 
 /**
  * An implementation of this interface manages multiple {@link IVizConnection}s
@@ -73,23 +69,4 @@ public interface IVizConnectionManager<T> {
 	 *             If the specified host is {@code null}.
 	 */
 	Set<String> getConnectionsForHost(String host) throws NullPointerException;
-
-	/**
-	 * Sets the preference store used by the manager. This will first cause any
-	 * existing connections to be terminated. If any connections can be loaded
-	 * from the store, the manager will attempt to connect to them.
-	 * 
-	 * @param store
-	 *            The new store. Should not be {@code null}.
-	 * @param preferenceNodeId
-	 *            The ID of the preference node. Connection preferences will be
-	 *            found under this node. Should not be {@code null}.
-	 * @return A list of Future states for each of the connections added to the preference store. 
-	 * @throws NullPointerException
-	 *             If the preference node ID is {@code null} and the store is
-	 *             not.
-	 */
-	ArrayList<Future<ConnectionState>> setPreferenceStore(CustomScopedPreferenceStore store, String preferenceNodeId)
-			throws NullPointerException;
-
 }

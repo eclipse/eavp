@@ -12,7 +12,7 @@ package org.eclipse.eavp.tests.viz.service.styles;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.service.styles.XYZPlotStyle;
+import org.eclipse.eavp.viz.service.rcp.csv.series.XYZPlotStyle;
 import org.junit.Test;
 
 /**

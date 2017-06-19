@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
 import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
-import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
 
 /**
  * This is an interface for adapters that wrap any sort of local or remote

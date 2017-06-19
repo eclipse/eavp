@@ -9,11 +9,15 @@
  *   Jordan Deyton - Initial API and implementation and/or initial documentation
  *   
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.connections;
+package org.eclipse.eavp.viz.service.rcp.connection;
 
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.ISeries;
-import org.eclipse.eavp.viz.service.widgets.PlotComposite;
+import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
+import org.eclipse.eavp.viz.service.connections.ConnectionState;
+import org.eclipse.eavp.viz.service.connections.IVizConnection;
+import org.eclipse.eavp.viz.service.connections.IVizConnectionListener;
+import org.eclipse.eavp.viz.service.rcp.widgets.PlotComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -75,7 +79,11 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionListener#connectionStateChanged(org.eclipse.eavp.viz.service.connections.IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState, java.lang.String)
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionListener#
+	 * connectionStateChanged(org.eclipse.eavp.viz.service.connections.
+	 * IVizConnection, org.eclipse.eavp.viz.service.connections.ConnectionState,
+	 * java.lang.String)
 	 */
 	@Override
 	public void connectionStateChanged(IVizConnection<T> connection,
@@ -86,7 +94,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#createInfoContent(org.eclipse.swt.widgets.Composite, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#createInfoContent(org.
+	 * eclipse.swt.widgets.Composite, int)
 	 */
 	@Override
 	protected Composite createInfoContent(Composite parent, int style) {
@@ -137,7 +148,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#createPlotContent(org.eclipse.swt.widgets.Composite, int)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#createPlotContent(org.
+	 * eclipse.swt.widgets.Composite, int)
 	 */
 	@Override
 	protected final Composite createPlotContent(Composite parent, int style)
@@ -174,7 +188,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#disposeInfoContent(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#disposeInfoContent(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected void disposeInfoContent(Composite infoContent) {
@@ -186,7 +203,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#disposePlotContent(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#disposePlotContent(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected final void disposePlotContent(Composite plotContent) {
@@ -245,7 +265,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#hideSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#hideSeries(org.eclipse
+	 * .eavp.viz.service.ISeries)
 	 */
 	@Override
 	protected final void hideSeries(ISeries series) throws Exception {
@@ -334,7 +357,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#setPlot(org.eclipse.eavp.viz.service.IPlot)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#setPlot(org.eclipse.
+	 * eavp.viz.service.IPlot)
 	 */
 	@Override
 	public boolean setPlot(IPlot plot) {
@@ -343,7 +369,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#showSeries(org.eclipse.eavp.viz.service.ISeries)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#showSeries(org.eclipse
+	 * .eavp.viz.service.ISeries)
 	 */
 	@Override
 	protected final void showSeries(ISeries series) throws Exception {
@@ -376,7 +405,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#updateInfoContent(org.eclipse.swt.widgets.Composite, java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#updateInfoContent(org.
+	 * eclipse.swt.widgets.Composite, java.lang.String)
 	 */
 	@Override
 	protected void updateInfoContent(Composite infoContent, String message) {
@@ -389,7 +421,10 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.widgets.PlotComposite#updatePlotContent(org.eclipse.swt.widgets.Composite)
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.widgets.PlotComposite#updatePlotContent(org.
+	 * eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected final void updatePlotContent(Composite plotContent)

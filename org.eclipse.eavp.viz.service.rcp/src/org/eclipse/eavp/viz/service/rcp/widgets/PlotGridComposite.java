@@ -189,11 +189,12 @@ public class PlotGridComposite extends Composite {
 							// be cleared.
 							closeButton
 									.addDisposeListener(new DisposeListener() {
-								@Override
-								public void widgetDisposed(DisposeEvent e) {
-									closeButton = null;
-								}
-							});
+										@Override
+										public void widgetDisposed(
+												DisposeEvent e) {
+											closeButton = null;
+										}
+									});
 						}
 						// Set the reference to the most recently entered plot.
 						lastPlot = plot;
@@ -252,7 +253,8 @@ public class PlotGridComposite extends Composite {
 			// Try to draw the plot.
 			Composite plotComposite = null;
 			try {
-				plotComposite = plot.draw(grid);
+				plot.draw();
+				plotComposite = plot.getResult(Composite.class);
 			} catch (Exception e) {
 				// If the plot could not be drawn, fail.
 				logger.warn(getClass().getName() + " Exception! "
@@ -630,7 +632,10 @@ public class PlotGridComposite extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.swt.widgets.Control#setBackground(org.eclipse.swt.graphics.Color)
+	 * 
+	 * @see
+	 * org.eclipse.swt.widgets.Control#setBackground(org.eclipse.swt.graphics.
+	 * Color)
 	 */
 	@Override
 	public void setBackground(Color color) {
@@ -656,8 +661,8 @@ public class PlotGridComposite extends Composite {
 	}
 
 	/**
-	 * Return true if the given URI has already been 
-	 * plotted and thus is contained in this PlotGridComposite. 
+	 * Return true if the given URI has already been plotted and thus is
+	 * contained in this PlotGridComposite.
 	 * 
 	 * @param uri
 	 * @return

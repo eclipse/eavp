@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,11 +21,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
-import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
-import org.osgi.service.prefs.BackingStoreException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,40 +44,27 @@ public abstract class VizConnectionManager<T>
 			.getLogger(VizConnectionManager.class);
 
 	/**
-	 * The listener that handles adding, updating, and removing viz connections
-	 * to this manager. This needs to be registered with the current preference
-	 * store's node under which connection preferences are stored.
-	 */
-	private final IPreferenceChangeListener preferenceListener;
-
-	/**
 	 * A map of the viz connections keyed on their names, which should all be
 	 * unique.
 	 */
-	private final Map<String, VizConnection<T>> connectionsByName;
+	protected final Map<String, VizConnection<T>> connectionsByName;
 
 	/**
 	 * A map of the viz connection names keyed on the hosts. Multiple
 	 * connections can be configured per host.
 	 */
-	private final Map<String, Set<String>> connectionsByHost;
+	protected final Map<String, Set<String>> connectionsByHost;
 
 	/**
 	 * A map of connection names to connections, for those connections which
 	 * have been previously opened in this session then removed.
 	 */
 	private final Map<String, VizConnection<T>> oldConnections;
-
-	/**
-	 * The current preference store associated with this manager. Connections
-	 * should be loaded and updated based on the contents of this store.
-	 */
-	private CustomScopedPreferenceStore preferenceStore;
 	/**
 	 * The ID of the preference node under which connection information will be
 	 * stored.
 	 */
-	private String connectionsNodeId;
+	protected String connectionsNodeId;
 
 	/**
 	 * The default constructor.
@@ -93,9 +74,6 @@ public abstract class VizConnectionManager<T>
 		connectionsByName = new HashMap<String, VizConnection<T>>();
 		connectionsByHost = new HashMap<String, Set<String>>();
 		oldConnections = new HashMap<String, VizConnection<T>>();
-
-		// Create the preference listener.
-		preferenceListener = createPreferenceListener();
 	}
 
 	/**
@@ -110,7 +88,7 @@ public abstract class VizConnectionManager<T>
 	 * 
 	 * @return The Future state of the connection being added.
 	 */
-	private Future<ConnectionState> addConnection(String name,
+	protected Future<ConnectionState> addConnection(String name,
 			String preferences) {
 		logger.debug("VizConnectionManager message: " + "Adding connection \""
 				+ name + "\" using the preference string \"" + preferences
@@ -194,38 +172,6 @@ public abstract class VizConnectionManager<T>
 	protected abstract VizConnection<T> createConnection(String name,
 			String preferences);
 
-	/**
-	 * Creates a listener that appropriately adds, updates, or removes
-	 * connections based on the values in the {@link #preferenceStore}.
-	 * 
-	 * @return A new property change listener that can be registered with the
-	 *         preference store.
-	 */
-	private IPreferenceChangeListener createPreferenceListener() {
-		return new IPreferenceChangeListener() {
-			@Override
-			public void preferenceChange(PreferenceChangeEvent event) {
-				String name = event.getKey();
-				Object oldValue = event.getOldValue();
-				Object newValue = event.getNewValue();
-
-				// Add, update, or remove depending on whether the old/new
-				// values are null.
-				if (oldValue != null) {
-					if (newValue != null) {
-						updateConnection(name, newValue.toString());
-					} else {
-						removeConnection(name);
-					}
-				} else if (newValue != null) {
-					addConnection(name, newValue.toString());
-				}
-
-				return;
-			}
-		};
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -286,7 +232,7 @@ public abstract class VizConnectionManager<T>
 	 * @param name
 	 *            The name of the connection to remove.
 	 */
-	private void removeConnection(String name) {
+	protected void removeConnection(String name) {
 		logger.debug("VizConnectionManager message: " + "Removing connection \""
 				+ name + "\".");
 
@@ -311,71 +257,6 @@ public abstract class VizConnectionManager<T>
 		return;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.connections.IVizConnectionManager#
-	 * setPreferenceStore(org.eclipse.eavp.viz.service.preferences.
-	 * CustomScopedPreferenceStore, java.lang.String)
-	 */
-	@Override
-	public ArrayList<Future<ConnectionState>> setPreferenceStore(
-			CustomScopedPreferenceStore store, String preferenceNodeId)
-			throws NullPointerException {
-		// Throw an exception if the preference node ID is null. We must have a
-		// valid node ID if we have a store.
-		if (store != null && preferenceNodeId == null) {
-			throw new NullPointerException("VizConnectionManager error: "
-					+ "Preference node ID cannot be null.");
-		}
-
-		// A list of future references to conenction states of all attempted
-		// connections for the manager
-		ArrayList<Future<ConnectionState>> states = new ArrayList<Future<ConnectionState>>();
-
-		if (store != preferenceStore
-				|| !preferenceNodeId.equals(connectionsNodeId)) {
-			// If the old store/node ID is valid, unregister the preferences
-			// listener and remove all current connections from the manager.
-			if (preferenceStore != null) {
-				preferenceStore.getNode(connectionsNodeId)
-						.removePreferenceChangeListener(preferenceListener);
-				preferenceStore = null;
-				connectionsNodeId = null;
-
-				// Remove all current connections.
-				connectionsByName.clear();
-				connectionsByHost.clear();
-			}
-
-			// If the new store/node ID is valid, add all new connections, then
-			// register the preferences listener.
-			if (store != null) {
-				// Get the node under which the connections will be stored.
-				IEclipsePreferences node = store.getNode(preferenceNodeId);
-				// Add all connections in the new preference store.
-				try {
-					String[] connectionNames = node.keys();
-					for (String connection : connectionNames) {
-						String preferences = node.get(connection, null);
-						states.add(addConnection(connection, preferences));
-					}
-				} catch (BackingStoreException e) {
-					e.printStackTrace();
-				}
-
-				// Register with the new store.
-				node.addPreferenceChangeListener(preferenceListener);
-			}
-
-			// Update the references to the store and the ID.
-			preferenceStore = store;
-			connectionsNodeId = preferenceNodeId;
-		}
-
-		return states;
-	}
-
 	/**
 	 * Updates the properties for a connection based on the specified name and
 	 * preference value. If necessary, the connection may be reset.
@@ -386,7 +267,7 @@ public abstract class VizConnectionManager<T>
 	 *            The <i>new</i> preference value for the connection. This value
 	 *            should come straight from the {@link #preferenceStore}.
 	 */
-	private void updateConnection(String name, String preferences) {
+	protected void updateConnection(String name, String preferences) {
 		logger.debug("VizConnectionManager message: " + "Updating connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");

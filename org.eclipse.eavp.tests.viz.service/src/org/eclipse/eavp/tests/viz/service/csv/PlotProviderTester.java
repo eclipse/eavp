@@ -23,7 +23,7 @@ import java.util.List;
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.rcp.csv.CSVSeries;
 import org.eclipse.eavp.viz.service.rcp.csv.PlotProvider;
-import org.eclipse.eavp.viz.service.styles.XYZAxisStyle;
+import org.eclipse.eavp.viz.service.rcp.csv.series.XYZAxisStyle;
 import org.junit.Before;
 import org.junit.Test;
 

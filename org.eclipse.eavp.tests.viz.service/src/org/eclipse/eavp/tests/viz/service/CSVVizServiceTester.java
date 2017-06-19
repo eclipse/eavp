@@ -24,8 +24,8 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizService;
+import org.eclipse.eavp.viz.service.csv.CSVVizService;
 import org.eclipse.eavp.viz.service.rcp.csv.CSVProxyPlot;
-import org.eclipse.eavp.viz.service.rcp.csv.CSVVizService;
 import org.junit.Test;
 
 /**
@@ -38,7 +38,7 @@ public class CSVVizServiceTester {
 
 	/**
 	 * Test method for
-	 * {@link org.eclipse.eavp.viz.service.rcp.csv.CSVVizService#getName()}.
+	 * {@link org.eclipse.eavp.viz.service.csv.CSVVizService#getName()}.
 	 */
 	@Test
 	public void testGetName() {
@@ -49,7 +49,7 @@ public class CSVVizServiceTester {
 
 	/**
 	 * Test method for
-	 * {@link org.eclipse.eavp.viz.service.rcp.csv.CSVVizService#createPlot(java.net.URI)}
+	 * {@link org.eclipse.eavp.viz.service.csv.CSVVizService#createPlot(java.net.URI)}
 	 * .
 	 */
 	@Test

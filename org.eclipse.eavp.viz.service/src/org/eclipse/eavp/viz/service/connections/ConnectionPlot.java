@@ -46,11 +46,6 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 	 */
 	protected IVizConnection<T> connection;
 
-	/**
-	 * The composite in which this plot is rendered.
-	 */
-	protected ConnectionPlotComposite<T> plotComposite;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -92,18 +87,8 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 	 * @return The {@link #connection}. This may be {@code null} if it has not
 	 *         been set.
 	 */
-	protected IVizConnection<T> getConnection() {
+	public IVizConnection<T> getConnection() {
 		return connection;
-	}
-
-	/**
-	 * Gets the currently drawn plot composite.
-	 * 
-	 * @return The current plot composite, or {@code null} if it has not been
-	 *         drawn.
-	 */
-	protected ConnectionPlotComposite<T> getPlotComposite() {
-		return plotComposite;
 	}
 
 	/**
@@ -128,10 +113,6 @@ public abstract class ConnectionPlot<T> extends AbstractPlot
 				this.connection.removeListener(this);
 			}
 
-			// Register with the new connection.
-			if (plotComposite != null) {
-				plotComposite.setConnection(connection);
-			}
 			this.connection = connection;
 			this.connection.addListener(this);
 

@@ -53,7 +53,8 @@ public interface IVizCanvas {
 	 * The exact details of how the plot is drawn and what is drawn inside the
 	 * parent composite are left completely up to the implementation.
 	 * 
-	 * After drawing, the resulting graphical object containing the canvas can be retrieved by invoking getResult() on the canvas's draw handler.
+	 * After drawing, the resulting graphical object containing the canvas can
+	 * be retrieved by invoking getResult() on the canvas's draw handler.
 	 * 
 	 * @throws Exception
 	 */
@@ -102,7 +103,18 @@ public interface IVizCanvas {
 	 * @return The draw handler being used to perform drawing operations.
 	 */
 	public IDrawHandler getDrawHandler();
-	
+
+	/**
+	 * Get the result of the draw() operation, which is a UI element specific to
+	 * the implementation of the windowing system for the DrawHandler.
+	 * 
+	 * @param resultType
+	 *            The expected type of the drawn result.
+	 * @return The result of the draw() operation, or null if it is not
+	 *         available or of the wrong type.
+	 */
+	public <T> T getResult(Class<T> resultType);
+
 	/**
 	 * This operation retrieves the hostname for this IPlot's data source.
 	 * 
@@ -132,10 +144,11 @@ public interface IVizCanvas {
 	/**
 	 * Set the IDrawHandler which will perform the drawing for this canvas.
 	 * 
-	 * @param handler The new handler to handle drawing operations for the canvas.
+	 * @param handler
+	 *            The new handler to handle drawing operations for the canvas.
 	 */
 	public void setDrawHandler(IDrawHandler handler);
-	
+
 	/**
 	 * This operation updates the properties of the plot based on client-side
 	 * modifications. The IPlot should redraw itself as needed if the properties

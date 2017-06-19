@@ -25,10 +25,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +89,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * The current connection state. This is only ever set when the
 	 * {@link #connect()} or {@link #disconnect()} operations are called.
 	 */
-	private ConnectionState state;
+	protected ConnectionState state;
 
 	/**
 	 * An informative status message to go along with the current connection
@@ -106,7 +102,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * connection failed. It will be added to the statusMessage the next time it
 	 * is set.
 	 */
-	private String errorMessage;
+	protected String errorMessage;
 
 	/**
 	 * The map of properties, keyed on their [user-friendly] property names.
@@ -134,7 +130,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * A single thread executor service specifically for connect and disconnect
 	 * operations.
 	 */
-	private ExecutorService executorService;
+	protected ExecutorService executorService;
 	/**
 	 * A lock for accessing the notification thread ExecutorService. This allows
 	 * us to re-use the worker thread if a second notification arrives before
@@ -147,6 +143,20 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * an orderly fashion.
 	 */
 	private ExecutorService notificationExecutorService;
+
+	/**
+	 * A Callable that will monitor the state of the connection during a
+	 * connection attempt and return the current state when the attempt is
+	 * completed.
+	 */
+	protected Callable<ConnectionState> connectionStatusCallable;
+
+	/**
+	 * A Callable that will monitor the state of the connection during a
+	 * disconnection attempt and return the current state when the attempt is
+	 * completed.
+	 */
+	protected Callable<ConnectionState> disconnectionStatusCallable;
 
 	/**
 	 * The default constructor. Initializes the connection to the default
@@ -235,6 +245,117 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 
 		// Initialize the additionalMessage
 		errorMessage = "";
+
+		connectionStatusCallable = new Callable<ConnectionState>() {
+			@Override
+			public ConnectionState call() throws Exception {
+
+				// Update the state.
+				ConnectionState threadState = ConnectionState.Connecting;
+				statusMessage = "The connection is being established.";
+
+				// Updating the state variable must be done with
+				// the lock.
+				connectionLock.lock();
+				try {
+					state = threadState;
+				} finally {
+					connectionLock.unlock();
+				}
+
+				// Notify the listeners.
+				notifyListeners(threadState, statusMessage);
+
+				// Try to open the connection.
+				widget = connectToWidget();
+
+				// Whether successful or not, update the state.
+				if (widget != null) {
+					threadState = ConnectionState.Connected;
+					statusMessage = "The connection is established.";
+				} else {
+					threadState = ConnectionState.Failed;
+					statusMessage = "The connection failed to connect.";
+					statusMessage += " " + errorMessage;
+					errorMessage = "";
+				}
+
+				// Updating the state variable must be done with
+				// the lock.
+				connectionLock.lock();
+				try {
+					state = threadState;
+					// Close the executor service.
+					executorService.shutdown();
+					executorService = null;
+				} finally {
+					connectionLock.unlock();
+				}
+
+				// Notify the listeners.
+				notifyListeners(threadState, statusMessage);
+
+				return state;
+			}
+		};
+
+		disconnectionStatusCallable = new Callable<ConnectionState>() {
+			@Override
+			public ConnectionState call() throws Exception {
+				ConnectionState threadState;
+				T connectionWidget;
+
+				// Get the current connection state and connection widget.
+				connectionLock.lock();
+				try {
+					threadState = state;
+					connectionWidget = widget;
+				} finally {
+					connectionLock.unlock();
+				}
+
+				// If a previous task hasn't successfully disconnected, then try
+				// to disconnect.
+				if (threadState != ConnectionState.Disconnected
+						&& connectionWidget != null) {
+
+					// Try to disconnect.
+					boolean success = disconnectFromWidget(connectionWidget);
+
+					// Update the state and perhaps the connection widget
+					// depending on the success of the disconnect operation.
+					connectionLock.lock();
+					try {
+						if (success) {
+							state = ConnectionState.Disconnected;
+							statusMessage = "The connection is closed.";
+
+							// Unset the widget.
+							widget = null;
+
+							// Close the executor service.
+							executorService.shutdown();
+							executorService = null;
+						} else {
+							state = ConnectionState.Failed;
+							statusMessage = "The connection failed while disconnecting.";
+							statusMessage += " " + errorMessage;
+							errorMessage = "";
+						}
+						threadState = state;
+					} finally {
+						connectionLock.unlock();
+					}
+
+					// Notify listeners if the connection disconnected or failed
+					// to disconnect.
+					notifyListeners(threadState, statusMessage);
+				}
+
+				// Return the current state of the connection.
+				return state;
+			}
+		};
 
 		return;
 	}
@@ -521,7 +642,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * @return The future task after which the connection will either be
 	 *         connected or failed.
 	 */
-	private Future<ConnectionState> hookIntoConnectThread() {
+	protected Future<ConnectionState> hookIntoConnectThread() {
 
 		// If the executor service exists, submit a job requesting the state
 		if (executorService != null) {
@@ -743,142 +864,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * @return The future task after which the connection will either be
 	 *         connected or failed.
 	 */
-	private Future<ConnectionState> startConnectThread() {
-		executorService = Executors.newSingleThreadExecutor();
-
-		// Create a new job to listen for the connection status. It will notify
-		// users about the progress of the connection attempt.
-		Job job = new Job("Vizualization Service") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-
-				/*
-				 * Currently, we give the task 100 "ticks". The initial
-				 * transition from "disconnected" to "connecting" is worth 30
-				 * ticks. While the state is "connecting", a tick is added every
-				 * timeout while waiting for the state to change. When the
-				 * connection is established or fails, all remaining ticks are
-				 * filled.
-				 */
-
-				// Set the initial task name.
-				monitor.beginTask("Viz connection \""
-						+ VizConnection.this.getName() + "\"", 100);
-
-				String message = null;
-				long timeout = 250;
-
-				// Wait for the connection to go from "Disconnected" to
-				// "Connecting".
-				message = VizConnection.this.getStatusMessage();
-				monitor.subTask(message);
-				while (state == ConnectionState.Disconnected) {
-					try {
-						Thread.sleep(timeout);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				monitor.worked(30);
-
-				// Wait for the connection to finish its connection attempt.
-				message = VizConnection.this.getStatusMessage();
-				monitor.subTask(message);
-				while (state == ConnectionState.Connecting) {
-					try {
-						Thread.sleep(timeout);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					monitor.worked(1);
-				}
-				monitor.worked(100);
-
-				// Return the result.
-				int statusFlag = Status.OK;
-				message = VizConnection.this.getStatusMessage();
-
-				// Wait for the connection thread to end, then get its final
-				// state.
-				ConnectionState endState = null;
-				try {
-					endState = hookIntoConnectThread().get();
-				} catch (InterruptedException | ExecutionException e) {
-					logger.error("An error occurred while waiting for the "
-							+ "connection thread to finish.");
-				}
-
-				// Add a helpful message if the connection attempt failed.
-				if (endState == ConnectionState.Disconnected
-						|| endState == ConnectionState.Failed) {
-					statusFlag = Status.ERROR;
-
-					// Append additional information to the message
-					message += " " + errorMessage;
-					errorMessage = "";
-					message += "\nPlease check the settings for \""
-							+ VizConnection.this.getName()
-							+ "\" under Windows > Preferences > Vizualization.";
-				}
-				return new Status(statusFlag, "org.eclipse.viz.service", 1,
-						message, null);
-			}
-		};
-		job.schedule();
-
-		return executorService.submit(new Callable<ConnectionState>() {
-			@Override
-			public ConnectionState call() throws Exception {
-
-				// Update the state.
-				ConnectionState threadState = ConnectionState.Connecting;
-				statusMessage = "The connection is being established.";
-
-				// Updating the state variable must be done with
-				// the lock.
-				connectionLock.lock();
-				try {
-					state = threadState;
-				} finally {
-					connectionLock.unlock();
-				}
-
-				// Notify the listeners.
-				notifyListeners(threadState, statusMessage);
-
-				// Try to open the connection.
-				widget = connectToWidget();
-
-				// Whether successful or not, update the state.
-				if (widget != null) {
-					threadState = ConnectionState.Connected;
-					statusMessage = "The connection is established.";
-				} else {
-					threadState = ConnectionState.Failed;
-					statusMessage = "The connection failed to connect.";
-					statusMessage += " " + errorMessage;
-					errorMessage = "";
-				}
-
-				// Updating the state variable must be done with
-				// the lock.
-				connectionLock.lock();
-				try {
-					state = threadState;
-					// Close the executor service.
-					executorService.shutdown();
-					executorService = null;
-				} finally {
-					connectionLock.unlock();
-				}
-
-				// Notify the listeners.
-				notifyListeners(threadState, statusMessage);
-
-				return state;
-			}
-		});
-	}
+	abstract protected Future<ConnectionState> startConnectThread();
 
 	/**
 	 * Queues a disconnect task in the {@link #executorService}. This task will
@@ -888,113 +874,5 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * @return The future task after which the connection will either be
 	 *         connected or failed.
 	 */
-	private Future<ConnectionState> startDisconnectThread() {
-
-		// Create a new job to listen for the connection status. It will notify
-		// users about the progress of the disconnect attempt.
-		Job job = new Job("Vizualization Service") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-
-				/*
-				 * Currently, we give the task 100 "ticks". While the state is
-				 * changing from "connected" to "disconnected" or "failed", a
-				 * tick is added every timeout while waiting for the state to
-				 * change. When the connection is disconnected or fails, all
-				 * remaining ticks are filled.
-				 */
-
-				// Set the initial task name.
-				monitor.beginTask("Viz connection \""
-						+ VizConnection.this.getName() + "\"", 100);
-
-				String message = null;
-				long timeout = 250;
-
-				// Wait for the connection to go from "Connected" to
-				// "Disconnected" or "Failed".
-				message = VizConnection.this.getStatusMessage();
-				monitor.subTask(message);
-				while (state == ConnectionState.Connected) {
-					try {
-						Thread.sleep(timeout);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					monitor.worked(1);
-				}
-				monitor.worked(100);
-
-				// Return the result.
-				int statusFlag = state == ConnectionState.Disconnected
-						? Status.OK : Status.ERROR;
-				message = VizConnection.this.getStatusMessage();
-				return new Status(statusFlag, "org.eclipse.viz.service", 1,
-						message, null);
-			}
-		};
-		job.schedule();
-
-		// If necessary, create the executor service.
-		if (executorService == null) {
-			executorService = Executors.newSingleThreadExecutor();
-		}
-		return executorService.submit(new Callable<ConnectionState>() {
-			@Override
-			public ConnectionState call() throws Exception {
-				ConnectionState threadState;
-				T connectionWidget;
-
-				// Get the current connection state and connection widget.
-				connectionLock.lock();
-				try {
-					threadState = state;
-					connectionWidget = widget;
-				} finally {
-					connectionLock.unlock();
-				}
-
-				// If a previous task hasn't successfully disconnected, then try
-				// to disconnect.
-				if (threadState != ConnectionState.Disconnected
-						&& connectionWidget != null) {
-
-					// Try to disconnect.
-					boolean success = disconnectFromWidget(connectionWidget);
-
-					// Update the state and perhaps the connection widget
-					// depending on the success of the disconnect operation.
-					connectionLock.lock();
-					try {
-						if (success) {
-							state = ConnectionState.Disconnected;
-							statusMessage = "The connection is closed.";
-
-							// Unset the widget.
-							widget = null;
-
-							// Close the executor service.
-							executorService.shutdown();
-							executorService = null;
-						} else {
-							state = ConnectionState.Failed;
-							statusMessage = "The connection failed while disconnecting.";
-							statusMessage += " " + errorMessage;
-							errorMessage = "";
-						}
-						threadState = state;
-					} finally {
-						connectionLock.unlock();
-					}
-
-					// Notify listeners if the connection disconnected or failed
-					// to disconnect.
-					notifyListeners(threadState, statusMessage);
-				}
-
-				// Return the current state of the connection.
-				return state;
-			}
-		});
-	}
+	abstract protected Future<ConnectionState> startDisconnectThread();
 }

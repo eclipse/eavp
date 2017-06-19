@@ -1,47 +1,54 @@
 /*******************************************************************************
- * Copyright (c) 2015 UT-Battelle, LLC.
+ * Copyright (c) 2017 UT-Battelle, LLC.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   Jordan Deyton - Initial API and implementation and/or initial documentation
- *   
+ *   Initial API and implementation and/or initial documentation - 
+ *   Robert Smith
  *******************************************************************************/
-package org.eclipse.eavp.viz.service.connections;
+package org.eclipse.eavp.viz.service.rcp.connection;
 
 import java.net.URI;
 import java.util.Set;
 
 import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.IPlot;
+import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
+import org.eclipse.eavp.viz.service.connections.IVizConnection;
+import org.eclipse.eavp.viz.service.rcp.RCPVizService;
+import org.eclipse.eavp.viz.service.rcp.preferences.CustomScopedPreferenceStore;
 
 /**
- * This class provides a base class for connection-based viz services. It
- * primarily serves to simplify the code required when providing such a viz
- * service that uses a specific implementation of {@link IVizConnection}.
+ * An extension of RCPVizService for services that make use of remote
+ * IVizConnections.
  * 
- * @author Jordan Deyton
+ * @author Robert Smith
  *
  * @param <T>
- *            The type of the connection object.
  */
-public abstract class ConnectionVizService<T> extends AbstractVizService {
+abstract public class RCPConnectionVizService<T> extends RCPVizService {
 
 	/**
 	 * The associated connection manager. Its concrete type is irrelevant, as it
 	 * only needs access to the underlying {@link IVizConnection}s, which will
 	 * be passed to created {@link ConnectionPlot}s.
 	 */
-	protected final IVizConnectionManager<T> manager;
+	protected final RCPConnectionManager<T> manager;
 
-	/**
-	 * The default constructor.
-	 */
-	public ConnectionVizService() {
+	public RCPConnectionVizService() {
+		super();
+
 		// Create the manager for the connections.
 		manager = createConnectionManager();
+
+		// Associate the manager with the preference store.
+		CustomScopedPreferenceStore store;
+		store = (CustomScopedPreferenceStore) getPreferenceStore();
+		String connectionNodeId = getConnectionPreferencesNodeId();
+		manager.setPreferenceStore(store, connectionNodeId);
 	}
 
 	/**
@@ -50,7 +57,7 @@ public abstract class ConnectionVizService<T> extends AbstractVizService {
 	 * 
 	 * @return The connection manager for this viz service.
 	 */
-	protected abstract IVizConnectionManager<T> createConnectionManager();
+	protected abstract RCPConnectionManager<T> createConnectionManager();
 
 	/**
 	 * Creates a new, empty plot that can handle a viz connection.
@@ -104,5 +111,4 @@ public abstract class ConnectionVizService<T> extends AbstractVizService {
 	 * @return The preference node ID for persisted connection information.
 	 */
 	protected abstract String getConnectionPreferencesNodeId();
-
 }

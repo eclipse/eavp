@@ -13,7 +13,7 @@ package org.eclipse.eavp.tests.viz.service.styles;
 
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.eavp.viz.service.styles.BasicErrorStyle;
+import org.eclipse.eavp.viz.service.rcp.csv.series.BasicErrorStyle;
 import org.junit.Test;
 
 /**
