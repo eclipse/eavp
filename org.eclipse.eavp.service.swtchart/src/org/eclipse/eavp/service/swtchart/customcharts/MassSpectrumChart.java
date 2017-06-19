@@ -14,7 +14,9 @@ package org.eclipse.eavp.service.swtchart.customcharts;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
 import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
@@ -38,13 +40,48 @@ import org.swtchart.ISeries;
 
 public class MassSpectrumChart extends BarChart {
 
-	private static final int NUMBER_OF_IONS_TO_PAINT = 5;
+	public enum LabelOption {
+		NOMIMAL, EXACT, CUSTOM;
+	}
+
 	private static final DecimalFormat DEFAULT_DECIMAL_FORMAT = new DecimalFormat();
-	private BarSeriesIonComparator barSeriesIonComparator = new BarSeriesIonComparator();
+	//
+	private int numberOfHighestIntensitiesToLabel;
+	private BarSeriesIonComparator barSeriesIonComparator;
+	private LabelOption labelOption;
+	private Map<Double, String> customLabels;
 
 	public MassSpectrumChart(Composite parent, int style) {
 		super(parent, style);
+		numberOfHighestIntensitiesToLabel = 5;
+		barSeriesIonComparator = new BarSeriesIonComparator();
+		labelOption = LabelOption.EXACT;
+		customLabels = new HashMap<Double, String>();
+		//
 		initialize();
+	}
+
+	public void setNumberOfHighestIntensitiesToLabel(int numberOfHighestIntensitiesToLabel) {
+
+		if(numberOfHighestIntensitiesToLabel >= 0) {
+			this.numberOfHighestIntensitiesToLabel = numberOfHighestIntensitiesToLabel;
+		} else {
+			this.numberOfHighestIntensitiesToLabel = 0;
+		}
+	}
+
+	public void setLabelOption(LabelOption labelOption) {
+
+		this.labelOption = labelOption;
+	}
+
+	public void setCustomLabels(Map<Double, String> customLabels) {
+
+		if(customLabels != null) {
+			this.customLabels = customLabels;
+		} else {
+			customLabels = new HashMap<Double, String>();
+		}
 	}
 
 	private void initialize() {
@@ -101,22 +138,21 @@ public class MassSpectrumChart extends BarChart {
 			@Override
 			public void paintControl(PaintEvent e) {
 
-				/*
-				 * Draw the label
-				 */
-				DecimalFormat decimalFormat = getDecimalFormatMZ();
 				List<BarSeriesIon> barSeriesIons = getBarSeriesIonList();
 				Collections.sort(barSeriesIons, barSeriesIonComparator);
 				int barSeriesSize = barSeriesIons.size();
 				//
-				for(int i = 0; i < NUMBER_OF_IONS_TO_PAINT; i++) {
+				for(int i = 0; i < numberOfHighestIntensitiesToLabel; i++) {
 					if(i < barSeriesSize) {
+						/*
+						 * Draw the label
+						 */
 						BarSeriesIon barSeriesIon = barSeriesIons.get(i);
 						ISeries barSeries = getBarSeries();
 						if(barSeries != null) {
 							Point point = barSeries.getPixelCoordinates(barSeriesIon.getIndex());
-							String label = decimalFormat.format(barSeriesIon.getMz());
-							boolean mirrored = false;
+							String label = getLabel(barSeriesIon.getMz());
+							boolean mirrored = false; // TODO
 							Point labelSize = e.gc.textExtent(label);
 							int x = (int)(point.x + 0.5d - labelSize.x / 2.0d);
 							int y = point.y;
@@ -135,6 +171,29 @@ public class MassSpectrumChart extends BarChart {
 				return false;
 			}
 		});
+	}
+
+	private String getLabel(double mz) {
+
+		String label;
+		switch(labelOption) {
+			case NOMIMAL:
+				label = Integer.toString((int)mz);
+				break;
+			case EXACT:
+				DecimalFormat decimalFormat = getDecimalFormatMZ();
+				label = decimalFormat.format(mz);
+				break;
+			case CUSTOM:
+				label = customLabels.get(mz);
+				if(label == null) {
+					label = "";
+				}
+				break;
+			default:
+				label = "";
+		}
+		return label;
 	}
 
 	private List<BarSeriesIon> getBarSeriesIonList() {

@@ -37,6 +37,9 @@ public class BarSeries_1_Part extends MassSpectrumChart {
 
 	private void initialize() {
 
+		setNumberOfHighestIntensitiesToLabel(5);
+		setLabelOption(LabelOption.NOMIMAL);
+		setCustomLabels(null);
 		/*
 		 * Create series.
 		 */
