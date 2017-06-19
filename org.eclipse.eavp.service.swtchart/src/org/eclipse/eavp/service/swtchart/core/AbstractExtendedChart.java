@@ -39,6 +39,9 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double factorExtendMaxX;
 	private double factorExtendMinY;
 	private double factorExtendMaxY;
+	/*
+	 * The extended values are only used internally.
+	 */
 	private double extendedMinX;
 	private double extendedMaxX;
 	private double extendedMinY;

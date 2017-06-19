@@ -96,7 +96,7 @@ public class RangeInfoUI extends Composite {
 
 	private void createControl() {
 
-		setLayout(new GridLayout(8, false));
+		setLayout(new GridLayout(9, false));
 		//
 		textStartX = new Text(this, SWT.BORDER);
 		textStartX.setText("");
@@ -170,6 +170,24 @@ public class RangeInfoUI extends Composite {
 			}
 		});
 		//
+		Button buttonResetRange = new Button(this, SWT.PUSH);
+		buttonResetRange.setText("");
+		buttonResetRange.setToolTipText("Reset the range.");
+		buttonResetRange.setImage(Activator.getDefault().getImage(Activator.ICON_RESET));
+		buttonResetRange.setLayoutData(getButtonGridData());
+		buttonResetRange.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				try {
+					resetRange();
+				} catch(Exception e1) {
+					System.out.println(e1);
+				}
+			}
+		});
+		//
 		Button buttonHide = new Button(this, SWT.PUSH);
 		buttonHide.setText("");
 		buttonHide.setToolTipText("Hide the range info UI.");
@@ -208,6 +226,11 @@ public class RangeInfoUI extends Composite {
 		} catch(ParseException e) {
 			System.out.println(e);
 		}
+	}
+
+	private void resetRange() {
+
+		scrollableChart.adjustRange(true);
 	}
 
 	private Range getRange(String axis) throws ParseException {
