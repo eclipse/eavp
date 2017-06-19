@@ -293,18 +293,6 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public double getFactorExtendMaxY() {
-
-		return factorExtendMaxY;
-	}
-
-	@Override
-	public void setFactorExtendMaxY(double factorExtendMaxY) {
-
-		this.factorExtendMaxY = factorExtendMaxY;
-	}
-
-	@Override
 	public double getFactorExtendMinX() {
 
 		return factorExtendMinX;
@@ -338,6 +326,18 @@ public class ChartSettings implements IChartSettings {
 	public void setFactorExtendMinY(double factorExtendMinY) {
 
 		this.factorExtendMinY = factorExtendMinY;
+	}
+
+	@Override
+	public double getFactorExtendMaxY() {
+
+		return factorExtendMaxY;
+	}
+
+	@Override
+	public void setFactorExtendMaxY(double factorExtendMaxY) {
+
+		this.factorExtendMaxY = factorExtendMaxY;
 	}
 
 	@Override

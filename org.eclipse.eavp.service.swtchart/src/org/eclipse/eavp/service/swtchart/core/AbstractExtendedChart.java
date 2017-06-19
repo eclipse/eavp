@@ -39,6 +39,10 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double factorExtendMaxX;
 	private double factorExtendMinY;
 	private double factorExtendMaxY;
+	private double extendedMinX;
+	private double extendedMaxX;
+	private double extendedMinY;
+	private double extendedMaxY;
 	/*
 	 * The settings are used to get the description
 	 * or to get the IAxisScaleConverter of the
@@ -121,18 +125,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	}
 
 	@Override
-	public double getFactorExtendMaxY() {
-
-		return factorExtendMaxY;
-	}
-
-	@Override
-	public void setFactorExtendMaxY(double factorExtendMaxY) {
-
-		this.factorExtendMaxY = factorExtendMaxY;
-	}
-
-	@Override
 	public double getFactorExtendMinX() {
 
 		return factorExtendMinX;
@@ -166,6 +158,18 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	public void setFactorExtendMinY(double factorExtendMinY) {
 
 		this.factorExtendMinY = factorExtendMinY;
+	}
+
+	@Override
+	public double getFactorExtendMaxY() {
+
+		return factorExtendMaxY;
+	}
+
+	@Override
+	public void setFactorExtendMaxY(double factorExtendMaxY) {
+
+		this.factorExtendMaxY = factorExtendMaxY;
 	}
 
 	public Map<Integer, IAxisSettings> getXAxisSettingsMap() {
@@ -221,7 +225,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minX) ? minX : range.lower;
 				}
-				extendRange(range, minX, maxX, factorExtendMinX, factorExtendMaxX);
+				extendRange(range, extendedMinX, extendedMaxX, factorExtendMinX, factorExtendMaxX);
 			} else {
 				/*
 				 * Y-AXIS
@@ -231,7 +235,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minY) ? minY : range.lower;
 				}
-				extendRange(range, minY, maxY, factorExtendMinY, factorExtendMaxY);
+				extendRange(range, extendedMinY, extendedMaxY, factorExtendMinY, factorExtendMaxY);
 			}
 			/*
 			 * Adjust the range.
@@ -397,10 +401,10 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private void resetCoordinates() {
 
 		length = 0;
-		minX = Double.MAX_VALUE;
-		maxX = Double.MIN_VALUE;
-		minY = Double.MAX_VALUE;
-		maxY = Double.MIN_VALUE;
+		minX = Double.POSITIVE_INFINITY;
+		maxX = Double.NEGATIVE_INFINITY;
+		minY = Double.POSITIVE_INFINITY;
+		maxY = Double.NEGATIVE_INFINITY;
 	}
 
 	private void calculateCoordinates(ISeries series) {
@@ -414,49 +418,53 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		double seriesMaxY = Arrays.stream(ySeries).max().getAsDouble();
 		//
 		length = Math.max(length, xSeries.length);
+		minX = Math.min(minX, seriesMinX);
+		minX = (useZeroX && minX < 0.0d) ? 0.0d : minX;
+		maxX = Math.max(maxX, seriesMaxX);
+		minY = Math.min(minY, seriesMinY);
+		minY = (useZeroY && minY < 0.0d) ? 0.0d : minY;
+		maxY = Math.max(maxY, seriesMaxY);
+		//
+		calculateExtendedCoordinates();
+	}
+
+	private void calculateExtendedCoordinates() {
+
 		/*
 		 * Min X
 		 */
-		minX = Math.min(minX, seriesMinX);
-		if(minX > 0.0d) {
-			minX -= minX * factorExtendMinX;
+		extendedMinX = minX;
+		if(extendedMinX > 0.0d) {
+			extendedMinX -= extendedMinX * factorExtendMinX;
 		} else {
-			minX += minX * factorExtendMinX;
-		}
-		//
-		if(useZeroX && minX < 0.0d) {
-			minX = 0.0d;
+			extendedMinX += extendedMinX * factorExtendMinX;
 		}
 		/*
 		 * Max X
 		 */
-		maxX = Math.max(maxX, seriesMaxX);
-		if(maxX > 0.0d) {
-			maxX += maxX * factorExtendMaxX;
+		extendedMaxX = maxX;
+		if(extendedMaxX > 0.0d) {
+			extendedMaxX += extendedMaxX * factorExtendMaxX;
 		} else {
-			maxX -= maxX * factorExtendMaxX;
+			extendedMaxX -= extendedMaxX * factorExtendMaxX;
 		}
 		/*
 		 * Min Y
 		 */
-		minY = Math.min(minY, seriesMinY);
-		if(minY > 0.0d) {
-			minY -= minY * factorExtendMinY;
+		extendedMinY = minY;
+		if(extendedMinY > 0.0d) {
+			extendedMinY -= extendedMinY * factorExtendMinY;
 		} else {
-			minY += minY * factorExtendMinY;
-		}
-		//
-		if(useZeroY && minY < 0.0d) {
-			minY = 0.0d;
+			extendedMinY += extendedMinY * factorExtendMinY;
 		}
 		/*
 		 * Max Y
 		 */
-		maxY = Math.max(maxY, seriesMaxY);
-		if(maxY > 0.0d) {
-			maxY += maxY * factorExtendMaxY;
+		extendedMaxY = maxY;
+		if(extendedMaxY > 0.0d) {
+			extendedMaxY += extendedMaxY * factorExtendMaxY;
 		} else {
-			maxY -= maxY * factorExtendMaxY;
+			extendedMaxY -= extendedMaxY * factorExtendMaxY;
 		}
 	}
 }
