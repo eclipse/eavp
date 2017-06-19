@@ -19,6 +19,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisSet;
@@ -30,6 +32,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int ID_PRIMARY_Y_AXIS = 0;
 	public static final String DEFAULT_TITLE_X_AXIS = "X-Axis";
 	public static final String DEFAULT_TITLE_Y_AXIS = "Y-Axis";
+	//
+	private static final String RESET_CHART = "Reset Chart";
+	private static final String EXPORT_SELECTION = "Export Chart Selection";
+	private static final String EXPORT_SELECTION_TSV = "*.tsv";
+	private static final String EXPORT_SELECTION_LATEX = "*.tex";
+	private static final String EXPORT_SELECTION_PNG = "*.png";
 	/*
 	 * Prevent accidental zooming.
 	 * At least 30% of the chart width or height needs to be selected.
@@ -43,8 +51,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
+		/*
+		 * Rectangle range selection.
+		 */
 		userSelection = new UserSelection();
 		customSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
+		createMenu();
 		/*
 		 * Create the default x and y axis.
 		 */
@@ -118,6 +130,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			if(deltaTime >= DELTA_CLICK_TIME) {
 				handleUserSelection(event);
 			}
+		} else if(event.button == 3) {
+			// Show menu
+			System.out.println("Menu");
 		}
 	}
 
@@ -172,9 +187,11 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseDoubleClick(Event event) {
 
-		adjustRange(true);
-		fireUpdateCustomSelectionHandlers(event);
-		redraw();
+		if(event.button == 1) {
+			adjustRange(true);
+			fireUpdateCustomSelectionHandlers(event);
+			redraw();
+		}
 	}
 
 	private void handleUserSelection(Event event) {
@@ -230,5 +247,60 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				System.out.println(e);
 			}
 		}
+	}
+
+	public void widgetSelected(Event e) {
+
+		if(!(e.widget instanceof MenuItem)) {
+			return;
+		}
+		//
+		MenuItem menuItem = (MenuItem)e.widget;
+		if(menuItem.getText().equals(RESET_CHART)) {
+			adjustRange(true);
+			redraw();
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_TSV)) {
+			//
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_LATEX)) {
+			//
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_PNG)) {
+			//
+		}
+	}
+
+	private void createMenu() {
+
+		Composite plotArea = getPlotArea();
+		Menu menu = new Menu(plotArea);
+		plotArea.setMenu(menu);
+		//
+		MenuItem menuItem;
+		/*
+		 * Basic
+		 */
+		menuItem = new MenuItem(menu, SWT.PUSH);
+		menuItem.setText(RESET_CHART);
+		menuItem.addListener(SWT.Selection, this);
+		//
+		menuItem = new MenuItem(menu, SWT.SEPARATOR);
+		/*
+		 * Export
+		 */
+		menuItem = new MenuItem(menu, SWT.CASCADE);
+		menuItem.setText(EXPORT_SELECTION);
+		Menu exportMenu = new Menu(menuItem);
+		menuItem.setMenu(exportMenu);
+		//
+		menuItem = new MenuItem(exportMenu, SWT.PUSH);
+		menuItem.setText(EXPORT_SELECTION_TSV);
+		menuItem.addListener(SWT.Selection, this);
+		//
+		menuItem = new MenuItem(exportMenu, SWT.PUSH);
+		menuItem.setText(EXPORT_SELECTION_LATEX);
+		menuItem.addListener(SWT.Selection, this);
+		//
+		menuItem = new MenuItem(exportMenu, SWT.PUSH);
+		menuItem.setText(EXPORT_SELECTION_PNG);
+		menuItem.addListener(SWT.Selection, this);
 	}
 }
