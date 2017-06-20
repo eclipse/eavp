@@ -15,6 +15,7 @@ import org.eclipse.eavp.service.swtchart.core.AbstractPointSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.swtchart.LineStyle;
 
 public class LineSeriesSettings extends AbstractPointSeriesSettings implements ILineSeriesSettings {
 
@@ -24,6 +25,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	private int lineWidth;
 	private boolean enableStack;
 	private boolean enableStep;
+	private LineStyle lineStyle;
 
 	public LineSeriesSettings() {
 		antialias = SWT.DEFAULT;
@@ -32,6 +34,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 		lineWidth = 1;
 		enableStack = false;
 		enableStep = false;
+		lineStyle = LineStyle.SOLID;
 	}
 
 	@Override
@@ -104,5 +107,17 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	public void setEnableStep(boolean enableStep) {
 
 		this.enableStep = enableStep;
+	}
+
+	@Override
+	public LineStyle getLineStyle() {
+
+		return lineStyle;
+	}
+
+	@Override
+	public void setLineStyle(LineStyle lineStyle) {
+
+		this.lineStyle = lineStyle;
 	}
 }

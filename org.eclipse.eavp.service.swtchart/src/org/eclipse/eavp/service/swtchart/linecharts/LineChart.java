@@ -60,6 +60,7 @@ public class LineChart extends ScrollableChart {
 					lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
 					lineSeries.enableStack(lineSeriesSettings.isEnableStack());
 					lineSeries.enableStep(lineSeriesSettings.isEnableStep());
+					lineSeries.setLineStyle(lineSeriesSettings.getLineStyle());
 				} catch(SeriesException e) {
 					//
 				}

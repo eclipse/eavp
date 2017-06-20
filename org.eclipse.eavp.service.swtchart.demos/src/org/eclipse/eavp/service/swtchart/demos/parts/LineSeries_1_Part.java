@@ -25,6 +25,8 @@ import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.swtchart.ILineSeries.PlotSymbolType;
+import org.swtchart.LineStyle;
 
 public class LineSeries_1_Part extends ChromatogramChart {
 
@@ -45,11 +47,76 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 * Create series.
 		 */
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
-		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1);
 		//
-		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		ISeriesData seriesData;
+		ILineSeriesData lineSeriesData;
+		ILineSeriesSettings lineSerieSettings;
+		/*
+		 * Chromatogram
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
 		lineSerieSettings.setEnableArea(true);
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Selected Scans
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_SCANS);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setLineStyle(LineStyle.NONE);
+		lineSerieSettings.setSymbolType(PlotSymbolType.CROSS);
+		lineSerieSettings.setSymbolSize(5);
+		lineSerieSettings.setSymbolColor(ColorAndFormatSupport.COLOR_DARK_RED);
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Active Peaks
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_ACTIVE_PEAKS);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setEnableArea(false);
+		lineSerieSettings.setLineStyle(LineStyle.NONE);
+		lineSerieSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
+		lineSerieSettings.setSymbolSize(5);
+		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_GRAY);
+		lineSerieSettings.setSymbolColor(ColorAndFormatSupport.COLOR_DARK_GRAY);
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Inactive Peaks
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_INACTIVE_PEAKS);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setEnableArea(false);
+		lineSerieSettings.setLineStyle(LineStyle.NONE);
+		lineSerieSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
+		lineSerieSettings.setSymbolSize(5);
+		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_GRAY);
+		lineSerieSettings.setSymbolColor(ColorAndFormatSupport.COLOR_GRAY);
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Peak
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAKS);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setEnableArea(true);
+		lineSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
+		lineSerieSettings.setSymbolColor(ColorAndFormatSupport.COLOR_DARK_RED);
+		lineSerieSettings.setSymbolSize(2);
+		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_DARK_RED);
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Background
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAKS_BACKGROUND);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setEnableArea(true);
+		lineSerieSettings.setSymbolType(PlotSymbolType.NONE);
+		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_BLACK);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

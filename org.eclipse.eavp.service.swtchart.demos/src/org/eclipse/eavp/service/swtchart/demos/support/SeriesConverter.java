@@ -23,7 +23,6 @@ import org.eclipse.eavp.service.swtchart.core.SeriesData;
 public class SeriesConverter {
 
 	public static final String LINE_SERIES_1 = "LineSeries1";
-	//
 	public static final String LINE_SERIES_1_ACTIVE_PEAKS = "LineSeries1_ActivePeaks";
 	public static final String LINE_SERIES_1_INACTIVE_PEAKS = "LineSeries1_InactivePeaks";
 	public static final String LINE_SERIES_1_SELECTED_PEAKS = "LineSeries1_SelectedPeaks";

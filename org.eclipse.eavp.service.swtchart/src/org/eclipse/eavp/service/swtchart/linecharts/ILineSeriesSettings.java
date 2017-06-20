@@ -13,6 +13,7 @@ package org.eclipse.eavp.service.swtchart.linecharts;
 
 import org.eclipse.eavp.service.swtchart.core.IPointSeriesSettings;
 import org.eclipse.swt.graphics.Color;
+import org.swtchart.LineStyle;
 
 public interface ILineSeriesSettings extends IPointSeriesSettings {
 
@@ -44,4 +45,8 @@ public interface ILineSeriesSettings extends IPointSeriesSettings {
 	boolean isEnableStep();
 
 	void setEnableStep(boolean enableStep);
+
+	LineStyle getLineStyle();
+
+	void setLineStyle(LineStyle lineStyle);
 }
