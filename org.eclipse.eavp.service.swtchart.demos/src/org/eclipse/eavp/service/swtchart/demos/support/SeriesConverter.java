@@ -25,9 +25,13 @@ public class SeriesConverter {
 	public static final String LINE_SERIES_1 = "LineSeries1";
 	public static final String LINE_SERIES_1_ACTIVE_PEAKS = "LineSeries1_ActivePeaks";
 	public static final String LINE_SERIES_1_INACTIVE_PEAKS = "LineSeries1_InactivePeaks";
-	public static final String LINE_SERIES_1_SELECTED_PEAKS = "LineSeries1_SelectedPeaks";
-	public static final String LINE_SERIES_1_SELECTED_PEAKS_BACKGROUND = "LineSeries1_SelectedPeaksBackground";
+	public static final String LINE_SERIES_1_SELECTED_PEAK_1 = "LineSeries1_SelectedPeak_1";
+	public static final String LINE_SERIES_1_SELECTED_PEAK_1_BACKGROUND = "LineSeries1_SelectedPeak_1_Background";
+	public static final String LINE_SERIES_1_SELECTED_PEAK_2 = "LineSeries1_SelectedPeak_2";
+	public static final String LINE_SERIES_1_SELECTED_PEAK_2_BACKGROUND = "LineSeries1_SelectedPeak_2_Background";
 	public static final String LINE_SERIES_1_SELECTED_SCANS = "LineSeries1_SelectedScans";
+	public static final String LINE_SERIES_1_IDENTIFIED_SCANS = "LineSeries1_IdentifiedScans";
+	public static final String LINE_SERIES_1_IDENTIFIED_SCANS_SELECTED = "LineSeries1_IdentifiedScansSelected";
 	//
 	public static final String LINE_SERIES_2 = "LineSeries2";
 	public static final String LINE_SERIES_3 = "LineSeries3";
@@ -47,10 +51,12 @@ public class SeriesConverter {
 			int i = 0;
 			bufferedReader = new BufferedReader(new InputStreamReader(SeriesConverter.class.getResourceAsStream(fileName)));
 			while((line = bufferedReader.readLine()) != null) {
-				String[] values = line.split("\t");
-				xSeries[i] = Double.parseDouble(values[0].trim());
-				ySeries[i] = Double.parseDouble(values[1].trim());
-				i++;
+				if(!line.startsWith("#")) {
+					String[] values = line.split("\t");
+					xSeries[i] = Double.parseDouble(values[0].trim());
+					ySeries[i] = Double.parseDouble(values[1].trim());
+					i++;
+				}
 			}
 		} catch(Exception e) {
 			//
