@@ -24,16 +24,54 @@ import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.swtchart.ICustomPaintListener;
+import org.swtchart.ILineSeries;
 import org.swtchart.ILineSeries.PlotSymbolType;
+import org.swtchart.IPlotArea;
+import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 
 public class LineSeries_1_Part extends ChromatogramChart {
+
+	private Transform transform;
+	private List<String> labels;
 
 	@Inject
 	public LineSeries_1_Part(Composite parent) {
 		super(parent, SWT.NONE);
 		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		/*
+		 * Draw the text upright
+		 */
+		transform = new Transform(Display.getCurrent());
+		transform.rotate(-90);
+		//
+		labels = new ArrayList<String>();
+		labels.add("2-Methoxy-4-vinylphenol");
+		labels.add("D-Allose");
+		labels.add("Ethanone, 1-(2-hydroxy-5-methylphenyl)-");
+		labels.add("4-Hydroxy-2-methylacetophenone");
+		labels.add("Ethanone, 1-(2-hydroxy-5-methylphenyl)-");
+		labels.add("3-Hydroxycarbofuran");
+		labels.add("4-Hydroxy-3-methylacetophenone");
+		labels.add("Benzene, 1-(butylthio)-3-methyl-");
+		labels.add("3-Methoxyacetophenone");
+		labels.add("Phenol, 3-methyl-5-(1-methylethyl)-, methylcarbamate");
+		labels.add("3-Methyl-4-isopropylphenol");
+		labels.add("Phenol, 2,6-dimethoxy-, acetate");
+		labels.add("Phenol, 3,4-dimethoxy-");
+		labels.add("2,4-Dimethoxyphenol");
+		labels.add("3-Amino-2,6-dimethoxypyridine");
+		labels.add("Benzene, 1-(butylthio)-3-methyl-");
+		labels.add("Phenol, 2,5-dimethoxy-, acetate");
+		labels.add("3-Amino-2,6-dimethoxypyridine");
+		//
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -51,6 +89,8 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
 		ILineSeriesSettings lineSerieSettings;
+		//
+		// addSeriesLabelMarker();
 		/*
 		 * Chromatogram
 		 */
@@ -167,5 +207,44 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 * Set series.
 		 */
 		addSeriesData(lineSeriesDataList, false);
+	}
+
+	private void addSeriesLabelMarker() {
+
+		/*
+		 * Plot the series name above the entry.
+		 */
+		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
+		plotArea.addCustomPaintListener(new ICustomPaintListener() {
+
+			@Override
+			public void paintControl(PaintEvent e) {
+
+				ISeries series = getBaseChart().getSeriesSet().getSeries()[2];
+				ILineSeries lineSeries = (ILineSeries)series;
+				//
+				for(int i = 0; i < labels.size(); i++) {
+					String label = labels.get(i);
+					Point point = lineSeries.getPixelCoordinates(i);
+					/*
+					 * Draw the label
+					 */
+					Point labelSize = e.gc.textExtent(label);
+					int x = -labelSize.x - (point.y - labelSize.x - 15);
+					int y = point.x - (labelSize.y / 2);
+					//
+					GC gc = e.gc;
+					gc.setTransform(transform);
+					gc.drawText(label, x, y, true);
+					gc.setTransform(null);
+				}
+			}
+
+			@Override
+			public boolean drawBehindSeries() {
+
+				return false;
+			}
+		});
 	}
 }
