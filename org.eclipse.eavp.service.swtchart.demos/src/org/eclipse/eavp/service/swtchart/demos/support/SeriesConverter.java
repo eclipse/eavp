@@ -23,6 +23,13 @@ import org.eclipse.eavp.service.swtchart.core.SeriesData;
 public class SeriesConverter {
 
 	public static final String LINE_SERIES_1 = "LineSeries1";
+	//
+	public static final String LINE_SERIES_1_ACTIVE_PEAKS = "LineSeries1_ActivePeaks";
+	public static final String LINE_SERIES_1_INACTIVE_PEAKS = "LineSeries1_InactivePeaks";
+	public static final String LINE_SERIES_1_SELECTED_PEAKS = "LineSeries1_SelectedPeaks";
+	public static final String LINE_SERIES_1_SELECTED_PEAKS_BACKGROUND = "LineSeries1_SelectedPeaksBackground";
+	public static final String LINE_SERIES_1_SELECTED_SCANS = "LineSeries1_SelectedScans";
+	//
 	public static final String LINE_SERIES_2 = "LineSeries2";
 	public static final String LINE_SERIES_3 = "LineSeries3";
 	public static final String BAR_SERIES_1 = "BarSeries1";
