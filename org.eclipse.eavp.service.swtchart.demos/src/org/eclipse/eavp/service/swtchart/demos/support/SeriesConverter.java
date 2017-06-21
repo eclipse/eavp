@@ -22,6 +22,8 @@ import org.eclipse.eavp.service.swtchart.core.SeriesData;
 
 public class SeriesConverter {
 
+	public static final String LINE_SERIES = "LineSeries";
+	//
 	public static final String LINE_SERIES_1 = "LineSeries1";
 	public static final String LINE_SERIES_1_ACTIVE_PEAKS = "LineSeries1_ActivePeaks";
 	public static final String LINE_SERIES_1_INACTIVE_PEAKS = "LineSeries1_InactivePeaks";
@@ -35,6 +37,10 @@ public class SeriesConverter {
 	//
 	public static final String LINE_SERIES_2 = "LineSeries2";
 	public static final String LINE_SERIES_3 = "LineSeries3";
+	public static final String LINE_SERIES_4 = "LineSeries4";
+	public static final String LINE_SERIES_5 = "LineSeries5";
+	public static final String LINE_SERIES_6 = "LineSeries6";
+	public static final String LINE_SERIES_7 = "LineSeries7";
 	public static final String BAR_SERIES_1 = "BarSeries1";
 	public static final String BAR_SERIES_2 = "BarSeries2";
 	public static final String SCATTER_SERIES_1 = "ScatterSeries1";
