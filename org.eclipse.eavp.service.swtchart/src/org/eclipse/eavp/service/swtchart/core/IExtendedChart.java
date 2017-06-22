@@ -41,6 +41,15 @@ public interface IExtendedChart {
 	void deleteSeries(String id);
 
 	/**
+	 * Append the series with the new arrays.
+	 * 
+	 * @param xSeries
+	 * @param ySeries
+	 * @param id
+	 */
+	void appendSeries(double[] xSeries, double[] ySeries, String id);
+
+	/**
 	 * Sets the range, based on the start and stop coordinates.
 	 * It's only possible to set the range for the primary axes as
 	 * the range for secondary axes is calculated dynamically.

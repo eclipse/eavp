@@ -127,6 +127,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
+	public void appendSeries(double[] xSeries, double[] ySeries, String id) {
+
+		baseChart.appendSeries(xSeries, ySeries, id);
+		resetSlider();
+	}
+
+	@Override
 	public void setRange(String axis, Range range) {
 
 		if(axis != null && range != null) {
