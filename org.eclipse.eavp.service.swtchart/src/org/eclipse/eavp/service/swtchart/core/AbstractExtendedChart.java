@@ -322,20 +322,22 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	}
 
 	@Override
-	public void appendSeries(double[] xSeries, double[] ySeries, String id) {
+	public void appendSeries(ISeriesData seriesData) {
 
-		ISeriesSet seriesSet = getSeriesSet();
-		ISeries series = seriesSet.getSeries(id);
-		if(series != null) {
-			/*
-			 * Append the data.
-			 */
-			double[] xSeriesNew = concatenateSeries(series.getXSeries(), xSeries);
-			series.setXSeries(xSeriesNew);
-			double[] ySeriesNew = concatenateSeries(series.getYSeries(), ySeries);
-			series.setYSeries(ySeriesNew);
-			//
-			calculateCoordinates(series);
+		if(seriesData != null) {
+			ISeriesSet seriesSet = getSeriesSet();
+			ISeries series = seriesSet.getSeries(seriesData.getId());
+			if(series != null) {
+				/*
+				 * Append the data.
+				 */
+				double[] xSeriesNew = concatenateSeries(series.getXSeries(), seriesData.getXSeries());
+				series.setXSeries(xSeriesNew);
+				double[] ySeriesNew = concatenateSeries(series.getYSeries(), seriesData.getYSeries());
+				series.setYSeries(ySeriesNew);
+				//
+				calculateCoordinates(series);
+			}
 		}
 	}
 

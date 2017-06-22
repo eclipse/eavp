@@ -33,5 +33,12 @@
         </children>
       </children>
     </elements>
+    <elements xsi:type="advanced:Perspective" xmi:id="_4PNokFcuEee9NIJAUsP-2w" elementId="org.eclipse.eavp.service.swtchart.demos.perspective.eavpdemorecorddata" label="EAVP Demo - SWTChart Extensions (Record Data)">
+      <children xsi:type="basic:PartSashContainer" xmi:id="__kWqIFcuEee9NIJAUsP-2w" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.4">
+        <children xsi:type="basic:PartStack" xmi:id="__4z3MFcuEee9NIJAUsP-2w" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.5">
+          <children xsi:type="basic:Part" xmi:id="_AMirgFcvEee9NIJAUsP-2w" elementId="org.eclipse.eavp.service.swtchart.demos.part.recorddata" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_5_Part" label="Record Data" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+        </children>
+      </children>
+    </elements>
   </fragments>
 </fragment:ModelFragments>

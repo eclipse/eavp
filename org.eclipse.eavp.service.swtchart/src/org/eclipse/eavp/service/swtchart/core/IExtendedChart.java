@@ -43,11 +43,9 @@ public interface IExtendedChart {
 	/**
 	 * Append the series with the new arrays.
 	 * 
-	 * @param xSeries
-	 * @param ySeries
-	 * @param id
+	 * @param seriesData
 	 */
-	void appendSeries(double[] xSeries, double[] ySeries, String id);
+	void appendSeries(ISeriesData seriesData);
 
 	/**
 	 * Sets the range, based on the start and stop coordinates.

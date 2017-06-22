@@ -124,13 +124,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		baseChart.deleteSeries(id);
 		resetSlider();
+		redraw();
 	}
 
 	@Override
-	public void appendSeries(double[] xSeries, double[] ySeries, String id) {
+	public void appendSeries(ISeriesData seriesData) {
 
-		baseChart.appendSeries(xSeries, ySeries, id);
-		resetSlider();
+		baseChart.appendSeries(seriesData);
+		adjustRange(true);
 	}
 
 	@Override
