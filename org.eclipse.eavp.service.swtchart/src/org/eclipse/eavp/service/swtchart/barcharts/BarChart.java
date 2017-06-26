@@ -31,13 +31,18 @@ public class BarChart extends ScrollableChart {
 		super(parent, style);
 	}
 
+	public void addSeriesData(List<IBarSeriesData> barSeriesDataList) {
+
+		addSeriesData(barSeriesDataList, Integer.MAX_VALUE);
+	}
+
 	/**
 	 * BarWidthStyle.STRETCHED will be used automatically instead of BarWidthStyle.FIXED
 	 * if the series data is too large. This leads to a better performance.
 	 * 
 	 * @param barSeriesDataList
 	 */
-	public void addSeriesData(List<IBarSeriesData> barSeriesDataList, boolean compressSeries) {
+	public void addSeriesData(List<IBarSeriesData> barSeriesDataList, int compressToLength) {
 
 		/*
 		 * Suspend the update when adding new data to improve the performance.
@@ -51,7 +56,7 @@ public class BarChart extends ScrollableChart {
 				 */
 				try {
 					ISeriesData seriesData = barSeriesData.getSeriesData();
-					SeriesContainer seriesContainer = calculateSeries(seriesData.getXSeries(), seriesData.getYSeries(), LENGTH_HINT_DATA_POINTS, compressSeries);
+					SeriesContainer seriesContainer = calculateSeries(seriesData.getXSeries(), seriesData.getYSeries(), compressToLength);
 					IBarSeries barSeries = (IBarSeries)createSeries(SeriesType.BAR, seriesContainer.getXSeries(), seriesContainer.getYSeries(), seriesData.getId());
 					//
 					IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();

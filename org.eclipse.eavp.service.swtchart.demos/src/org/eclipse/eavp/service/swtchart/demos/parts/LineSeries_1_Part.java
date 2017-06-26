@@ -197,7 +197,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList, false);
+		addSeriesData(lineSeriesDataList);
 		//
 		addSeriesLabelMarker();
 	}

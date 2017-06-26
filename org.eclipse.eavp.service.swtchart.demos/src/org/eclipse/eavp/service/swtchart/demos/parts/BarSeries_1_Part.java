@@ -53,6 +53,6 @@ public class BarSeries_1_Part extends MassSpectrumChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(barSeriesDataList, false);
+		addSeriesData(barSeriesDataList);
 	}
 }

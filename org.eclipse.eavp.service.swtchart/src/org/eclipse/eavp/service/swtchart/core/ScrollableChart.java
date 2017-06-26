@@ -272,21 +272,25 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.paintControl(e);
 	}
 
+	protected SeriesContainer calculateSeries(double[] xSeries, double[] ySeries) {
+
+		return calculateSeries(xSeries, ySeries, Integer.MAX_VALUE); // No compression.
+	}
+
 	/**
 	 * Use compress series only if it's absolutely necessary.
 	 * 
 	 * @param xSeries
 	 * @param ySeries
-	 * @param lengthHintDataPoints
-	 * @param compressSeries
+	 * @param compressToLength
 	 * @return SeriesContainer
 	 */
-	protected SeriesContainer calculateSeries(double[] xSeries, double[] ySeries, int lengthHintDataPoints, boolean compressSeries) {
+	protected SeriesContainer calculateSeries(double[] xSeries, double[] ySeries, int compressToLength) {
 
 		SeriesContainer seriesContainer;
 		int seriesLength = ySeries.length;
 		//
-		if(compressSeries && seriesLength > lengthHintDataPoints) {
+		if(seriesLength > compressToLength) {
 			/*
 			 * Capture the compressed data.
 			 * The final size is not known yet.
@@ -299,7 +303,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			xSeriesCompressed.add(xSeries[0]);
 			ySeriesCompressed.add(ySeries[0]);
 			//
-			int moduloValue = seriesLength / lengthHintDataPoints;
+			int moduloValue = seriesLength / compressToLength;
 			for(int i = 1; i < ySeries.length - 1; i++) {
 				/*
 				 * Filter the values.

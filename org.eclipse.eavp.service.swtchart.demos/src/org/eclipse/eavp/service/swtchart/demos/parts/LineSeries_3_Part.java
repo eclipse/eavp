@@ -117,6 +117,6 @@ public class LineSeries_3_Part extends LineChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList, false);
+		addSeriesData(lineSeriesDataList);
 	}
 }

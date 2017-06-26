@@ -83,6 +83,6 @@ public class LineSeries_2_Part extends LineChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList, false);
+		addSeriesData(lineSeriesDataList);
 	}
 }

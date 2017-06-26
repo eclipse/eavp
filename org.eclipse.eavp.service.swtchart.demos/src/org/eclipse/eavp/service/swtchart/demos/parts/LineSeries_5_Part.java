@@ -90,7 +90,7 @@ public class LineSeries_5_Part extends Composite {
 		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_RED);
 		lineSerieSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
-		chromatogramChart.addSeriesData(lineSeriesDataList, false);
+		chromatogramChart.addSeriesData(lineSeriesDataList);
 	}
 
 	private static ISeriesData getRandomSeriesData() {

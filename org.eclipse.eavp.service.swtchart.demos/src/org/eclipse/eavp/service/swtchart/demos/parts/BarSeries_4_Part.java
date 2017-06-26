@@ -70,6 +70,6 @@ public class BarSeries_4_Part extends BarChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(barSeriesDataList, false);
+		addSeriesData(barSeriesDataList);
 	}
 }

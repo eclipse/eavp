@@ -34,6 +34,8 @@ import org.swtchart.LineStyle;
 
 public class CustomLineChart1 extends LineChart {
 
+	private static final int LENGTH_HINT_DATA_POINTS = 15000;
+	//
 	private boolean enableRangeInfo;
 	private boolean showAxisTitle;
 	private boolean enableHorizontalSlider;
@@ -114,6 +116,6 @@ public class CustomLineChart1 extends LineChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(lineSeriesDataList, true);
+		addSeriesData(lineSeriesDataList, LENGTH_HINT_DATA_POINTS);
 	}
 }

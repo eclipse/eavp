@@ -55,7 +55,7 @@ public class BarSeries_3_Part extends MassSpectrumChart {
 		/*
 		 * Set series.
 		 */
-		addSeriesData(barSeriesDataList, false);
+		addSeriesData(barSeriesDataList);
 	}
 
 	private Map<Double, String> createCustomLabels() {

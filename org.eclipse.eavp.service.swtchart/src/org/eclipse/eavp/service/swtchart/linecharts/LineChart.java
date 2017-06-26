@@ -24,13 +24,16 @@ import org.swtchart.ISeries.SeriesType;
 
 public class LineChart extends ScrollableChart {
 
-	private static final int LENGTH_HINT_DATA_POINTS = 15000;
-
 	public LineChart(Composite parent, int style) {
 		super(parent, style);
 	}
 
-	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList, boolean compressSeries) {
+	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList) {
+
+		addSeriesData(lineSeriesDataList, Integer.MAX_VALUE);
+	}
+
+	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList, int compressToLength) {
 
 		/*
 		 * Suspend the update when adding new data to improve the performance.
@@ -44,7 +47,7 @@ public class LineChart extends ScrollableChart {
 				 */
 				try {
 					ISeriesData seriesData = lineSeriesData.getSeriesData();
-					SeriesContainer seriesContainer = calculateSeries(seriesData.getXSeries(), seriesData.getYSeries(), LENGTH_HINT_DATA_POINTS, compressSeries);
+					SeriesContainer seriesContainer = calculateSeries(seriesData.getXSeries(), seriesData.getYSeries(), compressToLength);
 					ILineSeries lineSeries = (ILineSeries)createSeries(SeriesType.LINE, seriesContainer.getXSeries(), seriesContainer.getYSeries(), seriesData.getId());
 					//
 					ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
