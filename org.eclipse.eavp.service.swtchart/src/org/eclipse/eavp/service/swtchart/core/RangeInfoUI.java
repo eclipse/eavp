@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.swtchart.IAxis;
-import org.swtchart.IAxisSet;
 import org.swtchart.Range;
 
 public class RangeInfoUI extends Composite {
@@ -50,17 +49,18 @@ public class RangeInfoUI extends Composite {
 		/*
 		 * X Axes
 		 */
-		String[] itemsX = getItems(IExtendedChart.X_AXIS);
-		comboScaleX.setItems(itemsX);
-		if(itemsX.length > 0) {
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		String[] axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
+		comboScaleX.setItems(axisLabelsX);
+		if(axisLabelsX.length > 0) {
 			comboScaleX.select(0);
 		}
 		/*
 		 * Y Axes
 		 */
-		String[] itemsY = getItems(IExtendedChart.Y_AXIS);
-		comboScaleY.setItems(itemsY);
-		if(itemsY.length > 0) {
+		String[] axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
+		comboScaleY.setItems(axisLabelsY);
+		if(axisLabelsY.length > 0) {
 			comboScaleY.select(0);
 		}
 	}
@@ -76,8 +76,8 @@ public class RangeInfoUI extends Composite {
 		Range rangeX = xAxis.getRange();
 		Range rangeY = yAxis.getRange();
 		//
-		DecimalFormat decimalFormatX = getDecimalFormat(IExtendedChart.X_AXIS, indexX);
-		DecimalFormat decimalFormatY = getDecimalFormat(IExtendedChart.Y_AXIS, indexY);
+		DecimalFormat decimalFormatX = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, indexX);
+		DecimalFormat decimalFormatY = baseChart.getDecimalFormat(IExtendedChart.Y_AXIS, indexY);
 		//
 		if(rangeX != null && rangeY != null) {
 			/*
@@ -118,7 +118,7 @@ public class RangeInfoUI extends Composite {
 				IAxis xAxis = baseChart.getAxisSet().getXAxis(selectionIndex);
 				Range rangeX = xAxis.getRange();
 				if(rangeX != null) {
-					DecimalFormat decimalFormatX = getDecimalFormat(IExtendedChart.X_AXIS, selectionIndex);
+					DecimalFormat decimalFormatX = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, selectionIndex);
 					textStartX.setText(decimalFormatX.format(rangeX.lower));
 					textStopX.setText(decimalFormatX.format(rangeX.upper));
 				}
@@ -145,7 +145,7 @@ public class RangeInfoUI extends Composite {
 				IAxis yAxis = baseChart.getAxisSet().getYAxis(selectionIndex);
 				Range rangeY = yAxis.getRange();
 				if(rangeY != null) {
-					DecimalFormat decimalFormatY = getDecimalFormat(IExtendedChart.Y_AXIS, selectionIndex);
+					DecimalFormat decimalFormatY = baseChart.getDecimalFormat(IExtendedChart.Y_AXIS, selectionIndex);
 					textStartY.setText(decimalFormatY.format(rangeY.lower));
 					textStopY.setText(decimalFormatY.format(rangeY.upper));
 				}
@@ -238,15 +238,16 @@ public class RangeInfoUI extends Composite {
 		/*
 		 * Get the decimal format.
 		 */
+		BaseChart baseChart = scrollableChart.getBaseChart();
 		DecimalFormat decimalFormat;
 		int selectedAxis;
 		//
 		if(axis.equals(IExtendedChart.X_AXIS)) {
 			selectedAxis = comboScaleX.getSelectionIndex();
-			decimalFormat = getDecimalFormat(IExtendedChart.X_AXIS, selectedAxis);
+			decimalFormat = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, selectedAxis);
 		} else {
 			selectedAxis = comboScaleY.getSelectionIndex();
-			decimalFormat = getDecimalFormat(IExtendedChart.Y_AXIS, selectedAxis);
+			decimalFormat = baseChart.getDecimalFormat(IExtendedChart.Y_AXIS, selectedAxis);
 		}
 		/*
 		 * Get the start and stop value.
@@ -296,100 +297,6 @@ public class RangeInfoUI extends Composite {
 		}
 		//
 		return axisScaleConverter;
-	}
-
-	private String[] getItems(String axis) {
-
-		IAxis[] axes = getAxes(axis);
-		int size = axes.length;
-		String[] items = new String[size];
-		//
-		for(int i = 0; i < size; i++) {
-			/*
-			 * Get the label.
-			 */
-			String label = "";
-			String title = axes[i].getTitle().getText();
-			String description = getAxisDescription(axis, i);
-			//
-			if(title.equals("")) {
-				/*
-				 * Title is not set.
-				 * Use the description instead or
-				 * print a note that no label is available.
-				 */
-				if(description.equals("")) {
-					label = "label not set";
-				} else {
-					label = description;
-				}
-			} else {
-				/*
-				 * Title is set.
-				 * Use description if available
-				 * otherwise the title.
-				 */
-				if(description.equals("")) {
-					label = title;
-				} else {
-					label = description;
-				}
-			}
-			/*
-			 * Set the label.
-			 */
-			items[i] = label;
-		}
-		return items;
-	}
-
-	private IAxis[] getAxes(String axis) {
-
-		BaseChart baseChart = scrollableChart.getBaseChart();
-		IAxisSet axisSet = baseChart.getAxisSet();
-		//
-		if(axis.equals(IExtendedChart.X_AXIS)) {
-			return axisSet.getXAxes();
-		} else {
-			return axisSet.getYAxes();
-		}
-	}
-
-	private String getAxisDescription(String axis, int id) {
-
-		String description = "";
-		//
-		IAxisSettings axisSettings = getAxisSettings(axis, id);
-		if(axisSettings != null) {
-			description = axisSettings.getDescription();
-		}
-		//
-		return description;
-	}
-
-	private IAxisSettings getAxisSettings(String axis, int id) {
-
-		BaseChart baseChart = scrollableChart.getBaseChart();
-		IAxisSettings axisSettings = null;
-		if(axis.equals(IExtendedChart.X_AXIS)) {
-			axisSettings = baseChart.getXAxisSettingsMap().get(id);
-		} else {
-			axisSettings = baseChart.getYAxisSettingsMap().get(id);
-		}
-		return axisSettings;
-	}
-
-	private DecimalFormat getDecimalFormat(String axis, int id) {
-
-		DecimalFormat decimalFormat;
-		IAxisSettings axisSettings = getAxisSettings(axis, id);
-		//
-		if(axisSettings != null) {
-			decimalFormat = axisSettings.getDecimalFormat();
-		} else {
-			decimalFormat = new DecimalFormat();
-		}
-		return decimalFormat;
 	}
 
 	private GridData getTextGridData() {

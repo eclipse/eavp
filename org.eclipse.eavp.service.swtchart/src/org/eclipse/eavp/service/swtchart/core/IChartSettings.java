@@ -121,4 +121,12 @@ public interface IChartSettings {
 	void setFactorExtendMaxY(double factorExtendMaxY);
 
 	void setFactorExtend(double factorExtend);
+
+	boolean isShowPositionMarker();
+
+	void setShowPositionMarker(boolean showPositionMarker);
+
+	boolean isShowPositionLegend();
+
+	void setShowPositionLegend(boolean showPositionLegend);
 }

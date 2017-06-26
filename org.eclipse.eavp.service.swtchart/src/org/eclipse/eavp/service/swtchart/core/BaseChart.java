@@ -235,18 +235,62 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	protected void fireUpdateCustomSelectionHandlers(Event event) {
+	public String[] getAxisLabels(String axis) {
 
-		/*
-		 * Handle the custom user selection handlers.
-		 */
-		for(ICustomSelectionHandler customSelectionHandler : customSelectionHandlers) {
-			try {
-				customSelectionHandler.handleUserSelection(event);
-			} catch(Exception e) {
-				System.out.println(e);
+		IAxis[] axes = getAxes(axis);
+		int size = axes.length;
+		String[] items = new String[size];
+		//
+		for(int i = 0; i < size; i++) {
+			/*
+			 * Get the label.
+			 */
+			String label = "";
+			String title = axes[i].getTitle().getText();
+			String description = getAxisDescription(axis, i);
+			//
+			if(title.equals("")) {
+				/*
+				 * Title is not set.
+				 * Use the description instead or
+				 * print a note that no label is available.
+				 */
+				if(description.equals("")) {
+					label = "label not set";
+				} else {
+					label = description;
+				}
+			} else {
+				/*
+				 * Title is set.
+				 * Use description if available
+				 * otherwise the title.
+				 */
+				if(description.equals("")) {
+					label = title;
+				} else {
+					label = description;
+				}
 			}
+			/*
+			 * Set the label.
+			 */
+			items[i] = label;
 		}
+		return items;
+	}
+
+	public DecimalFormat getDecimalFormat(String axis, int id) {
+
+		DecimalFormat decimalFormat;
+		IAxisSettings axisSettings = getAxisSettings(axis, id);
+		//
+		if(axisSettings != null) {
+			decimalFormat = axisSettings.getDecimalFormat();
+		} else {
+			decimalFormat = new DecimalFormat();
+		}
+		return decimalFormat;
 	}
 
 	public void widgetSelected(Event e) {
@@ -265,6 +309,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			//
 		} else if(menuItem.getText().equals(EXPORT_SELECTION_PNG)) {
 			//
+		}
+	}
+
+	protected void fireUpdateCustomSelectionHandlers(Event event) {
+
+		/*
+		 * Handle the custom user selection handlers.
+		 */
+		for(ICustomSelectionHandler customSelectionHandler : customSelectionHandlers) {
+			try {
+				customSelectionHandler.handleUserSelection(event);
+			} catch(Exception e) {
+				System.out.println(e);
+			}
 		}
 	}
 
@@ -302,5 +360,39 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		menuItem = new MenuItem(exportMenu, SWT.PUSH);
 		menuItem.setText(EXPORT_SELECTION_PNG);
 		menuItem.addListener(SWT.Selection, this);
+	}
+
+	private IAxis[] getAxes(String axis) {
+
+		IAxisSet axisSet = getAxisSet();
+		//
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			return axisSet.getXAxes();
+		} else {
+			return axisSet.getYAxes();
+		}
+	}
+
+	private String getAxisDescription(String axis, int id) {
+
+		String description = "";
+		//
+		IAxisSettings axisSettings = getAxisSettings(axis, id);
+		if(axisSettings != null) {
+			description = axisSettings.getDescription();
+		}
+		//
+		return description;
+	}
+
+	private IAxisSettings getAxisSettings(String axis, int id) {
+
+		IAxisSettings axisSettings = null;
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			axisSettings = getXAxisSettingsMap().get(id);
+		} else {
+			axisSettings = getYAxisSettingsMap().get(id);
+		}
+		return axisSettings;
 	}
 }

@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
+import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
+import org.eclipse.eavp.service.swtchart.marker.PositionMarker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -37,6 +39,7 @@ import org.swtchart.IAxis.Direction;
 import org.swtchart.IAxisSet;
 import org.swtchart.IAxisTick;
 import org.swtchart.IGrid;
+import org.swtchart.IPlotArea;
 import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
 import org.swtchart.ISeriesSet;
@@ -46,6 +49,7 @@ import org.swtchart.Range;
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
+	//
 	private static final Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 	private static final Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 	//
@@ -61,6 +65,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 * that are linked with the current editor.
 	 */
 	private List<ScrollableChart> linkedScrollableCharts;
+	//
+	private PositionMarker positionMarker;
+	private PositionLegend positionLegend;
 
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
@@ -204,6 +211,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void handleMouseMoveEvent(Event event) {
 
 		baseChart.handleMouseMoveEvent(event);
+		//
+		if(positionMarker != null) {
+			positionMarker.setActualPosition(event.x, event.y);
+			getBaseChart().getPlotArea().redraw();
+		}
+		//
+		if(positionLegend != null) {
+			positionLegend.setActualPosition(event.x, event.y);
+			getBaseChart().getPlotArea().redraw();
+		}
 	}
 
 	@Override
@@ -371,6 +388,22 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.setFactorExtendMaxX(chartSettings.getFactorExtendMaxX());
 		baseChart.setFactorExtendMinY(chartSettings.getFactorExtendMinY());
 		baseChart.setFactorExtendMaxY(chartSettings.getFactorExtendMaxY());
+		//
+		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		//
+		if(chartSettings.isShowPositionMarker()) {
+			positionMarker = new PositionMarker();
+			plotArea.addCustomPaintListener(positionMarker);
+		} else {
+			positionMarker = null;
+		}
+		//
+		if(chartSettings.isShowPositionLegend()) {
+			positionLegend = new PositionLegend(baseChart);
+			plotArea.addCustomPaintListener(positionLegend);
+		} else {
+			positionLegend = null;
+		}
 	}
 
 	private void setSliderVisibility() {

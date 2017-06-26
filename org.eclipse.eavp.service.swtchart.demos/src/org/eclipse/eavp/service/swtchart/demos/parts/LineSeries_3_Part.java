@@ -60,6 +60,8 @@ public class LineSeries_3_Part extends LineChart {
 		chartSettings.setUseZeroX(true);
 		chartSettings.setUseZeroY(true);
 		chartSettings.setEnableRangeInfo(true);
+		chartSettings.setShowPositionMarker(true);
+		chartSettings.setShowPositionLegend(true);
 		/*
 		 * Primary X-Axis
 		 */
