@@ -100,7 +100,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			int xMax = Math.max(userSelection.getStartX(), userSelection.getStopX());
 			int yMin = Math.min(userSelection.getStartY(), userSelection.getStopY());
 			int yMax = Math.max(userSelection.getStartY(), userSelection.getStopY());
+			int currentLineStyle = e.gc.getLineStyle();
+			e.gc.setLineStyle(SWT.LINE_DOT);
 			e.gc.drawRectangle(xMin, yMin, xMax - xMin, yMax - yMin);
+			e.gc.setLineStyle(currentLineStyle);
 		}
 	}
 
