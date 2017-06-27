@@ -248,6 +248,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			String label = "";
 			String title = axes[i].getTitle().getText();
 			String description = getAxisDescription(axis, i);
+			/*
+			 * Handle the primary axes separately.
+			 */
+			if(i == 0) {
+				if(axis.equals(IExtendedChart.X_AXIS)) {
+					if(description.equals(DEFAULT_TITLE_X_AXIS)) {
+						description = "";
+					}
+				} else if(axis.equals(IExtendedChart.Y_AXIS)) {
+					if(description.equals(DEFAULT_TITLE_Y_AXIS)) {
+						description = "";
+					}
+				}
+			}
 			//
 			if(title.equals("")) {
 				/*
@@ -291,6 +305,36 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			decimalFormat = new DecimalFormat();
 		}
 		return decimalFormat;
+	}
+
+	/**
+	 * May return null.
+	 * 
+	 * axis =
+	 * IExtendedChart.X_AXIS
+	 * or
+	 * IExtendedChart.Y_AXIS
+	 * 
+	 * @param axis
+	 * @param id
+	 * @return IAxisScaleConverter
+	 */
+	public IAxisScaleConverter getAxisScaleConverter(String axis, int id) {
+
+		IAxisScaleConverter axisScaleConverter = null;
+		IAxisSettings axisSettings = null;
+		//
+		if(axis.equals(IExtendedChart.X_AXIS)) {
+			axisSettings = getXAxisSettingsMap().get(id);
+		} else {
+			axisSettings = getYAxisSettingsMap().get(id);
+		}
+		//
+		if(axisSettings instanceof ISecondaryAxisSettings) {
+			axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+		}
+		//
+		return axisScaleConverter;
 	}
 
 	public void widgetSelected(Event e) {

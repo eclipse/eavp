@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Text;
 import org.swtchart.IAxis;
 import org.swtchart.Range;
 
-public class RangeInfoUI extends Composite {
+public class RangeUI extends Composite {
 
 	private ScrollableChart scrollableChart;
 	//
@@ -38,7 +38,7 @@ public class RangeInfoUI extends Composite {
 	private Text textStopY;
 	private Combo comboScaleY;
 
-	public RangeInfoUI(Composite parent, int style, ScrollableChart scrollableChart) {
+	public RangeUI(Composite parent, int style, ScrollableChart scrollableChart) {
 		super(parent, style);
 		this.scrollableChart = scrollableChart;
 		createControl();
@@ -269,7 +269,7 @@ public class RangeInfoUI extends Composite {
 		if(selectedAxis == 0) {
 			range = new Range(valueStart, valueStop);
 		} else {
-			IAxisScaleConverter axisScaleConverter = getAxisScaleConverter(axis, selectedAxis);
+			IAxisScaleConverter axisScaleConverter = baseChart.getAxisScaleConverter(axis, selectedAxis);
 			if(axisScaleConverter != null) {
 				valueStart = axisScaleConverter.convertToPrimaryUnit(valueStart);
 				valueStop = axisScaleConverter.convertToPrimaryUnit(valueStop);
@@ -278,25 +278,6 @@ public class RangeInfoUI extends Composite {
 		}
 		//
 		return range;
-	}
-
-	private IAxisScaleConverter getAxisScaleConverter(String axis, int id) {
-
-		IAxisScaleConverter axisScaleConverter = null;
-		BaseChart baseChart = scrollableChart.getBaseChart();
-		//
-		IAxisSettings axisSettings = null;
-		if(axis.equals(IExtendedChart.X_AXIS)) {
-			axisSettings = baseChart.getXAxisSettingsMap().get(id);
-		} else {
-			axisSettings = baseChart.getYAxisSettingsMap().get(id);
-		}
-		//
-		if(axisSettings instanceof ISecondaryAxisSettings) {
-			axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
-		}
-		//
-		return axisScaleConverter;
 	}
 
 	private GridData getTextGridData() {

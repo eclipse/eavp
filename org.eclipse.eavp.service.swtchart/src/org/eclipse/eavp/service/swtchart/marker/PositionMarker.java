@@ -24,7 +24,7 @@ public class PositionMarker implements ICustomPaintListener {
 	private Color foregroundColor;
 
 	public PositionMarker() {
-		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
+		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
 	}
 
 	public void setActualPosition(int x, int y) {
@@ -40,8 +40,10 @@ public class PositionMarker implements ICustomPaintListener {
 		 * Plots a vertical line in the plot area at the x position of the mouse.
 		 */
 		e.gc.setForeground(foregroundColor);
-		e.gc.drawLine(x, 0, x, e.height);
-		e.gc.drawLine(0, y, e.width, y);
+		if(x > 0 && x < e.width && y > 0 && y < e.height) {
+			e.gc.drawLine(x, 0, x, e.height);
+			e.gc.drawLine(0, y, e.width, y);
+		}
 	}
 
 	@Override

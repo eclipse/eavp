@@ -55,7 +55,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
-	private RangeInfoUI rangeInfoUI;
+	private RangeUI rangeUI;
 	private BaseChart baseChart;
 	//
 	private IChartSettings chartSettings;
@@ -378,7 +378,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Range Info
 		 */
-		rangeInfoUI.resetRanges();
+		rangeUI.resetRanges();
 		//
 		baseChart.setOrientation(chartSettings.getOrientation());
 		baseChart.getLegend().setVisible(chartSettings.isLegendVisible());
@@ -429,9 +429,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setRangeInfoVisibility(boolean isVisible) {
 
-		GridData gridData = (GridData)rangeInfoUI.getLayoutData();
+		GridData gridData = (GridData)rangeUI.getLayoutData();
 		gridData.exclude = !isVisible;
-		rangeInfoUI.setVisible(isVisible);
+		rangeUI.setVisible(isVisible);
 		layout(false);
 	}
 
@@ -545,9 +545,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Remove all items except the primary axis settings.
 		 */
 		Set<Integer> keySet = baseChart.getXAxisSettingsMap().keySet();
-		keySet.remove(BaseChart.ID_PRIMARY_X_AXIS);
 		for(int key : keySet) {
-			baseChart.getXAxisSettingsMap().remove(key);
+			if(key != BaseChart.ID_PRIMARY_X_AXIS) {
+				baseChart.getXAxisSettingsMap().remove(key);
+			}
 		}
 		/*
 		 * Add the axis settings.
@@ -572,9 +573,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Remove all items except the primary axis settings.
 		 */
 		Set<Integer> keySet = baseChart.getYAxisSettingsMap().keySet();
-		keySet.remove(BaseChart.ID_PRIMARY_Y_AXIS);
 		for(int key : keySet) {
-			baseChart.getYAxisSettingsMap().remove(key);
+			if(key != BaseChart.ID_PRIMARY_Y_AXIS) {
+				baseChart.getYAxisSettingsMap().remove(key);
+			}
 		}
 		/*
 		 * Add the axis settings.
@@ -637,7 +639,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void displayRangeInfo(IAxis xAxis, IAxis yAxis) {
 
-		rangeInfoUI.adjustRanges();
+		rangeUI.adjustRanges();
 	}
 
 	private void initialize() {
@@ -702,8 +704,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void createRangeInfoUI(Composite parent) {
 
-		rangeInfoUI = new RangeInfoUI(parent, SWT.NONE, this);
-		rangeInfoUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		rangeUI = new RangeUI(parent, SWT.NONE, this);
+		rangeUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	}
 
 	private void createBaseChart(Composite parent) {
@@ -734,16 +736,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			public void mouseDoubleClick(MouseEvent e) {
 
 				if(chartSettings.isEnableRangeInfo()) {
-					if(!rangeInfoUI.isVisible()) {
+					if(!rangeUI.isVisible()) {
 						if(e.y <= 47) {
 							/*
 							 * Show the range info composite.
 							 */
 							showRangeInfoHint = true;
-							GridData gridData = (GridData)rangeInfoUI.getLayoutData();
+							GridData gridData = (GridData)rangeUI.getLayoutData();
 							gridData.exclude = !showRangeInfoHint;
-							rangeInfoUI.setVisible(showRangeInfoHint);
-							Composite parent = rangeInfoUI.getParent();
+							rangeUI.setVisible(showRangeInfoHint);
+							Composite parent = rangeUI.getParent();
 							parent.layout(false);
 							parent.redraw();
 						}
@@ -762,7 +764,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				/*
 				 * Rectangle (Double Click -> show Range Info)
 				 */
-				if(!rangeInfoUI.isVisible() && chartSettings.isEnableRangeInfo()) {
+				if(!rangeUI.isVisible() && chartSettings.isEnableRangeInfo()) {
 					if(showRangeInfoHint) {
 						//
 						int lineWidth = 1;
