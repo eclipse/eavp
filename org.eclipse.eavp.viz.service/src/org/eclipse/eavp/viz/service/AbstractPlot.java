@@ -24,6 +24,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.eavp.viz.service.drawhandler.IDrawHandler;
+import org.eclipse.eavp.viz.service.drawhandler.IDrawHandlerFactory;
+import org.eclipse.eavp.viz.service.internal.DrawHandlerFactoryHolder;
 import org.eclipse.january.geometry.Geometry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,6 +84,16 @@ public abstract class AbstractPlot implements IPlot {
 	 * The current data source.
 	 */
 	protected URI uri;
+
+	/**
+	 * The default constructor.
+	 */
+	public AbstractPlot() {
+
+		// Obtain the draw handler for this plot
+		IDrawHandlerFactory factory = DrawHandlerFactoryHolder.getFactory();
+		drawHandler = factory.getHandler(this);
+	}
 
 	/**
 	 * Adds the specified listener to the plot to receive updates. The same

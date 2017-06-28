@@ -78,6 +78,7 @@ public class CSVPlot extends AbstractPlot {
 	 * The default constructor.
 	 */
 	public CSVPlot() {
+		super();
 		dataSeries = new HashMap<String, List<ISeries>>();
 
 		// Initially set the title to an empty string because the CSVPlotEditor
@@ -329,7 +330,7 @@ public class CSVPlot extends AbstractPlot {
 				setIndependentSeries(series[0]);
 			} else {
 				// Otherwise, update the series with the new data
-				for (CSVSeries s : series) {
+				for (ISeries s : series) {
 					ISeries current = getIndependentSeries();
 					if (current.getLabel().equals(s.getLabel())) {
 						setIndependentSeries(s);

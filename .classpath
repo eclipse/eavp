@@ -171,7 +171,6 @@
 	<classpathentry kind="lib" path="org.eclipse.eavp.viz.service.mesh/target/org.eclipse.eavp.viz.service.mesh-0.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="org.eclipse.eavp.viz.service.paraview.web/target/org.eclipse.eavp.viz.service.paraview.web-0.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="org.eclipse.eavp.viz.service.paraview/target/org.eclipse.eavp.viz.service.paraview-0.1.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="org.eclipse.eavp.viz.service.rcp/target/org.eclipse.eavp.viz.service-0.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="org.eclipse.eavp.viz.service.visit/target/org.eclipse.eavp.viz.service.visit-0.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="org.eclipse.eavp.viz.service/target/org.eclipse.eavp.viz.service-0.1.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="org.eclipse.eavp.viz/target/org.eclipse.eavp.viz-0.1.1-SNAPSHOT.jar"/>

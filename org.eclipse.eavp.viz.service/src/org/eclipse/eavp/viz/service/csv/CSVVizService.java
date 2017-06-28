@@ -22,7 +22,6 @@ import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.AbstractVizService;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizCanvas;
-import org.eclipse.eavp.viz.service.rcp.csv.CSVProxyPlot;
 import org.eclipse.january.geometry.Geometry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,7 @@ public class CSVVizService extends AbstractVizService {
 	/**
 	 * The logger for error messages.
 	 */
-	Logger logger = LoggerFactory.getLogger(CSVVizService.class);
+	private Logger logger = LoggerFactory.getLogger(CSVVizService.class);
 
 	/**
 	 * A map from file URIs to the plots created from them.
@@ -77,8 +76,7 @@ public class CSVVizService extends AbstractVizService {
 		}
 
 		// Create a proxy to it. The proxy can be drawn anywhere.
-		CSVProxyPlot proxyPlot = new CSVProxyPlot();
-		proxyPlot.setSource(dataPlot);
+		CSVPlot proxyPlot = new CSVPlot();
 
 		return proxyPlot;
 	}

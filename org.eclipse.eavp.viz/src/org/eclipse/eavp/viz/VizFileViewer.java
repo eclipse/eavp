@@ -27,7 +27,6 @@ import org.eclipse.eavp.viz.datastructures.resource.VizResourceComponent;
 import org.eclipse.eavp.viz.service.csv.CSVPlot;
 import org.eclipse.eavp.viz.service.rcp.PlotEditor;
 import org.eclipse.eavp.viz.service.rcp.PlotEditorInput;
-import org.eclipse.eavp.viz.service.rcp.csv.CSVProxyPlot;
 import org.eclipse.eavp.viz.visit.VisitPlotViewer;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -529,9 +528,7 @@ public class VizFileViewer extends ViewPart
 								// OSGi instead of instantiating a CSVPlot.
 								CSVPlot dataPlot = new CSVPlot();
 								dataPlot.setDataSource(file.toURI());
-								CSVProxyPlot plot = new CSVProxyPlot();
-								plot.setSource(dataPlot);
-								page.openEditor(new PlotEditorInput(plot),
+								page.openEditor(new PlotEditorInput(dataPlot),
 										PlotEditor.ID);
 							} catch (Exception e) {
 								logger.error(

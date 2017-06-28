@@ -14,6 +14,7 @@ package org.eclipse.eavp.viz.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.eavp.viz.service.csv.CSVVizService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,9 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 	public BasicVizServiceFactory() {
 		// Create the map to hold the services
 		serviceMap = new HashMap<String, IVizService>();
+
+		// Add the default CSV service
+		serviceMap.put("ice-plot", new CSVVizService());
 	}
 
 	/*
