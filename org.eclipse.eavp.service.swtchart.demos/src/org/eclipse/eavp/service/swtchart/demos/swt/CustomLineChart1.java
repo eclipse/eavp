@@ -39,12 +39,14 @@ public class CustomLineChart1 extends LineChart {
 	private boolean enableRangeInfo;
 	private boolean showAxisTitle;
 	private boolean enableHorizontalSlider;
+	private String seriesXY;
 
-	public CustomLineChart1(Composite parent, int style, boolean enableRangeInfo, boolean showAxisTitle, boolean enableHorizontalSlider) {
+	public CustomLineChart1(Composite parent, int style, boolean enableRangeInfo, boolean showAxisTitle, boolean enableHorizontalSlider, String seriesXY) {
 		super(parent, style);
 		this.enableRangeInfo = enableRangeInfo;
 		this.showAxisTitle = showAxisTitle;
 		this.enableHorizontalSlider = enableHorizontalSlider;
+		this.seriesXY = seriesXY;
 		createControl();
 	}
 
@@ -107,7 +109,7 @@ public class CustomLineChart1 extends LineChart {
 	private void addDemoSeries() {
 
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
-		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1);
+		ISeriesData seriesData = SeriesConverter.getSeriesXY(seriesXY);
 		//
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();

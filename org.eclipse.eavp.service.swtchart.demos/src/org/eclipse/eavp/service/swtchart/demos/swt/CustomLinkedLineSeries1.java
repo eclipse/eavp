@@ -12,6 +12,7 @@
 package org.eclipse.eavp.service.swtchart.demos.swt;
 
 import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
+import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -45,10 +46,10 @@ public class CustomLinkedLineSeries1 extends Composite {
 
 		setLayout(new GridLayout(1, true));
 		//
-		sampleChart = new CustomLineChart1(this, SWT.NONE, true, false, false);
+		sampleChart = new CustomLineChart1(this, SWT.NONE, true, false, false, SeriesConverter.LINE_SERIES_4_3);
 		sampleChart.setLayoutData(new GridData(GridData.FILL_BOTH));
 		//
-		referenceChart = new CustomLineChart1(this, SWT.NONE, false, true, true);
+		referenceChart = new CustomLineChart1(this, SWT.NONE, false, true, true, SeriesConverter.LINE_SERIES_4_4);
 		referenceChart.setLayoutData(new GridData(GridData.FILL_BOTH));
 		/*
 		 * Link both charts.
