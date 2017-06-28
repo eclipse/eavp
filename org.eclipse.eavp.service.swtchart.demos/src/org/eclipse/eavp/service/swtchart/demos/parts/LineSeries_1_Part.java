@@ -42,6 +42,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 
 	private Transform transform;
 	private List<String> labels;
+	private int indexIdentifiedPeaks;
 
 	@Inject
 	public LineSeries_1_Part(Composite parent) {
@@ -83,7 +84,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		ILineSeriesData lineSeriesData;
 		ILineSeriesSettings lineSerieSettings;
 		/*
-		 * Chromatogram
+		 * Chromatogram [0]
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1);
 		lineSeriesData = new LineSeriesData(seriesData);
@@ -91,7 +92,17 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		lineSerieSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
-		 * Selected Scans
+		 * Baseline [1]
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_BASELINE);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setEnableArea(true);
+		lineSerieSettings.setSymbolType(PlotSymbolType.NONE);
+		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_DARK_RED);
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Selected Scans [2]
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_SCANS);
 		lineSeriesData = new LineSeriesData(seriesData);
@@ -102,8 +113,9 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		lineSerieSettings.setSymbolColor(ColorAndFormatSupport.COLOR_DARK_RED);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
-		 * Active Peaks
+		 * Active Peaks [3]
 		 */
+		indexIdentifiedPeaks = 3;
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_ACTIVE_PEAKS);
 		lineSeriesData = new LineSeriesData(seriesData);
 		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
@@ -214,7 +226,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 			public void paintControl(PaintEvent e) {
 
 				Rectangle rectangle = getBaseChart().getPlotArea().getClientArea();
-				ISeries series = getBaseChart().getSeriesSet().getSeries()[2];
+				ISeries series = getBaseChart().getSeriesSet().getSeries()[indexIdentifiedPeaks];
 				ILineSeries lineSeries = (ILineSeries)series;
 				//
 				for(int i = 0; i < labels.size(); i++) {

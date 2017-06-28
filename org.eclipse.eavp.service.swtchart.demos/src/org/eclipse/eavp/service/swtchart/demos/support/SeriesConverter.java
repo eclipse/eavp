@@ -34,6 +34,7 @@ public class SeriesConverter {
 	public static final String LINE_SERIES_1_SELECTED_SCANS = "LineSeries1_SelectedScans";
 	public static final String LINE_SERIES_1_IDENTIFIED_SCANS = "LineSeries1_IdentifiedScans";
 	public static final String LINE_SERIES_1_IDENTIFIED_SCANS_SELECTED = "LineSeries1_IdentifiedScansSelected";
+	public static final String LINE_SERIES_1_BASELINE = "LineSeries1_Baseline";
 	//
 	public static final String LINE_SERIES_2 = "LineSeries2";
 	public static final String LINE_SERIES_3 = "LineSeries3";
