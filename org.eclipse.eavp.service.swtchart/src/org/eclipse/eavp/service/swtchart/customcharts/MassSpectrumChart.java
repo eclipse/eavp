@@ -141,26 +141,26 @@ public class MassSpectrumChart extends BarChart {
 				List<BarSeriesIon> barSeriesIons = getBarSeriesIonList();
 				Collections.sort(barSeriesIons, barSeriesIonComparator);
 				int barSeriesSize = barSeriesIons.size();
-				//
-				for(int i = 0; i < numberOfHighestIntensitiesToLabel; i++) {
+				int limit;
+				/*
+				 * Positive
+				 */
+				limit = numberOfHighestIntensitiesToLabel;
+				for(int i = 0; i < limit; i++) {
 					if(i < barSeriesSize) {
-						/*
-						 * Draw the label
-						 */
 						BarSeriesIon barSeriesIon = barSeriesIons.get(i);
-						ISeries barSeries = getBarSeries();
-						if(barSeries != null) {
-							Point point = barSeries.getPixelCoordinates(barSeriesIon.getIndex());
-							String label = getLabel(barSeriesIon.getMz());
-							boolean mirrored = false; // TODO
-							Point labelSize = e.gc.textExtent(label);
-							int x = (int)(point.x + 0.5d - labelSize.x / 2.0d);
-							int y = point.y;
-							if(!mirrored) {
-								y = point.y - labelSize.y;
-							}
-							e.gc.drawText(label, x, y, true);
-						}
+						printLabel(barSeriesIon, e);
+					}
+				}
+				/*
+				 * Negative
+				 */
+				limit = barSeriesIons.size() - numberOfHighestIntensitiesToLabel;
+				limit = (limit < 0) ? 0 : limit;
+				for(int i = barSeriesIons.size() - 1; i >= limit; i--) {
+					BarSeriesIon barSeriesIon = barSeriesIons.get(i);
+					if(barSeriesIon.getIntensity() < 0) {
+						printLabel(barSeriesIon, e);
 					}
 				}
 			}
@@ -171,6 +171,20 @@ public class MassSpectrumChart extends BarChart {
 				return false;
 			}
 		});
+	}
+
+	private void printLabel(BarSeriesIon barSeriesIon, PaintEvent e) {
+
+		Point point = barSeriesIon.getPoint();
+		String label = getLabel(barSeriesIon.getMz());
+		boolean negative = (barSeriesIon.getIntensity() < 0) ? true : false;
+		Point labelSize = e.gc.textExtent(label);
+		int x = (int)(point.x + 0.5d - labelSize.x / 2.0d);
+		int y = point.y;
+		if(!negative) {
+			y = point.y - labelSize.y;
+		}
+		e.gc.drawText(label, x, y, true);
 	}
 
 	private String getLabel(double mz) {
@@ -200,28 +214,24 @@ public class MassSpectrumChart extends BarChart {
 
 		List<BarSeriesIon> barSeriesIons = new ArrayList<BarSeriesIon>();
 		//
-		ISeries barSeries = getBaseChart().getSeriesSet().getSeries()[0];
 		int widthPlotArea = getBaseChart().getPlotArea().getBounds().width;
-		//
-		if(barSeries != null) {
-			//
-			double[] xSeries = barSeries.getXSeries();
-			double[] ySeries = barSeries.getYSeries();
-			int size = barSeries.getXSeries().length;
-			//
-			for(int i = 0; i < size; i++) {
-				Point point = barSeries.getPixelCoordinates(i);
-				if(point.x >= 0 && point.x <= widthPlotArea) {
-					barSeriesIons.add(new BarSeriesIon(xSeries[i], ySeries[i], i));
+		ISeries[] series = getBaseChart().getSeriesSet().getSeries();
+		for(ISeries barSeries : series) {
+			if(barSeries != null) {
+				//
+				double[] xSeries = barSeries.getXSeries();
+				double[] ySeries = barSeries.getYSeries();
+				int size = barSeries.getXSeries().length;
+				//
+				for(int i = 0; i < size; i++) {
+					Point point = barSeries.getPixelCoordinates(i);
+					if(point.x >= 0 && point.x <= widthPlotArea) {
+						barSeriesIons.add(new BarSeriesIon(xSeries[i], ySeries[i], point));
+					}
 				}
 			}
 		}
 		return barSeriesIons;
-	}
-
-	private ISeries getBarSeries() {
-
-		return getBaseChart().getSeriesSet().getSeries()[0];
 	}
 
 	private DecimalFormat getDecimalFormatMZ() {

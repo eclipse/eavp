@@ -35,15 +35,21 @@ public class SeriesConverter {
 	public static final String LINE_SERIES_1_IDENTIFIED_SCANS = "LineSeries1_IdentifiedScans";
 	public static final String LINE_SERIES_1_IDENTIFIED_SCANS_SELECTED = "LineSeries1_IdentifiedScansSelected";
 	public static final String LINE_SERIES_1_BASELINE = "LineSeries1_Baseline";
-	//
 	public static final String LINE_SERIES_2 = "LineSeries2";
 	public static final String LINE_SERIES_3 = "LineSeries3";
-	public static final String LINE_SERIES_4 = "LineSeries4";
-	public static final String LINE_SERIES_5 = "LineSeries5";
-	public static final String LINE_SERIES_6 = "LineSeries6";
-	public static final String LINE_SERIES_7 = "LineSeries7";
+	public static final String LINE_SERIES_4_1 = "LineSeries4_1";
+	public static final String LINE_SERIES_4_2 = "LineSeries4_2";
+	public static final String LINE_SERIES_4_3 = "LineSeries4_3";
+	public static final String LINE_SERIES_4_4 = "LineSeries4_4";
+	public static final String LINE_SERIES_4_5 = "LineSeries4_5";
+	public static final String LINE_SERIES_5_POSITIVE = "LineSeries5_Positive";
+	public static final String LINE_SERIES_5_NEGATIVE = "LineSeries5_Negative";
+	//
 	public static final String BAR_SERIES_1 = "BarSeries1";
 	public static final String BAR_SERIES_2 = "BarSeries2";
+	public static final String BAR_SERIES_3_POSITIVE = "BarSeries3-Positive";
+	public static final String BAR_SERIES_3_NEGATIVE = "BarSeries3-Negative";
+	//
 	public static final String SCATTER_SERIES_1 = "ScatterSeries1";
 
 	public static ISeriesData getSeriesXY(String fileName) {

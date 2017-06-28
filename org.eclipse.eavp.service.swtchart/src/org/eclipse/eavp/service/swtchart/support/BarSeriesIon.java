@@ -11,16 +11,18 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.support;
 
+import org.eclipse.swt.graphics.Point;
+
 public class BarSeriesIon {
 
 	private double mz;
 	private double intensity;
-	private int index;
+	private Point point;
 
-	public BarSeriesIon(double mz, double intensity, int index) {
+	public BarSeriesIon(double mz, double intensity, Point point) {
 		this.mz = mz;
 		this.intensity = intensity;
-		this.index = index;
+		this.point = point;
 	}
 
 	public double getMz() {
@@ -33,8 +35,8 @@ public class BarSeriesIon {
 		return intensity;
 	}
 
-	public int getIndex() {
+	public Point getPoint() {
 
-		return index;
+		return point;
 	}
 }

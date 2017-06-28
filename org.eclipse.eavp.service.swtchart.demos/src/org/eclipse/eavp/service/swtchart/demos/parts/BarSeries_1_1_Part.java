@@ -26,10 +26,10 @@ import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-public class BarSeries_1_Part extends MassSpectrumChart {
+public class BarSeries_1_1_Part extends MassSpectrumChart {
 
 	@Inject
-	public BarSeries_1_Part(Composite parent) {
+	public BarSeries_1_1_Part(Composite parent) {
 		super(parent, SWT.NONE);
 		setBackground(ColorAndFormatSupport.COLOR_WHITE);
 		initialize();

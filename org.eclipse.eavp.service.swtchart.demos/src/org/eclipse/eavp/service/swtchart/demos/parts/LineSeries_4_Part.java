@@ -48,15 +48,15 @@ public class LineSeries_4_Part extends ChromatogramChart {
 		 * Create series.
 		 */
 		Map<Integer, Color> colors = new HashMap<Integer, Color>();
-		colors.put(3, ColorAndFormatSupport.COLOR_RED);
-		colors.put(4, ColorAndFormatSupport.COLOR_BLACK);
-		colors.put(5, ColorAndFormatSupport.COLOR_GRAY);
-		colors.put(6, ColorAndFormatSupport.COLOR_DARK_RED);
-		colors.put(7, ColorAndFormatSupport.COLOR_DARK_GRAY);
+		colors.put(1, ColorAndFormatSupport.COLOR_RED);
+		colors.put(2, ColorAndFormatSupport.COLOR_BLACK);
+		colors.put(3, ColorAndFormatSupport.COLOR_GRAY);
+		colors.put(4, ColorAndFormatSupport.COLOR_DARK_RED);
+		colors.put(5, ColorAndFormatSupport.COLOR_DARK_GRAY);
 		//
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
-		for(int i = 3; i <= 7; i++) {
-			ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES + i);
+		for(int i = 1; i <= 5; i++) {
+			ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES + "4_" + i);
 			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 			ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
 			lineSerieSettings.setLineColor(colors.get(i));
