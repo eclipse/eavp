@@ -233,9 +233,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			 * Reset the current selection and redraw the chart.
 			 */
 			fireUpdateCustomSelectionHandlers(event);
-			userSelection.reset();
-			redraw();
 		}
+		//
+		userSelection.reset();
+		redraw();
 	}
 
 	public String[] getAxisLabels(String axis) {

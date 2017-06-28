@@ -22,6 +22,11 @@ public interface IScrollableChart {
 	BaseChart getBaseChart();
 
 	/**
+	 * Delete all series.
+	 */
+	void deleteSeries();
+
+	/**
 	 * Sets the range, based on the range coordinates.
 	 * It's only possible to set the range for the primary axes as
 	 * the range for secondary axes is calculated dynamically.
