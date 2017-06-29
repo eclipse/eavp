@@ -39,9 +39,9 @@ public class BarSeries_2_2_Part extends MassSpectrumChart {
 	private void initialize() {
 
 		IChartSettings chartSettings = getChartSettings();
-		chartSettings.setFactorExtendMinX(0.01d);
+		chartSettings.setFactorExtendMinX(0.0d);
 		chartSettings.setFactorExtendMaxX(0.0d);
-		chartSettings.setFactorExtendMaxY(0.0d);
+		chartSettings.setFactorExtendMaxY(0.1d);
 		applySettings(chartSettings);
 		//
 		setNumberOfHighestIntensitiesToLabel(5);
