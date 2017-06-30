@@ -33,6 +33,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Slider;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Direction;
@@ -52,6 +54,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	//
 	private static final Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 	private static final Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
+	//
+	private static final String RESET_CHART = "Reset Chart";
+	private static final String EXPORT_SELECTION = "Export Chart Selection";
+	private static final String EXPORT_SELECTION_TSV = "*.tsv";
+	private static final String EXPORT_SELECTION_LATEX = "*.tex";
+	private static final String EXPORT_SELECTION_PNG = "*.png";
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
@@ -417,6 +425,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			plotArea.addCustomPaintListener(positionLegend);
 		} else {
 			positionLegend = null;
+		}
+		//
+		if(chartSettings.isCreateMenu()) {
+			createMenu();
+		} else {
+			baseChart.getPlotArea().setMenu(null);
 		}
 	}
 
@@ -888,5 +902,60 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 */
 			linkedScrollableChart.setSliderSelection(false);
 		}
+	}
+
+	public void widgetSelected(Event e) {
+
+		if(!(e.widget instanceof MenuItem)) {
+			return;
+		}
+		//
+		MenuItem menuItem = (MenuItem)e.widget;
+		if(menuItem.getText().equals(RESET_CHART)) {
+			adjustRange(true);
+			redraw();
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_TSV)) {
+			//
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_LATEX)) {
+			//
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_PNG)) {
+			//
+		}
+	}
+
+	private void createMenu() {
+
+		Composite plotArea = baseChart.getPlotArea();
+		Menu menu = new Menu(plotArea);
+		plotArea.setMenu(menu);
+		//
+		MenuItem menuItem;
+		/*
+		 * Basic
+		 */
+		menuItem = new MenuItem(menu, SWT.PUSH);
+		menuItem.setText(RESET_CHART);
+		menuItem.addListener(SWT.Selection, this);
+		//
+		menuItem = new MenuItem(menu, SWT.SEPARATOR);
+		/*
+		 * Export
+		 */
+		menuItem = new MenuItem(menu, SWT.CASCADE);
+		menuItem.setText(EXPORT_SELECTION);
+		Menu exportMenu = new Menu(menuItem);
+		menuItem.setMenu(exportMenu);
+		//
+		menuItem = new MenuItem(exportMenu, SWT.PUSH);
+		menuItem.setText(EXPORT_SELECTION_TSV);
+		menuItem.addListener(SWT.Selection, this);
+		//
+		menuItem = new MenuItem(exportMenu, SWT.PUSH);
+		menuItem.setText(EXPORT_SELECTION_LATEX);
+		menuItem.addListener(SWT.Selection, this);
+		//
+		menuItem = new MenuItem(exportMenu, SWT.PUSH);
+		menuItem.setText(EXPORT_SELECTION_PNG);
+		menuItem.addListener(SWT.Selection, this);
 	}
 }

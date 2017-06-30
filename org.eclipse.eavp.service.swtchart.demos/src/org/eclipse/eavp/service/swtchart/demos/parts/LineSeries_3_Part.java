@@ -62,6 +62,7 @@ public class LineSeries_3_Part extends LineChart {
 		chartSettings.setEnableRangeInfo(true);
 		chartSettings.setShowPositionMarker(true);
 		chartSettings.setShowPositionLegend(true);
+		chartSettings.setCreateMenu(true);
 		/*
 		 * Primary X-Axis
 		 */

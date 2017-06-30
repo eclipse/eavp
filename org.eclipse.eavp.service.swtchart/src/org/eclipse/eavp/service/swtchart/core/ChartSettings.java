@@ -46,8 +46,10 @@ public class ChartSettings implements IChartSettings {
 	private double factorExtendMinY;
 	private double factorExtendMaxY;
 	//
-	boolean showPositionMarker = true;
-	boolean showPositionLegend = true;
+	private boolean showPositionMarker = true;
+	private boolean showPositionLegend = true;
+	//
+	private boolean createMenu;
 
 	public ChartSettings() {
 		//
@@ -87,6 +89,8 @@ public class ChartSettings implements IChartSettings {
 		//
 		showPositionMarker = false;
 		showPositionLegend = false;
+		//
+		createMenu = false;
 	}
 
 	@Override
@@ -377,5 +381,17 @@ public class ChartSettings implements IChartSettings {
 	public void setShowPositionLegend(boolean showPositionLegend) {
 
 		this.showPositionLegend = showPositionLegend;
+	}
+
+	@Override
+	public boolean isCreateMenu() {
+
+		return createMenu;
+	}
+
+	@Override
+	public void setCreateMenu(boolean createMenu) {
+
+		this.createMenu = createMenu;
 	}
 }

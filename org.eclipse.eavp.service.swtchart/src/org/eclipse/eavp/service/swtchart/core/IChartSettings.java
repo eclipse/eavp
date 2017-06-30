@@ -129,4 +129,8 @@ public interface IChartSettings {
 	boolean isShowPositionLegend();
 
 	void setShowPositionLegend(boolean showPositionLegend);
+
+	boolean isCreateMenu();
+
+	void setCreateMenu(boolean createMenu);
 }
