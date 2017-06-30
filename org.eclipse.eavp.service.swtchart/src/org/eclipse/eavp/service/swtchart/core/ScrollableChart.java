@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
+import org.eclipse.eavp.service.swtchart.export.ImageExport;
+import org.eclipse.eavp.service.swtchart.export.LaTeXExport;
+import org.eclipse.eavp.service.swtchart.export.TextExport;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
 import org.eclipse.eavp.service.swtchart.marker.PositionMarker;
 import org.eclipse.swt.SWT;
@@ -32,7 +35,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -59,9 +61,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String RESET_CHART = "Reset Chart";
 	private static final String SHOW_RANGE_UI = "Show Range UI";
 	private static final String EXPORT_SELECTION = "Export Chart Selection";
-	private static final String EXPORT_SELECTION_TSV = "*.tsv";
-	private static final String EXPORT_SELECTION_LATEX = "*.tex";
-	private static final String EXPORT_SELECTION_IMAGE = "Image";
+	private static final String EXPORT_SELECTION_TEXT_TSV = "Text Tab Separated (*.tsv)";
+	private static final String EXPORT_SELECTION_LATEX_TABLE = "LaTeX Table (*.tex)";
+	private static final String EXPORT_SELECTION_IMAGE_BITMAP = "Image (Bitmap)";
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
@@ -924,12 +926,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			redraw();
 		} else if(menuItem.getText().equals(SHOW_RANGE_UI)) {
 			showRangeUI(true);
-		} else if(menuItem.getText().equals(EXPORT_SELECTION_TSV)) {
-			// TODO
-		} else if(menuItem.getText().equals(EXPORT_SELECTION_LATEX)) {
-			// TODO
-		} else if(menuItem.getText().equals(EXPORT_SELECTION_IMAGE)) {
-			saveSelectionAsImage();
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_TEXT_TSV)) {
+			TextExport.exportTabSeparated(getShell(), baseChart);
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_LATEX_TABLE)) {
+			LaTeXExport.exportAsTable(getShell(), baseChart);
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_IMAGE_BITMAP)) {
+			ImageExport.exportAsBitmap(getShell(), baseChart);
 		}
 	}
 
@@ -963,39 +965,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		menuItem.setMenu(exportMenu);
 		//
 		menuItem = new MenuItem(exportMenu, SWT.PUSH);
-		menuItem.setText(EXPORT_SELECTION_TSV);
+		menuItem.setText(EXPORT_SELECTION_TEXT_TSV);
 		menuItem.addListener(SWT.Selection, this);
 		//
 		menuItem = new MenuItem(exportMenu, SWT.PUSH);
-		menuItem.setText(EXPORT_SELECTION_LATEX);
+		menuItem.setText(EXPORT_SELECTION_LATEX_TABLE);
 		menuItem.addListener(SWT.Selection, this);
 		//
 		menuItem = new MenuItem(exportMenu, SWT.PUSH);
-		menuItem.setText(EXPORT_SELECTION_IMAGE);
+		menuItem.setText(EXPORT_SELECTION_IMAGE_BITMAP);
 		menuItem.addListener(SWT.Selection, this);
-	}
-
-	private void saveSelectionAsImage() {
-
-		FileDialog fileDialog = new FileDialog(getShell(), SWT.SAVE);
-		fileDialog.setText("Save As Image");
-		fileDialog.setFilterExtensions(new String[]{"*.jpeg", "*.jpg", "*.png"});
-		//
-		String filename = fileDialog.open();
-		if(filename != null) {
-			/*
-			 * Select the format.
-			 */
-			int imageFormat = SWT.IMAGE_UNDEFINED;
-			if(filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
-				imageFormat = SWT.IMAGE_JPEG;
-			} else if(filename.endsWith(".png")) {
-				imageFormat = SWT.IMAGE_PNG;
-			}
-			//
-			if(imageFormat != SWT.IMAGE_UNDEFINED) {
-				baseChart.save(filename, imageFormat);
-			}
-		}
 	}
 }
