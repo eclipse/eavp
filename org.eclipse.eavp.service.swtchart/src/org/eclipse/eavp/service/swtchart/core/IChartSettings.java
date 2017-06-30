@@ -17,9 +17,9 @@ import org.eclipse.swt.graphics.Color;
 
 public interface IChartSettings {
 
-	boolean isEnableRangeInfo();
+	boolean isEnableRangeUI();
 
-	void setEnableRangeInfo(boolean enableRangeInfo);
+	void setEnableRangeUI(boolean enableRangeUI);
 
 	boolean isVerticalSliderVisible();
 

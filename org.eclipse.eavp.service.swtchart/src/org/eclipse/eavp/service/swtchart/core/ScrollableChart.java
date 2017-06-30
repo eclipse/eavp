@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -56,10 +57,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 	//
 	private static final String RESET_CHART = "Reset Chart";
+	private static final String SHOW_RANGE_UI = "Show Range UI";
 	private static final String EXPORT_SELECTION = "Export Chart Selection";
 	private static final String EXPORT_SELECTION_TSV = "*.tsv";
 	private static final String EXPORT_SELECTION_LATEX = "*.tex";
-	private static final String EXPORT_SELECTION_PNG = "*.png";
+	private static final String EXPORT_SELECTION_IMAGE = "Image";
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
@@ -67,7 +69,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private BaseChart baseChart;
 	//
 	private IChartSettings chartSettings;
-	private boolean showRangeInfoHint = true;
+	private boolean showRangeUIHint = true;
 	/*
 	 * This list contains all scrollable charts
 	 * that are linked with the current editor.
@@ -382,7 +384,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void modifyChart() {
 
 		setSliderVisibility();
-		setRangeInfoVisibility(chartSettings.isEnableRangeInfo());
+		setRangeInfoVisibility(chartSettings.isEnableRangeUI());
 		//
 		baseChart.getTitle().setText(chartSettings.getTitle());
 		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
@@ -429,7 +431,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 		//
 		if(chartSettings.isCreateMenu()) {
-			createMenu();
+			createPopupMenu();
 		} else {
 			baseChart.getPlotArea().setMenu(null);
 		}
@@ -760,19 +762,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 
-				if(chartSettings.isEnableRangeInfo()) {
+				if(chartSettings.isEnableRangeUI()) {
 					if(!rangeUI.isVisible()) {
 						if(e.y <= 47) {
 							/*
 							 * Show the range info composite.
 							 */
-							showRangeInfoHint = true;
-							GridData gridData = (GridData)rangeUI.getLayoutData();
-							gridData.exclude = !showRangeInfoHint;
-							rangeUI.setVisible(showRangeInfoHint);
-							Composite parent = rangeUI.getParent();
-							parent.layout(false);
-							parent.redraw();
+							showRangeUIHint = true;
+							showRangeUI(showRangeUIHint);
 						}
 					}
 				}
@@ -789,8 +786,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				/*
 				 * Rectangle (Double Click -> show Range Info)
 				 */
-				if(!rangeUI.isVisible() && chartSettings.isEnableRangeInfo()) {
-					if(showRangeInfoHint) {
+				if(!rangeUI.isVisible() && chartSettings.isEnableRangeUI()) {
+					if(showRangeUIHint) {
 						//
 						int lineWidth = 1;
 						Rectangle rectangle = baseChart.getBounds();
@@ -822,7 +819,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 								} catch(InterruptedException e) {
 									System.out.println(e);
 								}
-								showRangeInfoHint = false;
+								showRangeUIHint = false;
 								baseChart.redraw();
 							}
 						});
@@ -905,6 +902,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
+	private void showRangeUI(boolean showRangeUI) {
+
+		GridData gridData = (GridData)rangeUI.getLayoutData();
+		gridData.exclude = !showRangeUI;
+		rangeUI.setVisible(showRangeUI);
+		Composite parent = rangeUI.getParent();
+		parent.layout(false);
+		parent.redraw();
+	}
+
 	public void widgetSelected(Event e) {
 
 		if(!(e.widget instanceof MenuItem)) {
@@ -915,16 +922,18 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(menuItem.getText().equals(RESET_CHART)) {
 			adjustRange(true);
 			redraw();
+		} else if(menuItem.getText().equals(SHOW_RANGE_UI)) {
+			showRangeUI(true);
 		} else if(menuItem.getText().equals(EXPORT_SELECTION_TSV)) {
-			//
+			// TODO
 		} else if(menuItem.getText().equals(EXPORT_SELECTION_LATEX)) {
-			//
-		} else if(menuItem.getText().equals(EXPORT_SELECTION_PNG)) {
-			//
+			// TODO
+		} else if(menuItem.getText().equals(EXPORT_SELECTION_IMAGE)) {
+			saveSelectionAsImage();
 		}
 	}
 
-	private void createMenu() {
+	private void createPopupMenu() {
 
 		Composite plotArea = baseChart.getPlotArea();
 		Menu menu = new Menu(plotArea);
@@ -937,6 +946,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		menuItem = new MenuItem(menu, SWT.PUSH);
 		menuItem.setText(RESET_CHART);
 		menuItem.addListener(SWT.Selection, this);
+		//
+		if(chartSettings.isEnableRangeUI()) {
+			menuItem = new MenuItem(menu, SWT.PUSH);
+			menuItem.setText(SHOW_RANGE_UI);
+			menuItem.addListener(SWT.Selection, this);
+		}
 		//
 		menuItem = new MenuItem(menu, SWT.SEPARATOR);
 		/*
@@ -956,7 +971,31 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		menuItem.addListener(SWT.Selection, this);
 		//
 		menuItem = new MenuItem(exportMenu, SWT.PUSH);
-		menuItem.setText(EXPORT_SELECTION_PNG);
+		menuItem.setText(EXPORT_SELECTION_IMAGE);
 		menuItem.addListener(SWT.Selection, this);
+	}
+
+	private void saveSelectionAsImage() {
+
+		FileDialog fileDialog = new FileDialog(getShell(), SWT.SAVE);
+		fileDialog.setText("Save As Image");
+		fileDialog.setFilterExtensions(new String[]{"*.jpeg", "*.jpg", "*.png"});
+		//
+		String filename = fileDialog.open();
+		if(filename != null) {
+			/*
+			 * Select the format.
+			 */
+			int imageFormat = SWT.IMAGE_UNDEFINED;
+			if(filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
+				imageFormat = SWT.IMAGE_JPEG;
+			} else if(filename.endsWith(".png")) {
+				imageFormat = SWT.IMAGE_PNG;
+			}
+			//
+			if(imageFormat != SWT.IMAGE_UNDEFINED) {
+				baseChart.save(filename, imageFormat);
+			}
+		}
 	}
 }

@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class ChartSettings implements IChartSettings {
 
-	private boolean enableRangeInfo;
+	private boolean enableRangeUI;
 	private boolean verticalSliderVisible;
 	private boolean horizontalSliderVisible;
 	//
@@ -57,7 +57,7 @@ public class ChartSettings implements IChartSettings {
 		/*
 		 * Set the chart.
 		 */
-		enableRangeInfo = false;
+		enableRangeUI = false;
 		verticalSliderVisible = false; // https://bugs.eclipse.org/bugs/show_bug.cgi?id=511257
 		horizontalSliderVisible = true;
 		/*
@@ -94,15 +94,15 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public boolean isEnableRangeInfo() {
+	public boolean isEnableRangeUI() {
 
-		return enableRangeInfo;
+		return enableRangeUI;
 	}
 
 	@Override
-	public void setEnableRangeInfo(boolean enableRangeInfo) {
+	public void setEnableRangeUI(boolean enableRangeUI) {
 
-		this.enableRangeInfo = enableRangeInfo;
+		this.enableRangeUI = enableRangeUI;
 	}
 
 	@Override
