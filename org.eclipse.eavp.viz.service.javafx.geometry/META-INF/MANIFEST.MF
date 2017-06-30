@@ -7,9 +7,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Service-Component: OSGI-INF/vizGeometryService.xml
 Bundle-Vendor: Oak Ridge National Laboratory
 Eclipse-ExtensibleAPI: true
-Import-Package: javafx.embed.swt;version="2.2.0",
- javafx.scene;version="2.2.0",
- javafx.scene.image;version="2.2.0",
+Import-Package: javafx.embed.swt,
+ javafx.scene,
+ javafx.scene.image,
  org.eclipse.eavp.geometry.view.javafx.display,
  org.eclipse.eavp.geometry.view.javafx.render,
  org.eclipse.eavp.geometry.view.model,
