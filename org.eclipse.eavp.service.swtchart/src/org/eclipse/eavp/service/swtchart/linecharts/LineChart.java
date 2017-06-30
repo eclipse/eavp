@@ -19,10 +19,18 @@ import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.eavp.service.swtchart.core.SeriesContainer;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries;
 import org.swtchart.ISeries.SeriesType;
 
 public class LineChart extends ScrollableChart {
+
+	private static final int DISPLAY_WIDTH = Display.getDefault().getClientArea().width;
+	//
+	public static final int HIGH_COMPRESSION = DISPLAY_WIDTH * 2;
+	public static final int MEDIUM_COMPRESSION = DISPLAY_WIDTH * 5;
+	public static final int LOW_COMPRESSION = DISPLAY_WIDTH * 10;
+	public static final int NO_COMPRESSION = Integer.MAX_VALUE;
 
 	public LineChart(Composite parent, int style) {
 		super(parent, style);
@@ -30,9 +38,21 @@ public class LineChart extends ScrollableChart {
 
 	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList) {
 
-		addSeriesData(lineSeriesDataList, Integer.MAX_VALUE);
+		addSeriesData(lineSeriesDataList, NO_COMPRESSION);
 	}
 
+	/**
+	 * The data is compressed to the given length.
+	 * If you're unsure which length to set, then use one of the following variables:
+	 * 
+	 * HIGH_COMPRESSION
+	 * MEDIUM_COMPRESSION
+	 * LOW_COMPRESSION
+	 * NO_COMPRESSION
+	 * 
+	 * @param lineSeriesDataList
+	 * @param compressToLength
+	 */
 	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList, int compressToLength) {
 
 		/*

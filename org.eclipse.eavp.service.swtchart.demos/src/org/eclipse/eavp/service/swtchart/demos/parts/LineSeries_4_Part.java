@@ -24,6 +24,7 @@ import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
+import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -62,7 +63,7 @@ public class LineSeries_4_Part extends ChromatogramChart {
 			lineSerieSettings.setLineColor(colors.get(i));
 			lineSerieSettings.setEnableArea(false);
 			lineSeriesDataList.add(lineSeriesData);
-			addSeriesData(lineSeriesDataList);
+			addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);
 		}
 	}
 }
