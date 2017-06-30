@@ -22,9 +22,18 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.swtchart.ISeries;
 
-public class TextExport {
+public class TabSeparatedValuesExport implements ISeriesExportConverter {
 
-	public static void exportTabSeparated(Shell shell, BaseChart baseChart) {
+	private static final String NAME = "Tab Separated Values (*.tsv)";
+
+	@Override
+	public String getName() {
+
+		return NAME;
+	}
+
+	@Override
+	public void export(Shell shell, BaseChart baseChart) {
 
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setText("Save As Tab Separated Text");

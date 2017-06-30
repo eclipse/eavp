@@ -16,29 +16,29 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class ImageExport {
+public class ImageJPGExport implements ISeriesExportConverter {
 
-	public static void exportAsBitmap(Shell shell, BaseChart baseChart) {
+	private static final String NAME = "Image (*.jpg)";
+
+	@Override
+	public String getName() {
+
+		return NAME;
+	}
+
+	@Override
+	public void export(Shell shell, BaseChart baseChart) {
 
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
-		fileDialog.setText("Save As Image (Bitmap)");
-		fileDialog.setFilterExtensions(new String[]{"*.jpeg", "*.jpg", "*.png"});
+		fileDialog.setText(NAME);
+		fileDialog.setFilterExtensions(new String[]{"*.jpeg", "*.jpg"});
 		//
 		String fileName = fileDialog.open();
 		if(fileName != null) {
 			/*
 			 * Select the format.
 			 */
-			int imageFormat = SWT.IMAGE_UNDEFINED;
-			if(fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
-				imageFormat = SWT.IMAGE_JPEG;
-			} else if(fileName.endsWith(".png")) {
-				imageFormat = SWT.IMAGE_PNG;
-			}
-			//
-			if(imageFormat != SWT.IMAGE_UNDEFINED) {
-				baseChart.save(fileName, imageFormat);
-			}
+			baseChart.save(fileName, SWT.IMAGE_JPEG);
 		}
 	}
 }

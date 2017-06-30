@@ -12,13 +12,17 @@
 package org.eclipse.eavp.service.swtchart.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
-import org.eclipse.eavp.service.swtchart.export.ImageExport;
-import org.eclipse.eavp.service.swtchart.export.LaTeXExport;
-import org.eclipse.eavp.service.swtchart.export.TextExport;
+import org.eclipse.eavp.service.swtchart.export.ISeriesExportConverter;
+import org.eclipse.eavp.service.swtchart.export.ImageJPGExport;
+import org.eclipse.eavp.service.swtchart.export.ImagePNGExport;
+import org.eclipse.eavp.service.swtchart.export.LaTeXTableExport;
+import org.eclipse.eavp.service.swtchart.export.TabSeparatedValuesExport;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
 import org.eclipse.eavp.service.swtchart.marker.PositionMarker;
 import org.eclipse.swt.SWT;
@@ -61,9 +65,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String RESET_CHART = "Reset Chart";
 	private static final String SHOW_RANGE_UI = "Show Range UI";
 	private static final String EXPORT_SELECTION = "Export Chart Selection";
-	private static final String EXPORT_SELECTION_TEXT_TSV = "Text Tab Separated (*.tsv)";
-	private static final String EXPORT_SELECTION_LATEX_TABLE = "LaTeX Table (*.tex)";
-	private static final String EXPORT_SELECTION_IMAGE_BITMAP = "Image (Bitmap)";
+	//
+	private Map<String, ISeriesExportConverter> exportConverterMap;
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
@@ -84,6 +87,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
 		chartSettings = new ChartSettings();
+		exportConverterMap = new HashMap<String, ISeriesExportConverter>();
 		linkedScrollableCharts = new ArrayList<ScrollableChart>();
 		initialize();
 	}
@@ -415,7 +419,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.setFactorExtendMaxX(chartSettings.getFactorExtendMaxX());
 		baseChart.setFactorExtendMinY(chartSettings.getFactorExtendMinY());
 		baseChart.setFactorExtendMaxY(chartSettings.getFactorExtendMaxY());
-		//
+		/*
+		 * Place the legend and position marker if requested.
+		 */
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
 		//
 		if(chartSettings.isShowPositionMarker()) {
@@ -431,10 +437,25 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		} else {
 			positionLegend = null;
 		}
-		//
+		/*
+		 * Create the menu if requested.
+		 */
 		if(chartSettings.isCreateMenu()) {
+			/*
+			 * Add the default export converter.
+			 */
+			ImageJPGExport imageJPGExport = new ImageJPGExport();
+			ImagePNGExport imagePNGExport = new ImagePNGExport();
+			TabSeparatedValuesExport tabSeparatedValuesExport = new TabSeparatedValuesExport();
+			LaTeXTableExport latexTableExport = new LaTeXTableExport();
+			exportConverterMap.put(imageJPGExport.getName(), imageJPGExport);
+			exportConverterMap.put(imagePNGExport.getName(), imagePNGExport);
+			exportConverterMap.put(tabSeparatedValuesExport.getName(), tabSeparatedValuesExport);
+			exportConverterMap.put(latexTableExport.getName(), latexTableExport);
+			//
 			createPopupMenu();
 		} else {
+			exportConverterMap.clear();
 			baseChart.getPlotArea().setMenu(null);
 		}
 	}
@@ -922,16 +943,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		//
 		MenuItem menuItem = (MenuItem)e.widget;
 		if(menuItem.getText().equals(RESET_CHART)) {
+			// Reset
 			adjustRange(true);
 			redraw();
 		} else if(menuItem.getText().equals(SHOW_RANGE_UI)) {
+			// Range UI
 			showRangeUI(true);
-		} else if(menuItem.getText().equals(EXPORT_SELECTION_TEXT_TSV)) {
-			TextExport.exportTabSeparated(getShell(), baseChart);
-		} else if(menuItem.getText().equals(EXPORT_SELECTION_LATEX_TABLE)) {
-			LaTeXExport.exportAsTable(getShell(), baseChart);
-		} else if(menuItem.getText().equals(EXPORT_SELECTION_IMAGE_BITMAP)) {
-			ImageExport.exportAsBitmap(getShell(), baseChart);
+		} else if(exportConverterMap.containsKey(menuItem.getText())) {
+			// Export
+			ISeriesExportConverter seriesExportConverter = exportConverterMap.get(menuItem.getText());
+			seriesExportConverter.export(getShell(), baseChart);
 		}
 	}
 
@@ -964,16 +985,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		Menu exportMenu = new Menu(menuItem);
 		menuItem.setMenu(exportMenu);
 		//
-		menuItem = new MenuItem(exportMenu, SWT.PUSH);
-		menuItem.setText(EXPORT_SELECTION_TEXT_TSV);
-		menuItem.addListener(SWT.Selection, this);
-		//
-		menuItem = new MenuItem(exportMenu, SWT.PUSH);
-		menuItem.setText(EXPORT_SELECTION_LATEX_TABLE);
-		menuItem.addListener(SWT.Selection, this);
-		//
-		menuItem = new MenuItem(exportMenu, SWT.PUSH);
-		menuItem.setText(EXPORT_SELECTION_IMAGE_BITMAP);
-		menuItem.addListener(SWT.Selection, this);
+		for(String name : exportConverterMap.keySet()) {
+			menuItem = new MenuItem(exportMenu, SWT.PUSH);
+			menuItem.setText(name);
+			menuItem.addListener(SWT.Selection, this);
+		}
 	}
 }

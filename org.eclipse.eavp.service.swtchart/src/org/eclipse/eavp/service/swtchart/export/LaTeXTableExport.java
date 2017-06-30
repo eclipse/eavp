@@ -22,12 +22,21 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.swtchart.ISeries;
 
-public class LaTeXExport {
+public class LaTeXTableExport implements ISeriesExportConverter {
 
-	public static void exportAsTable(Shell shell, BaseChart baseChart) {
+	private static final String NAME = "LaTeX Table (*.tex)";
+
+	@Override
+	public String getName() {
+
+		return NAME;
+	}
+
+	@Override
+	public void export(Shell shell, BaseChart baseChart) {
 
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
-		fileDialog.setText("Save As LaTeX Table");
+		fileDialog.setText(NAME);
 		fileDialog.setFilterExtensions(new String[]{"*.tex"});
 		//
 		String fileName = fileDialog.open();
