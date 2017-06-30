@@ -282,6 +282,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void handleSelectionEvent(Event event) {
 
 		baseChart.handleSelectionEvent(event);
+		widgetSelected(event);
 	}
 
 	@Override
