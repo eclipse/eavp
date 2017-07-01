@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.converter;
 
+import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartDataCoordinates;
 import org.eclipse.swt.SWT;
 

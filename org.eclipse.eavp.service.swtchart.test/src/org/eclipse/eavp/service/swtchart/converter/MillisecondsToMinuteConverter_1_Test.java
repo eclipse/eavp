@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.converter;
 
+import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
+
 import junit.framework.TestCase;
 
 public class MillisecondsToMinuteConverter_1_Test extends TestCase {

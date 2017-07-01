@@ -51,13 +51,13 @@ public class MassSpectrumChart extends BarChart {
 	private LabelOption labelOption;
 	private Map<Double, String> customLabels;
 
+	public MassSpectrumChart() {
+		super();
+		initialize();
+	}
+
 	public MassSpectrumChart(Composite parent, int style) {
 		super(parent, style);
-		numberOfHighestIntensitiesToLabel = 5;
-		barSeriesIonComparator = new BarSeriesIonComparator();
-		labelOption = LabelOption.EXACT;
-		customLabels = new HashMap<Double, String>();
-		//
 		initialize();
 	}
 
@@ -86,6 +86,11 @@ public class MassSpectrumChart extends BarChart {
 
 	private void initialize() {
 
+		numberOfHighestIntensitiesToLabel = 5;
+		barSeriesIonComparator = new BarSeriesIonComparator();
+		labelOption = LabelOption.EXACT;
+		customLabels = new HashMap<Double, String>();
+		//
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);

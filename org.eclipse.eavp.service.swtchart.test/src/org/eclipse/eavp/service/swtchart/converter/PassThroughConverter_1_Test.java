@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.converter;
 
+import org.eclipse.eavp.service.swtchart.converter.PassThroughConverter;
+
 import junit.framework.TestCase;
 
 public class PassThroughConverter_1_Test extends TestCase {

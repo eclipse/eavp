@@ -13,6 +13,7 @@ package org.eclipse.eavp.service.swtchart.export;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
@@ -38,7 +39,9 @@ public class ImageJPGExport implements ISeriesExportConverter {
 			/*
 			 * Select the format.
 			 */
-			baseChart.save(fileName, SWT.IMAGE_JPEG);
+			ImageSupplier imageSupplier = new ImageSupplier();
+			ImageData imageData = imageSupplier.getImageData(baseChart);
+			imageSupplier.saveImage(imageData, fileName, SWT.IMAGE_JPEG);
 		}
 	}
 }

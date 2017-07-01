@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.converter;
 
+import org.eclipse.eavp.service.swtchart.converter.MillisecondsToScanNumberConverter;
+
 import junit.framework.TestCase;
 
 public class MillisecondsToScanNumberConverter_1_Test extends TestCase {

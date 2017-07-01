@@ -32,6 +32,10 @@ public class LineChart extends ScrollableChart {
 	public static final int LOW_COMPRESSION = DISPLAY_WIDTH * 10;
 	public static final int NO_COMPRESSION = Integer.MAX_VALUE;
 
+	public LineChart() {
+		super();
+	}
+
 	public LineChart(Composite parent, int style) {
 		super(parent, style);
 	}

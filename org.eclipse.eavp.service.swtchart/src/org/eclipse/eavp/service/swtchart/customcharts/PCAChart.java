@@ -48,6 +48,11 @@ public class PCAChart extends ScatterChart {
 	private String yAxisTitle = "PC2";
 	private DecimalFormat decimalFormat = new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH));
 
+	public PCAChart() {
+		super();
+		initialize();
+	}
+
 	public PCAChart(Composite parent, int style) {
 		super(parent, style);
 		initialize();

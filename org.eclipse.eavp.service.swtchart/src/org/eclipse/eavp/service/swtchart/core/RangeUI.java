@@ -153,9 +153,13 @@ public class RangeUI extends Composite {
 		});
 		//
 		Button buttonSetRange = new Button(this, SWT.PUSH);
-		buttonSetRange.setText("");
+		if(Activator.getDefault() != null) {
+			buttonSetRange.setText("");
+			buttonSetRange.setImage(Activator.getDefault().getImage(Activator.ICON_SET_RANGE));
+		} else {
+			buttonSetRange.setText("Set");
+		}
 		buttonSetRange.setToolTipText("Set the current selection.");
-		buttonSetRange.setImage(Activator.getDefault().getImage(Activator.ICON_SET_RANGE));
 		buttonSetRange.setLayoutData(getButtonGridData());
 		buttonSetRange.addSelectionListener(new SelectionAdapter() {
 
@@ -171,9 +175,13 @@ public class RangeUI extends Composite {
 		});
 		//
 		Button buttonResetRange = new Button(this, SWT.PUSH);
-		buttonResetRange.setText("");
+		if(Activator.getDefault() != null) {
+			buttonResetRange.setText("");
+			buttonResetRange.setImage(Activator.getDefault().getImage(Activator.ICON_RESET));
+		} else {
+			buttonResetRange.setText("Reset");
+		}
 		buttonResetRange.setToolTipText("Reset the range.");
-		buttonResetRange.setImage(Activator.getDefault().getImage(Activator.ICON_RESET));
 		buttonResetRange.setLayoutData(getButtonGridData());
 		buttonResetRange.addSelectionListener(new SelectionAdapter() {
 
@@ -189,9 +197,13 @@ public class RangeUI extends Composite {
 		});
 		//
 		Button buttonHide = new Button(this, SWT.PUSH);
-		buttonHide.setText("");
+		if(Activator.getDefault() != null) {
+			buttonHide.setText("");
+			buttonHide.setImage(Activator.getDefault().getImage(Activator.ICON_HIDE));
+		} else {
+			buttonHide.setText("Hide");
+		}
 		buttonHide.setToolTipText("Hide the range info UI.");
-		buttonHide.setImage(Activator.getDefault().getImage(Activator.ICON_HIDE));
 		buttonHide.setLayoutData(getButtonGridData());
 		buttonHide.addSelectionListener(new SelectionAdapter() {
 

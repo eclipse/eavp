@@ -24,6 +24,10 @@ import org.swtchart.LineStyle;
 
 public class ScatterChart extends ScrollableChart {
 
+	public ScatterChart() {
+		super();
+	}
+
 	public ScatterChart(Composite parent, int style) {
 		super(parent, style);
 	}

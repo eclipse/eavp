@@ -17,9 +17,9 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class ImagePNGExport implements ISeriesExportConverter {
+public class ImageBMPExport implements ISeriesExportConverter {
 
-	private static final String NAME = "Image (*.png)";
+	private static final String NAME = "Image (*.bmp)";
 
 	@Override
 	public String getName() {
@@ -32,7 +32,7 @@ public class ImagePNGExport implements ISeriesExportConverter {
 
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setText(NAME);
-		fileDialog.setFilterExtensions(new String[]{"*.png"});
+		fileDialog.setFilterExtensions(new String[]{"*.bmp"});
 		//
 		String fileName = fileDialog.open();
 		if(fileName != null) {
@@ -41,7 +41,7 @@ public class ImagePNGExport implements ISeriesExportConverter {
 			 */
 			ImageSupplier imageSupplier = new ImageSupplier();
 			ImageData imageData = imageSupplier.getImageData(baseChart);
-			imageSupplier.saveImage(imageData, fileName, SWT.IMAGE_PNG);
+			imageSupplier.saveImage(imageData, fileName, SWT.IMAGE_BMP);
 		}
 	}
 }

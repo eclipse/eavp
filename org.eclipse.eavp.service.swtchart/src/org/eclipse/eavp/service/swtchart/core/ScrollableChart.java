@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.export.ISeriesExportConverter;
+import org.eclipse.eavp.service.swtchart.export.ImageBMPExport;
 import org.eclipse.eavp.service.swtchart.export.ImageJPGExport;
 import org.eclipse.eavp.service.swtchart.export.ImagePNGExport;
 import org.eclipse.eavp.service.swtchart.export.LaTeXTableExport;
@@ -42,6 +43,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Direction;
@@ -83,6 +85,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	//
 	private PositionMarker positionMarker;
 	private PositionLegend positionLegend;
+
+	/**
+	 * This constructor is used, when clazz.newInstance() is needed.
+	 */
+	public ScrollableChart() {
+		this(getSeparateShell(), SWT.NONE);
+	}
 
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
@@ -387,6 +396,22 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		return isLargeDataSet;
 	}
 
+	/**
+	 * Create a shell with max width and height.
+	 * 
+	 * @return Shell
+	 */
+	private static Shell getSeparateShell() {
+
+		Display display = Display.getDefault();
+		Rectangle bounds = display.getBounds();
+		Shell shell = new Shell(display);
+		shell.setLayout(new FillLayout());
+		shell.setSize(bounds.width, bounds.height);
+		shell.setLocation(0, 0);
+		return shell;
+	}
+
 	private void modifyChart() {
 
 		setSliderVisibility();
@@ -444,20 +469,22 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			/*
 			 * Add the default export converter.
 			 */
-			ImageJPGExport imageJPGExport = new ImageJPGExport();
-			ImagePNGExport imagePNGExport = new ImagePNGExport();
-			TabSeparatedValuesExport tabSeparatedValuesExport = new TabSeparatedValuesExport();
-			LaTeXTableExport latexTableExport = new LaTeXTableExport();
-			exportConverterMap.put(imageJPGExport.getName(), imageJPGExport);
-			exportConverterMap.put(imagePNGExport.getName(), imagePNGExport);
-			exportConverterMap.put(tabSeparatedValuesExport.getName(), tabSeparatedValuesExport);
-			exportConverterMap.put(latexTableExport.getName(), latexTableExport);
+			addSeriesExportConverter(new ImageJPGExport());
+			addSeriesExportConverter(new ImagePNGExport());
+			addSeriesExportConverter(new ImageBMPExport());
+			addSeriesExportConverter(new TabSeparatedValuesExport());
+			addSeriesExportConverter(new LaTeXTableExport());
 			//
 			createPopupMenu();
 		} else {
 			exportConverterMap.clear();
 			baseChart.getPlotArea().setMenu(null);
 		}
+	}
+
+	private void addSeriesExportConverter(ISeriesExportConverter seriesExportConverter) {
+
+		exportConverterMap.put(seriesExportConverter.getName(), seriesExportConverter);
 	}
 
 	private void setSliderVisibility() {

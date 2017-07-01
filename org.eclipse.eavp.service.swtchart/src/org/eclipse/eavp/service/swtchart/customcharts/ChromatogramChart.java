@@ -26,6 +26,11 @@ import org.swtchart.LineStyle;
 
 public class ChromatogramChart extends LineChart {
 
+	public ChromatogramChart() {
+		super();
+		initialize();
+	}
+
 	public ChromatogramChart(Composite parent, int style) {
 		super(parent, style);
 		initialize();
