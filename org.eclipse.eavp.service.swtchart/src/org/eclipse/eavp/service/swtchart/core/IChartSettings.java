@@ -126,6 +126,10 @@ public interface IChartSettings {
 
 	void setShowPositionMarker(boolean showPositionMarker);
 
+	boolean isShowCenterMarker();
+
+	void setShowCenterMarker(boolean showCenterMarker);
+
 	boolean isShowPositionLegend();
 
 	void setShowPositionLegend(boolean showPositionLegend);

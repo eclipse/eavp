@@ -61,6 +61,7 @@ public class LineSeries_3_Part extends LineChart {
 		chartSettings.setUseZeroY(true);
 		chartSettings.setEnableRangeUI(true);
 		chartSettings.setShowPositionMarker(true);
+		chartSettings.setShowCenterMarker(true);
 		chartSettings.setShowPositionLegend(true);
 		chartSettings.setCreateMenu(true);
 		/*

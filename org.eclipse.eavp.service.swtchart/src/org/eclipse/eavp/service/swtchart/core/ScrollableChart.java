@@ -24,6 +24,7 @@ import org.eclipse.eavp.service.swtchart.export.ImageJPGExport;
 import org.eclipse.eavp.service.swtchart.export.ImagePNGExport;
 import org.eclipse.eavp.service.swtchart.export.LaTeXTableExport;
 import org.eclipse.eavp.service.swtchart.export.TabSeparatedValuesExport;
+import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
 import org.eclipse.eavp.service.swtchart.marker.PositionMarker;
 import org.eclipse.swt.SWT;
@@ -64,9 +65,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 	private static final Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 	//
-	private static final String RESET_CHART = "Reset Chart";
+	private static final String MENU_MARKER_AND_LEGENDS = "Marker / Legends";
+	private static final String MENU_EXPORT_CHART_SELECTION = "Export Chart Selection";
+	//
+	private static final String RESET_CHART = "Reset Chart (1:1)";
 	private static final String SHOW_RANGE_UI = "Show Range UI";
-	private static final String EXPORT_SELECTION = "Export Chart Selection";
+	private static final String SHOW_POSITION_MARKER = "Show Position Marker";
+	private static final String HIDE_POSITION_MARKER = "Hide Position Marker";
+	private static final String SHOW_CENTER_MARKER = "Show Center Marker";
+	private static final String HIDE_CENTER_MARKER = "Hide Center Marker";
+	private static final String SHOW_POSITION_LEGEND = "Show Position Legend";
+	private static final String HIDE_POSITION_LEGEND = "Hide Position Legend";
+	private static final String SHOW_SERIES_LEGEND = "Show Series Legend";
+	private static final String HIDE_SERIES_LEGEND = "Hide Series Legend";
 	//
 	private Map<String, ISeriesExportConverter> exportConverterMap;
 	//
@@ -84,7 +95,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private List<ScrollableChart> linkedScrollableCharts;
 	//
 	private PositionMarker positionMarker;
+	private CenterMarker centerMarker;
 	private PositionLegend positionLegend;
+	//
+	private MenuItem positionMakerMenuItem = null;
+	private MenuItem centerMakerMenuItem = null;
+	private MenuItem positionLegendMenuItem = null;
+	private MenuItem seriesLegendMenuItem = null;
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.
@@ -445,23 +462,46 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.setFactorExtendMinY(chartSettings.getFactorExtendMinY());
 		baseChart.setFactorExtendMaxY(chartSettings.getFactorExtendMaxY());
 		/*
-		 * Place the legend and position marker if requested.
+		 * Additional actions.
 		 */
+		setCustomPaintListener();
+		setMenu();
+	}
+
+	private void setCustomPaintListener() {
+
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
-		//
+		/*
+		 * Position marker.
+		 */
 		if(chartSettings.isShowPositionMarker()) {
 			positionMarker = new PositionMarker();
 			plotArea.addCustomPaintListener(positionMarker);
 		} else {
 			positionMarker = null;
 		}
-		//
+		/*
+		 * Center marker.
+		 */
+		if(chartSettings.isShowCenterMarker()) {
+			centerMarker = new CenterMarker();
+			plotArea.addCustomPaintListener(centerMarker);
+		} else {
+			centerMarker = null;
+		}
+		/*
+		 * Position legend.
+		 */
 		if(chartSettings.isShowPositionLegend()) {
 			positionLegend = new PositionLegend(baseChart);
 			plotArea.addCustomPaintListener(positionLegend);
 		} else {
 			positionLegend = null;
 		}
+	}
+
+	private void setMenu() {
+
 		/*
 		 * Create the menu if requested.
 		 */
@@ -970,14 +1010,57 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		//
 		MenuItem menuItem = (MenuItem)e.widget;
 		if(menuItem.getText().equals(RESET_CHART)) {
-			// Reset
 			adjustRange(true);
 			redraw();
 		} else if(menuItem.getText().equals(SHOW_RANGE_UI)) {
-			// Range UI
 			showRangeUI(true);
+		} else if(menuItem.getText().equals(SHOW_POSITION_MARKER)) {
+			if(positionMarker != null) {
+				positionMakerMenuItem.setText(HIDE_POSITION_MARKER);
+				positionMarker.setDrawInfo(true);
+				redraw();
+			}
+		} else if(menuItem.getText().equals(HIDE_POSITION_MARKER)) {
+			if(positionMarker != null) {
+				positionMakerMenuItem.setText(SHOW_POSITION_MARKER);
+				positionMarker.setDrawInfo(false);
+				redraw();
+			}
+		} else if(menuItem.getText().equals(SHOW_CENTER_MARKER)) {
+			if(centerMarker != null) {
+				centerMakerMenuItem.setText(HIDE_CENTER_MARKER);
+				centerMarker.setDrawInfo(true);
+				redraw();
+			}
+		} else if(menuItem.getText().equals(HIDE_CENTER_MARKER)) {
+			if(centerMarker != null) {
+				centerMakerMenuItem.setText(SHOW_CENTER_MARKER);
+				centerMarker.setDrawInfo(false);
+				redraw();
+			}
+		} else if(menuItem.getText().equals(SHOW_POSITION_LEGEND)) {
+			if(positionLegend != null) {
+				positionLegendMenuItem.setText(HIDE_POSITION_LEGEND);
+				positionLegend.setDrawInfo(true);
+				redraw();
+			}
+		} else if(menuItem.getText().equals(HIDE_POSITION_LEGEND)) {
+			if(positionLegend != null) {
+				positionLegendMenuItem.setText(SHOW_POSITION_LEGEND);
+				positionLegend.setDrawInfo(false);
+				redraw();
+			}
+		} else if(menuItem.getText().equals(SHOW_SERIES_LEGEND)) {
+			if(seriesLegendMenuItem != null) {
+				seriesLegendMenuItem.setText(HIDE_SERIES_LEGEND);
+				baseChart.getLegend().setVisible(true);
+			}
+		} else if(menuItem.getText().equals(HIDE_SERIES_LEGEND)) {
+			if(seriesLegendMenuItem != null) {
+				seriesLegendMenuItem.setText(SHOW_SERIES_LEGEND);
+				baseChart.getLegend().setVisible(false);
+			}
 		} else if(exportConverterMap.containsKey(menuItem.getText())) {
-			// Export
 			ISeriesExportConverter seriesExportConverter = exportConverterMap.get(menuItem.getText());
 			seriesExportConverter.export(getShell(), baseChart);
 		}
@@ -989,10 +1072,17 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		Menu menu = new Menu(plotArea);
 		plotArea.setMenu(menu);
 		//
+		createBasicMenuItems(menu);
+		new MenuItem(menu, SWT.SEPARATOR);
+		createCustomPaintListenerMenuItems(menu);
+		new MenuItem(menu, SWT.SEPARATOR);
+		createExportMenuItems(menu);
+	}
+
+	private void createBasicMenuItems(Menu menu) {
+
 		MenuItem menuItem;
-		/*
-		 * Basic
-		 */
+		//
 		menuItem = new MenuItem(menu, SWT.PUSH);
 		menuItem.setText(RESET_CHART);
 		menuItem.addListener(SWT.Selection, this);
@@ -1002,13 +1092,50 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			menuItem.setText(SHOW_RANGE_UI);
 			menuItem.addListener(SWT.Selection, this);
 		}
+	}
+
+	private void createCustomPaintListenerMenuItems(Menu menu) {
+
+		MenuItem menuItem;
 		//
-		menuItem = new MenuItem(menu, SWT.SEPARATOR);
-		/*
-		 * Export
-		 */
 		menuItem = new MenuItem(menu, SWT.CASCADE);
-		menuItem.setText(EXPORT_SELECTION);
+		menuItem.setText(MENU_MARKER_AND_LEGENDS);
+		Menu markerAndLegendsMenu = new Menu(menuItem);
+		menuItem.setMenu(markerAndLegendsMenu);
+		/*
+		 * Optional
+		 */
+		if(chartSettings.isShowPositionMarker()) {
+			positionMakerMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
+			positionMakerMenuItem.setText(HIDE_POSITION_MARKER);
+			positionMakerMenuItem.addListener(SWT.Selection, this);
+		}
+		//
+		if(chartSettings.isShowCenterMarker()) {
+			centerMakerMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
+			centerMakerMenuItem.setText(HIDE_CENTER_MARKER);
+			centerMakerMenuItem.addListener(SWT.Selection, this);
+		}
+		//
+		if(chartSettings.isShowPositionLegend()) {
+			positionLegendMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
+			positionLegendMenuItem.setText(HIDE_POSITION_LEGEND);
+			positionLegendMenuItem.addListener(SWT.Selection, this);
+		}
+		/*
+		 * Obligatory
+		 */
+		seriesLegendMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
+		seriesLegendMenuItem.setText(baseChart.getLegend().isVisible() ? HIDE_SERIES_LEGEND : SHOW_SERIES_LEGEND);
+		seriesLegendMenuItem.addListener(SWT.Selection, this);
+	}
+
+	private void createExportMenuItems(Menu menu) {
+
+		MenuItem menuItem;
+		//
+		menuItem = new MenuItem(menu, SWT.CASCADE);
+		menuItem.setText(MENU_EXPORT_CHART_SELECTION);
 		Menu exportMenu = new Menu(menuItem);
 		menuItem.setMenu(exportMenu);
 		//

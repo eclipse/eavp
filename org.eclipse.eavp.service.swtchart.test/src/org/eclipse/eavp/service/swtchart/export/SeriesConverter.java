@@ -67,7 +67,7 @@ public class SeriesConverter {
 		try {
 			String line;
 			int i = 0;
-			bufferedReader = new BufferedReader(new InputStreamReader(SeriesConverter.class.getResourceAsStream(fileName)));
+			bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
 			while((line = bufferedReader.readLine()) != null) {
 				ySeries[i++] = Double.parseDouble(line.trim());
 			}
@@ -94,7 +94,7 @@ public class SeriesConverter {
 		BufferedReader bufferedReader = null;
 		try {
 			String line;
-			bufferedReader = new BufferedReader(new InputStreamReader(SeriesConverter.class.getResourceAsStream(fileName)));
+			bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
 			while((line = bufferedReader.readLine()) != null) {
 				String[] values = line.split("\t");
 				String id = values[0].trim();

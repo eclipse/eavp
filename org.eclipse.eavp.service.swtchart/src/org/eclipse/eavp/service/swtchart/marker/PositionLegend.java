@@ -28,6 +28,7 @@ public class PositionLegend implements ICustomPaintListener {
 	private StringBuilder stringBuilder;
 	private int x;
 	private int y;
+	private boolean drawInfo;
 	//
 	private String[] axisLabelsX;
 	private DecimalFormat decimalFormatX;
@@ -37,6 +38,7 @@ public class PositionLegend implements ICustomPaintListener {
 	public PositionLegend(BaseChart baseChart) {
 		stringBuilder = new StringBuilder();
 		this.baseChart = baseChart;
+		drawInfo = true;
 		//
 		axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		decimalFormatX = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, BaseChart.ID_PRIMARY_X_AXIS);
@@ -50,15 +52,35 @@ public class PositionLegend implements ICustomPaintListener {
 		this.y = y;
 	}
 
+	public boolean isDrawInfo() {
+
+		return drawInfo;
+	}
+
+	public void setDrawInfo(boolean drawInfo) {
+
+		this.drawInfo = drawInfo;
+	}
+
 	@Override
 	public void paintControl(PaintEvent e) {
 
-		stringBuilder.delete(0, stringBuilder.length());
-		e.gc.setForeground(ColorAndFormatSupport.COLOR_BLACK);
-		e.gc.setBackground(ColorAndFormatSupport.COLOR_WHITE);
-		//
-		double primaryValueX = getSelectedPrimaryAxisValue(x, IExtendedChart.X_AXIS);
-		double primaryValueY = getSelectedPrimaryAxisValue(y, IExtendedChart.Y_AXIS);
+		if(drawInfo) {
+			stringBuilder.delete(0, stringBuilder.length());
+			e.gc.setForeground(ColorAndFormatSupport.COLOR_BLACK);
+			e.gc.setBackground(ColorAndFormatSupport.COLOR_WHITE);
+			//
+			double primaryValueX = getSelectedPrimaryAxisValue(x, IExtendedChart.X_AXIS);
+			double primaryValueY = getSelectedPrimaryAxisValue(y, IExtendedChart.Y_AXIS);
+			//
+			drawXAxes(primaryValueX);
+			drawYAxes(primaryValueY);
+			e.gc.drawText(stringBuilder.toString(), 10, 10);
+		}
+	}
+
+	private void drawXAxes(double primaryValueX) {
+
 		/*
 		 * X Axes
 		 */
@@ -85,6 +107,10 @@ public class PositionLegend implements ICustomPaintListener {
 				}
 			}
 		}
+	}
+
+	private void drawYAxes(double primaryValueY) {
+
 		/*
 		 * Y Axes
 		 */
@@ -114,8 +140,6 @@ public class PositionLegend implements ICustomPaintListener {
 				}
 			}
 		}
-		//
-		e.gc.drawText(stringBuilder.toString(), 10, 10);
 	}
 
 	@Override

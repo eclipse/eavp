@@ -46,8 +46,9 @@ public class ChartSettings implements IChartSettings {
 	private double factorExtendMinY;
 	private double factorExtendMaxY;
 	//
-	private boolean showPositionMarker = true;
-	private boolean showPositionLegend = true;
+	private boolean showPositionMarker;
+	private boolean showCenterMarker;
+	private boolean showPositionLegend;
 	//
 	private boolean createMenu;
 
@@ -88,6 +89,7 @@ public class ChartSettings implements IChartSettings {
 		factorExtendMaxY = 0.0d;
 		//
 		showPositionMarker = false;
+		showCenterMarker = false;
 		showPositionLegend = false;
 		//
 		createMenu = false;
@@ -369,6 +371,18 @@ public class ChartSettings implements IChartSettings {
 	public void setShowPositionMarker(boolean showPositionMarker) {
 
 		this.showPositionMarker = showPositionMarker;
+	}
+
+	@Override
+	public boolean isShowCenterMarker() {
+
+		return showCenterMarker;
+	}
+
+	@Override
+	public void setShowCenterMarker(boolean showCenterMarker) {
+
+		this.showCenterMarker = showCenterMarker;
 	}
 
 	@Override

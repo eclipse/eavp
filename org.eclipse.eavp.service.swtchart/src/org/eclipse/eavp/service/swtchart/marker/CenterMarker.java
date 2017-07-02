@@ -17,22 +17,14 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.ICustomPaintListener;
 
-public class PositionMarker implements ICustomPaintListener {
+public class CenterMarker implements ICustomPaintListener {
 
-	private int x;
-	private int y;
 	private Color foregroundColor;
 	private boolean drawInfo;
 
-	public PositionMarker() {
+	public CenterMarker() {
 		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
 		drawInfo = true;
-	}
-
-	public void setActualPosition(int x, int y) {
-
-		this.x = x;
-		this.y = y;
 	}
 
 	public boolean isDrawInfo() {
@@ -48,15 +40,13 @@ public class PositionMarker implements ICustomPaintListener {
 	@Override
 	public void paintControl(PaintEvent e) {
 
-		/*
-		 * Plots a vertical/horizontal line in the plot area at the x position of the mouse.
-		 */
 		if(drawInfo) {
 			e.gc.setForeground(foregroundColor);
-			if(x > 0 && x < e.width && y > 0 && y < e.height) {
-				e.gc.drawLine(x, 0, x, e.height);
-				e.gc.drawLine(0, y, e.width, y);
-			}
+			int currentLineStyle = e.gc.getLineStyle();
+			e.gc.setLineStyle(SWT.LINE_DASHDOT);
+			int width = e.width / 2;
+			e.gc.drawLine(width, 0, width, e.height);
+			e.gc.setLineStyle(currentLineStyle);
 		}
 	}
 

@@ -124,10 +124,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			if(deltaTime >= DELTA_CLICK_TIME) {
 				handleUserSelection(event);
 			}
-		} else if(event.button == 3) {
-			// Show menu
-			System.out.println("Menu");
 		}
+		// Button 3 = Show Menu
 	}
 
 	@Override
