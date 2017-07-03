@@ -21,6 +21,10 @@ public class BarSeriesData extends AbstractChartSeriesData implements IBarSeries
 	public BarSeriesData(ISeriesData seriesData) {
 		super(seriesData);
 		this.barSeriesSettings = new BarSeriesSettings();
+		/*
+		 * Set the default description.
+		 */
+		this.barSeriesSettings.setDescription(seriesData.getId());
 	}
 
 	@Override

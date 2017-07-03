@@ -21,6 +21,10 @@ public class LineSeriesData extends AbstractChartSeriesData implements ILineSeri
 	public LineSeriesData(ISeriesData seriesData) {
 		super(seriesData);
 		this.lineSeriesSettings = new LineSeriesSettings();
+		/*
+		 * Set the default description.
+		 */
+		this.lineSeriesSettings.setDescription(seriesData.getId());
 	}
 
 	@Override

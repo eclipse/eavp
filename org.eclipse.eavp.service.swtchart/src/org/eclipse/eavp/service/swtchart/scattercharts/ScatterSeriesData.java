@@ -21,6 +21,10 @@ public class ScatterSeriesData extends AbstractChartSeriesData implements IScatt
 	public ScatterSeriesData(ISeriesData seriesData) {
 		super(seriesData);
 		this.scatterSeriesSettings = new ScatterSeriesSettings();
+		/*
+		 * Set the default description.
+		 */
+		this.scatterSeriesSettings.setDescription(seriesData.getId());
 	}
 
 	@Override

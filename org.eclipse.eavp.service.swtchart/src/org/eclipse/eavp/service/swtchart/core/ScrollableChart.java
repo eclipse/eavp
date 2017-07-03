@@ -1054,11 +1054,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			if(seriesLegendMenuItem != null) {
 				seriesLegendMenuItem.setText(HIDE_SERIES_LEGEND);
 				baseChart.getLegend().setVisible(true);
+				// baseChart.updateLayout();
+				baseChart.redraw();
 			}
 		} else if(menuItem.getText().equals(HIDE_SERIES_LEGEND)) {
 			if(seriesLegendMenuItem != null) {
 				seriesLegendMenuItem.setText(SHOW_SERIES_LEGEND);
 				baseChart.getLegend().setVisible(false);
+				// baseChart.updateLayout();
+				baseChart.redraw();
 			}
 		} else if(exportConverterMap.containsKey(menuItem.getText())) {
 			ISeriesExportConverter seriesExportConverter = exportConverterMap.get(menuItem.getText());
