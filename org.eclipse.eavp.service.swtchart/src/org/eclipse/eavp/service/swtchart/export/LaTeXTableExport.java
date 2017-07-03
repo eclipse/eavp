@@ -52,6 +52,7 @@ public class LaTeXTableExport implements ISeriesExportConverter {
 		 * Select the export file.
 		 */
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
+		fileDialog.setOverwrite(true);
 		fileDialog.setText(TITLE);
 		fileDialog.setFilterExtensions(new String[]{FILE_EXTENSION});
 		//

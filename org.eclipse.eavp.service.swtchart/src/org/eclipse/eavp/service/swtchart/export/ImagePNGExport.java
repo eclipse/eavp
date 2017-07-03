@@ -34,6 +34,7 @@ public class ImagePNGExport implements ISeriesExportConverter {
 	public void export(Shell shell, BaseChart baseChart) {
 
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
+		fileDialog.setOverwrite(true);
 		fileDialog.setText(NAME);
 		fileDialog.setFilterExtensions(new String[]{"*.png"});
 		//
