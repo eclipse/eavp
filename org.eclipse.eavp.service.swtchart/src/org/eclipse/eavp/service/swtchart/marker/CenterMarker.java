@@ -20,27 +20,27 @@ import org.swtchart.ICustomPaintListener;
 public class CenterMarker implements ICustomPaintListener {
 
 	private Color foregroundColor;
-	private boolean drawInfo;
+	private boolean draw;
 
 	public CenterMarker() {
 		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
-		drawInfo = true;
+		draw = true;
 	}
 
-	public boolean isDrawInfo() {
+	public boolean isDraw() {
 
-		return drawInfo;
+		return draw;
 	}
 
-	public void setDrawInfo(boolean drawInfo) {
+	public void setDraw(boolean draw) {
 
-		this.drawInfo = drawInfo;
+		this.draw = draw;
 	}
 
 	@Override
 	public void paintControl(PaintEvent e) {
 
-		if(drawInfo) {
+		if(draw) {
 			e.gc.setForeground(foregroundColor);
 			int currentLineStyle = e.gc.getLineStyle();
 			e.gc.setLineStyle(SWT.LINE_DASHDOT);

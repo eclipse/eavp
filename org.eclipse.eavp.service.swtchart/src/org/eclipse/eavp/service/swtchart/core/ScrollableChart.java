@@ -1017,25 +1017,25 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		} else if(menuItem.getText().equals(SHOW_POSITION_MARKER)) {
 			if(positionMarker != null) {
 				positionMakerMenuItem.setText(HIDE_POSITION_MARKER);
-				positionMarker.setDrawInfo(true);
+				positionMarker.setDraw(true);
 				redraw();
 			}
 		} else if(menuItem.getText().equals(HIDE_POSITION_MARKER)) {
 			if(positionMarker != null) {
 				positionMakerMenuItem.setText(SHOW_POSITION_MARKER);
-				positionMarker.setDrawInfo(false);
+				positionMarker.setDraw(false);
 				redraw();
 			}
 		} else if(menuItem.getText().equals(SHOW_CENTER_MARKER)) {
 			if(centerMarker != null) {
 				centerMakerMenuItem.setText(HIDE_CENTER_MARKER);
-				centerMarker.setDrawInfo(true);
+				centerMarker.setDraw(true);
 				redraw();
 			}
 		} else if(menuItem.getText().equals(HIDE_CENTER_MARKER)) {
 			if(centerMarker != null) {
 				centerMakerMenuItem.setText(SHOW_CENTER_MARKER);
-				centerMarker.setDrawInfo(false);
+				centerMarker.setDraw(false);
 				redraw();
 			}
 		} else if(menuItem.getText().equals(SHOW_POSITION_LEGEND)) {

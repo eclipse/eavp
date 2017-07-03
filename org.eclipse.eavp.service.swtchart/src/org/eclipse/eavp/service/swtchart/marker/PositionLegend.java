@@ -28,7 +28,7 @@ public class PositionLegend implements ICustomPaintListener {
 	private StringBuilder stringBuilder;
 	private int x;
 	private int y;
-	private boolean drawInfo;
+	private boolean draw;
 	//
 	private String[] axisLabelsX;
 	private DecimalFormat decimalFormatX;
@@ -38,7 +38,7 @@ public class PositionLegend implements ICustomPaintListener {
 	public PositionLegend(BaseChart baseChart) {
 		stringBuilder = new StringBuilder();
 		this.baseChart = baseChart;
-		drawInfo = true;
+		draw = true;
 		//
 		axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		decimalFormatX = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, BaseChart.ID_PRIMARY_X_AXIS);
@@ -54,18 +54,18 @@ public class PositionLegend implements ICustomPaintListener {
 
 	public boolean isDrawInfo() {
 
-		return drawInfo;
+		return draw;
 	}
 
 	public void setDrawInfo(boolean drawInfo) {
 
-		this.drawInfo = drawInfo;
+		this.draw = drawInfo;
 	}
 
 	@Override
 	public void paintControl(PaintEvent e) {
 
-		if(drawInfo) {
+		if(draw) {
 			stringBuilder.delete(0, stringBuilder.length());
 			e.gc.setForeground(ColorAndFormatSupport.COLOR_BLACK);
 			e.gc.setBackground(ColorAndFormatSupport.COLOR_WHITE);

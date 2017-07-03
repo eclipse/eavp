@@ -22,11 +22,11 @@ public class PositionMarker implements ICustomPaintListener {
 	private int x;
 	private int y;
 	private Color foregroundColor;
-	private boolean drawInfo;
+	private boolean draw;
 
 	public PositionMarker() {
 		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
-		drawInfo = true;
+		draw = true;
 	}
 
 	public void setActualPosition(int x, int y) {
@@ -35,14 +35,14 @@ public class PositionMarker implements ICustomPaintListener {
 		this.y = y;
 	}
 
-	public boolean isDrawInfo() {
+	public boolean isDraw() {
 
-		return drawInfo;
+		return draw;
 	}
 
-	public void setDrawInfo(boolean drawInfo) {
+	public void setDraw(boolean draw) {
 
-		this.drawInfo = drawInfo;
+		this.draw = draw;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class PositionMarker implements ICustomPaintListener {
 		/*
 		 * Plots a vertical/horizontal line in the plot area at the x position of the mouse.
 		 */
-		if(drawInfo) {
+		if(draw) {
 			e.gc.setForeground(foregroundColor);
 			if(x > 0 && x < e.width && y > 0 && y < e.height) {
 				e.gc.drawLine(x, 0, x, e.height);

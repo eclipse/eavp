@@ -1,0 +1,5 @@
+Demo settings (Line | Bar | Scatter) series -> applySettings(IChartSettings chartSettings) live
+LaTeX and Text Export (Axis Selection - Wizard) + Decimal Format
+NMR data - axis settings
+Show legend - redraw problem
+Menu extensions
