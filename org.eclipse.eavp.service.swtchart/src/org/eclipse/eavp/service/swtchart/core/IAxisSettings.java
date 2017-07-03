@@ -19,6 +19,14 @@ import org.swtchart.LineStyle;
 
 public interface IAxisSettings {
 
+	/**
+	 * This method returns the label of the axis.
+	 * It's calculated by using the title and description.
+	 * 
+	 * @return String
+	 */
+	String getLabel();
+
 	String getTitle();
 
 	void setTitle(String title);

@@ -228,9 +228,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		redraw();
 	}
 
-	public String[] getAxisLabels(String axis) {
+	public String[] getAxisLabels(String axisOrientation) {
 
-		IAxis[] axes = getAxes(axis);
+		IAxis[] axes = getAxes(axisOrientation);
 		int size = axes.length;
 		String[] items = new String[size];
 		//
@@ -238,59 +238,22 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			/*
 			 * Get the label.
 			 */
-			String label = "";
-			String title = axes[i].getTitle().getText();
-			String description = getAxisDescription(axis, i);
-			/*
-			 * Handle the primary axes separately.
-			 */
-			if(i == 0) {
-				if(axis.equals(IExtendedChart.X_AXIS)) {
-					if(description.equals(DEFAULT_TITLE_X_AXIS)) {
-						description = "";
-					}
-				} else if(axis.equals(IExtendedChart.Y_AXIS)) {
-					if(description.equals(DEFAULT_TITLE_Y_AXIS)) {
-						description = "";
-					}
-				}
-			}
-			//
-			if(title.equals("")) {
-				/*
-				 * Title is not set.
-				 * Use the description instead or
-				 * print a note that no label is available.
-				 */
-				if(description.equals("")) {
-					label = "label not set";
-				} else {
-					label = description;
-				}
+			String label;
+			IAxisSettings axisSettings = getAxisSettings(axisOrientation, i);
+			if(axisSettings != null) {
+				label = axisSettings.getLabel();
 			} else {
-				/*
-				 * Title is set.
-				 * Use description if available
-				 * otherwise the title.
-				 */
-				if(description.equals("")) {
-					label = title;
-				} else {
-					label = description;
-				}
+				label = "not set";
 			}
-			/*
-			 * Set the label.
-			 */
 			items[i] = label;
 		}
 		return items;
 	}
 
-	public DecimalFormat getDecimalFormat(String axis, int id) {
+	public DecimalFormat getDecimalFormat(String axisOrientation, int id) {
 
 		DecimalFormat decimalFormat;
-		IAxisSettings axisSettings = getAxisSettings(axis, id);
+		IAxisSettings axisSettings = getAxisSettings(axisOrientation, id);
 		//
 		if(axisSettings != null) {
 			decimalFormat = axisSettings.getDecimalFormat();
@@ -308,16 +271,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 * or
 	 * IExtendedChart.Y_AXIS
 	 * 
-	 * @param axis
+	 * @param axisOrientation
 	 * @param id
 	 * @return IAxisScaleConverter
 	 */
-	public IAxisScaleConverter getAxisScaleConverter(String axis, int id) {
+	public IAxisScaleConverter getAxisScaleConverter(String axisOrientation, int id) {
 
 		IAxisScaleConverter axisScaleConverter = null;
 		IAxisSettings axisSettings = null;
 		//
-		if(axis.equals(IExtendedChart.X_AXIS)) {
+		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
 			axisSettings = getXAxisSettingsMap().get(id);
 		} else {
 			axisSettings = getYAxisSettingsMap().get(id);
@@ -344,33 +307,21 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private IAxis[] getAxes(String axis) {
+	private IAxis[] getAxes(String axisOrientation) {
 
 		IAxisSet axisSet = getAxisSet();
 		//
-		if(axis.equals(IExtendedChart.X_AXIS)) {
+		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
 			return axisSet.getXAxes();
 		} else {
 			return axisSet.getYAxes();
 		}
 	}
 
-	private String getAxisDescription(String axis, int id) {
-
-		String description = "";
-		//
-		IAxisSettings axisSettings = getAxisSettings(axis, id);
-		if(axisSettings != null) {
-			description = axisSettings.getDescription();
-		}
-		//
-		return description;
-	}
-
-	private IAxisSettings getAxisSettings(String axis, int id) {
+	private IAxisSettings getAxisSettings(String axisOrientation, int id) {
 
 		IAxisSettings axisSettings = null;
-		if(axis.equals(IExtendedChart.X_AXIS)) {
+		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
 			axisSettings = getXAxisSettingsMap().get(id);
 		} else {
 			axisSettings = getYAxisSettingsMap().get(id);

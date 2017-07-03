@@ -1,4 +1,4 @@
 Demo settings (Line | Bar | Scatter) series -> applySettings(IChartSettings chartSettings) live
-LaTeX, R and Text Export (Axis Selection - Wizard) + Decimal Format
+R Export
 NMR data - axis settings
 Menu extensions

@@ -50,6 +50,48 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	}
 
 	@Override
+	public String getLabel() {
+
+		/*
+		 * Get the label.
+		 */
+		String label = "";
+		/*
+		 * Handle the primary axes separately.
+		 */
+		String description = this.description;
+		if(this instanceof IPrimaryAxisSettings) {
+			description = "";
+		}
+		//
+		if(title.equals("")) {
+			/*
+			 * Title is not set.
+			 * Use the description instead or
+			 * print a note that no label is available.
+			 */
+			if(description.equals("")) {
+				label = "label not set";
+			} else {
+				label = description;
+			}
+		} else {
+			/*
+			 * Title is set.
+			 * Use description if available
+			 * otherwise the title.
+			 */
+			if(description.equals("")) {
+				label = title;
+			} else {
+				label = description;
+			}
+		}
+		//
+		return label;
+	}
+
+	@Override
 	public String getTitle() {
 
 		return title;

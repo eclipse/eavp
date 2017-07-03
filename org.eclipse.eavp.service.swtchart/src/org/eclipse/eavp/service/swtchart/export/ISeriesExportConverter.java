@@ -16,6 +16,9 @@ import org.eclipse.swt.widgets.Shell;
 
 public interface ISeriesExportConverter {
 
+	String MESSAGE_OK = "The data has been exported successully.";
+	String MESSAGE_ERROR = "Sorry, something has gone wrong to export the data.";
+
 	String getName();
 
 	void export(Shell shell, BaseChart baseChart);
