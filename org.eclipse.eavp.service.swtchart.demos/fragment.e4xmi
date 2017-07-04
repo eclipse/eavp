@@ -43,5 +43,12 @@
         </children>
       </children>
     </elements>
+    <elements xsi:type="advanced:Perspective" xmi:id="_JAjFIGCuEeez1s_tw2hs_w" elementId="org.eclipse.eavp.service.swtchart.demos.perspective.eavpdemo-swtchartextensionssettings" label="EAVP Demo - SWTChart Extensions (Settings)">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_LbtgAGCuEeez1s_tw2hs_w" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.5">
+        <children xsi:type="basic:PartStack" xmi:id="_MSCEAGCuEeez1s_tw2hs_w" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.6">
+          <children xsi:type="basic:Part" xmi:id="_MosQgGCuEeez1s_tw2hs_w" elementId="org.eclipse.eavp.service.swtchart.demos.part.lineseriespreferences" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_Preferences_Part" label="Line Series Preferences" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+        </children>
+      </children>
+    </elements>
   </fragments>
 </fragment:ModelFragments>

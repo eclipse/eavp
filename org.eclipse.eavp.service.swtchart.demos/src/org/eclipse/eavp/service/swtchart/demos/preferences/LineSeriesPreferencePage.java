@@ -31,15 +31,16 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 
 	public void createFieldEditors() {
 
-		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI, "Enable Range UI", getFieldEditorParent()));
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
+		addField(new LabelFieldEditor("Chart Settings", getFieldEditorParent()));
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		//
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI, "Enable Range UI", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE, "Vertical Slider Visible (see Bug #511257)", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE, "Horizontal Slider Visible", getFieldEditorParent()));
-		//
 		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_TITLE, "Title:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_TITLE_VISIBLE, "Title Visible", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_TITLE_COLOR, "Title Color:", getFieldEditorParent()));
-		//
 		String[][] positions = new String[][]{//
 				{"Left", Integer.toString(SWT.LEFT)}, //
 				{"Right", Integer.toString(SWT.RIGHT)}, //
@@ -48,7 +49,6 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		};
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_LEGEND_POSITION, "Legend Position:", positions, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_LEGEND_VISIBLE, "Legend Visible", getFieldEditorParent()));
-		//
 		String[][] orientations = new String[][]{//
 				{"Horizontal", Integer.toString(SWT.HORIZONTAL)}, //
 				{"Vertical", Integer.toString(SWT.VERTICAL)}//
@@ -56,22 +56,23 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_ORIENTATION, "Orientation:", orientations, getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_BACKGROUND, "Background:", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_BACKGROUND_IN_PLOT_AREA, "Background In Plot Area:", getFieldEditorParent()));
-		//
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_COMPRESS, "Enable Compress", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_USE_ZERO_X, "Use Zero X", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_USE_ZERO_Y, "Use Zero Y", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_USE_RANGE_RESTRICTION, "Use Range Restriction", getFieldEditorParent()));
-		// store.setDefault(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X, LineSeriesPreferenceConstants.DEF_FACTOR_EXTEND_MIN_X);
-		// store.setDefault(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, LineSeriesPreferenceConstants.DEF_FACTOR_EXTEND_MAX_X);
-		// store.setDefault(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y, LineSeriesPreferenceConstants.DEF_FACTOR_EXTEND_MIN_Y);
-		// store.setDefault(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_Y, LineSeriesPreferenceConstants.DEF_FACTOR_EXTEND_MAX_Y);
-		//
-		//
+		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X, "Factor Extend Min X:", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y, "Factor Extend Min Y:", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_POSITION_MARKER, "Show Position Marker", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_CENTER_MARKER, "Show Center Marker", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND, "Show Position Legend", getFieldEditorParent()));
-		//
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_CREATE_MENU, "Create Menu", getFieldEditorParent()));
+		//
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
+		addField(new LabelFieldEditor("Line Settings", getFieldEditorParent()));
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
+		//
 	}
 
 	public void init(IWorkbench workbench) {
