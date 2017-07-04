@@ -41,6 +41,23 @@ public interface IChartSettings {
 
 	void setTitleColor(Color titleColor);
 
+	boolean isLegendVisible();
+
+	void setLegendVisible(boolean legendVisible);
+
+	int getLegendPosition();
+
+	/**
+	 * Use:
+	 * SWT.LEFT
+	 * SWT.RIGHT
+	 * SWT.TOP
+	 * SWT.BOTTOM
+	 * 
+	 * @param legendPosition
+	 */
+	void setLegendPosition(int legendPosition);
+
 	IPrimaryAxisSettings getPrimaryAxisSettingsX();
 
 	IPrimaryAxisSettings getPrimaryAxisSettingsY();
@@ -58,10 +75,6 @@ public interface IChartSettings {
 	 * @param orientation
 	 */
 	void setOrientation(int orientation);
-
-	boolean isLegendVisible();
-
-	void setLegendVisible(boolean legendVisible);
 
 	Color getBackground();
 

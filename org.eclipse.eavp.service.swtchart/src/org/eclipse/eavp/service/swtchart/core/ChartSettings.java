@@ -28,13 +28,15 @@ public class ChartSettings implements IChartSettings {
 	private boolean titleVisible;
 	private Color titleColor;
 	//
+	private int legendPosition;
+	private boolean legendVisible;
+	//
 	private IPrimaryAxisSettings primaryAxisSettingsX;
 	private IPrimaryAxisSettings primaryAxisSettingsY;
 	private List<ISecondaryAxisSettings> secondaryAxisSettingsListX;
 	private List<ISecondaryAxisSettings> secondaryAxisSettingsListY;
 	//
 	private int orientation;
-	private boolean legendVisible;
 	private Color background;
 	private Color backgroundInPlotArea;
 	private boolean enableCompress;
@@ -70,13 +72,15 @@ public class ChartSettings implements IChartSettings {
 		titleVisible = true;
 		titleColor = display.getSystemColor(SWT.COLOR_WHITE);
 		//
+		legendPosition = SWT.RIGHT;
+		legendVisible = false;
+		//
 		primaryAxisSettingsX = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_X_AXIS);
 		primaryAxisSettingsY = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_Y_AXIS);
 		secondaryAxisSettingsListX = new ArrayList<ISecondaryAxisSettings>();
 		secondaryAxisSettingsListY = new ArrayList<ISecondaryAxisSettings>();
 		//
 		orientation = SWT.HORIZONTAL;
-		legendVisible = false;
 		background = display.getSystemColor(SWT.COLOR_WHITE);
 		backgroundInPlotArea = display.getSystemColor(SWT.COLOR_WHITE);
 		enableCompress = true;
@@ -179,6 +183,30 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
+	public int getLegendPosition() {
+
+		return legendPosition;
+	}
+
+	@Override
+	public void setLegendPosition(int legendPosition) {
+
+		this.legendPosition = legendPosition;
+	}
+
+	@Override
+	public boolean isLegendVisible() {
+
+		return legendVisible;
+	}
+
+	@Override
+	public void setLegendVisible(boolean legendVisible) {
+
+		this.legendVisible = legendVisible;
+	}
+
+	@Override
 	public IPrimaryAxisSettings getPrimaryAxisSettingsX() {
 
 		return primaryAxisSettingsX;
@@ -218,18 +246,6 @@ public class ChartSettings implements IChartSettings {
 	public void setOrientation(int orientation) {
 
 		this.orientation = orientation;
-	}
-
-	@Override
-	public boolean isLegendVisible() {
-
-		return legendVisible;
-	}
-
-	@Override
-	public void setLegendVisible(boolean legendVisible) {
-
-		this.legendVisible = legendVisible;
 	}
 
 	@Override

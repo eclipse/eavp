@@ -51,6 +51,7 @@ import org.swtchart.IAxis.Direction;
 import org.swtchart.IAxisSet;
 import org.swtchart.IAxisTick;
 import org.swtchart.IGrid;
+import org.swtchart.ILegend;
 import org.swtchart.IPlotArea;
 import org.swtchart.ISeries;
 import org.swtchart.ISeries.SeriesType;
@@ -434,9 +435,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		setSliderVisibility();
 		setRangeInfoVisibility(chartSettings.isEnableRangeUI());
 		//
-		baseChart.getTitle().setText(chartSettings.getTitle());
-		baseChart.getTitle().setVisible(chartSettings.isTitleVisible());
-		baseChart.getTitle().setForeground(chartSettings.getTitleColor());
+		ITitle title = baseChart.getTitle();
+		title.setText(chartSettings.getTitle());
+		title.setVisible(chartSettings.isTitleVisible());
+		title.setForeground(chartSettings.getTitleColor());
+		//
+		ILegend legend = baseChart.getLegend();
+		legend.setPosition(chartSettings.getLegendPosition());
+		legend.setVisible(chartSettings.isLegendVisible());
 		/*
 		 * Primary and Secondary axes
 		 */
@@ -450,7 +456,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		rangeUI.resetRanges();
 		//
 		baseChart.setOrientation(chartSettings.getOrientation());
-		baseChart.getLegend().setVisible(chartSettings.isLegendVisible());
 		baseChart.setBackground(chartSettings.getBackground());
 		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundInPlotArea());
 		baseChart.enableCompress(chartSettings.isEnableCompress());
