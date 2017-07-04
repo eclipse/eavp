@@ -1,4 +1,5 @@
 Demo settings (Line | Bar | Scatter) series -> applySettings(IChartSettings chartSettings) live
 R Export
+SVG Export via Apache Batik?
 NMR data - axis settings
 Menu extensions

@@ -88,16 +88,6 @@ public interface IChartSettings {
 
 	void setEnableCompress(boolean enableCompress);
 
-	boolean isUseZeroY();
-
-	/**
-	 * 0 is the lowest y value.
-	 * Otherwise, the lowest y values of the series is used.
-	 * 
-	 * @param useZeroY
-	 */
-	void setUseZeroY(boolean useZeroY);
-
 	boolean isUseZeroX();
 
 	/**
@@ -107,6 +97,16 @@ public interface IChartSettings {
 	 * @param useZeroX
 	 */
 	void setUseZeroX(boolean useZeroX);
+
+	boolean isUseZeroY();
+
+	/**
+	 * 0 is the lowest y value.
+	 * Otherwise, the lowest y values of the series is used.
+	 * 
+	 * @param useZeroY
+	 */
+	void setUseZeroY(boolean useZeroY);
 
 	boolean isUseRangeRestriction();
 

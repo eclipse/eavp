@@ -8,5 +8,19 @@
             uri="fragment.e4xmi">
       </fragment>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
+            name="Line Series Part Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>

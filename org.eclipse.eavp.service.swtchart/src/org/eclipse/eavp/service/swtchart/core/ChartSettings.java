@@ -40,8 +40,8 @@ public class ChartSettings implements IChartSettings {
 	private Color background;
 	private Color backgroundInPlotArea;
 	private boolean enableCompress;
-	private boolean useZeroY;
 	private boolean useZeroX;
+	private boolean useZeroY;
 	private boolean useRangeRestriction;
 	private double factorExtendMinX;
 	private double factorExtendMaxX;
@@ -84,8 +84,8 @@ public class ChartSettings implements IChartSettings {
 		background = display.getSystemColor(SWT.COLOR_WHITE);
 		backgroundInPlotArea = display.getSystemColor(SWT.COLOR_WHITE);
 		enableCompress = true;
-		useZeroY = true;
 		useZeroX = true;
+		useZeroY = true;
 		useRangeRestriction = true;
 		factorExtendMinX = 0.0d;
 		factorExtendMaxX = 0.0d;
@@ -285,18 +285,6 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public boolean isUseZeroY() {
-
-		return useZeroY;
-	}
-
-	@Override
-	public void setUseZeroY(boolean useZeroY) {
-
-		this.useZeroY = useZeroY;
-	}
-
-	@Override
 	public boolean isUseZeroX() {
 
 		return useZeroX;
@@ -306,6 +294,18 @@ public class ChartSettings implements IChartSettings {
 	public void setUseZeroX(boolean useZeroX) {
 
 		this.useZeroX = useZeroX;
+	}
+
+	@Override
+	public boolean isUseZeroY() {
+
+		return useZeroY;
+	}
+
+	@Override
+	public void setUseZeroY(boolean useZeroY) {
+
+		this.useZeroY = useZeroY;
 	}
 
 	@Override
