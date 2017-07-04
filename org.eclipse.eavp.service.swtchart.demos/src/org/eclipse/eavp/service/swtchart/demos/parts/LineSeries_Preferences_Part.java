@@ -108,8 +108,7 @@ public class LineSeries_Preferences_Part extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				try {
-					MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Settings", "Work in progress ...");
-					// applyChartSettings();
+					applyChartSettings();
 					// applySeriesSettings();
 				} catch(Exception e1) {
 					System.out.println(e1);
@@ -193,10 +192,12 @@ public class LineSeries_Preferences_Part extends Composite {
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 		//
 		lineChart.applySettings(chartSettings);
-		//
-		colorTitle.dispose();
-		colorBackground.dispose();
-		colorBackgroundInPlotArea.dispose();
+		/*
+		 * When shall the colors be disposed?
+		 */
+		// colorTitle.dispose();
+		// colorBackground.dispose();
+		// colorBackgroundInPlotArea.dispose();
 	}
 
 	private void applySeriesSettings() {
