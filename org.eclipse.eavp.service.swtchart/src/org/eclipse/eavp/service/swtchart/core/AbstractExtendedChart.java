@@ -396,8 +396,12 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
-					Range adjustedRange = new Range(start, end);
-					axis.setRange(adjustedRange);
+					if(end > start) {
+						Range adjustedRange = new Range(start, end);
+						axis.setRange(adjustedRange);
+					} else {
+						System.out.println("Can't set secondary x axes range: " + start + "\t" + end);
+					}
 				}
 			}
 		}
@@ -418,8 +422,12 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
-					Range adjustedRange = new Range(start, end);
-					axis.setRange(adjustedRange);
+					if(end > start) {
+						Range adjustedRange = new Range(start, end);
+						axis.setRange(adjustedRange);
+					} else {
+						System.out.println("Can't set secondary y axes range: " + start + "\t" + end);
+					}
 				}
 			}
 		}
