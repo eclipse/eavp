@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
+import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
@@ -45,6 +46,12 @@ public class LineSeries_4_Part extends ChromatogramChart {
 
 	private void initialize() throws Exception {
 
+		/*
+		 * Chart Settings
+		 */
+		IChartSettings chartSettings = getChartSettings();
+		chartSettings.setCreateMenu(true);
+		applySettings(chartSettings);
 		/*
 		 * Create series.
 		 */

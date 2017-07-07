@@ -22,6 +22,7 @@ import org.eclipse.eavp.service.swtchart.export.ISeriesExportConverter;
 import org.eclipse.eavp.service.swtchart.export.ImageBMPExport;
 import org.eclipse.eavp.service.swtchart.export.ImageJPGExport;
 import org.eclipse.eavp.service.swtchart.export.ImagePNGExport;
+import org.eclipse.eavp.service.swtchart.export.ImageRScriptExport;
 import org.eclipse.eavp.service.swtchart.export.LaTeXTableExport;
 import org.eclipse.eavp.service.swtchart.export.TabSeparatedValuesExport;
 import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
@@ -519,6 +520,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			addSeriesExportConverter(new ImageBMPExport());
 			addSeriesExportConverter(new TabSeparatedValuesExport());
 			addSeriesExportConverter(new LaTeXTableExport());
+			addSeriesExportConverter(new ImageRScriptExport());
 			//
 			createPopupMenu();
 		} else {
