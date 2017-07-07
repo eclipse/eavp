@@ -126,6 +126,8 @@ public class ImageRScriptExport implements ISeriesExportConverter {
 										printValue(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
 									}
 								}
+								//
+								index++;
 							}
 						}
 						printWriter.println("");
@@ -133,12 +135,15 @@ public class ImageRScriptExport implements ISeriesExportConverter {
 						 * Footer
 						 */
 						printWriter.println("#  Footer");
+						printWriter.println("colorList<-c(\"black\", \"red\", \"blue\", \"green\", \"grey\", \"purple\", \"brown\", \"pink\", \"yellow\", \"orange\")");
+						//
+						printWriter.println("");
 						printWriter.println("plot(");
 						printWriter.println("	xValueList[[1]], yValueList[[1]],");
 						printWriter.println("	xlim=c(range(xValueList)[1], range(xValueList)[2]),");
 						printWriter.println("	ylim=c(range(yValueList)[1], range(yValueList)[2]),");
 						printWriter.println("	type='l',");
-						printWriter.println("	col=colours()[(1*33)%%10],");
+						printWriter.println("	col=colorList[1],");
 						printWriter.println("	ylab='" + axisSettingsY.getLabel() + "',");
 						printWriter.println("	xlab='" + axisSettingsX.getLabel() + "'");
 						printWriter.println(")");
@@ -146,7 +151,7 @@ public class ImageRScriptExport implements ISeriesExportConverter {
 						//
 						if(seriesSize > 1) {
 							printWriter.println("for(i in 2:" + seriesSize + "){");
-							printWriter.println("	points(xValueList[[i]], yValueList[[i]], type='l', col=colours()[(i*33)%%10])");
+							printWriter.println("	points(xValueList[[i]], yValueList[[i]], type='l', col=colorList[(i+8)%%9+1])");
 							printWriter.println("}");
 							printWriter.println("");
 						}
@@ -170,7 +175,7 @@ public class ImageRScriptExport implements ISeriesExportConverter {
 						k = 0;
 						for(ISeries dataSeries : series) {
 							if(dataSeries != null) {
-								printWriter.print("			colours()[(" + (k + 1) + "*33)%%10]");
+								printWriter.print("			colorList[(" + (k + 1) + "+8)%%9+1]");
 								if(k < seriesSize - 1) {
 									printWriter.print(",");
 								}
