@@ -1,4 +1,32 @@
 Demo settings (Line | Bar | Scatter) series -> applySettings(IChartSettings chartSettings) live
-SVG Export via Apache Batik?
+Export *.svg - via Apache Batik?
+Export *.eps
 NMR data - axis settings
 Menu extensions
+support undo / redo of operations (previous selection, ...)
+
+Export *pdf -> ?
+
+Printer printer = new Printer(printerdata);
+GC gc = new GC(printer);
+if (printer.startJob("pdf")) {
+     printer.startPage();
+
+     Point screenDPI = Display.getCurrent().getDPI();
+     Point printerDPI = printer.getDPI();
+	float scaleFactorX = printerDPI.x * 1.0f / screenDPI.x;
+	float scaleFactorY = printerDPI.y * 1.0f / screenDPI.y;
+
+	SWTGraphics graphics = new SWTGraphics(gc);
+	graphics.setLineAttributes(new LineAttributes(1.0f));
+
+	graphics.scale(scaleFactorX, scaleFactorY);
+
+	ChromatogramEditorMSD.chromatogramUI.print(gc);
+
+	graphics.dispose();
+	gc.dispose();
+	printer.endPage();
+}
+	printer.endJob();
+	printer.dispose();
