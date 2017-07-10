@@ -17,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
+import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.PCAChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
@@ -48,6 +49,15 @@ public class ScatterSeries_1_Part extends PCAChart {
 
 	private void initialize() {
 
+		/*
+		 * Chart Settings
+		 */
+		IChartSettings chartSettings = getChartSettings();
+		chartSettings.setCreateMenu(true);
+		applySettings(chartSettings);
+		/*
+		 * Data
+		 */
 		List<ISeriesData> scatterSeriesList = SeriesConverter.getSeriesScatter(SeriesConverter.SCATTER_SERIES_1);
 		List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
 		//

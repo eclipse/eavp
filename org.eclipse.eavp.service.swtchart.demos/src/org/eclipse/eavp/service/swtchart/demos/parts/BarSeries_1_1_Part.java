@@ -20,6 +20,7 @@ import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
+import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
@@ -37,6 +38,15 @@ public class BarSeries_1_1_Part extends MassSpectrumChart {
 
 	private void initialize() {
 
+		/*
+		 * Chart Settings
+		 */
+		IChartSettings chartSettings = getChartSettings();
+		chartSettings.setCreateMenu(true);
+		applySettings(chartSettings);
+		/*
+		 * Additional settings
+		 */
 		setNumberOfHighestIntensitiesToLabel(5);
 		setLabelOption(LabelOption.NOMIMAL);
 		setCustomLabels(null);

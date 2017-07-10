@@ -12,6 +12,7 @@ Demo Area Selection
 Modify series +/-
 Select Series -> Highlight
 Export Extension Point? Apache XML Graphics Common, VectorGraphics2D?
+Margin of label axis
 
 Export *pdf -> ?
 
