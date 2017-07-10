@@ -44,6 +44,7 @@ public class SeriesConverter {
 	public static final String LINE_SERIES_4_5 = "LineSeries4_5";
 	public static final String LINE_SERIES_5_POSITIVE = "LineSeries5_Positive";
 	public static final String LINE_SERIES_5_NEGATIVE = "LineSeries5_Negative";
+	public static final String LINE_SERIES_6 = "LineSeries6";
 	//
 	public static final String BAR_SERIES_1 = "BarSeries1";
 	public static final String BAR_SERIES_2 = "BarSeries2";
