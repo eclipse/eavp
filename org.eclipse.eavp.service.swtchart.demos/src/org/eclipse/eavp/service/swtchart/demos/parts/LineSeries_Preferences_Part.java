@@ -112,7 +112,7 @@ public class LineSeries_Preferences_Part extends Composite {
 
 				try {
 					applyChartSettings();
-					// applySeriesSettings();
+					applySeriesSettings();
 				} catch(Exception e1) {
 					System.out.println(e1);
 				}
@@ -220,13 +220,17 @@ public class LineSeries_Preferences_Part extends Composite {
 
 	private void applySeriesSettings() {
 
+		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
+		Color lineColor = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_LINE_COLOR));
+		//
 		lineChart.deleteSeries();
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_3);
 		//
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
+		lineSerieSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA));
+		lineSerieSettings.setLineColor(lineColor);
 		lineSeriesDataList.add(lineSeriesData);
 		//
 		lineChart.addSeriesData(lineSeriesDataList);

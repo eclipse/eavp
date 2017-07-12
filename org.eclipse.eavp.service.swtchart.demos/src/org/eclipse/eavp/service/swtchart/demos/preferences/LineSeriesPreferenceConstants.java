@@ -142,4 +142,9 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_SECONDARY_Y_AXIS_VISIBLE = true;
 	public static final String P_SECONDARY_Y_AXIS_GRID_LINE_STYLE = "secondaryYAxisGridLineStyle";
 	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
+	//
+	public static final String P_ENABLE_AREA = "enableArea";
+	public static final boolean DEF_ENABLE_AREA = true;
+	public static final String P_LINE_COLOR = "lineColor";
+	public static final String DEF_LINE_COLOR = "255,0,0";
 }

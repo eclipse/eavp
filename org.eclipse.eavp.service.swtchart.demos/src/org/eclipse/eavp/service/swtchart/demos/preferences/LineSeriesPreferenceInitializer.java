@@ -78,5 +78,7 @@ public class LineSeriesPreferenceInitializer extends AbstractPreferenceInitializ
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION, LineSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_POSITION);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE, LineSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_VISIBLE);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE, LineSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE);
+		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_ENABLE_AREA, LineSeriesPreferenceConstants.DEF_ENABLE_AREA);
+		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_LINE_COLOR, LineSeriesPreferenceConstants.DEF_LINE_COLOR);
 	}
 }

@@ -96,7 +96,7 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_CREATE_MENU, "Create Menu", getFieldEditorParent()));
 		//
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
-		addField(new LabelFieldEditor("Line Settings", getFieldEditorParent()));
+		addField(new LabelFieldEditor("Axis Settings", getFieldEditorParent()));
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		//
 		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_TITLE, "Primary X-Axis Title:", getFieldEditorParent()));
@@ -134,6 +134,13 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION, "Secondary Y-Axis Position:", axisPositions, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE, "Secondary Y-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE, "Secondary Y-Axis Grid Line Style:", gridLineStyles, getFieldEditorParent()));
+		//
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
+		addField(new LabelFieldEditor("Line Settings", getFieldEditorParent()));
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
+		//
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_AREA, "Enable Area", getFieldEditorParent()));
+		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_LINE_COLOR, "Line Color:", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {
