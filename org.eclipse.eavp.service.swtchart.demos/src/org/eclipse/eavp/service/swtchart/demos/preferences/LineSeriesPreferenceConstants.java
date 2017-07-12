@@ -11,7 +11,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.demos.preferences;
 
+import java.util.Locale;
+
 import org.eclipse.swt.SWT;
+import org.swtchart.IAxis.Position;
+import org.swtchart.LineStyle;
 
 public class LineSeriesPreferenceConstants {
 
@@ -70,4 +74,38 @@ public class LineSeriesPreferenceConstants {
 	//
 	public static final String P_CREATE_MENU = "createMenu" + POSTFIX;
 	public static final boolean DEF_CREATE_MENU = true;
+	//
+	public static final String P_PRIMARY_X_AXIS_TITLE = "primaryXAxisTitle";
+	public static final String DEF_PRIMARY_X_AXIS_TITLE = "RT";
+	public static final String P_PRIMARY_X_AXIS_DESCRIPTION = "primaryXAxisDescription";
+	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Retention Time (milliseconds)";
+	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "primaryXAxisDecimalFormatPattern";
+	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
+	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "primaryXAxisDecimalFormatLocale";
+	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE = Locale.ENGLISH.getLanguage();
+	public static final String P_PRIMARY_X_AXIS_COLOR = "primaryXAxisColor";
+	public static final String DEF_PRIMARY_X_AXIS_COLOR = "0,0,0";
+	public static final String P_PRIMARY_X_AXIS_POSITION = "primaryXAxisPosition";
+	public static final String DEF_PRIMARY_X_AXIS_POSITION = Position.Secondary.toString();
+	public static final String P_PRIMARY_X_AXIS_VISIBLE = "primaryXAxisVisible";
+	public static final boolean DEF_PRIMARY_X_AXIS_VISIBLE = false;
+	public static final String P_PRIMARY_X_AXIS_GRID_LINE_STYLE = "primaryXAxisGridLineStyle";
+	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
+	//
+	public static final String P_PRIMARY_Y_AXIS_TITLE = "primaryYAxisTitle";
+	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity";
+	public static final String P_PRIMARY_Y_AXIS_DESCRIPTION = "primaryYAxisDescription";
+	public static final String DEF_PRIMARY_Y_AXIS_DESCRIPTION = "Intensity";
+	public static final String P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "primaryYAxisDecimalFormatPattern";
+	public static final String DEF_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "0.0#E0";
+	public static final String P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE = "primaryYAxisDecimalFormatLocale";
+	public static final String DEF_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE = Locale.ENGLISH.getLanguage();
+	public static final String P_PRIMARY_Y_AXIS_COLOR = "primaryYAxisColor";
+	public static final String DEF_PRIMARY_Y_AXIS_COLOR = "0,0,0";
+	public static final String P_PRIMARY_Y_AXIS_POSITION = "primaryYAxisPosition";
+	public static final String DEF_PRIMARY_Y_AXIS_POSITION = Position.Primary.toString();
+	public static final String P_PRIMARY_Y_AXIS_VISIBLE = "primaryYAxisVisible";
+	public static final boolean DEF_PRIMARY_Y_AXIS_VISIBLE = true;
+	public static final String P_PRIMARY_Y_AXIS_GRID_LINE_STYLE = "primaryYAxisGridLineStyle";
+	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
 }
