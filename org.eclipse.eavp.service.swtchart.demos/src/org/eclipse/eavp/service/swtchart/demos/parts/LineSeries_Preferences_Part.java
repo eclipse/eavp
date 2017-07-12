@@ -129,7 +129,9 @@ public class LineSeries_Preferences_Part extends Composite {
 	private void applyChartSettings() throws Exception {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		//
+		/*
+		 * When shall the colors be disposed?
+		 */
 		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_TITLE_COLOR));
 		Color colorBackground = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND));
 		Color colorBackgroundInPlotArea = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_IN_PLOT_AREA));
@@ -137,6 +139,10 @@ public class LineSeries_Preferences_Part extends Composite {
 		Color colorPrimaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_COLOR));
 		Locale localePrimaryXAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
 		Locale localePrimaryYAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
+		Color colorSecondaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_COLOR));
+		Color colorSecondaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR));
+		Locale localeSecondaryXAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
+		Locale localeSecondaryYAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
 		//
 		IChartSettings chartSettings = lineChart.getChartSettings();
 		chartSettings.setEnableRangeUI(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI));
@@ -188,32 +194,33 @@ public class LineSeries_Preferences_Part extends Composite {
 		 * Secondary X-Axes
 		 */
 		chartSettings.getSecondaryAxisSettingsListX().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings("Minutes", new MillisecondsToMinuteConverter());
-		secondaryAxisSettingsX.setPosition(Position.Primary);
-		secondaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatFixed);
-		secondaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE), new MillisecondsToMinuteConverter());
+		secondaryAxisSettingsX.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION));
+		secondaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryXAxis)));
+		secondaryAxisSettingsX.setColor(colorSecondaryXAxis);
+		secondaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION)));
+		secondaryAxisSettingsX.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE));
+		secondaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE)));
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX);
 		/*
 		 * Secondary Y-Axes
 		 */
 		chartSettings.getSecondaryAxisSettingsListY().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings("Relative Intensity [%]", new RelativeIntensityConverter(SWT.VERTICAL, true));
-		secondaryAxisSettingsY.setPosition(Position.Secondary);
-		secondaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatFixed);
-		secondaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE), new RelativeIntensityConverter(SWT.VERTICAL, true));
+		secondaryAxisSettingsY.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DESCRIPTION));
+		secondaryAxisSettingsY.setDecimalFormat(new DecimalFormat((preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryYAxis)));
+		secondaryAxisSettingsY.setColor(colorSecondaryYAxis);
+		secondaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION)));
+		secondaryAxisSettingsY.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE));
+		secondaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE)));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 		//
 		lineChart.applySettings(chartSettings);
-		/*
-		 * When shall the colors be disposed?
-		 */
-		// colorTitle.dispose();
-		// colorBackground.dispose();
-		// colorBackgroundInPlotArea.dispose();
 	}
 
 	private void applySeriesSettings() {
 
+		lineChart.deleteSeries();
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_3);
 		//

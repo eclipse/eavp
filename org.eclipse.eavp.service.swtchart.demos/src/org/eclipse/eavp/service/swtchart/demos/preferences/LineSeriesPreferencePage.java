@@ -116,6 +116,24 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_POSITION, "Primary Y-Axis Position:", axisPositions, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE, "Primary Y-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, "Primary Y-Axis Grid Line Style:", gridLineStyles, getFieldEditorParent()));
+		//
+		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE, "Secondary X-Axis Title:", getFieldEditorParent()));
+		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION, "Secondary X-Axis Description:", getFieldEditorParent()));
+		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN, "Secondary X-Axis Format Pattern:", getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE, "Secondary X-Axis Format Locale:", locales, getFieldEditorParent()));
+		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_COLOR, "Secondary X-Axis Color:", getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION, "Secondary X-Axis Position:", axisPositions, getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE, "Secondary X-Axis Visible", getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE, "Secondary X-Axis Grid Line Style:", gridLineStyles, getFieldEditorParent()));
+		//
+		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE, "Secondary Y-Axis Title:", getFieldEditorParent()));
+		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DESCRIPTION, "Secondary Y-Axis Description:", getFieldEditorParent()));
+		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN, "Secondary Y-Axis Format Pattern:", getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE, "Secondary Y-Axis Format Locale:", locales, getFieldEditorParent()));
+		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR, "Secondary Y-Axis Color:", getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION, "Secondary Y-Axis Position:", axisPositions, getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE, "Secondary Y-Axis Visible", getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE, "Secondary Y-Axis Grid Line Style:", gridLineStyles, getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

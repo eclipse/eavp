@@ -76,7 +76,7 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_CREATE_MENU = true;
 	//
 	public static final String P_PRIMARY_X_AXIS_TITLE = "primaryXAxisTitle";
-	public static final String DEF_PRIMARY_X_AXIS_TITLE = "RT";
+	public static final String DEF_PRIMARY_X_AXIS_TITLE = "Milliseconds";
 	public static final String P_PRIMARY_X_AXIS_DESCRIPTION = "primaryXAxisDescription";
 	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Retention Time (milliseconds)";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "primaryXAxisDecimalFormatPattern";
@@ -108,4 +108,38 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_PRIMARY_Y_AXIS_VISIBLE = true;
 	public static final String P_PRIMARY_Y_AXIS_GRID_LINE_STYLE = "primaryYAxisGridLineStyle";
 	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
+	//
+	public static final String P_SECONDARY_X_AXIS_TITLE = "secondaryXAxisTitle";
+	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Min";
+	public static final String P_SECONDARY_X_AXIS_DESCRIPTION = "secondaryXAxisDescription";
+	public static final String DEF_SECONDARY_X_AXIS_DESCRIPTION = "Minutes";
+	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "secondaryXAxisDecimalFormatPattern";
+	public static final String DEF_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
+	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "secondaryXAxisDecimalFormatLocale";
+	public static final String DEF_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE = Locale.ENGLISH.getLanguage();
+	public static final String P_SECONDARY_X_AXIS_COLOR = "secondaryXAxisColor";
+	public static final String DEF_SECONDARY_X_AXIS_COLOR = "0,0,0";
+	public static final String P_SECONDARY_X_AXIS_POSITION = "secondaryXAxisPosition";
+	public static final String DEF_SECONDARY_X_AXIS_POSITION = Position.Primary.toString();
+	public static final String P_SECONDARY_X_AXIS_VISIBLE = "secondaryXAxisVisible";
+	public static final boolean DEF_SECONDARY_X_AXIS_VISIBLE = true;
+	public static final String P_SECONDARY_X_AXIS_GRID_LINE_STYLE = "secondaryXAxisGridLineStyle";
+	public static final String DEF_SECONDARY_X_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
+	//
+	public static final String P_SECONDARY_Y_AXIS_TITLE = "secondaryYAxisTitle";
+	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Int [%]";
+	public static final String P_SECONDARY_Y_AXIS_DESCRIPTION = "secondaryYAxisDescription";
+	public static final String DEF_SECONDARY_Y_AXIS_DESCRIPTION = "Relative Intensity [%]";
+	public static final String P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "secondaryYAxisDecimalFormatPattern";
+	public static final String DEF_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "0.0#E0";
+	public static final String P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE = "secondaryYAxisDecimalFormatLocale";
+	public static final String DEF_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE = Locale.ENGLISH.getLanguage();
+	public static final String P_SECONDARY_Y_AXIS_COLOR = "secondaryYAxisColor";
+	public static final String DEF_SECONDARY_Y_AXIS_COLOR = "0,0,0";
+	public static final String P_SECONDARY_Y_AXIS_POSITION = "secondaryYAxisPosition";
+	public static final String DEF_SECONDARY_Y_AXIS_POSITION = Position.Secondary.toString();
+	public static final String P_SECONDARY_Y_AXIS_VISIBLE = "secondaryYAxisVisible";
+	public static final boolean DEF_SECONDARY_Y_AXIS_VISIBLE = true;
+	public static final String P_SECONDARY_Y_AXIS_GRID_LINE_STYLE = "secondaryYAxisGridLineStyle";
+	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
 }
