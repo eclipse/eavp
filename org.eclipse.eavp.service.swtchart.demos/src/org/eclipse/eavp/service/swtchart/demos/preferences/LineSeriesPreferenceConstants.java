@@ -107,7 +107,7 @@ public class LineSeriesPreferenceConstants {
 	public static final String P_PRIMARY_Y_AXIS_VISIBLE = "primaryYAxisVisible";
 	public static final boolean DEF_PRIMARY_Y_AXIS_VISIBLE = true;
 	public static final String P_PRIMARY_Y_AXIS_GRID_LINE_STYLE = "primaryYAxisGridLineStyle";
-	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
+	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
 	//
 	public static final String P_SECONDARY_X_AXIS_TITLE = "secondaryXAxisTitle";
 	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Min";
@@ -124,7 +124,7 @@ public class LineSeriesPreferenceConstants {
 	public static final String P_SECONDARY_X_AXIS_VISIBLE = "secondaryXAxisVisible";
 	public static final boolean DEF_SECONDARY_X_AXIS_VISIBLE = true;
 	public static final String P_SECONDARY_X_AXIS_GRID_LINE_STYLE = "secondaryXAxisGridLineStyle";
-	public static final String DEF_SECONDARY_X_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
+	public static final String DEF_SECONDARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	//
 	public static final String P_SECONDARY_Y_AXIS_TITLE = "secondaryYAxisTitle";
 	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Int [%]";
@@ -141,7 +141,7 @@ public class LineSeriesPreferenceConstants {
 	public static final String P_SECONDARY_Y_AXIS_VISIBLE = "secondaryYAxisVisible";
 	public static final boolean DEF_SECONDARY_Y_AXIS_VISIBLE = true;
 	public static final String P_SECONDARY_Y_AXIS_GRID_LINE_STYLE = "secondaryYAxisGridLineStyle";
-	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.SOLID.toString();
+	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	//
 	public static final String P_ENABLE_AREA = "enableArea";
 	public static final boolean DEF_ENABLE_AREA = true;

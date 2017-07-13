@@ -28,8 +28,11 @@ import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.demos.Activator;
+import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferenceConstants;
 import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage;
+import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPrimaryAxesPreferencePage;
+import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesSecondaryAxesPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
@@ -96,9 +99,19 @@ public class LineSeries_Preferences_Part extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				IPreferencePage preferencePage = new LineSeriesPreferencePage();
-				preferencePage.setTitle("Line Series Part Preferences");
+				preferencePage.setTitle("Chart Settings");
+				IPreferencePage preferencePrimaryAxesPage = new LineSeriesPrimaryAxesPreferencePage();
+				preferencePrimaryAxesPage.setTitle("Primary Axes");
+				IPreferencePage preferenceSecondaryAxesPage = new LineSeriesSecondaryAxesPreferencePage();
+				preferenceSecondaryAxesPage.setTitle("Secondary Axes");
+				IPreferencePage preferenceDataPage = new LineSeriesDataPreferencePage();
+				preferenceDataPage.setTitle("Data");
+				//
 				PreferenceManager preferenceManager = new PreferenceManager();
 				preferenceManager.addToRoot(new PreferenceNode("1", preferencePage));
+				preferenceManager.addToRoot(new PreferenceNode("2", preferencePrimaryAxesPage));
+				preferenceManager.addToRoot(new PreferenceNode("3", preferenceSecondaryAxesPage));
+				preferenceManager.addToRoot(new PreferenceNode("4", preferenceDataPage));
 				//
 				PreferenceDialog preferenceDialog = new PreferenceDialog(Display.getCurrent().getActiveShell(), preferenceManager);
 				preferenceDialog.create();

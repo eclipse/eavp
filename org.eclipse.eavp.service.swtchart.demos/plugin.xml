@@ -13,8 +13,26 @@
       <page
             class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
             id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
-            name="Line Series Part Preferences">
+            name="Line Series Chart Settings">
       </page>
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPrimaryAxesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPrimaryAxesPreferencePage"
+            name="Primary Axes">
+      </page>    
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesSecondaryAxesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesSecondaryAxesPreferencePage"
+            name="Secondary Axes">
+      </page>
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage"
+            name="Data">
+      </page>                  
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
