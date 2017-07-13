@@ -82,9 +82,15 @@ public class LineSeries_Preferences_Part extends Composite {
 		compositeButtons.setLayoutData(gridDataComposite);
 		compositeButtons.setLayout(new GridLayout(2, false));
 		//
-		Button buttonPreferences = new Button(compositeButtons, SWT.PUSH);
-		buttonPreferences.setText("Preferences");
-		buttonPreferences.addSelectionListener(new SelectionAdapter() {
+		Button buttonOpenSettings = new Button(compositeButtons, SWT.PUSH);
+		buttonOpenSettings.setToolTipText("Open the Settings");
+		if(Activator.getDefault() != null) {
+			buttonOpenSettings.setText("");
+			buttonOpenSettings.setImage(Activator.getDefault().getImage(Activator.ICON_OPEN_SETTINGS));
+		} else {
+			buttonOpenSettings.setText("Settings");
+		}
+		buttonOpenSettings.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -103,9 +109,15 @@ public class LineSeries_Preferences_Part extends Composite {
 			}
 		});
 		//
-		Button buttonLoad = new Button(compositeButtons, SWT.PUSH);
-		buttonLoad.setText("Load Settings");
-		buttonLoad.addSelectionListener(new SelectionAdapter() {
+		Button buttonApplySettings = new Button(compositeButtons, SWT.PUSH);
+		buttonApplySettings.setToolTipText("Apply the Settings");
+		if(Activator.getDefault() != null) {
+			buttonApplySettings.setText("");
+			buttonApplySettings.setImage(Activator.getDefault().getImage(Activator.ICON_APPLY_SETTINGS));
+		} else {
+			buttonApplySettings.setText("Apply");
+		}
+		buttonApplySettings.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {

@@ -11,7 +11,19 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.demos;
 
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -19,9 +31,13 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
-	// The plug-in ID
+	public static final String ICON_OPEN_SETTINGS = "ICON_SETTINGS"; // $NON-NLS-1$
+	public static final String ICON_APPLY_SETTINGS = "ICON_APPLY_SETTINGS"; // $NON-NLS-1$
+	public static final String ICON_START = "ICON_START"; // $NON-NLS-1$
+	public static final String ICON_STOP = "ICON_STOP"; // $NON-NLS-1$
+	public static final String ICON_RESET = "ICON_RESET"; // $NON-NLS-1$
+	//
 	public static final String PLUGIN_ID = "org.eclipse.eavp.service.swtchart.demos"; //$NON-NLS-1$
-	// The shared instance
 	private static Activator plugin;
 
 	/**
@@ -38,6 +54,9 @@ public class Activator extends AbstractUIPlugin {
 
 		super.start(context);
 		plugin = this;
+		if(PlatformUI.isWorkbenchRunning()) {
+			initializeImageRegistry();
+		}
 	}
 
 	/*
@@ -58,5 +77,46 @@ public class Activator extends AbstractUIPlugin {
 	public static Activator getDefault() {
 
 		return plugin;
+	}
+
+	public Image getImage(String key) {
+
+		return getImageRegistry().get(key);
+	}
+
+	private void initializeImageRegistry() {
+
+		Map<String, String> imageHashMap = new HashMap<String, String>();
+		imageHashMap.put(ICON_OPEN_SETTINGS, "icons/16x16/open_settings.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_APPLY_SETTINGS, "icons/16x16/apply_settings.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_START, "icons/16x16/start.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_STOP, "icons/16x16/stop.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_RESET, "icons/16x16/reset.gif"); // $NON-NLS-1$
+		//
+		ImageRegistry imageRegistry = getImageRegistry();
+		if(imageRegistry != null) {
+			/*
+			 * Set the image/icon values.
+			 */
+			for(Map.Entry<String, String> entry : imageHashMap.entrySet()) {
+				imageRegistry.put(entry.getKey(), createImageDescriptor(getBundle(), entry.getValue()));
+			}
+		}
+	}
+
+	/**
+	 * Helps to create an image descriptor.
+	 * 
+	 * @param bundle
+	 * @param string
+	 * @return ImageDescriptor
+	 */
+	private ImageDescriptor createImageDescriptor(Bundle bundle, String string) {
+
+		ImageDescriptor imageDescriptor = null;
+		IPath path = new Path(string);
+		URL url = FileLocator.find(bundle, path, null);
+		imageDescriptor = ImageDescriptor.createFromURL(url);
+		return imageDescriptor;
 	}
 }

@@ -20,6 +20,7 @@ import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.SeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
+import org.eclipse.eavp.service.swtchart.demos.Activator;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
@@ -100,7 +101,13 @@ public class LineSeries_Random_Part extends Composite {
 		compositeButtons.setLayout(new GridLayout(3, false));
 		//
 		buttonStart = new Button(compositeButtons, SWT.PUSH);
-		buttonStart.setText("Start");
+		buttonStart.setToolTipText("Start Recording");
+		if(Activator.getDefault() != null) {
+			buttonStart.setText("");
+			buttonStart.setImage(Activator.getDefault().getImage(Activator.ICON_START));
+		} else {
+			buttonStart.setText("Start");
+		}
 		buttonStart.setEnabled(true);
 		buttonStart.addSelectionListener(new SelectionAdapter() {
 
@@ -115,7 +122,13 @@ public class LineSeries_Random_Part extends Composite {
 		});
 		//
 		buttonStop = new Button(compositeButtons, SWT.PUSH);
-		buttonStop.setText("Stop");
+		buttonStop.setToolTipText("Stop Recording");
+		if(Activator.getDefault() != null) {
+			buttonStop.setText("");
+			buttonStop.setImage(Activator.getDefault().getImage(Activator.ICON_STOP));
+		} else {
+			buttonStop.setText("Stop");
+		}
 		buttonStop.setEnabled(false);
 		buttonStop.addSelectionListener(new SelectionAdapter() {
 
@@ -130,7 +143,13 @@ public class LineSeries_Random_Part extends Composite {
 		});
 		//
 		buttonReset = new Button(compositeButtons, SWT.PUSH);
-		buttonReset.setText("Reset");
+		buttonReset.setToolTipText("Reset");
+		if(Activator.getDefault() != null) {
+			buttonReset.setText("");
+			buttonReset.setImage(Activator.getDefault().getImage(Activator.ICON_RESET));
+		} else {
+			buttonReset.setText("Reset");
+		}
 		buttonReset.setEnabled(true);
 		buttonReset.addSelectionListener(new SelectionAdapter() {
 
