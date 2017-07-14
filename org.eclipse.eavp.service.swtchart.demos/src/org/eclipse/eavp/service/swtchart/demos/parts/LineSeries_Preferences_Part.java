@@ -106,7 +106,7 @@ public class LineSeries_Preferences_Part extends Composite {
 				IPreferencePage preferenceSecondaryAxesPage = new LineSeriesSecondaryAxesPreferencePage();
 				preferenceSecondaryAxesPage.setTitle("Secondary Axes");
 				IPreferencePage preferenceDataPage = new LineSeriesDataPreferencePage();
-				preferenceDataPage.setTitle("Data");
+				preferenceDataPage.setTitle("Series Data");
 				//
 				PreferenceManager preferenceManager = new PreferenceManager();
 				preferenceManager.addToRoot(new PreferenceNode("1", preferencePage));
@@ -190,6 +190,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		chartSettings.setFactorExtendMaxX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X));
 		chartSettings.setFactorExtendMinY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y));
 		chartSettings.setFactorExtendMaxY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_Y));
+		//
 		chartSettings.setShowPositionMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_POSITION_MARKER));
 		chartSettings.setShowCenterMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_CENTER_MARKER));
 		chartSettings.setShowPositionLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND));
@@ -247,32 +248,58 @@ public class LineSeries_Preferences_Part extends Composite {
 	private void applySeriesSettings() {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		Color lineColor = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_LINE_COLOR));
-		Color symbolColor = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SYMBOL_COLOR));
+		Color lineColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_LINE_COLOR_SERIES_1));
+		Color symbolColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_1));
+		Color lineColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_LINE_COLOR_SERIES_2));
+		Color symbolColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_2));
 		//
 		lineChart.deleteSeries();
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
-		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_3);
-		//
-		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS));
-		lineSerieSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION));
-		lineSerieSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA));
-		lineSerieSettings.setEnableStack(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STACK));
-		lineSerieSettings.setEnableStep(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STEP));
-		lineSerieSettings.setLineColor(lineColor);
-		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE)));
-		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH));
-		lineSerieSettings.setSymbolColor(symbolColor);
-		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE));
-		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE)));
-		lineSerieSettings.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE));
-		lineSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND));
-		//
+		ISeriesData seriesData;
+		ILineSeriesData lineSeriesData;
+		ILineSeriesSettings lineSerieSettings;
+		/*
+		 * Series 1
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_4_1);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS_SERIES_1));
+		lineSerieSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
+		lineSerieSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_1));
+		lineSerieSettings.setEnableStack(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STACK_SERIES_1));
+		lineSerieSettings.setEnableStep(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STEP_SERIES_1));
+		lineSerieSettings.setLineColor(lineColorSeries1);
+		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_1)));
+		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_1));
+		lineSerieSettings.setSymbolColor(symbolColorSeries1);
+		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1));
+		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1)));
+		lineSerieSettings.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_SERIES_1));
+		lineSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1));
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Series 2
+		 */
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_4_2);
+		lineSeriesData = new LineSeriesData(seriesData);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS_SERIES_2));
+		lineSerieSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION_SERIES_2));
+		lineSerieSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_2));
+		lineSerieSettings.setEnableStack(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STACK_SERIES_2));
+		lineSerieSettings.setEnableStep(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STEP_SERIES_2));
+		lineSerieSettings.setLineColor(lineColorSeries2);
+		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_2)));
+		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_2));
+		lineSerieSettings.setSymbolColor(symbolColorSeries2);
+		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_2));
+		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_2)));
+		lineSerieSettings.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_SERIES_2));
+		lineSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_2));
 		lineSeriesDataList.add(lineSeriesData);
 		//
-		lineChart.addSeriesData(lineSeriesDataList);
+		lineChart.addSeriesData(lineSeriesDataList, LineChart.HIGH_COMPRESSION);
 	}
 
 	private Color getColor(RGB rgb) {

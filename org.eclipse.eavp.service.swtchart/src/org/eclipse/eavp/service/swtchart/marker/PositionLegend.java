@@ -52,14 +52,14 @@ public class PositionLegend implements ICustomPaintListener {
 		this.y = y;
 	}
 
-	public boolean isDrawInfo() {
+	public boolean isDraw() {
 
 		return draw;
 	}
 
-	public void setDrawInfo(boolean drawInfo) {
+	public void setDraw(boolean draw) {
 
-		this.draw = drawInfo;
+		this.draw = draw;
 	}
 
 	@Override

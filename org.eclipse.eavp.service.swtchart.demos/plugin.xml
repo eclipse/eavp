@@ -31,7 +31,7 @@
             category="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
             class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage"
             id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage"
-            name="Data">
+            name="Series Data">
       </page>                  
    </extension>
    <extension

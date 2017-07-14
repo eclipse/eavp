@@ -114,9 +114,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
+		//
 		chartSettings = new ChartSettings();
 		exportConverterMap = new HashMap<String, ISeriesExportConverter>();
 		linkedScrollableCharts = new ArrayList<ScrollableChart>();
+		//
 		initialize();
 	}
 
@@ -152,8 +154,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		ISeriesSet seriesSet = baseChart.getSeriesSet();
 		if(seriesSet.getSeries().length > 0) {
 			adjustRange(true);
-			baseChart.redraw();
 		}
+		baseChart.redraw();
 	}
 
 	@Override
@@ -266,12 +268,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		baseChart.handleMouseMoveEvent(event);
 		//
-		if(positionMarker != null) {
+		if(positionMarker.isDraw()) {
 			positionMarker.setActualPosition(event.x, event.y);
 			getBaseChart().getPlotArea().redraw();
 		}
 		//
-		if(positionLegend != null) {
+		if(positionLegend.isDraw()) {
 			positionLegend.setActualPosition(event.x, event.y);
 			getBaseChart().getPlotArea().redraw();
 		}
@@ -476,33 +478,62 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setCustomPaintListener() {
 
+		setPositionMarker();
+		setCenterMarker();
+		setPositionLegend();
+	}
+
+	private void setPositionMarker() {
+
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
-		/*
-		 * Position marker.
-		 */
+		//
+		if(positionMarker != null) {
+			plotArea.removeCustomPaintListener(positionMarker);
+		}
+		//
+		positionMarker = new PositionMarker();
+		plotArea.addCustomPaintListener(positionMarker);
+		//
 		if(chartSettings.isShowPositionMarker()) {
-			positionMarker = new PositionMarker();
-			plotArea.addCustomPaintListener(positionMarker);
+			positionMarker.setDraw(true);
 		} else {
-			positionMarker = null;
+			positionMarker.setDraw(false);
 		}
-		/*
-		 * Center marker.
-		 */
+	}
+
+	private void setCenterMarker() {
+
+		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		//
+		if(centerMarker != null) {
+			plotArea.removeCustomPaintListener(centerMarker);
+		}
+		//
+		centerMarker = new CenterMarker();
+		plotArea.addCustomPaintListener(centerMarker);
+		//
 		if(chartSettings.isShowCenterMarker()) {
-			centerMarker = new CenterMarker();
-			plotArea.addCustomPaintListener(centerMarker);
+			centerMarker.setDraw(true);
 		} else {
-			centerMarker = null;
+			centerMarker.setDraw(false);
 		}
-		/*
-		 * Position legend.
-		 */
+	}
+
+	private void setPositionLegend() {
+
+		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		//
+		if(positionLegend != null) {
+			plotArea.removeCustomPaintListener(positionLegend);
+		}
+		//
+		positionLegend = new PositionLegend(baseChart);
+		plotArea.addCustomPaintListener(positionLegend);
+		//
 		if(chartSettings.isShowPositionLegend()) {
-			positionLegend = new PositionLegend(baseChart);
-			plotArea.addCustomPaintListener(positionLegend);
+			positionLegend.setDraw(true);
 		} else {
-			positionLegend = null;
+			positionLegend.setDraw(false);
 		}
 	}
 
@@ -1022,53 +1053,39 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		} else if(menuItem.getText().equals(SHOW_RANGE_UI)) {
 			showRangeUI(true);
 		} else if(menuItem.getText().equals(SHOW_POSITION_MARKER)) {
-			if(positionMarker != null) {
-				positionMakerMenuItem.setText(HIDE_POSITION_MARKER);
-				positionMarker.setDraw(true);
-				redraw();
-			}
+			positionMakerMenuItem.setText(HIDE_POSITION_MARKER);
+			positionMarker.setDraw(true);
+			redraw();
 		} else if(menuItem.getText().equals(HIDE_POSITION_MARKER)) {
-			if(positionMarker != null) {
-				positionMakerMenuItem.setText(SHOW_POSITION_MARKER);
-				positionMarker.setDraw(false);
-				redraw();
-			}
+			positionMakerMenuItem.setText(SHOW_POSITION_MARKER);
+			positionMarker.setDraw(false);
+			redraw();
 		} else if(menuItem.getText().equals(SHOW_CENTER_MARKER)) {
-			if(centerMarker != null) {
-				centerMakerMenuItem.setText(HIDE_CENTER_MARKER);
-				centerMarker.setDraw(true);
-				redraw();
-			}
+			centerMakerMenuItem.setText(HIDE_CENTER_MARKER);
+			centerMarker.setDraw(true);
+			redraw();
 		} else if(menuItem.getText().equals(HIDE_CENTER_MARKER)) {
-			if(centerMarker != null) {
-				centerMakerMenuItem.setText(SHOW_CENTER_MARKER);
-				centerMarker.setDraw(false);
-				redraw();
-			}
+			centerMakerMenuItem.setText(SHOW_CENTER_MARKER);
+			centerMarker.setDraw(false);
+			redraw();
 		} else if(menuItem.getText().equals(SHOW_POSITION_LEGEND)) {
-			if(positionLegend != null) {
-				positionLegendMenuItem.setText(HIDE_POSITION_LEGEND);
-				positionLegend.setDrawInfo(true);
-				redraw();
-			}
+			positionLegendMenuItem.setText(HIDE_POSITION_LEGEND);
+			positionLegend.setDraw(true);
+			redraw();
 		} else if(menuItem.getText().equals(HIDE_POSITION_LEGEND)) {
-			if(positionLegend != null) {
-				positionLegendMenuItem.setText(SHOW_POSITION_LEGEND);
-				positionLegend.setDrawInfo(false);
-				redraw();
-			}
+			positionLegendMenuItem.setText(SHOW_POSITION_LEGEND);
+			positionLegend.setDraw(false);
+			redraw();
 		} else if(menuItem.getText().equals(SHOW_SERIES_LEGEND)) {
 			if(seriesLegendMenuItem != null) {
 				seriesLegendMenuItem.setText(HIDE_SERIES_LEGEND);
 				baseChart.getLegend().setVisible(true);
-				// baseChart.updateLayout();
 				baseChart.redraw();
 			}
 		} else if(menuItem.getText().equals(HIDE_SERIES_LEGEND)) {
 			if(seriesLegendMenuItem != null) {
 				seriesLegendMenuItem.setText(SHOW_SERIES_LEGEND);
 				baseChart.getLegend().setVisible(false);
-				// baseChart.updateLayout();
 				baseChart.redraw();
 			}
 		} else if(exportConverterMap.containsKey(menuItem.getText())) {
