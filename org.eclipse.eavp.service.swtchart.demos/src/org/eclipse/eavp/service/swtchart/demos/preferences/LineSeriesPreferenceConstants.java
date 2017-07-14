@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.swtchart.IAxis.Position;
+import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
 public class LineSeriesPreferenceConstants {
@@ -143,8 +144,30 @@ public class LineSeriesPreferenceConstants {
 	public static final String P_SECONDARY_Y_AXIS_GRID_LINE_STYLE = "secondaryYAxisGridLineStyle";
 	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	//
+	public static final String P_ANTIALIAS = "antialias";
+	public static final int DEF_ANTIALIAS = SWT.DEFAULT;
+	public static final String P_DESCRIPTION = "description";
+	public static final String DEF_DESCRIPTION = "Serie 1";
 	public static final String P_ENABLE_AREA = "enableArea";
 	public static final boolean DEF_ENABLE_AREA = true;
+	public static final String P_ENABLE_STACK = "enableStack";
+	public static final boolean DEF_ENABLE_STACK = false;
+	public static final String P_ENABLE_STEP = "enableStep";
+	public static final boolean DEF_ENABLE_STEP = false;
 	public static final String P_LINE_COLOR = "lineColor";
 	public static final String DEF_LINE_COLOR = "255,0,0";
+	public static final String P_LINE_STYLE = "lineStyle";
+	public static final String DEF_LINE_STYLE = LineStyle.SOLID.toString();
+	public static final String P_LINE_WIDTH = "lineWidth";
+	public static final int DEF_LINE_WIDTH = 1;
+	public static final String P_SYMBOL_COLOR = "symbolColor";
+	public static final String DEF_SYMBOL_COLOR = "0,0,0";
+	public static final String P_SYMBOL_SIZE = "symbolSize";
+	public static final int DEF_SYMBOL_SIZE = 8;
+	public static final String P_SYMBOL_TYPE = "symbolType";
+	public static final String DEF_SYMBOL_TYPE = PlotSymbolType.NONE.toString();
+	public static final String P_VISIBLE = "visible";
+	public static final boolean DEF_VISIBLE = true;
+	public static final String P_VISIBLE_IN_LEGEND = "visibleInLegend";
+	public static final boolean DEF_VISIBLE_IN_LEGEND = true;
 }

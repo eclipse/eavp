@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.swtchart.IAxis.Position;
+import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
 public class PreferenceSupport {
@@ -42,12 +43,29 @@ public class PreferenceSupport {
 			{"German", Locale.GERMAN.getLanguage()}//
 	};
 	//
-	public static String[][] GRID_LINE_STYLES = new String[][]{//
+	public static String[][] LINE_STYLES = new String[][]{//
 			{"None", LineStyle.NONE.toString()}, //
 			{"Solid", LineStyle.SOLID.toString()}, //
 			{"Dash", LineStyle.DASH.toString()}, //
 			{"Dot", LineStyle.DOT.toString()}, //
 			{"Dash Dot", LineStyle.DASHDOT.toString()}, //
 			{"Dash Dot Dot", LineStyle.DASHDOTDOT.toString()}//
+	};
+	//
+	public static String[][] ANTIALIAS_OPTIONS = new String[][]{//
+			{"Default", Integer.toString(SWT.DEFAULT)}, //
+			{"On", Integer.toString(SWT.ON)}, //
+			{"Off", Integer.toString(SWT.OFF)}//
+	};
+	//
+	public static String[][] SYMBOL_TYPES = new String[][]{//
+			{"None", PlotSymbolType.NONE.toString()}, //
+			{"Circle", PlotSymbolType.CIRCLE.toString()}, //
+			{"Cross", PlotSymbolType.CROSS.toString()}, //
+			{"Diamond", PlotSymbolType.DIAMOND.toString()}, //
+			{"Inverted Triangle", PlotSymbolType.INVERTED_TRIANGLE.toString()}, //
+			{"Plus", PlotSymbolType.PLUS.toString()}, //
+			{"Square", PlotSymbolType.SQUARE.toString()}, //
+			{"Triangle", PlotSymbolType.TRIANGLE.toString()}//
 	};
 }

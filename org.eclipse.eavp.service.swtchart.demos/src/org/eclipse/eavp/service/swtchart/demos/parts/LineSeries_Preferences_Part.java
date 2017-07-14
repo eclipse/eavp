@@ -56,6 +56,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
+import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
 public class LineSeries_Preferences_Part extends Composite {
@@ -247,6 +248,7 @@ public class LineSeries_Preferences_Part extends Composite {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 		Color lineColor = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_LINE_COLOR));
+		Color symbolColor = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SYMBOL_COLOR));
 		//
 		lineChart.deleteSeries();
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
@@ -254,8 +256,20 @@ public class LineSeries_Preferences_Part extends Composite {
 		//
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS));
+		lineSerieSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION));
 		lineSerieSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA));
+		lineSerieSettings.setEnableStack(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STACK));
+		lineSerieSettings.setEnableStep(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STEP));
 		lineSerieSettings.setLineColor(lineColor);
+		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE)));
+		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH));
+		lineSerieSettings.setSymbolColor(symbolColor);
+		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE));
+		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE)));
+		lineSerieSettings.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE));
+		lineSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND));
+		//
 		lineSeriesDataList.add(lineSeriesData);
 		//
 		lineChart.addSeriesData(lineSeriesDataList);

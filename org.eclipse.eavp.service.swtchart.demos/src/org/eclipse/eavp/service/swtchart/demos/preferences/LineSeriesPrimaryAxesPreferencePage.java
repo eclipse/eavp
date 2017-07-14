@@ -41,7 +41,7 @@ public class LineSeriesPrimaryAxesPreferencePage extends FieldEditorPreferencePa
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_COLOR, "Primary X-Axis Color:", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_POSITION, "Primary X-Axis Position:", PreferenceSupport.AXIS_POSITIONS, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE, "Primary X-Axis Visible", getFieldEditorParent()));
-		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE, "Primary X-Axis Grid Line Style:", PreferenceSupport.GRID_LINE_STYLES, getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE, "Primary X-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		//
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		addField(new LabelFieldEditor("Y-Axis", getFieldEditorParent()));
@@ -54,7 +54,7 @@ public class LineSeriesPrimaryAxesPreferencePage extends FieldEditorPreferencePa
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_COLOR, "Primary Y-Axis Color:", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_POSITION, "Primary Y-Axis Position:", PreferenceSupport.AXIS_POSITIONS, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE, "Primary Y-Axis Visible", getFieldEditorParent()));
-		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, "Primary Y-Axis Grid Line Style:", PreferenceSupport.GRID_LINE_STYLES, getFieldEditorParent()));
+		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, "Primary Y-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {
