@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.export;
 
-import org.eclipse.eavp.service.swtchart.core.BaseChart;
+import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;
 
 public interface ISeriesExportConverter {
@@ -21,5 +21,5 @@ public interface ISeriesExportConverter {
 
 	String getName();
 
-	void export(Shell shell, BaseChart baseChart);
+	void export(Shell shell, ScrollableChart scrollableChart);
 }

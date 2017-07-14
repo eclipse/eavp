@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.export;
 
-import org.eclipse.eavp.service.swtchart.core.BaseChart;
+import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.ImageData;
@@ -31,7 +31,7 @@ public class ImageJPGExport implements ISeriesExportConverter {
 	}
 
 	@Override
-	public void export(Shell shell, BaseChart baseChart) {
+	public void export(Shell shell, ScrollableChart scrollableChart) {
 
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setOverwrite(true);
@@ -44,7 +44,7 @@ public class ImageJPGExport implements ISeriesExportConverter {
 			 * Select the format.
 			 */
 			ImageSupplier imageSupplier = new ImageSupplier();
-			ImageData imageData = imageSupplier.getImageData(baseChart);
+			ImageData imageData = imageSupplier.getImageData(scrollableChart.getBaseChart());
 			imageSupplier.saveImage(imageData, fileName, SWT.IMAGE_JPEG);
 			MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 		}

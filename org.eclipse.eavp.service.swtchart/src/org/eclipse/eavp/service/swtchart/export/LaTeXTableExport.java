@@ -20,6 +20,7 @@ import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;
 import org.eclipse.eavp.service.swtchart.core.IAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
+import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -46,8 +47,9 @@ public class LaTeXTableExport implements ISeriesExportConverter {
 	}
 
 	@Override
-	public void export(Shell shell, BaseChart baseChart) {
+	public void export(Shell shell, ScrollableChart scrollableChart) {
 
+		BaseChart baseChart = scrollableChart.getBaseChart();
 		/*
 		 * Select the export file.
 		 */

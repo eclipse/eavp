@@ -1090,7 +1090,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			}
 		} else if(exportConverterMap.containsKey(menuItem.getText())) {
 			ISeriesExportConverter seriesExportConverter = exportConverterMap.get(menuItem.getText());
-			seriesExportConverter.export(getShell(), baseChart);
+			seriesExportConverter.export(getShell(), this);
 		}
 	}
 
