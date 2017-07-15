@@ -36,6 +36,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 */
 	private static final int MIN_SELECTION_PERCENTAGE = 30;
 	private static final long DELTA_CLICK_TIME = 100;
+	/*
+	 * To prevent that the data is redrawn on mouse events too
+	 * often, a trigger determines e.g. that the redraw event
+	 * is called only at every fifth event.
+	 */
+	private static final int TRIGGER_REDRAW_EVENT = 5;
+	private int redrawCounter = 0;
 	//
 	private UserSelection userSelection;
 	private List<ICustomSelectionHandler> customSelectionHandlers;
@@ -103,7 +110,11 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		if(event.stateMask == SWT.BUTTON1) {
 			userSelection.setStopCoordinate(event.x, event.y);
-			redraw();
+			redrawCounter++;
+			if(redrawCounter == TRIGGER_REDRAW_EVENT) {
+				redraw();
+				redrawCounter = 0;
+			}
 		}
 	}
 
