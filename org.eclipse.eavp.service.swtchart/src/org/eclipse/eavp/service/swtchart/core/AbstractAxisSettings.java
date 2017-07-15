@@ -29,6 +29,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private Position position;
 	private Color gridColor;
 	private LineStyle gridLineStyle;
+	private boolean enableLogScale;
 
 	public AbstractAxisSettings(String title) {
 		/*
@@ -47,6 +48,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		position = Position.Primary;
 		gridColor = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
 		gridLineStyle = LineStyle.DOT;
+		enableLogScale = false;
 	}
 
 	@Override
@@ -185,5 +187,17 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setGridLineStyle(LineStyle gridLineStyle) {
 
 		this.gridLineStyle = gridLineStyle;
+	}
+
+	@Override
+	public boolean isEnableLogScale() {
+
+		return enableLogScale;
+	}
+
+	@Override
+	public void setEnableLogScale(boolean enableLogScale) {
+
+		this.enableLogScale = enableLogScale;
 	}
 }

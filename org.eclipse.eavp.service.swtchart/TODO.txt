@@ -4,7 +4,6 @@ Export *.eps
 NMR data - axis settings
 Menu extensions
 support undo / redo of operations (previous selection, ...)
-R-Images (Bar / Scatter Series)
 LatTeX Images (Line, Bar, Scatter)
 Start from X/Y 0
 History (Do/Undo/Redo)
@@ -13,6 +12,7 @@ Modify series +/-
 Select Series -> Highlight
 Export Extension Point? Apache XML Graphics Common, VectorGraphics2D?
 Margin of label axis
+Space between axis and legend
 
 Export *pdf -> ?
 

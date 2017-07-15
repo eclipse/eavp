@@ -14,8 +14,10 @@ package org.eclipse.eavp.service.swtchart.demos.parts;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -62,16 +64,26 @@ import org.swtchart.LineStyle;
 public class LineSeries_Preferences_Part extends Composite {
 
 	private LineChart lineChart;
+	private Map<RGB, Color> colors;
 
 	@Inject
 	public LineSeries_Preferences_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		colors = new HashMap<>();
 		try {
 			initialize();
 		} catch(Exception e) {
 			System.out.println(e);
 		}
+	}
+
+	@Override
+	public void dispose() {
+
+		for(Color color : colors.values()) {
+			color.dispose();
+		}
+		super.dispose();
 	}
 
 	private void initialize() throws Exception {
@@ -155,12 +167,12 @@ public class LineSeries_Preferences_Part extends Composite {
 	private void applyChartSettings() throws Exception {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		/*
-		 * When shall the colors be disposed?
-		 */
+		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		//
 		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_TITLE_COLOR));
 		Color colorBackground = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND));
-		Color colorBackgroundInPlotArea = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_IN_PLOT_AREA));
+		Color colorBackgroundChart = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_CHART));
+		Color colorBackgroundPlotArea = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_PLOT_AREA));
 		Color colorPrimaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_COLOR));
 		Color colorPrimaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_COLOR));
 		Locale localePrimaryXAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
@@ -181,7 +193,8 @@ public class LineSeries_Preferences_Part extends Composite {
 		chartSettings.setLegendVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_LEGEND_VISIBLE));
 		chartSettings.setOrientation(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ORIENTATION));
 		chartSettings.setBackground(colorBackground);
-		chartSettings.setBackground(colorBackgroundInPlotArea);
+		chartSettings.setBackgroundChart(colorBackgroundChart);
+		chartSettings.setBackgroundPlotArea(colorBackgroundPlotArea);
 		chartSettings.setEnableCompress(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_COMPRESS));
 		chartSettings.setUseZeroX(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_USE_ZERO_X));
 		chartSettings.setUseZeroY(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_USE_ZERO_Y));
@@ -206,6 +219,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_POSITION)));
 		primaryAxisSettingsX.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE));
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE)));
+		primaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE));
 		/*
 		 * Primary Y-Axis
 		 */
@@ -217,6 +231,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_POSITION)));
 		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
+		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
 		/*
 		 * Secondary X-Axes
 		 */
@@ -228,6 +243,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		secondaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION)));
 		secondaryAxisSettingsX.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE));
 		secondaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE)));
+		secondaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE));
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX);
 		/*
 		 * Secondary Y-Axes
@@ -240,6 +256,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		secondaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION)));
 		secondaryAxisSettingsY.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE));
 		secondaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE)));
+		secondaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 		//
 		lineChart.applySettings(chartSettings);
@@ -304,6 +321,11 @@ public class LineSeries_Preferences_Part extends Composite {
 
 	private Color getColor(RGB rgb) {
 
-		return new Color(Display.getCurrent(), rgb);
+		Color color = colors.get(rgb);
+		if(color == null) {
+			color = new Color(Display.getCurrent(), rgb);
+			colors.put(rgb, color);
+		}
+		return color;
 	}
 }

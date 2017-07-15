@@ -13,10 +13,6 @@ package org.eclipse.eavp.service.swtchart.core;
 
 public interface IPrimaryAxisSettings extends IAxisSettings {
 
-	boolean isEnableLogScale();
-
-	void setEnableLogScale(boolean enableLogScale);
-
 	boolean isEnableCategory();
 
 	/**

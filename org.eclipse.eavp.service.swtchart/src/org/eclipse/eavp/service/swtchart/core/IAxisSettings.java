@@ -68,4 +68,8 @@ public interface IAxisSettings {
 	 * @param gridLineStyle
 	 */
 	void setGridLineStyle(LineStyle gridLineStyle);
+
+	boolean isEnableLogScale();
+
+	void setEnableLogScale(boolean enableLogScale);
 }

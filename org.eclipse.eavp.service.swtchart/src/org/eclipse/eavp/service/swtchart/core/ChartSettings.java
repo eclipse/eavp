@@ -38,7 +38,8 @@ public class ChartSettings implements IChartSettings {
 	//
 	private int orientation;
 	private Color background;
-	private Color backgroundInPlotArea;
+	private Color backgroundChart;
+	private Color backgroundPlotArea;
 	private boolean enableCompress;
 	private boolean useZeroX;
 	private boolean useZeroY;
@@ -82,7 +83,8 @@ public class ChartSettings implements IChartSettings {
 		//
 		orientation = SWT.HORIZONTAL;
 		background = display.getSystemColor(SWT.COLOR_WHITE);
-		backgroundInPlotArea = display.getSystemColor(SWT.COLOR_WHITE);
+		backgroundChart = display.getSystemColor(SWT.COLOR_WHITE);
+		backgroundPlotArea = display.getSystemColor(SWT.COLOR_WHITE);
 		enableCompress = true;
 		useZeroX = true;
 		useZeroY = true;
@@ -261,15 +263,27 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public Color getBackgroundInPlotArea() {
+	public Color getBackgroundChart() {
 
-		return backgroundInPlotArea;
+		return backgroundChart;
 	}
 
 	@Override
-	public void setBackgroundInPlotArea(Color backgroundInPlotArea) {
+	public void setBackgroundChart(Color backgroundChart) {
 
-		this.backgroundInPlotArea = backgroundInPlotArea;
+		this.backgroundChart = backgroundChart;
+	}
+
+	@Override
+	public Color getBackgroundPlotArea() {
+
+		return backgroundPlotArea;
+	}
+
+	@Override
+	public void setBackgroundPlotArea(Color backgroundPlotArea) {
+
+		this.backgroundPlotArea = backgroundPlotArea;
 	}
 
 	@Override

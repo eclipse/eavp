@@ -46,8 +46,10 @@ public class LineSeriesPreferenceConstants {
 	public static final int DEF_ORIENTATION = SWT.HORIZONTAL;
 	public static final String P_BACKGROUND = "background" + POSTFIX;
 	public static final String DEF_BACKGROUND = "255,255,255";
-	public static final String P_BACKGROUND_IN_PLOT_AREA = "backgroundInPlotArea" + POSTFIX;
-	public static final String DEF_BACKGROUND_IN_PLOT_AREA = "255,255,255";
+	public static final String P_BACKGROUND_CHART = "backgroundChart" + POSTFIX;
+	public static final String DEF_BACKGROUND_CHART = "255,255,255";
+	public static final String P_BACKGROUND_PLOT_AREA = "backgroundPlotArea" + POSTFIX;
+	public static final String DEF_BACKGROUND_PLOT_AREA = "255,255,255";
 	//
 	public static final String P_ENABLE_COMPRESS = "enableCompress" + POSTFIX;
 	public static final boolean DEF_ENABLE_COMPRESS = true;
@@ -92,6 +94,8 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_PRIMARY_X_AXIS_VISIBLE = false;
 	public static final String P_PRIMARY_X_AXIS_GRID_LINE_STYLE = "primaryXAxisGridLineStyle";
 	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
+	public static final String P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = "primaryXAxisEnableLogScale";
+	public static final boolean DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = false;
 	//
 	public static final String P_PRIMARY_Y_AXIS_TITLE = "primaryYAxisTitle";
 	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity";
@@ -109,6 +113,8 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_PRIMARY_Y_AXIS_VISIBLE = true;
 	public static final String P_PRIMARY_Y_AXIS_GRID_LINE_STYLE = "primaryYAxisGridLineStyle";
 	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
+	public static final String P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = "primaryYAxisEnableLogScale";
+	public static final boolean DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = false;
 	//
 	public static final String P_SECONDARY_X_AXIS_TITLE = "secondaryXAxisTitle";
 	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Min";
@@ -126,6 +132,8 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_SECONDARY_X_AXIS_VISIBLE = true;
 	public static final String P_SECONDARY_X_AXIS_GRID_LINE_STYLE = "secondaryXAxisGridLineStyle";
 	public static final String DEF_SECONDARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
+	public static final String P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE = "secondaryXAxisEnableLogScale";
+	public static final boolean DEF_SECONDARY_X_AXIS_ENABLE_LOG_SCALE = false;
 	//
 	public static final String P_SECONDARY_Y_AXIS_TITLE = "secondaryYAxisTitle";
 	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Int [%]";
@@ -143,6 +151,8 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_SECONDARY_Y_AXIS_VISIBLE = true;
 	public static final String P_SECONDARY_Y_AXIS_GRID_LINE_STYLE = "secondaryYAxisGridLineStyle";
 	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
+	public static final String P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = "secondaryYAxisEnableLogScale";
+	public static final boolean DEF_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = false;
 	//
 	public static final String P_ANTIALIAS_SERIES_1 = "antialiasSeries1";
 	public static final int DEF_ANTIALIAS_SERIES_1 = SWT.DEFAULT;

@@ -13,27 +13,13 @@ package org.eclipse.eavp.service.swtchart.core;
 
 public class PrimaryAxisSettings extends AbstractAxisSettings implements IPrimaryAxisSettings {
 
-	private boolean enableLogScale;
 	private boolean enableCategory;
 	private String[] categorySeries;
 
 	public PrimaryAxisSettings(String title) {
 		super(title);
-		enableLogScale = false;
 		enableCategory = false;
 		categorySeries = new String[]{};
-	}
-
-	@Override
-	public boolean isEnableLogScale() {
-
-		return enableLogScale;
-	}
-
-	@Override
-	public void setEnableLogScale(boolean enableLogScale) {
-
-		this.enableLogScale = enableLogScale;
 	}
 
 	@Override

@@ -80,9 +80,13 @@ public interface IChartSettings {
 
 	void setBackground(Color background);
 
-	Color getBackgroundInPlotArea();
+	Color getBackgroundChart();
 
-	void setBackgroundInPlotArea(Color backgroundInPlotArea);
+	void setBackgroundChart(Color backgroundChart);
+
+	Color getBackgroundPlotArea();
+
+	void setBackgroundPlotArea(Color backgroundPlotArea);
 
 	boolean isEnableCompress();
 

@@ -458,9 +458,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 */
 		rangeUI.resetRanges();
 		//
+		setBackground(chartSettings.getBackground());
 		baseChart.setOrientation(chartSettings.getOrientation());
-		baseChart.setBackground(chartSettings.getBackground());
-		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundInPlotArea());
+		baseChart.setBackground(chartSettings.getBackgroundChart());
+		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundPlotArea());
 		baseChart.enableCompress(chartSettings.isEnableCompress());
 		baseChart.setUseZeroX(chartSettings.isUseZeroX());
 		baseChart.setUseZeroY(chartSettings.isUseZeroY());
@@ -769,6 +770,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				axis.getTitle().setForeground(color);
 				axis.getTick().setForeground(color);
 			}
+			//
+			axis.enableLogScale(axisSettings.isEnableLogScale());
 			/*
 			 * Apply primary axis specific settings.
 			 */
