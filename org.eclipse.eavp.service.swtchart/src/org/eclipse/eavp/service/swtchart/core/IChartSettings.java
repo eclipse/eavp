@@ -143,13 +143,25 @@ public interface IChartSettings {
 
 	void setShowPositionMarker(boolean showPositionMarker);
 
+	Color getColorPositionMarker();
+
+	void setColorPositionMarker(Color colorPositionMarker);
+
 	boolean isShowCenterMarker();
 
 	void setShowCenterMarker(boolean showCenterMarker);
 
+	Color getColorCenterMarker();
+
+	void setColorCenterMarker(Color colorCenterMarker);
+
 	boolean isShowPositionLegend();
 
 	void setShowPositionLegend(boolean showPositionLegend);
+
+	Color getColorPositionLegend();
+
+	void setColorPositionLegend(Color colorPositionLegend);
 
 	boolean isCreateMenu();
 

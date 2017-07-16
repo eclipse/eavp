@@ -15,23 +15,43 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
-import org.swtchart.ICustomPaintListener;
 
-public class CenterMarker implements ICustomPaintListener {
+public class CenterMarker implements IExtendedPaintListener {
 
+	@SuppressWarnings("unused")
+	private int x;
+	@SuppressWarnings("unused")
+	private int y;
 	private Color foregroundColor;
 	private boolean draw;
 
 	public CenterMarker() {
-		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
+		x = -1;
+		y = -1;
+		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
 		draw = true;
 	}
 
+	@Override
+	public void setActualPosition(int x, int y) {
+
+		this.x = x;
+		this.y = y;
+	}
+
+	@Override
+	public void setForegroundColor(Color foregroundColor) {
+
+		this.foregroundColor = foregroundColor;
+	}
+
+	@Override
 	public boolean isDraw() {
 
 		return draw;
 	}
 
+	@Override
 	public void setDraw(boolean draw) {
 
 		this.draw = draw;

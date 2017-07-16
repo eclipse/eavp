@@ -50,8 +50,11 @@ public class ChartSettings implements IChartSettings {
 	private double factorExtendMaxY;
 	//
 	private boolean showPositionMarker;
+	private Color colorPositionMarker;
 	private boolean showCenterMarker;
+	private Color colorCenterMarker;
 	private boolean showPositionLegend;
+	private Color colorPositionLegend;
 	//
 	private boolean createMenu;
 
@@ -95,8 +98,11 @@ public class ChartSettings implements IChartSettings {
 		factorExtendMaxY = 0.0d;
 		//
 		showPositionMarker = false;
+		colorPositionMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
 		showCenterMarker = false;
+		colorCenterMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
 		showPositionLegend = false;
+		colorPositionLegend = display.getSystemColor(SWT.COLOR_DARK_GRAY);
 		//
 		createMenu = false;
 	}
@@ -404,6 +410,18 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
+	public Color getColorPositionMarker() {
+
+		return colorPositionMarker;
+	}
+
+	@Override
+	public void setColorPositionMarker(Color colorPositionMarker) {
+
+		this.colorPositionMarker = colorPositionMarker;
+	}
+
+	@Override
 	public boolean isShowCenterMarker() {
 
 		return showCenterMarker;
@@ -416,6 +434,18 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
+	public Color getColorCenterMarker() {
+
+		return colorCenterMarker;
+	}
+
+	@Override
+	public void setColorCenterMarker(Color colorCenterMarker) {
+
+		this.colorCenterMarker = colorCenterMarker;
+	}
+
+	@Override
 	public boolean isShowPositionLegend() {
 
 		return showPositionLegend;
@@ -425,6 +455,18 @@ public class ChartSettings implements IChartSettings {
 	public void setShowPositionLegend(boolean showPositionLegend) {
 
 		this.showPositionLegend = showPositionLegend;
+	}
+
+	@Override
+	public Color getColorPositionLegend() {
+
+		return colorPositionLegend;
+	}
+
+	@Override
+	public void setColorPositionLegend(Color colorPositionLegend) {
+
+		this.colorPositionLegend = colorPositionLegend;
 	}
 
 	@Override

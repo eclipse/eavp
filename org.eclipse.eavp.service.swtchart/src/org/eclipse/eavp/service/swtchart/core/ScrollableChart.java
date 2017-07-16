@@ -100,8 +100,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private CenterMarker centerMarker;
 	private PositionLegend positionLegend;
 	//
-	private MenuItem positionMakerMenuItem = null;
-	private MenuItem centerMakerMenuItem = null;
+	private MenuItem positionMarkerMenuItem = null;
+	private MenuItem centerMarkerMenuItem = null;
 	private MenuItem positionLegendMenuItem = null;
 	private MenuItem seriesLegendMenuItem = null;
 
@@ -493,6 +493,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 		//
 		positionMarker = new PositionMarker();
+		positionMarker.setForegroundColor(chartSettings.getColorPositionMarker());
 		plotArea.addCustomPaintListener(positionMarker);
 		//
 		if(chartSettings.isShowPositionMarker()) {
@@ -511,6 +512,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 		//
 		centerMarker = new CenterMarker();
+		centerMarker.setForegroundColor(chartSettings.getColorCenterMarker());
 		plotArea.addCustomPaintListener(centerMarker);
 		//
 		if(chartSettings.isShowCenterMarker()) {
@@ -529,6 +531,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 		//
 		positionLegend = new PositionLegend(baseChart);
+		positionLegend.setForegroundColor(chartSettings.getColorPositionLegend());
 		plotArea.addCustomPaintListener(positionLegend);
 		//
 		if(chartSettings.isShowPositionLegend()) {
@@ -1056,19 +1059,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		} else if(menuItem.getText().equals(SHOW_RANGE_UI)) {
 			showRangeUI(true);
 		} else if(menuItem.getText().equals(SHOW_POSITION_MARKER)) {
-			positionMakerMenuItem.setText(HIDE_POSITION_MARKER);
+			positionMarkerMenuItem.setText(HIDE_POSITION_MARKER);
 			positionMarker.setDraw(true);
 			redraw();
 		} else if(menuItem.getText().equals(HIDE_POSITION_MARKER)) {
-			positionMakerMenuItem.setText(SHOW_POSITION_MARKER);
+			positionMarkerMenuItem.setText(SHOW_POSITION_MARKER);
 			positionMarker.setDraw(false);
 			redraw();
 		} else if(menuItem.getText().equals(SHOW_CENTER_MARKER)) {
-			centerMakerMenuItem.setText(HIDE_CENTER_MARKER);
+			centerMarkerMenuItem.setText(HIDE_CENTER_MARKER);
 			centerMarker.setDraw(true);
 			redraw();
 		} else if(menuItem.getText().equals(HIDE_CENTER_MARKER)) {
-			centerMakerMenuItem.setText(SHOW_CENTER_MARKER);
+			centerMarkerMenuItem.setText(SHOW_CENTER_MARKER);
 			centerMarker.setDraw(false);
 			redraw();
 		} else if(menuItem.getText().equals(SHOW_POSITION_LEGEND)) {
@@ -1137,15 +1140,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Optional
 		 */
 		if(chartSettings.isShowPositionMarker()) {
-			positionMakerMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
-			positionMakerMenuItem.setText(HIDE_POSITION_MARKER);
-			positionMakerMenuItem.addListener(SWT.Selection, this);
+			positionMarkerMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
+			positionMarkerMenuItem.setText(HIDE_POSITION_MARKER);
+			positionMarkerMenuItem.addListener(SWT.Selection, this);
 		}
 		//
 		if(chartSettings.isShowCenterMarker()) {
-			centerMakerMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
-			centerMakerMenuItem.setText(HIDE_CENTER_MARKER);
-			centerMakerMenuItem.addListener(SWT.Selection, this);
+			centerMarkerMenuItem = new MenuItem(markerAndLegendsMenu, SWT.PUSH);
+			centerMarkerMenuItem.setText(HIDE_CENTER_MARKER);
+			centerMarkerMenuItem.addListener(SWT.Selection, this);
 		}
 		//
 		if(chartSettings.isShowPositionLegend()) {

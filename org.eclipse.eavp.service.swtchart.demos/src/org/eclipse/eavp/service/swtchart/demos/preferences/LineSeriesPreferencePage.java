@@ -55,8 +55,11 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y, "Factor Extend Min Y:", getFieldEditorParent()));
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_POSITION_MARKER, "Show Position Marker", getFieldEditorParent()));
+		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_POSITION_MARKER, "Color Position Marker:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_CENTER_MARKER, "Show Center Marker", getFieldEditorParent()));
+		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_CENTER_MARKER, "Color Center Marker:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND, "Show Position Legend", getFieldEditorParent()));
+		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND, "Color Position Legend:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_CREATE_MENU, "Create Menu", getFieldEditorParent()));
 	}
 

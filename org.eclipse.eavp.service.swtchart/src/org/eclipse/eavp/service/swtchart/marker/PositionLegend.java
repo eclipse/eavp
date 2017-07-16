@@ -14,21 +14,24 @@ package org.eclipse.eavp.service.swtchart.marker;
 import java.text.DecimalFormat;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;
 import org.eclipse.eavp.service.swtchart.core.IAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.IExtendedChart;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis;
-import org.swtchart.ICustomPaintListener;
 
-public class PositionLegend implements ICustomPaintListener {
+public class PositionLegend implements IExtendedPaintListener {
 
-	private BaseChart baseChart;
-	private StringBuilder stringBuilder;
 	private int x;
 	private int y;
+	private Color foregroundColor;
 	private boolean draw;
+	//
+	private BaseChart baseChart;
+	private StringBuilder stringBuilder;
 	//
 	private String[] axisLabelsX;
 	private DecimalFormat decimalFormatX;
@@ -36,9 +39,13 @@ public class PositionLegend implements ICustomPaintListener {
 	private DecimalFormat decimalFormatY;
 
 	public PositionLegend(BaseChart baseChart) {
+		x = -1;
+		y = -1;
+		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
+		draw = true;
+		//
 		stringBuilder = new StringBuilder();
 		this.baseChart = baseChart;
-		draw = true;
 		//
 		axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		decimalFormatX = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, BaseChart.ID_PRIMARY_X_AXIS);
@@ -46,20 +53,35 @@ public class PositionLegend implements ICustomPaintListener {
 		decimalFormatY = baseChart.getDecimalFormat(IExtendedChart.Y_AXIS, BaseChart.ID_PRIMARY_Y_AXIS);
 	}
 
+	@Override
 	public void setActualPosition(int x, int y) {
 
 		this.x = x;
 		this.y = y;
 	}
 
+	@Override
+	public void setForegroundColor(Color foregroundColor) {
+
+		this.foregroundColor = foregroundColor;
+	}
+
+	@Override
 	public boolean isDraw() {
 
 		return draw;
 	}
 
+	@Override
 	public void setDraw(boolean draw) {
 
 		this.draw = draw;
+	}
+
+	@Override
+	public boolean drawBehindSeries() {
+
+		return false;
 	}
 
 	@Override
@@ -67,8 +89,7 @@ public class PositionLegend implements ICustomPaintListener {
 
 		if(draw) {
 			stringBuilder.delete(0, stringBuilder.length());
-			e.gc.setForeground(ColorAndFormatSupport.COLOR_BLACK);
-			e.gc.setBackground(ColorAndFormatSupport.COLOR_WHITE);
+			e.gc.setForeground(foregroundColor);
 			//
 			double primaryValueX = getSelectedPrimaryAxisValue(x, IExtendedChart.X_AXIS);
 			double primaryValueY = getSelectedPrimaryAxisValue(y, IExtendedChart.Y_AXIS);
@@ -140,12 +161,6 @@ public class PositionLegend implements ICustomPaintListener {
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean drawBehindSeries() {
-
-		return false;
 	}
 
 	private double getSelectedPrimaryAxisValue(int position, String orientation) {

@@ -181,6 +181,9 @@ public class LineSeries_Preferences_Part extends Composite {
 		Color colorSecondaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR));
 		Locale localeSecondaryXAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
 		Locale localeSecondaryYAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
+		Color colorPositionMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_POSITION_MARKER));
+		Color colorCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_CENTER_MARKER));
+		Color colorPositionLegend = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND));
 		//
 		IChartSettings chartSettings = lineChart.getChartSettings();
 		chartSettings.setEnableRangeUI(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI));
@@ -205,8 +208,11 @@ public class LineSeries_Preferences_Part extends Composite {
 		chartSettings.setFactorExtendMaxY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_Y));
 		//
 		chartSettings.setShowPositionMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_POSITION_MARKER));
+		chartSettings.setColorPositionMarker(colorPositionMarker);
 		chartSettings.setShowCenterMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_CENTER_MARKER));
+		chartSettings.setColorCenterMarker(colorCenterMarker);
 		chartSettings.setShowPositionLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND));
+		chartSettings.setColorPositionLegend(colorPositionLegend);
 		chartSettings.setCreateMenu(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_CREATE_MENU));
 		/*
 		 * Primary X-Axis
