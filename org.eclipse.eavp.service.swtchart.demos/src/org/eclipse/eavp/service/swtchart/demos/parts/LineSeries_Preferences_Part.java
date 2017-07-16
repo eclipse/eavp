@@ -23,7 +23,6 @@ import javax.inject.Inject;
 
 import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
 import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
@@ -126,7 +125,7 @@ public class LineSeries_Preferences_Part extends Composite {
 				preferenceManager.addToRoot(new PreferenceNode("3", preferenceSecondaryAxesPage));
 				preferenceManager.addToRoot(new PreferenceNode("4", preferenceDataPage));
 				//
-				PreferenceDialog preferenceDialog = new PreferenceDialog(Display.getCurrent().getActiveShell(), preferenceManager);
+				PreferenceDialog preferenceDialog = new PreferenceDialog(Display.getDefault().getActiveShell(), preferenceManager);
 				preferenceDialog.create();
 				preferenceDialog.setMessage("Settings");
 				if(preferenceDialog.open() == PreferenceDialog.OK) {
@@ -167,8 +166,9 @@ public class LineSeries_Preferences_Part extends Composite {
 	private void applyChartSettings() throws Exception {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		//
+		Color colorHintRangeUI = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_UI));
 		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_TITLE_COLOR));
 		Color colorBackground = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND));
 		Color colorBackgroundChart = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_CHART));
@@ -187,6 +187,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		//
 		IChartSettings chartSettings = lineChart.getChartSettings();
 		chartSettings.setEnableRangeUI(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI));
+		chartSettings.setColorHintRangeUI(colorHintRangeUI);
 		chartSettings.setVerticalSliderVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE));
 		chartSettings.setHorizontalSliderVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE));
 		chartSettings.setTitle(preferenceStore.getString(LineSeriesPreferenceConstants.P_TITLE));
@@ -329,7 +330,7 @@ public class LineSeries_Preferences_Part extends Composite {
 
 		Color color = colors.get(rgb);
 		if(color == null) {
-			color = new Color(Display.getCurrent(), rgb);
+			color = new Color(Display.getDefault(), rgb);
 			colors.put(rgb, color);
 		}
 		return color;

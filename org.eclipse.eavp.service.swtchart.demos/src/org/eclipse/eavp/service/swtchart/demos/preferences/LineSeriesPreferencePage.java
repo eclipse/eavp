@@ -25,7 +25,7 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 	public LineSeriesPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Set the basic chart settings.");
+		setDescription("Line Series chart settings.");
 	}
 
 	public void createFieldEditors() {
@@ -35,6 +35,7 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		//
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI, "Enable Range UI", getFieldEditorParent()));
+		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_UI, "Color Hint Range UI:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE, "Vertical Slider Visible (see Bug #511257)", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE, "Horizontal Slider Visible", getFieldEditorParent()));
 		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_TITLE, "Title:", getFieldEditorParent()));

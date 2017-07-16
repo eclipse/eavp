@@ -11,9 +11,15 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.PreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.PreferencePage"
+            name="EAVP Demo Settings">
+      </page>
+      <page
+      		category="org.eclipse.eavp.service.swtchart.demos.preferences.PreferencePage"
             class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
             id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
-            name="Line Series Chart Settings">
+            name="Line Series">
       </page>
       <page
             category="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"

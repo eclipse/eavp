@@ -15,22 +15,11 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
-
 /**
  * Remove this class as soon as the charts are configurable completely via settings.
  */
 public class ColorAndFormatSupport {
 
-	public static Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
-	public static Color COLOR_BLACK = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
-	public static Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
-	public static Color COLOR_DARK_RED = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_RED);
-	public static Color COLOR_GRAY = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
-	public static Color COLOR_DARK_GRAY = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
-	//
 	public static DecimalFormat decimalFormatVariable = new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH));
 	public static DecimalFormat decimalFormatFixed = new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH));
 	public static DecimalFormat decimalFormatScientific = new DecimalFormat(("0.0#E0"), new DecimalFormatSymbols(Locale.ENGLISH));

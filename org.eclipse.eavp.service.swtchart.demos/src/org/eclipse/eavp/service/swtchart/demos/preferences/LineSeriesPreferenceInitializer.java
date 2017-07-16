@@ -24,6 +24,7 @@ public class LineSeriesPreferenceInitializer extends AbstractPreferenceInitializ
 		 * Line Series
 		 */
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI, LineSeriesPreferenceConstants.DEF_ENABLE_RANGE_UI);
+		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_UI, LineSeriesPreferenceConstants.DEF_COLOR_HINT_RANGE_UI);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE, LineSeriesPreferenceConstants.DEF_VERTICAL_SLIDER_VISIBLE);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE, LineSeriesPreferenceConstants.DEF_HORIZONTALSLIDER_VISIBLE);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_TITLE, LineSeriesPreferenceConstants.DEF_TITLE);

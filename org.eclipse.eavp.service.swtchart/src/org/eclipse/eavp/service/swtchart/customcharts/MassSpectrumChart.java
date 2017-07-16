@@ -33,6 +33,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
 import org.swtchart.ICustomPaintListener;
 import org.swtchart.IPlotArea;
@@ -114,12 +115,12 @@ public class MassSpectrumChart extends BarChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("m/z");
 		primaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
-		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsX.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Intensity");
 		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatScientific);
-		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsY.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 	}
 
 	private void addSecondaryAxisSet(IChartSettings chartSettings) {
@@ -128,7 +129,7 @@ public class MassSpectrumChart extends BarChart {
 		secondaryAxisSettingsY.setTitle("");
 		secondaryAxisSettingsY.setPosition(Position.Secondary);
 		secondaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatFixed);
-		secondaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		secondaryAxisSettingsY.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 	}
 

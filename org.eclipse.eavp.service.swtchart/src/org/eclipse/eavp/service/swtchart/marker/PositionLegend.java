@@ -41,7 +41,7 @@ public class PositionLegend implements IExtendedPaintListener {
 	public PositionLegend(BaseChart baseChart) {
 		x = -1;
 		y = -1;
-		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
+		foregroundColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		draw = true;
 		//
 		stringBuilder = new StringBuilder();

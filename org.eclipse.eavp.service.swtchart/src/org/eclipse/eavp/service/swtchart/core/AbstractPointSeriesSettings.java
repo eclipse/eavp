@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries.PlotSymbolType;
 
 public abstract class AbstractPointSeriesSettings extends AbstractSeriesSettings implements IPointSeriesSettings {
@@ -23,7 +25,7 @@ public abstract class AbstractPointSeriesSettings extends AbstractSeriesSettings
 	public AbstractPointSeriesSettings() {
 		symbolType = PlotSymbolType.NONE;
 		symbolSize = 8;
-		symbolColor = ColorAndFormatSupport.COLOR_BLACK;
+		symbolColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 	}
 
 	@Override

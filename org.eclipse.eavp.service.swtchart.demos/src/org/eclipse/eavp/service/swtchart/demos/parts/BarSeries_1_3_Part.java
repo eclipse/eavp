@@ -21,19 +21,19 @@ import javax.inject.Inject;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 public class BarSeries_1_3_Part extends MassSpectrumChart {
 
 	@Inject
 	public BarSeries_1_3_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		initialize();
 	}
 

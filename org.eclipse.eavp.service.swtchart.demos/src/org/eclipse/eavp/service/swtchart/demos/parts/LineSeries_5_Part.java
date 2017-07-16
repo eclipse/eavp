@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
@@ -26,13 +25,14 @@ import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 public class LineSeries_5_Part extends ChromatogramChart {
 
 	@Inject
 	public LineSeries_5_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -57,7 +57,7 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_5_POSITIVE);
 		lineSeriesData = new LineSeriesData(seriesData);
 		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_RED);
+		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		lineSerieSettings.setEnableArea(false);
 		lineSeriesDataList.add(lineSeriesData);
 		addSeriesData(lineSeriesDataList);
@@ -67,7 +67,7 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_5_NEGATIVE);
 		lineSeriesData = new LineSeriesData(seriesData);
 		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_BLACK);
+		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		lineSerieSettings.setEnableArea(false);
 		lineSeriesDataList.add(lineSeriesData);
 		addSeriesData(lineSeriesDataList);

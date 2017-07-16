@@ -11,12 +11,12 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.demos.swt;
 
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.swtchart.ITitle;
 
 public class CustomLinkedLineSeries1 extends Composite {
@@ -35,11 +35,11 @@ public class CustomLinkedLineSeries1 extends Composite {
 		//
 		title = sampleChart.getBaseChart().getTitle();
 		title.setText(sample + " (" + trace + ")");
-		title.setForeground(ColorAndFormatSupport.COLOR_BLACK);
+		title.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		//
 		title = referenceChart.getBaseChart().getTitle();
 		title.setText(reference + " (" + trace + ")");
-		title.setForeground(ColorAndFormatSupport.COLOR_BLACK);
+		title.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 	}
 
 	private void createControl() {

@@ -43,10 +43,10 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		this.title = title;
 		this.description = description;
 		decimalFormat = new DecimalFormat();
-		color = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
+		color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		visible = true;
 		position = Position.Primary;
-		gridColor = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+		gridColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 		gridLineStyle = LineStyle.DOT;
 		enableLogScale = false;
 	}

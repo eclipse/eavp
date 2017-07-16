@@ -40,7 +40,7 @@ import org.swtchart.Range;
 
 public class PCAChart extends ScatterChart {
 
-	private Color COLOR_BLACK = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
+	private Color COLOR_BLACK = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 	//
 	private int symbolSize = 0;
 	private String chartTitle = "";

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eavp.service.swtchart.TestPathHelper;
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.PCAChart;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesData;
@@ -31,11 +30,11 @@ import junit.framework.TestCase;
 
 public class ImageFactory_3_UITest extends TestCase {
 
-	private Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
-	private Color COLOR_BLUE = Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
-	private Color COLOR_MAGENTA = Display.getCurrent().getSystemColor(SWT.COLOR_MAGENTA);
-	private Color COLOR_CYAN = Display.getCurrent().getSystemColor(SWT.COLOR_CYAN);
-	private Color COLOR_GRAY = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+	private Color COLOR_RED = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private Color COLOR_BLUE = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
+	private Color COLOR_MAGENTA = Display.getDefault().getSystemColor(SWT.COLOR_MAGENTA);
+	private Color COLOR_CYAN = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
+	private Color COLOR_GRAY = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 	//
 	private int SYMBOL_SIZE = 8;
 
@@ -62,7 +61,7 @@ public class ImageFactory_3_UITest extends TestCase {
 			 * Modify the chart.
 			 */
 			PCAChart pcaChart = imageFactory.getChart();
-			pcaChart.setBackground(ColorAndFormatSupport.COLOR_WHITE);
+			pcaChart.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 			List<ISeriesData> scatterSeriesList = SeriesConverter.getSeriesScatter(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_SCATTER_SERIES_1));
 			List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
 			//

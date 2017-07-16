@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Display;
 public class ChartSettings implements IChartSettings {
 
 	private boolean enableRangeUI;
+	private Color colorHintRangeUI;
 	private boolean verticalSliderVisible;
 	private boolean horizontalSliderVisible;
 	//
@@ -60,11 +61,12 @@ public class ChartSettings implements IChartSettings {
 
 	public ChartSettings() {
 		//
-		Display display = Display.getCurrent();
+		Display display = Display.getDefault();
 		/*
 		 * Set the chart.
 		 */
 		enableRangeUI = false;
+		colorHintRangeUI = display.getSystemColor(SWT.COLOR_RED);
 		verticalSliderVisible = false; // https://bugs.eclipse.org/bugs/show_bug.cgi?id=511257
 		horizontalSliderVisible = true;
 		/*
@@ -117,6 +119,18 @@ public class ChartSettings implements IChartSettings {
 	public void setEnableRangeUI(boolean enableRangeUI) {
 
 		this.enableRangeUI = enableRangeUI;
+	}
+
+	@Override
+	public Color getColorHintRangeUI() {
+
+		return colorHintRangeUI;
+	}
+
+	@Override
+	public void setColorHintRangeUI(Color colorHintRangeUI) {
+
+		this.colorHintRangeUI = colorHintRangeUI;
 	}
 
 	@Override

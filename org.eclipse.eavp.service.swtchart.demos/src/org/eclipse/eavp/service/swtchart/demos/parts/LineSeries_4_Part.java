@@ -18,7 +18,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
@@ -30,13 +29,14 @@ import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 public class LineSeries_4_Part extends ChromatogramChart {
 
 	@Inject
 	public LineSeries_4_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -56,11 +56,11 @@ public class LineSeries_4_Part extends ChromatogramChart {
 		 * Create series.
 		 */
 		Map<Integer, Color> colors = new HashMap<Integer, Color>();
-		colors.put(1, ColorAndFormatSupport.COLOR_RED);
-		colors.put(2, ColorAndFormatSupport.COLOR_BLACK);
-		colors.put(3, ColorAndFormatSupport.COLOR_GRAY);
-		colors.put(4, ColorAndFormatSupport.COLOR_DARK_RED);
-		colors.put(5, ColorAndFormatSupport.COLOR_DARK_GRAY);
+		colors.put(1, Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		colors.put(2, Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		colors.put(3, Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		colors.put(4, Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		colors.put(5, Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
 		//
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 		for(int i = 1; i <= 5; i++) {

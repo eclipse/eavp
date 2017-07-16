@@ -19,20 +19,20 @@ import javax.inject.Inject;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 public class BarSeries_3_Part extends MassSpectrumChart {
 
 	@Inject
 	public BarSeries_3_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		initialize();
 	}
 
@@ -59,7 +59,7 @@ public class BarSeries_3_Part extends MassSpectrumChart {
 		barSeriesData = new BarSeriesData(seriesData);
 		barSeriesSettings = barSeriesData.getBarSeriesSettings();
 		barSeriesSettings.setDescription("");
-		barSeriesSettings.setBarColor(ColorAndFormatSupport.COLOR_RED);
+		barSeriesSettings.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		barSeriesDataList.add(barSeriesData);
 		/*
 		 * Negative
@@ -68,7 +68,7 @@ public class BarSeries_3_Part extends MassSpectrumChart {
 		barSeriesData = new BarSeriesData(seriesData);
 		barSeriesSettings = barSeriesData.getBarSeriesSettings();
 		barSeriesSettings.setDescription("");
-		barSeriesSettings.setBarColor(ColorAndFormatSupport.COLOR_BLACK);
+		barSeriesSettings.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		barSeriesDataList.add(barSeriesData);
 		/*
 		 * Set series.

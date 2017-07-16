@@ -19,10 +19,10 @@ import org.eclipse.eavp.service.swtchart.TestPathHelper;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 
 import junit.framework.TestCase;
 
@@ -51,7 +51,7 @@ public class ImageFactory_2_UITest extends TestCase {
 			 * Modify the chart.
 			 */
 			MassSpectrumChart massSpectrumChart = imageFactory.getChart();
-			massSpectrumChart.setBackground(ColorAndFormatSupport.COLOR_WHITE);
+			massSpectrumChart.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 			List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_BAR_SERIES_1));
 			//

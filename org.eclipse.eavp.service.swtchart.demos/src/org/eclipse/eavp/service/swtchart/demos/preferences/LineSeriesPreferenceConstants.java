@@ -24,6 +24,8 @@ public class LineSeriesPreferenceConstants {
 	//
 	public static final String P_ENABLE_RANGE_UI = "enableRangeUI" + POSTFIX;
 	public static final boolean DEF_ENABLE_RANGE_UI = true;
+	public static final String P_COLOR_HINT_RANGE_UI = "colorHintRangeUI" + POSTFIX;
+	public static final String DEF_COLOR_HINT_RANGE_UI = "255,0,0";
 	//
 	public static final String P_VERTICAL_SLIDER_VISIBLE = "verticalSliderVisible" + POSTFIX;
 	public static final boolean DEF_VERTICAL_SLIDER_VISIBLE = false;

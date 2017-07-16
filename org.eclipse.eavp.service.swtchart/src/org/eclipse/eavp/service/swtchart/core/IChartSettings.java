@@ -21,6 +21,10 @@ public interface IChartSettings {
 
 	void setEnableRangeUI(boolean enableRangeUI);
 
+	Color getColorHintRangeUI();
+
+	void setColorHintRangeUI(Color colorHintRangeUI);
+
 	boolean isVerticalSliderVisible();
 
 	void setVerticalSliderVisible(boolean verticalSliderVisible);

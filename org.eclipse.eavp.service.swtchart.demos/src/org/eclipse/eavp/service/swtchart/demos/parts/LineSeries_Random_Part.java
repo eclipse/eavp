@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.eclipse.eavp.service.swtchart.core.ColorAndFormatSupport;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.SeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
@@ -51,7 +50,7 @@ public class LineSeries_Random_Part extends Composite {
 	@Inject
 	public LineSeries_Random_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 			acquisition = new Acquisition();
@@ -166,7 +165,7 @@ public class LineSeries_Random_Part extends Composite {
 				ISeriesData seriesData = getRandomSeriesData();
 				ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 				ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-				lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_RED);
+				lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 				lineSerieSettings.setEnableArea(true);
 				lineSeriesDataList.add(lineSeriesData);
 				chromatogramChart.addSeriesData(lineSeriesDataList);
@@ -182,7 +181,7 @@ public class LineSeries_Random_Part extends Composite {
 		ISeriesData seriesData = getRandomSeriesData();
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineColor(ColorAndFormatSupport.COLOR_RED);
+		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		lineSerieSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		chromatogramChart.addSeriesData(lineSeriesDataList);

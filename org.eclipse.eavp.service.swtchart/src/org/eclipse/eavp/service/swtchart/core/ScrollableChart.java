@@ -64,9 +64,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
 	//
-	private static final Color COLOR_RED = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
-	private static final Color COLOR_WHITE = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
-	//
 	private static final String MENU_MARKER_AND_LEGENDS = "Marker / Legends";
 	private static final String MENU_EXPORT_CHART_SELECTION = "Export Chart Selection";
 	//
@@ -922,41 +919,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				 */
 				if(!rangeUI.isVisible() && chartSettings.isEnableRangeUI()) {
 					if(showRangeUIHint) {
-						//
-						int lineWidth = 1;
-						Rectangle rectangle = baseChart.getBounds();
-						int width = rectangle.width - lineWidth;
-						e.gc.setForeground(COLOR_RED);
-						e.gc.setLineWidth(lineWidth);
-						Rectangle rectangleInfo = new Rectangle(0, 0, width, 26);
-						e.gc.drawRectangle(rectangleInfo);
-						//
-						ITitle title = getBaseChart().getTitle();
-						if(title.getForeground().equals(COLOR_WHITE)) {
-							/*
-							 * Draw the message.
-							 */
-							String label = "Double click to show range info.";
-							Point labelSize = e.gc.textExtent(label);
-							e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
-						}
-						/*
-						 * Hide the rectangle after x milliseconds.
-						 */
-						Display.getDefault().asyncExec(new Runnable() {
-
-							@Override
-							public void run() {
-
-								try {
-									Thread.sleep(MILLISECONDS_SHOW_RANGE_INFO_HINT);
-								} catch(InterruptedException e) {
-									System.out.println(e);
-								}
-								showRangeUIHint = false;
-								baseChart.redraw();
-							}
-						});
+						drawRangeUIHint(e);
 					}
 				}
 			}
@@ -974,6 +937,44 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		plotArea.addListener(SWT.MouseDoubleClick, this);
 		plotArea.addListener(SWT.Resize, this);
 		plotArea.addPaintListener(this);
+	}
+
+	private void drawRangeUIHint(PaintEvent e) {
+
+		int lineWidth = 1;
+		Rectangle rectangle = baseChart.getBounds();
+		int width = rectangle.width - lineWidth;
+		e.gc.setForeground(chartSettings.getColorHintRangeUI());
+		e.gc.setLineWidth(lineWidth);
+		Rectangle rectangleInfo = new Rectangle(0, 0, width, 26);
+		e.gc.drawRectangle(rectangleInfo);
+		//
+		ITitle title = getBaseChart().getTitle();
+		if(title.getForeground().equals(baseChart.getBackground())) {
+			/*
+			 * Draw the message.
+			 */
+			String label = "Double click to show range info.";
+			Point labelSize = e.gc.textExtent(label);
+			e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
+		}
+		/*
+		 * Hide the rectangle after x milliseconds.
+		 */
+		Display.getDefault().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+
+				try {
+					Thread.sleep(MILLISECONDS_SHOW_RANGE_INFO_HINT);
+				} catch(InterruptedException e) {
+					System.out.println(e);
+				}
+				showRangeUIHint = false;
+				baseChart.redraw();
+			}
+		});
 	}
 
 	private void createSliderHorizontal(Composite parent) {

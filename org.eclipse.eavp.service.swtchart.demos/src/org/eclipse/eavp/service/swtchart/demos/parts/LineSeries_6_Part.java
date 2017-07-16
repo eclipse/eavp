@@ -27,6 +27,7 @@ import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
 
 /*
@@ -37,7 +38,7 @@ public class LineSeries_6_Part extends LineChart {
 	@Inject
 	public LineSeries_6_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(ColorAndFormatSupport.COLOR_WHITE);
+		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -63,7 +64,7 @@ public class LineSeries_6_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("f1 (ppm)");
 		primaryAxisSettingsX.setDecimalFormat(ColorAndFormatSupport.decimalFormatVariable);
-		primaryAxisSettingsX.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsX.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsX.setPosition(Position.Primary);
 		/*
 		 * Primary Y-Axis
@@ -71,7 +72,7 @@ public class LineSeries_6_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Intensity");
 		primaryAxisSettingsY.setDecimalFormat(ColorAndFormatSupport.decimalFormatScientific);
-		primaryAxisSettingsY.setColor(ColorAndFormatSupport.COLOR_BLACK);
+		primaryAxisSettingsY.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		//
 		applySettings(chartSettings);
 		/*

@@ -28,7 +28,7 @@ public class CenterMarker implements IExtendedPaintListener {
 	public CenterMarker() {
 		x = -1;
 		y = -1;
-		foregroundColor = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
+		foregroundColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		draw = true;
 	}
 
