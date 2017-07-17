@@ -106,9 +106,9 @@ public class PCAChart extends ScatterChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(false);
 		chartSettings.setVerticalSliderVisible(false);
-		chartSettings.setUseZeroX(false);
-		chartSettings.setUseZeroY(false);
-		chartSettings.setUseRangeRestriction(false);
+		chartSettings.getRangeRestriction().setZeroX(false);
+		chartSettings.getRangeRestriction().setZeroY(false);
+		chartSettings.getRangeRestriction().setRestrictZoom(false);
 		chartSettings.setFactorExtend(0.25d);
 		//
 		setPrimaryAxisSet(chartSettings);

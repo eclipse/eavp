@@ -46,8 +46,8 @@ public class BarSeries_2_1_Part extends BarChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
 		chartSettings.setVerticalSliderVisible(true);
-		chartSettings.setUseZeroX(false);
-		chartSettings.setUseZeroY(false);
+		chartSettings.getRangeRestriction().setZeroX(false);
+		chartSettings.getRangeRestriction().setZeroY(false);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("m/z");

@@ -97,9 +97,9 @@ public class MassSpectrumChart extends BarChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
 		chartSettings.setVerticalSliderVisible(true);
-		chartSettings.setUseZeroX(false);
-		chartSettings.setUseZeroY(false);
-		chartSettings.setUseRangeRestriction(true);
+		chartSettings.getRangeRestriction().setZeroX(false);
+		chartSettings.getRangeRestriction().setZeroY(false);
+		chartSettings.getRangeRestriction().setRestrictZoom(true);
 		chartSettings.setFactorExtendMinX(0.05d);
 		chartSettings.setFactorExtendMaxX(0.05d);
 		chartSettings.setFactorExtendMaxY(0.1d);

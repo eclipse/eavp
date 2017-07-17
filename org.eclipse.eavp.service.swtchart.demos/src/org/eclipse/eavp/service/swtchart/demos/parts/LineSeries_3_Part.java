@@ -60,8 +60,8 @@ public class LineSeries_3_Part extends LineChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
 		chartSettings.setVerticalSliderVisible(true);
-		chartSettings.setUseZeroX(true);
-		chartSettings.setUseZeroY(true);
+		chartSettings.getRangeRestriction().setZeroX(true);
+		chartSettings.getRangeRestriction().setZeroY(true);
 		chartSettings.setEnableRangeUI(true);
 		chartSettings.setShowPositionMarker(true);
 		chartSettings.setShowCenterMarker(true);

@@ -166,7 +166,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Adjust the range if it shall not exceed the initial
 		 * min and max values.
 		 */
-		if(isUseRangeRestriction()) {
+		if(getRangeRestriction().isRestrictZoom()) {
 			/*
 			 * Adjust the primary axes.
 			 * The secondary axes are adjusted by setting the range.

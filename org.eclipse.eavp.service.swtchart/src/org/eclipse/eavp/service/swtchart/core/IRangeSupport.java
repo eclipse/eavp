@@ -15,22 +15,9 @@ import org.swtchart.IAxis;
 
 public interface IRangeSupport {
 
-	boolean isUseZeroY();
+	RangeRestriction getRangeRestriction();
 
-	void setUseZeroY(boolean useZeroY);
-
-	boolean isUseZeroX();
-
-	void setUseZeroX(boolean useZeroX);
-
-	boolean isUseRangeRestriction();
-
-	/**
-	 * Set true if zooming shall not exceed the min/max values.
-	 * 
-	 * @param useRangeRestriction
-	 */
-	void setUseRangeRestriction(boolean useRangeRestriction);
+	void setRangeRestriction(RangeRestriction rangeRestriction);
 
 	double getFactorExtendMinX();
 

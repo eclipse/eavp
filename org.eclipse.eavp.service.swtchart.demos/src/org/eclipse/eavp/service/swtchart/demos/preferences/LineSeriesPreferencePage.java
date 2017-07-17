@@ -48,9 +48,9 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_BACKGROUND_CHART, "Background Chart:", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_BACKGROUND_PLOT_AREA, "Background Plot Area:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_COMPRESS, "Enable Compress", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_USE_ZERO_X, "Use Zero X", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_USE_ZERO_Y, "Use Zero Y", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_USE_RANGE_RESTRICTION, "Use Range Restriction", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ZERO_X, "Zero X", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ZERO_Y, "Zero Y", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_RESTRICT_ZOOM, "Restrict Zoom", getFieldEditorParent()));
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X, "Factor Extend Min X:", getFieldEditorParent()));
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y, "Factor Extend Min Y:", getFieldEditorParent()));

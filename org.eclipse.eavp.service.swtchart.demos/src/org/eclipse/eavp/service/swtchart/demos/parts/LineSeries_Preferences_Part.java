@@ -200,9 +200,9 @@ public class LineSeries_Preferences_Part extends Composite {
 		chartSettings.setBackgroundChart(colorBackgroundChart);
 		chartSettings.setBackgroundPlotArea(colorBackgroundPlotArea);
 		chartSettings.setEnableCompress(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_COMPRESS));
-		chartSettings.setUseZeroX(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_USE_ZERO_X));
-		chartSettings.setUseZeroY(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_USE_ZERO_Y));
-		chartSettings.setUseRangeRestriction(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_USE_RANGE_RESTRICTION));
+		chartSettings.getRangeRestriction().setZeroX(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ZERO_X));
+		chartSettings.getRangeRestriction().setZeroY(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ZERO_Y));
+		chartSettings.getRangeRestriction().setRestrictZoom(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_RESTRICT_ZOOM));
 		chartSettings.setFactorExtendMinX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X));
 		chartSettings.setFactorExtendMaxX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X));
 		chartSettings.setFactorExtendMinY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y));

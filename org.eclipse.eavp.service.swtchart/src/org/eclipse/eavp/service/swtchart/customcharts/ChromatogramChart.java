@@ -49,8 +49,8 @@ public class ChromatogramChart extends LineChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
 		chartSettings.setVerticalSliderVisible(false);
-		chartSettings.setUseZeroX(true);
-		chartSettings.setUseZeroY(true);
+		chartSettings.getRangeRestriction().setZeroX(true);
+		chartSettings.getRangeRestriction().setZeroY(true);
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);

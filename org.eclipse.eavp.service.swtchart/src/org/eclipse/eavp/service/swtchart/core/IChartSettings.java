@@ -96,34 +96,7 @@ public interface IChartSettings {
 
 	void setEnableCompress(boolean enableCompress);
 
-	boolean isUseZeroX();
-
-	/**
-	 * 0 is the lowest x value.
-	 * Otherwise, the lowest x values of the series is used.
-	 * 
-	 * @param useZeroX
-	 */
-	void setUseZeroX(boolean useZeroX);
-
-	boolean isUseZeroY();
-
-	/**
-	 * 0 is the lowest y value.
-	 * Otherwise, the lowest y values of the series is used.
-	 * 
-	 * @param useZeroY
-	 */
-	void setUseZeroY(boolean useZeroY);
-
-	boolean isUseRangeRestriction();
-
-	/**
-	 * Set true if zooming shall not exceed the min/max values.
-	 * 
-	 * @param useRangeRestriction
-	 */
-	void setUseRangeRestriction(boolean useRangeRestriction);
+	RangeRestriction getRangeRestriction();
 
 	double getFactorExtendMinX();
 

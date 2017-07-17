@@ -67,8 +67,8 @@ public class CustomLineChart1 extends LineChart {
 			chartSettings.setEnableRangeUI(enableRangeUI);
 			chartSettings.setHorizontalSliderVisible(enableHorizontalSlider);
 			chartSettings.setVerticalSliderVisible(false);
-			chartSettings.setUseZeroX(true);
-			chartSettings.setUseZeroY(true);
+			chartSettings.getRangeRestriction().setZeroX(true);
+			chartSettings.getRangeRestriction().setZeroY(true);
 			//
 			IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 			primaryAxisSettingsX.setTitle("Retention Time (milliseconds)");

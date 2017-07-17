@@ -27,14 +27,12 @@ import org.swtchart.Range;
 
 public abstract class AbstractExtendedChart extends AbstractHandledChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
 
-	private boolean useZeroY;
-	private boolean useZeroX;
 	private double length;
 	private double minX;
 	private double maxX;
 	private double minY;
 	private double maxY;
-	private boolean useRangeRestriction;
+	private RangeRestriction rangeRestriction;
 	private double factorExtendMinX;
 	private double factorExtendMaxX;
 	private double factorExtendMinY;
@@ -59,30 +57,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
 		yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
 		resetCoordinates();
-	}
-
-	@Override
-	public boolean isUseZeroY() {
-
-		return useZeroY;
-	}
-
-	@Override
-	public void setUseZeroY(boolean useZeroY) {
-
-		this.useZeroY = useZeroY;
-	}
-
-	@Override
-	public boolean isUseZeroX() {
-
-		return useZeroX;
-	}
-
-	@Override
-	public void setUseZeroX(boolean useZeroX) {
-
-		this.useZeroX = useZeroX;
 	}
 
 	@Override
@@ -116,15 +90,15 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	}
 
 	@Override
-	public boolean isUseRangeRestriction() {
+	public RangeRestriction getRangeRestriction() {
 
-		return useRangeRestriction;
+		return rangeRestriction;
 	}
 
 	@Override
-	public void setUseRangeRestriction(boolean useRangeRestriction) {
+	public void setRangeRestriction(RangeRestriction rangeRestriction) {
 
-		this.useRangeRestriction = useRangeRestriction;
+		this.rangeRestriction = rangeRestriction;
 	}
 
 	@Override
@@ -223,7 +197,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				/*
 				 * X-AXIS
 				 */
-				if(useZeroX) {
+				if(rangeRestriction.isZeroX()) {
 					range.lower = (range.lower < 0) ? 0 : range.lower;
 				} else {
 					range.lower = (range.lower < minX) ? minX : range.lower;
@@ -233,7 +207,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				/*
 				 * Y-AXIS
 				 */
-				if(useZeroY) {
+				if(rangeRestriction.isZeroY()) {
 					range.lower = (range.lower < 0) ? 0 : range.lower;
 				} else {
 					range.lower = (range.lower < minY) ? minY : range.lower;
@@ -459,10 +433,10 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		//
 		length = Math.max(length, xSeries.length);
 		minX = Math.min(minX, seriesMinX);
-		minX = (useZeroX && minX < 0.0d) ? 0.0d : minX;
+		minX = (rangeRestriction.isZeroX() && minX < 0.0d) ? 0.0d : minX;
 		maxX = Math.max(maxX, seriesMaxX);
 		minY = Math.min(minY, seriesMinY);
-		minY = (useZeroY && minY < 0.0d) ? 0.0d : minY;
+		minY = (rangeRestriction.isZeroY() && minY < 0.0d) ? 0.0d : minY;
 		maxY = Math.max(maxY, seriesMaxY);
 		//
 		calculateExtendedCoordinates();

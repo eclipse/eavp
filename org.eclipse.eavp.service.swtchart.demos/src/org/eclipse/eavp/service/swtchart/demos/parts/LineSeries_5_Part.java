@@ -43,7 +43,7 @@ public class LineSeries_5_Part extends ChromatogramChart {
 	private void initialize() throws Exception {
 
 		IChartSettings chartSettings = getChartSettings();
-		chartSettings.setUseZeroY(false);
+		chartSettings.getRangeRestriction().setZeroY(false);
 		applySettings(chartSettings);
 		//
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();

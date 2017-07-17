@@ -42,9 +42,7 @@ public class ChartSettings implements IChartSettings {
 	private Color backgroundChart;
 	private Color backgroundPlotArea;
 	private boolean enableCompress;
-	private boolean useZeroX;
-	private boolean useZeroY;
-	private boolean useRangeRestriction;
+	private RangeRestriction rangeRestriction;
 	private double factorExtendMinX;
 	private double factorExtendMaxX;
 	private double factorExtendMinY;
@@ -91,9 +89,10 @@ public class ChartSettings implements IChartSettings {
 		backgroundChart = display.getSystemColor(SWT.COLOR_WHITE);
 		backgroundPlotArea = display.getSystemColor(SWT.COLOR_WHITE);
 		enableCompress = true;
-		useZeroX = true;
-		useZeroY = true;
-		useRangeRestriction = true;
+		rangeRestriction = new RangeRestriction();
+		rangeRestriction.setZeroX(true);
+		rangeRestriction.setZeroY(true);
+		rangeRestriction.setRestrictZoom(true);
 		factorExtendMinX = 0.0d;
 		factorExtendMaxX = 0.0d;
 		factorExtendMinY = 0.0d;
@@ -319,39 +318,9 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public boolean isUseZeroX() {
+	public RangeRestriction getRangeRestriction() {
 
-		return useZeroX;
-	}
-
-	@Override
-	public void setUseZeroX(boolean useZeroX) {
-
-		this.useZeroX = useZeroX;
-	}
-
-	@Override
-	public boolean isUseZeroY() {
-
-		return useZeroY;
-	}
-
-	@Override
-	public void setUseZeroY(boolean useZeroY) {
-
-		this.useZeroY = useZeroY;
-	}
-
-	@Override
-	public boolean isUseRangeRestriction() {
-
-		return useRangeRestriction;
-	}
-
-	@Override
-	public void setUseRangeRestriction(boolean useRangeRestriction) {
-
-		this.useRangeRestriction = useRangeRestriction;
+		return rangeRestriction;
 	}
 
 	@Override

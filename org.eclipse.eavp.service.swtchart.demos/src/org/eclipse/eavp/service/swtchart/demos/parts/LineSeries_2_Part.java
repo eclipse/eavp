@@ -57,8 +57,8 @@ public class LineSeries_2_Part extends LineChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
 		chartSettings.setVerticalSliderVisible(false);
-		chartSettings.setUseZeroX(false);
-		chartSettings.setUseZeroY(false);
+		chartSettings.getRangeRestriction().setZeroX(false);
+		chartSettings.getRangeRestriction().setZeroY(false);
 		/*
 		 * Primary X-Axis
 		 */
