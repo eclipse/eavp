@@ -13,7 +13,7 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import junit.framework.TestCase;
 
-public class RangeRestriction_3_Test extends TestCase {
+public class RangeRestriction_20_Test extends TestCase {
 
 	private RangeRestriction rangeRestriction;
 
@@ -21,7 +21,7 @@ public class RangeRestriction_3_Test extends TestCase {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		rangeRestriction = new RangeRestriction(RangeRestriction.ZERO_X);
+		rangeRestriction = new RangeRestriction(RangeRestriction.X_ZOOM_ONLY | RangeRestriction.Y_ZOOM_ONLY);
 	}
 
 	@Override
@@ -32,31 +32,21 @@ public class RangeRestriction_3_Test extends TestCase {
 
 	public void test1() {
 
-		assertTrue(rangeRestriction.isZeroX());
+		assertTrue(rangeRestriction.isXZoomOnly());
+		assertTrue(rangeRestriction.isYZoomOnly());
 	}
 
 	public void test2() {
 
-		assertFalse(rangeRestriction.isZeroY());
+		rangeRestriction.setXZoomOnly(false);
+		assertFalse(rangeRestriction.isXZoomOnly());
+		assertTrue(rangeRestriction.isYZoomOnly());
 	}
 
 	public void test3() {
 
-		assertFalse(rangeRestriction.isRestrictZoom());
-	}
-
-	public void test4() {
-
-		assertFalse(rangeRestriction.isXZoomOnly());
-	}
-
-	public void test5() {
-
+		rangeRestriction.setYZoomOnly(false);
+		assertTrue(rangeRestriction.isXZoomOnly());
 		assertFalse(rangeRestriction.isYZoomOnly());
-	}
-
-	public void test6() {
-
-		assertFalse(rangeRestriction.isForceZeroMinY());
 	}
 }

@@ -5,7 +5,6 @@ NMR data - axis settings
 Menu extensions
 support undo / redo of operations (previous selection, ...)
 LatTeX Images (Line, Bar, Scatter)
-Start from X/Y 0
 History (Do/Undo/Redo)
 Demo Area Selection
 Modify series +/-

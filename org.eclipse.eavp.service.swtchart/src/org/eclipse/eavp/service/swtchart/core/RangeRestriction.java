@@ -19,6 +19,7 @@ public class RangeRestriction {
 	public static final int RESTRICT_ZOOM = 4; // It's not possible to zoom outside of the min/max values.
 	public static final int X_ZOOM_ONLY = 8; // When doing a user selection, only zoom x.
 	public static final int Y_ZOOM_ONLY = 16; // When doing a user selection, only zoom y.
+	public static final int FORCE_ZERO_MIN_Y = 32; // Instead of starting with the lowest Y values, 0 is set.
 	//
 	private double factorExtendMinX;
 	private double factorExtendMaxX;
@@ -114,6 +115,21 @@ public class RangeRestriction {
 	public void setYZoomOnly(boolean yZoomOnly) {
 
 		flagSelection(yZoomOnly, Y_ZOOM_ONLY);
+	}
+
+	public boolean isForceZeroMinY() {
+
+		return isFlagSet(FORCE_ZERO_MIN_Y);
+	}
+
+	/**
+	 * Set true if only lowest y value starts at 0 in any case.
+	 * 
+	 * @param forceZeroMinY
+	 */
+	public void setForceZeroMinY(boolean forceZeroMinY) {
+
+		flagSelection(forceZeroMinY, FORCE_ZERO_MIN_Y);
 	}
 
 	public double getFactorExtendMinX() {

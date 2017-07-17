@@ -13,7 +13,7 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import junit.framework.TestCase;
 
-public class RangeRestriction_3_Test extends TestCase {
+public class RangeRestriction_19_Test extends TestCase {
 
 	private RangeRestriction rangeRestriction;
 
@@ -21,7 +21,7 @@ public class RangeRestriction_3_Test extends TestCase {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		rangeRestriction = new RangeRestriction(RangeRestriction.ZERO_X);
+		rangeRestriction = new RangeRestriction(RangeRestriction.FORCE_ZERO_MIN_Y);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class RangeRestriction_3_Test extends TestCase {
 
 	public void test1() {
 
-		assertTrue(rangeRestriction.isZeroX());
+		assertFalse(rangeRestriction.isZeroX());
 	}
 
 	public void test2() {
@@ -57,6 +57,6 @@ public class RangeRestriction_3_Test extends TestCase {
 
 	public void test6() {
 
-		assertFalse(rangeRestriction.isForceZeroMinY());
+		assertTrue(rangeRestriction.isForceZeroMinY());
 	}
 }

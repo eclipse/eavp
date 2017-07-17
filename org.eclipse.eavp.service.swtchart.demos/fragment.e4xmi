@@ -51,5 +51,15 @@
         </children>
       </children>
     </elements>
+    <elements xsi:type="advanced:Perspective" xmi:id="_LnMygGsbEeevWu6C3O6GOg" elementId="org.eclipse.eavp.service.swtchart.demos.perspective.eavpdemo-swtchartextensionsbackground" label="EAVP Demo - SWTChart Extensions (Background)">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_SrUVgGsbEeevWu6C3O6GOg" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.6">
+        <children xsi:type="basic:PartStack" xmi:id="_UByZMGsbEeevWu6C3O6GOg" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.7">
+          <children xsi:type="basic:Part" xmi:id="_UrKGUGsbEeevWu6C3O6GOg" elementId="org.eclipse.eavp.service.swtchart.demos.part.lineseries5normal" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_7_Normal_Part" label="Line Series 7 (Normal)" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+        </children>
+        <children xsi:type="basic:PartStack" xmi:id="_USNa0GsbEeevWu6C3O6GOg" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.8">
+          <children xsi:type="basic:Part" xmi:id="_U_NqwGsbEeevWu6C3O6GOg" elementId="org.eclipse.eavp.service.swtchart.demos.part.lineseries5highbackground" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_7_HighBackground_Part" label="Line Series 7 (High Background)" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+        </children>
+      </children>
+    </elements>
   </fragments>
 </fragment:ModelFragments>

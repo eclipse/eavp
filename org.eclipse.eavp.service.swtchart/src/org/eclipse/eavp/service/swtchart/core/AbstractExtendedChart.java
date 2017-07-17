@@ -155,11 +155,16 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				/*
 				 * Y-AXIS
 				 */
-				if(rangeRestriction.isZeroY()) {
-					range.lower = (range.lower < 0) ? 0 : range.lower;
+				if(rangeRestriction.isForceZeroMinY()) {
+					range.lower = 0.0d;
 				} else {
-					range.lower = (range.lower < minY) ? minY : range.lower;
+					if(rangeRestriction.isZeroY()) {
+						range.lower = (range.lower < 0) ? 0 : range.lower;
+					} else {
+						range.lower = (range.lower < minY) ? minY : range.lower;
+					}
 				}
+				//
 				extendRange(range, extendedMinY, extendedMaxY, rangeRestriction.getFactorExtendMinY(), rangeRestriction.getFactorExtendMaxY());
 			}
 			/*
@@ -385,6 +390,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		maxX = Math.max(maxX, seriesMaxX);
 		minY = Math.min(minY, seriesMinY);
 		minY = (rangeRestriction.isZeroY() && minY < 0.0d) ? 0.0d : minY;
+		minY = (rangeRestriction.isForceZeroMinY()) ? 0.0d : minY;
 		maxY = Math.max(maxY, seriesMaxY);
 		//
 		calculateExtendedCoordinates();
