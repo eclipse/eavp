@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.swtchart.IAxis;
@@ -102,7 +103,22 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			int yMin = Math.min(userSelection.getStartY(), userSelection.getStopY());
 			int yMax = Math.max(userSelection.getStartY(), userSelection.getStopY());
 			//
-			e.gc.drawRectangle(xMin, yMin, xMax - xMin, yMax - yMin);
+			RangeRestriction rangeRestriction = getRangeRestriction();
+			if(isZoomXAndY(rangeRestriction)) {
+				/*
+				 * X and Y zoom.
+				 */
+				e.gc.drawRectangle(xMin, yMin, xMax - xMin, yMax - yMin);
+			} else {
+				/*
+				 * X or Y zoom.
+				 */
+				if(rangeRestriction.isXZoomOnly()) {
+					e.gc.drawLine(xMin, yMin, xMax, yMin);
+				} else if(rangeRestriction.isYZoomOnly()) {
+					e.gc.drawLine(xMin, yMin, xMin, yMax);
+				}
+			}
 			//
 			e.gc.setLineStyle(currentLineStyle);
 		}
@@ -139,7 +155,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				handleUserSelection(event);
 			}
 		}
-		// Button 3 = Show Menu
+		/*
+		 * Button 3 = Show Menu
+		 * See Menu in SrollableChart
+		 */
 	}
 
 	@Override
@@ -147,29 +166,29 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
 		IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
-		/*
-		 * X Axis
-		 */
-		double coordinateX = xAxis.getDataCoordinate(event.x);
-		if(event.count > 0) {
-			xAxis.zoomIn(coordinateX);
+		//
+		RangeRestriction rangeRestriction = getRangeRestriction();
+		if(isZoomXAndY(rangeRestriction)) {
+			/*
+			 * X and Y zoom.
+			 */
+			zoomX(xAxis, event);
+			zoomY(yAxis, event);
 		} else {
-			xAxis.zoomOut(coordinateX);
-		}
-		/*
-		 * Y Axis
-		 */
-		double coordinateY = yAxis.getDataCoordinate(event.y);
-		if(event.count > 0) {
-			yAxis.zoomIn(coordinateY);
-		} else {
-			yAxis.zoomOut(coordinateY);
+			/*
+			 * X or Y zoom.
+			 */
+			if(rangeRestriction.isXZoomOnly()) {
+				zoomX(xAxis, event);
+			} else if(rangeRestriction.isYZoomOnly()) {
+				zoomY(yAxis, event);
+			}
 		}
 		/*
 		 * Adjust the range if it shall not exceed the initial
 		 * min and max values.
 		 */
-		if(getRangeRestriction().isRestrictZoom()) {
+		if(rangeRestriction.isRestrictZoom()) {
 			/*
 			 * Adjust the primary axes.
 			 * The secondary axes are adjusted by setting the range.
@@ -190,6 +209,32 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		redraw();
 	}
 
+	private void zoomX(IAxis xAxis, Event event) {
+
+		/*
+		 * X Axis
+		 */
+		double coordinateX = xAxis.getDataCoordinate(event.x);
+		if(event.count > 0) {
+			xAxis.zoomIn(coordinateX);
+		} else {
+			xAxis.zoomOut(coordinateX);
+		}
+	}
+
+	private void zoomY(IAxis yAxis, Event event) {
+
+		/*
+		 * Y Axis
+		 */
+		double coordinateY = yAxis.getDataCoordinate(event.y);
+		if(event.count > 0) {
+			yAxis.zoomIn(coordinateY);
+		} else {
+			yAxis.zoomOut(coordinateY);
+		}
+	}
+
 	@Override
 	public void handleMouseDoubleClick(Event event) {
 
@@ -203,49 +248,101 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private void handleUserSelection(Event event) {
 
 		int minSelectedWidth;
+		int minSelectedHeight;
 		int deltaWidth;
+		int deltaHeight;
 		//
+		Rectangle bounds = getPlotArea().getBounds();
 		if((getOrientation() == SWT.HORIZONTAL)) {
-			minSelectedWidth = getPlotArea().getBounds().width / MIN_SELECTION_PERCENTAGE;
+			minSelectedWidth = bounds.width / MIN_SELECTION_PERCENTAGE;
 			deltaWidth = Math.abs(userSelection.getStartX() - event.x);
+			minSelectedHeight = bounds.height / MIN_SELECTION_PERCENTAGE;
+			deltaHeight = Math.abs(userSelection.getStartY() - event.y);
 		} else {
-			minSelectedWidth = getPlotArea().getBounds().height / MIN_SELECTION_PERCENTAGE;
+			minSelectedWidth = bounds.height / MIN_SELECTION_PERCENTAGE;
 			deltaWidth = Math.abs(userSelection.getStartY() - event.y);
+			minSelectedHeight = bounds.width / MIN_SELECTION_PERCENTAGE;
+			deltaHeight = Math.abs(userSelection.getStartX() - event.x);
 		}
 		/*
 		 * Prevent accidental zooming.
 		 */
-		if(deltaWidth >= minSelectedWidth) {
-			//
-			int xStart = userSelection.getStartX();
-			int xStop = userSelection.getStopX();
-			int yStart = userSelection.getStartY();
-			int yStop = userSelection.getStopY();
-			IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
-			IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
-			//
-			if((getOrientation() == SWT.HORIZONTAL)) {
-				/*
-				 * Horizontal
-				 */
-				setRange(xAxis, xStart, xStop, true);
-				setRange(yAxis, yStart, yStop, true);
-			} else {
-				/*
-				 * Vertical
-				 */
-				setRange(xAxis, yStart, yStop, true);
-				setRange(yAxis, xStart, xStop, true);
+		RangeRestriction rangeRestriction = getRangeRestriction();
+		if(rangeRestriction.isYZoomOnly()) {
+			if(deltaHeight >= minSelectedHeight) {
+				handleUserSelectionXY(event);
 			}
-			/*
-			 * Inform all registered handlers.
-			 * Reset the current selection and redraw the chart.
-			 */
-			fireUpdateCustomSelectionHandlers(event);
+		} else {
+			if(deltaWidth >= minSelectedWidth) {
+				handleUserSelectionXY(event);
+			}
 		}
 		//
 		userSelection.reset();
 		redraw();
+	}
+
+	private void handleUserSelectionXY(Event event) {
+
+		int xStart = userSelection.getStartX();
+		int xStop = userSelection.getStopX();
+		int yStart = userSelection.getStartY();
+		int yStop = userSelection.getStopY();
+		IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
+		IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
+		//
+		if((getOrientation() == SWT.HORIZONTAL)) {
+			setHorizontalRange(xAxis, yAxis, xStart, xStop, yStart, yStop);
+		} else {
+			setVerticalRange(xAxis, yAxis, xStart, xStop, yStart, yStop);
+		}
+		/*
+		 * Inform all registered handlers.
+		 * Reset the current selection and redraw the chart.
+		 */
+		fireUpdateCustomSelectionHandlers(event);
+	}
+
+	private void setHorizontalRange(IAxis xAxis, IAxis yAxis, int xStart, int xStop, int yStart, int yStop) {
+
+		RangeRestriction rangeRestriction = getRangeRestriction();
+		if(isZoomXAndY(rangeRestriction)) {
+			/*
+			 * X and Y zoom.
+			 */
+			setRange(xAxis, xStart, xStop, true);
+			setRange(yAxis, yStart, yStop, true);
+		} else {
+			/*
+			 * X or Y zoom.
+			 */
+			if(rangeRestriction.isXZoomOnly()) {
+				setRange(xAxis, xStart, xStop, true);
+			} else if(rangeRestriction.isYZoomOnly()) {
+				setRange(yAxis, yStart, yStop, true);
+			}
+		}
+	}
+
+	private void setVerticalRange(IAxis xAxis, IAxis yAxis, int xStart, int xStop, int yStart, int yStop) {
+
+		RangeRestriction rangeRestriction = getRangeRestriction();
+		if(isZoomXAndY(rangeRestriction)) {
+			/*
+			 * X and Y zoom.
+			 */
+			setRange(xAxis, yStart, yStop, true);
+			setRange(yAxis, xStart, xStop, true);
+		} else {
+			/*
+			 * X or Y zoom.
+			 */
+			if(rangeRestriction.isXZoomOnly()) {
+				setRange(xAxis, yStart, yStop, true);
+			} else if(rangeRestriction.isYZoomOnly()) {
+				setRange(yAxis, xStart, xStop, true);
+			}
+		}
 	}
 
 	public String[] getAxisLabels(String axisOrientation) {
@@ -347,5 +444,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			axisSettings = getYAxisSettingsMap().get(id);
 		}
 		return axisSettings;
+	}
+
+	private boolean isZoomXAndY(RangeRestriction rangeRestriction) {
+
+		boolean zoomXAndY = false;
+		if(!rangeRestriction.isXZoomOnly() && !rangeRestriction.isYZoomOnly()) {
+			zoomXAndY = true;
+		} else if(rangeRestriction.isXZoomOnly() && rangeRestriction.isYZoomOnly()) {
+			zoomXAndY = true;
+		}
+		//
+		return zoomXAndY;
 	}
 }
