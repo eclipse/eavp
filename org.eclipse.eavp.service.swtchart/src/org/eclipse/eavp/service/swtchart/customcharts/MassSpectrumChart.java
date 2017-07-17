@@ -27,6 +27,7 @@ import org.eclipse.eavp.service.swtchart.core.IAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
+import org.eclipse.eavp.service.swtchart.core.RangeRestriction;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.support.BarSeriesIon;
 import org.eclipse.eavp.service.swtchart.support.BarSeriesIonComparator;
@@ -97,12 +98,13 @@ public class MassSpectrumChart extends BarChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
 		chartSettings.setVerticalSliderVisible(true);
-		chartSettings.getRangeRestriction().setZeroX(false);
-		chartSettings.getRangeRestriction().setZeroY(false);
-		chartSettings.getRangeRestriction().setRestrictZoom(true);
-		chartSettings.setFactorExtendMinX(0.05d);
-		chartSettings.setFactorExtendMaxX(0.05d);
-		chartSettings.setFactorExtendMaxY(0.1d);
+		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
+		rangeRestriction.setZeroX(false);
+		rangeRestriction.setZeroY(false);
+		rangeRestriction.setRestrictZoom(true);
+		rangeRestriction.setFactorExtendMinX(0.05d);
+		rangeRestriction.setFactorExtendMaxX(0.05d);
+		rangeRestriction.setFactorExtendMaxY(0.1d);
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);

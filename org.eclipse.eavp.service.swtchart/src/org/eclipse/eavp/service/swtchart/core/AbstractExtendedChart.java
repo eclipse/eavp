@@ -33,10 +33,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double minY;
 	private double maxY;
 	private RangeRestriction rangeRestriction;
-	private double factorExtendMinX;
-	private double factorExtendMaxX;
-	private double factorExtendMinY;
-	private double factorExtendMaxY;
 	/*
 	 * The extended values are only used internally.
 	 */
@@ -101,54 +97,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		this.rangeRestriction = rangeRestriction;
 	}
 
-	@Override
-	public double getFactorExtendMinX() {
-
-		return factorExtendMinX;
-	}
-
-	@Override
-	public void setFactorExtendMinX(double factorExtendMinX) {
-
-		this.factorExtendMinX = factorExtendMinX;
-	}
-
-	@Override
-	public double getFactorExtendMaxX() {
-
-		return factorExtendMaxX;
-	}
-
-	@Override
-	public void setFactorExtendMaxX(double factorExtendMaxX) {
-
-		this.factorExtendMaxX = factorExtendMaxX;
-	}
-
-	@Override
-	public double getFactorExtendMinY() {
-
-		return factorExtendMinY;
-	}
-
-	@Override
-	public void setFactorExtendMinY(double factorExtendMinY) {
-
-		this.factorExtendMinY = factorExtendMinY;
-	}
-
-	@Override
-	public double getFactorExtendMaxY() {
-
-		return factorExtendMaxY;
-	}
-
-	@Override
-	public void setFactorExtendMaxY(double factorExtendMaxY) {
-
-		this.factorExtendMaxY = factorExtendMaxY;
-	}
-
 	public Map<Integer, IAxisSettings> getXAxisSettingsMap() {
 
 		return xAxisSettingsMap;
@@ -202,7 +150,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minX) ? minX : range.lower;
 				}
-				extendRange(range, extendedMinX, extendedMaxX, factorExtendMinX, factorExtendMaxX);
+				extendRange(range, extendedMinX, extendedMaxX, rangeRestriction.getFactorExtendMinX(), rangeRestriction.getFactorExtendMaxX());
 			} else {
 				/*
 				 * Y-AXIS
@@ -212,7 +160,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minY) ? minY : range.lower;
 				}
-				extendRange(range, extendedMinY, extendedMaxY, factorExtendMinY, factorExtendMaxY);
+				extendRange(range, extendedMinY, extendedMaxY, rangeRestriction.getFactorExtendMinY(), rangeRestriction.getFactorExtendMaxY());
 			}
 			/*
 			 * Adjust the range.
@@ -449,36 +397,36 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		 */
 		extendedMinX = minX;
 		if(extendedMinX > 0.0d) {
-			extendedMinX -= extendedMinX * factorExtendMinX;
+			extendedMinX -= extendedMinX * rangeRestriction.getFactorExtendMinX();
 		} else {
-			extendedMinX += extendedMinX * factorExtendMinX;
+			extendedMinX += extendedMinX * rangeRestriction.getFactorExtendMinX();
 		}
 		/*
 		 * Max X
 		 */
 		extendedMaxX = maxX;
 		if(extendedMaxX > 0.0d) {
-			extendedMaxX += extendedMaxX * factorExtendMaxX;
+			extendedMaxX += extendedMaxX * rangeRestriction.getFactorExtendMaxX();
 		} else {
-			extendedMaxX -= extendedMaxX * factorExtendMaxX;
+			extendedMaxX -= extendedMaxX * rangeRestriction.getFactorExtendMaxX();
 		}
 		/*
 		 * Min Y
 		 */
 		extendedMinY = minY;
 		if(extendedMinY > 0.0d) {
-			extendedMinY -= extendedMinY * factorExtendMinY;
+			extendedMinY -= extendedMinY * rangeRestriction.getFactorExtendMinY();
 		} else {
-			extendedMinY += extendedMinY * factorExtendMinY;
+			extendedMinY += extendedMinY * rangeRestriction.getFactorExtendMinY();
 		}
 		/*
 		 * Max Y
 		 */
 		extendedMaxY = maxY;
 		if(extendedMaxY > 0.0d) {
-			extendedMaxY += extendedMaxY * factorExtendMaxY;
+			extendedMaxY += extendedMaxY * rangeRestriction.getFactorExtendMaxY();
 		} else {
-			extendedMaxY -= extendedMaxY * factorExtendMaxY;
+			extendedMaxY -= extendedMaxY * rangeRestriction.getFactorExtendMaxY();
 		}
 	}
 }

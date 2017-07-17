@@ -43,10 +43,6 @@ public class ChartSettings implements IChartSettings {
 	private Color backgroundPlotArea;
 	private boolean enableCompress;
 	private RangeRestriction rangeRestriction;
-	private double factorExtendMinX;
-	private double factorExtendMaxX;
-	private double factorExtendMinY;
-	private double factorExtendMaxY;
 	//
 	private boolean showPositionMarker;
 	private Color colorPositionMarker;
@@ -93,10 +89,6 @@ public class ChartSettings implements IChartSettings {
 		rangeRestriction.setZeroX(true);
 		rangeRestriction.setZeroY(true);
 		rangeRestriction.setRestrictZoom(true);
-		factorExtendMinX = 0.0d;
-		factorExtendMaxX = 0.0d;
-		factorExtendMinY = 0.0d;
-		factorExtendMaxY = 0.0d;
 		//
 		showPositionMarker = false;
 		colorPositionMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
@@ -321,63 +313,6 @@ public class ChartSettings implements IChartSettings {
 	public RangeRestriction getRangeRestriction() {
 
 		return rangeRestriction;
-	}
-
-	@Override
-	public double getFactorExtendMinX() {
-
-		return factorExtendMinX;
-	}
-
-	@Override
-	public void setFactorExtendMinX(double factorExtendMinX) {
-
-		this.factorExtendMinX = factorExtendMinX;
-	}
-
-	@Override
-	public double getFactorExtendMaxX() {
-
-		return factorExtendMaxX;
-	}
-
-	@Override
-	public void setFactorExtendMaxX(double factorExtendMaxX) {
-
-		this.factorExtendMaxX = factorExtendMaxX;
-	}
-
-	@Override
-	public double getFactorExtendMinY() {
-
-		return factorExtendMinY;
-	}
-
-	@Override
-	public void setFactorExtendMinY(double factorExtendMinY) {
-
-		this.factorExtendMinY = factorExtendMinY;
-	}
-
-	@Override
-	public double getFactorExtendMaxY() {
-
-		return factorExtendMaxY;
-	}
-
-	@Override
-	public void setFactorExtendMaxY(double factorExtendMaxY) {
-
-		this.factorExtendMaxY = factorExtendMaxY;
-	}
-
-	@Override
-	public void setFactorExtend(double factorExtend) {
-
-		this.factorExtendMinX = factorExtend;
-		this.factorExtendMaxX = factorExtend;
-		this.factorExtendMinY = factorExtend;
-		this.factorExtendMaxY = factorExtend;
 	}
 
 	@Override

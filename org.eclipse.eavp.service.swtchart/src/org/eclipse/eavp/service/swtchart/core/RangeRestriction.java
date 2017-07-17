@@ -18,6 +18,11 @@ public class RangeRestriction {
 	public static final int ZERO_Y = 2; // Only values y >= 0 are displayed.
 	public static final int RESTRICT_ZOOM = 4; // It's not possible to zoom outside of the min/max values.
 	//
+	private double factorExtendMinX;
+	private double factorExtendMaxX;
+	private double factorExtendMinY;
+	private double factorExtendMaxY;
+	//
 	private int selection;
 
 	public RangeRestriction() {
@@ -26,6 +31,10 @@ public class RangeRestriction {
 
 	public RangeRestriction(int selection) {
 		this.selection = selection;
+		factorExtendMinX = 0.0d;
+		factorExtendMaxX = 0.0d;
+		factorExtendMinY = 0.0d;
+		factorExtendMaxY = 0.0d;
 	}
 
 	public boolean isZeroX() {
@@ -82,5 +91,53 @@ public class RangeRestriction {
 		} else {
 			selection &= Integer.MAX_VALUE - constant;
 		}
+	}
+
+	public double getFactorExtendMinX() {
+
+		return factorExtendMinX;
+	}
+
+	public void setFactorExtendMinX(double factorExtendMinX) {
+
+		this.factorExtendMinX = factorExtendMinX;
+	}
+
+	public double getFactorExtendMaxX() {
+
+		return factorExtendMaxX;
+	}
+
+	public void setFactorExtendMaxX(double factorExtendMaxX) {
+
+		this.factorExtendMaxX = factorExtendMaxX;
+	}
+
+	public double getFactorExtendMinY() {
+
+		return factorExtendMinY;
+	}
+
+	public void setFactorExtendMinY(double factorExtendMinY) {
+
+		this.factorExtendMinY = factorExtendMinY;
+	}
+
+	public double getFactorExtendMaxY() {
+
+		return factorExtendMaxY;
+	}
+
+	public void setFactorExtendMaxY(double factorExtendMaxY) {
+
+		this.factorExtendMaxY = factorExtendMaxY;
+	}
+
+	public void setFactorExtend(double factorExtend) {
+
+		this.factorExtendMinX = factorExtend;
+		this.factorExtendMaxX = factorExtend;
+		this.factorExtendMinY = factorExtend;
+		this.factorExtendMaxY = factorExtend;
 	}
 }

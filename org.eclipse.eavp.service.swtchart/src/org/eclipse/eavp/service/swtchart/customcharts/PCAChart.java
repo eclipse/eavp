@@ -21,6 +21,7 @@ import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
+import org.eclipse.eavp.service.swtchart.core.RangeRestriction;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesData;
 import org.eclipse.eavp.service.swtchart.scattercharts.ScatterChart;
@@ -106,10 +107,11 @@ public class PCAChart extends ScatterChart {
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(false);
 		chartSettings.setVerticalSliderVisible(false);
-		chartSettings.getRangeRestriction().setZeroX(false);
-		chartSettings.getRangeRestriction().setZeroY(false);
-		chartSettings.getRangeRestriction().setRestrictZoom(false);
-		chartSettings.setFactorExtend(0.25d);
+		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
+		rangeRestriction.setZeroX(false);
+		rangeRestriction.setZeroY(false);
+		rangeRestriction.setRestrictZoom(false);
+		rangeRestriction.setFactorExtend(0.25d);
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);

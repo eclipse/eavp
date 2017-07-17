@@ -511,10 +511,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundPlotArea());
 		baseChart.enableCompress(chartSettings.isEnableCompress());
 		baseChart.setRangeRestriction(chartSettings.getRangeRestriction());
-		baseChart.setFactorExtendMinX(chartSettings.getFactorExtendMinX());
-		baseChart.setFactorExtendMaxX(chartSettings.getFactorExtendMaxX());
-		baseChart.setFactorExtendMinY(chartSettings.getFactorExtendMinY());
-		baseChart.setFactorExtendMaxY(chartSettings.getFactorExtendMaxY());
 		/*
 		 * Additional actions.
 		 */

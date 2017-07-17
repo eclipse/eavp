@@ -98,24 +98,6 @@ public interface IChartSettings {
 
 	RangeRestriction getRangeRestriction();
 
-	double getFactorExtendMinX();
-
-	void setFactorExtendMinX(double factorExtendMinX);
-
-	double getFactorExtendMaxX();
-
-	void setFactorExtendMaxX(double factorExtendMaxX);
-
-	double getFactorExtendMinY();
-
-	void setFactorExtendMinY(double factorExtendMinY);
-
-	double getFactorExtendMaxY();
-
-	void setFactorExtendMaxY(double factorExtendMaxY);
-
-	void setFactorExtend(double factorExtend);
-
 	boolean isShowPositionMarker();
 
 	void setShowPositionMarker(boolean showPositionMarker);
