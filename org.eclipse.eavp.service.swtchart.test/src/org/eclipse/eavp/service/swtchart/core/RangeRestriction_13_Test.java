@@ -22,7 +22,6 @@ public class RangeRestriction_13_Test extends TestCase {
 
 		super.setUp();
 		rangeRestriction = new RangeRestriction();
-		rangeRestriction.setFactorExtendMaxY(2.98d);
 	}
 
 	@Override
@@ -48,6 +47,6 @@ public class RangeRestriction_13_Test extends TestCase {
 
 	public void test4() {
 
-		assertEquals(2.98d, rangeRestriction.getFactorExtendMaxY());
+		assertEquals(0.0d, rangeRestriction.getFactorExtendMaxY());
 	}
 }

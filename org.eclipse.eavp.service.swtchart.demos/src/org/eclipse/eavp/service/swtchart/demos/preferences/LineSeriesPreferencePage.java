@@ -51,6 +51,8 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ZERO_X, "Zero X", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ZERO_Y, "Zero Y", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_RESTRICT_ZOOM, "Restrict Zoom", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_X_ZOOM_ONLY, "X Zoom Only", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_Y_ZOOM_ONLY, "Y Zoom Only", getFieldEditorParent()));
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X, "Factor Extend Min X:", getFieldEditorParent()));
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
 		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y, "Factor Extend Min Y:", getFieldEditorParent()));

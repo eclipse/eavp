@@ -44,4 +44,14 @@ public class RangeRestriction_5_Test extends TestCase {
 
 		assertTrue(rangeRestriction.isRestrictZoom());
 	}
+
+	public void test4() {
+
+		assertFalse(rangeRestriction.isXZoomOnly());
+	}
+
+	public void test5() {
+
+		assertFalse(rangeRestriction.isYZoomOnly());
+	}
 }

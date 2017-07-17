@@ -40,6 +40,8 @@ public class LineSeriesPreferenceInitializer extends AbstractPreferenceInitializ
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_ZERO_X, LineSeriesPreferenceConstants.DEF_ZERO_X);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_ZERO_Y, LineSeriesPreferenceConstants.DEF_ZERO_Y);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_RESTRICT_ZOOM, LineSeriesPreferenceConstants.DEF_RESTRICT_ZOOM);
+		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_X_ZOOM_ONLY, LineSeriesPreferenceConstants.DEF_X_ZOOM_ONLY);
+		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_Y_ZOOM_ONLY, LineSeriesPreferenceConstants.DEF_Y_ZOOM_ONLY);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X, LineSeriesPreferenceConstants.DEF_FACTOR_EXTEND_MIN_X);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, LineSeriesPreferenceConstants.DEF_FACTOR_EXTEND_MAX_X);
 		preferenceStore.setDefault(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y, LineSeriesPreferenceConstants.DEF_FACTOR_EXTEND_MIN_Y);

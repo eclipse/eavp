@@ -61,6 +61,10 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_ZERO_X = true;
 	public static final String P_RESTRICT_ZOOM = "restrictZoom" + POSTFIX;
 	public static final boolean DEF_RESTRICT_ZOOM = true;
+	public static final String P_X_ZOOM_ONLY = "xZoomOnly" + POSTFIX;
+	public static final boolean DEF_X_ZOOM_ONLY = false;
+	public static final String P_Y_ZOOM_ONLY = "yZoomOnly" + POSTFIX;
+	public static final boolean DEF_Y_ZOOM_ONLY = false;
 	public static final String P_FACTOR_EXTEND_MIN_X = "factorExtendMinX" + POSTFIX;
 	public static final double DEF_FACTOR_EXTEND_MIN_X = 0.0d;
 	public static final String P_FACTOR_EXTEND_MAX_X = "factorExtendMaxX" + POSTFIX;

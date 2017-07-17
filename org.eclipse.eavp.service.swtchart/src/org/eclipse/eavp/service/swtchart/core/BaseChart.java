@@ -94,13 +94,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			/*
 			 * Draw the rectangle of the user selection.
 			 */
+			int currentLineStyle = e.gc.getLineStyle();
+			e.gc.setLineStyle(SWT.LINE_DOT);
+			//
 			int xMin = Math.min(userSelection.getStartX(), userSelection.getStopX());
 			int xMax = Math.max(userSelection.getStartX(), userSelection.getStopX());
 			int yMin = Math.min(userSelection.getStartY(), userSelection.getStopY());
 			int yMax = Math.max(userSelection.getStartY(), userSelection.getStopY());
-			int currentLineStyle = e.gc.getLineStyle();
-			e.gc.setLineStyle(SWT.LINE_DOT);
+			//
 			e.gc.drawRectangle(xMin, yMin, xMax - xMin, yMax - yMin);
+			//
 			e.gc.setLineStyle(currentLineStyle);
 		}
 	}
@@ -222,9 +225,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
 			//
 			if((getOrientation() == SWT.HORIZONTAL)) {
+				/*
+				 * Horizontal
+				 */
 				setRange(xAxis, xStart, xStop, true);
 				setRange(yAxis, yStart, yStop, true);
 			} else {
+				/*
+				 * Vertical
+				 */
 				setRange(xAxis, yStart, yStop, true);
 				setRange(yAxis, xStart, xStop, true);
 			}

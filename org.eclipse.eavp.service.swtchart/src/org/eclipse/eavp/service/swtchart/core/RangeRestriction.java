@@ -17,6 +17,8 @@ public class RangeRestriction {
 	public static final int ZERO_X = 1; // Only values x >= 0 are displayed.
 	public static final int ZERO_Y = 2; // Only values y >= 0 are displayed.
 	public static final int RESTRICT_ZOOM = 4; // It's not possible to zoom outside of the min/max values.
+	public static final int X_ZOOM_ONLY = 8; // When doing a user selection, only zoom x.
+	public static final int Y_ZOOM_ONLY = 16; // When doing a user selection, only zoom y.
 	//
 	private double factorExtendMinX;
 	private double factorExtendMaxX;
@@ -39,7 +41,7 @@ public class RangeRestriction {
 
 	public boolean isZeroX() {
 
-		return (selection & ZERO_X) == ZERO_X;
+		return isFlagSet(ZERO_X);
 	}
 
 	/**
@@ -55,7 +57,7 @@ public class RangeRestriction {
 
 	public boolean isZeroY() {
 
-		return (selection & ZERO_Y) == ZERO_Y;
+		return isFlagSet(ZERO_Y);
 	}
 
 	/**
@@ -71,7 +73,7 @@ public class RangeRestriction {
 
 	public boolean isRestrictZoom() {
 
-		return (selection & RESTRICT_ZOOM) == RESTRICT_ZOOM;
+		return isFlagSet(RESTRICT_ZOOM);
 	}
 
 	/**
@@ -84,13 +86,34 @@ public class RangeRestriction {
 		flagSelection(restrictZoom, RESTRICT_ZOOM);
 	}
 
-	private void flagSelection(boolean flag, int constant) {
+	public boolean isXZoomOnly() {
 
-		if(flag) {
-			selection |= constant;
-		} else {
-			selection &= Integer.MAX_VALUE - constant;
-		}
+		return isFlagSet(X_ZOOM_ONLY);
+	}
+
+	/**
+	 * Set true if only the x-Axis shall be zoomed.
+	 * 
+	 * @param xZoomOnly
+	 */
+	public void setXZoomOnly(boolean xZoomOnly) {
+
+		flagSelection(xZoomOnly, X_ZOOM_ONLY);
+	}
+
+	public boolean isYZoomOnly() {
+
+		return isFlagSet(Y_ZOOM_ONLY);
+	}
+
+	/**
+	 * Set true if only the y-Axis shall be zoomed.
+	 * 
+	 * @param yZoomOnly
+	 */
+	public void setYZoomOnly(boolean yZoomOnly) {
+
+		flagSelection(yZoomOnly, Y_ZOOM_ONLY);
 	}
 
 	public double getFactorExtendMinX() {
@@ -139,5 +162,19 @@ public class RangeRestriction {
 		this.factorExtendMaxX = factorExtend;
 		this.factorExtendMinY = factorExtend;
 		this.factorExtendMaxY = factorExtend;
+	}
+
+	private boolean isFlagSet(int constant) {
+
+		return (selection & constant) == constant;
+	}
+
+	private void flagSelection(boolean flag, int constant) {
+
+		if(flag) {
+			selection |= constant;
+		} else {
+			selection &= Integer.MAX_VALUE - constant;
+		}
 	}
 }

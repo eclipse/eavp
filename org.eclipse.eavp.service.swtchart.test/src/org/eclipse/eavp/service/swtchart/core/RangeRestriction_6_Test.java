@@ -21,7 +21,7 @@ public class RangeRestriction_6_Test extends TestCase {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		rangeRestriction = new RangeRestriction(RangeRestriction.NONE);
+		rangeRestriction = new RangeRestriction(RangeRestriction.X_ZOOM_ONLY);
 	}
 
 	@Override
@@ -32,38 +32,26 @@ public class RangeRestriction_6_Test extends TestCase {
 
 	public void test1() {
 
-		rangeRestriction.setZeroX(true);
-		rangeRestriction.setZeroY(true);
-		rangeRestriction.setRestrictZoom(true);
-		assertTrue(rangeRestriction.isZeroX());
-		assertTrue(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
+		assertFalse(rangeRestriction.isZeroX());
 	}
 
 	public void test2() {
 
-		rangeRestriction.setZeroX(true);
-		rangeRestriction.setRestrictZoom(true);
-		assertTrue(rangeRestriction.isZeroX());
 		assertFalse(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
 	}
 
 	public void test3() {
 
-		rangeRestriction.setZeroY(true);
-		rangeRestriction.setRestrictZoom(true);
-		assertFalse(rangeRestriction.isZeroX());
-		assertTrue(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
+		assertFalse(rangeRestriction.isRestrictZoom());
 	}
 
 	public void test4() {
 
-		rangeRestriction.setZeroX(true);
-		rangeRestriction.setZeroY(true);
-		assertTrue(rangeRestriction.isZeroX());
-		assertTrue(rangeRestriction.isZeroY());
-		assertFalse(rangeRestriction.isRestrictZoom());
+		assertTrue(rangeRestriction.isXZoomOnly());
+	}
+
+	public void test5() {
+
+		assertFalse(rangeRestriction.isYZoomOnly());
 	}
 }
