@@ -22,10 +22,14 @@ public class LineSeriesPreferenceConstants {
 
 	public static final String POSTFIX = "LineSeries";
 	//
-	public static final String P_ENABLE_RANGE_UI = "enableRangeUI" + POSTFIX;
-	public static final boolean DEF_ENABLE_RANGE_UI = true;
-	public static final String P_COLOR_HINT_RANGE_UI = "colorHintRangeUI" + POSTFIX;
-	public static final String DEF_COLOR_HINT_RANGE_UI = "255,0,0";
+	public static final String P_ENABLE_RANGE_SELECTOR = "enableRangeSelector" + POSTFIX;
+	public static final boolean DEF_ENABLE_RANGE_SELECTOR = true;
+	public static final String P_COLOR_HINT_RANGE_SELECTOR = "colorHintRangeSelector" + POSTFIX;
+	public static final String DEF_COLOR_HINT_RANGE_SELECTOR = "255,0,0";
+	public static final String P_RANGE_SELECTOR_DEFAULT_AXIS_X = "rangeSelectorDefaultAxisX" + POSTFIX;
+	public static final int DEF_RANGE_SELECTOR_DEFAULT_AXIS_X = 0;
+	public static final String P_RANGE_SELECTOR_DEFAULT_AXIS_Y = "rangeSelectorDefaultAxisY" + POSTFIX;
+	public static final int DEF_RANGE_SELECTOR_DEFAULT_AXIS_Y = 0;
 	//
 	public static final String P_VERTICAL_SLIDER_VISIBLE = "verticalSliderVisible" + POSTFIX;
 	public static final boolean DEF_VERTICAL_SLIDER_VISIBLE = false;

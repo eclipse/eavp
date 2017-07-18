@@ -169,7 +169,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		//
-		Color colorHintRangeUI = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_UI));
+		Color colorHintRangeSelector = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR));
 		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_TITLE_COLOR));
 		Color colorBackground = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND));
 		Color colorBackgroundChart = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_CHART));
@@ -187,8 +187,10 @@ public class LineSeries_Preferences_Part extends Composite {
 		Color colorPositionLegend = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND));
 		//
 		IChartSettings chartSettings = lineChart.getChartSettings();
-		chartSettings.setEnableRangeUI(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_UI));
-		chartSettings.setColorHintRangeUI(colorHintRangeUI);
+		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
+		chartSettings.setColorHintRangeSelector(colorHintRangeSelector);
+		chartSettings.setRangeSelectorDefaultAxisX(preferenceStore.getInt(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X));
+		chartSettings.setRangeSelectorDefaultAxisY(preferenceStore.getInt(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y));
 		chartSettings.setVerticalSliderVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE));
 		chartSettings.setHorizontalSliderVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE));
 		chartSettings.setTitle(preferenceStore.getString(LineSeriesPreferenceConstants.P_TITLE));

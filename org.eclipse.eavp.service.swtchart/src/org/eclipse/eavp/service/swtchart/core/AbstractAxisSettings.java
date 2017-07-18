@@ -22,7 +22,7 @@ import org.swtchart.LineStyle;
 public abstract class AbstractAxisSettings implements IAxisSettings {
 
 	private String title = ""; // Chart Title
-	private String description = ""; // e.g. DropDown RangeUI
+	private String description = ""; // e.g. DropDown RangeSelector
 	private DecimalFormat decimalFormat;
 	private Color color;
 	private boolean visible;

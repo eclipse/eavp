@@ -62,7 +62,7 @@ public class LineSeries_3_Part extends LineChart {
 		chartSettings.setVerticalSliderVisible(true);
 		chartSettings.getRangeRestriction().setZeroX(true);
 		chartSettings.getRangeRestriction().setZeroY(true);
-		chartSettings.setEnableRangeUI(true);
+		chartSettings.setEnableRangeSelector(true);
 		chartSettings.setShowPositionMarker(true);
 		chartSettings.setShowCenterMarker(true);
 		chartSettings.setShowPositionLegend(true);

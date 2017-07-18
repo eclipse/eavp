@@ -20,8 +20,11 @@ import org.eclipse.swt.widgets.Display;
 
 public class ChartSettings implements IChartSettings {
 
-	private boolean enableRangeUI;
-	private Color colorHintRangeUI;
+	private boolean enableRangeSelector;
+	private Color colorHintRangeSelector;
+	private int rangeSelectorDefaultAxisX;
+	private int rangeSelectorDefaultAxisY;
+	//
 	private boolean verticalSliderVisible;
 	private boolean horizontalSliderVisible;
 	//
@@ -59,8 +62,11 @@ public class ChartSettings implements IChartSettings {
 		/*
 		 * Set the chart.
 		 */
-		enableRangeUI = false;
-		colorHintRangeUI = display.getSystemColor(SWT.COLOR_RED);
+		enableRangeSelector = false;
+		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
+		rangeSelectorDefaultAxisX = 0;
+		rangeSelectorDefaultAxisY = 0;
+		//
 		verticalSliderVisible = false; // https://bugs.eclipse.org/bugs/show_bug.cgi?id=511257
 		horizontalSliderVisible = true;
 		/*
@@ -101,27 +107,51 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public boolean isEnableRangeUI() {
+	public boolean isEnableRangeSelector() {
 
-		return enableRangeUI;
+		return enableRangeSelector;
 	}
 
 	@Override
-	public void setEnableRangeUI(boolean enableRangeUI) {
+	public void setEnableRangeSelector(boolean enableRangeSelector) {
 
-		this.enableRangeUI = enableRangeUI;
+		this.enableRangeSelector = enableRangeSelector;
 	}
 
 	@Override
-	public Color getColorHintRangeUI() {
+	public Color getColorHintRangeSelector() {
 
-		return colorHintRangeUI;
+		return colorHintRangeSelector;
 	}
 
 	@Override
-	public void setColorHintRangeUI(Color colorHintRangeUI) {
+	public void setColorHintRangeSelector(Color colorHintRangeSelector) {
 
-		this.colorHintRangeUI = colorHintRangeUI;
+		this.colorHintRangeSelector = colorHintRangeSelector;
+	}
+
+	@Override
+	public int getRangeSelectorDefaultAxisX() {
+
+		return rangeSelectorDefaultAxisX;
+	}
+
+	@Override
+	public void setRangeSelectorDefaultAxisX(int rangeSelectorDefaultAxisX) {
+
+		this.rangeSelectorDefaultAxisX = rangeSelectorDefaultAxisX;
+	}
+
+	@Override
+	public int getRangeSelectorDefaultAxisY() {
+
+		return rangeSelectorDefaultAxisY;
+	}
+
+	@Override
+	public void setRangeSelectorDefaultAxisY(int rangeSelectorDefaultAxisY) {
+
+		this.rangeSelectorDefaultAxisY = rangeSelectorDefaultAxisY;
 	}
 
 	@Override

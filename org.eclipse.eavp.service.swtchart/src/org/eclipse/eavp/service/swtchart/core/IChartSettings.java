@@ -17,13 +17,21 @@ import org.eclipse.swt.graphics.Color;
 
 public interface IChartSettings {
 
-	boolean isEnableRangeUI();
+	boolean isEnableRangeSelector();
 
-	void setEnableRangeUI(boolean enableRangeUI);
+	void setEnableRangeSelector(boolean enableRangeSelector);
 
-	Color getColorHintRangeUI();
+	int getRangeSelectorDefaultAxisX();
 
-	void setColorHintRangeUI(Color colorHintRangeUI);
+	void setRangeSelectorDefaultAxisX(int rangeSelectorDefaultAxisX);
+
+	int getRangeSelectorDefaultAxisY();
+
+	void setRangeSelectorDefaultAxisY(int rangeSelectorDefaultAxisY);
+
+	Color getColorHintRangeSelector();
+
+	void setColorHintRangeSelector(Color colorHintRangeSelector);
 
 	boolean isVerticalSliderVisible();
 

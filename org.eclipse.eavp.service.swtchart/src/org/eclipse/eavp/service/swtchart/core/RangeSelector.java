@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Text;
 import org.swtchart.IAxis;
 import org.swtchart.Range;
 
-public class RangeUI extends Composite {
+public class RangeSelector extends Composite {
 
 	private ScrollableChart scrollableChart;
 	//
@@ -38,7 +38,7 @@ public class RangeUI extends Composite {
 	private Text textStopY;
 	private Combo comboScaleY;
 
-	public RangeUI(Composite parent, int style, ScrollableChart scrollableChart) {
+	public RangeSelector(Composite parent, int style, ScrollableChart scrollableChart) {
 		super(parent, style);
 		this.scrollableChart = scrollableChart;
 		createControl();
@@ -49,11 +49,17 @@ public class RangeUI extends Composite {
 		/*
 		 * X Axes
 		 */
+		IChartSettings chartSettings = scrollableChart.getChartSettings();
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		String[] axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		comboScaleX.setItems(axisLabelsX);
 		if(axisLabelsX.length > 0) {
-			comboScaleX.select(0);
+			int selectedIndex = chartSettings.getRangeSelectorDefaultAxisX();
+			if(selectedIndex >= 0 && selectedIndex < axisLabelsX.length) {
+				comboScaleX.select(selectedIndex);
+			} else {
+				comboScaleX.select(0);
+			}
 		}
 		/*
 		 * Y Axes
@@ -61,7 +67,12 @@ public class RangeUI extends Composite {
 		String[] axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
 		comboScaleY.setItems(axisLabelsY);
 		if(axisLabelsY.length > 0) {
-			comboScaleY.select(0);
+			int selectedIndex = chartSettings.getRangeSelectorDefaultAxisY();
+			if(selectedIndex >= 0 && selectedIndex < axisLabelsY.length) {
+				comboScaleY.select(selectedIndex);
+			} else {
+				comboScaleY.select(0);
+			}
 		}
 	}
 

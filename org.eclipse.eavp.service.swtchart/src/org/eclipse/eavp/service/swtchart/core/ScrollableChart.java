@@ -68,7 +68,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String MENU_EXPORT_CHART_SELECTION = "Export Chart Selection";
 	//
 	private static final String RESET_CHART = "Reset Chart (1:1)";
-	private static final String SHOW_RANGE_UI = "Show Range UI";
+	private static final String SHOW_RANGE_SELECTOR = "Show Range Selector";
 	private static final String SHOW_POSITION_MARKER = "Show Position Marker";
 	private static final String HIDE_POSITION_MARKER = "Hide Position Marker";
 	private static final String SHOW_CENTER_MARKER = "Show Center Marker";
@@ -82,11 +82,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
-	private RangeUI rangeUI;
+	private RangeSelector rangeSelector;
 	private BaseChart baseChart;
 	//
 	private IChartSettings chartSettings;
-	private boolean showRangeUIHint = true;
+	private boolean showRangeSelectorHint = true;
 	private RangeHintPaintListener rangeHintPaintListener;
 	/*
 	 * This list contains all scrollable charts
@@ -128,12 +128,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			/*
 			 * Rectangle (Double Click -> show Range Info)
 			 */
-			if(!rangeUI.isVisible() && chartSettings.isEnableRangeUI()) {
-				if(showRangeUIHint) {
+			if(!rangeSelector.isVisible() && chartSettings.isEnableRangeSelector()) {
+				if(showRangeSelectorHint) {
 					int lineWidth = 1;
 					Rectangle rectangle = baseChart.getBounds();
 					int width = rectangle.width - lineWidth;
-					e.gc.setForeground(chartSettings.getColorHintRangeUI());
+					e.gc.setForeground(chartSettings.getColorHintRangeSelector());
 					e.gc.setLineWidth(lineWidth);
 					Rectangle rectangleInfo = new Rectangle(0, 0, width, 26);
 					e.gc.drawRectangle(rectangleInfo);
@@ -160,7 +160,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 							} catch(InterruptedException e) {
 								System.out.println(e);
 							}
-							showRangeUIHint = false;
+							showRangeSelectorHint = false;
 							baseChart.redraw();
 						}
 					});
@@ -483,7 +483,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void modifyChart() {
 
 		setSliderVisibility();
-		setRangeInfoVisibility(chartSettings.isEnableRangeUI());
+		setRangeInfoVisibility(chartSettings.isEnableRangeSelector());
 		//
 		ITitle title = baseChart.getTitle();
 		title.setText(chartSettings.getTitle());
@@ -503,7 +503,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Range Info
 		 */
-		rangeUI.resetRanges();
+		rangeSelector.resetRanges();
 		//
 		setBackground(chartSettings.getBackground());
 		baseChart.setOrientation(chartSettings.getOrientation());
@@ -640,9 +640,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setRangeInfoVisibility(boolean isVisible) {
 
-		GridData gridData = (GridData)rangeUI.getLayoutData();
+		GridData gridData = (GridData)rangeSelector.getLayoutData();
 		gridData.exclude = !isVisible;
-		rangeUI.setVisible(isVisible);
+		rangeSelector.setVisible(isVisible);
 		layout(false);
 	}
 
@@ -852,7 +852,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void displayRangeInfo(IAxis xAxis, IAxis yAxis) {
 
-		rangeUI.adjustRanges();
+		rangeSelector.adjustRanges();
 	}
 
 	private void initialize() {
@@ -917,8 +917,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void createRangeInfoUI(Composite parent) {
 
-		rangeUI = new RangeUI(parent, SWT.NONE, this);
-		rangeUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		rangeSelector = new RangeSelector(parent, SWT.NONE, this);
+		rangeSelector.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	}
 
 	private void createBaseChart(Composite parent) {
@@ -948,14 +948,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 
-				if(chartSettings.isEnableRangeUI()) {
-					if(!rangeUI.isVisible()) {
+				if(chartSettings.isEnableRangeSelector()) {
+					if(!rangeSelector.isVisible()) {
 						if(e.y <= 47) {
 							/*
 							 * Show the range info composite.
 							 */
-							showRangeUIHint = true;
-							showRangeUI(showRangeUIHint);
+							showRangeSelectorHint = true;
+							showRangeSelector(showRangeSelectorHint);
 						}
 					}
 				}
@@ -1041,12 +1041,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private void showRangeUI(boolean showRangeUI) {
+	private void showRangeSelector(boolean showRangeSelector) {
 
-		GridData gridData = (GridData)rangeUI.getLayoutData();
-		gridData.exclude = !showRangeUI;
-		rangeUI.setVisible(showRangeUI);
-		Composite parent = rangeUI.getParent();
+		GridData gridData = (GridData)rangeSelector.getLayoutData();
+		gridData.exclude = !showRangeSelector;
+		rangeSelector.setVisible(showRangeSelector);
+		Composite parent = rangeSelector.getParent();
 		parent.layout(false);
 		parent.redraw();
 	}
@@ -1061,8 +1061,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(menuItem.getText().equals(RESET_CHART)) {
 			adjustRange(true);
 			redraw();
-		} else if(menuItem.getText().equals(SHOW_RANGE_UI)) {
-			showRangeUI(true);
+		} else if(menuItem.getText().equals(SHOW_RANGE_SELECTOR)) {
+			showRangeSelector(true);
 		} else if(menuItem.getText().equals(SHOW_POSITION_MARKER)) {
 			positionMarkerMenuItem.setText(HIDE_POSITION_MARKER);
 			positionMarker.setDraw(true);
@@ -1126,9 +1126,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		menuItem.setText(RESET_CHART);
 		menuItem.addListener(SWT.Selection, this);
 		//
-		if(chartSettings.isEnableRangeUI()) {
+		if(chartSettings.isEnableRangeSelector()) {
 			menuItem = new MenuItem(menu, SWT.PUSH);
-			menuItem.setText(SHOW_RANGE_UI);
+			menuItem.setText(SHOW_RANGE_SELECTOR);
 			menuItem.addListener(SWT.Selection, this);
 		}
 	}

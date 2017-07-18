@@ -39,14 +39,14 @@ public class CustomLineChart1 extends LineChart {
 
 	private static final int LENGTH_HINT_DATA_POINTS = 15000;
 	//
-	private boolean enableRangeUI;
+	private boolean enableRangeSelector;
 	private boolean showAxisTitle;
 	private boolean enableHorizontalSlider;
 	private String seriesXY;
 
-	public CustomLineChart1(Composite parent, int style, boolean enableRangeUI, boolean showAxisTitle, boolean enableHorizontalSlider, String seriesXY) {
+	public CustomLineChart1(Composite parent, int style, boolean enableRangeSelector, boolean showAxisTitle, boolean enableHorizontalSlider, String seriesXY) {
 		super(parent, style);
-		this.enableRangeUI = enableRangeUI;
+		this.enableRangeSelector = enableRangeSelector;
 		this.showAxisTitle = showAxisTitle;
 		this.enableHorizontalSlider = enableHorizontalSlider;
 		this.seriesXY = seriesXY;
@@ -64,7 +64,7 @@ public class CustomLineChart1 extends LineChart {
 		try {
 			IChartSettings chartSettings = getChartSettings();
 			chartSettings.setOrientation(SWT.HORIZONTAL);
-			chartSettings.setEnableRangeUI(enableRangeUI);
+			chartSettings.setEnableRangeSelector(enableRangeSelector);
 			chartSettings.setHorizontalSliderVisible(enableHorizontalSlider);
 			chartSettings.setVerticalSliderVisible(false);
 			chartSettings.getRangeRestriction().setZeroX(true);
