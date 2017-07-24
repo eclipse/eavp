@@ -1,0 +1,17 @@
+=== Develop ===
+
+A) Install Eclipse Oxygen for RCP/RAP Developers [1]
+B) IDE: SWTChart "Install New Software" via Orbit [2]
+C) Clone EAVP repository -> branch "chemclipse" [3]
+D) Import bundles org.eclipse.eavp.service.swtchart* into workspace
+E) Run new "Eclipse Application" -> org.eclipse.platform.ide
+F) Select Demo perspectives
+
+[1] http://www.eclipse.org
+[2] http://download.eclipse.org/tools/orbit/R-builds/R20170516192513/repository
+[3] https://github.com/eclipse/eavp
+
+
+=== Build ===
+
+mvn -f org.eclipse.eavp.service.swtchart/pom.xml clean install
