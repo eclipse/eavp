@@ -53,6 +53,17 @@ public class SeriesConverter {
 	public static final String BAR_SERIES_3_NEGATIVE = "BarSeries3-Negative";
 	//
 	public static final String SCATTER_SERIES_1 = "ScatterSeries1";
+	//
+	public static final String MEASUREMENT_SERIES_1_READINGS = "Measurement1_Readings";
+	public static final String MEASUREMENT_SERIES_1_REGRESSION = "Measurement1_Regression";
+	public static final String MEASUREMENT_SERIES_2_READINGS_1 = "Measurement2_Readings_1";
+	public static final String MEASUREMENT_SERIES_2_REGRESSION_1 = "Measurement2_Regression_1";
+	public static final String MEASUREMENT_SERIES_2_READINGS_2 = "Measurement2_Readings_2";
+	public static final String MEASUREMENT_SERIES_2_REGRESSION_2 = "Measurement2_Regression_2";
+	public static final String MEASUREMENT_SERIES_2_READINGS_3 = "Measurement2_Readings_3";
+	public static final String MEASUREMENT_SERIES_2_REGRESSION_3 = "Measurement2_Regression_3";
+	public static final String MEASUREMENT_SERIES_3_READINGS = "Measurement3_Readings";
+	public static final String MEASUREMENT_SERIES_3_REGRESSION = "Measurement3_Regression";
 
 	public static ISeriesData getSeriesXY(String fileName) {
 

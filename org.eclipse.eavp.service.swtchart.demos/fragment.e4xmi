@@ -61,5 +61,22 @@
         </children>
       </children>
     </elements>
+    <elements xsi:type="advanced:Perspective" xmi:id="_b85dsHBBEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.perspective.eavpdemo-swtchartextensionsmeasurementregression" label="EAVP Demo - SWTChart Extensions (Measurement &amp; Regression)">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_f5VeEHBBEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.7">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_U20usHBIEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.8" horizontal="true">
+          <children xsi:type="basic:PartStack" xmi:id="_hK-FEHBBEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.9">
+            <children xsi:type="basic:Part" xmi:id="_jVNIAHBBEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.part.measurementseries1linearsingle" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.MeasurementSeries_1_Part" label="Measurement Series 1 (Linear - Single)" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_XHBPsHBIEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.11">
+            <children xsi:type="basic:Part" xmi:id="_xaYrQHBHEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.part.measurementseries2linearmultiple" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.MeasurementSeries_2_Part" label="Measurement Series 2 (Linear - Multiple)" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+          </children>
+        </children>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_Vpe6sHBIEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.9">
+          <children xsi:type="basic:PartStack" xmi:id="_h3o90HBBEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.10">
+            <children xsi:type="basic:Part" xmi:id="_qFnnsHBIEeeAu48uPO4x5g" elementId="org.eclipse.eavp.service.swtchart.demos.part.measurementseries3quadraticsingle" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.MeasurementSeries_3_Part" label="Measurement Series 3 (Quadratic - Single)" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+          </children>
+        </children>
+      </children>
+    </elements>
   </fragments>
 </fragment:ModelFragments>
