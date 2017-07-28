@@ -13,13 +13,13 @@ package org.eclipse.eavp.service.swtchart.core;
 
 public class RangeRestriction {
 
-	public static final int NONE = 0; // No flag is set.
-	public static final int ZERO_X = 1; // Only values x >= 0 are displayed.
-	public static final int ZERO_Y = 2; // Only values y >= 0 are displayed.
-	public static final int RESTRICT_ZOOM = 4; // It's not possible to zoom outside of the min/max values.
-	public static final int X_ZOOM_ONLY = 8; // When doing a user selection, only zoom x.
-	public static final int Y_ZOOM_ONLY = 16; // When doing a user selection, only zoom y.
-	public static final int FORCE_ZERO_MIN_Y = 32; // Instead of starting with the lowest Y values, 0 is set.
+	public static final int NONE = 1; // No flag is set.
+	public static final int ZERO_X = 2; // Only values x >= 0 are displayed.
+	public static final int ZERO_Y = 4; // Only values y >= 0 are displayed.
+	public static final int RESTRICT_ZOOM = 8; // It's not possible to zoom outside of the min/max values.
+	public static final int X_ZOOM_ONLY = 16; // When doing a user selection, only zoom x.
+	public static final int Y_ZOOM_ONLY = 32; // When doing a user selection, only zoom y.
+	public static final int FORCE_ZERO_MIN_Y = 64; // Instead of starting with the lowest Y values, 0 is set.
 	//
 	private double factorExtendMinX;
 	private double factorExtendMaxX;
