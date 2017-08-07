@@ -1,3 +1,7 @@
+-----------------------
+Until End of August
+RCPTT Tests and API Documentation
+-----------------------
 Demo settings (Line | Bar | Scatter) series -> applySettings(IChartSettings chartSettings) live
 Export *.svg - via Apache Batik?
 Export *.eps
