@@ -6,7 +6,7 @@ Demo settings (Line | Bar | Scatter) series -> applySettings(IChartSettings char
 Export *.svg - via Apache Batik?
 Export *.eps
 NMR data - axis settings
-Menu extensions
+Menu extensions add/remove + additional equinox extension points
 support undo / redo of operations (previous selection, ...)
 LatTeX Images (Line, Bar, Scatter)
 History (Do/Undo/Redo)

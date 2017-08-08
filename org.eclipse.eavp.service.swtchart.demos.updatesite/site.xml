@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.eavp.service.swtchart.demos.feature_0.7.0.201708080924.jar" id="org.eclipse.eavp.service.swtchart.demos.feature" version="0.7.0.201708080924">
+      <category name="org.eclipse.eavp.service.swtchart.demos"/>
+   </feature>
+   <category-def name="org.eclipse.eavp.service.swtchart.demos" label="EAVP SWTChart Extensions"/>
+</site>
