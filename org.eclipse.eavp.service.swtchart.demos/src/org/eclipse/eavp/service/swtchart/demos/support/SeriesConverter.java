@@ -23,6 +23,7 @@ import org.eclipse.eavp.service.swtchart.core.SeriesData;
 public class SeriesConverter {
 
 	public static final String LINE_SERIES = "LineSeries";
+	public static final String SCATTER_SERIES = "ScatterSeries";
 	//
 	public static final String LINE_SERIES_1 = "LineSeries1";
 	public static final String LINE_SERIES_1_ACTIVE_PEAKS = "LineSeries1_ActivePeaks";
@@ -53,6 +54,15 @@ public class SeriesConverter {
 	public static final String BAR_SERIES_3_NEGATIVE = "BarSeries3-Negative";
 	//
 	public static final String SCATTER_SERIES_1 = "ScatterSeries1";
+	public static final String SCATTER_SERIES_2_1 = "ScatterSeries2_1";
+	public static final String SCATTER_SERIES_2_2 = "ScatterSeries2_2";
+	public static final String SCATTER_SERIES_2_3 = "ScatterSeries2_3";
+	public static final String SCATTER_SERIES_2_4 = "ScatterSeries2_4";
+	public static final String SCATTER_SERIES_2_5 = "ScatterSeries2_5";
+	public static final String SCATTER_SERIES_2_6 = "ScatterSeries2_6";
+	public static final String SCATTER_SERIES_2_7 = "ScatterSeries2_7";
+	public static final String SCATTER_SERIES_2_8 = "ScatterSeries2_8";
+	public static final String SCATTER_SERIES_2_9 = "ScatterSeries2_9";
 	//
 	public static final String MEASUREMENT_SERIES_1_READINGS = "Measurement1_Readings";
 	public static final String MEASUREMENT_SERIES_1_REGRESSION = "Measurement1_Regression";

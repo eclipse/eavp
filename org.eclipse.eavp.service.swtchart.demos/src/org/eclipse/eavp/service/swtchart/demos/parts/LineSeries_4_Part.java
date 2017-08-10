@@ -70,7 +70,7 @@ public class LineSeries_4_Part extends ChromatogramChart {
 			lineSerieSettings.setLineColor(colors.get(i));
 			lineSerieSettings.setEnableArea(false);
 			lineSeriesDataList.add(lineSeriesData);
-			addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);
 		}
+		addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);
 	}
 }
