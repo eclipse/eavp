@@ -24,6 +24,7 @@ import org.eclipse.eavp.service.swtchart.export.ImageJPGExport;
 import org.eclipse.eavp.service.swtchart.export.ImagePNGExport;
 import org.eclipse.eavp.service.swtchart.export.ImageRScriptExport;
 import org.eclipse.eavp.service.swtchart.export.LaTeXTableExport;
+import org.eclipse.eavp.service.swtchart.export.PrinterExport;
 import org.eclipse.eavp.service.swtchart.export.TabSeparatedValuesExport;
 import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
@@ -608,6 +609,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			addSeriesExportConverter(new TabSeparatedValuesExport());
 			addSeriesExportConverter(new LaTeXTableExport());
 			addSeriesExportConverter(new ImageRScriptExport());
+			addSeriesExportConverter(new PrinterExport());
 			//
 			createPopupMenu();
 		} else {
