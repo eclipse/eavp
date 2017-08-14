@@ -9,8 +9,8 @@ LatTeX Images (Line, Bar, Scatter)
 History (Do/Undo/Redo) -> previous selection, ...
 Demo Area Selection
 Modify series +/-
+Selected series Move via keyboard / mouse shortcut
 Select Series -> Highlight
-Margin of label axis
-Space between axis and legend
+Margin of label axis, Space between axis and legend
 
 Export Extension Point? Apache XML Graphics Common, VectorGraphics2D?
