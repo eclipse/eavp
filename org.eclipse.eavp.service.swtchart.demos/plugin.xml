@@ -15,6 +15,7 @@
             id="org.eclipse.eavp.service.swtchart.demos.preferences.PreferencePage"
             name="EAVP Demo Settings">
       </page>
+      <!-- Line -->
       <page
       		category="org.eclipse.eavp.service.swtchart.demos.preferences.PreferencePage"
             class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage"
@@ -38,13 +39,69 @@
             class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage"
             id="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage"
             name="Series Data">
-      </page>                  
+      </page>
+      <!-- Bar -->
+      <page
+      		category="org.eclipse.eavp.service.swtchart.demos.preferences.PreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferencePage"
+            name="Bar Series">
+      </page>
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPrimaryAxesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPrimaryAxesPreferencePage"
+            name="Primary Axes">
+      </page>    
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesSecondaryAxesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesSecondaryAxesPreferencePage"
+            name="Secondary Axes">
+      </page>
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesDataPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesDataPreferencePage"
+            name="Series Data">
+      </page>
+      <!-- Scatter -->     
+      <page
+      		category="org.eclipse.eavp.service.swtchart.demos.preferences.PreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage"
+            name="Scatter Series">
+      </page>
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPrimaryAxesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPrimaryAxesPreferencePage"
+            name="Primary Axes">
+      </page>    
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesSecondaryAxesPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesSecondaryAxesPreferencePage"
+            name="Secondary Axes">
+      </page>
+      <page
+            category="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage"
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesDataPreferencePage"
+            id="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesDataPreferencePage"
+            name="Series Data">
+      </page>                          
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferenceInitializer">
       </initializer>
+      <initializer
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferenceInitializer">
+      </initializer>
+      <initializer
+            class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferenceInitializer">
+      </initializer>      
    </extension>
 
 </plugin>

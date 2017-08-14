@@ -21,6 +21,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
+import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
 import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
@@ -30,16 +34,12 @@ import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.RangeRestriction;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.demos.Activator;
-import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage;
-import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferenceConstants;
-import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage;
-import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPrimaryAxesPreferencePage;
-import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesSecondaryAxesPreferencePage;
+import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesDataPreferencePage;
+import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferenceConstants;
+import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferencePage;
+import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPrimaryAxesPreferencePage;
+import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesSecondaryAxesPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
-import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
-import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
-import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
-import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -58,12 +58,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
-import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
 public class BarSeries_Preferences_Part extends Composite {
 
-	private LineChart lineChart;
+	private BarChart barChart;
 	private Map<RGB, Color> colors;
 
 	@Inject
@@ -111,13 +110,13 @@ public class BarSeries_Preferences_Part extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				IPreferencePage preferencePage = new LineSeriesPreferencePage();
+				IPreferencePage preferencePage = new BarSeriesPreferencePage();
 				preferencePage.setTitle("Chart Settings");
-				IPreferencePage preferencePrimaryAxesPage = new LineSeriesPrimaryAxesPreferencePage();
+				IPreferencePage preferencePrimaryAxesPage = new BarSeriesPrimaryAxesPreferencePage();
 				preferencePrimaryAxesPage.setTitle("Primary Axes");
-				IPreferencePage preferenceSecondaryAxesPage = new LineSeriesSecondaryAxesPreferencePage();
+				IPreferencePage preferenceSecondaryAxesPage = new BarSeriesSecondaryAxesPreferencePage();
 				preferenceSecondaryAxesPage.setTitle("Secondary Axes");
-				IPreferencePage preferenceDataPage = new LineSeriesDataPreferencePage();
+				IPreferencePage preferenceDataPage = new BarSeriesDataPreferencePage();
 				preferenceDataPage.setTitle("Series Data");
 				//
 				PreferenceManager preferenceManager = new PreferenceManager();
@@ -157,8 +156,8 @@ public class BarSeries_Preferences_Part extends Composite {
 			}
 		});
 		//
-		lineChart = new LineChart(this, SWT.NONE);
-		lineChart.setLayoutData(new GridData(GridData.FILL_BOTH));
+		barChart = new BarChart(this, SWT.NONE);
+		barChart.setLayoutData(new GridData(GridData.FILL_BOTH));
 		//
 		applyChartSettings();
 		applySeriesSettings();
@@ -169,168 +168,153 @@ public class BarSeries_Preferences_Part extends Composite {
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		//
-		Color colorHintRangeSelector = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR));
-		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_TITLE_COLOR));
-		Color colorBackground = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND));
-		Color colorBackgroundChart = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_CHART));
-		Color colorBackgroundPlotArea = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_BACKGROUND_PLOT_AREA));
-		Color colorPrimaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_COLOR));
-		Color colorPrimaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_COLOR));
-		Locale localePrimaryXAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
-		Locale localePrimaryYAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
-		Color colorSecondaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_COLOR));
-		Color colorSecondaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR));
-		Locale localeSecondaryXAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
-		Locale localeSecondaryYAxis = new Locale(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
-		Color colorPositionMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_POSITION_MARKER));
-		Color colorCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_CENTER_MARKER));
-		Color colorPositionLegend = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND));
+		Color colorHintRangeSelector = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR));
+		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_TITLE_COLOR));
+		Color colorBackground = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_BACKGROUND));
+		Color colorBackgroundChart = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_BACKGROUND_CHART));
+		Color colorBackgroundPlotArea = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_BACKGROUND_PLOT_AREA));
+		Color colorPrimaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_COLOR));
+		Color colorPrimaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_COLOR));
+		Locale localePrimaryXAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
+		Locale localePrimaryYAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
+		Color colorSecondaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_COLOR));
+		Color colorSecondaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR));
+		Locale localeSecondaryXAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
+		Locale localeSecondaryYAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
+		Color colorPositionMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_POSITION_MARKER));
+		Color colorCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_CENTER_MARKER));
+		Color colorPositionLegend = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND));
 		//
-		IChartSettings chartSettings = lineChart.getChartSettings();
-		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
+		IChartSettings chartSettings = barChart.getChartSettings();
+		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
 		chartSettings.setColorHintRangeSelector(colorHintRangeSelector);
-		chartSettings.setRangeSelectorDefaultAxisX(preferenceStore.getInt(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X));
-		chartSettings.setRangeSelectorDefaultAxisY(preferenceStore.getInt(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y));
-		chartSettings.setVerticalSliderVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE));
-		chartSettings.setHorizontalSliderVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE));
-		chartSettings.setTitle(preferenceStore.getString(LineSeriesPreferenceConstants.P_TITLE));
-		chartSettings.setTitleVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_TITLE_VISIBLE));
+		chartSettings.setRangeSelectorDefaultAxisX(preferenceStore.getInt(BarSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X));
+		chartSettings.setRangeSelectorDefaultAxisY(preferenceStore.getInt(BarSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y));
+		chartSettings.setVerticalSliderVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE));
+		chartSettings.setHorizontalSliderVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE));
+		chartSettings.setTitle(preferenceStore.getString(BarSeriesPreferenceConstants.P_TITLE));
+		chartSettings.setTitleVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_TITLE_VISIBLE));
 		chartSettings.setTitleColor(colorTitle);
-		chartSettings.setLegendPosition(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LEGEND_POSITION));
-		chartSettings.setLegendVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_LEGEND_VISIBLE));
-		chartSettings.setOrientation(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ORIENTATION));
+		chartSettings.setLegendPosition(preferenceStore.getInt(BarSeriesPreferenceConstants.P_LEGEND_POSITION));
+		chartSettings.setLegendVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_LEGEND_VISIBLE));
+		chartSettings.setOrientation(preferenceStore.getInt(BarSeriesPreferenceConstants.P_ORIENTATION));
 		chartSettings.setBackground(colorBackground);
 		chartSettings.setBackgroundChart(colorBackgroundChart);
 		chartSettings.setBackgroundPlotArea(colorBackgroundPlotArea);
-		chartSettings.setEnableCompress(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_COMPRESS));
+		chartSettings.setEnableCompress(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_COMPRESS));
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
-		rangeRestriction.setZeroX(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ZERO_X));
-		rangeRestriction.setZeroY(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ZERO_Y));
-		rangeRestriction.setRestrictZoom(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_RESTRICT_ZOOM));
-		rangeRestriction.setXZoomOnly(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_X_ZOOM_ONLY));
-		rangeRestriction.setYZoomOnly(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
-		rangeRestriction.setForceZeroMinY(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y));
-		rangeRestriction.setFactorExtendMinX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X));
-		rangeRestriction.setFactorExtendMaxX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X));
-		rangeRestriction.setFactorExtendMinY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y));
-		rangeRestriction.setFactorExtendMaxY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_Y));
+		rangeRestriction.setZeroX(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ZERO_X));
+		rangeRestriction.setZeroY(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ZERO_Y));
+		rangeRestriction.setRestrictZoom(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_RESTRICT_ZOOM));
+		rangeRestriction.setXZoomOnly(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_X_ZOOM_ONLY));
+		rangeRestriction.setYZoomOnly(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
+		rangeRestriction.setForceZeroMinY(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y));
+		rangeRestriction.setFactorExtendMinX(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X));
+		rangeRestriction.setFactorExtendMaxX(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X));
+		rangeRestriction.setFactorExtendMinY(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y));
+		rangeRestriction.setFactorExtendMaxY(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_Y));
 		//
-		chartSettings.setShowPositionMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_POSITION_MARKER));
+		chartSettings.setShowPositionMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_POSITION_MARKER));
 		chartSettings.setColorPositionMarker(colorPositionMarker);
-		chartSettings.setShowCenterMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_CENTER_MARKER));
+		chartSettings.setShowCenterMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_CENTER_MARKER));
 		chartSettings.setColorCenterMarker(colorCenterMarker);
-		chartSettings.setShowPositionLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND));
+		chartSettings.setShowPositionLegend(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND));
 		chartSettings.setColorPositionLegend(colorPositionLegend);
-		chartSettings.setCreateMenu(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_CREATE_MENU));
+		chartSettings.setCreateMenu(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_CREATE_MENU));
 		/*
 		 * Primary X-Axis
 		 */
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-		primaryAxisSettingsX.setTitle(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_TITLE));
-		primaryAxisSettingsX.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DESCRIPTION));
-		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localePrimaryXAxis)));
+		primaryAxisSettingsX.setTitle(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_TITLE));
+		primaryAxisSettingsX.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DESCRIPTION));
+		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localePrimaryXAxis)));
 		primaryAxisSettingsX.setColor(colorPrimaryXAxis);
-		primaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_POSITION)));
-		primaryAxisSettingsX.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE));
-		primaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE)));
-		primaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_POSITION)));
+		primaryAxisSettingsX.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE));
+		primaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE)));
+		primaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE));
 		/*
 		 * Primary Y-Axis
 		 */
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
-		primaryAxisSettingsY.setTitle(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_TITLE));
-		primaryAxisSettingsY.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DESCRIPTION));
-		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat((preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localePrimaryYAxis)));
+		primaryAxisSettingsY.setTitle(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_TITLE));
+		primaryAxisSettingsY.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DESCRIPTION));
+		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat((preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localePrimaryYAxis)));
 		primaryAxisSettingsY.setColor(colorPrimaryYAxis);
-		primaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_POSITION)));
-		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
-		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
-		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_POSITION)));
+		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
+		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
+		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
 		/*
 		 * Secondary X-Axes
 		 */
 		chartSettings.getSecondaryAxisSettingsListX().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE), new MillisecondsToMinuteConverter());
-		secondaryAxisSettingsX.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION));
-		secondaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryXAxis)));
+		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE), new MillisecondsToMinuteConverter());
+		secondaryAxisSettingsX.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION));
+		secondaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryXAxis)));
 		secondaryAxisSettingsX.setColor(colorSecondaryXAxis);
-		secondaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION)));
-		secondaryAxisSettingsX.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE));
-		secondaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE)));
-		secondaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE));
+		secondaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION)));
+		secondaryAxisSettingsX.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE));
+		secondaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE)));
+		secondaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE));
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX);
 		/*
 		 * Secondary Y-Axes
 		 */
 		chartSettings.getSecondaryAxisSettingsListY().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE), new RelativeIntensityConverter(SWT.VERTICAL, true));
-		secondaryAxisSettingsY.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DESCRIPTION));
-		secondaryAxisSettingsY.setDecimalFormat(new DecimalFormat((preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryYAxis)));
+		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE), new RelativeIntensityConverter(SWT.VERTICAL, true));
+		secondaryAxisSettingsY.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DESCRIPTION));
+		secondaryAxisSettingsY.setDecimalFormat(new DecimalFormat((preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryYAxis)));
 		secondaryAxisSettingsY.setColor(colorSecondaryYAxis);
-		secondaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION)));
-		secondaryAxisSettingsY.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE));
-		secondaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE)));
-		secondaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE));
+		secondaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION)));
+		secondaryAxisSettingsY.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE));
+		secondaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE)));
+		secondaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 		//
-		lineChart.applySettings(chartSettings);
+		barChart.applySettings(chartSettings);
 	}
 
 	private void applySeriesSettings() {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		Color lineColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_LINE_COLOR_SERIES_1));
-		Color symbolColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_1));
-		Color lineColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_LINE_COLOR_SERIES_2));
-		Color symbolColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_2));
+		// Color lineColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_LINE_COLOR_SERIES_1));
+		// Color symbolColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_1));
+		// Color lineColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_LINE_COLOR_SERIES_2));
+		// Color symbolColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_2));
 		//
-		lineChart.deleteSeries();
-		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
+		barChart.deleteSeries();
+		List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
 		ISeriesData seriesData;
-		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		IBarSeriesData barSeriesData;
+		IBarSeriesSettings barSerieSettings;
 		/*
 		 * Series 1
 		 */
-		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_4_1);
-		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS_SERIES_1));
-		lineSerieSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
-		lineSerieSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_1));
-		lineSerieSettings.setEnableStack(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STACK_SERIES_1));
-		lineSerieSettings.setEnableStep(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STEP_SERIES_1));
-		lineSerieSettings.setLineColor(lineColorSeries1);
-		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_1)));
-		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_1));
-		lineSerieSettings.setSymbolColor(symbolColorSeries1);
-		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1));
-		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1)));
-		lineSerieSettings.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_SERIES_1));
-		lineSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1));
-		lineSeriesDataList.add(lineSeriesData);
-		/*
-		 * Series 2
-		 */
-		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_4_2);
-		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS_SERIES_2));
-		lineSerieSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION_SERIES_2));
-		lineSerieSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_2));
-		lineSerieSettings.setEnableStack(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STACK_SERIES_2));
-		lineSerieSettings.setEnableStep(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_STEP_SERIES_2));
-		lineSerieSettings.setLineColor(lineColorSeries2);
-		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_2)));
-		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_2));
-		lineSerieSettings.setSymbolColor(symbolColorSeries2);
-		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_2));
-		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_2)));
-		lineSerieSettings.setVisible(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_SERIES_2));
-		lineSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_2));
-		lineSeriesDataList.add(lineSeriesData);
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.BAR_SERIES_1);
+		barSeriesData = new BarSeriesData(seriesData);
+		barSerieSettings = barSeriesData.getBarSeriesSettings();
+		barSerieSettings.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
+		barSerieSettings.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1));
+		barSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1));
+		// barSerieSettings.setAntialias(preferenceStore.getInt(BarSeriesPreferenceConstants.P_ANTIALIAS_SERIES_1));
+		// barSerieSettings.setEnableArea(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_1));
+		// barSerieSettings.setEnableStack(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_STACK_SERIES_1));
+		// barSerieSettings.setEnableStep(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_STEP_SERIES_1));
+		// barSerieSettings.setLineColor(lineColorSeries1);
+		// barSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_LINE_STYLE_SERIES_1)));
+		// barSerieSettings.setLineWidth(preferenceStore.getInt(BarSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_1));
+		// barSerieSettings.setSymbolColor(symbolColorSeries1);
+		// barSerieSettings.setSymbolSize(preferenceStore.getInt(BarSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1));
+		// barSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1)));
 		//
-		lineChart.addSeriesData(lineSeriesDataList, LineChart.HIGH_COMPRESSION);
+		// barSerieSettings.setBarColor(barColor);
+		// barSerieSettings.setBarPadding(barPadding);
+		// barSerieSettings.setBarWidth(barWidth);
+		//
+		barSeriesDataList.add(barSeriesData);
+		//
+		barChart.addSeriesData(barSeriesDataList);
 	}
 
 	private Color getColor(RGB rgb) {

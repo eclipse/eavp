@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.eavp.service.swtchart.demos.Activator;
 import org.eclipse.jface.preference.IPreferenceStore;
 
-public class SatterSeriesPreferenceInitializer extends AbstractPreferenceInitializer {
+public class ScatterSeriesPreferenceInitializer extends AbstractPreferenceInitializer {
 
 	public void initializeDefaultPreferences() {
 
