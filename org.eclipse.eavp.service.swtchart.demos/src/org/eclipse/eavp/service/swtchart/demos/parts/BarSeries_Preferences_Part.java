@@ -278,10 +278,7 @@ public class BarSeries_Preferences_Part extends Composite {
 	private void applySeriesSettings() {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		// Color lineColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_LINE_COLOR_SERIES_1));
-		// Color symbolColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_1));
-		// Color lineColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_LINE_COLOR_SERIES_2));
-		// Color symbolColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_2));
+		Color barColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_BAR_COLOR_SERIES_1));
 		//
 		barChart.deleteSeries();
 		List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
@@ -297,20 +294,9 @@ public class BarSeries_Preferences_Part extends Composite {
 		barSerieSettings.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
 		barSerieSettings.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1));
 		barSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1));
-		// barSerieSettings.setAntialias(preferenceStore.getInt(BarSeriesPreferenceConstants.P_ANTIALIAS_SERIES_1));
-		// barSerieSettings.setEnableArea(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_1));
-		// barSerieSettings.setEnableStack(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_STACK_SERIES_1));
-		// barSerieSettings.setEnableStep(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_STEP_SERIES_1));
-		// barSerieSettings.setLineColor(lineColorSeries1);
-		// barSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_LINE_STYLE_SERIES_1)));
-		// barSerieSettings.setLineWidth(preferenceStore.getInt(BarSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_1));
-		// barSerieSettings.setSymbolColor(symbolColorSeries1);
-		// barSerieSettings.setSymbolSize(preferenceStore.getInt(BarSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1));
-		// barSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1)));
-		//
-		// barSerieSettings.setBarColor(barColor);
-		// barSerieSettings.setBarPadding(barPadding);
-		// barSerieSettings.setBarWidth(barWidth);
+		barSerieSettings.setBarColor(barColorSeries1);
+		barSerieSettings.setBarPadding(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1));
+		barSerieSettings.setBarWidth(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1));
 		//
 		barSeriesDataList.add(barSeriesData);
 		//

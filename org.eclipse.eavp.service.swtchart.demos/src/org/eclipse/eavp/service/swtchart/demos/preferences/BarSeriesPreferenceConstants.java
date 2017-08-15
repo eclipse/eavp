@@ -15,7 +15,6 @@ import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.swtchart.IAxis.Position;
-import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
 public class BarSeriesPreferenceConstants {
@@ -172,57 +171,16 @@ public class BarSeriesPreferenceConstants {
 	public static final String P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = "secondaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = false;
 	//
-	public static final String P_ANTIALIAS_SERIES_1 = "antialiasSeries1" + POSTFIX;
-	public static final int DEF_ANTIALIAS_SERIES_1 = SWT.DEFAULT;
 	public static final String P_DESCRIPTION_SERIES_1 = "descriptionSeries1" + POSTFIX;
 	public static final String DEF_DESCRIPTION_SERIES_1 = "Measurement 1";
-	public static final String P_ENABLE_AREA_SERIES_1 = "enableAreaSeries1" + POSTFIX;
-	public static final boolean DEF_ENABLE_AREA_SERIES_1 = true;
-	public static final String P_ENABLE_STACK_SERIES_1 = "enableStackSeries1" + POSTFIX;
-	public static final boolean DEF_ENABLE_STACK_SERIES_1 = false;
-	public static final String P_ENABLE_STEP_SERIES_1 = "enableStepSeries1" + POSTFIX;
-	public static final boolean DEF_ENABLE_STEP_SERIES_1 = false;
-	public static final String P_LINE_COLOR_SERIES_1 = "lineColorSeries1" + POSTFIX;
-	public static final String DEF_LINE_COLOR_SERIES_1 = "255,0,0";
-	public static final String P_LINE_STYLE_SERIES_1 = "lineStyleSeries1" + POSTFIX;
-	public static final String DEF_LINE_STYLE_SERIES_1 = LineStyle.SOLID.toString();
-	public static final String P_LINE_WIDTH_SERIES_1 = "lineWidthSeries1" + POSTFIX;
-	public static final int DEF_LINE_WIDTH_SERIES_1 = 1;
-	public static final String P_SYMBOL_COLOR_SERIES_1 = "symbolColorSeries1" + POSTFIX;
-	public static final String DEF_SYMBOL_COLOR_SERIES_1 = "0,0,0";
-	public static final String P_SYMBOL_SIZE_SERIES_1 = "symbolSizeSeries1" + POSTFIX;
-	public static final int DEF_SYMBOL_SIZE_SERIES_1 = 8;
-	public static final String P_SYMBOL_TYPE_SERIES_1 = "symbolTypeSeries1" + POSTFIX;
-	public static final String DEF_SYMBOL_TYPE_SERIES_1 = PlotSymbolType.NONE.toString();
+	public static final String P_BAR_COLOR_SERIES_1 = "barColorSeries1" + POSTFIX;
+	public static final String DEF_BAR_COLOR_SERIES_1 = "255,0,0";
 	public static final String P_VISIBLE_SERIES_1 = "visibleSeries1" + POSTFIX;
 	public static final boolean DEF_VISIBLE_SERIES_1 = true;
 	public static final String P_VISIBLE_IN_LEGEND_SERIES_1 = "visibleInLegendSeries1" + POSTFIX;
 	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_1 = true;
-	//
-	public static final String P_ANTIALIAS_SERIES_2 = "antialiasSeries2" + POSTFIX;
-	public static final int DEF_ANTIALIAS_SERIES_2 = SWT.DEFAULT;
-	public static final String P_DESCRIPTION_SERIES_2 = "descriptionSeries2" + POSTFIX;
-	public static final String DEF_DESCRIPTION_SERIES_2 = "Measurement 2";
-	public static final String P_ENABLE_AREA_SERIES_2 = "enableAreaSeries2" + POSTFIX;
-	public static final boolean DEF_ENABLE_AREA_SERIES_2 = true;
-	public static final String P_ENABLE_STACK_SERIES_2 = "enableStackSeries2" + POSTFIX;
-	public static final boolean DEF_ENABLE_STACK_SERIES_2 = false;
-	public static final String P_ENABLE_STEP_SERIES_2 = "enableStepSeries2" + POSTFIX;
-	public static final boolean DEF_ENABLE_STEP_SERIES_2 = false;
-	public static final String P_LINE_COLOR_SERIES_2 = "lineColorSeries2" + POSTFIX;
-	public static final String DEF_LINE_COLOR_SERIES_2 = "125,125,125";
-	public static final String P_LINE_STYLE_SERIES_2 = "lineStyleSeries2" + POSTFIX;
-	public static final String DEF_LINE_STYLE_SERIES_2 = LineStyle.SOLID.toString();
-	public static final String P_LINE_WIDTH_SERIES_2 = "lineWidthSeries2" + POSTFIX;
-	public static final int DEF_LINE_WIDTH_SERIES_2 = 1;
-	public static final String P_SYMBOL_COLOR_SERIES_2 = "symbolColorSeries2" + POSTFIX;
-	public static final String DEF_SYMBOL_COLOR_SERIES_2 = "0,0,0";
-	public static final String P_SYMBOL_SIZE_SERIES_2 = "symbolSizeSeries2" + POSTFIX;
-	public static final int DEF_SYMBOL_SIZE_SERIES_2 = 8;
-	public static final String P_SYMBOL_TYPE_SERIES_2 = "symbolTypeSeries2" + POSTFIX;
-	public static final String DEF_SYMBOL_TYPE_SERIES_2 = PlotSymbolType.NONE.toString();
-	public static final String P_VISIBLE_SERIES_2 = "visibleSeries2" + POSTFIX;
-	public static final boolean DEF_VISIBLE_SERIES_2 = true;
-	public static final String P_VISIBLE_IN_LEGEND_SERIES_2 = "visibleInLegendSeries2" + POSTFIX;
-	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_2 = true;
+	public static final String P_BAR_PADDING_SERIES_1 = "barPaddingSeries1" + POSTFIX;
+	public static final int DEF_BAR_PADDING_SERIES_1 = 0;
+	public static final String P_BAR_WIDTH_SERIES_1 = "barWidthSeries1" + POSTFIX;
+	public static final int DEF_BAR_WIDTH_SERIES_1 = 1;
 }
