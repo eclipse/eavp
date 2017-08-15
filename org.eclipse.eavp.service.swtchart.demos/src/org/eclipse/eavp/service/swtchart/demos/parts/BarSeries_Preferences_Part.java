@@ -14,6 +14,7 @@ package org.eclipse.eavp.service.swtchart.demos.parts;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -24,7 +25,6 @@ import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
-import org.eclipse.eavp.service.swtchart.converter.PassThroughConverter;
 import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
@@ -68,6 +68,7 @@ public class BarSeries_Preferences_Part extends Composite {
 	@Inject
 	public BarSeries_Preferences_Part(Composite parent) {
 		super(parent, SWT.NONE);
+		colors = new HashMap<>();
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -174,11 +175,9 @@ public class BarSeries_Preferences_Part extends Composite {
 		Color colorBackgroundPlotArea = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_BACKGROUND_PLOT_AREA));
 		Color colorPrimaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_COLOR));
 		Color colorPrimaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_COLOR));
+		Color colorSecondaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR));
 		Locale localePrimaryXAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
 		Locale localePrimaryYAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
-		Color colorSecondaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_COLOR));
-		Color colorSecondaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR));
-		Locale localeSecondaryXAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
 		Locale localeSecondaryYAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
 		Color colorPositionMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_POSITION_MARKER));
 		Color colorCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_CENTER_MARKER));
@@ -244,19 +243,6 @@ public class BarSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
-		/*
-		 * Secondary X-Axes
-		 */
-		chartSettings.getSecondaryAxisSettingsListX().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE), new PassThroughConverter());
-		secondaryAxisSettingsX.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION));
-		secondaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryXAxis)));
-		secondaryAxisSettingsX.setColor(colorSecondaryXAxis);
-		secondaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION)));
-		secondaryAxisSettingsX.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE));
-		secondaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE)));
-		secondaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE));
-		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX);
 		/*
 		 * Secondary Y-Axes
 		 */

@@ -31,20 +31,6 @@ public class BarSeriesSecondaryAxesPreferencePage extends FieldEditorPreferenceP
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
-		addField(new LabelFieldEditor("X-Axis", getFieldEditorParent()));
-		addField(new SpacerFieldEditor(getFieldEditorParent()));
-		//
-		addField(new StringFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE, "Secondary X-Axis Title:", getFieldEditorParent()));
-		addField(new StringFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION, "Secondary X-Axis Description:", getFieldEditorParent()));
-		addField(new StringFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN, "Secondary X-Axis Format Pattern:", getFieldEditorParent()));
-		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE, "Secondary X-Axis Format Locale:", PreferenceSupport.LOCALES, getFieldEditorParent()));
-		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_COLOR, "Secondary X-Axis Color:", getFieldEditorParent()));
-		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION, "Secondary X-Axis Position:", PreferenceSupport.AXIS_POSITIONS, getFieldEditorParent()));
-		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE, "Secondary X-Axis Visible", getFieldEditorParent()));
-		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE, "Secondary X-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
-		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE, "Secondary X-Axis Enable Log Scale", getFieldEditorParent()));
-		//
-		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		addField(new LabelFieldEditor("Y-Axis", getFieldEditorParent()));
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		//

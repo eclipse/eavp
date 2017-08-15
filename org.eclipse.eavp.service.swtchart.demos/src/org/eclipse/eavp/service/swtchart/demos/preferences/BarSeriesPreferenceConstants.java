@@ -72,13 +72,13 @@ public class BarSeriesPreferenceConstants {
 	public static final String P_FORCE_ZERO_MIN_Y = "forceZeroMinY" + POSTFIX;
 	public static final boolean DEF_FORCE_ZERO_MIN_Y = false;
 	public static final String P_FACTOR_EXTEND_MIN_X = "factorExtendMinX" + POSTFIX;
-	public static final double DEF_FACTOR_EXTEND_MIN_X = 0.0d;
+	public static final double DEF_FACTOR_EXTEND_MIN_X = 0.05d;
 	public static final String P_FACTOR_EXTEND_MAX_X = "factorExtendMaxX" + POSTFIX;
-	public static final double DEF_FACTOR_EXTEND_MAX_X = 0.0d;
+	public static final double DEF_FACTOR_EXTEND_MAX_X = 0.05d;
 	public static final String P_FACTOR_EXTEND_MIN_Y = "factorExtendMinY" + POSTFIX;
 	public static final double DEF_FACTOR_EXTEND_MIN_Y = 0.0d;
 	public static final String P_FACTOR_EXTEND_MAX_Y = "factorExtendMaxY" + POSTFIX;
-	public static final double DEF_FACTOR_EXTEND_MAX_Y = 0.0d;
+	public static final double DEF_FACTOR_EXTEND_MAX_Y = 0.05d;
 	//
 	public static final String P_SHOW_POSITION_MARKER = "showPositionMarker" + POSTFIX;
 	public static final boolean DEF_SHOW_POSITION_MARKER = true;
@@ -97,21 +97,21 @@ public class BarSeriesPreferenceConstants {
 	public static final boolean DEF_CREATE_MENU = true;
 	//
 	public static final String P_PRIMARY_X_AXIS_TITLE = "primaryXAxisTitle" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_TITLE = "Milliseconds";
+	public static final String DEF_PRIMARY_X_AXIS_TITLE = "m/z";
 	public static final String P_PRIMARY_X_AXIS_DESCRIPTION = "primaryXAxisDescription" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Retention Time (milliseconds)";
+	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Mass-to-charge ratio ";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "primaryXAxisDecimalFormatPattern" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
+	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "primaryXAxisDecimalFormatLocale" + POSTFIX;
 	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE = Locale.ENGLISH.getLanguage();
 	public static final String P_PRIMARY_X_AXIS_COLOR = "primaryXAxisColor" + POSTFIX;
 	public static final String DEF_PRIMARY_X_AXIS_COLOR = "0,0,0";
 	public static final String P_PRIMARY_X_AXIS_POSITION = "primaryXAxisPosition" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_POSITION = Position.Secondary.toString();
+	public static final String DEF_PRIMARY_X_AXIS_POSITION = Position.Primary.toString();
 	public static final String P_PRIMARY_X_AXIS_VISIBLE = "primaryXAxisVisible" + POSTFIX;
-	public static final boolean DEF_PRIMARY_X_AXIS_VISIBLE = false;
+	public static final boolean DEF_PRIMARY_X_AXIS_VISIBLE = true;
 	public static final String P_PRIMARY_X_AXIS_GRID_LINE_STYLE = "primaryXAxisGridLineStyle" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
+	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	public static final String P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = "primaryXAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = false;
 	//
@@ -130,28 +130,9 @@ public class BarSeriesPreferenceConstants {
 	public static final String P_PRIMARY_Y_AXIS_VISIBLE = "primaryYAxisVisible" + POSTFIX;
 	public static final boolean DEF_PRIMARY_Y_AXIS_VISIBLE = true;
 	public static final String P_PRIMARY_Y_AXIS_GRID_LINE_STYLE = "primaryYAxisGridLineStyle" + POSTFIX;
-	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
+	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	public static final String P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = "primaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = false;
-	//
-	public static final String P_SECONDARY_X_AXIS_TITLE = "secondaryXAxisTitle" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Min";
-	public static final String P_SECONDARY_X_AXIS_DESCRIPTION = "secondaryXAxisDescription" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_DESCRIPTION = "Minutes";
-	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "secondaryXAxisDecimalFormatPattern" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
-	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "secondaryXAxisDecimalFormatLocale" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE = Locale.ENGLISH.getLanguage();
-	public static final String P_SECONDARY_X_AXIS_COLOR = "secondaryXAxisColor" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_COLOR = "0,0,0";
-	public static final String P_SECONDARY_X_AXIS_POSITION = "secondaryXAxisPosition" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_POSITION = Position.Primary.toString();
-	public static final String P_SECONDARY_X_AXIS_VISIBLE = "secondaryXAxisVisible" + POSTFIX;
-	public static final boolean DEF_SECONDARY_X_AXIS_VISIBLE = true;
-	public static final String P_SECONDARY_X_AXIS_GRID_LINE_STYLE = "secondaryXAxisGridLineStyle" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
-	public static final String P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE = "secondaryXAxisEnableLogScale" + POSTFIX;
-	public static final boolean DEF_SECONDARY_X_AXIS_ENABLE_LOG_SCALE = false;
 	//
 	public static final String P_SECONDARY_Y_AXIS_TITLE = "secondaryYAxisTitle" + POSTFIX;
 	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Int [%]";

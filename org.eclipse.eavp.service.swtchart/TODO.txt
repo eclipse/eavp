@@ -2,8 +2,8 @@
 Until End of August
 RCPTT Tests and API Documentation
 -----------------------
-Demo settings (Line | Bar | Scatter) series -> applySettings(IChartSettings chartSettings) live
 NMR data - axis settings
+Primary Axis descriptions (Settings Demo)
 Menu extensions add/remove + additional equinox extension points
 LatTeX Images (Line, Bar, Scatter)
 History (Do/Undo/Redo) -> previous selection, ...
