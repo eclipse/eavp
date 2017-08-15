@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.swtchart.IAxis.Position;
+import org.swtchart.IBarSeries.BarWidthStyle;
 import org.swtchart.LineStyle;
 
 public class BarSeriesPreferenceConstants {
@@ -36,7 +37,7 @@ public class BarSeriesPreferenceConstants {
 	public static final boolean DEF_HORIZONTALSLIDER_VISIBLE = true;
 	//
 	public static final String P_TITLE = "title" + POSTFIX;
-	public static final String DEF_TITLE = "Line Series";
+	public static final String DEF_TITLE = "Bar Series";
 	public static final String P_TITLE_VISIBLE = "titleVisible" + POSTFIX;
 	public static final boolean DEF_TITLE_VISIBLE = false;
 	public static final String P_TITLE_COLOR = "titleColor" + POSTFIX;
@@ -180,7 +181,9 @@ public class BarSeriesPreferenceConstants {
 	public static final String P_VISIBLE_IN_LEGEND_SERIES_1 = "visibleInLegendSeries1" + POSTFIX;
 	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_1 = true;
 	public static final String P_BAR_PADDING_SERIES_1 = "barPaddingSeries1" + POSTFIX;
-	public static final int DEF_BAR_PADDING_SERIES_1 = 0;
+	public static final int DEF_BAR_PADDING_SERIES_1 = 20;
 	public static final String P_BAR_WIDTH_SERIES_1 = "barWidthSeries1" + POSTFIX;
 	public static final int DEF_BAR_WIDTH_SERIES_1 = 1;
+	public static final String P_BAR_WIDTH_STYLE_SERIES_1 = "barWidthStyleSeries1" + POSTFIX;
+	public static final String DEF_BAR_WIDTH_STYLE_SERIES_1 = BarWidthStyle.FIXED.toString();
 }

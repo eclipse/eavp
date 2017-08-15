@@ -21,20 +21,15 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
-import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
-import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.RangeRestriction;
-import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.demos.Activator;
 import org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesDataPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferenceConstants;
 import org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPrimaryAxesPreferencePage;
-import org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesSecondaryAxesPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesData;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
@@ -115,16 +110,13 @@ public class ScatterSeries_Preferences_Part extends Composite {
 				preferencePage.setTitle("Chart Settings");
 				IPreferencePage preferencePrimaryAxesPage = new ScatterSeriesPrimaryAxesPreferencePage();
 				preferencePrimaryAxesPage.setTitle("Primary Axes");
-				IPreferencePage preferenceSecondaryAxesPage = new ScatterSeriesSecondaryAxesPreferencePage();
-				preferenceSecondaryAxesPage.setTitle("Secondary Axes");
 				IPreferencePage preferenceDataPage = new ScatterSeriesDataPreferencePage();
 				preferenceDataPage.setTitle("Series Data");
 				//
 				PreferenceManager preferenceManager = new PreferenceManager();
 				preferenceManager.addToRoot(new PreferenceNode("1", preferencePage));
 				preferenceManager.addToRoot(new PreferenceNode("2", preferencePrimaryAxesPage));
-				preferenceManager.addToRoot(new PreferenceNode("3", preferenceSecondaryAxesPage));
-				preferenceManager.addToRoot(new PreferenceNode("4", preferenceDataPage));
+				preferenceManager.addToRoot(new PreferenceNode("3", preferenceDataPage));
 				//
 				PreferenceDialog preferenceDialog = new PreferenceDialog(Display.getDefault().getActiveShell(), preferenceManager);
 				preferenceDialog.create();
@@ -178,10 +170,6 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		Color colorPrimaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_COLOR));
 		Locale localePrimaryXAxis = new Locale(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
 		Locale localePrimaryYAxis = new Locale(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
-		Color colorSecondaryXAxis = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_COLOR));
-		Color colorSecondaryYAxis = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_COLOR));
-		Locale localeSecondaryXAxis = new Locale(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE));
-		Locale localeSecondaryYAxis = new Locale(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
 		Color colorPositionMarker = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_COLOR_POSITION_MARKER));
 		Color colorCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_COLOR_CENTER_MARKER));
 		Color colorPositionLegend = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND));
@@ -246,32 +234,6 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
-		/*
-		 * Secondary X-Axes
-		 */
-		chartSettings.getSecondaryAxisSettingsListX().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE), new MillisecondsToMinuteConverter());
-		secondaryAxisSettingsX.setDescription(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION));
-		secondaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryXAxis)));
-		secondaryAxisSettingsX.setColor(colorSecondaryXAxis);
-		secondaryAxisSettingsX.setPosition(Position.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_POSITION)));
-		secondaryAxisSettingsX.setVisible(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE));
-		secondaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE)));
-		secondaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE));
-		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX);
-		/*
-		 * Secondary Y-Axes
-		 */
-		chartSettings.getSecondaryAxisSettingsListY().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE), new RelativeIntensityConverter(SWT.VERTICAL, true));
-		secondaryAxisSettingsY.setDescription(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DESCRIPTION));
-		secondaryAxisSettingsY.setDecimalFormat(new DecimalFormat((preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryYAxis)));
-		secondaryAxisSettingsY.setColor(colorSecondaryYAxis);
-		secondaryAxisSettingsY.setPosition(Position.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_POSITION)));
-		secondaryAxisSettingsY.setVisible(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE));
-		secondaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE)));
-		secondaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE));
-		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 		//
 		scatterChart.applySettings(chartSettings);
 	}
@@ -279,10 +241,7 @@ public class ScatterSeries_Preferences_Part extends Composite {
 	private void applySeriesSettings() {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		// Color lineColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_LINE_COLOR_SERIES_1));
 		Color symbolColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_1));
-		// Color lineColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_LINE_COLOR_SERIES_2));
-		// Color symbolColorSeries2 = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_2));
 		//
 		scatterChart.deleteSeries();
 		List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
@@ -292,17 +251,10 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		/*
 		 * Series 1
 		 */
-		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.SCATTER_SERIES_1);
+		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.SCATTER_SERIES + "2_2");
 		scatterSeriesData = new ScatterSeriesData(seriesData);
 		scatterSerieSettings = scatterSeriesData.getScatterSeriesSettings();
 		scatterSerieSettings.setDescription(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
-		// scatterSerieSettings.setAntialias(preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_ANTIALIAS_SERIES_1));
-		// scatterSerieSettings.setEnableArea(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_1));
-		// scatterSerieSettings.setEnableStack(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_ENABLE_STACK_SERIES_1));
-		// scatterSerieSettings.setEnableStep(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_ENABLE_STEP_SERIES_1));
-		// scatterSerieSettings.setLineColor(lineColorSeries1);
-		// scatterSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_LINE_STYLE_SERIES_1)));
-		// scatterSerieSettings.setLineWidth(preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_1));
 		scatterSerieSettings.setSymbolColor(symbolColorSeries1);
 		scatterSerieSettings.setSymbolSize(preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1));
 		scatterSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1)));

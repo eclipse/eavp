@@ -21,7 +21,7 @@ public class BarSeriesPreferenceInitializer extends AbstractPreferenceInitialize
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 		/*
-		 * Line Series
+		 * Bar Series
 		 */
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR, BarSeriesPreferenceConstants.DEF_ENABLE_RANGE_SELECTOR);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR, BarSeriesPreferenceConstants.DEF_COLOR_HINT_RANGE_SELECTOR);
@@ -95,5 +95,9 @@ public class BarSeriesPreferenceInitializer extends AbstractPreferenceInitialize
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1, BarSeriesPreferenceConstants.DEF_DESCRIPTION_SERIES_1);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1, BarSeriesPreferenceConstants.DEF_VISIBLE_SERIES_1);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1, BarSeriesPreferenceConstants.DEF_VISIBLE_IN_LEGEND_SERIES_1);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_BAR_COLOR_SERIES_1, BarSeriesPreferenceConstants.DEF_BAR_COLOR_SERIES_1);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1, BarSeriesPreferenceConstants.DEF_BAR_PADDING_SERIES_1);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1, BarSeriesPreferenceConstants.DEF_BAR_WIDTH_SERIES_1);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1, BarSeriesPreferenceConstants.DEF_BAR_WIDTH_STYLE_SERIES_1);
 	}
 }

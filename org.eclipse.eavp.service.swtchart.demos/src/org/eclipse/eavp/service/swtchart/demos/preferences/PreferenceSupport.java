@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.swtchart.IAxis.Position;
+import org.swtchart.IBarSeries.BarWidthStyle;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
@@ -67,5 +68,10 @@ public class PreferenceSupport {
 			{"Plus", PlotSymbolType.PLUS.toString()}, //
 			{"Square", PlotSymbolType.SQUARE.toString()}, //
 			{"Triangle", PlotSymbolType.TRIANGLE.toString()}//
+	};
+	//
+	public static String[][] BAR_WIDTH_STYLES = new String[][]{//
+			{"Fixed", BarWidthStyle.FIXED.toString()}, //
+			{"Stretched", BarWidthStyle.STRETCHED.toString()}//
 	};
 }

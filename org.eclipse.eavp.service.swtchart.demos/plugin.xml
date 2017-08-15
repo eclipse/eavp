@@ -77,12 +77,6 @@
             class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPrimaryAxesPreferencePage"
             id="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPrimaryAxesPreferencePage"
             name="Primary Axes">
-      </page>    
-      <page
-            category="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage"
-            class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesSecondaryAxesPreferencePage"
-            id="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesSecondaryAxesPreferencePage"
-            name="Secondary Axes">
       </page>
       <page
             category="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferencePage"

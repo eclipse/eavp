@@ -14,7 +14,6 @@ package org.eclipse.eavp.service.swtchart.demos.parts;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +24,7 @@ import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
-import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
+import org.eclipse.eavp.service.swtchart.converter.PassThroughConverter;
 import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
@@ -58,6 +57,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
+import org.swtchart.IBarSeries.BarWidthStyle;
 import org.swtchart.LineStyle;
 
 public class BarSeries_Preferences_Part extends Composite {
@@ -68,7 +68,6 @@ public class BarSeries_Preferences_Part extends Composite {
 	@Inject
 	public BarSeries_Preferences_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		colors = new HashMap<>();
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -249,7 +248,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		 * Secondary X-Axes
 		 */
 		chartSettings.getSecondaryAxisSettingsListX().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE), new MillisecondsToMinuteConverter());
+		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_TITLE), new PassThroughConverter());
 		secondaryAxisSettingsX.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DESCRIPTION));
 		secondaryAxisSettingsX.setDecimalFormat(new DecimalFormat((preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryXAxis)));
 		secondaryAxisSettingsX.setColor(colorSecondaryXAxis);
@@ -297,7 +296,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		barSerieSettings.setBarColor(barColorSeries1);
 		barSerieSettings.setBarPadding(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1));
 		barSerieSettings.setBarWidth(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1));
-		//
+		barSerieSettings.setBarWidthStyle(BarWidthStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1)));
 		barSeriesDataList.add(barSeriesData);
 		//
 		barChart.addSeriesData(barSeriesDataList);
