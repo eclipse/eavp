@@ -8,8 +8,6 @@ Bundle-Vendor: Oak Ridge National Laboratory
 Import-Package: ca.odell.glazedlists,
  ca.odell.glazedlists.event,
  ca.odell.glazedlists.gui,
- javafx.embed.swt,
- javafx.scene.shape,
  org.apache.log4j,
  org.eclipse.eavp.geometry.view.javafx.render,
  org.eclipse.eavp.geometry.view.model,

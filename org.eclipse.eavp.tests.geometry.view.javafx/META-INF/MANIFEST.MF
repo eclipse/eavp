@@ -7,8 +7,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: ca.odell.glazedlists,
  ca.odell.glazedlists.event,
  ca.odell.glazedlists.gui,
- javafx.embed.swt;version="2.2.0",
- javafx.scene.shape;version="2.2.0",
  org.apache.log4j,
  org.eclipse.eavp.geometry.view.javafx.display,
  org.eclipse.eavp.geometry.view.javafx.render,
