@@ -95,16 +95,10 @@ public class BarSeries_Preferences_Part extends Composite {
 		GridData gridDataComposite = new GridData(GridData.FILL_HORIZONTAL);
 		gridDataComposite.horizontalAlignment = SWT.END;
 		compositeButtons.setLayoutData(gridDataComposite);
-		compositeButtons.setLayout(new GridLayout(2, false));
+		compositeButtons.setLayout(new GridLayout(1, false));
 		//
 		Button buttonOpenSettings = new Button(compositeButtons, SWT.PUSH);
-		buttonOpenSettings.setToolTipText("Open the Settings");
-		if(Activator.getDefault() != null) {
-			buttonOpenSettings.setText("");
-			buttonOpenSettings.setImage(Activator.getDefault().getImage(Activator.ICON_OPEN_SETTINGS));
-		} else {
-			buttonOpenSettings.setText("Settings");
-		}
+		modifySettingsButton(buttonOpenSettings);
 		buttonOpenSettings.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -129,29 +123,12 @@ public class BarSeries_Preferences_Part extends Composite {
 				preferenceDialog.create();
 				preferenceDialog.setMessage("Settings");
 				if(preferenceDialog.open() == PreferenceDialog.OK) {
-					MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Settings", "The settings have been set successfully. Please use the load button to refresh the chart.");
-				}
-			}
-		});
-		//
-		Button buttonApplySettings = new Button(compositeButtons, SWT.PUSH);
-		buttonApplySettings.setToolTipText("Apply the Settings");
-		if(Activator.getDefault() != null) {
-			buttonApplySettings.setText("");
-			buttonApplySettings.setImage(Activator.getDefault().getImage(Activator.ICON_APPLY_SETTINGS));
-		} else {
-			buttonApplySettings.setText("Apply");
-		}
-		buttonApplySettings.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				try {
-					applyChartSettings();
-					applySeriesSettings();
-				} catch(Exception e1) {
-					System.out.println(e1);
+					try {
+						applyChartSettings();
+						applySeriesSettings();
+					} catch(Exception e1) {
+						MessageDialog.openError(Display.getDefault().getActiveShell(), "Settings", "Something has gone wrong to apply the chart settings.");
+					}
 				}
 			}
 		});
@@ -161,6 +138,17 @@ public class BarSeries_Preferences_Part extends Composite {
 		//
 		applyChartSettings();
 		applySeriesSettings();
+	}
+
+	private void modifySettingsButton(Button button) {
+
+		button.setToolTipText("Open the Settings");
+		if(Activator.getDefault() != null) {
+			button.setText("");
+			button.setImage(Activator.getDefault().getImage(Activator.ICON_OPEN_SETTINGS));
+		} else {
+			button.setText("Settings");
+		}
 	}
 
 	private void applyChartSettings() throws Exception {
