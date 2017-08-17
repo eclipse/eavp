@@ -188,6 +188,8 @@ public class LineSeriesPreferenceConstants {
 	public static final String DEF_LINE_STYLE_SERIES_1 = LineStyle.SOLID.toString();
 	public static final String P_LINE_WIDTH_SERIES_1 = "lineWidthSeries1" + POSTFIX;
 	public static final int DEF_LINE_WIDTH_SERIES_1 = 1;
+	public static final String P_LINE_WIDTH_SERIES_SELECTED_1 = "lineWidthSeriesSelected1" + POSTFIX;
+	public static final int DEF_LINE_WIDTH_SERIES_SELECTED_1 = 2;
 	public static final String P_SYMBOL_COLOR_SERIES_1 = "symbolColorSeries1" + POSTFIX;
 	public static final String DEF_SYMBOL_COLOR_SERIES_1 = "0,0,0";
 	public static final String P_SYMBOL_SIZE_SERIES_1 = "symbolSizeSeries1" + POSTFIX;
@@ -215,6 +217,8 @@ public class LineSeriesPreferenceConstants {
 	public static final String DEF_LINE_STYLE_SERIES_2 = LineStyle.SOLID.toString();
 	public static final String P_LINE_WIDTH_SERIES_2 = "lineWidthSeries2" + POSTFIX;
 	public static final int DEF_LINE_WIDTH_SERIES_2 = 1;
+	public static final String P_LINE_WIDTH_SERIES_SELECTED_2 = "lineWidthSeriesSelected2" + POSTFIX;
+	public static final int DEF_LINE_WIDTH_SERIES_SELECTED_2 = 2;
 	public static final String P_SYMBOL_COLOR_SERIES_2 = "symbolColorSeries2" + POSTFIX;
 	public static final String DEF_SYMBOL_COLOR_SERIES_2 = "0,0,0";
 	public static final String P_SYMBOL_SIZE_SERIES_2 = "symbolSizeSeries2" + POSTFIX;

@@ -23,6 +23,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	private boolean enableArea;
 	private Color lineColor;
 	private int lineWidth;
+	private int lineWidthSelected;
 	private boolean enableStack;
 	private boolean enableStep;
 	private LineStyle lineStyle;
@@ -32,6 +33,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 		enableArea = true;
 		lineColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
 		lineWidth = 1;
+		lineWidthSelected = 2;
 		enableStack = false;
 		enableStep = false;
 		lineStyle = LineStyle.SOLID;
@@ -83,6 +85,18 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	public void setLineWidth(int lineWidth) {
 
 		this.lineWidth = lineWidth;
+	}
+
+	@Override
+	public int getLineWidthSelected() {
+
+		return lineWidthSelected;
+	}
+
+	@Override
+	public void setLineWidthSelected(int lineWidthSelected) {
+
+		this.lineWidthSelected = lineWidthSelected;
 	}
 
 	@Override

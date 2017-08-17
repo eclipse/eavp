@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.IAxis;
@@ -40,18 +41,16 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double extendedMaxX;
 	private double extendedMinY;
 	private double extendedMaxY;
-	/*
-	 * The settings are used to get the description
-	 * or to get the IAxisScaleConverter of the
-	 * secondary axes.
-	 */
+	//
 	private Map<Integer, IAxisSettings> xAxisSettingsMap;
 	private Map<Integer, IAxisSettings> yAxisSettingsMap;
+	private Map<String, ISeriesSettings> seriesSettingsMap;
 
 	public AbstractExtendedChart(Composite parent, int style) {
 		super(parent, style);
 		xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
 		yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
+		seriesSettingsMap = new HashMap<String, ISeriesSettings>();
 		resetCoordinates();
 	}
 
@@ -105,6 +104,11 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	public Map<Integer, IAxisSettings> getYAxisSettingsMap() {
 
 		return yAxisSettingsMap;
+	}
+
+	public Map<String, ISeriesSettings> getSeriesSettingsMap() {
+
+		return seriesSettingsMap;
 	}
 
 	@Override
@@ -221,9 +225,19 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	}
 
 	@Override
-	public ISeries createSeries(SeriesType seriesType, double[] xSeries, double[] ySeries, String id) throws SeriesException {
+	public ISeries createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
 
+		SeriesType seriesType = getSeriesType(seriesSettings);
+		double[] xSeries = seriesData.getXSeries();
+		double[] ySeries = seriesData.getYSeries();
+		//
 		if(xSeries.length == ySeries.length) {
+			/*
+			 * Put the settings to the map.
+			 */
+			String id = seriesData.getId();
+			seriesSettingsMap.put(id, seriesSettings);
+			//
 			ISeriesSet seriesSet = getSeriesSet();
 			ISeries series = seriesSet.createSeries(seriesType, id);
 			series.setXSeries(xSeries);
@@ -266,6 +280,16 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				calculateCoordinates(series);
 			}
 		}
+	}
+
+	private SeriesType getSeriesType(ISeriesSettings seriesSettings) {
+
+		SeriesType seriesType = SeriesType.LINE; // Default
+		if(seriesSettings instanceof IBarSeriesSettings) {
+			seriesType = SeriesType.BAR;
+		}
+		//
+		return seriesType;
 	}
 
 	private double[] concatenateSeries(double[] a, double[] b) {

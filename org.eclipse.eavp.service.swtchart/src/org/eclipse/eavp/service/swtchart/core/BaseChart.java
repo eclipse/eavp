@@ -15,14 +15,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisSet;
+import org.swtchart.ILineSeries;
+import org.swtchart.ISeries;
 import org.swtchart.Range;
 
 public class BaseChart extends AbstractExtendedChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
@@ -239,10 +243,81 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void handleMouseDoubleClick(Event event) {
 
 		if(event.button == 1) {
-			adjustRange(true);
-			fireUpdateCustomSelectionHandlers(event);
-			redraw();
+			if((event.stateMask & SWT.CTRL) == SWT.CTRL) {
+				/*
+				 * Highlight the selected data series.
+				 */
+				ISeries[] series = getSeriesSet().getSeries();
+				String selectedSeriesId = "";
+				/*
+				 * Get the selected series id.
+				 */
+				exitloop:
+				for(ISeries dataSeries : series) {
+					if(dataSeries != null) {
+						int size = dataSeries.getXSeries().length;
+						for(int i = 0; i < size; i++) {
+							Point point = dataSeries.getPixelCoordinates(i);
+							if(isDataSeriesSelected(point, event, 8)) {
+								selectedSeriesId = dataSeries.getId();
+								break exitloop;
+							}
+						}
+					}
+				}
+				/*
+				 * Highlight or reset the series.
+				 */
+				if(!selectedSeriesId.equals("")) {
+					/*
+					 * Highlight
+					 */
+					ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+					if(dataSeries instanceof ILineSeries) {
+						ILineSeries lineSeries = (ILineSeries)dataSeries;
+						if(lineSeries.getLineWidth() > 0) {
+							ISeriesSettings seriesSettings = getSeriesSettingsMap().get(selectedSeriesId);
+							if(seriesSettings instanceof ILineSeriesSettings) {
+								ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
+								lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
+								redraw();
+							}
+						}
+					}
+				} else {
+					/*
+					 * Reset
+					 */
+					for(ISeries dataSeries : series) {
+						if(dataSeries instanceof ILineSeries) {
+							ILineSeries lineSeries = (ILineSeries)dataSeries;
+							if(lineSeries.getLineWidth() > 0) {
+								ISeriesSettings seriesSettings = getSeriesSettingsMap().get(dataSeries.getId());
+								if(seriesSettings instanceof ILineSeriesSettings) {
+									ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
+									lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
+								}
+							}
+						}
+					}
+					redraw();
+				}
+			} else {
+				adjustRange(true);
+				fireUpdateCustomSelectionHandlers(event);
+				redraw();
+			}
 		}
+	}
+
+	private boolean isDataSeriesSelected(Point point, Event event, int delta) {
+
+		if(point.x >= event.x - delta && point.x <= event.x + delta) {
+			if(point.y >= event.y - delta && point.y <= event.y + delta) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void handleUserSelection(Event event) {

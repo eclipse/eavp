@@ -16,12 +16,10 @@ import java.util.List;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
-import org.eclipse.eavp.service.swtchart.core.SeriesContainer;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.IBarSeries;
 import org.swtchart.IBarSeries.BarWidthStyle;
-import org.swtchart.ISeries.SeriesType;
 
 public class BarChart extends ScrollableChart {
 
@@ -60,10 +58,10 @@ public class BarChart extends ScrollableChart {
 				 */
 				try {
 					ISeriesData seriesData = barSeriesData.getSeriesData();
-					SeriesContainer seriesContainer = calculateSeries(seriesData.getXSeries(), seriesData.getYSeries(), compressToLength);
-					IBarSeries barSeries = (IBarSeries)createSeries(SeriesType.BAR, seriesContainer.getXSeries(), seriesContainer.getYSeries(), seriesData.getId());
-					//
+					ISeriesData optimizedSeriesData = calculateSeries(seriesData, compressToLength);
 					IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
+					IBarSeries barSeries = (IBarSeries)createSeries(optimizedSeriesData, barSeriesSettings);
+					//
 					barSeries.setDescription(barSeriesSettings.getDescription());
 					barSeries.setVisible(barSeriesSettings.isVisible());
 					barSeries.setVisibleInLegend(barSeriesSettings.isVisibleInLegend());
@@ -73,7 +71,7 @@ public class BarChart extends ScrollableChart {
 					/*
 					 * Automatically use stretched if it is a large data set.
 					 */
-					if(isLargeDataSet(seriesContainer.getXSeries(), seriesContainer.getYSeries(), LENGTH_HINT_DATA_POINTS)) {
+					if(isLargeDataSet(optimizedSeriesData.getXSeries(), optimizedSeriesData.getYSeries(), LENGTH_HINT_DATA_POINTS)) {
 						barSeries.setBarWidthStyle(BarWidthStyle.STRETCHED);
 					} else {
 						barSeries.setBarWidthStyle(barSeriesSettings.getBarWidthStyle());

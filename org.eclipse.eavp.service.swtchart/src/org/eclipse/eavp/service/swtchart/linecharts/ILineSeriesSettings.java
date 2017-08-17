@@ -38,6 +38,10 @@ public interface ILineSeriesSettings extends IPointSeriesSettings {
 
 	void setLineWidth(int lineWidth);
 
+	int getLineWidthSelected();
+
+	void setLineWidthSelected(int lineWidthSelected);
+
 	boolean isEnableStack();
 
 	void setEnableStack(boolean enableStack);

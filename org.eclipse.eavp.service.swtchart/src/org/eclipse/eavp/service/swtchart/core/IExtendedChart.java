@@ -13,7 +13,6 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.swtchart.ISeries;
-import org.swtchart.ISeries.SeriesType;
 
 public interface IExtendedChart {
 
@@ -21,16 +20,14 @@ public interface IExtendedChart {
 	String Y_AXIS = "Y_AXIS";
 
 	/**
-	 * SeriesType.LINE or SeriesType.BAR
+	 * SeriesType.LINE or SeriesType.BAR are automatically set dependent which settings are used.
 	 * 
-	 * @param seriesType
-	 * @param xSeries
-	 * @param ySeries
-	 * @param id
+	 * @param seriesData
+	 * @param seriesSettings
 	 * @return ISeries
 	 * @throws SeriesException
 	 */
-	ISeries createSeries(SeriesType seriesType, double[] xSeries, double[] ySeries, String id) throws SeriesException;
+	ISeries createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException;
 
 	/**
 	 * Deletes the given series if it exists and

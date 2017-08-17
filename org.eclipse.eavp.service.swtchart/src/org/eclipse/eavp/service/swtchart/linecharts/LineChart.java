@@ -16,12 +16,10 @@ import java.util.List;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
-import org.eclipse.eavp.service.swtchart.core.SeriesContainer;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries;
-import org.swtchart.ISeries.SeriesType;
 
 public class LineChart extends ScrollableChart {
 
@@ -71,10 +69,10 @@ public class LineChart extends ScrollableChart {
 				 */
 				try {
 					ISeriesData seriesData = lineSeriesData.getSeriesData();
-					SeriesContainer seriesContainer = calculateSeries(seriesData.getXSeries(), seriesData.getYSeries(), compressToLength);
-					ILineSeries lineSeries = (ILineSeries)createSeries(SeriesType.LINE, seriesContainer.getXSeries(), seriesContainer.getYSeries(), seriesData.getId());
-					//
+					ISeriesData optimizedSeriesData = calculateSeries(seriesData, compressToLength);
 					ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+					ILineSeries lineSeries = (ILineSeries)createSeries(optimizedSeriesData, lineSeriesSettings);
+					//
 					lineSeries.setDescription(lineSeriesSettings.getDescription());
 					lineSeries.setVisible(lineSeriesSettings.isVisible());
 					lineSeries.setVisibleInLegend(lineSeriesSettings.isVisibleInLegend());

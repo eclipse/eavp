@@ -43,6 +43,7 @@ public class LineSeriesDataPreferencePage extends FieldEditorPreferencePage impl
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_LINE_COLOR_SERIES_1, "Line Color:", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_1, "Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_1, "Line Width:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_SELECTED_1, "Line Width Selected:", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_1, "Symbol Color:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1, "Symbol Size:", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1, "Symbol Type:", PreferenceSupport.SYMBOL_TYPES, getFieldEditorParent()));
@@ -61,6 +62,7 @@ public class LineSeriesDataPreferencePage extends FieldEditorPreferencePage impl
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_LINE_COLOR_SERIES_2, "Line Color:", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_2, "Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_2, "Line Width:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_SELECTED_2, "Line Width Selected:", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_2, "Symbol Color:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_2, "Symbol Size:", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_2, "Symbol Type:", PreferenceSupport.SYMBOL_TYPES, getFieldEditorParent()));

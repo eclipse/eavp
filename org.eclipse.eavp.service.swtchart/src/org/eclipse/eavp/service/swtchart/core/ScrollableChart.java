@@ -56,13 +56,14 @@ import org.swtchart.IGrid;
 import org.swtchart.ILegend;
 import org.swtchart.IPlotArea;
 import org.swtchart.ISeries;
-import org.swtchart.ISeries.SeriesType;
 import org.swtchart.ISeriesSet;
 import org.swtchart.ITitle;
 import org.swtchart.Range;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
+	public static final int NO_COMPRESS_TO_LENGTH = Integer.MAX_VALUE;
+	//
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
 	//
 	private static final String MENU_MARKER_AND_LEGENDS = "Marker / Legends";
@@ -213,9 +214,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
-	public ISeries createSeries(SeriesType seriesType, double[] xSeries, double[] ySeries, String id) throws SeriesException {
+	public ISeries createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
 
-		ISeries series = baseChart.createSeries(seriesType, xSeries, ySeries, id);
+		ISeries series = baseChart.createSeries(seriesData, seriesSettings);
 		resetSlider();
 		return series;
 	}
@@ -377,22 +378,22 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.paintControl(e);
 	}
 
-	protected SeriesContainer calculateSeries(double[] xSeries, double[] ySeries) {
+	protected ISeriesData calculateSeries(ISeriesData seriesData) {
 
-		return calculateSeries(xSeries, ySeries, Integer.MAX_VALUE); // No compression.
+		return calculateSeries(seriesData, NO_COMPRESS_TO_LENGTH); // No compression.
 	}
 
 	/**
 	 * Use compress series only if it's absolutely necessary.
 	 * 
-	 * @param xSeries
-	 * @param ySeries
+	 * @param seriesData
 	 * @param compressToLength
-	 * @return SeriesContainer
+	 * @return ISeriesData
 	 */
-	protected SeriesContainer calculateSeries(double[] xSeries, double[] ySeries, int compressToLength) {
+	protected ISeriesData calculateSeries(ISeriesData seriesData, int compressToLength) {
 
-		SeriesContainer seriesContainer;
+		double[] xSeries = seriesData.getXSeries();
+		double[] ySeries = seriesData.getYSeries();
 		int seriesLength = ySeries.length;
 		//
 		if(seriesLength > compressToLength) {
@@ -435,15 +436,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 */
 			double[] xCompressed = xSeriesCompressed.stream().mapToDouble(d -> d).toArray();
 			double[] yCompressed = ySeriesCompressed.stream().mapToDouble(d -> d).toArray();
-			seriesContainer = new SeriesContainer(xCompressed, yCompressed);
+			//
+			return new SeriesData(xCompressed, yCompressed, seriesData.getId());
 		} else {
 			/*
 			 * No compression.
 			 */
-			seriesContainer = new SeriesContainer(xSeries, ySeries);
+			return seriesData;
 		}
-		//
-		return seriesContainer;
 	}
 
 	/**

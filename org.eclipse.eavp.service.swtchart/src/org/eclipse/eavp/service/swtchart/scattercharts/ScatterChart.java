@@ -19,7 +19,6 @@ import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.ILineSeries;
-import org.swtchart.ISeries.SeriesType;
 import org.swtchart.LineStyle;
 
 public class ScatterChart extends ScrollableChart {
@@ -49,9 +48,10 @@ public class ScatterChart extends ScrollableChart {
 				 */
 				try {
 					ISeriesData seriesData = scatterSeriesData.getSeriesData();
-					ILineSeries scatterSeries = (ILineSeries)createSeries(SeriesType.LINE, seriesData.getXSeries(), seriesData.getYSeries(), seriesData.getId());
-					//
+					ISeriesData optimizedSeriesData = calculateSeries(seriesData, ScrollableChart.NO_COMPRESS_TO_LENGTH);
 					IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+					ILineSeries scatterSeries = (ILineSeries)createSeries(optimizedSeriesData, scatterSeriesSettings);
+					//
 					scatterSeries.setDescription(scatterSeriesSettings.getDescription());
 					scatterSeries.setVisible(scatterSeriesSettings.isVisible());
 					scatterSeries.setVisibleInLegend(scatterSeriesSettings.isVisibleInLegend());
