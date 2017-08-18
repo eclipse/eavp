@@ -210,6 +210,7 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsX.setVisible(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE));
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsX.setMarginTitle(preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_MARGIN_TITLE));
 		/*
 		 * Primary Y-Axis
 		 */
@@ -222,6 +223,7 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsY.setMarginTitle(preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_MARGIN_TITLE));
 		//
 		scatterChart.applySettings(chartSettings);
 	}

@@ -10,6 +10,5 @@ History (Do/Undo/Redo) -> previous selection, ...
 Demo Area Selection
 Modify series +/-
 Selected series Move via keyboard / mouse shortcut
-Margin of label axis, Space between axis and legend
 
 Export Extension Point? Apache XML Graphics Common, VectorGraphics2D?

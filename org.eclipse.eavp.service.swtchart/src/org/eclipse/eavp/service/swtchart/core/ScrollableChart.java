@@ -30,11 +30,13 @@ import org.eclipse.eavp.service.swtchart.menu.LaTeXTableExport;
 import org.eclipse.eavp.service.swtchart.menu.PrinterExport;
 import org.eclipse.eavp.service.swtchart.menu.TabSeparatedValuesExport;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -50,6 +52,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Direction;
+import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisSet;
 import org.swtchart.IAxisTick;
 import org.swtchart.IGrid;
@@ -809,8 +812,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		if(axis != null && axisSettings != null) {
 			//
+			String axisText = axisSettings.getTitle();
 			ITitle title = axis.getTitle();
-			title.setText(axisSettings.getTitle());
+			title.setText(axisText);
 			title.setVisible(axisSettings.isVisible());
 			//
 			IAxisTick axisTick = axis.getTick();
@@ -827,9 +831,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 */
 			Color color = axisSettings.getColor();
 			if(color != null) {
-				axis.getTitle().setForeground(color);
-				axis.getTick().setForeground(color);
+				title.setForeground(color);
+				axisTick.setForeground(color);
 			}
+			/*
+			 * Add a space between the scale and the label.
+			 */
+			Font font = title.getFont();
+			StyleRange styleRange = new StyleRange();
+			styleRange.length = axisText.length();
+			styleRange.foreground = color;
+			styleRange.font = font;
+			styleRange.rise = getAxisTitleMargin(axis, axisSettings);
+			title.setStyleRanges(new StyleRange[]{styleRange});
 			//
 			axis.enableLogScale(axisSettings.isEnableLogScale());
 			/*
@@ -847,6 +861,43 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				}
 			}
 		}
+	}
+
+	private int getAxisTitleMargin(IAxis axis, IAxisSettings axisSettings) {
+
+		int marginTitle = axisSettings.getMarginTitle();
+		int orientation = getChartSettings().getOrientation();
+		Direction direction = axis.getDirection();
+		/*
+		 * Default orientation == SWT.HORIZONTAL
+		 */
+		if(direction.equals(Direction.X)) {
+			/*
+			 * X-Axis
+			 * Primary = bottom side
+			 * Secondary = top side
+			 */
+			if(axisSettings.getPosition().equals(Position.Primary)) {
+				marginTitle *= -1;
+			}
+		} else {
+			/*
+			 * Y-Axis
+			 * Primary = left side
+			 * Secondary = right side
+			 */
+			if(axisSettings.getPosition().equals(Position.Secondary)) {
+				marginTitle *= -1;
+			}
+		}
+		/*
+		 * Switch the side of the margin.
+		 */
+		if(orientation == SWT.VERTICAL) {
+			marginTitle *= -1;
+		}
+		//
+		return marginTitle;
 	}
 
 	private void fireUpdateCustomSelectionHandlers(Event event) {

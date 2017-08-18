@@ -114,6 +114,8 @@ public class BarSeriesPreferenceConstants {
 	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	public static final String P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = "primaryXAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_PRIMARY_X_AXIS_MARGIN_TITLE = "primaryXAxisMarginTitle" + POSTFIX;
+	public static final int DEF_PRIMARY_X_AXIS_MARGIN_TITLE = 25;
 	//
 	public static final String P_PRIMARY_Y_AXIS_TITLE = "primaryYAxisTitle" + POSTFIX;
 	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity";
@@ -133,6 +135,8 @@ public class BarSeriesPreferenceConstants {
 	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	public static final String P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = "primaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_PRIMARY_Y_AXIS_MARGIN_TITLE = "primaryYAxisMarginTitle" + POSTFIX;
+	public static final int DEF_PRIMARY_Y_AXIS_MARGIN_TITLE = 25;
 	//
 	public static final String P_SECONDARY_Y_AXIS_TITLE = "secondaryYAxisTitle" + POSTFIX;
 	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Int [%]";
@@ -152,6 +156,8 @@ public class BarSeriesPreferenceConstants {
 	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	public static final String P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = "secondaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_SECONDARY_Y_AXIS_MARGIN_TITLE = "secondaryYAxisMarginTitle" + POSTFIX;
+	public static final int DEF_SECONDARY_Y_AXIS_MARGIN_TITLE = 25;
 	//
 	public static final String P_DESCRIPTION_SERIES_1 = "descriptionSeries1" + POSTFIX;
 	public static final String DEF_DESCRIPTION_SERIES_1 = "Measurement 1";

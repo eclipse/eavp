@@ -16,6 +16,7 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -43,6 +44,7 @@ public class BarSeriesPrimaryAxesPreferencePage extends FieldEditorPreferencePag
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE, "Primary X-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE, "Primary X-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE, "Primary X-Axis Enable Log Scale", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_MARGIN_TITLE, "Primary X-Axis Margin Title:", getFieldEditorParent()));
 		//
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		addField(new LabelFieldEditor("Y-Axis", getFieldEditorParent()));
@@ -57,6 +59,7 @@ public class BarSeriesPrimaryAxesPreferencePage extends FieldEditorPreferencePag
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE, "Primary Y-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, "Primary Y-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE, "Primary Y-Axis Enable Log Scale", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_MARGIN_TITLE, "Primary Y-Axis Margin Title:", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

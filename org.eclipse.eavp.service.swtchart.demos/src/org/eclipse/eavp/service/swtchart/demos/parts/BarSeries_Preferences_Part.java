@@ -219,6 +219,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsX.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE));
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsX.setMarginTitle(preferenceStore.getInt(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_MARGIN_TITLE));
 		/*
 		 * Primary Y-Axis
 		 */
@@ -231,6 +232,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsY.setMarginTitle(preferenceStore.getInt(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_MARGIN_TITLE));
 		/*
 		 * Secondary Y-Axes
 		 */
@@ -243,6 +245,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		secondaryAxisSettingsY.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE));
 		secondaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE)));
 		secondaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE));
+		secondaryAxisSettingsY.setMarginTitle(preferenceStore.getInt(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_MARGIN_TITLE));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 		//
 		barChart.applySettings(chartSettings);

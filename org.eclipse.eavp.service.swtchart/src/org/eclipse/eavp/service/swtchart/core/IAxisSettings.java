@@ -31,6 +31,10 @@ public interface IAxisSettings {
 
 	void setTitle(String title);
 
+	int getMarginTitle();
+
+	void setMarginTitle(int marginTitle);
+
 	String getDescription();
 
 	void setDescription(String description);

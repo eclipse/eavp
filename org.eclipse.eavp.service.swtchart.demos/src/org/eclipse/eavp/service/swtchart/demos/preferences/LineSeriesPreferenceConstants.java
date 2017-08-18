@@ -114,6 +114,8 @@ public class LineSeriesPreferenceConstants {
 	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
 	public static final String P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = "primaryXAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_PRIMARY_X_AXIS_MARGIN_TITLE = "primaryXAxisMarginTitle" + POSTFIX;
+	public static final int DEF_PRIMARY_X_AXIS_MARGIN_TITLE = 25;
 	//
 	public static final String P_PRIMARY_Y_AXIS_TITLE = "primaryYAxisTitle" + POSTFIX;
 	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity";
@@ -133,6 +135,8 @@ public class LineSeriesPreferenceConstants {
 	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.NONE.toString();
 	public static final String P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = "primaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_PRIMARY_Y_AXIS_MARGIN_TITLE = "primaryYAxisMarginTitle" + POSTFIX;
+	public static final int DEF_PRIMARY_Y_AXIS_MARGIN_TITLE = 25;
 	//
 	public static final String P_SECONDARY_X_AXIS_TITLE = "secondaryXAxisTitle" + POSTFIX;
 	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Min";
@@ -152,6 +156,8 @@ public class LineSeriesPreferenceConstants {
 	public static final String DEF_SECONDARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	public static final String P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE = "secondaryXAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_SECONDARY_X_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_SECONDARY_X_AXIS_MARGIN_TITLE = "secondaryXAxisMarginTitle" + POSTFIX;
+	public static final int DEF_SECONDARY_X_AXIS_MARGIN_TITLE = 25;
 	//
 	public static final String P_SECONDARY_Y_AXIS_TITLE = "secondaryYAxisTitle" + POSTFIX;
 	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Int [%]";
@@ -171,6 +177,8 @@ public class LineSeriesPreferenceConstants {
 	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
 	public static final String P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = "secondaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_SECONDARY_Y_AXIS_MARGIN_TITLE = "secondaryYAxisMarginTitle" + POSTFIX;
+	public static final int DEF_SECONDARY_Y_AXIS_MARGIN_TITLE = 25;
 	//
 	public static final String P_ANTIALIAS_SERIES_1 = "antialiasSeries1" + POSTFIX;
 	public static final int DEF_ANTIALIAS_SERIES_1 = SWT.DEFAULT;
