@@ -14,6 +14,7 @@ package org.eclipse.eavp.service.swtchart.core;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
@@ -96,19 +97,49 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		this.rangeRestriction = rangeRestriction;
 	}
 
-	public Map<Integer, IAxisSettings> getXAxisSettingsMap() {
+	public IAxisSettings getXAxisSettings(int index) {
 
-		return xAxisSettingsMap;
+		return xAxisSettingsMap.get(index);
 	}
 
-	public Map<Integer, IAxisSettings> getYAxisSettingsMap() {
+	public IAxisSettings getYAxisSettings(int index) {
 
-		return yAxisSettingsMap;
+		return yAxisSettingsMap.get(index);
 	}
 
-	public Map<String, ISeriesSettings> getSeriesSettingsMap() {
+	public void putXAxisSettings(int key, IAxisSettings axisSettings) {
 
-		return seriesSettingsMap;
+		xAxisSettingsMap.put(key, axisSettings);
+	}
+
+	public void removeXAxisSettings() {
+
+		Set<Integer> keySet = xAxisSettingsMap.keySet();
+		for(int key : keySet) {
+			if(key != BaseChart.ID_PRIMARY_X_AXIS) {
+				xAxisSettingsMap.remove(key);
+			}
+		}
+	}
+
+	public void putYAxisSettings(int key, IAxisSettings axisSettings) {
+
+		yAxisSettingsMap.put(key, axisSettings);
+	}
+
+	public void removeYAxisSettings() {
+
+		Set<Integer> keySet = yAxisSettingsMap.keySet();
+		for(int key : keySet) {
+			if(key != BaseChart.ID_PRIMARY_Y_AXIS) {
+				yAxisSettingsMap.remove(key);
+			}
+		}
+	}
+
+	public ISeriesSettings getSeriesSettings(String id) {
+
+		return seriesSettingsMap.get(id);
 	}
 
 	@Override

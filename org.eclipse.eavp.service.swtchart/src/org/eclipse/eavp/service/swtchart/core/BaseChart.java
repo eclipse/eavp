@@ -13,7 +13,10 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.swt.SWT;
@@ -52,6 +55,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private UserSelection userSelection;
 	private List<ICustomSelectionHandler> customSelectionHandlers;
 	private long clickStartTime;
+	private Set<String> highlightedSeriesIds;
 
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
@@ -60,6 +64,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 */
 		userSelection = new UserSelection();
 		customSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
+		highlightedSeriesIds = new HashSet<String>();
 		/*
 		 * Create the default x and y axis.
 		 */
@@ -90,6 +95,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public boolean removeCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
 
 		return customSelectionHandlers.remove(customSelectionHandler);
+	}
+
+	/**
+	 * Returns the set of selected series ids.
+	 * The list is unmodifiable.
+	 * 
+	 * @return Set<String>
+	 */
+	public Set<String> getSelectedSeriesIds() {
+
+		return Collections.unmodifiableSet(highlightedSeriesIds);
 	}
 
 	@Override
@@ -263,12 +279,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private void resetSeriesHighlight() {
 
-		ISeries[] series = getSeriesSet().getSeries();
-		for(ISeries dataSeries : series) {
+		for(String id : highlightedSeriesIds) {
+			ISeries dataSeries = getSeriesSet().getSeries(id);
 			if(dataSeries instanceof ILineSeries) {
 				ILineSeries lineSeries = (ILineSeries)dataSeries;
 				if(lineSeries.getLineWidth() > 0) {
-					ISeriesSettings seriesSettings = getSeriesSettingsMap().get(dataSeries.getId());
+					ISeriesSettings seriesSettings = getSeriesSettings(dataSeries.getId());
 					if(seriesSettings instanceof ILineSeriesSettings) {
 						/*
 						 * Line Series
@@ -279,6 +295,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				}
 			}
 		}
+		//
+		highlightedSeriesIds.clear();
 		redraw();
 	}
 
@@ -288,11 +306,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		if(dataSeries instanceof ILineSeries) {
 			ILineSeries lineSeries = (ILineSeries)dataSeries;
 			if(lineSeries.getLineWidth() > 0) {
-				ISeriesSettings seriesSettings = getSeriesSettingsMap().get(selectedSeriesId);
+				ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
 				if(seriesSettings instanceof ILineSeriesSettings) {
 					/*
 					 * Line Series
 					 */
+					highlightedSeriesIds.add(selectedSeriesId);
 					ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 					lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
 					redraw();
@@ -488,9 +507,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		IAxisSettings axisSettings = null;
 		//
 		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
-			axisSettings = getXAxisSettingsMap().get(id);
+			axisSettings = getXAxisSettings(id);
 		} else {
-			axisSettings = getYAxisSettingsMap().get(id);
+			axisSettings = getYAxisSettings(id);
 		}
 		//
 		if(axisSettings instanceof ISecondaryAxisSettings) {
@@ -529,9 +548,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		IAxisSettings axisSettings = null;
 		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
-			axisSettings = getXAxisSettingsMap().get(id);
+			axisSettings = getXAxisSettings(id);
 		} else {
-			axisSettings = getYAxisSettingsMap().get(id);
+			axisSettings = getYAxisSettings(id);
 		}
 		return axisSettings;
 	}

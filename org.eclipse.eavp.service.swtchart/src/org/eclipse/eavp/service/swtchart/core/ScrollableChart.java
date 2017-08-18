@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
@@ -740,7 +739,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		IAxis xAxisPrimary = axisSet.getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
 		IPrimaryAxisSettings primaryAxisSettings = chartSettings.getPrimaryAxisSettingsX();
 		setAxisSettings(xAxisPrimary, primaryAxisSettings);
-		baseChart.getXAxisSettingsMap().put(BaseChart.ID_PRIMARY_X_AXIS, primaryAxisSettings);
+		baseChart.putXAxisSettings(BaseChart.ID_PRIMARY_X_AXIS, primaryAxisSettings);
 	}
 
 	private void addPrimaryAxisY(IChartSettings chartSettings) {
@@ -749,7 +748,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		IAxis yAxisPrimary = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 		IPrimaryAxisSettings primaryAxisSettings = chartSettings.getPrimaryAxisSettingsY();
 		setAxisSettings(yAxisPrimary, primaryAxisSettings);
-		baseChart.getYAxisSettingsMap().put(BaseChart.ID_PRIMARY_Y_AXIS, primaryAxisSettings);
+		baseChart.putYAxisSettings(BaseChart.ID_PRIMARY_Y_AXIS, primaryAxisSettings);
 	}
 
 	private void addSecondaryAxesX(IChartSettings chartSettings) {
@@ -763,12 +762,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Remove all items except the primary axis settings.
 		 */
-		Set<Integer> keySet = baseChart.getXAxisSettingsMap().keySet();
-		for(int key : keySet) {
-			if(key != BaseChart.ID_PRIMARY_X_AXIS) {
-				baseChart.getXAxisSettingsMap().remove(key);
-			}
-		}
+		baseChart.removeXAxisSettings();
 		/*
 		 * Add the axis settings.
 		 */
@@ -776,7 +770,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			int xAxisId = axisSet.createXAxis();
 			IAxis xAxisSecondary = axisSet.getXAxis(xAxisId);
 			setAxisSettings(xAxisSecondary, secondaryAxisSettings);
-			baseChart.getXAxisSettingsMap().put(xAxisId, secondaryAxisSettings);
+			baseChart.putXAxisSettings(xAxisId, secondaryAxisSettings);
 		}
 	}
 
@@ -791,12 +785,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Remove all items except the primary axis settings.
 		 */
-		Set<Integer> keySet = baseChart.getYAxisSettingsMap().keySet();
-		for(int key : keySet) {
-			if(key != BaseChart.ID_PRIMARY_Y_AXIS) {
-				baseChart.getYAxisSettingsMap().remove(key);
-			}
-		}
+		baseChart.removeYAxisSettings();
 		/*
 		 * Add the axis settings.
 		 */
@@ -804,7 +793,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			int yAxisId = axisSet.createYAxis();
 			IAxis yAxisSecondary = axisSet.getYAxis(yAxisId);
 			setAxisSettings(yAxisSecondary, secondaryAxisSettings);
-			baseChart.getYAxisSettingsMap().put(yAxisId, secondaryAxisSettings);
+			baseChart.putYAxisSettings(yAxisId, secondaryAxisSettings);
 		}
 	}
 

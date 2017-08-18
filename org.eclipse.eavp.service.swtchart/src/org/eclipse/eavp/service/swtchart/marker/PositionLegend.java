@@ -105,7 +105,7 @@ public class PositionLegend implements IExtendedPaintListener {
 		/*
 		 * X Axes
 		 */
-		IAxisSettings axisSettingsX = baseChart.getXAxisSettingsMap().get(BaseChart.ID_PRIMARY_X_AXIS);
+		IAxisSettings axisSettingsX = baseChart.getXAxisSettings(BaseChart.ID_PRIMARY_X_AXIS);
 		if(axisSettingsX != null && axisSettingsX.isVisible()) {
 			stringBuilder.append(axisLabelsX[BaseChart.ID_PRIMARY_X_AXIS]);
 			stringBuilder.append(": ");
@@ -114,7 +114,7 @@ public class PositionLegend implements IExtendedPaintListener {
 		//
 		for(int id : baseChart.getAxisSet().getXAxisIds()) {
 			if(id != BaseChart.ID_PRIMARY_X_AXIS) {
-				IAxisSettings axisSettings = baseChart.getXAxisSettingsMap().get(id);
+				IAxisSettings axisSettings = baseChart.getXAxisSettings(id);
 				if(axisSettings != null) {
 					IAxisScaleConverter axisScaleConverter = baseChart.getAxisScaleConverter(IExtendedChart.X_AXIS, id);
 					if(axisSettings.isVisible() && axisScaleConverter != null) {
@@ -135,7 +135,7 @@ public class PositionLegend implements IExtendedPaintListener {
 		/*
 		 * Y Axes
 		 */
-		IAxisSettings axisSettingsY = baseChart.getYAxisSettingsMap().get(BaseChart.ID_PRIMARY_Y_AXIS);
+		IAxisSettings axisSettingsY = baseChart.getYAxisSettings(BaseChart.ID_PRIMARY_Y_AXIS);
 		if(axisSettingsY != null && axisSettingsY.isVisible()) {
 			if(stringBuilder.length() > 0) {
 				stringBuilder.append("\n");
@@ -147,7 +147,7 @@ public class PositionLegend implements IExtendedPaintListener {
 		//
 		for(int id : baseChart.getAxisSet().getYAxisIds()) {
 			if(id != BaseChart.ID_PRIMARY_Y_AXIS) {
-				IAxisSettings axisSettings = baseChart.getYAxisSettingsMap().get(id);
+				IAxisSettings axisSettings = baseChart.getYAxisSettings(id);
 				if(axisSettings != null) {
 					IAxisScaleConverter axisScaleConverter = baseChart.getAxisScaleConverter(IExtendedChart.Y_AXIS, id);
 					if(axisSettings.isVisible() && axisScaleConverter != null) {

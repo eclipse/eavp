@@ -75,7 +75,7 @@ public class ImageRScriptExport implements ISeriesExportConverter {
 					/*
 					 * X Axis Settings
 					 */
-					IAxisSettings axisSettingsX = baseChart.getXAxisSettingsMap().get(indexAxisX);
+					IAxisSettings axisSettingsX = baseChart.getXAxisSettings(indexAxisX);
 					IAxisScaleConverter axisScaleConverterX = null;
 					if(axisSettingsX instanceof ISecondaryAxisSettings) {
 						ISecondaryAxisSettings secondaryAxisSettings = (ISecondaryAxisSettings)axisSettingsX;
@@ -84,7 +84,7 @@ public class ImageRScriptExport implements ISeriesExportConverter {
 					/*
 					 * Y Axis Settings
 					 */
-					IAxisSettings axisSettingsY = baseChart.getYAxisSettingsMap().get(indexAxisY);
+					IAxisSettings axisSettingsY = baseChart.getYAxisSettings(indexAxisY);
 					IAxisScaleConverter axisScaleConverterY = null;
 					if(axisSettingsY instanceof ISecondaryAxisSettings) {
 						ISecondaryAxisSettings secondaryAxisSettings = (ISecondaryAxisSettings)axisSettingsY;

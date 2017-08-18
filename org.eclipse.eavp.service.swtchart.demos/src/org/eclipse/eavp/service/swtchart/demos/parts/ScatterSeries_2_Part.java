@@ -37,7 +37,7 @@ import org.swtchart.ILineSeries.PlotSymbolType;
 
 public class ScatterSeries_2_Part extends ScatterChart {
 
-	private int SYMBOL_SIZE = 4;
+	private int SYMBOL_SIZE = 2;
 
 	@Inject
 	public ScatterSeries_2_Part(Composite parent) {

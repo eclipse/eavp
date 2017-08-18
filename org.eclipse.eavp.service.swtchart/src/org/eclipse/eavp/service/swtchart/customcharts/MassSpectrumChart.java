@@ -245,7 +245,7 @@ public class MassSpectrumChart extends BarChart {
 
 	private DecimalFormat getDecimalFormatMZ() {
 
-		IAxisSettings axisSettings = getBaseChart().getXAxisSettingsMap().get(BaseChart.ID_PRIMARY_X_AXIS);
+		IAxisSettings axisSettings = getBaseChart().getXAxisSettings(BaseChart.ID_PRIMARY_X_AXIS);
 		if(axisSettings != null) {
 			return axisSettings.getDecimalFormat();
 		} else {

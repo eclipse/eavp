@@ -71,7 +71,7 @@ public class TabSeparatedValuesExport implements ISeriesExportConverter {
 					/*
 					 * X Axis Settings
 					 */
-					IAxisSettings axisSettingsX = baseChart.getXAxisSettingsMap().get(indexAxisX);
+					IAxisSettings axisSettingsX = baseChart.getXAxisSettings(indexAxisX);
 					DecimalFormat decimalFormatX = axisSettingsX.getDecimalFormat();
 					IAxisScaleConverter axisScaleConverterX = null;
 					if(axisSettingsX instanceof ISecondaryAxisSettings) {
@@ -81,7 +81,7 @@ public class TabSeparatedValuesExport implements ISeriesExportConverter {
 					/*
 					 * Y Axis Settings
 					 */
-					IAxisSettings axisSettingsY = baseChart.getYAxisSettingsMap().get(indexAxisY);
+					IAxisSettings axisSettingsY = baseChart.getYAxisSettings(indexAxisY);
 					DecimalFormat decimalFormatY = axisSettingsY.getDecimalFormat();
 					IAxisScaleConverter axisScaleConverterY = null;
 					if(axisSettingsY instanceof ISecondaryAxisSettings) {
