@@ -19,9 +19,9 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
-import org.eclipse.eavp.service.swtchart.converter.MillisecondsToScanNumberConverter;
-import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.MillisecondsToMinuteConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.MillisecondsToScanNumberConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;

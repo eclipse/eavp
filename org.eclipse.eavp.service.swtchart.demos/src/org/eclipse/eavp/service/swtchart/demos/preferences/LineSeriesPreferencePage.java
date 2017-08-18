@@ -37,8 +37,8 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		//
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR, "Enable Range Selector", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR, "Color Hint Range Selector:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X, "Range Selector Default Axis X:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y, "Range Selector Default Axis Y:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X, "Range Selector Default Axis X (Index):", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y, "Range Selector Default Axis Y (Index):", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE, "Vertical Slider Visible (see Bug #511257)", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE, "Horizontal Slider Visible", getFieldEditorParent()));
 		addField(new StringFieldEditor(LineSeriesPreferenceConstants.P_TITLE, "Title:", getFieldEditorParent()));

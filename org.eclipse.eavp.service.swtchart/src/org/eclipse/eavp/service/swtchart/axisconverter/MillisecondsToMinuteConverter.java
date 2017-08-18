@@ -9,22 +9,24 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.converter;
+package org.eclipse.eavp.service.swtchart.axisconverter;
 
 import org.eclipse.eavp.service.swtchart.core.AbstractAxisScaleConverter;
 import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;
 
-public class PassThroughConverter extends AbstractAxisScaleConverter implements IAxisScaleConverter {
+public class MillisecondsToMinuteConverter extends AbstractAxisScaleConverter implements IAxisScaleConverter {
+
+	private static final double MINUTE_CORRELATION_FACTOR = 60000.0d;
 
 	@Override
 	public double convertToSecondaryUnit(double primaryValue) {
 
-		return primaryValue;
+		return primaryValue / MINUTE_CORRELATION_FACTOR;
 	}
 
 	@Override
 	public double convertToPrimaryUnit(double secondaryValue) {
 
-		return secondaryValue;
+		return secondaryValue * MINUTE_CORRELATION_FACTOR;
 	}
 }

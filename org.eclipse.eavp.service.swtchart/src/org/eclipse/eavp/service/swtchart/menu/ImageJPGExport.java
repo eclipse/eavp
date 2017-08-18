@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.export;
+package org.eclipse.eavp.service.swtchart.menu;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -18,9 +18,9 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class ImagePNGExport implements ISeriesExportConverter {
+public class ImageJPGExport implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = "*.png";
+	private static final String FILE_EXTENSION = "*.jpg";
 	private static final String NAME = "Image (" + FILE_EXTENSION + ")";
 	private static final String TITLE = "Save As Image";
 
@@ -36,7 +36,7 @@ public class ImagePNGExport implements ISeriesExportConverter {
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setOverwrite(true);
 		fileDialog.setText(NAME);
-		fileDialog.setFilterExtensions(new String[]{"*.png"});
+		fileDialog.setFilterExtensions(new String[]{"*.jpeg", "*.jpg"});
 		//
 		String fileName = fileDialog.open();
 		if(fileName != null) {
@@ -45,7 +45,7 @@ public class ImagePNGExport implements ISeriesExportConverter {
 			 */
 			ImageSupplier imageSupplier = new ImageSupplier();
 			ImageData imageData = imageSupplier.getImageData(scrollableChart.getBaseChart());
-			imageSupplier.saveImage(imageData, fileName, SWT.IMAGE_PNG);
+			imageSupplier.saveImage(imageData, fileName, SWT.IMAGE_JPEG);
 			MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 		}
 	}

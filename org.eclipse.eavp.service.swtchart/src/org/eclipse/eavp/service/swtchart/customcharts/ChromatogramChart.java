@@ -15,8 +15,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import org.eclipse.eavp.service.swtchart.converter.MillisecondsToMinuteConverter;
-import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.MillisecondsToMinuteConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;

@@ -9,9 +9,9 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.converter;
+package org.eclipse.eavp.service.swtchart.axisconverter;
 
-import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartDataCoordinates;
 import org.eclipse.swt.SWT;
 

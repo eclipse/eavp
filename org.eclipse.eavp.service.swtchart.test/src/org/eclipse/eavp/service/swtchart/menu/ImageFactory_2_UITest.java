@@ -9,24 +9,25 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.export;
+package org.eclipse.eavp.service.swtchart.menu;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eavp.service.swtchart.TestPathHelper;
+import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
-import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
-import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
-import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
-import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
+import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
+import org.eclipse.eavp.service.swtchart.menu.ImageFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
 import junit.framework.TestCase;
 
-public class ImageFactory_1_UITest extends TestCase {
+public class ImageFactory_2_UITest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
@@ -46,25 +47,25 @@ public class ImageFactory_1_UITest extends TestCase {
 			/*
 			 * Create the factory.
 			 */
-			ImageFactory<ChromatogramChart> imageFactory = new ImageFactory<ChromatogramChart>(ChromatogramChart.class, 800, 600);
+			ImageFactory<MassSpectrumChart> imageFactory = new ImageFactory<MassSpectrumChart>(MassSpectrumChart.class, 800, 600);
 			/*
 			 * Modify the chart.
 			 */
-			ChromatogramChart chromatogramChart = imageFactory.getChart();
-			chromatogramChart.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
-			List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
+			MassSpectrumChart massSpectrumChart = imageFactory.getChart();
+			massSpectrumChart.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
+			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_BAR_SERIES_1));
 			//
-			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_LINE_SERIES_1));
-			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-			ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-			lineSerieSettings.setEnableArea(true);
-			lineSeriesDataList.add(lineSeriesData);
-			chromatogramChart.addSeriesData(lineSeriesDataList);
+			IBarSeriesData barSeriesData = new BarSeriesData(seriesData);
+			IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
+			barSeriesSettings.setDescription("");
+			barSeriesDataList.add(barSeriesData);
+			massSpectrumChart.addSeriesData(barSeriesDataList);
 			/*
 			 * Export the images.
 			 */
 			String exportFolder = TestPathHelper.getAbsolutePath(TestPathHelper.TESTFOLDER_EXPORT);
-			String prefix = "LineSeries1";
+			String prefix = "BarSeries1";
 			//
 			String png = exportFolder + File.separator + prefix + ".png";
 			imageFactory.saveImage(png, SWT.IMAGE_PNG);

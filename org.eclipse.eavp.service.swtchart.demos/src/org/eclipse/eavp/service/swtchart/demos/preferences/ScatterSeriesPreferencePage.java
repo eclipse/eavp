@@ -37,8 +37,8 @@ public class ScatterSeriesPreferencePage extends FieldEditorPreferencePage imple
 		//
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR, "Enable Range Selector", getFieldEditorParent()));
 		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR, "Color Hint Range Selector:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X, "Range Selector Default Axis X:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y, "Range Selector Default Axis Y:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X, "Range Selector Default Axis X (Index):", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y, "Range Selector Default Axis Y (Index):", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VERTICAL_SLIDER_VISIBLE, "Vertical Slider Visible (see Bug #511257)", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_HORIZONTAL_SLIDER_VISIBLE, "Horizontal Slider Visible", getFieldEditorParent()));
 		addField(new StringFieldEditor(ScatterSeriesPreferenceConstants.P_TITLE, "Title:", getFieldEditorParent()));

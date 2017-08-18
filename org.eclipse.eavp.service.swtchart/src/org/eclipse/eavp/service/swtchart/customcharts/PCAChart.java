@@ -16,7 +16,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.eavp.service.swtchart.converter.PassThroughConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.PassThroughConverter;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;

@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.export;
+package org.eclipse.eavp.service.swtchart.menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;

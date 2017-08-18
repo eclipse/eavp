@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.eavp.service.swtchart.axisconverter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
-import org.eclipse.eavp.service.swtchart.converter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;

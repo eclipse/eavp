@@ -9,9 +9,9 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.converter;
+package org.eclipse.eavp.service.swtchart.axisconverter;
 
-import org.eclipse.eavp.service.swtchart.converter.PassThroughConverter;
+import org.eclipse.eavp.service.swtchart.axisconverter.PassThroughConverter;
 
 import junit.framework.TestCase;
 

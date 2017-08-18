@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.export;
+package org.eclipse.eavp.service.swtchart.menu;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;

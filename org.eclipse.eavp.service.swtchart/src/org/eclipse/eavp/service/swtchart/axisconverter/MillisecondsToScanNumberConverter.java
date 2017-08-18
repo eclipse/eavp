@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.converter;
+package org.eclipse.eavp.service.swtchart.axisconverter;
 
 import org.eclipse.eavp.service.swtchart.core.AbstractAxisScaleConverter;
 import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;

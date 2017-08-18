@@ -18,17 +18,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
-import org.eclipse.eavp.service.swtchart.export.ISeriesExportConverter;
-import org.eclipse.eavp.service.swtchart.export.ImageBMPExport;
-import org.eclipse.eavp.service.swtchart.export.ImageJPGExport;
-import org.eclipse.eavp.service.swtchart.export.ImagePNGExport;
-import org.eclipse.eavp.service.swtchart.export.ImageRScriptExport;
-import org.eclipse.eavp.service.swtchart.export.LaTeXTableExport;
-import org.eclipse.eavp.service.swtchart.export.PrinterExport;
-import org.eclipse.eavp.service.swtchart.export.TabSeparatedValuesExport;
 import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
 import org.eclipse.eavp.service.swtchart.marker.PositionMarker;
+import org.eclipse.eavp.service.swtchart.menu.ISeriesExportConverter;
+import org.eclipse.eavp.service.swtchart.menu.ImageBMPExport;
+import org.eclipse.eavp.service.swtchart.menu.ImageJPGExport;
+import org.eclipse.eavp.service.swtchart.menu.ImagePNGExport;
+import org.eclipse.eavp.service.swtchart.menu.ImageRScriptExport;
+import org.eclipse.eavp.service.swtchart.menu.LaTeXTableExport;
+import org.eclipse.eavp.service.swtchart.menu.PrinterExport;
+import org.eclipse.eavp.service.swtchart.menu.TabSeparatedValuesExport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -517,7 +517,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 */
 		setCustomPaintListener();
 		updateRangeHintPaintListener();
-		setMenu();
+		setMenuItems();
 	}
 
 	private void setCustomPaintListener() {
@@ -594,7 +594,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.addPaintListener(rangeHintPaintListener);
 	}
 
-	private void setMenu() {
+	private void setMenuItems() {
 
 		/*
 		 * Create the menu if requested.
@@ -613,6 +613,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			//
 			createPopupMenu();
 		} else {
+			/*
+			 * No menu
+			 */
 			exportConverterMap.clear();
 			baseChart.getPlotArea().setMenu(null);
 		}

@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.export;
+package org.eclipse.eavp.service.swtchart.menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,13 +29,16 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.swtchart.ISeries;
 
-public class TabSeparatedValuesExport implements ISeriesExportConverter {
+public class LaTeXTableExport implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = "*.tsv";
-	private static final String NAME = "Tab Separated Values (" + FILE_EXTENSION + ")";
+	private static final String FILE_EXTENSION = "*.tex";
+	private static final String NAME = "LaTeX Table (" + FILE_EXTENSION + ")";
 	//
-	private static final String TITLE = "Save As Tab Separated Text";
-	private static final String DELIMITER = "\t";
+	private static final String TITLE = "Save As LaTeX Table";
+	private static final String TAB = "\t";
+	private static final String DELIMITER = " & ";
+	private static final String HORIZONTAL_LINE = "\\hline";
+	private static final String LINE_END = " \\\\";
 
 	@Override
 	public String getName() {
@@ -97,9 +100,14 @@ public class TabSeparatedValuesExport implements ISeriesExportConverter {
 						/*
 						 * Header
 						 */
+						printWriter.println("\\begin{center}");
+						printWriter.println("\\begin{tabular}{ c c }");
+						//
+						printWriter.print(TAB);
 						printWriter.print(axisSettingsX.getLabel());
 						printWriter.print(DELIMITER);
-						printWriter.println(axisSettingsY.getLabel());
+						printWriter.print(axisSettingsY.getLabel());
+						printWriter.println(LINE_END);
 						/*
 						 * Data
 						 */
@@ -110,7 +118,9 @@ public class TabSeparatedValuesExport implements ISeriesExportConverter {
 								/*
 								 * Series
 								 */
-								printWriter.println(dataSeries.getId());
+								printWriter.println(TAB + HORIZONTAL_LINE);
+								printWriter.println(TAB + dataSeries.getId() + DELIMITER + LINE_END);
+								printWriter.println(TAB + HORIZONTAL_LINE);
 								//
 								double[] xSeries = dataSeries.getXSeries();
 								double[] ySeries = dataSeries.getYSeries();
@@ -122,17 +132,22 @@ public class TabSeparatedValuesExport implements ISeriesExportConverter {
 									 */
 									Point point = dataSeries.getPixelCoordinates(i);
 									if(point.x >= 0 && point.x <= widthPlotArea) {
+										printWriter.print(TAB);
 										printValue(printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, decimalFormatX, axisScaleConverterX);
 										printWriter.print(DELIMITER);
 										printValue(printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, decimalFormatY, axisScaleConverterY);
-										printWriter.println("");
+										printWriter.println(LINE_END);
 									}
 								}
 								//
-								printWriter.println("");
+								printWriter.print(TAB);
+								printWriter.print(DELIMITER);
+								printWriter.println(LINE_END);
 							}
 						}
 						//
+						printWriter.println("\\end{tabular}");
+						printWriter.println("\\end{center}");
 						printWriter.flush();
 						MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 					} catch(FileNotFoundException e) {
