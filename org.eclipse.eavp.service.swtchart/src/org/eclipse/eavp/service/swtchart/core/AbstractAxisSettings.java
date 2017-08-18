@@ -56,18 +56,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	@Override
 	public String getLabel() {
 
-		/*
-		 * Get the label.
-		 */
 		String label = "";
-		/*
-		 * Handle the primary axes separately.
-		 */
-		String description = this.description;
-		if(this instanceof IPrimaryAxisSettings) {
-			description = "";
-		}
-		//
 		if(title.equals("")) {
 			/*
 			 * Title is not set.
@@ -89,6 +78,16 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 				label = title;
 			} else {
 				label = description;
+				/*
+				 * Handle the primary axes differently,
+				 * as the description not necessarily needs to be set.
+				 * If it's the default value, then return the title.
+				 */
+				if(this instanceof IPrimaryAxisSettings) {
+					if(description.equals(BaseChart.DEFAULT_TITLE_X_AXIS) || description.equals(BaseChart.DEFAULT_TITLE_Y_AXIS)) {
+						label = title;
+					}
+				}
 			}
 		}
 		//
