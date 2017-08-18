@@ -245,62 +245,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		if(event.button == 1) {
 			if((event.stateMask & SWT.CTRL) == SWT.CTRL) {
 				/*
-				 * Highlight the selected data series.
-				 */
-				ISeries[] series = getSeriesSet().getSeries();
-				String selectedSeriesId = "";
-				/*
-				 * Get the selected series id.
-				 */
-				exitloop:
-				for(ISeries dataSeries : series) {
-					if(dataSeries != null) {
-						int size = dataSeries.getXSeries().length;
-						for(int i = 0; i < size; i++) {
-							Point point = dataSeries.getPixelCoordinates(i);
-							if(isDataSeriesSelected(point, event, 8)) {
-								selectedSeriesId = dataSeries.getId();
-								break exitloop;
-							}
-						}
-					}
-				}
-				/*
 				 * Highlight or reset the series.
 				 */
-				if(!selectedSeriesId.equals("")) {
-					/*
-					 * Highlight
-					 */
-					ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-					if(dataSeries instanceof ILineSeries) {
-						ILineSeries lineSeries = (ILineSeries)dataSeries;
-						if(lineSeries.getLineWidth() > 0) {
-							ISeriesSettings seriesSettings = getSeriesSettingsMap().get(selectedSeriesId);
-							if(seriesSettings instanceof ILineSeriesSettings) {
-								ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
-								lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
-								redraw();
-							}
-						}
-					}
+				String selectedSeriesId = getSelectedSeriedId(event);
+				if(selectedSeriesId.equals("")) {
+					resetSeriesHighlight();
 				} else {
-					/*
-					 * Reset
-					 */
-					for(ISeries dataSeries : series) {
-						if(dataSeries instanceof ILineSeries) {
-							ILineSeries lineSeries = (ILineSeries)dataSeries;
-							if(lineSeries.getLineWidth() > 0) {
-								ISeriesSettings seriesSettings = getSeriesSettingsMap().get(dataSeries.getId());
-								if(seriesSettings instanceof ILineSeriesSettings) {
-									ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
-									lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
-								}
-							}
-						}
-					}
-					redraw();
+					applySeriesHighlight(selectedSeriesId);
 				}
 			} else {
 				adjustRange(true);
@@ -308,6 +259,70 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				redraw();
 			}
 		}
+	}
+
+	private void resetSeriesHighlight() {
+
+		ISeries[] series = getSeriesSet().getSeries();
+		for(ISeries dataSeries : series) {
+			if(dataSeries instanceof ILineSeries) {
+				ILineSeries lineSeries = (ILineSeries)dataSeries;
+				if(lineSeries.getLineWidth() > 0) {
+					ISeriesSettings seriesSettings = getSeriesSettingsMap().get(dataSeries.getId());
+					if(seriesSettings instanceof ILineSeriesSettings) {
+						/*
+						 * Line Series
+						 */
+						ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
+						lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
+					}
+				}
+			}
+		}
+		redraw();
+	}
+
+	private void applySeriesHighlight(String selectedSeriesId) {
+
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries instanceof ILineSeries) {
+			ILineSeries lineSeries = (ILineSeries)dataSeries;
+			if(lineSeries.getLineWidth() > 0) {
+				ISeriesSettings seriesSettings = getSeriesSettingsMap().get(selectedSeriesId);
+				if(seriesSettings instanceof ILineSeriesSettings) {
+					/*
+					 * Line Series
+					 */
+					ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
+					lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
+					redraw();
+				}
+			}
+		}
+	}
+
+	private String getSelectedSeriedId(Event event) {
+
+		ISeries[] series = getSeriesSet().getSeries();
+		String selectedSeriesId = "";
+		/*
+		 * Get the selected series id.
+		 */
+		exitloop:
+		for(ISeries dataSeries : series) {
+			if(dataSeries != null) {
+				int size = dataSeries.getXSeries().length;
+				for(int i = 0; i < size; i++) {
+					Point point = dataSeries.getPixelCoordinates(i);
+					if(isDataSeriesSelected(point, event, 8)) {
+						selectedSeriesId = dataSeries.getId();
+						break exitloop;
+					}
+				}
+			}
+		}
+		//
+		return selectedSeriesId;
 	}
 
 	private boolean isDataSeriesSelected(Point point, Event event, int delta) {

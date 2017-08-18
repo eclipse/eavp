@@ -38,7 +38,7 @@ public interface IExtendedChart {
 	void deleteSeries(String id);
 
 	/**
-	 * Append the series with the new arrays.
+	 * Append an existing series with the new arrays.
 	 * 
 	 * @param seriesData
 	 */

@@ -256,6 +256,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		if(seriesSet.getSeries(id) != null) {
 			resetCoordinates();
 			seriesSet.deleteSeries(id);
+			seriesSettingsMap.remove(id);
 			for(ISeries series : seriesSet.getSeries()) {
 				calculateCoordinates(series);
 			}
