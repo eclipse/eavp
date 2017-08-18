@@ -55,7 +55,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private UserSelection userSelection;
 	private List<ICustomSelectionHandler> customSelectionHandlers;
 	private long clickStartTime;
-	private Set<String> highlightedSeriesIds;
+	private Set<String> selectedSeriesIds;
 
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
@@ -64,7 +64,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 */
 		userSelection = new UserSelection();
 		customSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
-		highlightedSeriesIds = new HashSet<String>();
+		selectedSeriesIds = new HashSet<String>();
 		/*
 		 * Create the default x and y axis.
 		 */
@@ -105,7 +105,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 */
 	public Set<String> getSelectedSeriesIds() {
 
-		return Collections.unmodifiableSet(highlightedSeriesIds);
+		return Collections.unmodifiableSet(selectedSeriesIds);
 	}
 
 	@Override
@@ -265,9 +265,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				 */
 				String selectedSeriesId = getSelectedSeriedId(event);
 				if(selectedSeriesId.equals("")) {
-					resetSeriesHighlight();
+					resetSelectedSeries();
 				} else {
-					applySeriesHighlight(selectedSeriesId);
+					selectSeries(selectedSeriesId);
 				}
 			} else {
 				adjustRange(true);
@@ -277,9 +277,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private void resetSeriesHighlight() {
+	public void resetSelectedSeries() {
 
-		for(String id : highlightedSeriesIds) {
+		for(String id : selectedSeriesIds) {
 			ISeries dataSeries = getSeriesSet().getSeries(id);
 			if(dataSeries instanceof ILineSeries) {
 				ILineSeries lineSeries = (ILineSeries)dataSeries;
@@ -296,11 +296,11 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			}
 		}
 		//
-		highlightedSeriesIds.clear();
+		selectedSeriesIds.clear();
 		redraw();
 	}
 
-	private void applySeriesHighlight(String selectedSeriesId) {
+	private void selectSeries(String selectedSeriesId) {
 
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries instanceof ILineSeries) {
@@ -311,7 +311,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 					/*
 					 * Line Series
 					 */
-					highlightedSeriesIds.add(selectedSeriesId);
+					selectedSeriesIds.add(selectedSeriesId);
 					ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 					lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
 					redraw();

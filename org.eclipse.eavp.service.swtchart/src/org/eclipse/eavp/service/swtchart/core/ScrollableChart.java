@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
+import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
 import org.eclipse.eavp.service.swtchart.marker.PositionMarker;
@@ -72,6 +73,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String MENU_EXPORT_CHART_SELECTION = "Export Chart Selection";
 	//
 	private static final String RESET_CHART = "Reset Chart (1:1)";
+	private static final String RESET_SELECTED_SERIES = "Reset Selected Series";
 	private static final String SHOW_RANGE_SELECTOR = "Show Range Selector";
 	private static final String SHOW_POSITION_MARKER = "Show Position Marker";
 	private static final String HIDE_POSITION_MARKER = "Hide Position Marker";
@@ -1106,6 +1108,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(menuItem.getText().equals(RESET_CHART)) {
 			adjustRange(true);
 			redraw();
+		} else if(menuItem.getText().equals(RESET_SELECTED_SERIES)) {
+			baseChart.resetSelectedSeries();
 		} else if(menuItem.getText().equals(SHOW_RANGE_SELECTOR)) {
 			showRangeSelector(true);
 		} else if(menuItem.getText().equals(SHOW_POSITION_MARKER)) {
@@ -1170,6 +1174,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		menuItem = new MenuItem(menu, SWT.PUSH);
 		menuItem.setText(RESET_CHART);
 		menuItem.addListener(SWT.Selection, this);
+		//
+		if(this instanceof LineChart) {
+			menuItem = new MenuItem(menu, SWT.PUSH);
+			menuItem.setText(RESET_SELECTED_SERIES);
+			menuItem.addListener(SWT.Selection, this);
+		}
 		//
 		if(chartSettings.isEnableRangeSelector()) {
 			menuItem = new MenuItem(menu, SWT.PUSH);
