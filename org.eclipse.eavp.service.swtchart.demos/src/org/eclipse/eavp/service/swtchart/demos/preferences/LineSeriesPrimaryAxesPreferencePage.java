@@ -44,7 +44,7 @@ public class LineSeriesPrimaryAxesPreferencePage extends FieldEditorPreferencePa
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE, "Primary X-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE, "Primary X-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE, "Primary X-Axis Enable Log Scale", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_MARGIN_TITLE, "Primary X-Axis Margin Title:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE, "Primary X-Axis Extra Space Title:", getFieldEditorParent()));
 		//
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		addField(new LabelFieldEditor("Y-Axis", getFieldEditorParent()));
@@ -59,7 +59,7 @@ public class LineSeriesPrimaryAxesPreferencePage extends FieldEditorPreferencePa
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE, "Primary Y-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, "Primary Y-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE, "Primary Y-Axis Enable Log Scale", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_MARGIN_TITLE, "Primary Y-Axis Margin Title:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE, "Primary Y-Axis Extra Space Title:", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

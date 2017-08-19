@@ -31,10 +31,6 @@ public interface IAxisSettings {
 
 	void setTitle(String title);
 
-	int getMarginTitle();
-
-	void setMarginTitle(int marginTitle);
-
 	String getDescription();
 
 	void setDescription(String description);
@@ -76,4 +72,8 @@ public interface IAxisSettings {
 	boolean isEnableLogScale();
 
 	void setEnableLogScale(boolean enableLogScale);
+
+	int getExtraSpaceTitle();
+
+	void setExtraSpaceTitle(int extraSpaceTitle);
 }

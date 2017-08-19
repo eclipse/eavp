@@ -30,7 +30,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private Color gridColor;
 	private LineStyle gridLineStyle;
 	private boolean enableLogScale;
-	private int marginTitle;
+	private int extraSpaceTitle;
 
 	public AbstractAxisSettings(String title) {
 		/*
@@ -50,7 +50,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		gridColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 		gridLineStyle = LineStyle.DOT;
 		enableLogScale = false;
-		marginTitle = 25;
+		extraSpaceTitle = 25;
 	}
 
 	@Override
@@ -203,14 +203,14 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	}
 
 	@Override
-	public int getMarginTitle() {
+	public int getExtraSpaceTitle() {
 
-		return marginTitle;
+		return extraSpaceTitle;
 	}
 
 	@Override
-	public void setMarginTitle(int marginTitle) {
+	public void setExtraSpaceTitle(int extraSpaceTitle) {
 
-		this.marginTitle = marginTitle;
+		this.extraSpaceTitle = extraSpaceTitle;
 	}
 }

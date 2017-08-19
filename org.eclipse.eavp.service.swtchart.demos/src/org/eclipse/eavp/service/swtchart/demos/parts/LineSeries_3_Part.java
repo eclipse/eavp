@@ -92,14 +92,14 @@ public class LineSeries_3_Part extends LineChart {
 		secondaryAxisSettingsX1.setPosition(Position.Primary);
 		secondaryAxisSettingsX1.setDecimalFormat(new DecimalFormat(("0"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		secondaryAxisSettingsX1.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		secondaryAxisSettingsX1.setMarginTitle(0);
+		secondaryAxisSettingsX1.setExtraSpaceTitle(0);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX1);
 		//
 		ISecondaryAxisSettings secondaryAxisSettingsX2 = new SecondaryAxisSettings("Minutes", new MillisecondsToMinuteConverter());
 		secondaryAxisSettingsX2.setPosition(Position.Primary);
 		secondaryAxisSettingsX2.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		secondaryAxisSettingsX2.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		secondaryAxisSettingsX2.setMarginTitle(0);
+		secondaryAxisSettingsX2.setExtraSpaceTitle(0);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX2);
 		/*
 		 * Secondary Y-Axes

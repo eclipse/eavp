@@ -44,7 +44,7 @@ public class BarSeriesSecondaryAxesPreferencePage extends FieldEditorPreferenceP
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE, "Secondary Y-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE, "Secondary Y-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE, "Secondary Y-Axis Enable Log Scale", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_MARGIN_TITLE, "Secondary Y-Axis Margin Title:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE, "Secondary Y-Axis Extra Space Title:", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

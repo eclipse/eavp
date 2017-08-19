@@ -833,7 +833,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			styleRange.length = axisText.length();
 			styleRange.foreground = color;
 			styleRange.font = font;
-			styleRange.rise = getAxisTitleMargin(axis, axisSettings);
+			styleRange.rise = getAxisExtraSpaceTitle(axis, axisSettings);
 			title.setStyleRanges(new StyleRange[]{styleRange});
 			//
 			axis.enableLogScale(axisSettings.isEnableLogScale());
@@ -854,9 +854,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private int getAxisTitleMargin(IAxis axis, IAxisSettings axisSettings) {
+	private int getAxisExtraSpaceTitle(IAxis axis, IAxisSettings axisSettings) {
 
-		int marginTitle = axisSettings.getMarginTitle();
+		int extraSpaceTitle = axisSettings.getExtraSpaceTitle();
 		int orientation = getChartSettings().getOrientation();
 		Direction direction = axis.getDirection();
 		/*
@@ -869,7 +869,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * Secondary = top side
 			 */
 			if(axisSettings.getPosition().equals(Position.Primary)) {
-				marginTitle *= -1;
+				extraSpaceTitle *= -1;
 			}
 		} else {
 			/*
@@ -878,17 +878,17 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * Secondary = right side
 			 */
 			if(axisSettings.getPosition().equals(Position.Secondary)) {
-				marginTitle *= -1;
+				extraSpaceTitle *= -1;
 			}
 		}
 		/*
 		 * Switch the side of the margin.
 		 */
 		if(orientation == SWT.VERTICAL) {
-			marginTitle *= -1;
+			extraSpaceTitle *= -1;
 		}
 		//
-		return marginTitle;
+		return extraSpaceTitle;
 	}
 
 	private void fireUpdateCustomSelectionHandlers(Event event) {
