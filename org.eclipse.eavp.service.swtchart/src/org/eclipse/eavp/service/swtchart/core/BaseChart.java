@@ -269,7 +269,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				} else {
 					selectSeries(selectedSeriesId);
 				}
+			} else if((event.stateMask & SWT.SHIFT) == SWT.SHIFT) {
+				/*
+				 * Hide series or reset the series.
+				 */
+				String selectedSeriesId = getSelectedSeriedId(event);
+				if(selectedSeriesId.equals("")) {
+					resetSelectedSeries();
+				} else {
+					hideSeries(selectedSeriesId);
+				}
 			} else {
+				/*
+				 * 1:1
+				 */
 				adjustRange(true);
 				fireUpdateCustomSelectionHandlers(event);
 				redraw();
@@ -279,8 +292,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void resetSelectedSeries() {
 
-		for(String id : selectedSeriesIds) {
-			ISeries dataSeries = getSeriesSet().getSeries(id);
+		ISeries[] series = getSeriesSet().getSeries();
+		for(ISeries dataSeries : series) {
 			if(dataSeries instanceof ILineSeries) {
 				ILineSeries lineSeries = (ILineSeries)dataSeries;
 				if(lineSeries.getLineWidth() > 0) {
@@ -291,6 +304,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 						 */
 						ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 						lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
+						lineSeries.setVisible(lineSeriesSettings.isVisible());
+						lineSeries.setVisibleInLegend(lineSeriesSettings.isVisibleInLegend());
 					}
 				}
 			}
@@ -317,6 +332,21 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 					redraw();
 				}
 			}
+		}
+	}
+
+	private void hideSeries(String selectedSeriesId) {
+
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries instanceof ILineSeries) {
+			/*
+			 * Line Series
+			 */
+			ILineSeries lineSeries = (ILineSeries)dataSeries;
+			selectedSeriesIds.remove(selectedSeriesId);
+			lineSeries.setVisible(false);
+			lineSeries.setVisibleInLegend(false);
+			redraw();
 		}
 	}
 
