@@ -286,37 +286,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
-	public void handleEvent(Event event) {
-
-		switch(event.type) {
-			case SWT.KeyDown:
-				handleKeyDownEvent(event);
-				break;
-			case SWT.KeyUp:
-				handleKeyUpEvent(event);
-				break;
-			case SWT.MouseMove:
-				handleMouseMoveEvent(event);
-				break;
-			case SWT.MouseDown:
-				handleMouseDownEvent(event);
-				break;
-			case SWT.MouseUp:
-				handleMouseUpEvent(event);
-				break;
-			case SWT.MouseWheel:
-				handleMouseWheel(event);
-				break;
-			case SWT.MouseDoubleClick:
-				handleMouseDoubleClick(event);
-				break;
-			case SWT.Selection:
-				handleSelectionEvent(event);
-				break;
-		}
-	}
-
-	@Override
 	public void handleMouseMoveEvent(Event event) {
 
 		baseChart.handleMouseMoveEvent(event);

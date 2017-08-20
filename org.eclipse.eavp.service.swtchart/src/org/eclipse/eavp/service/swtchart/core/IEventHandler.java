@@ -11,25 +11,83 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+/**
+ * Default methods are used as BaseChart and ScrollableChart
+ * both have to support the same methods, but inheritance is
+ * not possible.
+ *
+ */
 public interface IEventHandler extends Listener, PaintListener {
 
-	void handleMouseMoveEvent(Event event);
+	default void handleEvent(Event event) {
 
-	void handleMouseDownEvent(Event event);
+		switch(event.type) {
+			case SWT.KeyDown:
+				handleKeyDownEvent(event);
+				break;
+			case SWT.KeyUp:
+				handleKeyUpEvent(event);
+				break;
+			case SWT.MouseMove:
+				handleMouseMoveEvent(event);
+				break;
+			case SWT.MouseDown:
+				handleMouseDownEvent(event);
+				break;
+			case SWT.MouseUp:
+				handleMouseUpEvent(event);
+				break;
+			case SWT.MouseWheel:
+				handleMouseWheel(event);
+				break;
+			case SWT.MouseDoubleClick:
+				handleMouseDoubleClick(event);
+				break;
+			case SWT.Selection:
+				handleSelectionEvent(event);
+				break;
+		}
+	}
 
-	void handleMouseUpEvent(Event event);
+	default void paintControl(PaintEvent e) {
 
-	void handleMouseWheel(Event event);
+	}
 
-	void handleMouseDoubleClick(Event event);
+	default void handleMouseMoveEvent(Event event) {
 
-	void handleKeyDownEvent(Event event);
+	}
 
-	void handleKeyUpEvent(Event event);
+	default void handleMouseDownEvent(Event event) {
 
-	void handleSelectionEvent(Event event);
+	}
+
+	default void handleMouseUpEvent(Event event) {
+
+	}
+
+	default void handleMouseWheel(Event event) {
+
+	}
+
+	default void handleMouseDoubleClick(Event event) {
+
+	}
+
+	default void handleKeyDownEvent(Event event) {
+
+	}
+
+	default void handleKeyUpEvent(Event event) {
+
+	}
+
+	default void handleSelectionEvent(Event event) {
+
+	}
 }
