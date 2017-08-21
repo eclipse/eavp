@@ -9,16 +9,17 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.menu.export;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.eavp.service.swtchart.support.ImageSupplier;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class ImageBMPExport implements ISeriesExportConverter {
+public class BMPExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.bmp";
 	private static final String NAME = "Image (" + FILE_EXTENSION + ")";
@@ -31,7 +32,7 @@ public class ImageBMPExport implements ISeriesExportConverter {
 	}
 
 	@Override
-	public void export(Shell shell, ScrollableChart scrollableChart) {
+	public void execute(Shell shell, ScrollableChart scrollableChart) {
 
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setOverwrite(true);

@@ -9,11 +9,12 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.menu.export;
 
-public interface ICategories {
+import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 
-	String STANDARD_OPERATION = ""; // Must be empty to be placed on the main menu level.
-	String TOGGLE_VISIBILITY = "Toggle Visibility";
-	String EXPORT_CONVERTER = "Export Chart Selection";
+public interface ISeriesExportConverter extends IMenuEntry {
+
+	String MESSAGE_OK = "The data has been exported successully.";
+	String MESSAGE_ERROR = "Sorry, something has gone wrong to export the data.";
 }

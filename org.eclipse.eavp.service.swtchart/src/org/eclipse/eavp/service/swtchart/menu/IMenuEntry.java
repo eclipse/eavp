@@ -11,9 +11,19 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.menu;
 
-public interface ICategories {
+import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.swt.widgets.Shell;
 
-	String STANDARD_OPERATION = ""; // Must be empty to be placed on the main menu level.
-	String TOGGLE_VISIBILITY = "Toggle Visibility";
-	String EXPORT_CONVERTER = "Export Chart Selection";
+public interface IMenuEntry {
+
+	String getCategory();
+
+	String getName();
+
+	default boolean isEnabled(ScrollableChart scrollableChart) {
+
+		return true;
+	}
+
+	void execute(Shell shell, ScrollableChart scrollableChart);
 }

@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.support;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.graphics.GC;

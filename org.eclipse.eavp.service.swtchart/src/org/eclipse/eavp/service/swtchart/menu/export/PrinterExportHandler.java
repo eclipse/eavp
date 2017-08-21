@@ -9,9 +9,10 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.menu.export;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.eavp.service.swtchart.support.ImageSupplier;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -22,7 +23,7 @@ import org.eclipse.swt.printing.Printer;
 import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.swt.widgets.Shell;
 
-public class PrinterExport implements ISeriesExportConverter {
+public class PrinterExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String NAME = "Print";
 	private static final String TITLE = "Save Selection";
@@ -34,7 +35,7 @@ public class PrinterExport implements ISeriesExportConverter {
 	}
 
 	@Override
-	public void export(Shell shell, ScrollableChart scrollableChart) {
+	public void execute(Shell shell, ScrollableChart scrollableChart) {
 
 		/*
 		 * Print using the installed printer dialog.

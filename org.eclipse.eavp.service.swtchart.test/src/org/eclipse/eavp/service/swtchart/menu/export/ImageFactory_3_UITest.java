@@ -9,7 +9,7 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.menu.export;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,10 +18,11 @@ import java.util.List;
 import org.eclipse.eavp.service.swtchart.TestPathHelper;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.PCAChart;
-import org.eclipse.eavp.service.swtchart.menu.ImageFactory;
+import org.eclipse.eavp.service.swtchart.menu.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesData;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.ScatterSeriesData;
+import org.eclipse.eavp.service.swtchart.support.ImageFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;

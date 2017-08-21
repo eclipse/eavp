@@ -14,12 +14,24 @@ package org.eclipse.eavp.service.swtchart.menu;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;
 
-public interface ISeriesExportConverter {
+public class ResetChartHandler implements IMenuEntry {
 
-	String MESSAGE_OK = "The data has been exported successully.";
-	String MESSAGE_ERROR = "Sorry, something has gone wrong to export the data.";
+	@Override
+	public String getCategory() {
 
-	String getName();
+		return ICategories.STANDARD_OPERATION;
+	}
 
-	void export(Shell shell, ScrollableChart scrollableChart);
+	@Override
+	public String getName() {
+
+		return "Reset Chart (1:1)";
+	}
+
+	@Override
+	public void execute(Shell shell, ScrollableChart scrollableChart) {
+
+		scrollableChart.adjustRange(true);
+		scrollableChart.redraw();
+	}
 }

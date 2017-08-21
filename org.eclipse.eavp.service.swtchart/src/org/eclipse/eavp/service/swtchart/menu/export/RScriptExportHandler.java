@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.menu.export;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.swtchart.ISeries;
 
-public class ImageRScriptExport implements ISeriesExportConverter {
+public class RScriptExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.R";
 	private static final String NAME = "Image R-Script (" + FILE_EXTENSION + ")";
@@ -48,7 +48,7 @@ public class ImageRScriptExport implements ISeriesExportConverter {
 	}
 
 	@Override
-	public void export(Shell shell, ScrollableChart scrollableChart) {
+	public void execute(Shell shell, ScrollableChart scrollableChart) {
 
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		/*
