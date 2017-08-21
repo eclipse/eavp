@@ -16,7 +16,7 @@ import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.swt.widgets.Shell;
 
-public class ResetSelectedSeriesHandler implements IMenuEntry {
+public class ResetSelectedSeriesHandler extends AbstractMenuEntry implements IMenuEntry {
 
 	@Override
 	public String getCategory() {

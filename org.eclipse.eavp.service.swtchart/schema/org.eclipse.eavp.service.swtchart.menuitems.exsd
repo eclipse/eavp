@@ -55,7 +55,7 @@
                   Add your specific menu item implementations here.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.eavp.service.swtchart.menu.IMenuEntry"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry:org.eclipse.eavp.service.swtchart.menu.IMenuEntry"/>
                </appinfo>
             </annotation>
          </attribute>

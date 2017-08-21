@@ -29,20 +29,6 @@ import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
 import org.eclipse.eavp.service.swtchart.marker.PositionMarker;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
-import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
-import org.eclipse.eavp.service.swtchart.menu.ResetSelectedSeriesHandler;
-import org.eclipse.eavp.service.swtchart.menu.ToggleCenterMarkerHandler;
-import org.eclipse.eavp.service.swtchart.menu.TogglePositionLegendHandler;
-import org.eclipse.eavp.service.swtchart.menu.TogglePositionMarkerHandler;
-import org.eclipse.eavp.service.swtchart.menu.ToggleRangeSelectorHandler;
-import org.eclipse.eavp.service.swtchart.menu.ToggleSeriesLegendHandler;
-import org.eclipse.eavp.service.swtchart.menu.export.BMPExportHandler;
-import org.eclipse.eavp.service.swtchart.menu.export.JPGExportHandler;
-import org.eclipse.eavp.service.swtchart.menu.export.LaTeXTableExportHandler;
-import org.eclipse.eavp.service.swtchart.menu.export.PNGExportHandler;
-import org.eclipse.eavp.service.swtchart.menu.export.PrinterExportHandler;
-import org.eclipse.eavp.service.swtchart.menu.export.RScriptExportHandler;
-import org.eclipse.eavp.service.swtchart.menu.export.TSVExportHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.events.MouseAdapter;
@@ -377,26 +363,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.paintControl(e);
 	}
 
-	public void addMenuEntry(IMenuEntry menuEntry) {
-
-		if(menuEntry != null) {
-			String category = menuEntry.getCategory();
-			Set<IMenuEntry> menuEntries = categoryMenuEntriesMap.get(category);
-			/*
-			 * Create set if not existent.
-			 */
-			if(menuEntries == null) {
-				menuEntries = new HashSet<IMenuEntry>();
-				categoryMenuEntriesMap.put(category, menuEntries);
-			}
-			/*
-			 * Add the entry.
-			 */
-			menuEntries.add(menuEntry);
-			menuEntryMap.put(menuEntry.getName(), menuEntry);
-		}
-	}
-
 	public void toggleRangeSelectorVisibility() {
 
 		showRangeSelector(!rangeSelector.isVisible());
@@ -656,42 +622,29 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setMenuItems() {
 
 		/*
+		 * Clear the existing entries.
+		 */
+		categoryMenuEntriesMap.clear();
+		menuEntryMap.clear();
+		/*
 		 * Create the menu if requested.
 		 */
 		if(chartSettings.isCreateMenu()) {
-			/*
-			 * Add the default menu entries.
-			 */
-			addMenuEntry(new ResetChartHandler());
-			addMenuEntry(new ResetSelectedSeriesHandler());
-			//
-			addMenuEntry(new ToggleRangeSelectorHandler());
-			addMenuEntry(new TogglePositionLegendHandler());
-			addMenuEntry(new TogglePositionMarkerHandler());
-			addMenuEntry(new ToggleSeriesLegendHandler());
-			addMenuEntry(new ToggleCenterMarkerHandler());
-			//
-			addMenuEntry(new JPGExportHandler());
-			addMenuEntry(new PNGExportHandler());
-			addMenuEntry(new BMPExportHandler());
-			addMenuEntry(new TSVExportHandler());
-			addMenuEntry(new LaTeXTableExportHandler());
-			addMenuEntry(new RScriptExportHandler());
-			addMenuEntry(new PrinterExportHandler());
-			/*
-			 * Add menu items from the extension point registry
-			 * if it is used and items are available.
-			 */
+			addMenuItemsFromChartSettings();
 			addMenuItemsFromExtensionPoint();
-			//
 			createPopupMenu();
 		} else {
 			/*
 			 * No menu
 			 */
-			categoryMenuEntriesMap.clear();
-			menuEntryMap.clear();
 			baseChart.getPlotArea().setMenu(null);
+		}
+	}
+
+	private void addMenuItemsFromChartSettings() {
+
+		for(IMenuEntry menuEntry : chartSettings.getMenuEntries()) {
+			addMenuEntry(menuEntry);
 		}
 	}
 
@@ -1193,6 +1146,26 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		Menu menu = new Menu(plotArea);
 		plotArea.setMenu(menu);
 		createMenuItems(menu);
+	}
+
+	private void addMenuEntry(IMenuEntry menuEntry) {
+
+		if(menuEntry != null) {
+			String category = menuEntry.getCategory();
+			Set<IMenuEntry> menuEntries = categoryMenuEntriesMap.get(category);
+			/*
+			 * Create set if not existent.
+			 */
+			if(menuEntries == null) {
+				menuEntries = new HashSet<IMenuEntry>();
+				categoryMenuEntriesMap.put(category, menuEntries);
+			}
+			/*
+			 * Add the entry.
+			 */
+			menuEntries.add(menuEntry);
+			menuEntryMap.put(menuEntry.getName(), menuEntry);
+		}
 	}
 
 	private void createMenuItems(Menu menu) {

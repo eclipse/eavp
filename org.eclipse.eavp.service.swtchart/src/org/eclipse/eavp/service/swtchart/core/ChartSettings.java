@@ -12,8 +12,26 @@
 package org.eclipse.eavp.service.swtchart.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
+import org.eclipse.eavp.service.swtchart.menu.ResetSelectedSeriesHandler;
+import org.eclipse.eavp.service.swtchart.menu.ToggleCenterMarkerHandler;
+import org.eclipse.eavp.service.swtchart.menu.TogglePositionLegendHandler;
+import org.eclipse.eavp.service.swtchart.menu.TogglePositionMarkerHandler;
+import org.eclipse.eavp.service.swtchart.menu.ToggleRangeSelectorHandler;
+import org.eclipse.eavp.service.swtchart.menu.ToggleSeriesLegendHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.BMPExportHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.JPGExportHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.LaTeXTableExportHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.PNGExportHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.PrinterExportHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.RScriptExportHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.TSVExportHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
@@ -55,6 +73,7 @@ public class ChartSettings implements IChartSettings {
 	private Color colorPositionLegend;
 	//
 	private boolean createMenu;
+	private Set<IMenuEntry> menuEntries;
 
 	public ChartSettings() {
 		//
@@ -104,6 +123,21 @@ public class ChartSettings implements IChartSettings {
 		colorPositionLegend = display.getSystemColor(SWT.COLOR_DARK_GRAY);
 		//
 		createMenu = false;
+		menuEntries = new HashSet<IMenuEntry>();
+		menuEntries.add(new ResetChartHandler());
+		menuEntries.add(new ResetSelectedSeriesHandler());
+		menuEntries.add(new ToggleRangeSelectorHandler());
+		menuEntries.add(new TogglePositionLegendHandler());
+		menuEntries.add(new TogglePositionMarkerHandler());
+		menuEntries.add(new ToggleSeriesLegendHandler());
+		menuEntries.add(new ToggleCenterMarkerHandler());
+		menuEntries.add(new JPGExportHandler());
+		menuEntries.add(new PNGExportHandler());
+		menuEntries.add(new BMPExportHandler());
+		menuEntries.add(new TSVExportHandler());
+		menuEntries.add(new LaTeXTableExportHandler());
+		menuEntries.add(new RScriptExportHandler());
+		menuEntries.add(new PrinterExportHandler());
 	}
 
 	@Override
@@ -427,5 +461,29 @@ public class ChartSettings implements IChartSettings {
 	public void setCreateMenu(boolean createMenu) {
 
 		this.createMenu = createMenu;
+	}
+
+	@Override
+	public void addMenuEntry(IMenuEntry menuEntry) {
+
+		menuEntries.add(menuEntry);
+	}
+
+	@Override
+	public void removeMenuEntry(IMenuEntry menuEntry) {
+
+		menuEntries.remove(menuEntry);
+	}
+
+	@Override
+	public Set<IMenuEntry> getMenuEntries() {
+
+		return Collections.unmodifiableSet(menuEntries);
+	}
+
+	@Override
+	public void clearMenuEntries() {
+
+		menuEntries.clear();
 	}
 }

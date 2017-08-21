@@ -12,7 +12,9 @@
 package org.eclipse.eavp.service.swtchart.core;
 
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.swt.graphics.Color;
 
 public interface IChartSettings {
@@ -133,4 +135,12 @@ public interface IChartSettings {
 	boolean isCreateMenu();
 
 	void setCreateMenu(boolean createMenu);
+
+	void addMenuEntry(IMenuEntry menuEntry);
+
+	void removeMenuEntry(IMenuEntry menuEntry);
+
+	Set<IMenuEntry> getMenuEntries();
+
+	void clearMenuEntries();
 }

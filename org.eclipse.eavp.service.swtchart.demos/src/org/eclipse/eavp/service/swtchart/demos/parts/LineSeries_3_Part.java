@@ -114,8 +114,8 @@ public class LineSeries_3_Part extends LineChart {
 		/*
 		 * Add menu items.
 		 */
-		addMenuEntry(new ZoomInHandler());
-		addMenuEntry(new ZoomOutHandler());
+		chartSettings.addMenuEntry(new ZoomInHandler());
+		chartSettings.addMenuEntry(new ZoomOutHandler());
 		//
 		applySettings(chartSettings);
 		/*

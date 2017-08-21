@@ -14,7 +14,7 @@ package org.eclipse.eavp.service.swtchart.menu;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;
 
-public class ToggleSeriesLegendHandler implements IMenuEntry {
+public class ToggleSeriesLegendHandler extends AbstractMenuEntry implements IMenuEntry {
 
 	@Override
 	public String getCategory() {

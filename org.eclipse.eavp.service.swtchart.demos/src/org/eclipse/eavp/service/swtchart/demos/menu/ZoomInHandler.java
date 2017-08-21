@@ -12,11 +12,12 @@
 package org.eclipse.eavp.service.swtchart.demos.menu;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry;
 import org.eclipse.eavp.service.swtchart.menu.ICategories;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.swt.widgets.Shell;
 
-public class ZoomInHandler implements IMenuEntry {
+public class ZoomInHandler extends AbstractMenuEntry implements IMenuEntry {
 
 	@Override
 	public String getCategory() {

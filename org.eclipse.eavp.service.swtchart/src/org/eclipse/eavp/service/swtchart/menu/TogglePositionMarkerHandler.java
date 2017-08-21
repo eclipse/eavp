@@ -15,7 +15,7 @@ import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;
 
-public class TogglePositionMarkerHandler implements IMenuEntry {
+public class TogglePositionMarkerHandler extends AbstractMenuEntry implements IMenuEntry {
 
 	@Override
 	public String getCategory() {
