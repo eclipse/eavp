@@ -38,6 +38,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int ID_PRIMARY_Y_AXIS = 0;
 	public static final String DEFAULT_TITLE_X_AXIS = "X-Axis";
 	public static final String DEFAULT_TITLE_Y_AXIS = "Y-Axis";
+	//
+	public static final int MOUSE_BUTTON_LEFT = 1;
+	public static final int MOUSE_BUTTON_MIDDLE = 2;
+	public static final int MOUSE_BUTTON_RIGHT = 3;
 	/*
 	 * Prevent accidental zooming.
 	 * At least 30% of the chart width or height needs to be selected.
@@ -160,7 +164,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseDownEvent(Event event) {
 
-		if(event.button == 1) {
+		if(event.button == MOUSE_BUTTON_LEFT) {
 			userSelection.setStartCoordinate(event.x, event.y);
 			clickStartTime = System.currentTimeMillis();
 		}
@@ -169,7 +173,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseUpEvent(Event event) {
 
-		if(event.button == 1) {
+		if(event.button == MOUSE_BUTTON_LEFT) {
 			long deltaTime = System.currentTimeMillis() - clickStartTime;
 			if(deltaTime >= DELTA_CLICK_TIME) {
 				handleUserSelection(event);
@@ -229,36 +233,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		redraw();
 	}
 
-	private void zoomX(IAxis xAxis, Event event) {
-
-		/*
-		 * X Axis
-		 */
-		double coordinateX = xAxis.getDataCoordinate(event.x);
-		if(event.count > 0) {
-			xAxis.zoomIn(coordinateX);
-		} else {
-			xAxis.zoomOut(coordinateX);
-		}
-	}
-
-	private void zoomY(IAxis yAxis, Event event) {
-
-		/*
-		 * Y Axis
-		 */
-		double coordinateY = yAxis.getDataCoordinate(event.y);
-		if(event.count > 0) {
-			yAxis.zoomIn(coordinateY);
-		} else {
-			yAxis.zoomOut(coordinateY);
-		}
-	}
-
 	@Override
 	public void handleMouseDoubleClick(Event event) {
 
-		if(event.button == 1) {
+		if(event.button == MOUSE_BUTTON_LEFT) {
 			if((event.stateMask & SWT.CTRL) == SWT.CTRL) {
 				/*
 				 * Highlight or reset the series.
@@ -313,6 +291,111 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		selectedSeriesIds.clear();
 		redraw();
+	}
+
+	public String[] getAxisLabels(String axisOrientation) {
+
+		IAxis[] axes = getAxes(axisOrientation);
+		int size = axes.length;
+		String[] items = new String[size];
+		//
+		for(int i = 0; i < size; i++) {
+			/*
+			 * Get the label.
+			 */
+			String label;
+			IAxisSettings axisSettings = getAxisSettings(axisOrientation, i);
+			if(axisSettings != null) {
+				label = axisSettings.getLabel();
+			} else {
+				label = "not set";
+			}
+			items[i] = label;
+		}
+		return items;
+	}
+
+	public DecimalFormat getDecimalFormat(String axisOrientation, int id) {
+
+		DecimalFormat decimalFormat;
+		IAxisSettings axisSettings = getAxisSettings(axisOrientation, id);
+		//
+		if(axisSettings != null) {
+			decimalFormat = axisSettings.getDecimalFormat();
+		} else {
+			decimalFormat = new DecimalFormat();
+		}
+		return decimalFormat;
+	}
+
+	/**
+	 * May return null.
+	 * 
+	 * axis =
+	 * IExtendedChart.X_AXIS
+	 * or
+	 * IExtendedChart.Y_AXIS
+	 * 
+	 * @param axisOrientation
+	 * @param id
+	 * @return IAxisScaleConverter
+	 */
+	public IAxisScaleConverter getAxisScaleConverter(String axisOrientation, int id) {
+
+		IAxisScaleConverter axisScaleConverter = null;
+		IAxisSettings axisSettings = null;
+		//
+		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
+			axisSettings = getXAxisSettings(id);
+		} else {
+			axisSettings = getYAxisSettings(id);
+		}
+		//
+		if(axisSettings instanceof ISecondaryAxisSettings) {
+			axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+		}
+		//
+		return axisScaleConverter;
+	}
+
+	protected void fireUpdateCustomSelectionHandlers(Event event) {
+
+		/*
+		 * Handle the custom user selection handlers.
+		 */
+		for(ICustomSelectionHandler customSelectionHandler : customSelectionHandlers) {
+			try {
+				customSelectionHandler.handleUserSelection(event);
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+		}
+	}
+
+	private void zoomX(IAxis xAxis, Event event) {
+
+		/*
+		 * X Axis
+		 */
+		double coordinateX = xAxis.getDataCoordinate(event.x);
+		if(event.count > 0) {
+			xAxis.zoomIn(coordinateX);
+		} else {
+			xAxis.zoomOut(coordinateX);
+		}
+	}
+
+	private void zoomY(IAxis yAxis, Event event) {
+
+		/*
+		 * Y Axis
+		 */
+		double coordinateY = yAxis.getDataCoordinate(event.y);
+		if(event.count > 0) {
+			yAxis.zoomIn(coordinateY);
+		} else {
+			yAxis.zoomOut(coordinateY);
+		}
 	}
 
 	private void selectSeries(String selectedSeriesId) {
@@ -480,85 +563,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				setRange(xAxis, yStart, yStop, true);
 			} else if(rangeRestriction.isYZoomOnly()) {
 				setRange(yAxis, xStart, xStop, true);
-			}
-		}
-	}
-
-	public String[] getAxisLabels(String axisOrientation) {
-
-		IAxis[] axes = getAxes(axisOrientation);
-		int size = axes.length;
-		String[] items = new String[size];
-		//
-		for(int i = 0; i < size; i++) {
-			/*
-			 * Get the label.
-			 */
-			String label;
-			IAxisSettings axisSettings = getAxisSettings(axisOrientation, i);
-			if(axisSettings != null) {
-				label = axisSettings.getLabel();
-			} else {
-				label = "not set";
-			}
-			items[i] = label;
-		}
-		return items;
-	}
-
-	public DecimalFormat getDecimalFormat(String axisOrientation, int id) {
-
-		DecimalFormat decimalFormat;
-		IAxisSettings axisSettings = getAxisSettings(axisOrientation, id);
-		//
-		if(axisSettings != null) {
-			decimalFormat = axisSettings.getDecimalFormat();
-		} else {
-			decimalFormat = new DecimalFormat();
-		}
-		return decimalFormat;
-	}
-
-	/**
-	 * May return null.
-	 * 
-	 * axis =
-	 * IExtendedChart.X_AXIS
-	 * or
-	 * IExtendedChart.Y_AXIS
-	 * 
-	 * @param axisOrientation
-	 * @param id
-	 * @return IAxisScaleConverter
-	 */
-	public IAxisScaleConverter getAxisScaleConverter(String axisOrientation, int id) {
-
-		IAxisScaleConverter axisScaleConverter = null;
-		IAxisSettings axisSettings = null;
-		//
-		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
-			axisSettings = getXAxisSettings(id);
-		} else {
-			axisSettings = getYAxisSettings(id);
-		}
-		//
-		if(axisSettings instanceof ISecondaryAxisSettings) {
-			axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
-		}
-		//
-		return axisScaleConverter;
-	}
-
-	protected void fireUpdateCustomSelectionHandlers(Event event) {
-
-		/*
-		 * Handle the custom user selection handlers.
-		 */
-		for(ICustomSelectionHandler customSelectionHandler : customSelectionHandlers) {
-			try {
-				customSelectionHandler.handleUserSelection(event);
-			} catch(Exception e) {
-				System.out.println(e);
 			}
 		}
 	}

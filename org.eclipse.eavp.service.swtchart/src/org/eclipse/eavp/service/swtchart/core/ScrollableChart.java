@@ -66,10 +66,13 @@ import org.swtchart.Range;
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
 	public static final int NO_COMPRESS_TO_LENGTH = Integer.MAX_VALUE;
-	//
+	/*
+	 * Menu extensions via Equinox.
+	 */
 	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.eavp.service.swtchart.menuitems";
 	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry";
-	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
+	//
+	private IChartSettings chartSettings;
 	//
 	private Map<String, Set<IMenuEntry>> categoryMenuEntriesMap;
 	private Map<String, IMenuEntry> menuEntryMap;
@@ -79,7 +82,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private RangeSelector rangeSelector;
 	private BaseChart baseChart;
 	//
-	private IChartSettings chartSettings;
+	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
 	private boolean showRangeSelectorHint = true;
 	private RangeHintPaintListener rangeHintPaintListener;
 	/*
