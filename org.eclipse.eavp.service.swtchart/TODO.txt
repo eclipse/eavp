@@ -3,7 +3,6 @@ Until End of August
 RCPTT Tests and API Documentation
 -----------------------
 NMR data - axis settings
-Menu extensions add/remove + additional equinox extension points
 LatTeX Images (Line, Bar, Scatter)
 History (Do/Undo/Redo) -> previous selection, ...
 Demo Area Selection

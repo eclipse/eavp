@@ -97,5 +97,14 @@
             class="org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferenceInitializer">
       </initializer>      
    </extension>
+   <extension
+         point="org.eclipse.eavp.service.swtchart.menuitems">
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.eavp.service.swtchart.demos.menu.ResetXAxisHandler">
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.eavp.service.swtchart.demos.menu.ResetYAxisHandler">
+      </MenuItemSupplier>
+   </extension>
 
 </plugin>

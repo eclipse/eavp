@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTCHart and extensions
-Bundle-SymbolicName: org.eclipse.eavp.service.swtchart
+Bundle-SymbolicName: org.eclipse.eavp.service.swtchart;singleton:=true
 Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: org.eclipse.eavp.service.swtchart.Activator
 Bundle-Vendor: ChemClipse

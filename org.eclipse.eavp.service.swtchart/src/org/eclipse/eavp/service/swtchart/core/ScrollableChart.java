@@ -20,6 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.marker.CenterMarker;
 import org.eclipse.eavp.service.swtchart.marker.PositionLegend;
@@ -76,6 +80,9 @@ import org.swtchart.Range;
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
 	public static final int NO_COMPRESS_TO_LENGTH = Integer.MAX_VALUE;
+	//
+	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.eavp.service.swtchart.menuitems";
+	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry";
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
 	//
 	private Map<String, Set<IMenuEntry>> categoryMenuEntriesMap;
@@ -261,6 +268,22 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void adjustRange(boolean adjustMinMax) {
 
 		baseChart.adjustRange(adjustMinMax);
+		resetSlider();
+	}
+
+	public void adjustXAxis() {
+
+		for(IAxis axis : baseChart.getAxisSet().getXAxes()) {
+			axis.adjustRange();
+		}
+		resetSlider();
+	}
+
+	public void adjustYAxis() {
+
+		for(IAxis axis : baseChart.getAxisSet().getYAxes()) {
+			axis.adjustRange();
+		}
 		resetSlider();
 	}
 
@@ -655,6 +678,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			addMenuEntry(new LaTeXTableExportHandler());
 			addMenuEntry(new RScriptExportHandler());
 			addMenuEntry(new PrinterExportHandler());
+			/*
+			 * Add menu items from the extension point registry
+			 * if it is used and items are available.
+			 */
+			addMenuItemsFromExtensionPoint();
 			//
 			createPopupMenu();
 		} else {
@@ -664,6 +692,25 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			categoryMenuEntriesMap.clear();
 			menuEntryMap.clear();
 			baseChart.getPlotArea().setMenu(null);
+		}
+	}
+
+	private void addMenuItemsFromExtensionPoint() {
+
+		/*
+		 * The extension registry is null if the bundle has not been started in OSGi/Equinox modus.
+		 */
+		IExtensionRegistry extensionRegistry = RegistryFactory.getRegistry();
+		if(extensionRegistry != null) {
+			IConfigurationElement[] configurationElements = extensionRegistry.getConfigurationElementsFor(EXTENSION_POINT_MENU_ITEMS);
+			for(IConfigurationElement element : configurationElements) {
+				try {
+					IMenuEntry menuEntry = (IMenuEntry)element.createExecutableExtension(EXTENSION_POINT_MENU_ENTRY);
+					addMenuEntry(menuEntry);
+				} catch(CoreException e) {
+					System.out.println(e);
+				}
+			}
 		}
 	}
 
