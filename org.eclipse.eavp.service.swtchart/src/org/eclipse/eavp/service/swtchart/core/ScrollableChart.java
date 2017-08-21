@@ -264,6 +264,18 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		resetSlider();
 	}
 
+	public void zoomIn() {
+
+		baseChart.getAxisSet().zoomIn();
+		resetSlider();
+	}
+
+	public void zoomOut() {
+
+		baseChart.getAxisSet().zoomOut();
+		resetSlider();
+	}
+
 	@Override
 	public void adjustSecondaryXAxes() {
 

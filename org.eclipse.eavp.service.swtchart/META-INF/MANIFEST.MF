@@ -20,5 +20,6 @@ Export-Package: org.eclipse.eavp.service.swtchart.axisconverter,
  org.eclipse.eavp.service.swtchart.exceptions,
  org.eclipse.eavp.service.swtchart.linecharts,
  org.eclipse.eavp.service.swtchart.menu,
+ org.eclipse.eavp.service.swtchart.menu.export,
  org.eclipse.eavp.service.swtchart.scattercharts
 Import-Package: javax.annotation

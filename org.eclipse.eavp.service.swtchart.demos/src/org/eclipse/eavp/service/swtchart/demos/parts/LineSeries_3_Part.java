@@ -27,6 +27,8 @@ import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
+import org.eclipse.eavp.service.swtchart.demos.menu.ZoomInHandler;
+import org.eclipse.eavp.service.swtchart.demos.menu.ZoomOutHandler;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
@@ -109,6 +111,11 @@ public class LineSeries_3_Part extends LineChart {
 		secondaryAxisSettingsY1.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		secondaryAxisSettingsY1.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY1);
+		/*
+		 * Add menu items.
+		 */
+		addMenuEntry(new ZoomInHandler());
+		addMenuEntry(new ZoomOutHandler());
 		//
 		applySettings(chartSettings);
 		/*
