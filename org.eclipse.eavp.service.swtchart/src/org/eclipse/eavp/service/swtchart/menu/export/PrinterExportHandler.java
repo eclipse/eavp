@@ -12,7 +12,7 @@
 package org.eclipse.eavp.service.swtchart.menu.export;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
-import org.eclipse.eavp.service.swtchart.support.ImageSupplier;
+import org.eclipse.eavp.service.swtchart.images.ImageSupplier;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;

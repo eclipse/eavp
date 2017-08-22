@@ -9,15 +9,34 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.support;
+package org.eclipse.eavp.service.swtchart.internal.support;
 
-import java.util.Comparator;
+import org.eclipse.swt.graphics.Point;
 
-public class BarSeriesIonComparator implements Comparator<BarSeriesIon> {
+public class BarSeriesIon {
 
-	@Override
-	public int compare(BarSeriesIon barSeriesIon1, BarSeriesIon barSeriesIon2) {
+	private double mz;
+	private double intensity;
+	private Point point;
 
-		return Double.compare(barSeriesIon2.getIntensity(), barSeriesIon1.getIntensity());
+	public BarSeriesIon(double mz, double intensity, Point point) {
+		this.mz = mz;
+		this.intensity = intensity;
+		this.point = point;
+	}
+
+	public double getMz() {
+
+		return mz;
+	}
+
+	public double getIntensity() {
+
+		return intensity;
+	}
+
+	public Point getPoint() {
+
+		return point;
 	}
 }

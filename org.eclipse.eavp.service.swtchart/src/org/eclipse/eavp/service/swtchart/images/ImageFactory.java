@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.support;
+package org.eclipse.eavp.service.swtchart.images;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.graphics.ImageData;

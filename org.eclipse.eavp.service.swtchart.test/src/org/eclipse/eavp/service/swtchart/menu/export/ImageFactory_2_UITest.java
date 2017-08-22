@@ -21,8 +21,8 @@ import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
+import org.eclipse.eavp.service.swtchart.images.ImageFactory;
 import org.eclipse.eavp.service.swtchart.menu.SeriesConverter;
-import org.eclipse.eavp.service.swtchart.support.ImageFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 

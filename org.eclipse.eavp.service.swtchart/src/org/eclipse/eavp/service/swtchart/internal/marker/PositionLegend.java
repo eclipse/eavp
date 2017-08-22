@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.marker;
+package org.eclipse.eavp.service.swtchart.internal.marker;
 
 import java.text.DecimalFormat;
 

@@ -18,11 +18,11 @@ import java.util.List;
 import org.eclipse.eavp.service.swtchart.TestPathHelper;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
+import org.eclipse.eavp.service.swtchart.images.ImageFactory;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.eavp.service.swtchart.menu.SeriesConverter;
-import org.eclipse.eavp.service.swtchart.support.ImageFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
