@@ -14,8 +14,10 @@ package org.eclipse.eavp.service.swtchart.core;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
@@ -42,6 +44,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int MOUSE_BUTTON_LEFT = 1;
 	public static final int MOUSE_BUTTON_MIDDLE = 2;
 	public static final int MOUSE_BUTTON_RIGHT = 3;
+	//
+	private Map<Integer, Map<Integer, IEventProcessor>> mouseDoubleClickEvents;
 	/*
 	 * Prevent accidental zooming.
 	 * At least 30% of the chart width or height needs to be selected.
@@ -61,8 +65,57 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private long clickStartTime;
 	private Set<String> selectedSeriesIds;
 
+	private class SelectSeriesEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			String selectedSeriesId = getSelectedSeriedId(event);
+			if(selectedSeriesId.equals("")) {
+				resetSelectedSeries();
+			} else {
+				selectSeries(selectedSeriesId);
+			}
+		}
+	}
+
+	private class HideSeriesEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			String selectedSeriesId = getSelectedSeriedId(event);
+			if(selectedSeriesId.equals("")) {
+				resetSelectedSeries();
+			} else {
+				hideSeries(selectedSeriesId);
+			}
+		}
+	}
+
+	private class ResetSeriesEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			adjustRange(true);
+			fireUpdateCustomSelectionHandlers(event);
+			redraw();
+		}
+	}
+
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
+		/*
+		 * Add the mouse double click events.
+		 */
+		mouseDoubleClickEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
+		mouseDoubleClickEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectSeriesEventProcessor());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new HideSeriesEventProcessor());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new ResetSeriesEventProcessor());
+		mouseDoubleClickEvents.put(MOUSE_BUTTON_MIDDLE, new HashMap<Integer, IEventProcessor>());
+		mouseDoubleClickEvents.put(MOUSE_BUTTON_RIGHT, new HashMap<Integer, IEventProcessor>());
 		/*
 		 * Rectangle range selection.
 		 */
@@ -236,36 +289,45 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseDoubleClick(Event event) {
 
-		if(event.button == MOUSE_BUTTON_LEFT) {
-			if((event.stateMask & SWT.CTRL) == SWT.CTRL) {
-				/*
-				 * Highlight or reset the series.
-				 */
-				String selectedSeriesId = getSelectedSeriedId(event);
-				if(selectedSeriesId.equals("")) {
-					resetSelectedSeries();
-				} else {
-					selectSeries(selectedSeriesId);
+		IEventProcessor eventProcessor = getEventProcessor(mouseDoubleClickEvents.get(event.button), event);
+		if(eventProcessor != null) {
+			eventProcessor.handleEvent(event);
+		}
+	}
+
+	/**
+	 * This method may return null.
+	 * 
+	 * @param eventProcessors
+	 * @param event
+	 * @return {@link IEventProcessor}
+	 */
+	private IEventProcessor getEventProcessor(Map<Integer, IEventProcessor> eventProcessors, Event event) {
+
+		IEventProcessor eventProcessor = null;
+		if(event.stateMask == SWT.NONE) {
+			/*
+			 * The stateMask == 0 is handled differently.
+			 */
+			eventProcessor = eventProcessors.get(SWT.NONE);
+		} else {
+			/*
+			 * Handle all other stateMasks.
+			 */
+			exitloop:
+			for(int eventMask : eventProcessors.keySet()) {
+				//
+				if(eventMask == SWT.NONE) {
+					continue;
 				}
-			} else if((event.stateMask & SWT.SHIFT) == SWT.SHIFT) {
-				/*
-				 * Hide series or reset the series.
-				 */
-				String selectedSeriesId = getSelectedSeriedId(event);
-				if(selectedSeriesId.equals("")) {
-					resetSelectedSeries();
-				} else {
-					hideSeries(selectedSeriesId);
+				//
+				if((event.stateMask & eventMask) == eventMask) {
+					eventProcessor = eventProcessors.get(eventMask);
+					break exitloop;
 				}
-			} else {
-				/*
-				 * 1:1
-				 */
-				adjustRange(true);
-				fireUpdateCustomSelectionHandlers(event);
-				redraw();
 			}
 		}
+		return eventProcessor;
 	}
 
 	public void resetSelectedSeries() {
