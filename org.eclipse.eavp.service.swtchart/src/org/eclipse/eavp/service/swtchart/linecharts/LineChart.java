@@ -25,6 +25,7 @@ public class LineChart extends ScrollableChart {
 
 	private static final int DISPLAY_WIDTH = Display.getDefault().getClientArea().width;
 	//
+	public static final int EXTREME_COMPRESSION = DISPLAY_WIDTH;
 	public static final int HIGH_COMPRESSION = DISPLAY_WIDTH * 2;
 	public static final int MEDIUM_COMPRESSION = DISPLAY_WIDTH * 5;
 	public static final int LOW_COMPRESSION = DISPLAY_WIDTH * 10;
