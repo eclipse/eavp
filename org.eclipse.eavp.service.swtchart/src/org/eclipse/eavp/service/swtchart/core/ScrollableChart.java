@@ -301,6 +301,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
+	public void handleMouseDownEvent(Event event) {
+
+		baseChart.handleMouseDownEvent(event);
+	}
+
+	@Override
 	public void handleMouseMoveEvent(Event event) {
 
 		baseChart.handleMouseMoveEvent(event);
@@ -314,12 +320,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			positionLegend.setActualPosition(event.x, event.y);
 			getBaseChart().getPlotArea().redraw();
 		}
-	}
-
-	@Override
-	public void handleMouseDownEvent(Event event) {
-
-		baseChart.handleMouseDownEvent(event);
 	}
 
 	@Override

@@ -46,6 +46,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int MOUSE_BUTTON_RIGHT = 3;
 	//
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseDoubleClickEvents;
+	private Map<Integer, IEventProcessor> mouseWheelEvents;
 	/*
 	 * Prevent accidental zooming.
 	 * At least 30% of the chart width or height needs to be selected.
@@ -104,24 +105,66 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	private class ZoomEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
+			IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
+			//
+			RangeRestriction rangeRestriction = getRangeRestriction();
+			if(isZoomXAndY(rangeRestriction)) {
+				/*
+				 * X and Y zoom.
+				 */
+				zoomX(xAxis, event);
+				zoomY(yAxis, event);
+			} else {
+				/*
+				 * X or Y zoom.
+				 */
+				if(rangeRestriction.isXZoomOnly()) {
+					zoomX(xAxis, event);
+				} else if(rangeRestriction.isYZoomOnly()) {
+					zoomY(yAxis, event);
+				}
+			}
+			/*
+			 * Adjust the range if it shall not exceed the initial
+			 * min and max values.
+			 */
+			if(rangeRestriction.isRestrictZoom()) {
+				/*
+				 * Adjust the primary axes.
+				 * The secondary axes are adjusted by setting the range.
+				 */
+				Range rangeX = xAxis.getRange();
+				Range rangeY = yAxis.getRange();
+				setRange(xAxis, rangeX.lower, rangeX.upper, true);
+				setRange(yAxis, rangeY.lower, rangeY.upper, true);
+			} else {
+				/*
+				 * Update the secondary axes.
+				 */
+				adjustSecondaryXAxes();
+				adjustSecondaryYAxes();
+			}
+			//
+			fireUpdateCustomSelectionHandlers(event);
+			redraw();
+		}
+	}
+
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
-		/*
-		 * Add the mouse double click events.
-		 */
-		mouseDoubleClickEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseDoubleClickEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectSeriesEventProcessor());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new HideSeriesEventProcessor());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new ResetSeriesEventProcessor());
-		mouseDoubleClickEvents.put(MOUSE_BUTTON_MIDDLE, new HashMap<Integer, IEventProcessor>());
-		mouseDoubleClickEvents.put(MOUSE_BUTTON_RIGHT, new HashMap<Integer, IEventProcessor>());
 		/*
 		 * Rectangle range selection.
 		 */
 		userSelection = new UserSelection();
 		customSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
 		selectedSeriesIds = new HashSet<String>();
+		initializeEventProcessors();
 		/*
 		 * Create the default x and y axis.
 		 */
@@ -142,6 +185,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.getTick().setFormat(new DecimalFormat());
 		yAxisPrimary.enableLogScale(false);
 		yAxisPrimary.enableCategory(false);
+	}
+
+	private void initializeEventProcessors() {
+
+		mouseDoubleClickEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
+		mouseDoubleClickEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectSeriesEventProcessor());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new HideSeriesEventProcessor());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new ResetSeriesEventProcessor());
+		mouseDoubleClickEvents.put(MOUSE_BUTTON_MIDDLE, new HashMap<Integer, IEventProcessor>());
+		mouseDoubleClickEvents.put(MOUSE_BUTTON_RIGHT, new HashMap<Integer, IEventProcessor>());
+		//
+		mouseWheelEvents = new HashMap<Integer, IEventProcessor>();
+		mouseWheelEvents.put(SWT.NONE, new ZoomEventProcessor());
 	}
 
 	public boolean addCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
@@ -202,6 +259,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	}
 
 	@Override
+	public void handleMouseDownEvent(Event event) {
+
+		if(event.button == MOUSE_BUTTON_LEFT) {
+			userSelection.setStartCoordinate(event.x, event.y);
+			clickStartTime = System.currentTimeMillis();
+		}
+	}
+
+	@Override
 	public void handleMouseMoveEvent(Event event) {
 
 		if(event.stateMask == SWT.BUTTON1) {
@@ -211,15 +277,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				redraw();
 				redrawCounter = 0;
 			}
-		}
-	}
-
-	@Override
-	public void handleMouseDownEvent(Event event) {
-
-		if(event.button == MOUSE_BUTTON_LEFT) {
-			userSelection.setStartCoordinate(event.x, event.y);
-			clickStartTime = System.currentTimeMillis();
 		}
 	}
 
@@ -241,93 +298,52 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseWheel(Event event) {
 
-		IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
-		IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
-		//
-		RangeRestriction rangeRestriction = getRangeRestriction();
-		if(isZoomXAndY(rangeRestriction)) {
-			/*
-			 * X and Y zoom.
-			 */
-			zoomX(xAxis, event);
-			zoomY(yAxis, event);
-		} else {
-			/*
-			 * X or Y zoom.
-			 */
-			if(rangeRestriction.isXZoomOnly()) {
-				zoomX(xAxis, event);
-			} else if(rangeRestriction.isYZoomOnly()) {
-				zoomY(yAxis, event);
-			}
-		}
-		/*
-		 * Adjust the range if it shall not exceed the initial
-		 * min and max values.
-		 */
-		if(rangeRestriction.isRestrictZoom()) {
-			/*
-			 * Adjust the primary axes.
-			 * The secondary axes are adjusted by setting the range.
-			 */
-			Range rangeX = xAxis.getRange();
-			Range rangeY = yAxis.getRange();
-			setRange(xAxis, rangeX.lower, rangeX.upper, true);
-			setRange(yAxis, rangeY.lower, rangeY.upper, true);
-		} else {
-			/*
-			 * Update the secondary axes.
-			 */
-			adjustSecondaryXAxes();
-			adjustSecondaryYAxes();
-		}
-		//
-		fireUpdateCustomSelectionHandlers(event);
-		redraw();
+		handleEvent(mouseWheelEvents, event);
 	}
 
 	@Override
 	public void handleMouseDoubleClick(Event event) {
 
-		IEventProcessor eventProcessor = getEventProcessor(mouseDoubleClickEvents.get(event.button), event);
-		if(eventProcessor != null) {
-			eventProcessor.handleEvent(event);
-		}
+		handleEvent(mouseDoubleClickEvents.get(event.button), event);
 	}
 
-	/**
-	 * This method may return null.
-	 * 
-	 * @param eventProcessors
-	 * @param event
-	 * @return {@link IEventProcessor}
-	 */
-	private IEventProcessor getEventProcessor(Map<Integer, IEventProcessor> eventProcessors, Event event) {
+	private void handleEvent(Map<Integer, IEventProcessor> eventProcessors, Event event) {
 
 		IEventProcessor eventProcessor = null;
-		if(event.stateMask == SWT.NONE) {
-			/*
-			 * The stateMask == 0 is handled differently.
-			 */
-			eventProcessor = eventProcessors.get(SWT.NONE);
-		} else {
-			/*
-			 * Handle all other stateMasks.
-			 */
-			exitloop:
-			for(int eventMask : eventProcessors.keySet()) {
-				//
-				if(eventMask == SWT.NONE) {
-					continue;
-				}
-				//
-				if((event.stateMask & eventMask) == eventMask) {
-					eventProcessor = eventProcessors.get(eventMask);
-					break exitloop;
+		//
+		if(eventProcessors != null) {
+			if(event.stateMask == SWT.NONE) {
+				/*
+				 * Default processor.
+				 * The stateMask == 0 is handled differently.
+				 */
+				eventProcessor = eventProcessors.get(SWT.NONE);
+			} else {
+				/*
+				 * Handle all other stateMasks.
+				 */
+				exitloop:
+				for(int eventMask : eventProcessors.keySet()) {
+					/*
+					 * Skip the default processor.
+					 */
+					if(eventMask == SWT.NONE) {
+						continue;
+					}
+					//
+					if((event.stateMask & eventMask) == eventMask) {
+						eventProcessor = eventProcessors.get(eventMask);
+						break exitloop;
+					}
 				}
 			}
 		}
-		return eventProcessor;
+		/*
+		 * Handle the event.
+		 */
+		if(eventProcessor != null) {
+			eventProcessor.handleEvent(event);
+		}
 	}
 
 	public void resetSelectedSeries() {
