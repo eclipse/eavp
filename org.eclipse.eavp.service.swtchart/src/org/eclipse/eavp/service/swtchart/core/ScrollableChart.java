@@ -512,6 +512,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		ILegend legend = baseChart.getLegend();
 		legend.setPosition(chartSettings.getLegendPosition());
 		legend.setVisible(chartSettings.isLegendVisible());
+		//
+		setBackground(chartSettings.getBackground());
+		baseChart.setOrientation(chartSettings.getOrientation());
+		baseChart.setBackground(chartSettings.getBackgroundChart());
+		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundPlotArea());
+		baseChart.enableCompress(chartSettings.isEnableCompress());
+		baseChart.setRangeRestriction(chartSettings.getRangeRestriction());
 		/*
 		 * Primary and Secondary axes
 		 */
@@ -523,13 +530,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Range Info
 		 */
 		rangeSelector.resetRanges();
-		//
-		setBackground(chartSettings.getBackground());
-		baseChart.setOrientation(chartSettings.getOrientation());
-		baseChart.setBackground(chartSettings.getBackgroundChart());
-		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundPlotArea());
-		baseChart.enableCompress(chartSettings.isEnableCompress());
-		baseChart.setRangeRestriction(chartSettings.getRangeRestriction());
 		/*
 		 * Additional actions.
 		 */
@@ -869,9 +869,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * Add a space between the scale and the label.
 			 */
 			Font font = title.getFont();
+			int length = axisText.length() - 1;
 			StyleRange styleRange = new StyleRange();
-			styleRange.length = axisText.length();
-			styleRange.foreground = color;
+			styleRange.length = (length > 0) ? length : 0;
+			styleRange.background = baseChart.getBackground();
+			styleRange.foreground = (color != null) ? color : baseChart.getForeground();
 			styleRange.font = font;
 			styleRange.rise = getAxisExtraSpaceTitle(axis, axisSettings);
 			title.setStyleRanges(new StyleRange[]{styleRange});
