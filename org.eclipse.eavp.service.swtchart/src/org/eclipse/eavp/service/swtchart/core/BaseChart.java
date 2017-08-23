@@ -41,6 +41,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final String DEFAULT_TITLE_X_AXIS = "X-Axis";
 	public static final String DEFAULT_TITLE_Y_AXIS = "Y-Axis";
 	//
+	public static final int MOUSE_BUTTON_NULL = 0;
 	public static final int MOUSE_BUTTON_LEFT = 1;
 	public static final int MOUSE_BUTTON_MIDDLE = 2;
 	public static final int MOUSE_BUTTON_RIGHT = 3;
@@ -48,7 +49,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseDoubleClickEvents;
 	private Map<Integer, IEventProcessor> mouseWheelEvents;
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseDownEvents;
-	// private Map<Integer, Map<Integer, IEventProcessor>> mouseMoveEvents;
+	private Map<Integer, Map<Integer, IEventProcessor>> mouseMoveEvents;
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseUpEvents;
 	/*
 	 * Prevent accidental zooming.
@@ -169,13 +170,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	// private class MouseMoveEventProcessor implements IEventProcessor {
-	//
-	// @Override
-	// public void handleEvent(Event event) {
-	//
-	// }
-	// }
+	private class MouseMoveEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			userSelection.setStopCoordinate(event.x, event.y);
+			redrawCounter++;
+			if(redrawCounter == TRIGGER_REDRAW_EVENT) {
+				redraw();
+				redrawCounter = 0;
+			}
+		}
+	}
+
 	private class MouseUpEventProcessor implements IEventProcessor {
 
 		@Override
@@ -232,15 +240,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		mouseDownEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseDownEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseDownEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new MouseDownEventProcessor());
+		mouseDownEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new MouseDownEventProcessor()); // Start Selection
 		//
-		// mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		// mouseMoveEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		// mouseMoveEvents.get(MOUSE_BUTTON_LEFT).put(SWT.BUTTON1, new MouseMoveEventProcessor());
+		mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
+		mouseMoveEvents.put(MOUSE_BUTTON_NULL, new HashMap<Integer, IEventProcessor>());
+		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveEventProcessor()); // Set Selection Range
 		//
 		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseUpEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseUpEvents.get(MOUSE_BUTTON_LEFT).put(SWT.BUTTON1, new MouseUpEventProcessor());
+		mouseUpEvents.get(MOUSE_BUTTON_LEFT).put(SWT.BUTTON1, new MouseUpEventProcessor()); // Stop Selection
 	}
 
 	public boolean addCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
@@ -309,25 +317,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseMoveEvent(Event event) {
 
-		// handleEvent(mouseMoveEvents.get(event.button), event);
-		if(event.stateMask == SWT.BUTTON1) {
-			userSelection.setStopCoordinate(event.x, event.y);
-			redrawCounter++;
-			if(redrawCounter == TRIGGER_REDRAW_EVENT) {
-				redraw();
-				redrawCounter = 0;
-			}
-		}
+		handleEvent(mouseMoveEvents.get(event.button), event);
 	}
 
 	@Override
 	public void handleMouseUpEvent(Event event) {
 
 		handleEvent(mouseUpEvents.get(event.button), event);
-		/*
-		 * Button 3 = Show Menu
-		 * See Menu in SrollableChart
-		 */
 	}
 
 	@Override
