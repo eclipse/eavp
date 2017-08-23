@@ -47,6 +47,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	//
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseDoubleClickEvents;
 	private Map<Integer, IEventProcessor> mouseWheelEvents;
+	private Map<Integer, Map<Integer, IEventProcessor>> mouseDownEvents;
+	// private Map<Integer, Map<Integer, IEventProcessor>> mouseMoveEvents;
+	private Map<Integer, Map<Integer, IEventProcessor>> mouseUpEvents;
 	/*
 	 * Prevent accidental zooming.
 	 * At least 30% of the chart width or height needs to be selected.
@@ -156,6 +159,35 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	private class MouseDownEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			userSelection.setStartCoordinate(event.x, event.y);
+			clickStartTime = System.currentTimeMillis();
+		}
+	}
+
+	// private class MouseMoveEventProcessor implements IEventProcessor {
+	//
+	// @Override
+	// public void handleEvent(Event event) {
+	//
+	// }
+	// }
+	private class MouseUpEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			long deltaTime = System.currentTimeMillis() - clickStartTime;
+			if(deltaTime >= DELTA_CLICK_TIME) {
+				handleUserSelection(event);
+			}
+		}
+	}
+
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
 		/*
@@ -194,11 +226,21 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectSeriesEventProcessor());
 		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new HideSeriesEventProcessor());
 		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new ResetSeriesEventProcessor());
-		mouseDoubleClickEvents.put(MOUSE_BUTTON_MIDDLE, new HashMap<Integer, IEventProcessor>());
-		mouseDoubleClickEvents.put(MOUSE_BUTTON_RIGHT, new HashMap<Integer, IEventProcessor>());
 		//
 		mouseWheelEvents = new HashMap<Integer, IEventProcessor>();
 		mouseWheelEvents.put(SWT.NONE, new ZoomEventProcessor());
+		//
+		mouseDownEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
+		mouseDownEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		mouseDownEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new MouseDownEventProcessor());
+		//
+		// mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
+		// mouseMoveEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		// mouseMoveEvents.get(MOUSE_BUTTON_LEFT).put(SWT.BUTTON1, new MouseMoveEventProcessor());
+		//
+		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
+		mouseUpEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		mouseUpEvents.get(MOUSE_BUTTON_LEFT).put(SWT.BUTTON1, new MouseUpEventProcessor());
 	}
 
 	public boolean addCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
@@ -261,15 +303,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseDownEvent(Event event) {
 
-		if(event.button == MOUSE_BUTTON_LEFT) {
-			userSelection.setStartCoordinate(event.x, event.y);
-			clickStartTime = System.currentTimeMillis();
-		}
+		handleEvent(mouseDownEvents.get(event.button), event);
 	}
 
 	@Override
 	public void handleMouseMoveEvent(Event event) {
 
+		// handleEvent(mouseMoveEvents.get(event.button), event);
 		if(event.stateMask == SWT.BUTTON1) {
 			userSelection.setStopCoordinate(event.x, event.y);
 			redrawCounter++;
@@ -283,12 +323,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseUpEvent(Event event) {
 
-		if(event.button == MOUSE_BUTTON_LEFT) {
-			long deltaTime = System.currentTimeMillis() - clickStartTime;
-			if(deltaTime >= DELTA_CLICK_TIME) {
-				handleUserSelection(event);
-			}
-		}
+		handleEvent(mouseUpEvents.get(event.button), event);
 		/*
 		 * Button 3 = Show Menu
 		 * See Menu in SrollableChart
