@@ -36,6 +36,13 @@ public class BasicDrawHandlerFactory implements IDrawHandlerFactory {
 		classMap = new HashMap<Class, IDrawHandlerProvider>();
 	}
 	
+	/**
+	 * Initializae the service. This function should only be called by the OSGi service manager.
+	 */
+	public void start() {
+		//Nothing to do
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.eavp.viz.service.drawhandler.IDrawHandlerFactory#getHandler(org.eclipse.eavp.viz.service.IVizCanvas)

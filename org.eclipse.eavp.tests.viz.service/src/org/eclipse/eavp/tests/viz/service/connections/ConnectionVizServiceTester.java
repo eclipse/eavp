@@ -30,8 +30,6 @@ import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
-import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
-import org.eclipse.eavp.viz.service.rcp.connection.ConnectionPlotComposite;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
@@ -47,12 +45,6 @@ import org.junit.Test;
  *
  */
 public class ConnectionVizServiceTester {
-
-	/**
-	 * The preference store for the test. The manager will pull preferences from
-	 * this.
-	 */
-	private CustomScopedPreferenceStore store;
 
 	/**
 	 * The viz service that will be tested.
@@ -82,17 +74,11 @@ public class ConnectionVizServiceTester {
 		int port;
 		String path;
 
-		// Create a new, empty preference store.
-		store = new CustomScopedPreferenceStore(getClass());
-		store.removeNode(NODE_ID);
-		IEclipsePreferences node = store.getNode(NODE_ID);
-
 		// Add a local connection before creating the service.
 		name = "trevor something";
 		host = LOCALHOST;
 		port = 9001;
 		path = "";
-		node.put(name, host + "," + port + "," + path);
 
 		// Create a connection viz service.
 		service = new ConnectionVizService<FakeClient>() {
@@ -121,24 +107,6 @@ public class ConnectionVizServiceTester {
 			@Override
 			protected ConnectionPlot<FakeClient> createConnectionPlot() {
 				return new ConnectionPlot<FakeClient>() {
-					@Override
-					protected ConnectionPlotComposite<FakeClient> createPlotComposite(
-							Composite parent) {
-						// This shouldn't be called.
-						return null;
-					}
-
-					@Override
-					public String createAdditionalPage(
-							MultiPageEditorPart parent, IFileEditorInput file,
-							int pageNum) {
-						return null;
-					}
-
-					@Override
-					public int getNumAdditionalPages() {
-						return 0;
-					}
 
 					@Override
 					public IRenderElementHolder getRenderElementHolder(
@@ -176,7 +144,6 @@ public class ConnectionVizServiceTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(name, host + "," + port + "," + path);
 
 		return;
 	}
@@ -272,7 +239,6 @@ public class ConnectionVizServiceTester {
 		host = "megadrive";
 		String port = "9000";
 		path = "/home/music";
-		store.getNode(NODE_ID).put(name, host + "," + port + "," + path);
 
 		// ---- Try a URI for the new host. ---- //
 		try {

@@ -25,7 +25,6 @@ import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
-import org.eclipse.eavp.viz.service.rcp.connection.ConnectionPlotComposite;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IFileEditorInput;
@@ -193,27 +192,11 @@ class TestConnectionPlot<T> extends ConnectionPlot<T> {
 	}
 
 	@Override
-	protected ConnectionPlotComposite<T> createPlotComposite(Composite parent) {
-		return null;
-	}
-
-	@Override
 	public void connectionStateChanged(IVizConnection<T> connection,
 			ConnectionState state, String message) {
 		// Nothing to do.
 	}
-
-	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent,
-			IFileEditorInput file, int pageNum) {
-		return null;
-	}
-
-	@Override
-	public int getNumAdditionalPages() {
-		return 0;
-	}
-
+	
 	@Override
 	public IRenderElementHolder getRenderElementHolder(Geometry geometry) {
 		return null;

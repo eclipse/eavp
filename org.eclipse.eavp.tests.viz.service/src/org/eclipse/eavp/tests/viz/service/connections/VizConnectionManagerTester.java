@@ -32,7 +32,6 @@ import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
-import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,12 +43,6 @@ import org.junit.Test;
  *
  */
 public class VizConnectionManagerTester {
-
-	/**
-	 * The preference store for the test. The manager will pull preferences from
-	 * this.
-	 */
-	private CustomScopedPreferenceStore store;
 
 	/**
 	 * The connection manager that will be tested.
@@ -93,11 +86,7 @@ public class VizConnectionManagerTester {
 				return fakeConnection;
 			}
 		};
-
-		// Create a new, empty preference store.
-		store = new CustomScopedPreferenceStore(getClass());
-		store.removeNode(NODE_ID);
-
+		
 		return;
 	}
 
@@ -150,10 +139,6 @@ public class VizConnectionManagerTester {
 	 */
 	@Test
 	public void checkAddConnection() {
-		// Set the empty preference store.
-		manager.setPreferenceStore(store, NODE_ID);
-		IEclipsePreferences node = store.getNode(NODE_ID);
-
 		String name;
 		String host;
 		int port;
@@ -166,7 +151,6 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(name, host + "," + port + "," + path);
 
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
@@ -207,7 +191,6 @@ public class VizConnectionManagerTester {
 		name = "trevor something";
 		port = 9001;
 		path = "";
-		node.put(name, host + "," + port + "," + path);
 
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
@@ -252,9 +235,6 @@ public class VizConnectionManagerTester {
 	 */
 	@Test
 	public void checkRemoveConnection() {
-		// Set the empty preference store.
-		manager.setPreferenceStore(store, NODE_ID);
-		IEclipsePreferences node = store.getNode(NODE_ID);
 
 		String connection1;
 		String connection2;
@@ -267,12 +247,11 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(connection1, host + "," + port + "," + path);
+		manager.
 		// Add the second connection.
 		connection2 = "trevor something";
 		port = 9001;
 		path = "/home/music/different/path";
-		node.put(connection2, host + "," + port + "," + path);
 
 		// Get the reference for the first connection
 		IVizConnection<FakeClient> conn1 = manager.getConnection(connection1);
@@ -288,7 +267,6 @@ public class VizConnectionManagerTester {
 		assertTrue(manager.getConnectionsForHost(host).contains(connection2));
 
 		// Remove the first connection from the store.
-		node.remove(connection1);
 		// There can be only one.
 		assertNull(manager.getConnection(connection1));
 		assertNotNull(manager.getConnection(connection2));
@@ -300,7 +278,6 @@ public class VizConnectionManagerTester {
 		assertTrue(manager.getConnectionsForHost(host).contains(connection2));
 
 		// Remove the second connection from the store.
-		node.remove(connection2);
 		// There can be only none.
 		assertNull(manager.getConnection(connection1));
 		assertNull(manager.getConnection(connection2));
@@ -316,7 +293,6 @@ public class VizConnectionManagerTester {
 		host = "duplicate host";
 		port = 9002;
 		path = "duplicate/path";
-		node.put(duplicate, host + "," + port + "," + path);
 
 		// The only connection in the manager should be conn1, with its
 		// properties updated to those of the duplicate connection
@@ -336,9 +312,6 @@ public class VizConnectionManagerTester {
 	 */
 	@Test
 	public void checkUpdateConnection() {
-		// Set the empty preference store.
-		manager.setPreferenceStore(store, NODE_ID);
-		IEclipsePreferences node = store.getNode(NODE_ID);
 
 		String connection1;
 		String connection2;
@@ -363,8 +336,7 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		node.put(connection1, host + "," + port + "," + path);
-
+		
 		// Check the first connection's properties.
 		connection = manager.getConnection(connection1);
 		assertEquals(connection1, connection.getName());
@@ -394,7 +366,6 @@ public class VizConnectionManagerTester {
 		connection2 = "trevor something";
 		port = 9001;
 		path = "";
-		node.put(connection2, host + "," + port + "," + path);
 
 		// Both have been added.
 		assertNotNull(manager.getConnection(connection1));
@@ -408,7 +379,6 @@ public class VizConnectionManagerTester {
 
 		// Update the first connection.
 		host = "electrodungeonmaster";
-		node.put(connection1, host + "," + port + "," + path);
 
 		// Check the first connections properties. They should have changed.
 		connection = manager.getConnection(connection1);
@@ -446,7 +416,6 @@ public class VizConnectionManagerTester {
 
 		// Set up a preference node for a first connection.
 		final String nodeId1 = NODE_ID;
-		IEclipsePreferences node1 = store.getNode(nodeId1);
 		IVizConnection<FakeClient> connection1;
 		String connection1Name;
 		String connection1Host;
@@ -454,7 +423,6 @@ public class VizConnectionManagerTester {
 		String connection1Path;
 		// Set up a preference node for a second connection.
 		final String nodeId2 = NODE_ID + "2";
-		IEclipsePreferences node2 = store.getNode(nodeId2);
 		IVizConnection<FakeClient> connection2;
 		String connection2Name;
 		String connection2Host;
@@ -470,20 +438,12 @@ public class VizConnectionManagerTester {
 		connection1Host = "electrodungeon";
 		connection1Port = 9000;
 		connection1Path = "/home/music";
-		node1.put(connection1Name, connection1Host + "," + connection1Port + ","
-				+ connection1Path);
 
 		// Add a connection to the second preference node.
 		connection2Name = "trevor something";
 		connection2Host = "electrodungeon";
 		connection2Port = 9001;
 		connection2Path = "/home/music/different/path";
-		node2.put(connection2Name, connection2Host + "," + connection2Port + ","
-				+ connection2Path);
-
-		// Set the preference store using the first node.
-		ArrayList<Future<ConnectionState>> states = manager
-				.setPreferenceStore(store, nodeId1);
 
 		// Make sure that the first connection was added to the manager.
 		// Check getConnections()
@@ -522,24 +482,10 @@ public class VizConnectionManagerTester {
 			sleepTime += interval;
 		}
 
-		// For each of the connections, wait until their states are resolved.
-		for (int i = 0; i < states.size(); i++) {
-			try {
-				states.get(i).get();
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-				fail("Failed while attempting to get the value of future connection state.");
-			}
-		}
-
 		assertEquals(ConnectionState.Connected, connection1.getState());
 
 		// Add the listener to the first connection.
 		connection1.addListener(listener);
-
-		// Switch to the second preference store that has a different
-		// connection.
-		manager.setPreferenceStore(store, nodeId2);
 
 		// Make sure that the first connection was added to the manager.
 		// Check getConnections()
@@ -582,36 +528,6 @@ public class VizConnectionManagerTester {
 		// The first connection should still be connected.
 		assertFalse(listener.wasNotified());
 		assertEquals(ConnectionState.Connected, connection1.getState());
-
-		// Remove the second preference node. The first one will be removed
-		// automatically since its ID is the default one.
-		store.removeNode(nodeId2);
-
-		return;
-	}
-
-	/**
-	 * Checks that the proper exceptions are thrown when the preference store is
-	 * set with invalid values.
-	 */
-	@Test
-	public void checkSetPreferenceStoreExceptions() {
-
-		// The normal call should not fail.
-		manager.setPreferenceStore(store, NODE_ID);
-		// Passing both null should not fail.
-		manager.setPreferenceStore(null, null);
-
-		// We cannot send a non-null preference store with a null ID for the
-		// connection preference node.
-		try {
-			manager.setPreferenceStore(store, null);
-			fail("VizConnectionManagerTester failure: "
-					+ "NullPointerException not thrown when preference node ID "
-					+ "is null and store is not null.");
-		} catch (NullPointerException e) {
-			// Exception thrown as expected.
-		}
 
 		return;
 	}

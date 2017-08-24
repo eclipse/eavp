@@ -32,4 +32,4 @@ Export-Package: org.eclipse.eavp.viz.service,
  org.eclipse.eavp.viz.service.drawhandler,
  org.eclipse.eavp.viz.service.internal,
  org.eclipse.eavp.viz.service.styles
-Service-Component: OSGI-INF/vizFactory.xml, OSGI-INF/VizServiceFactoryHolder.xml, OSGI-INF/drawHandlerFactory.xml
+Service-Component: OSGI-INF/vizFactory.xml, OSGI-INF/VizServiceFactoryHolder.xml, OSGI-INF/drawHandlerFactory.xml, OSGI-INF/drawHandlerFactoryHolder.xml

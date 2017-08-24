@@ -21,8 +21,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IRenderElementHolder;
 import org.eclipse.eavp.viz.service.ISeries;
-import org.eclipse.eavp.viz.service.rcp.csv.CSVSeries;
-import org.eclipse.eavp.viz.service.rcp.widgets.PlotGridComposite;
+import org.eclipse.eavp.viz.service.IVizAction;
+import org.eclipse.eavp.viz.service.VizProgressMonitor;
+import org.eclipse.eavp.viz.service.csv.CSVSeries;
+import org.eclipse.eavp.viz.service.drawhandler.IDrawHandler;
 import org.eclipse.january.geometry.Geometry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -95,12 +97,9 @@ public class FakePlot implements IPlot {
 	 * Composite)
 	 */
 	@Override
-	public Composite draw(Composite parent) throws Exception {
+	public void draw() throws Exception {
 		System.err.println("Drawing fake plot... " + drawCount);
 		drawCount++;
-		child = new Composite(parent, SWT.NONE);
-		child.setMenu(parent.getMenu());
-		return child;
 	}
 
 	/*
@@ -270,34 +269,11 @@ public class FakePlot implements IPlot {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.eavp.viz.service.IPlot#createAdditionalPage(org.eclipse.ui.
-	 * part.MultiPageEditorPart, org.eclipse.ui.IFileEditorInput, int)
-	 */
-	@Override
-	public String createAdditionalPage(MultiPageEditorPart parent,
-			IFileEditorInput file, int pageNum) {
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.eavp.viz.service.IPlot#getNumAdditionalPages()
-	 */
-	@Override
-	public int getNumAdditionalPages() {
-		return 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.eavp.viz.service.IPlot#save(org.eclipse.core.runtime.
 	 * IProgressMonitor)
 	 */
 	@Override
-	public void save(IProgressMonitor monitor) {
+	public void save(VizProgressMonitor monitor) {
 	}
 
 	/*
@@ -315,7 +291,7 @@ public class FakePlot implements IPlot {
 	 * @see org.eclipse.eavp.viz.service.IPlot#getCustomActions()
 	 */
 	@Override
-	public ArrayList<Action> getCustomActions() {
+	public ArrayList<IVizAction> getCustomActions() {
 		return null;
 	}
 
@@ -338,6 +314,36 @@ public class FakePlot implements IPlot {
 	@Override
 	public boolean isMultiSeriesEnabled() {
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getDrawHandler()
+	 */
+	@Override
+	public IDrawHandler getDrawHandler() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.IVizCanvas#getResult(java.lang.Class)
+	 */
+	@Override
+	public <T> T getResult(Class<T> resultType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.IVizCanvas#setDrawHandler(org.eclipse.eavp.viz.service.drawhandler.IDrawHandler)
+	 */
+	@Override
+	public void setDrawHandler(IDrawHandler handler) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

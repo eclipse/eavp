@@ -23,9 +23,9 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.eavp.viz.service.PlotEditor"
+            class="org.eclipse.eavp.viz.service.rcp.PlotEditor"
             default="false"
-            id="org.eclipse.eavp.viz.service.PlotEditor"
+            id="org.eclipse.eavp.viz.service.rcp.PlotEditor"
             name="PlotEditor">
       </editor>
    </extension>

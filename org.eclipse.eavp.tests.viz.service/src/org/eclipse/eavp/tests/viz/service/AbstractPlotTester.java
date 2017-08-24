@@ -162,7 +162,7 @@ public class AbstractPlotTester {
 		// The AbstractPlot cannot be used to draw unless a sub-class overrides
 		// the method.
 		try {
-			plot.draw(null);
+			plot.draw();
 			fail("AbstractPlotTester error: "
 					+ "No exception thrown when trying to draw.");
 		} catch (Exception e) {

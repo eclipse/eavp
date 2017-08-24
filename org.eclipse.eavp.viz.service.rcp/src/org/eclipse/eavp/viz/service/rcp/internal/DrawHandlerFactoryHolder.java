@@ -11,12 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.rcp.internal;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.eavp.viz.service.drawhandler.IDrawHandlerFactory;
-import org.eclipse.eavp.viz.service.internal.VizServiceFactoryHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Holder class for a DrawHandlerFactory.
@@ -44,19 +39,8 @@ public class DrawHandlerFactoryHolder {
 	 * @param input
 	 *            the VizServiceFactory to hold
 	 */
-	public void setVizServiceFactory(IDrawHandlerFactory input) {
+	public void setDrawHandlerFactory(IDrawHandlerFactory input) {
 		DrawHandlerFactoryHolder.factory = input;
-		Logger staticLogger = LoggerFactory
-				.getLogger(VizServiceFactoryHolder.class);
-
-		IConfigurationElement[] elements = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						"org.eclipse.eavp.viz.service.IDrawHandlerFactory");
-		staticLogger.info("Available configuration elements");
-		for (IConfigurationElement element : elements) {
-			staticLogger.info(element.getName());
-		}
-
 		return;
 	}
 
@@ -66,11 +50,18 @@ public class DrawHandlerFactoryHolder {
 	 * 
 	 * @input A DrawHandlerFactory to remove.
 	 */
-	public void unsetVizServiceFactory(IDrawHandlerFactory input) {
+	public void unsetDrawHandlerFactory(IDrawHandlerFactory input) {
 		if (input == factory) {
 			factory = null;
 		}
 		return;
+	}
+	
+	/**
+	 * Initialize the factory holder service. This function is intended to be called only by the OSGI framework. 
+	 */
+	public void start() {
+		//Nothing to do
 	}
 
 }

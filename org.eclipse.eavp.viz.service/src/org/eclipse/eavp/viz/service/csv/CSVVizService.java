@@ -74,11 +74,8 @@ public class CSVVizService extends AbstractVizService {
 			dataPlot.setDataSource(file);
 			dataPlots.put(file, dataPlot);
 		}
-
-		// Create a proxy to it. The proxy can be drawn anywhere.
-		CSVPlot proxyPlot = new CSVPlot();
-
-		return proxyPlot;
+		
+		return dataPlot;
 	}
 
 	/*

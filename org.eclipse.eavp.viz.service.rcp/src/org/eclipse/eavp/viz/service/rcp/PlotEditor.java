@@ -74,7 +74,7 @@ public class PlotEditor extends MultiPageEditorPart {
 	 * The plot acquired from the input, or {@code null} if it could not be
 	 * created with an appropriate viz service.
 	 */
-	private RCPPlot plot;
+	private IPlot plot;
 
 	/**
 	 * The Composite in which the plot was drawn.
@@ -501,13 +501,13 @@ public class PlotEditor extends MultiPageEditorPart {
 				int index = addPage(mainPage);
 				setPageText(index, "Plot");
 
-				// Add any additional pages the service provides
-				int numPages = plot.getNumAdditionalPages();
-				for (int i = 1; i <= numPages; i++) {
-					String name = plot.createAdditionalPage(this,
-							(FileEditorInput) editorInput, i);
-					setPageText(i, name);
-				}
+//				// Add any additional pages the service provides
+//				int numPages = plot.getNumAdditionalPages();
+//				for (int i = 1; i <= numPages; i++) {
+//					String name = plot.createAdditionalPage(this,
+//							(FileEditorInput) editorInput, i);
+//					setPageText(i, name);
+//				}
 			}
 		}
 		// If the input is plot input, we can just get the plot from it.

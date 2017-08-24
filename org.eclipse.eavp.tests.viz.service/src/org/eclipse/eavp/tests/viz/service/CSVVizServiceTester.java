@@ -24,8 +24,11 @@ import java.util.List;
 
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizService;
+import org.eclipse.eavp.viz.service.csv.CSVPlot;
 import org.eclipse.eavp.viz.service.csv.CSVVizService;
-import org.eclipse.eavp.viz.service.rcp.csv.CSVProxyPlot;
+import org.eclipse.eavp.viz.service.drawhandler.BasicDrawHandlerFactory;
+import org.eclipse.eavp.viz.service.drawhandler.IDrawHandlerFactory;
+import org.eclipse.eavp.viz.service.internal.DrawHandlerFactoryHolder;
 import org.junit.Test;
 
 /**
@@ -54,6 +57,11 @@ public class CSVVizServiceTester {
 	 */
 	@Test
 	public void testCreatePlot() {
+		
+		//Add our test DrawHandler to the singleton factory
+		//IDrawHandlerFactory factory = new BasicDrawHandlerFactory();
+		//DrawHandlerFactoryHolder.setDrawHandlerFactory(factory);
+		
 		// Make sure the properties are initially empty
 		IVizService service = new CSVVizService();
 
@@ -76,7 +84,7 @@ public class CSVVizServiceTester {
 		assertEquals(file.toURI(), plot.getDataSource());
 
 		// It should return a proxy to a CSVPlot.
-		assertTrue(plot instanceof CSVProxyPlot);
+		assertTrue(plot instanceof CSVPlot);
 
 		// Passing a null URI should throw an exception.
 		URI uri = null;

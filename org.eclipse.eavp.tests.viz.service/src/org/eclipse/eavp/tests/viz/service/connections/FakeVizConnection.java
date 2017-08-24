@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.eavp.tests.viz.service.connections;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 
 /**
@@ -100,5 +102,25 @@ public class FakeVizConnection extends VizConnection<FakeClient> {
 	 */
 	public boolean disconnectFromWidgetCalled() {
 		return disconnectFromWidgetCalled.getAndSet(false);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#startConnectThread()
+	 */
+	@Override
+	protected Future<ConnectionState> startConnectThread() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#startDisconnectThread()
+	 */
+	@Override
+	protected Future<ConnectionState> startDisconnectThread() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

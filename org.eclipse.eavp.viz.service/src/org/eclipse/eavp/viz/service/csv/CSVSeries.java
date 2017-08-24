@@ -17,6 +17,7 @@ import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.ISeriesStyle;
 import org.eclipse.eavp.viz.service.styles.AbstractSeriesStyle;
 
+import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.TransformedList;
 import ca.odell.glazedlists.event.ListEvent;
@@ -70,7 +71,7 @@ public class CSVSeries extends TransformedList<Double, Double>
 	 * Null constructor
 	 */
 	public CSVSeries() {
-		this(null);
+		this(new BasicEventList<Double>());
 	}
 
 	/**

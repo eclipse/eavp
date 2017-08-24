@@ -12,6 +12,7 @@
 package org.eclipse.eavp.viz.service.rcp.csv;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizCanvas;
 import org.eclipse.eavp.viz.service.VizProgressMonitor;
 import org.eclipse.eavp.viz.service.csv.CSVPlot;
@@ -106,7 +107,11 @@ public class RCPCSVDrawHandler extends RCPDrawHandler {
 			}
 			// Create a plot composite.
 			result = new CSVPlotComposite(parent, SWT.BORDER);
+			((CSVPlotComposite) result).setPlot((IPlot) canvas);
 
+			//Load the data to the canvas
+			((CSVPlot) canvas).load();
+			
 			// Make sure the plot data has been loaded
 			while (!((CSVPlot) canvas).isLoaded()) {
 				try {

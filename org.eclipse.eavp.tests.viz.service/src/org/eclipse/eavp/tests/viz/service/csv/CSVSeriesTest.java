@@ -20,9 +20,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.service.ISeries;
 import org.eclipse.eavp.viz.service.ISeriesStyle;
-import org.eclipse.eavp.viz.service.rcp.csv.CSVSeries;
-import org.eclipse.eavp.viz.service.rcp.csv.series.BasicErrorStyle;
-import org.eclipse.eavp.viz.service.rcp.csv.series.XYZSeriesStyle;
+import org.eclipse.eavp.viz.service.csv.CSVSeries;
+import org.eclipse.eavp.viz.service.styles.AbstractSeriesStyle;
 import org.junit.Test;
 
 /**
@@ -127,7 +126,6 @@ public class CSVSeriesTest {
 		assertNull(series.getParentSeries());
 		// Set the parent and test
 		series.setParentSeries(parent);
-		series.setStyle(new BasicErrorStyle());
 		// Make sure the parent was set properly
 		assertEquals(parent, series.getParentSeries());
 
@@ -147,10 +145,10 @@ public class CSVSeriesTest {
 		// The style should never be null. This should be the default
 		assertNotNull(style);
 		// Make sure that the default does not have a color associated with it
-		assertNull(style.getProperty(XYZSeriesStyle.COLOR));
+		assertNull(style.getProperty("COLOR"));
 
 		// Make sure the new style assignment stays
-		BasicErrorStyle style2 = new BasicErrorStyle();
+		AbstractSeriesStyle style2 = new AbstractSeriesStyle() {};
 		series.setStyle(style2);
 		assertEquals(style2, series.getStyle());
 		// Make sure changes to the series do not effect the style

@@ -183,7 +183,7 @@ public class CSVPlotTester extends SWTBotGefTestCase {
 	@Test
 	public void checkDraw() {
 		try {
-			plot.draw(shell);
+			plot.draw();
 			fail(getClass().getName() + " failure: "
 					+ "This plot is not intended to support drawing.");
 		} catch (Exception e) {

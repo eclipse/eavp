@@ -930,13 +930,22 @@ public class CSVPlotEditor extends EditorPart {
 
 		}
 
+		//Give the independent series a style if it doesn't have one
+		if (independentSeries.getStyle() == null) {
+			independentSeries.setStyle(new XYZSeriesStyle(null));
+		}
+		
 		XYZSeriesStyle indepStyle = (XYZSeriesStyle) independentSeries
 				.getStyle();
 		// Iterate over all of the series and see if any need to be added or
 		// reset
-		for (ISeries iseries : seriesToPlot) {
-			ISeries series = (ISeries) iseries;
-
+		for (ISeries series : seriesToPlot) {
+			
+			//Set a style for the series the first time it is graphed
+			if (series.getStyle() == null) {
+				series.setStyle(new XYZSeriesStyle(null));
+			}
+			
 			// Creates a new trace with the name, axis,and provider to plot
 			Trace trace = configureTrace(series, xValues, xPlusError,
 					xMinusError);

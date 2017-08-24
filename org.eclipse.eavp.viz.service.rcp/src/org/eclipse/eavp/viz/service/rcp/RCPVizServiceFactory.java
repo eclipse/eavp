@@ -38,7 +38,7 @@ public class RCPVizServiceFactory extends BasicVizServiceFactory {
 			EditorRegistry editorReg = (EditorRegistry) PlatformUI
 					.getWorkbench().getEditorRegistry();
 			EditorDescriptor editor = (EditorDescriptor) editorReg
-					.findEditor("org.eclipse.eavp.viz.service.PlotEditor");
+					.findEditor("org.eclipse.eavp.viz.service.rcp.PlotEditor");
 			FileEditorMapping mapping = new FileEditorMapping(ext);
 			mapping.addEditor(editor);
 			mapping.setDefaultEditor(editor);
@@ -52,5 +52,14 @@ public class RCPVizServiceFactory extends BasicVizServiceFactory {
 			newMappings[mappings.length] = mapping;
 			editorReg.setFileEditorMappings(newMappings);
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.eavp.viz.service.BasicVizServiceFactory#start()
+	 */
+	@Override
+	public void start() {
+		super.start();
 	}
 }

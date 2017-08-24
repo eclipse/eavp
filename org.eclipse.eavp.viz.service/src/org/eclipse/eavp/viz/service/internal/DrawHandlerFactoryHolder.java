@@ -56,5 +56,12 @@ public class DrawHandlerFactoryHolder {
 		}
 		return;
 	}
+	
+	/**
+	 * Initialize the factory holder service. This function is intended to be called only by the OSGI framework. 
+	 */
+	public void start() {
+		//Nothing to do
+	}
 
 }

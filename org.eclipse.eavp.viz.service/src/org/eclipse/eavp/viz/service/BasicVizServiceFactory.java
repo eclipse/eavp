@@ -47,9 +47,6 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 	public BasicVizServiceFactory() {
 		// Create the map to hold the services
 		serviceMap = new HashMap<String, IVizService>();
-
-		// Add the default CSV service
-		serviceMap.put("ice-plot", new CSVVizService());
 	}
 
 	/*
@@ -128,5 +125,14 @@ public class BasicVizServiceFactory implements IVizServiceFactory {
 		if (service != null) {
 			serviceMap.remove(service.getName());
 		}
+	}
+	
+	/**
+	 * This operation starts the service, including registering the basic CSV
+	 * plotter viz service, "ice-plot," with the platform.
+	 */
+	public void start() {
+		// Initialize "ice-plot" viz service
+		register(new CSVVizService());
 	}
 }

@@ -92,7 +92,10 @@ public abstract class AbstractPlot implements IPlot {
 
 		// Obtain the draw handler for this plot
 		IDrawHandlerFactory factory = DrawHandlerFactoryHolder.getFactory();
-		drawHandler = factory.getHandler(this);
+		
+		if (factory != null) {
+			drawHandler = factory.getHandler(this);
+		}
 	}
 
 	/**
@@ -140,8 +143,9 @@ public abstract class AbstractPlot implements IPlot {
 	 */
 	@Override
 	public void draw() throws Exception {
-		throw new UnsupportedOperationException(
-				"IPlot error: " + "This plot cannot be drawn.");
+
+		//Delegate to the draw handler
+		drawHandler.draw(this);
 	}
 
 	/*

@@ -186,7 +186,7 @@ public class CSVPlotComposite extends PlotComposite {
 	@Override
 	protected void updatePlotContent(Composite plotContent) throws Exception {
 		IPlot plot = getPlot();
-
+		
 		// Apply the basic plot features.
 		plotProvider.setPlotTitle(plot.getPlotTitle());
 		plotProvider.setIndependentSeries(plot.getIndependentSeries());

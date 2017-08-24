@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IVizService;
 import org.eclipse.eavp.viz.service.IVizServiceFactory;
 import org.eclipse.eavp.viz.service.internal.VizServiceFactoryHolder;
@@ -48,7 +49,7 @@ public class PlotDialogProvider {
 	 * A lexicographically ordered map of successfully created plots keyed on
 	 * the viz service names.
 	 */
-	private final Map<String, RCPPlot> allPlots = new TreeMap<String, RCPPlot>();
+	private final Map<String, IPlot> allPlots = new TreeMap<String, IPlot>();
 
 	/**
 	 * The name of the selected viz service.
@@ -75,7 +76,7 @@ public class PlotDialogProvider {
 			// Add any successfully created plot to the map.
 			if (service != null) {
 				try {
-					RCPPlot newPlot = (RCPPlot) service.createPlot(uri);
+					IPlot newPlot = service.createPlot(uri);
 					if (newPlot != null) {
 						allPlots.put(vizServiceName, newPlot);
 					}
@@ -96,8 +97,8 @@ public class PlotDialogProvider {
 	 * 
 	 * @return A list containing all created plots.
 	 */
-	public List<RCPPlot> getAllPlots() {
-		return new ArrayList<RCPPlot>(allPlots.values());
+	public List<IPlot> getAllPlots() {
+		return new ArrayList<IPlot>(allPlots.values());
 	}
 
 	/**
@@ -106,7 +107,7 @@ public class PlotDialogProvider {
 	 * @return The selected plot, or {@code null} if the dialog was cancelled or
 	 *         there was no viz service that could create a plot.
 	 */
-	public RCPPlot getSelectedPlot() {
+	public IPlot getSelectedPlot() {
 		return allPlots.get(selectedServiceName);
 	}
 
