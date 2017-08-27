@@ -66,8 +66,8 @@ public class LineSeries_3_Part extends LineChart {
 		chartSettings.getRangeRestriction().setZeroY(true);
 		chartSettings.setEnableRangeSelector(true);
 		chartSettings.setShowPositionMarker(true);
-		chartSettings.setShowCenterMarker(true);
-		chartSettings.setShowPositionLegend(true);
+		chartSettings.setShowPlotCenterMarker(true);
+		chartSettings.setShowLegendMarker(true);
 		chartSettings.setCreateMenu(true);
 		/*
 		 * Primary X-Axis

@@ -11,48 +11,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.internal.marker;
 
-import org.eclipse.swt.SWT;
+import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
-public class PositionMarker implements IExtendedPaintListener {
+public class PositionMarker extends AbstractExtendedPaintListener implements IExtendedPaintListener {
 
-	private int x;
-	private int y;
-	private Color foregroundColor;
-	private boolean draw;
-
-	public PositionMarker() {
-		x = -1;
-		y = -1;
-		foregroundColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
-		draw = true;
-	}
-
-	@Override
-	public void setActualPosition(int x, int y) {
-
-		this.x = x;
-		this.y = y;
-	}
-
-	@Override
-	public void setForegroundColor(Color foregroundColor) {
-
-		this.foregroundColor = foregroundColor;
-	}
-
-	@Override
-	public boolean isDraw() {
-
-		return draw;
-	}
-
-	@Override
-	public void setDraw(boolean draw) {
-
-		this.draw = draw;
+	public PositionMarker(BaseChart baseChart) {
+		super(baseChart);
 	}
 
 	@Override
@@ -61,18 +26,14 @@ public class PositionMarker implements IExtendedPaintListener {
 		/*
 		 * Plots a vertical/horizontal line in the plot area at the x position of the mouse.
 		 */
-		if(draw) {
-			e.gc.setForeground(foregroundColor);
+		if(isDraw()) {
+			int x = getX();
+			int y = getY();
+			e.gc.setForeground(getForegroundColor());
 			if(x > 0 && x < e.width && y > 0 && y < e.height) {
 				e.gc.drawLine(x, 0, x, e.height);
 				e.gc.drawLine(0, y, e.width, y);
 			}
 		}
-	}
-
-	@Override
-	public boolean drawBehindSeries() {
-
-		return false;
 	}
 }

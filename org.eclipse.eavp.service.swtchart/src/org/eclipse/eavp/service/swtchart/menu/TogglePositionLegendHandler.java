@@ -33,7 +33,7 @@ public class TogglePositionLegendHandler extends AbstractMenuEntry implements IM
 	public boolean isEnabled(ScrollableChart scrollableChart) {
 
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
-		if(chartSettings.isShowPositionLegend()) {
+		if(chartSettings.isShowLegendMarker()) {
 			return true;
 		} else {
 			return false;

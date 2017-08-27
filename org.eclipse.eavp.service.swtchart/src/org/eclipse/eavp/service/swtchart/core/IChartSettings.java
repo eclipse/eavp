@@ -116,21 +116,37 @@ public interface IChartSettings {
 
 	void setColorPositionMarker(Color colorPositionMarker);
 
-	boolean isShowCenterMarker();
+	boolean isShowPlotCenterMarker();
 
-	void setShowCenterMarker(boolean showCenterMarker);
+	void setShowPlotCenterMarker(boolean showPlotCenterMarker);
 
-	Color getColorCenterMarker();
+	Color getColorPlotCenterMarker();
 
-	void setColorCenterMarker(Color colorCenterMarker);
+	void setColorPlotCenterMarker(Color colorPlotCenterMarker);
 
-	boolean isShowPositionLegend();
+	boolean isShowLegendMarker();
 
-	void setShowPositionLegend(boolean showPositionLegend);
+	void setShowLegendMarker(boolean showLegendMarker);
 
-	Color getColorPositionLegend();
+	Color getColorLegendMarker();
 
-	void setColorPositionLegend(Color colorPositionLegend);
+	void setColorLegendMarker(Color colorLegendMarker);
+
+	boolean isShowAxisZeroMarker();
+
+	void setShowAxisZeroMarker(boolean showAxisZeroMarker);
+
+	Color getColorAxisZeroMarker();
+
+	void setColorAxisZeroMarker(Color colorAxisZeroMarker);
+
+	boolean isShowSeriesLabelMarker();
+
+	void setShowSeriesLabelMarker(boolean showSeriesLabelMarker);
+
+	Color getColorSeriesLabelMarker();
+
+	void setColorSeriesLabelMarker(Color colorSeriesLabelMarker);
 
 	boolean isCreateMenu();
 

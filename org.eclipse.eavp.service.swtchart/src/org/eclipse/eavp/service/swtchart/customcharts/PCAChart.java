@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.eavp.service.swtchart.axisconverter.PassThroughConverter;
-import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
@@ -26,18 +25,10 @@ import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesData;
 import org.eclipse.eavp.service.swtchart.scattercharts.ScatterChart;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
-import org.swtchart.ICustomPaintListener;
-import org.swtchart.IPlotArea;
-import org.swtchart.ISeries;
-import org.swtchart.ISeriesSet;
-import org.swtchart.Range;
 
 public class PCAChart extends ScatterChart {
 
@@ -112,13 +103,15 @@ public class PCAChart extends ScatterChart {
 		rangeRestriction.setZeroY(false);
 		rangeRestriction.setRestrictZoom(false);
 		rangeRestriction.setFactorExtend(0.25d);
+		chartSettings.setShowAxisZeroMarker(true);
+		chartSettings.setColorAxisZeroMarker(COLOR_BLACK);
+		chartSettings.setShowSeriesLabelMarker(true);
+		chartSettings.setColorSeriesLabelMarker(COLOR_BLACK);
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);
-		applySettings(chartSettings);
 		//
-		addZeroLineMarker();
-		addSeriesLabelMarker();
+		applySettings(chartSettings);
 	}
 
 	private void setPrimaryAxisSet(IChartSettings chartSettings) {
@@ -149,90 +142,5 @@ public class PCAChart extends ScatterChart {
 		secondaryAxisSettingsY.setDecimalFormat(decimalFormat);
 		secondaryAxisSettingsY.setColor(COLOR_BLACK);
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
-	}
-
-	private void addZeroLineMarker() {
-
-		/*
-		 * Plot a marker at zero.
-		 */
-		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
-		plotArea.addCustomPaintListener(new ICustomPaintListener() {
-
-			@Override
-			public void paintControl(PaintEvent e) {
-
-				Range xRange = getBaseChart().getAxisSet().getXAxes()[BaseChart.ID_PRIMARY_X_AXIS].getRange();
-				Range yRange = getBaseChart().getAxisSet().getYAxes()[BaseChart.ID_PRIMARY_Y_AXIS].getRange();
-				/*
-				 * Mark the zero lines if possible.
-				 * Otherwise draw the marker in half width.
-				 */
-				if(xRange.lower < 0 && xRange.upper > 0 && yRange.lower < 0 && yRange.upper > 0) {
-					Rectangle rectangle = getBaseChart().getPlotArea().getClientArea();
-					int width = rectangle.width;
-					int height = rectangle.height;
-					int xWidth;
-					int yHeight;
-					/*
-					 * Dependent where the zero values are.
-					 * xDelta and yDelta can't be zero -> protect from division by zero.
-					 */
-					double xDelta = xRange.upper - xRange.lower;
-					double yDelta = yRange.upper - yRange.lower;
-					double xDiff = xRange.lower * -1; // lower is negative
-					double yDiff = yRange.upper;
-					double xPart = ((100 / xDelta) * xDiff) / 100; // percent -> 0.0 - 1.0
-					double yPart = ((100 / yDelta) * yDiff) / 100; // percent -> 0.0 - 1.0
-					xWidth = (int)(width * xPart);
-					yHeight = (int)(height * yPart);
-					/*
-					 * Draw the line.
-					 */
-					e.gc.setForeground(COLOR_BLACK);
-					e.gc.drawLine(xWidth, 0, xWidth, height); // Vertical line through zero
-					e.gc.drawLine(0, yHeight, width, yHeight); // Horizontal line through zero
-				}
-			}
-
-			@Override
-			public boolean drawBehindSeries() {
-
-				return false;
-			}
-		});
-	}
-
-	private void addSeriesLabelMarker() {
-
-		/*
-		 * Plot the series name above the entry.
-		 */
-		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
-		plotArea.addCustomPaintListener(new ICustomPaintListener() {
-
-			@Override
-			public void paintControl(PaintEvent e) {
-
-				ISeriesSet seriesSet = getBaseChart().getSeriesSet();
-				ISeries[] series = seriesSet.getSeries();
-				for(ISeries serie : series) {
-					String label = serie.getId();
-					Point point = serie.getPixelCoordinates(0);
-					/*
-					 * Draw the label
-					 */
-					Point labelSize = e.gc.textExtent(label);
-					e.gc.setForeground(COLOR_BLACK);
-					e.gc.drawText(label, (int)(point.x - labelSize.x / 2.0d), (int)(point.y - labelSize.y - symbolSize / 2.0d), true);
-				}
-			}
-
-			@Override
-			public boolean drawBehindSeries() {
-
-				return false;
-			}
-		});
 	}
 }

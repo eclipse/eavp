@@ -33,7 +33,7 @@ public class ToggleCenterMarkerHandler extends AbstractMenuEntry implements IMen
 	public boolean isEnabled(ScrollableChart scrollableChart) {
 
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
-		if(chartSettings.isShowCenterMarker()) {
+		if(chartSettings.isShowPlotCenterMarker()) {
 			return true;
 		} else {
 			return false;

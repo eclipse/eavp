@@ -168,8 +168,10 @@ public class BarSeries_Preferences_Part extends Composite {
 		Locale localePrimaryYAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
 		Locale localeSecondaryYAxis = new Locale(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE));
 		Color colorPositionMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_POSITION_MARKER));
-		Color colorCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_CENTER_MARKER));
-		Color colorPositionLegend = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND));
+		Color colorPlotCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_PLOT_CENTER_MARKER));
+		Color colorLegendMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_LEGEND_MARKER));
+		Color colorAxisZeroMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_AXIS_ZERO_MARKER));
+		Color colorSeriesLabelMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_SERIES_LABEL_MARKER));
 		//
 		IChartSettings chartSettings = barChart.getChartSettings();
 		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
@@ -202,10 +204,15 @@ public class BarSeries_Preferences_Part extends Composite {
 		//
 		chartSettings.setShowPositionMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_POSITION_MARKER));
 		chartSettings.setColorPositionMarker(colorPositionMarker);
-		chartSettings.setShowCenterMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_CENTER_MARKER));
-		chartSettings.setColorCenterMarker(colorCenterMarker);
-		chartSettings.setShowPositionLegend(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND));
-		chartSettings.setColorPositionLegend(colorPositionLegend);
+		chartSettings.setShowPlotCenterMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_PLOT_CENTER_MARKER));
+		chartSettings.setColorPlotCenterMarker(colorPlotCenterMarker);
+		chartSettings.setShowLegendMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_LEGEND_MARKER));
+		chartSettings.setColorLegendMarker(colorLegendMarker);
+		chartSettings.setShowAxisZeroMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_AXIS_ZERO_MARKER));
+		chartSettings.setColorLegendMarker(colorAxisZeroMarker);
+		chartSettings.setShowSeriesLabelMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_SERIES_LABEL_MARKER));
+		chartSettings.setColorSeriesLabelMarker(colorSeriesLabelMarker);
+		//
 		chartSettings.setCreateMenu(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_CREATE_MENU));
 		/*
 		 * Primary X-Axis

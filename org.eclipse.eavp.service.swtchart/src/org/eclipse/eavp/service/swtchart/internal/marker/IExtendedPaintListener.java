@@ -11,10 +11,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.internal.marker;
 
+import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.graphics.Color;
 import org.swtchart.ICustomPaintListener;
 
 public interface IExtendedPaintListener extends ICustomPaintListener {
+
+	BaseChart getBaseChart();
 
 	void setActualPosition(int x, int y);
 

@@ -25,9 +25,11 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
-import org.eclipse.eavp.service.swtchart.internal.marker.CenterMarker;
-import org.eclipse.eavp.service.swtchart.internal.marker.PositionLegend;
+import org.eclipse.eavp.service.swtchart.internal.marker.AxisZeroMarker;
+import org.eclipse.eavp.service.swtchart.internal.marker.LegendMarker;
+import org.eclipse.eavp.service.swtchart.internal.marker.PlotCenterMarker;
 import org.eclipse.eavp.service.swtchart.internal.marker.PositionMarker;
+import org.eclipse.eavp.service.swtchart.internal.marker.SeriesLabelMarker;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -92,8 +94,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private List<ScrollableChart> linkedScrollableCharts;
 	//
 	private PositionMarker positionMarker;
-	private CenterMarker centerMarker;
-	private PositionLegend positionLegend;
+	private PlotCenterMarker plotCenterMarker;
+	private LegendMarker legendMarker;
+	private AxisZeroMarker axisZeroMarker;
+	private SeriesLabelMarker seriesLabelMarker;
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.
@@ -183,18 +187,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		this.chartSettings = chartSettings;
 		/*
-		 * Modify the chart.
+		 * Modify the chart and adjust the series.
 		 */
 		baseChart.suspendUpdate(true);
 		modifyChart();
-		baseChart.suspendUpdate(false);
-		/*
-		 * Adjust the series.
-		 */
 		ISeriesSet seriesSet = baseChart.getSeriesSet();
 		if(seriesSet.getSeries().length > 0) {
 			adjustRange(true);
 		}
+		baseChart.suspendUpdate(false);
 		baseChart.redraw();
 	}
 
@@ -316,8 +317,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			getBaseChart().getPlotArea().redraw();
 		}
 		//
-		if(positionLegend.isDraw()) {
-			positionLegend.setActualPosition(event.x, event.y);
+		if(legendMarker.isDraw()) {
+			legendMarker.setActualPosition(event.x, event.y);
 			getBaseChart().getPlotArea().redraw();
 		}
 	}
@@ -379,13 +380,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	public void toggleCenterMarkerVisibility() {
 
-		centerMarker.setDraw(!centerMarker.isDraw());
+		plotCenterMarker.setDraw(!plotCenterMarker.isDraw());
 		redraw();
 	}
 
 	public void togglePositionLegendVisibility() {
 
-		positionLegend.setDraw(!positionLegend.isDraw());
+		legendMarker.setDraw(!legendMarker.isDraw());
 		redraw();
 	}
 
@@ -541,8 +542,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setCustomPaintListener() {
 
 		setPositionMarker();
-		setCenterMarker();
-		setPositionLegend();
+		setPlotCenterMarker();
+		setLegendMarker();
+		setAxisZeroMarker();
+		setSeriesLabelMarker();
 	}
 
 	private void setPositionMarker() {
@@ -553,7 +556,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			plotArea.removeCustomPaintListener(positionMarker);
 		}
 		//
-		positionMarker = new PositionMarker();
+		positionMarker = new PositionMarker(baseChart);
 		positionMarker.setForegroundColor(chartSettings.getColorPositionMarker());
 		plotArea.addCustomPaintListener(positionMarker);
 		//
@@ -564,41 +567,79 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private void setCenterMarker() {
+	private void setPlotCenterMarker() {
 
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
 		//
-		if(centerMarker != null) {
-			plotArea.removeCustomPaintListener(centerMarker);
+		if(plotCenterMarker != null) {
+			plotArea.removeCustomPaintListener(plotCenterMarker);
 		}
 		//
-		centerMarker = new CenterMarker();
-		centerMarker.setForegroundColor(chartSettings.getColorCenterMarker());
-		plotArea.addCustomPaintListener(centerMarker);
+		plotCenterMarker = new PlotCenterMarker(baseChart);
+		plotCenterMarker.setForegroundColor(chartSettings.getColorPlotCenterMarker());
+		plotArea.addCustomPaintListener(plotCenterMarker);
 		//
-		if(chartSettings.isShowCenterMarker()) {
-			centerMarker.setDraw(true);
+		if(chartSettings.isShowPlotCenterMarker()) {
+			plotCenterMarker.setDraw(true);
 		} else {
-			centerMarker.setDraw(false);
+			plotCenterMarker.setDraw(false);
 		}
 	}
 
-	private void setPositionLegend() {
+	private void setLegendMarker() {
 
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
 		//
-		if(positionLegend != null) {
-			plotArea.removeCustomPaintListener(positionLegend);
+		if(legendMarker != null) {
+			plotArea.removeCustomPaintListener(legendMarker);
 		}
 		//
-		positionLegend = new PositionLegend(baseChart);
-		positionLegend.setForegroundColor(chartSettings.getColorPositionLegend());
-		plotArea.addCustomPaintListener(positionLegend);
+		legendMarker = new LegendMarker(baseChart);
+		legendMarker.setForegroundColor(chartSettings.getColorLegendMarker());
+		plotArea.addCustomPaintListener(legendMarker);
 		//
-		if(chartSettings.isShowPositionLegend()) {
-			positionLegend.setDraw(true);
+		if(chartSettings.isShowLegendMarker()) {
+			legendMarker.setDraw(true);
 		} else {
-			positionLegend.setDraw(false);
+			legendMarker.setDraw(false);
+		}
+	}
+
+	private void setAxisZeroMarker() {
+
+		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		//
+		if(axisZeroMarker != null) {
+			plotArea.removeCustomPaintListener(axisZeroMarker);
+		}
+		//
+		axisZeroMarker = new AxisZeroMarker(baseChart);
+		axisZeroMarker.setForegroundColor(chartSettings.getColorAxisZeroMarker());
+		plotArea.addCustomPaintListener(axisZeroMarker);
+		//
+		if(chartSettings.isShowAxisZeroMarker()) {
+			axisZeroMarker.setDraw(true);
+		} else {
+			axisZeroMarker.setDraw(false);
+		}
+	}
+
+	private void setSeriesLabelMarker() {
+
+		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		//
+		if(seriesLabelMarker != null) {
+			plotArea.removeCustomPaintListener(seriesLabelMarker);
+		}
+		//
+		seriesLabelMarker = new SeriesLabelMarker(baseChart);
+		seriesLabelMarker.setForegroundColor(chartSettings.getColorSeriesLabelMarker());
+		plotArea.addCustomPaintListener(seriesLabelMarker);
+		//
+		if(chartSettings.isShowSeriesLabelMarker()) {
+			seriesLabelMarker.setDraw(true);
+		} else {
+			seriesLabelMarker.setDraw(false);
 		}
 	}
 

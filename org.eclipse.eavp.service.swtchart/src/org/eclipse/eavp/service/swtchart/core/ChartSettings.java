@@ -67,10 +67,14 @@ public class ChartSettings implements IChartSettings {
 	//
 	private boolean showPositionMarker;
 	private Color colorPositionMarker;
-	private boolean showCenterMarker;
-	private Color colorCenterMarker;
-	private boolean showPositionLegend;
-	private Color colorPositionLegend;
+	private boolean showPlotCenterMarker;
+	private Color colorPlotCenterMarker;
+	private boolean showLegendMarker;
+	private Color colorLegendMarker;
+	private boolean showAxisZeroMarker;
+	private Color colorAxisZeroMarker;
+	private boolean showSeriesLabelMarker;
+	private Color colorSeriesLabelMarker;
 	//
 	private boolean createMenu;
 	private Set<IMenuEntry> menuEntries;
@@ -117,10 +121,14 @@ public class ChartSettings implements IChartSettings {
 		//
 		showPositionMarker = false;
 		colorPositionMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		showCenterMarker = false;
-		colorCenterMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		showPositionLegend = false;
-		colorPositionLegend = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+		showPlotCenterMarker = false;
+		colorPlotCenterMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+		showLegendMarker = false;
+		colorLegendMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+		showAxisZeroMarker = false;
+		colorAxisZeroMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+		showSeriesLabelMarker = false;
+		colorSeriesLabelMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
 		//
 		createMenu = false;
 		menuEntries = new HashSet<IMenuEntry>();
@@ -404,51 +412,99 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public boolean isShowCenterMarker() {
+	public boolean isShowPlotCenterMarker() {
 
-		return showCenterMarker;
+		return showPlotCenterMarker;
 	}
 
 	@Override
-	public void setShowCenterMarker(boolean showCenterMarker) {
+	public void setShowPlotCenterMarker(boolean showPlotCenterMarker) {
 
-		this.showCenterMarker = showCenterMarker;
+		this.showPlotCenterMarker = showPlotCenterMarker;
 	}
 
 	@Override
-	public Color getColorCenterMarker() {
+	public Color getColorPlotCenterMarker() {
 
-		return colorCenterMarker;
+		return colorPlotCenterMarker;
 	}
 
 	@Override
-	public void setColorCenterMarker(Color colorCenterMarker) {
+	public void setColorPlotCenterMarker(Color colorPlotCenterMarker) {
 
-		this.colorCenterMarker = colorCenterMarker;
+		this.colorPlotCenterMarker = colorPlotCenterMarker;
 	}
 
 	@Override
-	public boolean isShowPositionLegend() {
+	public boolean isShowLegendMarker() {
 
-		return showPositionLegend;
+		return showLegendMarker;
 	}
 
 	@Override
-	public void setShowPositionLegend(boolean showPositionLegend) {
+	public void setShowLegendMarker(boolean showLegendMarker) {
 
-		this.showPositionLegend = showPositionLegend;
+		this.showLegendMarker = showLegendMarker;
 	}
 
 	@Override
-	public Color getColorPositionLegend() {
+	public Color getColorLegendMarker() {
 
-		return colorPositionLegend;
+		return colorLegendMarker;
 	}
 
 	@Override
-	public void setColorPositionLegend(Color colorPositionLegend) {
+	public void setColorLegendMarker(Color colorLegendMarker) {
 
-		this.colorPositionLegend = colorPositionLegend;
+		this.colorLegendMarker = colorLegendMarker;
+	}
+
+	@Override
+	public boolean isShowAxisZeroMarker() {
+
+		return showAxisZeroMarker;
+	}
+
+	@Override
+	public void setShowAxisZeroMarker(boolean showAxisZeroMarker) {
+
+		this.showAxisZeroMarker = showAxisZeroMarker;
+	}
+
+	@Override
+	public Color getColorAxisZeroMarker() {
+
+		return colorAxisZeroMarker;
+	}
+
+	@Override
+	public void setColorAxisZeroMarker(Color colorAxisZeroMarker) {
+
+		this.colorAxisZeroMarker = colorAxisZeroMarker;
+	}
+
+	@Override
+	public boolean isShowSeriesLabelMarker() {
+
+		return showSeriesLabelMarker;
+	}
+
+	@Override
+	public void setShowSeriesLabelMarker(boolean showSeriesLabelMarker) {
+
+		this.showSeriesLabelMarker = showSeriesLabelMarker;
+	}
+
+	@Override
+	public Color getColorSeriesLabelMarker() {
+
+		return colorSeriesLabelMarker;
+	}
+
+	@Override
+	public void setColorSeriesLabelMarker(Color colorSeriesLabelMarker) {
+
+		this.colorSeriesLabelMarker = colorSeriesLabelMarker;
 	}
 
 	@Override

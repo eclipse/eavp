@@ -63,10 +63,14 @@ public class BarSeriesPreferencePage extends FieldEditorPreferencePage implement
 		addField(new DoubleFieldEditor(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SHOW_POSITION_MARKER, "Show Position Marker", getFieldEditorParent()));
 		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_COLOR_POSITION_MARKER, "Color Position Marker:", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SHOW_CENTER_MARKER, "Show Center Marker", getFieldEditorParent()));
-		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_COLOR_CENTER_MARKER, "Color Center Marker:", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SHOW_POSITION_LEGEND, "Show Position Legend", getFieldEditorParent()));
-		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_COLOR_POSITION_LEGEND, "Color Position Legend:", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SHOW_PLOT_CENTER_MARKER, "Show Plot Center Marker", getFieldEditorParent()));
+		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_COLOR_PLOT_CENTER_MARKER, "Color Plot Center Marker:", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SHOW_LEGEND_MARKER, "Show Legend Marker", getFieldEditorParent()));
+		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_COLOR_LEGEND_MARKER, "Color Legend Marker:", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SHOW_AXIS_ZERO_MARKER, "Show Axis Zero Marker", getFieldEditorParent()));
+		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_COLOR_AXIS_ZERO_MARKER, "Color Axis Zero Marker:", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_SHOW_SERIES_LABEL_MARKER, "Show Series Label Marker", getFieldEditorParent()));
+		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_COLOR_SERIES_LABEL_MARKER, "Color Series Label Marker:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_CREATE_MENU, "Create Menu", getFieldEditorParent()));
 	}
 

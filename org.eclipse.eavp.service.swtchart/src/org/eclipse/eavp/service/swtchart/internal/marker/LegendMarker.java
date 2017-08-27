@@ -17,36 +17,21 @@ import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;
 import org.eclipse.eavp.service.swtchart.core.IAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.IExtendedChart;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis;
 
-public class PositionLegend implements IExtendedPaintListener {
+public class LegendMarker extends AbstractExtendedPaintListener implements IExtendedPaintListener {
 
-	private int x;
-	private int y;
-	private Color foregroundColor;
-	private boolean draw;
-	//
-	private BaseChart baseChart;
 	private StringBuilder stringBuilder;
-	//
 	private String[] axisLabelsX;
 	private DecimalFormat decimalFormatX;
 	private String[] axisLabelsY;
 	private DecimalFormat decimalFormatY;
 
-	public PositionLegend(BaseChart baseChart) {
-		x = -1;
-		y = -1;
-		foregroundColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
-		draw = true;
+	public LegendMarker(BaseChart baseChart) {
+		super(baseChart);
 		//
 		stringBuilder = new StringBuilder();
-		this.baseChart = baseChart;
-		//
 		axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		decimalFormatX = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, BaseChart.ID_PRIMARY_X_AXIS);
 		axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
@@ -54,45 +39,14 @@ public class PositionLegend implements IExtendedPaintListener {
 	}
 
 	@Override
-	public void setActualPosition(int x, int y) {
-
-		this.x = x;
-		this.y = y;
-	}
-
-	@Override
-	public void setForegroundColor(Color foregroundColor) {
-
-		this.foregroundColor = foregroundColor;
-	}
-
-	@Override
-	public boolean isDraw() {
-
-		return draw;
-	}
-
-	@Override
-	public void setDraw(boolean draw) {
-
-		this.draw = draw;
-	}
-
-	@Override
-	public boolean drawBehindSeries() {
-
-		return false;
-	}
-
-	@Override
 	public void paintControl(PaintEvent e) {
 
-		if(draw) {
+		if(isDraw()) {
 			stringBuilder.delete(0, stringBuilder.length());
-			e.gc.setForeground(foregroundColor);
+			e.gc.setForeground(getForegroundColor());
 			//
-			double primaryValueX = getSelectedPrimaryAxisValue(x, IExtendedChart.X_AXIS);
-			double primaryValueY = getSelectedPrimaryAxisValue(y, IExtendedChart.Y_AXIS);
+			double primaryValueX = getSelectedPrimaryAxisValue(getX(), IExtendedChart.X_AXIS);
+			double primaryValueY = getSelectedPrimaryAxisValue(getY(), IExtendedChart.Y_AXIS);
 			//
 			drawXAxes(primaryValueX);
 			drawYAxes(primaryValueY);
@@ -105,6 +59,7 @@ public class PositionLegend implements IExtendedPaintListener {
 		/*
 		 * X Axes
 		 */
+		BaseChart baseChart = getBaseChart();
 		IAxisSettings axisSettingsX = baseChart.getXAxisSettings(BaseChart.ID_PRIMARY_X_AXIS);
 		if(axisSettingsX != null && axisSettingsX.isVisible()) {
 			stringBuilder.append(axisLabelsX[BaseChart.ID_PRIMARY_X_AXIS]);
@@ -135,6 +90,7 @@ public class PositionLegend implements IExtendedPaintListener {
 		/*
 		 * Y Axes
 		 */
+		BaseChart baseChart = getBaseChart();
 		IAxisSettings axisSettingsY = baseChart.getYAxisSettings(BaseChart.ID_PRIMARY_Y_AXIS);
 		if(axisSettingsY != null && axisSettingsY.isVisible()) {
 			if(stringBuilder.length() > 0) {
@@ -165,6 +121,7 @@ public class PositionLegend implements IExtendedPaintListener {
 
 	private double getSelectedPrimaryAxisValue(int position, String orientation) {
 
+		BaseChart baseChart = getBaseChart();
 		double primaryValue = 0.0d;
 		if(baseChart != null) {
 			//
