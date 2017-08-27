@@ -15,6 +15,7 @@ import org.eclipse.eavp.service.swtchart.demos.Activator;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
@@ -67,10 +68,22 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_PLOT_CENTER_MARKER, "Color Plot Center Marker:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_LEGEND_MARKER, "Show Legend Marker", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_LEGEND_MARKER, "Color Legend Marker:", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_AXIS_ZERO_MARKER, "Show Axis Zero Marker", getFieldEditorParent()));
-		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_AXIS_ZERO_MARKER, "Color Axis Zero Marker:", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_SERIES_LABEL_MARKER, "Show Series Label Marker", getFieldEditorParent()));
-		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_SERIES_LABEL_MARKER, "Color Series Label Marker:", getFieldEditorParent()));
+		/*
+		 * Not needed here.
+		 */
+		FieldEditor fieldEditor1;
+		FieldEditor fieldEditor2;
+		FieldEditor fieldEditor3;
+		FieldEditor fieldEditor4;
+		addField(fieldEditor1 = new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_AXIS_ZERO_MARKER, "Show Axis Zero Marker", getFieldEditorParent()));
+		addField(fieldEditor2 = new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_AXIS_ZERO_MARKER, "Color Axis Zero Marker:", getFieldEditorParent()));
+		addField(fieldEditor3 = new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_SERIES_LABEL_MARKER, "Show Series Label Marker", getFieldEditorParent()));
+		addField(fieldEditor4 = new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_SERIES_LABEL_MARKER, "Color Series Label Marker:", getFieldEditorParent()));
+		fieldEditor1.setEnabled(false, getFieldEditorParent());
+		fieldEditor2.setEnabled(false, getFieldEditorParent());
+		fieldEditor3.setEnabled(false, getFieldEditorParent());
+		fieldEditor4.setEnabled(false, getFieldEditorParent());
+		//
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_CREATE_MENU, "Create Menu", getFieldEditorParent()));
 	}
 

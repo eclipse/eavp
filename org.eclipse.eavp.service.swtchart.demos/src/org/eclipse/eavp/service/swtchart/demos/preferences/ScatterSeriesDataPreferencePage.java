@@ -17,7 +17,6 @@ import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
-import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -32,15 +31,26 @@ public class ScatterSeriesDataPreferencePage extends FieldEditorPreferencePage i
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
-		addField(new LabelFieldEditor("Scatter Series 1", getFieldEditorParent()));
+		addField(new LabelFieldEditor("Scatter Series", getFieldEditorParent()));
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		//
-		addField(new StringFieldEditor(ScatterSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1, "Description:", getFieldEditorParent()));
-		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_1, "Symbol Color:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1, "Symbol Size:", getFieldEditorParent()));
-		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1, "Symbol Type:", PreferenceSupport.SYMBOL_TYPES, getFieldEditorParent()));
-		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_1, "Visible", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1, "Visible in Legend", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES, "Symbol Size:", getFieldEditorParent()));
+		//
+		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_LEFT_TOP, "Symbol Color (Left Top):", getFieldEditorParent()));
+		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_LEFT_TOP, "Symbol Type (Left Top):", PreferenceSupport.SYMBOL_TYPES, getFieldEditorParent()));
+		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_LEFT_TOP, "Visible (Left Top)", getFieldEditorParent()));
+		//
+		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_RIGHT_TOP, "Symbol Color (Right Top):", getFieldEditorParent()));
+		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_RIGHT_TOP, "Symbol Type (Right Top):", PreferenceSupport.SYMBOL_TYPES, getFieldEditorParent()));
+		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_RIGHT_TOP, "Visible (Right Top)", getFieldEditorParent()));
+		//
+		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_LEFT_BOTTOM, "Symbol Color (Left Bottom):", getFieldEditorParent()));
+		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_LEFT_BOTTOM, "Symbol Type (Left Bottom):", PreferenceSupport.SYMBOL_TYPES, getFieldEditorParent()));
+		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_LEFT_BOTTOM, "Visible (Left Bottom)", getFieldEditorParent()));
+		//
+		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_RIGHT_BOTTOM, "Symbol Color (Right Bottom):", getFieldEditorParent()));
+		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_RIGHT_BOTTOM, "Symbol Type (Right Bottom):", PreferenceSupport.SYMBOL_TYPES, getFieldEditorParent()));
+		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_RIGHT_BOTTOM, "Visible (Right Bottom)", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

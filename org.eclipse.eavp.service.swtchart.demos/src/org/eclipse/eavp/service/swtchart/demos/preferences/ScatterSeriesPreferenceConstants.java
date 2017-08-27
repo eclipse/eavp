@@ -89,25 +89,25 @@ public class ScatterSeriesPreferenceConstants {
 	public static final String P_COLOR_PLOT_CENTER_MARKER = "colorPlotCenterMarker" + POSTFIX;
 	public static final String DEF_COLOR_PLOT_CENTER_MARKER = "100,100,100";
 	public static final String P_SHOW_LEGEND_MARKER = "showLegendMarker" + POSTFIX;
-	public static final boolean DEF_SHOW_LEGEND_MARKER = true;
+	public static final boolean DEF_SHOW_LEGEND_MARKER = false;
 	public static final String P_COLOR_LEGEND_MARKER = "colorLegendMarker" + POSTFIX;
 	public static final String DEF_COLOR_LEGEND_MARKER = "100,100,100";
 	public static final String P_SHOW_AXIS_ZERO_MARKER = "showAxisZeroMarker" + POSTFIX;
-	public static final boolean DEF_SHOW_AXIS_ZERO_MARKER = false;
+	public static final boolean DEF_SHOW_AXIS_ZERO_MARKER = true;
 	public static final String P_COLOR_AXIS_ZERO_MARKER = "colorAxisZeroMarker" + POSTFIX;
 	public static final String DEF_COLOR_AXIS_ZERO_MARKER = "100,100,100";
 	public static final String P_SHOW_SERIES_LABEL_MARKER = "showSeriesLabelMarker" + POSTFIX;
-	public static final boolean DEF_SHOW_SERIES_LABEL_MARKER = false;
+	public static final boolean DEF_SHOW_SERIES_LABEL_MARKER = true;
 	public static final String P_COLOR_SERIES_LABEL_MARKER = "colorSeriesLabelMarker" + POSTFIX;
-	public static final String DEF_COLOR_SERIES_LABEL_MARKER = "100,100,100";
+	public static final String DEF_COLOR_SERIES_LABEL_MARKER = "0,0,0";
 	//
 	public static final String P_CREATE_MENU = "createMenu" + POSTFIX;
 	public static final boolean DEF_CREATE_MENU = true;
 	//
 	public static final String P_PRIMARY_X_AXIS_TITLE = "primaryXAxisTitle" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_TITLE = "Param 1";
+	public static final String DEF_PRIMARY_X_AXIS_TITLE = "PC1";
 	public static final String P_PRIMARY_X_AXIS_DESCRIPTION = "primaryXAxisDescription" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Parameter 1";
+	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Principal Component 1";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "primaryXAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "primaryXAxisDecimalFormatLocale" + POSTFIX;
@@ -126,9 +126,9 @@ public class ScatterSeriesPreferenceConstants {
 	public static final int DEF_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
 	public static final String P_PRIMARY_Y_AXIS_TITLE = "primaryYAxisTitle" + POSTFIX;
-	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Param 2";
+	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "PC2";
 	public static final String P_PRIMARY_Y_AXIS_DESCRIPTION = "primaryYAxisDescription" + POSTFIX;
-	public static final String DEF_PRIMARY_Y_AXIS_DESCRIPTION = "Parameter 2";
+	public static final String DEF_PRIMARY_Y_AXIS_DESCRIPTION = "Principal Component 2";
 	public static final String P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "primaryYAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "0.000";
 	public static final String P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE = "primaryYAxisDecimalFormatLocale" + POSTFIX;
@@ -146,16 +146,34 @@ public class ScatterSeriesPreferenceConstants {
 	public static final String P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE = "primaryYAxisExtraSpaceTitle" + POSTFIX;
 	public static final int DEF_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
-	public static final String P_DESCRIPTION_SERIES_1 = "descriptionSeries1" + POSTFIX;
-	public static final String DEF_DESCRIPTION_SERIES_1 = "Measurement 1";
-	public static final String P_SYMBOL_COLOR_SERIES_1 = "symbolColorSeries1" + POSTFIX;
-	public static final String DEF_SYMBOL_COLOR_SERIES_1 = "255,0,0";
-	public static final String P_SYMBOL_SIZE_SERIES_1 = "symbolSizeSeries1" + POSTFIX;
-	public static final int DEF_SYMBOL_SIZE_SERIES_1 = 5;
-	public static final String P_SYMBOL_TYPE_SERIES_1 = "symbolTypeSeries1" + POSTFIX;
-	public static final String DEF_SYMBOL_TYPE_SERIES_1 = PlotSymbolType.CIRCLE.toString();
-	public static final String P_VISIBLE_SERIES_1 = "visibleSeries1" + POSTFIX;
-	public static final boolean DEF_VISIBLE_SERIES_1 = true;
-	public static final String P_VISIBLE_IN_LEGEND_SERIES_1 = "visibleInLegendSeries1" + POSTFIX;
-	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_1 = true;
+	public static final String P_SYMBOL_SIZE_SERIES = "symbolSizeSeries" + POSTFIX;
+	public static final int DEF_SYMBOL_SIZE_SERIES = 8;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_LEFT_TOP = "symbolColorSeriesLeftTop" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_LEFT_TOP = "255,0,255";
+	public static final String P_SYMBOL_TYPE_SERIES_LEFT_TOP = "symbolTypeSeriesLeftTop" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_LEFT_TOP = PlotSymbolType.DIAMOND.toString();
+	public static final String P_VISIBLE_SERIES_LEFT_TOP = "visibleSeriesLeftTop" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_LEFT_TOP = true;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_RIGHT_TOP = "symbolColorSeriesRightTop" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_RIGHT_TOP = "255,0,0";
+	public static final String P_SYMBOL_TYPE_SERIES_RIGHT_TOP = "symbolTypeSeriesRightTop" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_RIGHT_TOP = PlotSymbolType.SQUARE.toString();
+	public static final String P_VISIBLE_SERIES_RIGHT_TOP = "visibleSeriesRightTop" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_RIGHT_TOP = true;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_LEFT_BOTTOM = "symbolColorSeriesLeftBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_LEFT_BOTTOM = "0,255,255";
+	public static final String P_SYMBOL_TYPE_SERIES_LEFT_BOTTOM = "symbolTypeSeriesLeftBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_LEFT_BOTTOM = PlotSymbolType.INVERTED_TRIANGLE.toString();
+	public static final String P_VISIBLE_SERIES_LEFT_BOTTOM = "visibleSeriesLeftBottom" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_LEFT_BOTTOM = true;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_RIGHT_BOTTOM = "symbolColorSeriesRightBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_RIGHT_BOTTOM = "0,0,255";
+	public static final String P_SYMBOL_TYPE_SERIES_RIGHT_BOTTOM = "symbolTypeSeriesRightBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_RIGHT_BOTTOM = PlotSymbolType.TRIANGLE.toString();
+	public static final String P_VISIBLE_SERIES_RIGHT_BOTTOM = "visibleSeriesRightBottom" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_RIGHT_BOTTOM = true;
 }

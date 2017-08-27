@@ -30,7 +30,6 @@ import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.RangeRestriction;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.demos.Activator;
-import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferenceConstants;
 import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesDataPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferenceConstants;
 import org.eclipse.eavp.service.swtchart.demos.preferences.LineSeriesPreferencePage;
@@ -173,8 +172,8 @@ public class LineSeries_Preferences_Part extends Composite {
 		Color colorPositionMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_POSITION_MARKER));
 		Color colorPlotCenterMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_PLOT_CENTER_MARKER));
 		Color colorLegendMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_LEGEND_MARKER));
-		Color colorAxisZeroMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_AXIS_ZERO_MARKER));
-		Color colorSeriesLabelMarker = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_SERIES_LABEL_MARKER));
+		Color colorAxisZeroMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_AXIS_ZERO_MARKER));
+		Color colorSeriesLabelMarker = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_SERIES_LABEL_MARKER));
 		//
 		IChartSettings chartSettings = lineChart.getChartSettings();
 		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
@@ -211,9 +210,9 @@ public class LineSeries_Preferences_Part extends Composite {
 		chartSettings.setColorPlotCenterMarker(colorPlotCenterMarker);
 		chartSettings.setShowLegendMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_LEGEND_MARKER));
 		chartSettings.setColorLegendMarker(colorLegendMarker);
-		chartSettings.setShowAxisZeroMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_AXIS_ZERO_MARKER));
+		chartSettings.setShowAxisZeroMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_AXIS_ZERO_MARKER));
 		chartSettings.setColorLegendMarker(colorAxisZeroMarker);
-		chartSettings.setShowSeriesLabelMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_SERIES_LABEL_MARKER));
+		chartSettings.setShowSeriesLabelMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_SERIES_LABEL_MARKER));
 		chartSettings.setColorSeriesLabelMarker(colorSeriesLabelMarker);
 		//
 		chartSettings.setCreateMenu(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_CREATE_MENU));
