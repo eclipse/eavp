@@ -43,13 +43,15 @@ public class SeriesLabelMarker extends AbstractExtendedPaintListener implements 
 					if(seriesSettings instanceof IPointSeriesSettings) {
 						symbolSize = ((IPointSeriesSettings)seriesSettings).getSymbolSize();
 					}
-					Point point = serie.getPixelCoordinates(0);
 					/*
 					 * Draw the label
 					 */
-					Point labelSize = e.gc.textExtent(label);
 					e.gc.setForeground(getForegroundColor());
-					e.gc.drawText(label, (int)(point.x - labelSize.x / 2.0d), (int)(point.y - labelSize.y - symbolSize / 2.0d), true);
+					for(int i = 0; i < serie.getXSeries().length; i++) {
+						Point point = serie.getPixelCoordinates(i);
+						Point labelSize = e.gc.textExtent(label);
+						e.gc.drawText(label, (int)(point.x - labelSize.x / 2.0d), (int)(point.y - labelSize.y - symbolSize / 2.0d), true);
+					}
 				}
 			}
 		}

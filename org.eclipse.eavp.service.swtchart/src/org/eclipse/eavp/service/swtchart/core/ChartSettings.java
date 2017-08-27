@@ -20,10 +20,12 @@ import java.util.Set;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetSelectedSeriesHandler;
-import org.eclipse.eavp.service.swtchart.menu.ToggleCenterMarkerHandler;
-import org.eclipse.eavp.service.swtchart.menu.TogglePositionLegendHandler;
+import org.eclipse.eavp.service.swtchart.menu.ToggleAxisZeroMarkerHandler;
+import org.eclipse.eavp.service.swtchart.menu.ToggleLegendMarkerHandler;
+import org.eclipse.eavp.service.swtchart.menu.TogglePlotCenterMarkerHandler;
 import org.eclipse.eavp.service.swtchart.menu.TogglePositionMarkerHandler;
 import org.eclipse.eavp.service.swtchart.menu.ToggleRangeSelectorHandler;
+import org.eclipse.eavp.service.swtchart.menu.ToggleSeriesLabelMarkerHandler;
 import org.eclipse.eavp.service.swtchart.menu.ToggleSeriesLegendHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.BMPExportHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.JPGExportHandler;
@@ -129,16 +131,20 @@ public class ChartSettings implements IChartSettings {
 		colorAxisZeroMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
 		showSeriesLabelMarker = false;
 		colorSeriesLabelMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		//
+		/*
+		 * Default menu entries.
+		 */
 		createMenu = false;
 		menuEntries = new HashSet<IMenuEntry>();
 		menuEntries.add(new ResetChartHandler());
 		menuEntries.add(new ResetSelectedSeriesHandler());
 		menuEntries.add(new ToggleRangeSelectorHandler());
-		menuEntries.add(new TogglePositionLegendHandler());
+		menuEntries.add(new ToggleLegendMarkerHandler());
 		menuEntries.add(new TogglePositionMarkerHandler());
 		menuEntries.add(new ToggleSeriesLegendHandler());
-		menuEntries.add(new ToggleCenterMarkerHandler());
+		menuEntries.add(new TogglePlotCenterMarkerHandler());
+		menuEntries.add(new ToggleAxisZeroMarkerHandler());
+		menuEntries.add(new ToggleSeriesLabelMarkerHandler());
 		menuEntries.add(new JPGExportHandler());
 		menuEntries.add(new PNGExportHandler());
 		menuEntries.add(new BMPExportHandler());

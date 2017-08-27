@@ -25,8 +25,8 @@ public class PlotCenterMarker extends AbstractExtendedPaintListener implements I
 	public void paintControl(PaintEvent e) {
 
 		if(isDraw()) {
-			e.gc.setForeground(getForegroundColor());
 			int currentLineStyle = e.gc.getLineStyle();
+			e.gc.setForeground(getForegroundColor());
 			e.gc.setLineStyle(SWT.LINE_DASHDOT);
 			int width = e.width / 2;
 			e.gc.drawLine(width, 0, width, e.height);

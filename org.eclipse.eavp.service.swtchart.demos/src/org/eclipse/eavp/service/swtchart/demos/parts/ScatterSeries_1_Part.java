@@ -35,7 +35,6 @@ public class ScatterSeries_1_Part extends PCAChart {
 	private Color COLOR_BLUE = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
 	private Color COLOR_MAGENTA = Display.getDefault().getSystemColor(SWT.COLOR_MAGENTA);
 	private Color COLOR_CYAN = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-	private Color COLOR_GRAY = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 	//
 	private int SYMBOL_SIZE = 8;
 
@@ -82,9 +81,6 @@ public class ScatterSeries_1_Part extends PCAChart {
 			} else if(x < 0 && y < 0) {
 				scatterSeriesSettings.setSymbolColor(COLOR_CYAN);
 				scatterSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
-			} else {
-				scatterSeriesSettings.setSymbolColor(COLOR_GRAY);
-				scatterSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 			}
 			//
 			scatterSeriesDataList.add(scatterSeriesData);

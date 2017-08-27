@@ -77,6 +77,11 @@ public class SeriesConverter {
 
 	public static ISeriesData getSeriesXY(String fileName) {
 
+		return getSeriesXY(fileName, fileName);
+	}
+
+	public static ISeriesData getSeriesXY(String fileName, String id) {
+
 		int size = getNumberOfLines(fileName);
 		double[] xSeries = new double[size];
 		double[] ySeries = new double[size];
@@ -106,7 +111,7 @@ public class SeriesConverter {
 			}
 		}
 		//
-		ISeriesData seriesData = new SeriesData(xSeries, ySeries, fileName);
+		ISeriesData seriesData = new SeriesData(xSeries, ySeries, id);
 		return seriesData;
 	}
 

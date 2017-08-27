@@ -96,10 +96,12 @@ public class ScatterSeries_2_Part extends ScatterChart {
 		//
 		List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
 		for(int i = 1; i <= 9; i++) {
-			ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.SCATTER_SERIES + "2_" + i);
+			String id = descriptions.get(i);
+			String fileName = SeriesConverter.SCATTER_SERIES + "2_" + i;
+			ISeriesData seriesData = SeriesConverter.getSeriesXY(fileName, id);
 			IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
 			IScatterSeriesSettings scatterSerieSettings = scatterSeriesData.getScatterSeriesSettings();
-			scatterSerieSettings.setDescription(descriptions.get(i));
+			scatterSerieSettings.setDescription(id);
 			scatterSerieSettings.setSymbolSize(SYMBOL_SIZE);
 			scatterSerieSettings.setSymbolColor(colors.get(i));
 			scatterSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);

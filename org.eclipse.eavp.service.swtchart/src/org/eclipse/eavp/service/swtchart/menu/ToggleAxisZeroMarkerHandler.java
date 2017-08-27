@@ -15,7 +15,7 @@ import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;
 
-public class ToggleCenterMarkerHandler extends AbstractMenuEntry implements IMenuEntry {
+public class ToggleAxisZeroMarkerHandler extends AbstractMenuEntry implements IMenuEntry {
 
 	@Override
 	public String getCategory() {
@@ -26,14 +26,14 @@ public class ToggleCenterMarkerHandler extends AbstractMenuEntry implements IMen
 	@Override
 	public String getName() {
 
-		return "Center Marker";
+		return "Axis Zero Marker";
 	}
 
 	@Override
 	public boolean isEnabled(ScrollableChart scrollableChart) {
 
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
-		if(chartSettings.isShowPlotCenterMarker()) {
+		if(chartSettings.isShowAxisZeroMarker()) {
 			return true;
 		} else {
 			return false;
@@ -43,6 +43,6 @@ public class ToggleCenterMarkerHandler extends AbstractMenuEntry implements IMen
 	@Override
 	public void execute(Shell shell, ScrollableChart scrollableChart) {
 
-		scrollableChart.toggleCenterMarkerVisibility();
+		scrollableChart.toggleAxisZeroVisibility();
 	}
 }

@@ -119,7 +119,7 @@ public class BarSeriesPreferenceConstants {
 	public static final String P_PRIMARY_X_AXIS_VISIBLE = "primaryXAxisVisible" + POSTFIX;
 	public static final boolean DEF_PRIMARY_X_AXIS_VISIBLE = true;
 	public static final String P_PRIMARY_X_AXIS_GRID_LINE_STYLE = "primaryXAxisGridLineStyle" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
+	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DOT.toString();
 	public static final String P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = "primaryXAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = false;
 	public static final String P_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE = "primaryXAxisExtraSpaceTitle" + POSTFIX;
@@ -140,7 +140,7 @@ public class BarSeriesPreferenceConstants {
 	public static final String P_PRIMARY_Y_AXIS_VISIBLE = "primaryYAxisVisible" + POSTFIX;
 	public static final boolean DEF_PRIMARY_Y_AXIS_VISIBLE = true;
 	public static final String P_PRIMARY_Y_AXIS_GRID_LINE_STYLE = "primaryYAxisGridLineStyle" + POSTFIX;
-	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
+	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DOT.toString();
 	public static final String P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = "primaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = false;
 	public static final String P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE = "primaryYAxisExtraSpaceTitle" + POSTFIX;
@@ -161,7 +161,7 @@ public class BarSeriesPreferenceConstants {
 	public static final String P_SECONDARY_Y_AXIS_VISIBLE = "secondaryYAxisVisible" + POSTFIX;
 	public static final boolean DEF_SECONDARY_Y_AXIS_VISIBLE = true;
 	public static final String P_SECONDARY_Y_AXIS_GRID_LINE_STYLE = "secondaryYAxisGridLineStyle" + POSTFIX;
-	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DASH.toString();
+	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DOT.toString();
 	public static final String P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = "secondaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = false;
 	public static final String P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE = "secondaryYAxisExtraSpaceTitle" + POSTFIX;

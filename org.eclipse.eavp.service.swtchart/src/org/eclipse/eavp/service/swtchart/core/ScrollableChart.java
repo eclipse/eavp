@@ -397,6 +397,18 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.redraw();
 	}
 
+	public void toggleAxisZeroVisibility() {
+
+		axisZeroMarker.setDraw(!axisZeroMarker.isDraw());
+		baseChart.redraw();
+	}
+
+	public void toggleSeriesLabelVisibility() {
+
+		seriesLabelMarker.setDraw(!seriesLabelMarker.isDraw());
+		baseChart.redraw();
+	}
+
 	protected ISeriesData calculateSeries(ISeriesData seriesData) {
 
 		return calculateSeries(seriesData, NO_COMPRESS_TO_LENGTH); // No compression.

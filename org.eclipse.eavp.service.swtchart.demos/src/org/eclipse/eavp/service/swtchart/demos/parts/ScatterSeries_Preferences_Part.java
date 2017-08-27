@@ -200,7 +200,7 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		chartSettings.setShowLegendMarker(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SHOW_LEGEND_MARKER));
 		chartSettings.setColorLegendMarker(colorLegendMarker);
 		chartSettings.setShowAxisZeroMarker(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SHOW_AXIS_ZERO_MARKER));
-		chartSettings.setColorLegendMarker(colorAxisZeroMarker);
+		chartSettings.setColorAxisZeroMarker(colorAxisZeroMarker);
 		chartSettings.setShowSeriesLabelMarker(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SHOW_SERIES_LABEL_MARKER));
 		chartSettings.setColorSeriesLabelMarker(colorSeriesLabelMarker);
 		//

@@ -7,4 +7,3 @@ LatTeX Images (Line, Bar, Scatter)
 History (Do/Undo/Redo) -> previous selection, ...
 Demo Area Selection
 Modify series +/-
-Selected series Move via keyboard / mouse shortcut

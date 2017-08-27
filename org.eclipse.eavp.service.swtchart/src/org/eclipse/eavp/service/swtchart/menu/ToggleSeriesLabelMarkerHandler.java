@@ -15,7 +15,7 @@ import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;
 
-public class TogglePositionLegendHandler extends AbstractMenuEntry implements IMenuEntry {
+public class ToggleSeriesLabelMarkerHandler extends AbstractMenuEntry implements IMenuEntry {
 
 	@Override
 	public String getCategory() {
@@ -26,14 +26,14 @@ public class TogglePositionLegendHandler extends AbstractMenuEntry implements IM
 	@Override
 	public String getName() {
 
-		return "Position Legend";
+		return "Series Label Marker";
 	}
 
 	@Override
 	public boolean isEnabled(ScrollableChart scrollableChart) {
 
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
-		if(chartSettings.isShowLegendMarker()) {
+		if(chartSettings.isShowSeriesLabelMarker()) {
 			return true;
 		} else {
 			return false;
@@ -43,6 +43,6 @@ public class TogglePositionLegendHandler extends AbstractMenuEntry implements IM
 	@Override
 	public void execute(Shell shell, ScrollableChart scrollableChart) {
 
-		scrollableChart.togglePositionLegendVisibility();
+		scrollableChart.toggleSeriesLabelVisibility();
 	}
 }
