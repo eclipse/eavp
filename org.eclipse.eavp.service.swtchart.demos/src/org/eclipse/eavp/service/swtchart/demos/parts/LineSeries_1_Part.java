@@ -22,48 +22,22 @@ import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
+import org.eclipse.eavp.service.swtchart.marker.LabelMarker;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.swtchart.ICustomPaintListener;
-import org.swtchart.ILineSeries;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.IPlotArea;
-import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 
 public class LineSeries_1_Part extends ChromatogramChart {
 
-	private Transform transform;
-	private List<String> labels;
-	private int indexIdentifiedPeaks;
+	private int indexSeries;
 
 	@Inject
 	public LineSeries_1_Part(Composite parent) {
 		super(parent, SWT.NONE);
 		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
-		/*
-		 * Draw the text upright
-		 */
-		transform = new Transform(Display.getDefault());
-		transform.rotate(-90);
-		//
-		labels = new ArrayList<String>();
-		labels.add("2-Methoxy-4-vinylphenol");
-		labels.add("Ethanone, 1-(2-hydroxy-5-methylphenyl)-");
-		labels.add("4-Hydroxy-2-methylacetophenone");
-		labels.add("Ethanone, 1-(2-hydroxy-5-methylphenyl)-");
-		labels.add("4-Hydroxy-3-methylacetophenone");
-		labels.add("3-Methoxyacetophenone");
-		labels.add("3-Methyl-4-isopropylphenol");
-		labels.add("Phenol, 3,4-dimethoxy-");
-		labels.add("2,4-Dimethoxyphenol");
-		labels.add("3-Amino-2,6-dimethoxypyridine");
 		//
 		try {
 			initialize();
@@ -114,7 +88,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		/*
 		 * Active Peaks [3]
 		 */
-		indexIdentifiedPeaks = 3;
+		indexSeries = 3;
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_ACTIVE_PEAKS);
 		lineSeriesData = new LineSeriesData(seriesData);
 		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
@@ -209,50 +183,20 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 * Set series.
 		 */
 		addSeriesData(lineSeriesDataList);
-		//
-		addSeriesLabelMarker();
-	}
-
-	private void addSeriesLabelMarker() {
-
-		/*
-		 * Plot the series name above the entry.
-		 */
 		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
-		plotArea.addCustomPaintListener(new ICustomPaintListener() {
-
-			@Override
-			public void paintControl(PaintEvent e) {
-
-				Rectangle rectangle = getBaseChart().getPlotArea().getClientArea();
-				ISeries series = getBaseChart().getSeriesSet().getSeries()[indexIdentifiedPeaks];
-				ILineSeries lineSeries = (ILineSeries)series;
-				//
-				for(int i = 0; i < labels.size(); i++) {
-					/*
-					 * Draw the label
-					 */
-					String label = labels.get(i);
-					Point point = lineSeries.getPixelCoordinates(i);
-					//
-					if(rectangle.contains(point)) {
-						Point labelSize = e.gc.textExtent(label);
-						int x = -labelSize.x - (point.y - labelSize.x - 15);
-						int y = point.x - (labelSize.y / 2);
-						//
-						GC gc = e.gc;
-						gc.setTransform(transform);
-						gc.drawText(label, x, y, true);
-						gc.setTransform(null);
-					}
-				}
-			}
-
-			@Override
-			public boolean drawBehindSeries() {
-
-				return false;
-			}
-		});
+		LabelMarker labelMarker = new LabelMarker(getBaseChart());
+		List<String> labels = new ArrayList<String>();
+		labels.add("2-Methoxy-4-vinylphenol");
+		labels.add("Ethanone, 1-(2-hydroxy-5-methylphenyl)-");
+		labels.add("4-Hydroxy-2-methylacetophenone");
+		labels.add("Ethanone, 1-(2-hydroxy-5-methylphenyl)-");
+		labels.add("4-Hydroxy-3-methylacetophenone");
+		labels.add("3-Methoxyacetophenone");
+		labels.add("3-Methyl-4-isopropylphenol");
+		labels.add("Phenol, 3,4-dimethoxy-");
+		labels.add("2,4-Dimethoxyphenol");
+		labels.add("3-Amino-2,6-dimethoxypyridine");
+		labelMarker.setLabels(labels, indexSeries, SWT.VERTICAL);
+		plotArea.addCustomPaintListener(labelMarker);
 	}
 }

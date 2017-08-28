@@ -9,22 +9,20 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.internal.marker;
+package org.eclipse.eavp.service.swtchart.marker;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
-public abstract class AbstractExtendedPaintListener implements IExtendedPaintListener {
+public abstract class AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
 	private BaseChart baseChart;
-	private int x = -1;
-	private int y = -1;
 	private Color foregroundColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 	private boolean draw = true;
 
-	public AbstractExtendedPaintListener(BaseChart baseChart) {
+	public AbstractBaseChartPaintListener(BaseChart baseChart) {
 		this.baseChart = baseChart;
 	}
 
@@ -38,23 +36,6 @@ public abstract class AbstractExtendedPaintListener implements IExtendedPaintLis
 	public boolean drawBehindSeries() {
 
 		return false;
-	}
-
-	@Override
-	public void setActualPosition(int x, int y) {
-
-		this.x = x;
-		this.y = y;
-	}
-
-	protected int getX() {
-
-		return x;
-	}
-
-	protected int getY() {
-
-		return y;
 	}
 
 	@Override

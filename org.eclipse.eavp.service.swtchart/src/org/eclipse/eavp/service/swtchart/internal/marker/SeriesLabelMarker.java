@@ -14,12 +14,14 @@ package org.eclipse.eavp.service.swtchart.internal.marker;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IPointSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesSettings;
+import org.eclipse.eavp.service.swtchart.marker.AbstractBaseChartPaintListener;
+import org.eclipse.eavp.service.swtchart.marker.IBaseChartPaintListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Point;
 import org.swtchart.ISeries;
 import org.swtchart.ISeriesSet;
 
-public class SeriesLabelMarker extends AbstractExtendedPaintListener implements IExtendedPaintListener {
+public class SeriesLabelMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
 	public SeriesLabelMarker(BaseChart baseChart) {
 		super(baseChart);

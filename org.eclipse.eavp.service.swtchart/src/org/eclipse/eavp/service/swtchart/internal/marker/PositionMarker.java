@@ -12,9 +12,11 @@
 package org.eclipse.eavp.service.swtchart.internal.marker;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
+import org.eclipse.eavp.service.swtchart.marker.AbstractPositionPaintListener;
+import org.eclipse.eavp.service.swtchart.marker.IPositionPaintListener;
 import org.eclipse.swt.events.PaintEvent;
 
-public class PositionMarker extends AbstractExtendedPaintListener implements IExtendedPaintListener {
+public class PositionMarker extends AbstractPositionPaintListener implements IPositionPaintListener {
 
 	public PositionMarker(BaseChart baseChart) {
 		super(baseChart);

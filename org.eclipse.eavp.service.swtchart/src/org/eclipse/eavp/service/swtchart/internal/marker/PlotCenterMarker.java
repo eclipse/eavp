@@ -12,10 +12,12 @@
 package org.eclipse.eavp.service.swtchart.internal.marker;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
+import org.eclipse.eavp.service.swtchart.marker.AbstractBaseChartPaintListener;
+import org.eclipse.eavp.service.swtchart.marker.IBaseChartPaintListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 
-public class PlotCenterMarker extends AbstractExtendedPaintListener implements IExtendedPaintListener {
+public class PlotCenterMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
 	public PlotCenterMarker(BaseChart baseChart) {
 		super(baseChart);

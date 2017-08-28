@@ -9,17 +9,15 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.internal.marker;
+package org.eclipse.eavp.service.swtchart.marker;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.graphics.Color;
 import org.swtchart.ICustomPaintListener;
 
-public interface IExtendedPaintListener extends ICustomPaintListener {
+public interface IBaseChartPaintListener extends ICustomPaintListener {
 
 	BaseChart getBaseChart();
-
-	void setActualPosition(int x, int y);
 
 	void setForegroundColor(Color foregroundColor);
 

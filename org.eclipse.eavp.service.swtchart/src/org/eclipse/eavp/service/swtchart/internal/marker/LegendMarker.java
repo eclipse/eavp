@@ -17,10 +17,12 @@ import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;
 import org.eclipse.eavp.service.swtchart.core.IAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.IExtendedChart;
+import org.eclipse.eavp.service.swtchart.marker.AbstractPositionPaintListener;
+import org.eclipse.eavp.service.swtchart.marker.IPositionPaintListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.swtchart.IAxis;
 
-public class LegendMarker extends AbstractExtendedPaintListener implements IExtendedPaintListener {
+public class LegendMarker extends AbstractPositionPaintListener implements IPositionPaintListener {
 
 	private StringBuilder stringBuilder;
 	private String[] axisLabelsX;

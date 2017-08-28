@@ -12,11 +12,13 @@
 package org.eclipse.eavp.service.swtchart.internal.marker;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
+import org.eclipse.eavp.service.swtchart.marker.AbstractBaseChartPaintListener;
+import org.eclipse.eavp.service.swtchart.marker.IBaseChartPaintListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.swtchart.Range;
 
-public class AxisZeroMarker extends AbstractExtendedPaintListener implements IExtendedPaintListener {
+public class AxisZeroMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
 	public AxisZeroMarker(BaseChart baseChart) {
 		super(baseChart);
