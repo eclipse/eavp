@@ -65,31 +65,35 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
 		if(indexSeries >= 0 && indexSeries < series.length) {
 			ISeries serie = series[indexSeries];
-			for(int i : labels.keySet()) {
-				/*
-				 * Draw the label
-				 */
-				String label = labels.get(i);
-				Point point = serie.getPixelCoordinates(i);
-				//
-				if(rectangle.contains(point)) {
+			int size = serie.getXSeries().length;
+			for(int index : labels.keySet()) {
+				if(index < size) {
 					/*
-					 * Calculate x and y
+					 * Draw the label if the index is within the
+					 * range of the double array.
 					 */
-					int x;
-					int y;
-					Point labelSize = e.gc.textExtent(label);
-					GC gc = e.gc;
-					if(transform != null) {
-						gc.setTransform(transform);
-						x = -labelSize.x - (point.y - labelSize.x - 15);
-						y = point.x - (labelSize.y / 2);
-					} else {
-						x = point.x - labelSize.x / 2;
-						y = point.y - labelSize.y - 15;
+					String label = labels.get(index);
+					Point point = serie.getPixelCoordinates(index);
+					//
+					if(rectangle.contains(point)) {
+						/*
+						 * Calculate x and y
+						 */
+						int x;
+						int y;
+						Point labelSize = e.gc.textExtent(label);
+						GC gc = e.gc;
+						if(transform != null) {
+							gc.setTransform(transform);
+							x = -labelSize.x - (point.y - labelSize.x - 15);
+							y = point.x - (labelSize.y / 2);
+						} else {
+							x = point.x - labelSize.x / 2;
+							y = point.y - labelSize.y - 15;
+						}
+						gc.drawText(label, x, y, true);
+						gc.setTransform(null);
 					}
-					gc.drawText(label, x, y, true);
-					gc.setTransform(null);
 				}
 			}
 		}
