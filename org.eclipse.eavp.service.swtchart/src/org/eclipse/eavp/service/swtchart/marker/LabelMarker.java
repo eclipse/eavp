@@ -11,8 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.marker;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
@@ -27,7 +28,7 @@ import org.swtchart.ISeries;
 public class LabelMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
 	private Transform transform = null;
-	private List<String> labels = new ArrayList<String>();
+	private Map<Integer, String> labels = new HashMap<Integer, String>();
 	private int indexSeries = -1;
 
 	public LabelMarker(BaseChart baseChart) {
@@ -36,7 +37,17 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 
 	public void setLabels(List<String> labels, int indexSeries, int orientation) {
 
-		this.labels = (labels != null) ? labels : new ArrayList<String>();
+		Map<Integer, String> labelsMap = new HashMap<Integer, String>();
+		int index = 0;
+		for(String label : labels) {
+			labelsMap.put(index++, label);
+		}
+		setLabels(labelsMap, indexSeries, orientation);
+	}
+
+	public void setLabels(Map<Integer, String> labels, int indexSeries, int orientation) {
+
+		this.labels = (labels != null) ? labels : new HashMap<Integer, String>();
 		this.indexSeries = indexSeries;
 		if(orientation == SWT.VERTICAL) {
 			transform = new Transform(Display.getDefault());
@@ -54,7 +65,7 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
 		if(indexSeries >= 0 && indexSeries < series.length) {
 			ISeries serie = series[indexSeries];
-			for(int i = 0; i < labels.size(); i++) {
+			for(int i : labels.keySet()) {
 				/*
 				 * Draw the label
 				 */
@@ -62,13 +73,20 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 				Point point = serie.getPixelCoordinates(i);
 				//
 				if(rectangle.contains(point)) {
+					/*
+					 * Calculate x and y
+					 */
+					int x;
+					int y;
 					Point labelSize = e.gc.textExtent(label);
-					int x = -labelSize.x - (point.y - labelSize.x - 15);
-					int y = point.x - (labelSize.y / 2);
-					//
 					GC gc = e.gc;
 					if(transform != null) {
 						gc.setTransform(transform);
+						x = -labelSize.x - (point.y - labelSize.x - 15);
+						y = point.x - (labelSize.y / 2);
+					} else {
+						x = point.x - labelSize.x / 2;
+						y = point.y - labelSize.y - 15;
 					}
 					gc.drawText(label, x, y, true);
 					gc.setTransform(null);
