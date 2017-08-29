@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
+import org.eclipse.eavp.service.swtchart.core.IExtendedChart;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.ChromatogramChart;
 import org.eclipse.eavp.service.swtchart.demos.Activator;
@@ -39,10 +40,15 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public class LineSeries_Edit_Part extends Composite {
 
 	private Combo comboSelectSeries;
+	private Text textShiftX;
+	private Combo comboScaleX;
+	private Text textShiftY;
+	private Combo comboScaleY;
 	private ChromatogramChart chromatogramChart;
 
 	@Inject
@@ -66,14 +72,18 @@ public class LineSeries_Edit_Part extends Composite {
 		GridData gridDataComposite = new GridData(GridData.FILL_HORIZONTAL);
 		gridDataComposite.horizontalAlignment = SWT.BEGINNING;
 		compositeButtons.setLayoutData(gridDataComposite);
-		compositeButtons.setLayout(new GridLayout(7, false));
+		compositeButtons.setLayout(new GridLayout(11, false));
 		//
 		createLabel(compositeButtons);
 		createCombo(compositeButtons);
-		createButtonUp(compositeButtons);
-		createButtonDown(compositeButtons);
+		createTextShiftX(compositeButtons);
+		createComboScaleX(compositeButtons);
 		createButtonLeft(compositeButtons);
 		createButtonRight(compositeButtons);
+		createTextShiftY(compositeButtons);
+		createComboScaleY(compositeButtons);
+		createButtonUp(compositeButtons);
+		createButtonDown(compositeButtons);
 		createButtonReset(compositeButtons);
 		//
 		createChart(this);
@@ -101,44 +111,17 @@ public class LineSeries_Edit_Part extends Composite {
 		});
 	}
 
-	private void createButtonUp(Composite parent) {
+	private void createTextShiftX(Composite parent) {
 
-		Button button = new Button(parent, SWT.PUSH);
-		button.setToolTipText("Move Up");
-		button.setText(Activator.getDefault() != null ? "" : "Move Up");
-		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_UP) : null);
-		button.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				BaseChart baseChart = chromatogramChart.getBaseChart();
-				double shiftY = baseChart.getMaxY() / 30.0d;
-				String selectedSeriesId = comboSelectSeries.getText().trim();
-				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
-				baseChart.redraw();
-			}
-		});
+		textShiftX = new Text(parent, SWT.BORDER);
+		textShiftX.setText("");
+		textShiftX.setLayoutData(getGridData());
 	}
 
-	private void createButtonDown(Composite parent) {
+	private void createComboScaleX(Composite parent) {
 
-		Button button = new Button(parent, SWT.PUSH);
-		button.setToolTipText("Move Down");
-		button.setText(Activator.getDefault() != null ? "" : "Move Down");
-		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_DOWN) : null);
-		button.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				BaseChart baseChart = chromatogramChart.getBaseChart();
-				double shiftY = (baseChart.getMaxY() / 30.0d) * -1.0d;
-				String selectedSeriesId = comboSelectSeries.getText().trim();
-				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
-				baseChart.redraw();
-			}
-		});
+		comboScaleX = new Combo(parent, SWT.READ_ONLY);
+		comboScaleX.setLayoutData(getGridData());
 	}
 
 	private void createButtonLeft(Composite parent) {
@@ -176,6 +159,59 @@ public class LineSeries_Edit_Part extends Composite {
 				double shiftX = baseChart.getMaxX() / 30.0d;
 				String selectedSeriesId = comboSelectSeries.getText().trim();
 				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d);
+				baseChart.redraw();
+			}
+		});
+	}
+
+	private void createTextShiftY(Composite parent) {
+
+		textShiftY = new Text(parent, SWT.BORDER);
+		textShiftY.setText("");
+		textShiftY.setLayoutData(getGridData());
+	}
+
+	private void createComboScaleY(Composite parent) {
+
+		comboScaleY = new Combo(parent, SWT.READ_ONLY);
+		comboScaleY.setLayoutData(getGridData());
+	}
+
+	private void createButtonUp(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setToolTipText("Move Up");
+		button.setText(Activator.getDefault() != null ? "" : "Move Up");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_UP) : null);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				BaseChart baseChart = chromatogramChart.getBaseChart();
+				double shiftY = baseChart.getMaxY() / 30.0d;
+				String selectedSeriesId = comboSelectSeries.getText().trim();
+				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
+				baseChart.redraw();
+			}
+		});
+	}
+
+	private void createButtonDown(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setToolTipText("Move Down");
+		button.setText(Activator.getDefault() != null ? "" : "Move Down");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_DOWN) : null);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				BaseChart baseChart = chromatogramChart.getBaseChart();
+				double shiftY = (baseChart.getMaxY() / 30.0d) * -1.0d;
+				String selectedSeriesId = comboSelectSeries.getText().trim();
+				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
 				baseChart.redraw();
 			}
 		});
@@ -236,5 +272,55 @@ public class LineSeries_Edit_Part extends Composite {
 		chromatogramChart.addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);
 		comboSelectSeries.setItems(items);
 		comboSelectSeries.select(0);
+		setComboAxisItems();
+	}
+
+	public void setComboAxisItems() {
+
+		/*
+		 * X Axes
+		 */
+		IChartSettings chartSettings = chromatogramChart.getChartSettings();
+		BaseChart baseChart = chromatogramChart.getBaseChart();
+		String[] axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
+		comboScaleX.setItems(axisLabelsX);
+		if(axisLabelsX.length > 0) {
+			int selectedIndex = chartSettings.getRangeSelectorDefaultAxisX();
+			if(selectedIndex >= 0 && selectedIndex < axisLabelsX.length) {
+				comboScaleX.select(selectedIndex);
+			} else {
+				comboScaleX.select(0);
+			}
+		}
+		/*
+		 * Y Axes
+		 */
+		String[] axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
+		comboScaleY.setItems(axisLabelsY);
+		if(axisLabelsY.length > 0) {
+			int selectedIndex = chartSettings.getRangeSelectorDefaultAxisY();
+			if(selectedIndex >= 0 && selectedIndex < axisLabelsY.length) {
+				comboScaleY.select(selectedIndex);
+			} else {
+				comboScaleY.select(0);
+			}
+		}
+	}
+
+	private double getShiftX() {
+
+		return 0;
+	}
+
+	private double getShiftY() {
+
+		return 0;
+	}
+
+	private GridData getGridData() {
+
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.widthHint = 100;
+		return gridData;
 	}
 }
