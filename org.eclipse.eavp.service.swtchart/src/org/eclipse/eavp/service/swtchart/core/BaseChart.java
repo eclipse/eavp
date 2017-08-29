@@ -73,6 +73,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Set<String> selectedSeriesIds;
 	//
 	private Cursor defaultCursor;
+	/*
+	 * Shift series
+	 */
+	private static final long DELTA_MOVE_TIME = 50;
+	private long moveStartTime = 0;
+	private int xMoveStart = 0;
+	private int yMoveStart = 0;
 
 	private class SelectSeriesEventProcessor implements IEventProcessor {
 
@@ -202,6 +209,81 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	private class MouseMoveShiftEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			if(moveStartTime == 0) {
+				moveStartTime = System.currentTimeMillis();
+				xMoveStart = event.x;
+				yMoveStart = event.y;
+			} else {
+				if(System.currentTimeMillis() - moveStartTime <= DELTA_MOVE_TIME) {
+					/*
+					 * Adjust the series.
+					 */
+					double shiftX = getShiftValue(xMoveStart, event.x, IExtendedChart.X_AXIS);
+					double shiftY = getShiftValue(yMoveStart, event.y, IExtendedChart.Y_AXIS);
+					//
+					for(String selectedSeriesId : selectedSeriesIds) {
+						ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+						if(dataSeries != null) {
+							shiftSeries(selectedSeriesId, shiftX, shiftY);
+						}
+					}
+					//
+					xMoveStart = event.x;
+					yMoveStart = event.y;
+				} else {
+					moveStartTime = 0;
+					xMoveStart = 0;
+					yMoveStart = 0;
+				}
+			}
+		}
+	}
+
+	private double getShiftValue(int positionStart, int positionStop, String orientation) {
+
+		double shiftValue = 0.0d;
+		double start;
+		double stop;
+		int length;
+		/*
+		 * Get the axis.
+		 */
+		if(orientation.equals(IExtendedChart.X_AXIS)) {
+			IAxis axis = getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+			start = axis.getRange().lower;
+			stop = axis.getRange().upper;
+			length = getPlotArea().getBounds().width;
+		} else {
+			IAxis axis = getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+			start = axis.getRange().lower;
+			stop = axis.getRange().upper;
+			length = getPlotArea().getBounds().height;
+		}
+		//
+		if(positionStart > 0 && positionStop > 0 && positionStart < length && positionStop < length) {
+			//
+			double delta = stop - start;
+			double percentageStart;
+			double percentageStop;
+			//
+			if(orientation.equals(IExtendedChart.X_AXIS)) {
+				percentageStart = ((100.0d / length) * positionStart) / 100.0d;
+				percentageStop = ((100.0d / length) * positionStop) / 100.0d;
+			} else {
+				percentageStart = (100.0d - ((100.0d / length) * positionStart)) / 100.0d;
+				percentageStop = (100.0d - ((100.0d / length) * positionStop)) / 100.0d;
+			}
+			//
+			shiftValue = (start + delta * percentageStop) - (start + delta * percentageStart);
+		}
+		return shiftValue;
+	}
+
 	private class MouseUpEventProcessor implements IEventProcessor {
 
 		@Override
@@ -264,6 +346,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseMoveEvents.put(MOUSE_BUTTON_NULL, new HashMap<Integer, IEventProcessor>());
 		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveSelectionEventProcessor()); // Set Selection Range
+		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.CTRL, new MouseMoveShiftEventProcessor()); // Set Selection Range
 		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.NONE, new MouseMoveCursorEventProcessor());
 		//
 		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
@@ -440,6 +523,45 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				}
 			}
 		}
+	}
+
+	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY) {
+
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries != null) {
+			//
+			if(shiftX != 0.0d || shiftY != 0.0d) {
+				//
+				double seriesMinX = Double.MAX_VALUE;
+				double seriesMaxX = Double.MIN_VALUE;
+				double seriesMinY = Double.MAX_VALUE;
+				double seriesMaxY = Double.MIN_VALUE;
+				//
+				if(shiftX != 0.0d) {
+					double[] xSeriesShifted = adjustArray(dataSeries.getXSeries(), shiftX);
+					dataSeries.setXSeries(xSeriesShifted);
+					seriesMinX = xSeriesShifted[0];
+					seriesMaxX = xSeriesShifted[xSeriesShifted.length - 1];
+				}
+				//
+				if(shiftY != 0.0d) {
+					double[] ySeriesShifted = adjustArray(dataSeries.getYSeries(), shiftY);
+					dataSeries.setYSeries(ySeriesShifted);
+					seriesMinY = ySeriesShifted[0];
+					seriesMaxY = ySeriesShifted[ySeriesShifted.length - 1];
+				}
+				//
+				updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
+			}
+		}
+	}
+
+	private double[] adjustArray(double[] series, double shift) {
+
+		for(int i = 0; i < series.length; i++) {
+			series[i] += shift;
+		}
+		return series;
 	}
 
 	public String[] getAxisLabels(String axisOrientation) {

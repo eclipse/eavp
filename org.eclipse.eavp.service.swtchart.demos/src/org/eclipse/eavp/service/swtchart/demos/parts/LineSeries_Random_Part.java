@@ -101,12 +101,8 @@ public class LineSeries_Random_Part extends Composite {
 		//
 		buttonStart = new Button(compositeButtons, SWT.PUSH);
 		buttonStart.setToolTipText("Start Recording");
-		if(Activator.getDefault() != null) {
-			buttonStart.setText("");
-			buttonStart.setImage(Activator.getDefault().getImage(Activator.ICON_START));
-		} else {
-			buttonStart.setText("Start");
-		}
+		buttonStart.setText(Activator.getDefault() != null ? "" : "Start");
+		buttonStart.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_START) : null);
 		buttonStart.setEnabled(true);
 		buttonStart.addSelectionListener(new SelectionAdapter() {
 
@@ -122,12 +118,8 @@ public class LineSeries_Random_Part extends Composite {
 		//
 		buttonStop = new Button(compositeButtons, SWT.PUSH);
 		buttonStop.setToolTipText("Stop Recording");
-		if(Activator.getDefault() != null) {
-			buttonStop.setText("");
-			buttonStop.setImage(Activator.getDefault().getImage(Activator.ICON_STOP));
-		} else {
-			buttonStop.setText("Stop");
-		}
+		buttonStop.setText(Activator.getDefault() != null ? "" : "Stop");
+		buttonStop.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_STOP) : null);
 		buttonStop.setEnabled(false);
 		buttonStop.addSelectionListener(new SelectionAdapter() {
 
@@ -143,12 +135,8 @@ public class LineSeries_Random_Part extends Composite {
 		//
 		buttonReset = new Button(compositeButtons, SWT.PUSH);
 		buttonReset.setToolTipText("Reset");
-		if(Activator.getDefault() != null) {
-			buttonReset.setText("");
-			buttonReset.setImage(Activator.getDefault().getImage(Activator.ICON_RESET));
-		} else {
-			buttonReset.setText("Reset");
-		}
+		buttonReset.setText(Activator.getDefault() != null ? "" : "Reset");
+		buttonReset.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_RESET) : null);
 		buttonReset.setEnabled(true);
 		buttonReset.addSelectionListener(new SelectionAdapter() {
 

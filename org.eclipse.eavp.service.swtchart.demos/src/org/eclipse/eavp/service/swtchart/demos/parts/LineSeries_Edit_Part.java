@@ -43,7 +43,6 @@ import org.eclipse.swt.widgets.Label;
 public class LineSeries_Edit_Part extends Composite {
 
 	private Combo comboSelectSeries;
-	private Button buttonReset;
 	private ChromatogramChart chromatogramChart;
 
 	@Inject
@@ -67,10 +66,14 @@ public class LineSeries_Edit_Part extends Composite {
 		GridData gridDataComposite = new GridData(GridData.FILL_HORIZONTAL);
 		gridDataComposite.horizontalAlignment = SWT.BEGINNING;
 		compositeButtons.setLayoutData(gridDataComposite);
-		compositeButtons.setLayout(new GridLayout(3, false));
+		compositeButtons.setLayout(new GridLayout(7, false));
 		//
 		createLabel(compositeButtons);
 		createCombo(compositeButtons);
+		createButtonUp(compositeButtons);
+		createButtonDown(compositeButtons);
+		createButtonLeft(compositeButtons);
+		createButtonRight(compositeButtons);
 		createButtonReset(compositeButtons);
 		//
 		createChart(this);
@@ -98,18 +101,93 @@ public class LineSeries_Edit_Part extends Composite {
 		});
 	}
 
+	private void createButtonUp(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setToolTipText("Move Up");
+		button.setText(Activator.getDefault() != null ? "" : "Move Up");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_UP) : null);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				BaseChart baseChart = chromatogramChart.getBaseChart();
+				double shiftY = baseChart.getMaxY() / 30.0d;
+				String selectedSeriesId = comboSelectSeries.getText().trim();
+				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
+				baseChart.redraw();
+			}
+		});
+	}
+
+	private void createButtonDown(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setToolTipText("Move Down");
+		button.setText(Activator.getDefault() != null ? "" : "Move Down");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_DOWN) : null);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				BaseChart baseChart = chromatogramChart.getBaseChart();
+				double shiftY = (baseChart.getMaxY() / 30.0d) * -1.0d;
+				String selectedSeriesId = comboSelectSeries.getText().trim();
+				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
+				baseChart.redraw();
+			}
+		});
+	}
+
+	private void createButtonLeft(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setToolTipText("Move Left");
+		button.setText(Activator.getDefault() != null ? "" : "Move Left");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_LEFT) : null);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				BaseChart baseChart = chromatogramChart.getBaseChart();
+				double shiftX = (baseChart.getMaxX() / 30.0d) * -1.0d;
+				String selectedSeriesId = comboSelectSeries.getText().trim();
+				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d);
+				baseChart.redraw();
+			}
+		});
+	}
+
+	private void createButtonRight(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setToolTipText("Move Right");
+		button.setText(Activator.getDefault() != null ? "" : "Move Right");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_RIGHT) : null);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				BaseChart baseChart = chromatogramChart.getBaseChart();
+				double shiftX = baseChart.getMaxX() / 30.0d;
+				String selectedSeriesId = comboSelectSeries.getText().trim();
+				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d);
+				baseChart.redraw();
+			}
+		});
+	}
+
 	private void createButtonReset(Composite parent) {
 
-		buttonReset = new Button(parent, SWT.PUSH);
-		buttonReset.setToolTipText("Reset the data");
-		if(Activator.getDefault() != null) {
-			buttonReset.setText("");
-			buttonReset.setImage(Activator.getDefault().getImage(Activator.ICON_RESET));
-		} else {
-			buttonReset.setText("Reset");
-		}
-		buttonReset.setEnabled(true);
-		buttonReset.addSelectionListener(new SelectionAdapter() {
+		Button button = new Button(parent, SWT.PUSH);
+		button.setToolTipText("Reset the data");
+		button.setText(Activator.getDefault() != null ? "" : "Reset");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_RESET) : null);
+		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {

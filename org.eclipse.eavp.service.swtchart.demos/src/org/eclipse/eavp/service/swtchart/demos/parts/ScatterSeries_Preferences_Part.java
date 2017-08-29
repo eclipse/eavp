@@ -136,12 +136,8 @@ public class ScatterSeries_Preferences_Part extends Composite {
 	private void modifySettingsButton(Button button) {
 
 		button.setToolTipText("Open the Settings");
-		if(Activator.getDefault() != null) {
-			button.setText("");
-			button.setImage(Activator.getDefault().getImage(Activator.ICON_OPEN_SETTINGS));
-		} else {
-			button.setText("Settings");
-		}
+		button.setText(Activator.getDefault() != null ? "" : "Settings");
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_OPEN_SETTINGS) : null);
 	}
 
 	private void applyChartSettings() throws Exception {

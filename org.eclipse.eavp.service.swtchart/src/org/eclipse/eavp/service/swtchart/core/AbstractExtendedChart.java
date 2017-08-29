@@ -441,6 +441,11 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		double seriesMaxY = Arrays.stream(ySeries).max().getAsDouble();
 		//
 		length = Math.max(length, xSeries.length);
+		updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
+	}
+
+	protected void updateCoordinates(double seriesMinX, double seriesMaxX, double seriesMinY, double seriesMaxY) {
+
 		minX = Math.min(minX, seriesMinX);
 		minX = (rangeRestriction.isZeroX() && minX < 0.0d) ? 0.0d : minX;
 		maxX = Math.max(maxX, seriesMaxX);

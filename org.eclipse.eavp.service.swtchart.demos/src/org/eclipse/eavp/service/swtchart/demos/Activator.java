@@ -36,6 +36,10 @@ public class Activator extends AbstractUIPlugin {
 	public static final String ICON_START = "ICON_START"; // $NON-NLS-1$
 	public static final String ICON_STOP = "ICON_STOP"; // $NON-NLS-1$
 	public static final String ICON_RESET = "ICON_RESET"; // $NON-NLS-1$
+	public static final String ICON_UP = "ICON_UP"; // $NON-NLS-1$
+	public static final String ICON_DOWN = "ICON_DOWN"; // $NON-NLS-1$
+	public static final String ICON_LEFT = "ICON_LEFT"; // $NON-NLS-1$
+	public static final String ICON_RIGHT = "ICON_RIGHT"; // $NON-NLS-1$
 	//
 	public static final String PLUGIN_ID = "org.eclipse.eavp.service.swtchart.demos"; //$NON-NLS-1$
 	private static Activator plugin;
@@ -92,6 +96,10 @@ public class Activator extends AbstractUIPlugin {
 		imageHashMap.put(ICON_START, "icons/16x16/start.gif"); // $NON-NLS-1$
 		imageHashMap.put(ICON_STOP, "icons/16x16/stop.gif"); // $NON-NLS-1$
 		imageHashMap.put(ICON_RESET, "icons/16x16/reset.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_UP, "icons/16x16/up.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_DOWN, "icons/16x16/down.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_LEFT, "icons/16x16/left.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_RIGHT, "icons/16x16/right.gif"); // $NON-NLS-1$
 		//
 		ImageRegistry imageRegistry = getImageRegistry();
 		if(imageRegistry != null) {
