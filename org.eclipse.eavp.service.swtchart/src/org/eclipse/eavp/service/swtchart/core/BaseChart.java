@@ -422,6 +422,26 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		redraw();
 	}
 
+	public void selectSeries(String selectedSeriesId) {
+
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries instanceof ILineSeries) {
+			ILineSeries lineSeries = (ILineSeries)dataSeries;
+			if(lineSeries.getLineWidth() > 0) {
+				ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
+				if(seriesSettings instanceof ILineSeriesSettings) {
+					/*
+					 * Line Series
+					 */
+					selectedSeriesIds.add(selectedSeriesId);
+					ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
+					lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
+					redraw();
+				}
+			}
+		}
+	}
+
 	public String[] getAxisLabels(String axisOrientation) {
 
 		IAxis[] axes = getAxes(axisOrientation);
@@ -524,26 +544,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			yAxis.zoomIn(coordinateY);
 		} else {
 			yAxis.zoomOut(coordinateY);
-		}
-	}
-
-	private void selectSeries(String selectedSeriesId) {
-
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-		if(dataSeries instanceof ILineSeries) {
-			ILineSeries lineSeries = (ILineSeries)dataSeries;
-			if(lineSeries.getLineWidth() > 0) {
-				ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
-				if(seriesSettings instanceof ILineSeriesSettings) {
-					/*
-					 * Line Series
-					 */
-					selectedSeriesIds.add(selectedSeriesId);
-					ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
-					lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
-					redraw();
-				}
-			}
 		}
 	}
 

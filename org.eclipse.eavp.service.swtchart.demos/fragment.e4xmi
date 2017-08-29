@@ -102,5 +102,12 @@
         </children>
       </children>
     </elements>
+    <elements xsi:type="advanced:Perspective" xmi:id="_fg0mYIybEeeOUdZ4kx5FrQ" elementId="org.eclipse.eavp.service.swtchart.demos.perspective.eavpdemo-swtchartextensionseditdata" label="EAVP Demo - SWTChart Extensions (Edit Data)">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_i5-TgIybEeeOUdZ4kx5FrQ" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.13">
+        <children xsi:type="basic:PartStack" xmi:id="_jUivoIybEeeOUdZ4kx5FrQ" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.16">
+          <children xsi:type="basic:Part" xmi:id="_j1_P0IybEeeOUdZ4kx5FrQ" elementId="org.eclipse.eavp.service.swtchart.demos.part.editdata" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_Edit_Part" label="Edit Data" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+        </children>
+      </children>
+    </elements>
   </fragments>
 </fragment:ModelFragments>
