@@ -23,9 +23,11 @@ import java.util.Set;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Position;
@@ -69,6 +71,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private List<ICustomSelectionHandler> customSelectionHandlers;
 	private long clickStartTime;
 	private Set<String> selectedSeriesIds;
+	//
+	private Cursor defaultCursor;
 
 	private class SelectSeriesEventProcessor implements IEventProcessor {
 
@@ -170,7 +174,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private class MouseMoveEventProcessor implements IEventProcessor {
+	private class MouseMoveSelectionEventProcessor implements IEventProcessor {
 
 		@Override
 		public void handleEvent(Event event) {
@@ -180,6 +184,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			if(redrawCounter == TRIGGER_REDRAW_EVENT) {
 				redraw();
 				redrawCounter = 0;
+			}
+		}
+	}
+
+	private class MouseMoveCursorEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			String selectedSeriesId = getSelectedSeriedId(event);
+			if(selectedSeriesId.equals("")) {
+				setCursor(defaultCursor);
+			} else {
+				setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
 			}
 		}
 	}
@@ -198,6 +216,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
+		defaultCursor = getCursor();
 		/*
 		 * Rectangle range selection.
 		 */
@@ -244,7 +263,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseMoveEvents.put(MOUSE_BUTTON_NULL, new HashMap<Integer, IEventProcessor>());
-		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveEventProcessor()); // Set Selection Range
+		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveSelectionEventProcessor()); // Set Selection Range
+		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.NONE, new MouseMoveCursorEventProcessor());
 		//
 		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseUpEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
