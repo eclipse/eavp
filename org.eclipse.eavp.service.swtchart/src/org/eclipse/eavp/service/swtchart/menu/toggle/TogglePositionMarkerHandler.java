@@ -9,29 +9,43 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.menu.toggle;
 
+import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IMenuCategories;
+import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.swt.widgets.Shell;
 
-public class ResetChartHandler extends AbstractMenuEntry implements IMenuEntry {
+public class TogglePositionMarkerHandler extends AbstractMenuEntry implements IMenuEntry {
 
 	@Override
 	public String getCategory() {
 
-		return IMenuCategories.STANDARD_OPERATION;
+		return IMenuCategories.TOGGLE_VISIBILITY;
 	}
 
 	@Override
 	public String getName() {
 
-		return "Reset Chart (1:1)";
+		return "Position Marker";
+	}
+
+	@Override
+	public boolean isEnabled(ScrollableChart scrollableChart) {
+
+		IChartSettings chartSettings = scrollableChart.getChartSettings();
+		if(chartSettings.isShowPositionMarker()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public void execute(Shell shell, ScrollableChart scrollableChart) {
 
-		scrollableChart.adjustRange(true);
-		scrollableChart.redraw();
+		scrollableChart.togglePositionMarkerVisibility();
 	}
 }

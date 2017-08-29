@@ -11,26 +11,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.menu;
 
-import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
-import org.eclipse.swt.widgets.Shell;
+public interface IMenuCategories {
 
-public class ToggleSeriesLegendHandler extends AbstractMenuEntry implements IMenuEntry {
-
-	@Override
-	public String getCategory() {
-
-		return ICategories.TOGGLE_VISIBILITY;
-	}
-
-	@Override
-	public String getName() {
-
-		return "Series Legend";
-	}
-
-	@Override
-	public void execute(Shell shell, ScrollableChart scrollableChart) {
-
-		scrollableChart.toggleSeriesLegendVisibility();
-	}
+	String STANDARD_OPERATION = ""; // Must be empty to be placed on the main menu level.
+	String RANGE_SELECTION = "Range Selection";
+	String TOGGLE_VISIBILITY = "Toggle Visibility";
+	String EXPORT_CONVERTER = "Export Chart Selection";
 }

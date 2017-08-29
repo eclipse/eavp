@@ -21,7 +21,7 @@ public class ResetSelectedSeriesHandler extends AbstractMenuEntry implements IMe
 	@Override
 	public String getCategory() {
 
-		return ICategories.STANDARD_OPERATION;
+		return IMenuCategories.RANGE_SELECTION;
 	}
 
 	@Override

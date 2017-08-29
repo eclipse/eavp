@@ -9,10 +9,13 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.menu;
+package org.eclipse.eavp.service.swtchart.menu.toggle;
 
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IMenuCategories;
+import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.swt.widgets.Shell;
 
 public class ToggleAxisZeroMarkerHandler extends AbstractMenuEntry implements IMenuEntry {
@@ -20,7 +23,7 @@ public class ToggleAxisZeroMarkerHandler extends AbstractMenuEntry implements IM
 	@Override
 	public String getCategory() {
 
-		return ICategories.TOGGLE_VISIBILITY;
+		return IMenuCategories.TOGGLE_VISIBILITY;
 	}
 
 	@Override

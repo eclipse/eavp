@@ -13,7 +13,7 @@ package org.eclipse.eavp.service.swtchart.demos.menu;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry;
-import org.eclipse.eavp.service.swtchart.menu.ICategories;
+import org.eclipse.eavp.service.swtchart.menu.IMenuCategories;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.swt.widgets.Shell;
 
@@ -22,7 +22,7 @@ public class ResetYAxisHandler extends AbstractMenuEntry implements IMenuEntry {
 	@Override
 	public String getCategory() {
 
-		return ICategories.STANDARD_OPERATION;
+		return IMenuCategories.RANGE_SELECTION;
 	}
 
 	@Override
