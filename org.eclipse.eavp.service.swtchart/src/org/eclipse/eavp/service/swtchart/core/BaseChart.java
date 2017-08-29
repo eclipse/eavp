@@ -76,7 +76,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	/*
 	 * Shift series
 	 */
-	private static final long DELTA_MOVE_TIME = 50;
+	private static final long DELTA_MOVE_TIME = 350;
 	private long moveStartTime = 0;
 	private int xMoveStart = 0;
 	private int yMoveStart = 0;
@@ -214,31 +214,47 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		@Override
 		public void handleEvent(Event event) {
 
-			if(moveStartTime == 0) {
-				moveStartTime = System.currentTimeMillis();
-				xMoveStart = event.x;
-				yMoveStart = event.y;
-			} else {
-				if(System.currentTimeMillis() - moveStartTime <= DELTA_MOVE_TIME) {
+			if(selectedSeriesIds.size() > 0) {
+				/*
+				 * Only shift if series have been selected.
+				 */
+				if(moveStartTime == 0) {
 					/*
-					 * Adjust the series.
+					 * Start
 					 */
-					double shiftX = getShiftValue(xMoveStart, event.x, IExtendedChart.X_AXIS);
-					double shiftY = getShiftValue(yMoveStart, event.y, IExtendedChart.Y_AXIS);
-					//
-					for(String selectedSeriesId : selectedSeriesIds) {
-						ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-						if(dataSeries != null) {
-							shiftSeries(selectedSeriesId, shiftX, shiftY);
-						}
-					}
-					//
+					setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_SIZENWSE));
+					moveStartTime = System.currentTimeMillis();
 					xMoveStart = event.x;
 					yMoveStart = event.y;
 				} else {
-					moveStartTime = 0;
-					xMoveStart = 0;
-					yMoveStart = 0;
+					long deltaTime = System.currentTimeMillis() - moveStartTime;
+					if(deltaTime <= DELTA_MOVE_TIME) {
+						/*
+						 * Shift
+						 */
+						moveStartTime = System.currentTimeMillis();
+						//
+						double shiftX = getShiftValue(xMoveStart, event.x, IExtendedChart.X_AXIS);
+						double shiftY = getShiftValue(yMoveStart, event.y, IExtendedChart.Y_AXIS);
+						//
+						for(String selectedSeriesId : selectedSeriesIds) {
+							ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+							if(dataSeries != null) {
+								shiftSeries(selectedSeriesId, shiftX, shiftY);
+							}
+						}
+						redraw();
+						//
+						xMoveStart = event.x;
+						yMoveStart = event.y;
+					} else {
+						/*
+						 * Default
+						 */
+						moveStartTime = 0;
+						xMoveStart = 0;
+						yMoveStart = 0;
+					}
 				}
 			}
 		}
@@ -346,7 +362,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseMoveEvents.put(MOUSE_BUTTON_NULL, new HashMap<Integer, IEventProcessor>());
 		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveSelectionEventProcessor()); // Set Selection Range
-		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.CTRL, new MouseMoveShiftEventProcessor()); // Set Selection Range
+		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.CTRL, new MouseMoveShiftEventProcessor()); // Shift the selected series
 		mouseMoveEvents.get(MOUSE_BUTTON_NULL).put(SWT.NONE, new MouseMoveCursorEventProcessor());
 		//
 		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
