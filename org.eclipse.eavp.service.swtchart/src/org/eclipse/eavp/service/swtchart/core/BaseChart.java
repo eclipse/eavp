@@ -81,7 +81,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private long moveStartTime = 0;
 	private int xMoveStart = 0;
 	private int yMoveStart = 0;
-	private Map<String, List<double[]>> dataShiftLog;
+	private Map<String, List<double[]>> dataShiftHistory;
 
 	private class SelectSeriesEventProcessor implements IEventProcessor {
 
@@ -346,14 +346,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.enableCategory(false);
 		//
 		supportDataShift = false;
-		dataShiftLog = new HashMap<String, List<double[]>>();
+		dataShiftHistory = new HashMap<String, List<double[]>>();
 	}
 
 	@Override
 	public void deleteSeries(String id) {
 
 		super.deleteSeries(id);
-		dataShiftLog.remove(id);
+		dataShiftHistory.remove(id);
 	}
 
 	public void setSupportDataShift(boolean supportDataShift) {
@@ -558,6 +558,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	public List<double[]> getDataShiftHistory(String selectedSeriesId) {
+
+		List<double[]> dataShifts = dataShiftHistory.get(selectedSeriesId);
+		if(dataShifts != null) {
+			return Collections.unmodifiableList(dataShifts);
+		} else {
+			return null;
+		}
+	}
+
 	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY) {
 
 		if(supportDataShift) {
@@ -589,10 +599,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 					 */
 					Range rangeX = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
 					Range rangeY = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
-					List<double[]> trackRecords = dataShiftLog.get(selectedSeriesId);
+					List<double[]> trackRecords = dataShiftHistory.get(selectedSeriesId);
 					if(trackRecords == null) {
 						trackRecords = new ArrayList<double[]>();
-						dataShiftLog.put(selectedSeriesId, trackRecords);
+						dataShiftHistory.put(selectedSeriesId, trackRecords);
 					}
 					trackRecords.add(new double[]{rangeX.lower, rangeX.upper, shiftX, rangeY.lower, rangeY.upper, shiftY});
 					//

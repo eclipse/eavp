@@ -43,16 +43,28 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 public class LineSeries_Edit_Part extends Composite {
 
+	private static final int NUM_SERIES = 5;
+	private TabFolder tabFolder;
+	/*
+	 * Chart
+	 */
 	private Combo comboSelectSeries;
 	private Text textShiftX;
 	private Combo comboScaleX;
 	private Text textShiftY;
 	private Combo comboScaleY;
 	private ChromatogramChart chromatogramChart;
+	//
+	private Map<Integer, Table> shiftTableMap;
 
 	@Inject
 	public LineSeries_Edit_Part(Composite parent) {
@@ -67,11 +79,96 @@ public class LineSeries_Edit_Part extends Composite {
 
 	private void initialize() throws Exception {
 
+		shiftTableMap = new HashMap<Integer, Table>();
+		//
 		this.setLayout(new GridLayout(1, true));
+		tabFolder = new TabFolder(this, SWT.BOTTOM);
+		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
+		tabFolder.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				int index = tabFolder.getSelectionIndex();
+				Table table = shiftTableMap.get(index);
+				List<double[]> dataShifts = chromatogramChart.getBaseChart().getDataShiftHistory(SeriesConverter.LINE_SERIES + "4_" + index);
+				table.removeAll();
+				for(double[] dataShift : dataShifts) {
+					addTableRow(table, dataShift);
+				}
+			}
+		});
+		createChartTabItem();
+		createTableTabItems();
+	}
+
+	private void createChartTabItem() {
+
+		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
+		tabItem.setText("Chart");
+		Composite composite = new Composite(tabFolder, SWT.NONE);
+		composite.setLayout(new GridLayout(1, true));
+		createChartSection(composite);
+		tabItem.setControl(composite);
+	}
+
+	private void createTableTabItems() {
+
+		for(int i = 1; i <= NUM_SERIES; i++) {
+			TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
+			tabItem.setText(SeriesConverter.LINE_SERIES + "4_" + i);
+			Composite composite = new Composite(tabFolder, SWT.NONE);
+			composite.setLayout(new GridLayout(1, true));
+			Table table = createTableSection(composite);
+			shiftTableMap.put(i, table);
+			tabItem.setControl(composite);
+		}
+	}
+
+	private Table createTableSection(Composite parent) {
+
+		Table table = new Table(parent, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		table.setLayoutData(new GridData(GridData.FILL_BOTH));
+		//
+		String labelAxisX = chromatogramChart.getBaseChart().getXAxisSettings(BaseChart.ID_PRIMARY_X_AXIS).getLabel();
+		String labelAxisY = chromatogramChart.getBaseChart().getYAxisSettings(BaseChart.ID_PRIMARY_Y_AXIS).getLabel();
+		//
+		addTableColumn(table, "Start [" + labelAxisX + "]", 150);
+		addTableColumn(table, "Stop [" + labelAxisX + "]", 150);
+		addTableColumn(table, "Shift [" + labelAxisX + "]", 150);
+		addTableColumn(table, "Start [" + labelAxisY + "]", 150);
+		addTableColumn(table, "Stop [" + labelAxisY + "]", 150);
+		addTableColumn(table, "Shift [" + labelAxisY + "]", 150);
+		//
+		return table;
+	}
+
+	private void addTableColumn(Table table, String column, int width) {
+
+		TableColumn tableColumn = new TableColumn(table, SWT.LEFT);
+		tableColumn.setText(column);
+		tableColumn.setWidth(width);
+	}
+
+	public void addTableRow(Table table, double[] dataShift) {
+
+		int size = dataShift.length;
+		String[] row = new String[size];
+		for(int i = 0; i < size; i++) {
+			row[i] = Double.toString(dataShift[i]);
+		}
+		TableItem tableItem = new TableItem(table, SWT.NONE);
+		tableItem.setText(row);
+	}
+
+	private void createChartSection(Composite parent) {
+
 		/*
 		 * Buttons
 		 */
-		Composite compositeButtons = new Composite(this, SWT.NONE);
+		Composite compositeButtons = new Composite(parent, SWT.NONE);
 		GridData gridDataComposite = new GridData(GridData.FILL_HORIZONTAL);
 		gridDataComposite.horizontalAlignment = SWT.BEGINNING;
 		compositeButtons.setLayoutData(gridDataComposite);
@@ -89,7 +186,7 @@ public class LineSeries_Edit_Part extends Composite {
 		createButtonDown(compositeButtons);
 		createButtonReset(compositeButtons);
 		//
-		createChart(this);
+		createChart(parent);
 	}
 
 	private void createLabel(Composite parent) {
@@ -261,7 +358,7 @@ public class LineSeries_Edit_Part extends Composite {
 		items[0] = "No Selection";
 		//
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
-		for(int i = 1; i <= 5; i++) {
+		for(int i = 1; i <= NUM_SERIES; i++) {
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES + "4_" + i);
 			items[i] = seriesData.getId();
 			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
