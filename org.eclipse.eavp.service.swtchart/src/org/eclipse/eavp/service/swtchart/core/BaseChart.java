@@ -76,10 +76,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	/*
 	 * Shift series
 	 */
+	private boolean supportDataShift;
 	private static final long DELTA_MOVE_TIME = 350;
 	private long moveStartTime = 0;
 	private int xMoveStart = 0;
 	private int yMoveStart = 0;
+	private Map<String, List<double[]>> dataShiftLog;
 
 	private class SelectSeriesEventProcessor implements IEventProcessor {
 
@@ -214,7 +216,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		@Override
 		public void handleEvent(Event event) {
 
-			if(selectedSeriesIds.size() > 0) {
+			if(supportDataShift && selectedSeriesIds.size() > 0) {
 				/*
 				 * Only shift if series have been selected.
 				 */
@@ -342,6 +344,21 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.getTick().setFormat(new DecimalFormat());
 		yAxisPrimary.enableLogScale(false);
 		yAxisPrimary.enableCategory(false);
+		//
+		supportDataShift = false;
+		dataShiftLog = new HashMap<String, List<double[]>>();
+	}
+
+	@Override
+	public void deleteSeries(String id) {
+
+		super.deleteSeries(id);
+		dataShiftLog.remove(id);
+	}
+
+	public void setSupportDataShift(boolean supportDataShift) {
+
+		this.supportDataShift = supportDataShift;
 	}
 
 	private void initializeEventProcessors() {
@@ -543,31 +560,44 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY) {
 
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-		if(dataSeries != null) {
-			//
-			if(shiftX != 0.0d || shiftY != 0.0d) {
+		if(supportDataShift) {
+			ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+			if(dataSeries != null) {
 				//
-				double seriesMinX = Double.MAX_VALUE;
-				double seriesMaxX = Double.MIN_VALUE;
-				double seriesMinY = Double.MAX_VALUE;
-				double seriesMaxY = Double.MIN_VALUE;
-				//
-				if(shiftX != 0.0d) {
-					double[] xSeriesShifted = adjustArray(dataSeries.getXSeries(), shiftX);
-					dataSeries.setXSeries(xSeriesShifted);
-					seriesMinX = xSeriesShifted[0];
-					seriesMaxX = xSeriesShifted[xSeriesShifted.length - 1];
+				if(shiftX != 0.0d || shiftY != 0.0d) {
+					//
+					double seriesMinX = Double.MAX_VALUE;
+					double seriesMaxX = Double.MIN_VALUE;
+					double seriesMinY = Double.MAX_VALUE;
+					double seriesMaxY = Double.MIN_VALUE;
+					//
+					if(shiftX != 0.0d) {
+						double[] xSeriesShifted = adjustArray(dataSeries.getXSeries(), shiftX);
+						dataSeries.setXSeries(xSeriesShifted);
+						seriesMinX = xSeriesShifted[0];
+						seriesMaxX = xSeriesShifted[xSeriesShifted.length - 1];
+					}
+					//
+					if(shiftY != 0.0d) {
+						double[] ySeriesShifted = adjustArray(dataSeries.getYSeries(), shiftY);
+						dataSeries.setYSeries(ySeriesShifted);
+						seriesMinY = ySeriesShifted[0];
+						seriesMaxY = ySeriesShifted[ySeriesShifted.length - 1];
+					}
+					/*
+					 * Track the shifts.
+					 */
+					Range rangeX = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
+					Range rangeY = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
+					List<double[]> trackRecords = dataShiftLog.get(selectedSeriesId);
+					if(trackRecords == null) {
+						trackRecords = new ArrayList<double[]>();
+						dataShiftLog.put(selectedSeriesId, trackRecords);
+					}
+					trackRecords.add(new double[]{rangeX.lower, rangeX.upper, shiftX, rangeY.lower, rangeY.upper, shiftY});
+					//
+					updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
 				}
-				//
-				if(shiftY != 0.0d) {
-					double[] ySeriesShifted = adjustArray(dataSeries.getYSeries(), shiftY);
-					dataSeries.setYSeries(ySeriesShifted);
-					seriesMinY = ySeriesShifted[0];
-					seriesMaxY = ySeriesShifted[ySeriesShifted.length - 1];
-				}
-				//
-				updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
 			}
 		}
 	}

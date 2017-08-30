@@ -80,6 +80,8 @@ public class ChartSettings implements IChartSettings {
 	//
 	private boolean createMenu;
 	private Set<IMenuEntry> menuEntries;
+	//
+	private boolean supportDataShift;
 
 	public ChartSettings() {
 		//
@@ -152,6 +154,8 @@ public class ChartSettings implements IChartSettings {
 		menuEntries.add(new LaTeXTableExportHandler());
 		menuEntries.add(new RScriptExportHandler());
 		menuEntries.add(new PrinterExportHandler());
+		//
+		supportDataShift = false;
 	}
 
 	@Override
@@ -547,5 +551,17 @@ public class ChartSettings implements IChartSettings {
 	public void clearMenuEntries() {
 
 		menuEntries.clear();
+	}
+
+	@Override
+	public boolean isSupportDataShift() {
+
+		return supportDataShift;
+	}
+
+	@Override
+	public void setSupportDataShift(boolean supportDataShift) {
+
+		this.supportDataShift = supportDataShift;
 	}
 }

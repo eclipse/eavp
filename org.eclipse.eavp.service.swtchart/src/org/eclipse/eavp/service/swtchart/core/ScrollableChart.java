@@ -540,9 +540,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		addSecondaryAxesX(chartSettings);
 		addSecondaryAxesY(chartSettings);
 		/*
-		 * Range Info
+		 * Range Info / Data Shift
 		 */
 		rangeSelector.resetRanges();
+		baseChart.setSupportDataShift(chartSettings.isSupportDataShift());
 		/*
 		 * Additional actions.
 		 */

@@ -159,4 +159,8 @@ public interface IChartSettings {
 	Set<IMenuEntry> getMenuEntries();
 
 	void clearMenuEntries();
+
+	boolean isSupportDataShift();
+
+	void setSupportDataShift(boolean supportDataShift);
 }

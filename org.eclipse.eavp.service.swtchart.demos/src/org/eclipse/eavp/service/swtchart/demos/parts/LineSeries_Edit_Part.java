@@ -240,6 +240,7 @@ public class LineSeries_Edit_Part extends Composite {
 		//
 		IChartSettings chartSettings = chromatogramChart.getChartSettings();
 		chartSettings.setCreateMenu(true);
+		chartSettings.setSupportDataShift(true);
 		chromatogramChart.applySettings(chartSettings);
 		//
 		loadChromatogramData();
