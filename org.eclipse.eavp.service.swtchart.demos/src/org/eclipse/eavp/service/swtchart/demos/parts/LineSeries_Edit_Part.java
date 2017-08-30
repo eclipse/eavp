@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.demos.parts;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
+import org.eclipse.eavp.service.swtchart.core.IAxisScaleConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IExtendedChart;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
@@ -92,7 +95,7 @@ public class LineSeries_Edit_Part extends Composite {
 	private void createLabel(Composite parent) {
 
 		Label label = new Label(parent, SWT.NONE);
-		label.setText("Select a serie:");
+		label.setText("Selected Data Series:");
 	}
 
 	private void createCombo(Composite parent) {
@@ -103,10 +106,7 @@ public class LineSeries_Edit_Part extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				BaseChart baseChart = chromatogramChart.getBaseChart();
-				String selectedSeriesId = comboSelectSeries.getText().trim();
-				baseChart.resetSelectedSeries();
-				baseChart.selectSeries(selectedSeriesId);
+				selectSeries();
 			}
 		});
 	}
@@ -136,7 +136,7 @@ public class LineSeries_Edit_Part extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				BaseChart baseChart = chromatogramChart.getBaseChart();
-				double shiftX = (baseChart.getMaxX() / 30.0d) * -1.0d;
+				double shiftX = getShift(IExtendedChart.X_AXIS) * -1.0d;
 				String selectedSeriesId = comboSelectSeries.getText().trim();
 				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d);
 				baseChart.redraw();
@@ -156,7 +156,7 @@ public class LineSeries_Edit_Part extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				BaseChart baseChart = chromatogramChart.getBaseChart();
-				double shiftX = baseChart.getMaxX() / 30.0d;
+				double shiftX = getShift(IExtendedChart.X_AXIS);
 				String selectedSeriesId = comboSelectSeries.getText().trim();
 				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d);
 				baseChart.redraw();
@@ -189,7 +189,7 @@ public class LineSeries_Edit_Part extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				BaseChart baseChart = chromatogramChart.getBaseChart();
-				double shiftY = baseChart.getMaxY() / 30.0d;
+				double shiftY = getShift(IExtendedChart.Y_AXIS);
 				String selectedSeriesId = comboSelectSeries.getText().trim();
 				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
 				baseChart.redraw();
@@ -209,7 +209,7 @@ public class LineSeries_Edit_Part extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				BaseChart baseChart = chromatogramChart.getBaseChart();
-				double shiftY = (baseChart.getMaxY() / 30.0d) * -1.0d;
+				double shiftY = getShift(IExtendedChart.Y_AXIS) * -1.0d;
 				String selectedSeriesId = comboSelectSeries.getText().trim();
 				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
 				baseChart.redraw();
@@ -271,7 +271,9 @@ public class LineSeries_Edit_Part extends Composite {
 		}
 		chromatogramChart.addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);
 		comboSelectSeries.setItems(items);
-		comboSelectSeries.select(0);
+		comboSelectSeries.select(1); // LineSeries4_1
+		selectSeries();
+		//
 		setComboAxisItems();
 	}
 
@@ -280,16 +282,17 @@ public class LineSeries_Edit_Part extends Composite {
 		/*
 		 * X Axes
 		 */
-		IChartSettings chartSettings = chromatogramChart.getChartSettings();
 		BaseChart baseChart = chromatogramChart.getBaseChart();
 		String[] axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		comboScaleX.setItems(axisLabelsX);
 		if(axisLabelsX.length > 0) {
-			int selectedIndex = chartSettings.getRangeSelectorDefaultAxisX();
+			int selectedIndex = 1; // "Minutes"
 			if(selectedIndex >= 0 && selectedIndex < axisLabelsX.length) {
 				comboScaleX.select(selectedIndex);
+				textShiftX.setText("0.5");
 			} else {
-				comboScaleX.select(0);
+				comboScaleX.select(0); // Milliseconds
+				textShiftX.setText("10000");
 			}
 		}
 		/*
@@ -298,23 +301,64 @@ public class LineSeries_Edit_Part extends Composite {
 		String[] axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
 		comboScaleY.setItems(axisLabelsY);
 		if(axisLabelsY.length > 0) {
-			int selectedIndex = chartSettings.getRangeSelectorDefaultAxisY();
+			int selectedIndex = 1; // "Relative Intensity [%]"
 			if(selectedIndex >= 0 && selectedIndex < axisLabelsY.length) {
 				comboScaleY.select(selectedIndex);
+				textShiftY.setText("1.2");
 			} else {
-				comboScaleY.select(0);
+				comboScaleY.select(0); // Intensity
+				textShiftY.setText("100000");
 			}
 		}
 	}
 
-	private double getShiftX() {
+	private double getShift(String axis) {
 
-		return 0;
+		double shiftValue = 0.0d;
+		try {
+			/*
+			 * Try to calculate the primary unit.
+			 */
+			BaseChart baseChart = chromatogramChart.getBaseChart();
+			DecimalFormat decimalFormat;
+			int selectedAxis;
+			//
+			if(axis.equals(IExtendedChart.X_AXIS)) {
+				selectedAxis = comboScaleX.getSelectionIndex();
+				decimalFormat = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, selectedAxis);
+			} else {
+				selectedAxis = comboScaleY.getSelectionIndex();
+				decimalFormat = baseChart.getDecimalFormat(IExtendedChart.Y_AXIS, selectedAxis);
+			}
+			//
+			double secondaryValue;
+			if(axis.equals(IExtendedChart.X_AXIS)) {
+				secondaryValue = decimalFormat.parse(textShiftX.getText().trim()).doubleValue();
+			} else {
+				secondaryValue = decimalFormat.parse(textShiftY.getText().trim()).doubleValue();
+			}
+			/*
+			 * Convert the range on demand.
+			 */
+			if(selectedAxis == 0) {
+				shiftValue = secondaryValue;
+			} else {
+				IAxisScaleConverter axisScaleConverter = baseChart.getAxisScaleConverter(axis, selectedAxis);
+				shiftValue = axisScaleConverter.convertToPrimaryUnit(secondaryValue);
+			}
+		} catch(ParseException e) {
+			System.out.println(e);
+		}
+		//
+		return shiftValue;
 	}
 
-	private double getShiftY() {
+	private void selectSeries() {
 
-		return 0;
+		BaseChart baseChart = chromatogramChart.getBaseChart();
+		String selectedSeriesId = comboSelectSeries.getText().trim();
+		baseChart.resetSelectedSeries();
+		baseChart.selectSeries(selectedSeriesId);
 	}
 
 	private GridData getGridData() {
