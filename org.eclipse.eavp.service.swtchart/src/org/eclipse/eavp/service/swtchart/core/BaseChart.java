@@ -14,11 +14,13 @@ package org.eclipse.eavp.service.swtchart.core;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.swt.SWT;
@@ -73,6 +75,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Set<String> selectedSeriesIds;
 	//
 	private Cursor defaultCursor;
+	/*
+	 * Do/Undo
+	 */
+	private Stack<double[]> handledSelectionEvents;
 	/*
 	 * Shift series
 	 */
@@ -352,6 +358,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.getTick().setFormat(new DecimalFormat());
 		yAxisPrimary.enableLogScale(false);
 		yAxisPrimary.enableCategory(false);
+		//
+		handledSelectionEvents = new Stack<double[]>();
 		//
 		supportDataShift = false;
 		dataShiftHistory = new HashMap<String, List<double[]>>();
@@ -832,10 +840,50 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private void handleUserSelectionXY(Event event) {
 
+		/*
+		 * Track the selection before the new range is
+		 * selected by the user.
+		 */
+		trackSelection();
+		//
 		int xStart = userSelection.getStartX();
 		int xStop = userSelection.getStopX();
 		int yStart = userSelection.getStartY();
 		int yStop = userSelection.getStopY();
+		setSelectionXY(xStart, xStop, yStart, yStop);
+		/*
+		 * Inform all registered handlers.
+		 * Reset the current selection and redraw the chart.
+		 */
+		fireUpdateCustomSelectionHandlers(event);
+	}
+
+	public void undoSelection() {
+
+		try {
+			double[] lastSelection = handledSelectionEvents.pop();
+			double xStart = lastSelection[0];
+			double xStop = lastSelection[1];
+			double yStart = lastSelection[2];
+			double yStop = lastSelection[3];
+			IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
+			IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
+			setRange(xAxis, xStart, xStop, false);
+			setRange(yAxis, yStart, yStop, false);
+		} catch(EmptyStackException e) {
+			System.out.println(e);
+		}
+	}
+
+	private void trackSelection() {
+
+		Range xRange = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
+		Range yRange = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
+		handledSelectionEvents.push(new double[]{xRange.lower, xRange.upper, yRange.lower, yRange.upper});
+	}
+
+	private void setSelectionXY(int xStart, int xStop, int yStart, int yStop) {
+
 		IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
 		IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
 		//
@@ -844,11 +892,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		} else {
 			setVerticalRange(xAxis, yAxis, xStart, xStop, yStart, yStop);
 		}
-		/*
-		 * Inform all registered handlers.
-		 * Reset the current selection and redraw the chart.
-		 */
-		fireUpdateCustomSelectionHandlers(event);
 	}
 
 	private void setHorizontalRange(IAxis xAxis, IAxis yAxis, int xStart, int xStop, int yStart, int yStop) {

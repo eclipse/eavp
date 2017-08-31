@@ -214,12 +214,18 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
+	public void redraw() {
+
+		resetSlider();
+		super.redraw();
+	}
+
+	@Override
 	public void deleteSeries() {
 
 		for(ISeries series : baseChart.getSeriesSet().getSeries()) {
 			baseChart.deleteSeries(series.getId());
 		}
-		resetSlider();
 		redraw();
 	}
 
@@ -227,7 +233,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void deleteSeries(String id) {
 
 		baseChart.deleteSeries(id);
-		resetSlider();
 		redraw();
 	}
 
@@ -381,13 +386,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void toggleCenterMarkerVisibility() {
 
 		plotCenterMarker.setDraw(!plotCenterMarker.isDraw());
-		redraw();
+		super.redraw();
 	}
 
 	public void togglePositionLegendVisibility() {
 
 		legendMarker.setDraw(!legendMarker.isDraw());
-		redraw();
+		super.redraw();
 	}
 
 	public void toggleSeriesLegendVisibility() {

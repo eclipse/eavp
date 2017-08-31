@@ -190,6 +190,9 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 * Set series.
 		 */
 		addSeriesData(lineSeriesDataList);
+		/*
+		 * Set the labels.
+		 */
 		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
 		LabelMarker labelMarker = new LabelMarker(getBaseChart());
 		List<String> labels = new ArrayList<String>();
