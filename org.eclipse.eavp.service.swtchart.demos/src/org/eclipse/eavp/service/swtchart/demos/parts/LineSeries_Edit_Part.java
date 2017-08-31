@@ -141,6 +141,7 @@ public class LineSeries_Edit_Part extends Composite {
 		addTableColumn(table, "Start [" + labelAxisY + "]", 150);
 		addTableColumn(table, "Stop [" + labelAxisY + "]", 150);
 		addTableColumn(table, "Shift [" + labelAxisY + "]", 150);
+		addTableColumn(table, "Shift Constraints", 150);
 		//
 		return table;
 	}

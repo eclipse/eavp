@@ -76,6 +76,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	/*
 	 * Shift series
 	 */
+	public static final int SHIFT_CONSTRAINT_NONE = 0;
+	public static final int SHIFT_CONSTRAINT_SELECTION = 1 << 0;
+	public static final int SHIFT_CONSTRAINT_DELETE_X = 1 << 2;
+	public static final int SHIFT_CONSTRAINT_DELETE_Y = 1 << 3;
+	public static final int SHIFT_CONSTRAINT_CLINCH_X = 1 << 4;
+	public static final int SHIFT_CONSTRAINT_STRETCH_X = 1 << 5;
+	public static final int SHIFT_CONSTRAINT_BROADEN_X = 1 << 6;
+	//
 	private boolean supportDataShift;
 	private static final long DELTA_MOVE_TIME = 350;
 	private long moveStartTime = 0;
@@ -570,6 +578,11 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY) {
 
+		shiftSeries(selectedSeriesId, shiftX, shiftY, SHIFT_CONSTRAINT_NONE);
+	}
+
+	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY, int shiftConstraints) {
+
 		if(supportDataShift) {
 			ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 			if(dataSeries != null) {
@@ -599,17 +612,23 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 					 */
 					Range rangeX = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
 					Range rangeY = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
-					List<double[]> trackRecords = dataShiftHistory.get(selectedSeriesId);
-					if(trackRecords == null) {
-						trackRecords = new ArrayList<double[]>();
-						dataShiftHistory.put(selectedSeriesId, trackRecords);
-					}
-					trackRecords.add(new double[]{rangeX.lower, rangeX.upper, shiftX, rangeY.lower, rangeY.upper, shiftY});
+					List<double[]> shiftRecord = getShiftRecord(selectedSeriesId);
+					shiftRecord.add(new double[]{rangeX.lower, rangeX.upper, shiftX, rangeY.lower, rangeY.upper, shiftY, shiftConstraints});
 					//
 					updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
 				}
 			}
 		}
+	}
+
+	private List<double[]> getShiftRecord(String selectedSeriesId) {
+
+		List<double[]> shiftRecord = dataShiftHistory.get(selectedSeriesId);
+		if(shiftRecord == null) {
+			shiftRecord = new ArrayList<double[]>();
+			dataShiftHistory.put(selectedSeriesId, shiftRecord);
+		}
+		return shiftRecord;
 	}
 
 	private double[] adjustArray(double[] series, double shift) {
