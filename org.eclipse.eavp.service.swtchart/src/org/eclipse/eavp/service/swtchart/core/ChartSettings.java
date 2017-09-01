@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.RedoSelectionHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetSelectedSeriesHandler;
 import org.eclipse.eavp.service.swtchart.menu.UndoSelectionHandler;
@@ -156,6 +157,7 @@ public class ChartSettings implements IChartSettings {
 		menuEntries.add(new RScriptExportHandler());
 		menuEntries.add(new PrinterExportHandler());
 		menuEntries.add(new UndoSelectionHandler());
+		menuEntries.add(new RedoSelectionHandler());
 		//
 		supportDataShift = false;
 	}

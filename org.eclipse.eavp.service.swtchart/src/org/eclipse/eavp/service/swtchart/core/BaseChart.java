@@ -79,16 +79,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 * Do/Undo
 	 */
 	private Stack<double[]> handledSelectionEvents;
+	private double[] redoSelection;
 	/*
 	 * Shift series
 	 */
 	public static final int SHIFT_CONSTRAINT_NONE = 0;
 	public static final int SHIFT_CONSTRAINT_SELECTION = 1 << 0;
-	public static final int SHIFT_CONSTRAINT_DELETE_X = 1 << 2;
-	public static final int SHIFT_CONSTRAINT_DELETE_Y = 1 << 3;
-	public static final int SHIFT_CONSTRAINT_CLINCH_X = 1 << 4;
-	public static final int SHIFT_CONSTRAINT_STRETCH_X = 1 << 5;
-	public static final int SHIFT_CONSTRAINT_BROADEN_X = 1 << 6;
+	public static final int SHIFT_CONSTRAINT_CLINCH_X = 1 << 1;
+	public static final int SHIFT_CONSTRAINT_STRETCH_X = 1 << 2;
+	public static final int SHIFT_CONSTRAINT_BROADEN_X = 1 << 3;
+	public static final int SHIFT_CONSTRAINT_NARROW_X = 1 << 4;
 	//
 	private boolean supportDataShift;
 	private static final long DELTA_MOVE_TIME = 350;
@@ -360,6 +360,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.enableCategory(false);
 		//
 		handledSelectionEvents = new Stack<double[]>();
+		redoSelection = null;
 		//
 		supportDataShift = false;
 		dataShiftHistory = new HashMap<String, List<double[]>>();
@@ -488,6 +489,24 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void handleMouseDoubleClick(Event event) {
 
 		handleEvent(mouseDoubleClickEvents.get(event.button), event);
+	}
+
+	@Override
+	public void handleKeyUpEvent(Event event) {
+
+		if((event.stateMask & SWT.CTRL) == SWT.CTRL) {
+			if((event.stateMask & SWT.SHIFT) == SWT.SHIFT) {
+				if(event.keyCode == 122) { // Z
+					redoSelection();
+					redraw();
+				}
+			} else {
+				if(event.keyCode == 122) { // Z
+					undoSelection();
+					redraw();
+				}
+			}
+		}
 	}
 
 	private void handleEvent(Map<Integer, IEventProcessor> eventProcessors, Event event) {
@@ -731,12 +750,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		/*
 		 * X Axis
 		 */
+		trackUndoSelection();
 		double coordinateX = xAxis.getDataCoordinate(event.x);
 		if(event.count > 0) {
 			xAxis.zoomIn(coordinateX);
 		} else {
 			xAxis.zoomOut(coordinateX);
 		}
+		trackRedoSelection();
 	}
 
 	private void zoomY(IAxis yAxis, Event event) {
@@ -744,12 +765,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		/*
 		 * Y Axis
 		 */
+		trackUndoSelection();
 		double coordinateY = yAxis.getDataCoordinate(event.y);
 		if(event.count > 0) {
 			yAxis.zoomIn(coordinateY);
 		} else {
 			yAxis.zoomOut(coordinateY);
 		}
+		trackRedoSelection();
 	}
 
 	private void hideSeries(String selectedSeriesId) {
@@ -844,13 +867,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Track the selection before the new range is
 		 * selected by the user.
 		 */
-		trackSelection();
-		//
+		trackUndoSelection();
 		int xStart = userSelection.getStartX();
 		int xStop = userSelection.getStopX();
 		int yStart = userSelection.getStartY();
 		int yStop = userSelection.getStopY();
 		setSelectionXY(xStart, xStop, yStart, yStop);
+		trackRedoSelection();
 		/*
 		 * Inform all registered handlers.
 		 * Reset the current selection and redraw the chart.
@@ -858,28 +881,48 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		fireUpdateCustomSelectionHandlers(event);
 	}
 
+	private void trackUndoSelection() {
+
+		Range xRange = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
+		Range yRange = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
+		handledSelectionEvents.push(new double[]{xRange.lower, xRange.upper, yRange.lower, yRange.upper});
+	}
+
+	private void trackRedoSelection() {
+
+		Range xRange = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
+		Range yRange = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
+		redoSelection = new double[]{xRange.lower, xRange.upper, yRange.lower, yRange.upper};
+	}
+
 	public void undoSelection() {
 
 		try {
-			double[] lastSelection = handledSelectionEvents.pop();
-			double xStart = lastSelection[0];
-			double xStop = lastSelection[1];
-			double yStart = lastSelection[2];
-			double yStop = lastSelection[3];
-			IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
-			IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
-			setRange(xAxis, xStart, xStop, false);
-			setRange(yAxis, yStart, yStop, false);
+			double[] undoSelection = handledSelectionEvents.pop();
+			handleSelection(undoSelection);
 		} catch(EmptyStackException e) {
 			System.out.println(e);
 		}
 	}
 
-	private void trackSelection() {
+	public void redoSelection() {
 
-		Range xRange = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
-		Range yRange = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
-		handledSelectionEvents.push(new double[]{xRange.lower, xRange.upper, yRange.lower, yRange.upper});
+		if(redoSelection != null) {
+			handleSelection(redoSelection);
+			redoSelection = null;
+		}
+	}
+
+	private void handleSelection(double[] selection) {
+
+		double xStart = selection[0];
+		double xStop = selection[1];
+		double yStart = selection[2];
+		double yStop = selection[3];
+		IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
+		IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
+		setRange(xAxis, xStart, xStop, false);
+		setRange(yAxis, yStart, yStop, false);
 	}
 
 	private void setSelectionXY(int xStart, int xStop, int yStart, int yStop) {
