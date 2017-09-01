@@ -357,6 +357,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void handleKeyUpEvent(Event event) {
 
 		baseChart.handleKeyUpEvent(event);
+		resetSlider();
 	}
 
 	@Override
