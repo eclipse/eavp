@@ -223,9 +223,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public void deleteSeries() {
 
+		baseChart.suspendUpdate(true);
 		for(ISeries series : baseChart.getSeriesSet().getSeries()) {
 			baseChart.deleteSeries(series.getId());
 		}
+		baseChart.suspendUpdate(false);
 		redraw();
 	}
 
