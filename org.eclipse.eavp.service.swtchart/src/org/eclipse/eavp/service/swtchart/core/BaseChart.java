@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -64,9 +65,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	/*
 	 * To prevent that the data is redrawn on mouse events too
 	 * often, a trigger determines e.g. that the redraw event
-	 * is called only at every fifth event.
+	 * is called only at every xth event.
 	 */
-	private static final int TRIGGER_REDRAW_EVENT = 5;
+	private int redrawFrequency = 1;
 	private int redrawCounter = 0;
 	//
 	private UserSelection userSelection;
@@ -204,7 +205,11 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 			userSelection.setStopCoordinate(event.x, event.y);
 			redrawCounter++;
-			if(redrawCounter == TRIGGER_REDRAW_EVENT) {
+			if(redrawCounter >= redrawFrequency) {
+				/*
+				 * Rectangle is drawn here:
+				 * void paintControl(PaintEvent e)
+				 */
 				redraw();
 				redrawCounter = 0;
 			}
@@ -367,10 +372,48 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	}
 
 	@Override
+	public ISeries createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
+
+		ISeries series = super.createSeries(seriesData, seriesSettings);
+		calculateRedrawFrequency();
+		return series;
+	}
+
+	@Override
 	public void deleteSeries(String id) {
 
 		super.deleteSeries(id);
+		calculateRedrawFrequency();
 		dataShiftHistory.remove(id);
+	}
+
+	@Override
+	public void appendSeries(ISeriesData seriesData) {
+
+		super.appendSeries(seriesData);
+		calculateRedrawFrequency();
+	}
+
+	private void calculateRedrawFrequency() {
+
+		double length = getLength();
+		int base = 10;
+		//
+		if(length < Math.pow(base, 1)) {
+			redrawFrequency = 1;
+		} else if(length < Math.pow(base, 2)) {
+			redrawFrequency = 2;
+		} else if(length < Math.pow(base, 3)) {
+			redrawFrequency = 3;
+		} else if(length < Math.pow(base, 4)) {
+			redrawFrequency = 4;
+		} else if(length < Math.pow(base, 5)) {
+			redrawFrequency = 6;
+		} else if(length < Math.pow(base, 6)) {
+			redrawFrequency = 8;
+		} else {
+			redrawFrequency = 10;
+		}
 	}
 
 	public void setSupportDataShift(boolean supportDataShift) {
