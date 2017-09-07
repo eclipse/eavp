@@ -77,8 +77,7 @@ public class ScatterSeries_1_Part extends PCAChart {
 			 */
 			double x = seriesData.getXSeries()[0];
 			double y = seriesData.getYSeries()[0];
-			scatterSeriesSettings.setSymbolSize(SYMBOL_SIZE);
-			setDefaultSettings(scatterSeriesSettings, x, y);
+			applySettings(scatterSeriesSettings, x, y, SYMBOL_SIZE);
 			scatterSeriesDataList.add(scatterSeriesData);
 		}
 		/*
@@ -98,25 +97,7 @@ public class ScatterSeries_1_Part extends PCAChart {
 			 * Reset Selection
 			 */
 			System.out.println("Reset Selection");
-			//
 			BaseChart baseChart = getBaseChart();
-			ISeries[] series = baseChart.getSeriesSet().getSeries();
-			//
-			for(ISeries scatterSeries : series) {
-				if(scatterSeries != null) {
-					double[] xSeries = scatterSeries.getXSeries();
-					double[] ySeries = scatterSeries.getYSeries();
-					int size = scatterSeries.getXSeries().length;
-					String id = scatterSeries.getId();
-					IScatterSeriesSettings scatterSeriesSettings = (IScatterSeriesSettings)baseChart.getSeriesSettings(id);
-					for(int i = 0; i < size; i++) {
-						setDefaultSettings(scatterSeriesSettings, xSeries[i], ySeries[i]);
-					}
-				}
-			}
-			/*
-			 * Reset the series.
-			 */
 			baseChart.resetSeriesSettings();
 		} else if(event.keyCode == KEY_CODE_S) {
 			/*
@@ -149,16 +130,11 @@ public class ScatterSeries_1_Part extends PCAChart {
 					double[] ySeries = scatterSeries.getYSeries();
 					int size = scatterSeries.getXSeries().length;
 					String id = scatterSeries.getId();
-					IScatterSeriesSettings scatterSeriesSettings = (IScatterSeriesSettings)baseChart.getSeriesSettings(id);
 					//
 					for(int i = 0; i < size; i++) {
 						Point point = scatterSeries.getPixelCoordinates(i);
 						if(isPointVisible(point, plotAreaBounds)) {
-							//
 							System.out.println("\t" + xSeries[i] + "\t" + ySeries[i] + "\t" + point + "\t" + id);
-							//
-							scatterSeriesSettings.setSymbolColor(COLOR_GRAY);
-							scatterSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 							baseChart.selectSeries(id);
 						}
 					}
@@ -184,8 +160,10 @@ public class ScatterSeries_1_Part extends PCAChart {
 		}
 	}
 
-	private void setDefaultSettings(IScatterSeriesSettings scatterSeriesSettings, double x, double y) {
+	private void applySettings(IScatterSeriesSettings scatterSeriesSettings, double x, double y, int symbolSize) {
 
+		scatterSeriesSettings.setSymbolSize(SYMBOL_SIZE);
+		//
 		if(x > 0 && y > 0) {
 			scatterSeriesSettings.setSymbolColor(COLOR_RED);
 			scatterSeriesSettings.setSymbolType(PlotSymbolType.SQUARE);
@@ -199,5 +177,10 @@ public class ScatterSeries_1_Part extends PCAChart {
 			scatterSeriesSettings.setSymbolColor(COLOR_CYAN);
 			scatterSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
 		}
+		//
+		IScatterSeriesSettings scatterSeriesSettingsHighlight = (IScatterSeriesSettings)scatterSeriesSettings.getSeriesSettingsHighlight();
+		scatterSeriesSettingsHighlight.setSymbolColor(COLOR_GRAY);
+		scatterSeriesSettingsHighlight.setSymbolType(PlotSymbolType.CIRCLE);
+		scatterSeriesSettingsHighlight.setSymbolSize(symbolSize);
 	}
 }

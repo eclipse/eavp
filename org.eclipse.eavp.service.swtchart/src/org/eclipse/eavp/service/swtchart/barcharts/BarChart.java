@@ -60,14 +60,9 @@ public class BarChart extends ScrollableChart {
 					ISeriesData seriesData = barSeriesData.getSeriesData();
 					ISeriesData optimizedSeriesData = calculateSeries(seriesData, compressToLength);
 					IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
+					barSeriesSettings.getSeriesSettingsHighlight(); // Initialize
 					IBarSeries barSeries = (IBarSeries)createSeries(optimizedSeriesData, barSeriesSettings);
-					//
-					barSeries.setDescription(barSeriesSettings.getDescription());
-					barSeries.setVisible(barSeriesSettings.isVisible());
-					barSeries.setVisibleInLegend(barSeriesSettings.isVisibleInLegend());
-					barSeries.setBarColor(barSeriesSettings.getBarColor());
-					barSeries.setBarPadding(barSeriesSettings.getBarPadding());
-					barSeries.setBarWidth(barSeriesSettings.getBarWidth());
+					baseChart.applyBarSeriesSettings(barSeries, barSeriesSettings);
 					/*
 					 * Automatically use stretched if it is a large data set.
 					 */

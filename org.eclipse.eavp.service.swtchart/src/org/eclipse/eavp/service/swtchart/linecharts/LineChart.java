@@ -72,21 +72,10 @@ public class LineChart extends ScrollableChart {
 					ISeriesData seriesData = lineSeriesData.getSeriesData();
 					ISeriesData optimizedSeriesData = calculateSeries(seriesData, compressToLength);
 					ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+					ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+					lineSeriesSettingsHighlight.setLineWidth(2);
 					ILineSeries lineSeries = (ILineSeries)createSeries(optimizedSeriesData, lineSeriesSettings);
-					//
-					lineSeries.setDescription(lineSeriesSettings.getDescription());
-					lineSeries.setVisible(lineSeriesSettings.isVisible());
-					lineSeries.setVisibleInLegend(lineSeriesSettings.isVisibleInLegend());
-					lineSeries.setAntialias(lineSeriesSettings.getAntialias());
-					lineSeries.enableArea(lineSeriesSettings.isEnableArea());
-					lineSeries.setSymbolType(lineSeriesSettings.getSymbolType());
-					lineSeries.setSymbolSize(lineSeriesSettings.getSymbolSize());
-					lineSeries.setSymbolColor(lineSeriesSettings.getSymbolColor());
-					lineSeries.setLineColor(lineSeriesSettings.getLineColor());
-					lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
-					lineSeries.enableStack(lineSeriesSettings.isEnableStack());
-					lineSeries.enableStep(lineSeriesSettings.isEnableStep());
-					lineSeries.setLineStyle(lineSeriesSettings.getLineStyle());
+					baseChart.applyLineSeriesSettings(lineSeries, lineSeriesSettings);
 				} catch(SeriesException e) {
 					//
 				}

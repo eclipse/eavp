@@ -24,4 +24,6 @@ public interface ISeriesSettings {
 	boolean isVisibleInLegend();
 
 	void setVisibleInLegend(boolean visibleInLegend);
+
+	ISeriesSettings getSeriesSettingsHighlight();
 }

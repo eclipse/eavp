@@ -297,7 +297,6 @@ public class LineSeries_Preferences_Part extends Composite {
 		lineSerieSettings.setLineColor(lineColorSeries1);
 		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_1)));
 		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_1));
-		lineSerieSettings.setLineWidthSelected(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_SELECTED_1));
 		lineSerieSettings.setSymbolColor(symbolColorSeries1);
 		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_1));
 		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_1)));
@@ -318,7 +317,6 @@ public class LineSeries_Preferences_Part extends Composite {
 		lineSerieSettings.setLineColor(lineColorSeries2);
 		lineSerieSettings.setLineStyle(LineStyle.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_LINE_STYLE_SERIES_2)));
 		lineSerieSettings.setLineWidth(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_2));
-		lineSerieSettings.setLineWidthSelected(preferenceStore.getInt(LineSeriesPreferenceConstants.P_LINE_WIDTH_SERIES_SELECTED_2));
 		lineSerieSettings.setSymbolColor(symbolColorSeries2);
 		lineSerieSettings.setSymbolSize(preferenceStore.getInt(LineSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES_2));
 		lineSerieSettings.setSymbolType(PlotSymbolType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_2)));

@@ -458,6 +458,7 @@ public class LineSeries_Edit_Part extends Composite {
 		String selectedSeriesId = comboSelectSeries.getText().trim();
 		baseChart.resetSeriesSettings();
 		baseChart.selectSeries(selectedSeriesId);
+		baseChart.redraw();
 	}
 
 	private GridData getGridData() {

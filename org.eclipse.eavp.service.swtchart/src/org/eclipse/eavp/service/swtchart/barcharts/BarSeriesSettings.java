@@ -12,6 +12,7 @@
 package org.eclipse.eavp.service.swtchart.barcharts;
 
 import org.eclipse.eavp.service.swtchart.core.AbstractSeriesSettings;
+import org.eclipse.eavp.service.swtchart.core.ISeriesSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
@@ -23,6 +24,7 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	private int barPadding;
 	private int barWidth;
 	private BarWidthStyle barWidthStyle;
+	private IBarSeriesSettings seriesSettingsHighlight = null;
 
 	public BarSeriesSettings() {
 		barColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
@@ -77,5 +79,31 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	public void setBarWidthStyle(BarWidthStyle barWidthStyle) {
 
 		this.barWidthStyle = barWidthStyle;
+	}
+
+	@Override
+	public ISeriesSettings getSeriesSettingsHighlight() {
+
+		if(seriesSettingsHighlight == null) {
+			try {
+				seriesSettingsHighlight = (IBarSeriesSettings)this.clone();
+			} catch(CloneNotSupportedException e) {
+				seriesSettingsHighlight = new BarSeriesSettings();
+			}
+		}
+		return seriesSettingsHighlight;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+
+		IBarSeriesSettings barSeriesSettings = new BarSeriesSettings();
+		barSeriesSettings.setDescription(this.getDescription());
+		barSeriesSettings.setVisible(this.isVisible());
+		barSeriesSettings.setVisibleInLegend(this.isVisibleInLegend());
+		barSeriesSettings.setBarColor(this.getBarColor());
+		barSeriesSettings.setBarPadding(this.getBarPadding());
+		barSeriesSettings.setBarWidth(this.getBarWidth());
+		return barSeriesSettings;
 	}
 }

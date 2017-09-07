@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
@@ -39,6 +40,7 @@ import org.swtchart.IAxisSet;
 import org.swtchart.IBarSeries;
 import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
+import org.swtchart.LineStyle;
 import org.swtchart.Range;
 
 public class BaseChart extends AbstractExtendedChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
@@ -113,6 +115,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				resetSeriesSettings();
 			} else {
 				selectSeries(selectedSeriesId);
+				redraw();
 			}
 		}
 	}
@@ -127,6 +130,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				resetSeriesSettings();
 			} else {
 				hideSeries(selectedSeriesId);
+				redraw();
 			}
 		}
 	}
@@ -599,33 +603,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void resetSeriesSettings() {
 
 		ISeries[] series = getSeriesSet().getSeries();
+		//
 		for(ISeries dataSeries : series) {
-			if(dataSeries instanceof ILineSeries) {
-				ILineSeries lineSeries = (ILineSeries)dataSeries;
-				ISeriesSettings seriesSettings = getSeriesSettings(dataSeries.getId());
-				if(seriesSettings instanceof ILineSeriesSettings) {
-					/*
-					 * Line Series
-					 */
-					if(lineSeries.getLineWidth() > 0) {
-						ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
-						lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
-						lineSeries.setVisible(lineSeriesSettings.isVisible());
-						lineSeries.setVisibleInLegend(lineSeriesSettings.isVisibleInLegend());
-					}
-				} else if(seriesSettings instanceof IScatterSeriesSettings) {
-					/*
-					 * Scatter Series
-					 */
-					IScatterSeriesSettings scatterSeriesSettings = (IScatterSeriesSettings)seriesSettings;
-					lineSeries.setSymbolColor(scatterSeriesSettings.getSymbolColor());
-					lineSeries.setSymbolType(scatterSeriesSettings.getSymbolType());
-				}
-			} else if(dataSeries instanceof IBarSeries) {
-				/*
-				 * Bar Series
-				 */
-			}
+			ISeriesSettings seriesSettings = getSeriesSettings(dataSeries.getId());
+			applySeriesSettings(dataSeries, seriesSettings);
 		}
 		//
 		selectedSeriesIds.clear();
@@ -635,34 +616,75 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void selectSeries(String selectedSeriesId) {
 
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
+		selectedSeriesIds.add(selectedSeriesId);
+		applySeriesSettings(dataSeries, seriesSettings.getSeriesSettingsHighlight());
+	}
+
+	private void applySeriesSettings(ISeries dataSeries, ISeriesSettings seriesSettings) {
+
 		if(dataSeries instanceof ILineSeries) {
 			ILineSeries lineSeries = (ILineSeries)dataSeries;
-			ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
 			if(seriesSettings instanceof ILineSeriesSettings) {
 				/*
 				 * Line Series
 				 */
-				if(lineSeries.getLineWidth() > 0) {
-					selectedSeriesIds.add(selectedSeriesId);
-					ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
-					lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
-					redraw();
-				}
+				ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
+				applyLineSeriesSettings(lineSeries, lineSeriesSettings);
 			} else if(seriesSettings instanceof IScatterSeriesSettings) {
 				/*
 				 * Scatter Series
 				 */
-				selectedSeriesIds.add(selectedSeriesId);
 				IScatterSeriesSettings scatterSeriesSettings = (IScatterSeriesSettings)seriesSettings;
-				lineSeries.setSymbolColor(scatterSeriesSettings.getSymbolColor());
-				lineSeries.setSymbolType(scatterSeriesSettings.getSymbolType());
+				applyScatterSeriesSettings(lineSeries, scatterSeriesSettings);
 			}
 		} else if(dataSeries instanceof IBarSeries) {
 			/*
 			 * Bar Series
 			 */
-			selectedSeriesIds.add(selectedSeriesId);
+			IBarSeries barSeries = (IBarSeries)dataSeries;
+			IBarSeriesSettings barSeriesSettings = (IBarSeriesSettings)seriesSettings;
+			applyBarSeriesSettings(barSeries, barSeriesSettings);
 		}
+	}
+
+	public void applyLineSeriesSettings(ILineSeries lineSeries, ILineSeriesSettings lineSeriesSettings) {
+
+		lineSeries.setDescription(lineSeriesSettings.getDescription());
+		lineSeries.setVisible(lineSeriesSettings.isVisible());
+		lineSeries.setVisibleInLegend(lineSeriesSettings.isVisibleInLegend());
+		lineSeries.setAntialias(lineSeriesSettings.getAntialias());
+		lineSeries.enableArea(lineSeriesSettings.isEnableArea());
+		lineSeries.setSymbolType(lineSeriesSettings.getSymbolType());
+		lineSeries.setSymbolSize(lineSeriesSettings.getSymbolSize());
+		lineSeries.setSymbolColor(lineSeriesSettings.getSymbolColor());
+		lineSeries.setLineColor(lineSeriesSettings.getLineColor());
+		lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
+		lineSeries.enableStack(lineSeriesSettings.isEnableStack());
+		lineSeries.enableStep(lineSeriesSettings.isEnableStep());
+		lineSeries.setLineStyle(lineSeriesSettings.getLineStyle());
+	}
+
+	public void applyScatterSeriesSettings(ILineSeries scatterSeries, IScatterSeriesSettings scatterSeriesSettings) {
+
+		scatterSeries.setDescription(scatterSeriesSettings.getDescription());
+		scatterSeries.setVisible(scatterSeriesSettings.isVisible());
+		scatterSeries.setVisibleInLegend(scatterSeriesSettings.isVisibleInLegend());
+		scatterSeries.enableArea(false);
+		scatterSeries.setSymbolType(scatterSeriesSettings.getSymbolType());
+		scatterSeries.setSymbolSize(scatterSeriesSettings.getSymbolSize());
+		scatterSeries.setSymbolColor(scatterSeriesSettings.getSymbolColor());
+		scatterSeries.setLineStyle(LineStyle.NONE);
+	}
+
+	public void applyBarSeriesSettings(IBarSeries barSeries, IBarSeriesSettings barSeriesSettings) {
+
+		barSeries.setDescription(barSeriesSettings.getDescription());
+		barSeries.setVisible(barSeriesSettings.isVisible());
+		barSeries.setVisibleInLegend(barSeriesSettings.isVisibleInLegend());
+		barSeries.setBarColor(barSeriesSettings.getBarColor());
+		barSeries.setBarPadding(barSeriesSettings.getBarPadding());
+		barSeries.setBarWidth(barSeriesSettings.getBarWidth());
 	}
 
 	public List<double[]> getDataShiftHistory(String selectedSeriesId) {
@@ -850,16 +872,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private void hideSeries(String selectedSeriesId) {
 
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-		if(dataSeries instanceof ILineSeries) {
-			/*
-			 * Line Series
-			 */
-			ILineSeries lineSeries = (ILineSeries)dataSeries;
-			selectedSeriesIds.remove(selectedSeriesId);
-			lineSeries.setVisible(false);
-			lineSeries.setVisibleInLegend(false);
-			redraw();
-		}
+		selectedSeriesIds.remove(selectedSeriesId);
+		dataSeries.setVisible(false);
+		dataSeries.setVisibleInLegend(false);
 	}
 
 	private String getSelectedSeriedId(Event event) {
