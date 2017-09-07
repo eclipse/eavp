@@ -188,10 +188,11 @@ public class LineSeriesPreferenceConstants {
 	public static final String P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE = "secondaryYAxisExtraSpaceTitle" + POSTFIX;
 	public static final int DEF_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
-	public static final String P_ANTIALIAS_SERIES_1 = "antialiasSeries1" + POSTFIX;
-	public static final int DEF_ANTIALIAS_SERIES_1 = SWT.DEFAULT;
 	public static final String P_DESCRIPTION_SERIES_1 = "descriptionSeries1" + POSTFIX;
 	public static final String DEF_DESCRIPTION_SERIES_1 = "Measurement 1";
+	//
+	public static final String P_ANTIALIAS_SERIES_1 = "antialiasSeries1" + POSTFIX;
+	public static final int DEF_ANTIALIAS_SERIES_1 = SWT.DEFAULT;
 	public static final String P_ENABLE_AREA_SERIES_1 = "enableAreaSeries1" + POSTFIX;
 	public static final boolean DEF_ENABLE_AREA_SERIES_1 = true;
 	public static final String P_ENABLE_STACK_SERIES_1 = "enableStackSeries1" + POSTFIX;
@@ -215,10 +216,36 @@ public class LineSeriesPreferenceConstants {
 	public static final String P_VISIBLE_IN_LEGEND_SERIES_1 = "visibleInLegendSeries1" + POSTFIX;
 	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_1 = true;
 	//
-	public static final String P_ANTIALIAS_SERIES_2 = "antialiasSeries2" + POSTFIX;
-	public static final int DEF_ANTIALIAS_SERIES_2 = SWT.DEFAULT;
+	public static final String P_ANTIALIAS_SERIES_1_HIGHLIGHT = "antialiasSeries1Highlight" + POSTFIX;
+	public static final int DEF_ANTIALIAS_SERIES_1_HIGHLIGHT = SWT.DEFAULT;
+	public static final String P_ENABLE_AREA_SERIES_1_HIGHLIGHT = "enableAreaSeries1Highlight" + POSTFIX;
+	public static final boolean DEF_ENABLE_AREA_SERIES_1_HIGHLIGHT = true;
+	public static final String P_ENABLE_STACK_SERIES_1_HIGHLIGHT = "enableStackSeries1Highlight" + POSTFIX;
+	public static final boolean DEF_ENABLE_STACK_SERIES_1_HIGHLIGHT = false;
+	public static final String P_ENABLE_STEP_SERIES_1_HIGHLIGHT = "enableStepSeries1Highlight" + POSTFIX;
+	public static final boolean DEF_ENABLE_STEP_SERIES_1_HIGHLIGHT = false;
+	public static final String P_LINE_COLOR_SERIES_1_HIGHLIGHT = "lineColorSeries1Highlight" + POSTFIX;
+	public static final String DEF_LINE_COLOR_SERIES_1_HIGHLIGHT = "255,0,0";
+	public static final String P_LINE_STYLE_SERIES_1_HIGHLIGHT = "lineStyleSeries1Highlight" + POSTFIX;
+	public static final String DEF_LINE_STYLE_SERIES_1_HIGHLIGHT = LineStyle.SOLID.toString();
+	public static final String P_LINE_WIDTH_SERIES_1_HIGHLIGHT = "lineWidthSeries1Highlight" + POSTFIX;
+	public static final int DEF_LINE_WIDTH_SERIES_1_HIGHLIGHT = 1;
+	public static final String P_SYMBOL_COLOR_SERIES_1_HIGHLIGHT = "symbolColorSeries1Highlight" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_1_HIGHLIGHT = "0,0,0";
+	public static final String P_SYMBOL_SIZE_SERIES_1_HIGHLIGHT = "symbolSizeSeries1Highlight" + POSTFIX;
+	public static final int DEF_SYMBOL_SIZE_SERIES_1_HIGHLIGHT = 8;
+	public static final String P_SYMBOL_TYPE_SERIES_1_HIGHLIGHT = "symbolTypeSeries1Highlight" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_1_HIGHLIGHT = PlotSymbolType.NONE.toString();
+	public static final String P_VISIBLE_SERIES_1_HIGHLIGHT = "visibleSeries1Highlight" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_1_HIGHLIGHT = true;
+	public static final String P_VISIBLE_IN_LEGEND_SERIES_1_HIGHLIGHT = "visibleInLegendSeries1Highlight" + POSTFIX;
+	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_1_HIGHLIGHT = true;
+	//
 	public static final String P_DESCRIPTION_SERIES_2 = "descriptionSeries2" + POSTFIX;
 	public static final String DEF_DESCRIPTION_SERIES_2 = "Measurement 2";
+	//
+	public static final String P_ANTIALIAS_SERIES_2 = "antialiasSeries2" + POSTFIX;
+	public static final int DEF_ANTIALIAS_SERIES_2 = SWT.DEFAULT;
 	public static final String P_ENABLE_AREA_SERIES_2 = "enableAreaSeries2" + POSTFIX;
 	public static final boolean DEF_ENABLE_AREA_SERIES_2 = true;
 	public static final String P_ENABLE_STACK_SERIES_2 = "enableStackSeries2" + POSTFIX;
@@ -241,4 +268,29 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_VISIBLE_SERIES_2 = true;
 	public static final String P_VISIBLE_IN_LEGEND_SERIES_2 = "visibleInLegendSeries2" + POSTFIX;
 	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_2 = true;
+	//
+	public static final String P_ANTIALIAS_SERIES_2_HIGHLIGHT = "antialiasSeries2Highlight" + POSTFIX;
+	public static final int DEF_ANTIALIAS_SERIES_2_HIGHLIGHT = SWT.DEFAULT;
+	public static final String P_ENABLE_AREA_SERIES_2_HIGHLIGHT = "enableAreaSeries2Highlight" + POSTFIX;
+	public static final boolean DEF_ENABLE_AREA_SERIES_2_HIGHLIGHT = true;
+	public static final String P_ENABLE_STACK_SERIES_2_HIGHLIGHT = "enableStackSeries2Highlight" + POSTFIX;
+	public static final boolean DEF_ENABLE_STACK_SERIES_2_HIGHLIGHT = false;
+	public static final String P_ENABLE_STEP_SERIES_2_HIGHLIGHT = "enableStepSeries2Highlight" + POSTFIX;
+	public static final boolean DEF_ENABLE_STEP_SERIES_2_HIGHLIGHT = false;
+	public static final String P_LINE_COLOR_SERIES_2_HIGHLIGHT = "lineColorSeries2Highlight" + POSTFIX;
+	public static final String DEF_LINE_COLOR_SERIES_2_HIGHLIGHT = "125,125,125";
+	public static final String P_LINE_STYLE_SERIES_2_HIGHLIGHT = "lineStyleSeries2Highlight" + POSTFIX;
+	public static final String DEF_LINE_STYLE_SERIES_2_HIGHLIGHT = LineStyle.SOLID.toString();
+	public static final String P_LINE_WIDTH_SERIES_2_HIGHLIGHT = "lineWidthSeries2Highlight" + POSTFIX;
+	public static final int DEF_LINE_WIDTH_SERIES_2_HIGHLIGHT = 1;
+	public static final String P_SYMBOL_COLOR_SERIES_2_HIGHLIGHT = "symbolColorSeries2Highlight" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_2_HIGHLIGHT = "0,0,0";
+	public static final String P_SYMBOL_SIZE_SERIES_2_HIGHLIGHT = "symbolSizeSeries2Highlight" + POSTFIX;
+	public static final int DEF_SYMBOL_SIZE_SERIES_2_HIGHLIGHT = 8;
+	public static final String P_SYMBOL_TYPE_SERIES_2_HIGHLIGHT = "symbolTypeSeries2Highlight" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_2_HIGHLIGHT = PlotSymbolType.NONE.toString();
+	public static final String P_VISIBLE_SERIES_2_HIGHLIGHT = "visibleSeries2Highlight" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_2_HIGHLIGHT = true;
+	public static final String P_VISIBLE_IN_LEGEND_SERIES_2_HIGHLIGHT = "visibleInLegendSeries2Highlight" + POSTFIX;
+	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_2_HIGHLIGHT = true;
 }

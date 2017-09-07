@@ -169,6 +169,7 @@ public class BarSeriesPreferenceConstants {
 	//
 	public static final String P_DESCRIPTION_SERIES_1 = "descriptionSeries1" + POSTFIX;
 	public static final String DEF_DESCRIPTION_SERIES_1 = "Measurement 1";
+	//
 	public static final String P_BAR_COLOR_SERIES_1 = "barColorSeries1" + POSTFIX;
 	public static final String DEF_BAR_COLOR_SERIES_1 = "255,0,0";
 	public static final String P_VISIBLE_SERIES_1 = "visibleSeries1" + POSTFIX;
@@ -181,4 +182,17 @@ public class BarSeriesPreferenceConstants {
 	public static final int DEF_BAR_WIDTH_SERIES_1 = 1;
 	public static final String P_BAR_WIDTH_STYLE_SERIES_1 = "barWidthStyleSeries1" + POSTFIX;
 	public static final String DEF_BAR_WIDTH_STYLE_SERIES_1 = BarWidthStyle.FIXED.toString();
+	//
+	public static final String P_BAR_COLOR_SERIES_1_HIGHLIGHT = "barColorSeries1Highlight" + POSTFIX;
+	public static final String DEF_BAR_COLOR_SERIES_1_HIGHLIGHT = "255,0,0";
+	public static final String P_VISIBLE_SERIES_1_HIGHLIGHT = "visibleSeries1Highlight" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_1_HIGHLIGHT = true;
+	public static final String P_VISIBLE_IN_LEGEND_SERIES_1_HIGHLIGHT = "visibleInLegendSeries1Highlight" + POSTFIX;
+	public static final boolean DEF_VISIBLE_IN_LEGEND_SERIES_1_HIGHLIGHT = true;
+	public static final String P_BAR_PADDING_SERIES_1_HIGHLIGHT = "barPaddingSeries1Highlight" + POSTFIX;
+	public static final int DEF_BAR_PADDING_SERIES_1_HIGHLIGHT = 20;
+	public static final String P_BAR_WIDTH_SERIES_1_HIGHLIGHT = "barWidthSeries1Highlight" + POSTFIX;
+	public static final int DEF_BAR_WIDTH_SERIES_1_HIGHLIGHT = 1;
+	public static final String P_BAR_WIDTH_STYLE_SERIES_1_HIGHLIGHT = "barWidthStyleSeries1Highlight" + POSTFIX;
+	public static final String DEF_BAR_WIDTH_STYLE_SERIES_1_HIGHLIGHT = BarWidthStyle.FIXED.toString();
 }

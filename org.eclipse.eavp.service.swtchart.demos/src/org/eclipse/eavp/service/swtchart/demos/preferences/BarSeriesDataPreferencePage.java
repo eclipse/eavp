@@ -42,6 +42,17 @@ public class BarSeriesDataPreferencePage extends FieldEditorPreferencePage imple
 		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1, "Bar Padding:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1, "Bar Width:", getFieldEditorParent()));
 		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1, "Bar Width Style:", PreferenceSupport.BAR_WIDTH_STYLES, getFieldEditorParent()));
+		//
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
+		addField(new LabelFieldEditor("Bar Series 1 (Highlight)", getFieldEditorParent()));
+		addField(new SpacerFieldEditor(getFieldEditorParent()));
+		//
+		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1_HIGHLIGHT, "Visible", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1_HIGHLIGHT, "Visible in Legend", getFieldEditorParent()));
+		addField(new ColorFieldEditor(BarSeriesPreferenceConstants.P_BAR_COLOR_SERIES_1_HIGHLIGHT, "Bar Color:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1_HIGHLIGHT, "Bar Padding:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1_HIGHLIGHT, "Bar Width:", getFieldEditorParent()));
+		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1_HIGHLIGHT, "Bar Width Style:", PreferenceSupport.BAR_WIDTH_STYLES, getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

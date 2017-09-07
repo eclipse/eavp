@@ -258,25 +258,36 @@ public class BarSeries_Preferences_Part extends Composite {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 		Color barColorSeries1 = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_BAR_COLOR_SERIES_1));
+		Color barColorSeries1Highlight = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_BAR_COLOR_SERIES_1_HIGHLIGHT));
 		//
 		barChart.deleteSeries();
 		List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
 		ISeriesData seriesData;
 		IBarSeriesData barSeriesData;
-		IBarSeriesSettings barSerieSettings;
+		IBarSeriesSettings barSeriesSettings;
 		/*
 		 * Series 1
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.BAR_SERIES_1);
 		barSeriesData = new BarSeriesData(seriesData);
-		barSerieSettings = barSeriesData.getBarSeriesSettings();
-		barSerieSettings.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
-		barSerieSettings.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1));
-		barSerieSettings.setVisibleInLegend(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1));
-		barSerieSettings.setBarColor(barColorSeries1);
-		barSerieSettings.setBarPadding(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1));
-		barSerieSettings.setBarWidth(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1));
-		barSerieSettings.setBarWidthStyle(BarWidthStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1)));
+		barSeriesSettings = barSeriesData.getBarSeriesSettings();
+		barSeriesSettings.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
+		//
+		barSeriesSettings.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1));
+		barSeriesSettings.setVisibleInLegend(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1));
+		barSeriesSettings.setBarColor(barColorSeries1);
+		barSeriesSettings.setBarPadding(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1));
+		barSeriesSettings.setBarWidth(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1));
+		barSeriesSettings.setBarWidthStyle(BarWidthStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1)));
+		//
+		IBarSeriesSettings barSeriesSettingsHighlight = (IBarSeriesSettings)barSeriesSettings.getSeriesSettingsHighlight();
+		barSeriesSettingsHighlight.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1_HIGHLIGHT));
+		barSeriesSettingsHighlight.setVisibleInLegend(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_1_HIGHLIGHT));
+		barSeriesSettingsHighlight.setBarColor(barColorSeries1Highlight);
+		barSeriesSettingsHighlight.setBarPadding(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_PADDING_SERIES_1_HIGHLIGHT));
+		barSeriesSettingsHighlight.setBarWidth(preferenceStore.getInt(BarSeriesPreferenceConstants.P_BAR_WIDTH_SERIES_1_HIGHLIGHT));
+		barSeriesSettingsHighlight.setBarWidthStyle(BarWidthStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1_HIGHLIGHT)));
+		//
 		barSeriesDataList.add(barSeriesData);
 		//
 		barChart.addSeriesData(barSeriesDataList);

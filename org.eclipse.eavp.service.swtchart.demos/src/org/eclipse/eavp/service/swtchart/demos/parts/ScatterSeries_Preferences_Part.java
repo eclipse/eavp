@@ -235,6 +235,7 @@ public class ScatterSeries_Preferences_Part extends Composite {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 		int symbolSize = preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES);
+		//
 		Color symbolColorSeriesLeftTop = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_LEFT_TOP));
 		Color symbolColorSeriesRightTop = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_RIGHT_TOP));
 		Color symbolColorSeriesLeftBottom = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_LEFT_BOTTOM));
@@ -248,6 +249,19 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		PlotSymbolType plotSymbolTypeRightBottom = PlotSymbolType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_RIGHT_BOTTOM));
 		boolean isVisibleRightBottom = preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_RIGHT_BOTTOM);
 		//
+		Color symbolColorSeriesLeftTopHighlight = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_HIGHLIGHT_LEFT_TOP));
+		Color symbolColorSeriesRightTopHighlight = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_HIGHLIGHT_RIGHT_TOP));
+		Color symbolColorSeriesLeftBottomHighlight = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_HIGHLIGHT_LEFT_BOTTOM));
+		Color symbolColorSeriesRightBottomHighlight = getColor(PreferenceConverter.getColor(preferenceStore, ScatterSeriesPreferenceConstants.P_SYMBOL_COLOR_SERIES_HIGHLIGHT_RIGHT_BOTTOM));
+		PlotSymbolType plotSymbolTypeLeftTopHighlight = PlotSymbolType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_HIGHLIGHT_LEFT_TOP));
+		boolean isVisibleLeftTopHighlight = preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_HIGHLIGHT_LEFT_TOP);
+		PlotSymbolType plotSymbolTypeRightTopHighlight = PlotSymbolType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_HIGHLIGHT_RIGHT_TOP));
+		boolean isVisibleRightTopHighlight = preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_HIGHLIGHT_RIGHT_TOP);
+		PlotSymbolType plotSymbolTypeLeftBottomHighlight = PlotSymbolType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_HIGHLIGHT_LEFT_BOTTOM));
+		boolean isVisibleLeftBottomHighlight = preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_HIGHLIGHT_LEFT_BOTTOM);
+		PlotSymbolType plotSymbolTypeRightBottomHighlight = PlotSymbolType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_SYMBOL_TYPE_SERIES_HIGHLIGHT_RIGHT_BOTTOM));
+		boolean isVisibleRightBottomHighlight = preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_HIGHLIGHT_RIGHT_BOTTOM);
+		//
 		scatterChart.deleteSeries();
 		/*
 		 * Data
@@ -258,29 +272,43 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		for(ISeriesData seriesData : scatterSeriesList) {
 			IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
 			IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+			IScatterSeriesSettings scatterSeriesSettingsHighlight = (IScatterSeriesSettings)scatterSeriesSettings.getSeriesSettingsHighlight();
 			/*
 			 * Set the color and symbol type.
 			 */
 			double x = seriesData.getXSeries()[0];
 			double y = seriesData.getYSeries()[0];
 			scatterSeriesSettings.setSymbolSize(symbolSize);
+			scatterSeriesSettingsHighlight.setSymbolSize(symbolSize);
 			//
 			if(x > 0 && y > 0) {
 				scatterSeriesSettings.setSymbolColor(symbolColorSeriesRightTop);
 				scatterSeriesSettings.setSymbolType(plotSymbolTypeRightTop);
 				scatterSeriesSettings.setVisible(isVisibleRightTop);
+				scatterSeriesSettingsHighlight.setSymbolColor(symbolColorSeriesRightTopHighlight);
+				scatterSeriesSettingsHighlight.setSymbolType(plotSymbolTypeRightTopHighlight);
+				scatterSeriesSettingsHighlight.setVisible(isVisibleRightTopHighlight);
 			} else if(x > 0 && y < 0) {
 				scatterSeriesSettings.setSymbolColor(symbolColorSeriesRightBottom);
 				scatterSeriesSettings.setSymbolType(plotSymbolTypeRightBottom);
 				scatterSeriesSettings.setVisible(isVisibleRightBottom);
+				scatterSeriesSettingsHighlight.setSymbolColor(symbolColorSeriesRightBottomHighlight);
+				scatterSeriesSettingsHighlight.setSymbolType(plotSymbolTypeRightBottomHighlight);
+				scatterSeriesSettingsHighlight.setVisible(isVisibleRightBottomHighlight);
 			} else if(x < 0 && y > 0) {
 				scatterSeriesSettings.setSymbolColor(symbolColorSeriesLeftTop);
 				scatterSeriesSettings.setSymbolType(plotSymbolTypeLeftTop);
 				scatterSeriesSettings.setVisible(isVisibleLeftTop);
+				scatterSeriesSettingsHighlight.setSymbolColor(symbolColorSeriesLeftTopHighlight);
+				scatterSeriesSettingsHighlight.setSymbolType(plotSymbolTypeLeftTopHighlight);
+				scatterSeriesSettingsHighlight.setVisible(isVisibleLeftTopHighlight);
 			} else if(x < 0 && y < 0) {
 				scatterSeriesSettings.setSymbolColor(symbolColorSeriesLeftBottom);
 				scatterSeriesSettings.setSymbolType(plotSymbolTypeLeftBottom);
 				scatterSeriesSettings.setVisible(isVisibleLeftBottom);
+				scatterSeriesSettingsHighlight.setSymbolColor(symbolColorSeriesLeftBottomHighlight);
+				scatterSeriesSettingsHighlight.setSymbolType(plotSymbolTypeLeftBottomHighlight);
+				scatterSeriesSettingsHighlight.setVisible(isVisibleLeftBottomHighlight);
 			}
 			//
 			scatterSeriesDataList.add(scatterSeriesData);

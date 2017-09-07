@@ -176,4 +176,32 @@ public class ScatterSeriesPreferenceConstants {
 	public static final String DEF_SYMBOL_TYPE_SERIES_RIGHT_BOTTOM = PlotSymbolType.TRIANGLE.toString();
 	public static final String P_VISIBLE_SERIES_RIGHT_BOTTOM = "visibleSeriesRightBottom" + POSTFIX;
 	public static final boolean DEF_VISIBLE_SERIES_RIGHT_BOTTOM = true;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_HIGHLIGHT_LEFT_TOP = "symbolColorSeriesHighlightLeftTop" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_HIGHLIGHT_LEFT_TOP = "255,0,255";
+	public static final String P_SYMBOL_TYPE_SERIES_HIGHLIGHT_LEFT_TOP = "symbolTypeSeriesHighlightLeftTop" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_HIGHLIGHT_LEFT_TOP = PlotSymbolType.DIAMOND.toString();
+	public static final String P_VISIBLE_SERIES_HIGHLIGHT_LEFT_TOP = "visibleSeriesHighlightLeftTop" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_HIGHLIGHT_LEFT_TOP = true;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_HIGHLIGHT_RIGHT_TOP = "symbolColorSeriesHighlightRightTop" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_HIGHLIGHT_RIGHT_TOP = "255,0,0";
+	public static final String P_SYMBOL_TYPE_SERIES_HIGHLIGHT_RIGHT_TOP = "symbolTypeSeriesHighlightRightTop" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_HIGHLIGHT_RIGHT_TOP = PlotSymbolType.SQUARE.toString();
+	public static final String P_VISIBLE_SERIES_HIGHLIGHT_RIGHT_TOP = "visibleSeriesHighlightRightTop" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_HIGHLIGHT_RIGHT_TOP = true;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_HIGHLIGHT_LEFT_BOTTOM = "symbolColorSeriesHighlightLeftBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_HIGHLIGHT_LEFT_BOTTOM = "0,255,255";
+	public static final String P_SYMBOL_TYPE_SERIES_HIGHLIGHT_LEFT_BOTTOM = "symbolTypeSeriesHighlightLeftBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_HIGHLIGHT_LEFT_BOTTOM = PlotSymbolType.INVERTED_TRIANGLE.toString();
+	public static final String P_VISIBLE_SERIES_HIGHLIGHT_LEFT_BOTTOM = "visibleSeriesHighlightLeftBottom" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_HIGHLIGHT_LEFT_BOTTOM = true;
+	//
+	public static final String P_SYMBOL_COLOR_SERIES_HIGHLIGHT_RIGHT_BOTTOM = "symbolColorSeriesHighlightRightBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_COLOR_SERIES_HIGHLIGHT_RIGHT_BOTTOM = "0,0,255";
+	public static final String P_SYMBOL_TYPE_SERIES_HIGHLIGHT_RIGHT_BOTTOM = "symbolTypeSeriesHighlightRightBottom" + POSTFIX;
+	public static final String DEF_SYMBOL_TYPE_SERIES_HIGHLIGHT_RIGHT_BOTTOM = PlotSymbolType.TRIANGLE.toString();
+	public static final String P_VISIBLE_SERIES_HIGHLIGHT_RIGHT_BOTTOM = "visibleSeriesHighlightRightBottom" + POSTFIX;
+	public static final boolean DEF_VISIBLE_SERIES_HIGHLIGHT_RIGHT_BOTTOM = true;
 }
