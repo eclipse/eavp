@@ -456,7 +456,7 @@ public class LineSeries_Edit_Part extends Composite {
 
 		BaseChart baseChart = chromatogramChart.getBaseChart();
 		String selectedSeriesId = comboSelectSeries.getText().trim();
-		baseChart.resetSelectedSeries();
+		baseChart.resetSeriesSettings();
 		baseChart.selectSeries(selectedSeriesId);
 	}
 

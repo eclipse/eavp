@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
+import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Cursor;
@@ -35,6 +36,7 @@ import org.eclipse.swt.widgets.Event;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Position;
 import org.swtchart.IAxisSet;
+import org.swtchart.IBarSeries;
 import org.swtchart.ILineSeries;
 import org.swtchart.ISeries;
 import org.swtchart.Range;
@@ -46,10 +48,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final String DEFAULT_TITLE_X_AXIS = "X-Axis";
 	public static final String DEFAULT_TITLE_Y_AXIS = "Y-Axis";
 	//
-	public static final int MOUSE_BUTTON_NULL = 0;
-	public static final int MOUSE_BUTTON_LEFT = 1;
-	public static final int MOUSE_BUTTON_MIDDLE = 2;
-	public static final int MOUSE_BUTTON_RIGHT = 3;
+	private static final int MOUSE_BUTTON_NULL = 0;
+	private static final int MOUSE_BUTTON_LEFT = 1;
+	// private static final int MOUSE_BUTTON_MIDDLE = 2;
+	// private static final int MOUSE_BUTTON_RIGHT = 3;
+	//
+	// private static final int KEY_CODE_S = 115;
+	private static final int KEY_CODE_Z = 122;
 	//
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseDoubleClickEvents;
 	private Map<Integer, IEventProcessor> mouseWheelEvents;
@@ -105,7 +110,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 			String selectedSeriesId = getSelectedSeriedId(event);
 			if(selectedSeriesId.equals("")) {
-				resetSelectedSeries();
+				resetSeriesSettings();
 			} else {
 				selectSeries(selectedSeriesId);
 			}
@@ -119,7 +124,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 			String selectedSeriesId = getSelectedSeriedId(event);
 			if(selectedSeriesId.equals("")) {
-				resetSelectedSeries();
+				resetSeriesSettings();
 			} else {
 				hideSeries(selectedSeriesId);
 			}
@@ -539,12 +544,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		if((event.stateMask & SWT.CTRL) == SWT.CTRL) {
 			if((event.stateMask & SWT.SHIFT) == SWT.SHIFT) {
-				if(event.keyCode == 122) { // Z
+				if(event.keyCode == KEY_CODE_Z) {
 					redoSelection();
 					redraw();
 				}
 			} else {
-				if(event.keyCode == 122) { // Z
+				if(event.keyCode == KEY_CODE_Z) {
 					undoSelection();
 					redraw();
 				}
@@ -591,24 +596,35 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	public void resetSelectedSeries() {
+	public void resetSeriesSettings() {
 
 		ISeries[] series = getSeriesSet().getSeries();
 		for(ISeries dataSeries : series) {
 			if(dataSeries instanceof ILineSeries) {
 				ILineSeries lineSeries = (ILineSeries)dataSeries;
-				if(lineSeries.getLineWidth() > 0) {
-					ISeriesSettings seriesSettings = getSeriesSettings(dataSeries.getId());
-					if(seriesSettings instanceof ILineSeriesSettings) {
-						/*
-						 * Line Series
-						 */
+				ISeriesSettings seriesSettings = getSeriesSettings(dataSeries.getId());
+				if(seriesSettings instanceof ILineSeriesSettings) {
+					/*
+					 * Line Series
+					 */
+					if(lineSeries.getLineWidth() > 0) {
 						ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 						lineSeries.setLineWidth(lineSeriesSettings.getLineWidth());
 						lineSeries.setVisible(lineSeriesSettings.isVisible());
 						lineSeries.setVisibleInLegend(lineSeriesSettings.isVisibleInLegend());
 					}
+				} else if(seriesSettings instanceof IScatterSeriesSettings) {
+					/*
+					 * Scatter Series
+					 */
+					IScatterSeriesSettings scatterSeriesSettings = (IScatterSeriesSettings)seriesSettings;
+					lineSeries.setSymbolColor(scatterSeriesSettings.getSymbolColor());
+					lineSeries.setSymbolType(scatterSeriesSettings.getSymbolType());
 				}
+			} else if(dataSeries instanceof IBarSeries) {
+				/*
+				 * Bar Series
+				 */
 			}
 		}
 		//
@@ -621,18 +637,31 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries instanceof ILineSeries) {
 			ILineSeries lineSeries = (ILineSeries)dataSeries;
-			if(lineSeries.getLineWidth() > 0) {
-				ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
-				if(seriesSettings instanceof ILineSeriesSettings) {
-					/*
-					 * Line Series
-					 */
+			ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
+			if(seriesSettings instanceof ILineSeriesSettings) {
+				/*
+				 * Line Series
+				 */
+				if(lineSeries.getLineWidth() > 0) {
 					selectedSeriesIds.add(selectedSeriesId);
 					ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 					lineSeries.setLineWidth(lineSeriesSettings.getLineWidthSelected());
 					redraw();
 				}
+			} else if(seriesSettings instanceof IScatterSeriesSettings) {
+				/*
+				 * Scatter Series
+				 */
+				selectedSeriesIds.add(selectedSeriesId);
+				IScatterSeriesSettings scatterSeriesSettings = (IScatterSeriesSettings)seriesSettings;
+				lineSeries.setSymbolColor(scatterSeriesSettings.getSymbolColor());
+				lineSeries.setSymbolType(scatterSeriesSettings.getSymbolType());
 			}
+		} else if(dataSeries instanceof IBarSeries) {
+			/*
+			 * Bar Series
+			 */
+			selectedSeriesIds.add(selectedSeriesId);
 		}
 	}
 

@@ -44,6 +44,6 @@ public class ResetSelectedSeriesHandler extends AbstractMenuEntry implements IMe
 	public void execute(Shell shell, ScrollableChart scrollableChart) {
 
 		BaseChart baseChart = scrollableChart.getBaseChart();
-		baseChart.resetSelectedSeries();
+		baseChart.resetSeriesSettings();
 	}
 }
