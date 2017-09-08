@@ -88,12 +88,18 @@ public abstract class VizConnectionManager<T>
 	 * 
 	 * @return The Future state of the connection being added.
 	 */
-	protected Future<ConnectionState> addConnection(String name,
+	@Override
+	public Future<ConnectionState> addConnection(String name,
 			String preferences) {
 		logger.debug("VizConnectionManager message: " + "Adding connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
 
+		//Update the connection if it already exists
+		if(connectionsByName.containsKey(name)) {
+			updateConnection(name,preferences);
+		}
+		
 		// The connection to be added
 		VizConnection<T> connection = null;
 
@@ -118,6 +124,7 @@ public abstract class VizConnectionManager<T>
 		Future<ConnectionState> state = null;
 
 		try {
+			
 			// Ensure the connection's basic preferences are set.
 			connection.setName(name);
 			connection.setHost(split[0]);
@@ -232,7 +239,8 @@ public abstract class VizConnectionManager<T>
 	 * @param name
 	 *            The name of the connection to remove.
 	 */
-	protected void removeConnection(String name) {
+	@Override
+	public void removeConnection(String name) {
 		logger.debug("VizConnectionManager message: " + "Removing connection \""
 				+ name + "\".");
 

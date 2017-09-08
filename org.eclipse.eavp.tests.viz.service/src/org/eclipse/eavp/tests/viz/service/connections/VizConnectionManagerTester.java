@@ -47,7 +47,7 @@ public class VizConnectionManagerTester {
 	/**
 	 * The connection manager that will be tested.
 	 */
-	private IVizConnectionManager<FakeClient> manager;
+	private VizConnectionManager<FakeClient> manager;
 
 	/**
 	 * The fake connections (which wrap the custom connection API) created by
@@ -151,7 +151,8 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-
+		manager.addConnection(name, host + "," + port + "," + path);
+		
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
 		assertEquals(1, manager.getConnections().size());
@@ -191,6 +192,7 @@ public class VizConnectionManagerTester {
 		name = "trevor something";
 		port = 9001;
 		path = "";
+		manager.addConnection(name, host + "," + port + "," + path);
 
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
@@ -247,11 +249,13 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		manager.
+		manager.addConnection(connection1, host + "," + port + "," + path);
+		
 		// Add the second connection.
 		connection2 = "trevor something";
 		port = 9001;
 		path = "/home/music/different/path";
+		manager.addConnection(connection2, host + "," + port + "," + path);
 
 		// Get the reference for the first connection
 		IVizConnection<FakeClient> conn1 = manager.getConnection(connection1);
@@ -268,6 +272,7 @@ public class VizConnectionManagerTester {
 
 		// Remove the first connection from the store.
 		// There can be only one.
+		manager.removeConnection(connection1);
 		assertNull(manager.getConnection(connection1));
 		assertNotNull(manager.getConnection(connection2));
 		assertEquals(1, manager.getConnections().size());
@@ -279,6 +284,7 @@ public class VizConnectionManagerTester {
 
 		// Remove the second connection from the store.
 		// There can be only none.
+		manager.removeConnection(connection2);
 		assertNull(manager.getConnection(connection1));
 		assertNull(manager.getConnection(connection2));
 		assertEquals(0, manager.getConnections().size());
@@ -289,10 +295,12 @@ public class VizConnectionManagerTester {
 		assertFalse(manager.getConnectionsForHost(host).contains(connection2));
 
 		// Add a connection with a duplicate name
+		manager.addConnection(connection1, host + "," + port + "," + path);
 		String duplicate = "magic sword";
 		host = "duplicate host";
 		port = 9002;
 		path = "duplicate/path";
+		manager.addConnection(duplicate, host + "," + port + "," + path);
 
 		// The only connection in the manager should be conn1, with its
 		// properties updated to those of the duplicate connection

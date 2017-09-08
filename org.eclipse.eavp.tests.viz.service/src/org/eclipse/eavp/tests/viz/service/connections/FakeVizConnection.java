@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.tests.viz.service.connections;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -110,8 +113,36 @@ public class FakeVizConnection extends VizConnection<FakeClient> {
 	 */
 	@Override
 	protected Future<ConnectionState> startConnectThread() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Future<ConnectionState>() {
+			@Override
+			public boolean cancel(boolean mayInterruptIfRunning) {
+				return false;
+			}
+
+			@Override
+			public ConnectionState get()
+					throws InterruptedException, ExecutionException {
+				return ConnectionState.Connected;
+			}
+
+			@Override
+			public ConnectionState get(long timeout, TimeUnit unit)
+					throws InterruptedException, ExecutionException,
+					TimeoutException {
+				return ConnectionState.Connected;
+			}
+
+			@Override
+			public boolean isCancelled() {
+				return false;
+			}
+
+			@Override
+			public boolean isDone() {
+				return true;
+			}
+		};
+		
 	}
 
 	/*
