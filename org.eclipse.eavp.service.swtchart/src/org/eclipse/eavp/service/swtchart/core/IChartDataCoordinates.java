@@ -13,7 +13,7 @@ package org.eclipse.eavp.service.swtchart.core;
 
 public interface IChartDataCoordinates {
 
-	double getLength();
+	int getSeriesMaxDataPoints();
 
 	double getMinX();
 

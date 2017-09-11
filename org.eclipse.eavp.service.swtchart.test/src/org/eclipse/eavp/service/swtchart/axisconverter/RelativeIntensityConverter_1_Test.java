@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.axisconverter;
 
-import org.eclipse.eavp.service.swtchart.axisconverter.RelativeIntensityConverter;
 import org.eclipse.eavp.service.swtchart.core.IChartDataCoordinates;
 import org.eclipse.swt.SWT;
 
@@ -24,7 +23,7 @@ public class RelativeIntensityConverter_1_Test extends TestCase {
 	private class TestChartDataCoordinates implements IChartDataCoordinates {
 
 		@Override
-		public double getLength() {
+		public int getSeriesMaxDataPoints() {
 
 			return 0;
 		}

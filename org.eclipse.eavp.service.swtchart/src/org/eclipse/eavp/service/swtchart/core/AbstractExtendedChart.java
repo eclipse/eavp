@@ -29,7 +29,7 @@ import org.swtchart.Range;
 
 public abstract class AbstractExtendedChart extends AbstractHandledChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
 
-	private double length;
+	private int seriesMaxDataPoints;
 	private double minX;
 	private double maxX;
 	private double minY;
@@ -56,9 +56,9 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	}
 
 	@Override
-	public double getLength() {
+	public int getSeriesMaxDataPoints() {
 
-		return length;
+		return seriesMaxDataPoints;
 	}
 
 	@Override
@@ -423,7 +423,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	 */
 	private void resetCoordinates() {
 
-		length = 0;
+		seriesMaxDataPoints = 0;
 		minX = Double.POSITIVE_INFINITY;
 		maxX = Double.NEGATIVE_INFINITY;
 		minY = Double.POSITIVE_INFINITY;
@@ -440,7 +440,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		double seriesMinY = Arrays.stream(ySeries).min().getAsDouble();
 		double seriesMaxY = Arrays.stream(ySeries).max().getAsDouble();
 		//
-		length = Math.max(length, xSeries.length);
+		seriesMaxDataPoints = Math.max(seriesMaxDataPoints, xSeries.length);
 		updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
 	}
 

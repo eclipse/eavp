@@ -405,24 +405,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private void calculateRedrawFrequency() {
 
-		double length = getLength();
-		int base = 10;
-		//
-		if(length < Math.pow(base, 1)) {
-			redrawFrequency = 1;
-		} else if(length < Math.pow(base, 2)) {
-			redrawFrequency = 2;
-		} else if(length < Math.pow(base, 3)) {
-			redrawFrequency = 3;
-		} else if(length < Math.pow(base, 4)) {
-			redrawFrequency = 4;
-		} else if(length < Math.pow(base, 5)) {
-			redrawFrequency = 6;
-		} else if(length < Math.pow(base, 6)) {
-			redrawFrequency = 8;
-		} else {
-			redrawFrequency = 10;
-		}
+		/*
+		 * The frequency might be calculated here to increase the performance.
+		 * I've not found a smart solution yet to improve the speed when
+		 * displaying large data sets.
+		 */
+		redrawFrequency = 2;
 	}
 
 	public void setSupportDataShift(boolean supportDataShift) {

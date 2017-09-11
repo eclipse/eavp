@@ -802,8 +802,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			if(calculateIncrement) {
 				int thumbX = maxX - minX;
 				int thumbY = maxY - minY;
-				int incrementX = calculateIncrement(thumbX, baseChart.getLength());
-				int incrementY = calculateIncrement(thumbY, baseChart.getLength());
+				int incrementX = calculateIncrement(thumbX, baseChart.getSeriesMaxDataPoints());
+				int incrementY = calculateIncrement(thumbY, baseChart.getSeriesMaxDataPoints());
 				sliderVertical.setIncrement((isHorizontal) ? incrementY : incrementX);
 				sliderHorizontal.setPageIncrement((isHorizontal) ? incrementX : incrementY);
 			}
