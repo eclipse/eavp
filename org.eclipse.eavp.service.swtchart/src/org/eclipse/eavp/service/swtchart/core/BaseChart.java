@@ -343,22 +343,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private class UndoEventProcessor implements IEventProcessor {
+	private class UndoRedoEventProcessor implements IEventProcessor {
 
 		@Override
 		public void handleEvent(Event event) {
 
-			undoSelection();
-			redraw();
-		}
-	}
-
-	private class RedoEventProcessor implements IEventProcessor {
-
-		@Override
-		public void handleEvent(Event event) {
-
-			redoSelection();
+			if((event.stateMask & SWT.SHIFT) == SWT.SHIFT) {
+				redoSelection();
+			} else {
+				undoSelection();
+			}
 			redraw();
 		}
 	}
@@ -466,8 +460,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		keyUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		keyUpEvents.put(KEY_CODE_Z, new HashMap<Integer, IEventProcessor>());
-		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoEventProcessor());
-		keyUpEvents.get(KEY_CODE_Z).put(SWT.SHIFT, new RedoEventProcessor());
+		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoRedoEventProcessor());
 	}
 
 	public boolean addCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
