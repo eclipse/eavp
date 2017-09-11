@@ -63,6 +63,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseDownEvents;
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseMoveEvents;
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseUpEvents;
+	private Map<Integer, Map<Integer, IEventProcessor>> keyUpEvents;
 	/*
 	 * Prevent accidental zooming.
 	 * At least 30% of the chart width or height needs to be selected.
@@ -342,6 +343,26 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	private class UndoEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			undoSelection();
+			redraw();
+		}
+	}
+
+	private class RedoEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			redoSelection();
+			redraw();
+		}
+	}
+
 	public BaseChart(Composite parent, int style) {
 		super(parent, style);
 		defaultCursor = getCursor();
@@ -442,6 +463,11 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseUpEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
 		mouseUpEvents.get(MOUSE_BUTTON_LEFT).put(SWT.BUTTON1, new MouseUpEventProcessor()); // Stop Selection
+		//
+		keyUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
+		keyUpEvents.put(KEY_CODE_Z, new HashMap<Integer, IEventProcessor>());
+		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoEventProcessor());
+		keyUpEvents.get(KEY_CODE_Z).put(SWT.SHIFT, new RedoEventProcessor());
 	}
 
 	public boolean addCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
@@ -534,19 +560,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleKeyUpEvent(Event event) {
 
-		if((event.stateMask & SWT.CTRL) == SWT.CTRL) {
-			if((event.stateMask & SWT.SHIFT) == SWT.SHIFT) {
-				if(event.keyCode == KEY_CODE_Z) {
-					redoSelection();
-					redraw();
-				}
-			} else {
-				if(event.keyCode == KEY_CODE_Z) {
-					undoSelection();
-					redraw();
-				}
-			}
-		}
+		handleEvent(keyUpEvents.get(event.keyCode), event);
 	}
 
 	private void handleEvent(Map<Integer, IEventProcessor> eventProcessors, Event event) {
