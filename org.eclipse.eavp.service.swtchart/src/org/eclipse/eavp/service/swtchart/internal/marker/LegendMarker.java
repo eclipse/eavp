@@ -20,7 +20,6 @@ import org.eclipse.eavp.service.swtchart.core.IExtendedChart;
 import org.eclipse.eavp.service.swtchart.marker.AbstractPositionPaintListener;
 import org.eclipse.eavp.service.swtchart.marker.IPositionPaintListener;
 import org.eclipse.swt.events.PaintEvent;
-import org.swtchart.IAxis;
 
 public class LegendMarker extends AbstractPositionPaintListener implements IPositionPaintListener {
 
@@ -47,8 +46,9 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 			stringBuilder.delete(0, stringBuilder.length());
 			e.gc.setForeground(getForegroundColor());
 			//
-			double primaryValueX = getSelectedPrimaryAxisValue(getX(), IExtendedChart.X_AXIS);
-			double primaryValueY = getSelectedPrimaryAxisValue(getY(), IExtendedChart.Y_AXIS);
+			BaseChart baseChart = getBaseChart();
+			double primaryValueX = baseChart.getSelectedPrimaryAxisValue(getX(), IExtendedChart.X_AXIS);
+			double primaryValueY = baseChart.getSelectedPrimaryAxisValue(getY(), IExtendedChart.Y_AXIS);
 			//
 			drawXAxes(primaryValueX);
 			drawYAxes(primaryValueY);
@@ -119,45 +119,5 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 				}
 			}
 		}
-	}
-
-	private double getSelectedPrimaryAxisValue(int position, String orientation) {
-
-		BaseChart baseChart = getBaseChart();
-		double primaryValue = 0.0d;
-		if(baseChart != null) {
-			//
-			double start;
-			double stop;
-			int length;
-			//
-			if(orientation.equals(IExtendedChart.X_AXIS)) {
-				IAxis axis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-				start = axis.getRange().lower;
-				stop = axis.getRange().upper;
-				length = baseChart.getPlotArea().getBounds().width;
-			} else {
-				IAxis axis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-				start = axis.getRange().lower;
-				stop = axis.getRange().upper;
-				length = baseChart.getPlotArea().getBounds().height;
-			}
-			//
-			if(position <= 0) {
-				primaryValue = start;
-			} else if(position > length) {
-				primaryValue = stop;
-			} else {
-				double delta = stop - start;
-				double percentage;
-				if(orientation.equals(IExtendedChart.X_AXIS)) {
-					percentage = ((100.0d / length) * position) / 100.0d;
-				} else {
-					percentage = (100.0d - ((100.0d / length) * position)) / 100.0d;
-				}
-				primaryValue = start + delta * percentage;
-			}
-		}
-		return primaryValue;
 	}
 }

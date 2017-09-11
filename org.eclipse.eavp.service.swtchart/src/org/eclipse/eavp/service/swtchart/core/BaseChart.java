@@ -52,8 +52,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	//
 	private static final int MOUSE_BUTTON_NULL = 0;
 	private static final int MOUSE_BUTTON_LEFT = 1;
-	// private static final int MOUSE_BUTTON_MIDDLE = 2;
-	// private static final int MOUSE_BUTTON_RIGHT = 3;
+	private static final int MOUSE_BUTTON_MIDDLE = 2;
+	// private static final int MOUSE_BUTTON_RIGHT = 3; // Used by the menu
 	//
 	// private static final int KEY_CODE_S = 115;
 	private static final int KEY_CODE_Z = 122;
@@ -133,6 +133,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				hideSeries(selectedSeriesId);
 				redraw();
 			}
+		}
+	}
+
+	private class SelectDataPointEventProcessor implements IEventProcessor {
+
+		@Override
+		public void handleEvent(Event event) {
+
+			double x = getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
+			double y = getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
+			System.out.println("Data Point Selection: " + x + "\t" + y);
 		}
 	}
 
@@ -428,6 +439,42 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		redrawFrequency = 2;
 	}
 
+	public double getSelectedPrimaryAxisValue(int position, String orientation) {
+
+		double primaryValue = 0.0d;
+		double start;
+		double stop;
+		int length;
+		//
+		if(orientation.equals(IExtendedChart.X_AXIS)) {
+			IAxis axis = getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+			start = axis.getRange().lower;
+			stop = axis.getRange().upper;
+			length = getPlotArea().getBounds().width;
+		} else {
+			IAxis axis = getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+			start = axis.getRange().lower;
+			stop = axis.getRange().upper;
+			length = getPlotArea().getBounds().height;
+		}
+		//
+		if(position <= 0) {
+			primaryValue = start;
+		} else if(position > length) {
+			primaryValue = stop;
+		} else {
+			double delta = stop - start;
+			double percentage;
+			if(orientation.equals(IExtendedChart.X_AXIS)) {
+				percentage = ((100.0d / length) * position) / 100.0d;
+			} else {
+				percentage = (100.0d - ((100.0d / length) * position)) / 100.0d;
+			}
+			primaryValue = start + delta * percentage;
+		}
+		return primaryValue;
+	}
+
 	public void setSupportDataShift(boolean supportDataShift) {
 
 		this.supportDataShift = supportDataShift;
@@ -439,7 +486,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		mouseDoubleClickEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
 		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectSeriesEventProcessor());
 		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new HideSeriesEventProcessor());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new ResetSeriesEventProcessor());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new SelectDataPointEventProcessor());
+		mouseDoubleClickEvents.put(MOUSE_BUTTON_MIDDLE, new HashMap<Integer, IEventProcessor>());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_MIDDLE).put(SWT.NONE, new ResetSeriesEventProcessor());
 		//
 		mouseWheelEvents = new HashMap<Integer, IEventProcessor>();
 		mouseWheelEvents.put(SWT.NONE, new ZoomEventProcessor());
