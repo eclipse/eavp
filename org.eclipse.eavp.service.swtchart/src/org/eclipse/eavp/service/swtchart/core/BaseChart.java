@@ -79,7 +79,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private int redrawCounter = 0;
 	//
 	private UserSelection userSelection;
-	private List<ICustomSelectionHandler> customSelectionHandlers;
+	private List<ICustomSelectionHandler> customRangeSelectionHandlers;
+	private List<ICustomSelectionHandler> customPointSelectionHandlers;
 	private long clickStartTime;
 	private Set<String> selectedSeriesIds;
 	//
@@ -148,9 +149,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		@Override
 		public void handleEvent(Event event) {
 
-			double x = getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
-			double y = getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
-			System.out.println("Data Point Selection: " + x + "\t" + y);
+			// double x = getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
+			// double y = getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
+			fireUpdateCustomPointSelectionHandlers(event);
 		}
 	}
 
@@ -160,7 +161,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		public void handleEvent(Event event) {
 
 			adjustRange(true);
-			fireUpdateCustomSelectionHandlers(event);
+			fireUpdateCustomRangeSelectionHandlers(event);
 			redraw();
 		}
 	}
@@ -211,7 +212,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				adjustSecondaryYAxes();
 			}
 			//
-			fireUpdateCustomSelectionHandlers(event);
+			fireUpdateCustomRangeSelectionHandlers(event);
 			redraw();
 		}
 	}
@@ -394,7 +395,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Rectangle range selection.
 		 */
 		userSelection = new UserSelection();
-		customSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
+		customRangeSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
+		customPointSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
 		selectedSeriesIds = new HashSet<String>();
 		initializeEventProcessors();
 		/*
@@ -529,14 +531,24 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoRedoEventProcessor(SWT.SHIFT));
 	}
 
-	public boolean addCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
+	public boolean addCustomRangeSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
 
-		return customSelectionHandlers.add(customSelectionHandler);
+		return customRangeSelectionHandlers.add(customSelectionHandler);
 	}
 
-	public boolean removeCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
+	public boolean removeCustomRangeSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
 
-		return customSelectionHandlers.remove(customSelectionHandler);
+		return customRangeSelectionHandlers.remove(customSelectionHandler);
+	}
+
+	public boolean addCustomPointSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
+
+		return customPointSelectionHandlers.add(customSelectionHandler);
+	}
+
+	public boolean removeCustomPointSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
+
+		return customPointSelectionHandlers.remove(customSelectionHandler);
 	}
 
 	/**
@@ -886,12 +898,26 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return axisScaleConverter;
 	}
 
-	protected void fireUpdateCustomSelectionHandlers(Event event) {
+	protected void fireUpdateCustomRangeSelectionHandlers(Event event) {
 
 		/*
 		 * Handle the custom user selection handlers.
 		 */
-		for(ICustomSelectionHandler customSelectionHandler : customSelectionHandlers) {
+		for(ICustomSelectionHandler customSelectionHandler : customRangeSelectionHandlers) {
+			try {
+				customSelectionHandler.handleUserSelection(event);
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+		}
+	}
+
+	protected void fireUpdateCustomPointSelectionHandlers(Event event) {
+
+		/*
+		 * Handle the custom user selection handlers.
+		 */
+		for(ICustomSelectionHandler customSelectionHandler : customPointSelectionHandlers) {
 			try {
 				customSelectionHandler.handleUserSelection(event);
 			} catch(Exception e) {
@@ -1026,7 +1052,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Inform all registered handlers.
 		 * Reset the current selection and redraw the chart.
 		 */
-		fireUpdateCustomSelectionHandlers(event);
+		fireUpdateCustomRangeSelectionHandlers(event);
 	}
 
 	private void trackUndoSelection() {

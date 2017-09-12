@@ -223,7 +223,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 		Composite compositeButtons = new Composite(parent, SWT.NONE);
 		compositeButtons.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		GridData gridDataComposite = new GridData(GridData.FILL_HORIZONTAL);
-		gridDataComposite.horizontalAlignment = SWT.BEGINNING;
+		gridDataComposite.horizontalAlignment = SWT.END;
 		compositeButtons.setLayoutData(gridDataComposite);
 		compositeButtons.setLayout(new GridLayout(2, false));
 		//

@@ -995,9 +995,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		return extraSpaceTitle;
 	}
 
-	private void fireUpdateCustomSelectionHandlers(Event event) {
+	private void fireUpdateCustomRangeSelectionHandlers(Event event) {
 
-		baseChart.fireUpdateCustomSelectionHandlers(event);
+		baseChart.fireUpdateCustomRangeSelectionHandlers(event);
 		updateLinkedCharts();
 	}
 
@@ -1046,7 +1046,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 					}
 					//
 					displayRangeInfo(xAxis, yAxis);
-					fireUpdateCustomSelectionHandlers(event);
+					fireUpdateCustomRangeSelectionHandlers(event);
 					baseChart.redraw();
 				}
 			}
@@ -1082,7 +1082,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Set the slider range.
 		 */
-		baseChart.addCustomSelectionHandler(new ICustomSelectionHandler() {
+		baseChart.addCustomRangeSelectionHandler(new ICustomSelectionHandler() {
 
 			@Override
 			public void handleUserSelection(Event event) {
@@ -1161,7 +1161,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 					}
 					//
 					displayRangeInfo(xAxis, yAxis);
-					fireUpdateCustomSelectionHandlers(event);
+					fireUpdateCustomRangeSelectionHandlers(event);
 					baseChart.redraw();
 				}
 			}

@@ -464,7 +464,7 @@ public class LineSeries_Edit_Part extends Composite {
 	private GridData getGridData() {
 
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.widthHint = 100;
+		gridData.widthHint = 150;
 		return gridData;
 	}
 }

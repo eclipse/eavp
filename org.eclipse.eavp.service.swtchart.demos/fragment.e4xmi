@@ -110,5 +110,12 @@
         </children>
       </children>
     </elements>
+    <elements xsi:type="advanced:Perspective" xmi:id="_i_dKkJeKEee0UIXngt5SPA" elementId="org.eclipse.eavp.service.swtchart.demos.perspective.eavpdemo-swtchartextensionsdataselection" label="EAVP Demo - SWTChart Extensions (Data Selection)">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_qk9jYJeKEee0UIXngt5SPA" elementId="org.eclipse.eavp.service.swtchart.demos.partsashcontainer.14">
+        <children xsi:type="basic:PartStack" xmi:id="_w7rN0JeKEee0UIXngt5SPA" elementId="org.eclipse.eavp.service.swtchart.demos.partstack.17">
+          <children xsi:type="basic:Part" xmi:id="_CqarAJeMEee0UIXngt5SPA" elementId="org.eclipse.eavp.service.swtchart.demos.part.lineseriesselection" contributionURI="bundleclass://org.eclipse.eavp.service.swtchart.demos/org.eclipse.eavp.service.swtchart.demos.parts.LineSeries_Selection_Part" label="LineSeries Selection" iconURI="platform:/plugin/org.eclipse.eavp.service.swtchart/icons/16x16/set_range.gif"/>
+        </children>
+      </children>
+    </elements>
   </fragments>
 </fragment:ModelFragments>
