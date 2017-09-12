@@ -52,7 +52,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	//
 	private static final int MOUSE_BUTTON_NULL = 0;
 	private static final int MOUSE_BUTTON_LEFT = 1;
-	private static final int MOUSE_BUTTON_MIDDLE = 2;
+	// private static final int MOUSE_BUTTON_MIDDLE = 2;
 	// private static final int MOUSE_BUTTON_RIGHT = 3; // Used by the menu
 	//
 	// private static final int KEY_CODE_S = 115;
@@ -106,32 +106,39 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private int yMoveStart = 0;
 	private Map<String, List<double[]>> dataShiftHistory;
 
-	private class SelectSeriesEventProcessor implements IEventProcessor {
+	private class SelectHideSeriesEventProcessor implements IEventProcessor {
 
-		@Override
-		public void handleEvent(Event event) {
+		private int hideMask;
 
-			String selectedSeriesId = getSelectedSeriedId(event);
-			if(selectedSeriesId.equals("")) {
-				resetSeriesSettings();
-			} else {
-				selectSeries(selectedSeriesId);
-				redraw();
-			}
+		public SelectHideSeriesEventProcessor(int hideMask) {
+			this.hideMask = hideMask;
 		}
-	}
-
-	private class HideSeriesEventProcessor implements IEventProcessor {
 
 		@Override
 		public void handleEvent(Event event) {
 
-			String selectedSeriesId = getSelectedSeriedId(event);
-			if(selectedSeriesId.equals("")) {
-				resetSeriesSettings();
+			if((event.stateMask & hideMask) == hideMask) {
+				/*
+				 * Hide
+				 */
+				String selectedSeriesId = getSelectedSeriedId(event);
+				if(selectedSeriesId.equals("")) {
+					resetSeriesSettings();
+				} else {
+					hideSeries(selectedSeriesId);
+					redraw();
+				}
 			} else {
-				hideSeries(selectedSeriesId);
-				redraw();
+				/*
+				 * Select
+				 */
+				String selectedSeriesId = getSelectedSeriedId(event);
+				if(selectedSeriesId.equals("")) {
+					resetSeriesSettings();
+				} else {
+					selectSeries(selectedSeriesId);
+					redraw();
+				}
 			}
 		}
 	}
@@ -356,12 +363,24 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private class UndoRedoEventProcessor implements IEventProcessor {
 
+		private int redoMask;
+
+		public UndoRedoEventProcessor(int redoMask) {
+			this.redoMask = redoMask;
+		}
+
 		@Override
 		public void handleEvent(Event event) {
 
-			if((event.stateMask & SWT.SHIFT) == SWT.SHIFT) {
+			if((event.stateMask & redoMask) == redoMask) {
+				/*
+				 * Redo
+				 */
 				redoSelection();
 			} else {
+				/*
+				 * Undo
+				 */
 				undoSelection();
 			}
 			redraw();
@@ -484,11 +503,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		mouseDoubleClickEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseDoubleClickEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectSeriesEventProcessor());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new HideSeriesEventProcessor());
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectHideSeriesEventProcessor(SWT.SHIFT));
+		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new ResetSeriesEventProcessor());
 		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new SelectDataPointEventProcessor());
-		mouseDoubleClickEvents.put(MOUSE_BUTTON_MIDDLE, new HashMap<Integer, IEventProcessor>());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_MIDDLE).put(SWT.NONE, new ResetSeriesEventProcessor());
 		//
 		mouseWheelEvents = new HashMap<Integer, IEventProcessor>();
 		mouseWheelEvents.put(SWT.NONE, new ZoomEventProcessor());
@@ -509,7 +526,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		keyUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		keyUpEvents.put(KEY_CODE_Z, new HashMap<Integer, IEventProcessor>());
-		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoRedoEventProcessor());
+		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoRedoEventProcessor(SWT.SHIFT));
 	}
 
 	public boolean addCustomSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
