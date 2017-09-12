@@ -62,6 +62,15 @@ public class LineSeries_Edit_Part extends Composite {
 	private Combo comboScaleX;
 	private Text textShiftY;
 	private Combo comboScaleY;
+	//
+	private int shiftConstraintSelection;
+	private int shiftConstraintDeleteX;
+	private int shiftConstraintDeleteY;
+	private int shiftConstraintClinchX;
+	private int shiftConstraintStretchX;
+	private int shiftConstraintBroadenX;
+	private int shiftConstraintNarrowX;
+	//
 	private ChromatogramChart chromatogramChart;
 	//
 	private Map<Integer, Table> shiftTableMap;
@@ -173,7 +182,7 @@ public class LineSeries_Edit_Part extends Composite {
 		GridData gridDataComposite = new GridData(GridData.FILL_HORIZONTAL);
 		gridDataComposite.horizontalAlignment = SWT.BEGINNING;
 		compositeButtons.setLayoutData(gridDataComposite);
-		compositeButtons.setLayout(new GridLayout(11, false));
+		compositeButtons.setLayout(new GridLayout(18, false));
 		//
 		createLabel(compositeButtons);
 		createCombo(compositeButtons);
@@ -185,6 +194,13 @@ public class LineSeries_Edit_Part extends Composite {
 		createComboScaleY(compositeButtons);
 		createButtonUp(compositeButtons);
 		createButtonDown(compositeButtons);
+		createButtonConstraintSelection(compositeButtons);
+		createButtonConstraintDeleteX(compositeButtons);
+		createButtonConstraintDeleteY(compositeButtons);
+		createButtonConstraintClinchX(compositeButtons);
+		createButtonConstraintStrechX(compositeButtons);
+		createButtonConstraintBroadenX(compositeButtons);
+		createButtonConstraintNarrowX(compositeButtons);
 		createButtonReset(compositeButtons);
 		//
 		createChart(parent);
@@ -236,7 +252,8 @@ public class LineSeries_Edit_Part extends Composite {
 				BaseChart baseChart = chromatogramChart.getBaseChart();
 				double shiftX = getShift(IExtendedChart.X_AXIS) * -1.0d;
 				String selectedSeriesId = comboSelectSeries.getText().trim();
-				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d);
+				int shiftConstraints = getShiftConstraints();
+				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d, shiftConstraints);
 				baseChart.redraw();
 			}
 		});
@@ -256,7 +273,8 @@ public class LineSeries_Edit_Part extends Composite {
 				BaseChart baseChart = chromatogramChart.getBaseChart();
 				double shiftX = getShift(IExtendedChart.X_AXIS);
 				String selectedSeriesId = comboSelectSeries.getText().trim();
-				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d);
+				int shiftConstraints = getShiftConstraints();
+				baseChart.shiftSeries(selectedSeriesId, shiftX, 0.0d, shiftConstraints);
 				baseChart.redraw();
 			}
 		});
@@ -289,7 +307,8 @@ public class LineSeries_Edit_Part extends Composite {
 				BaseChart baseChart = chromatogramChart.getBaseChart();
 				double shiftY = getShift(IExtendedChart.Y_AXIS);
 				String selectedSeriesId = comboSelectSeries.getText().trim();
-				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
+				int shiftConstraints = getShiftConstraints();
+				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY, shiftConstraints);
 				baseChart.redraw();
 			}
 		});
@@ -309,8 +328,142 @@ public class LineSeries_Edit_Part extends Composite {
 				BaseChart baseChart = chromatogramChart.getBaseChart();
 				double shiftY = getShift(IExtendedChart.Y_AXIS) * -1.0d;
 				String selectedSeriesId = comboSelectSeries.getText().trim();
-				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY);
+				int shiftConstraints = getShiftConstraints();
+				baseChart.shiftSeries(selectedSeriesId, 0.0d, shiftY, shiftConstraints);
 				baseChart.redraw();
+			}
+		});
+	}
+
+	private void createButtonConstraintSelection(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("Selection");
+		button.setSelection(false);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(button.getSelection()) {
+					shiftConstraintSelection = BaseChart.SHIFT_CONSTRAINT_SELECTION;
+				} else {
+					shiftConstraintSelection = 0;
+				}
+			}
+		});
+	}
+
+	private void createButtonConstraintDeleteX(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("Delete X");
+		button.setSelection(false);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(button.getSelection()) {
+					shiftConstraintDeleteX = BaseChart.SHIFT_CONSTRAINT_DELETE_X;
+				} else {
+					shiftConstraintDeleteX = 0;
+				}
+			}
+		});
+	}
+
+	private void createButtonConstraintDeleteY(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("Delete Y");
+		button.setSelection(false);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(button.getSelection()) {
+					shiftConstraintDeleteY = BaseChart.SHIFT_CONSTRAINT_DELETE_Y;
+				} else {
+					shiftConstraintDeleteY = 0;
+				}
+			}
+		});
+	}
+
+	private void createButtonConstraintClinchX(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("Clinch X");
+		button.setSelection(false);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(button.getSelection()) {
+					shiftConstraintClinchX = BaseChart.SHIFT_CONSTRAINT_CLINCH_X;
+				} else {
+					shiftConstraintClinchX = 0;
+				}
+			}
+		});
+	}
+
+	private void createButtonConstraintStrechX(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("Stretch X");
+		button.setSelection(false);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(button.getSelection()) {
+					shiftConstraintStretchX = BaseChart.SHIFT_CONSTRAINT_STRETCH_X;
+				} else {
+					shiftConstraintStretchX = 0;
+				}
+			}
+		});
+	}
+
+	private void createButtonConstraintBroadenX(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("Broaden X");
+		button.setSelection(false);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(button.getSelection()) {
+					shiftConstraintBroadenX = BaseChart.SHIFT_CONSTRAINT_BROADEN_X;
+				} else {
+					shiftConstraintBroadenX = 0;
+				}
+			}
+		});
+	}
+
+	private void createButtonConstraintNarrowX(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("Narrow X");
+		button.setSelection(false);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(button.getSelection()) {
+					shiftConstraintNarrowX = BaseChart.SHIFT_CONSTRAINT_NARROW_X;
+				} else {
+					shiftConstraintNarrowX = 0;
+				}
 			}
 		});
 	}
@@ -409,6 +562,11 @@ public class LineSeries_Edit_Part extends Composite {
 				textShiftY.setText("100000");
 			}
 		}
+	}
+
+	private int getShiftConstraints() {
+
+		return shiftConstraintSelection | shiftConstraintDeleteX | shiftConstraintDeleteY | shiftConstraintClinchX | shiftConstraintStretchX | shiftConstraintBroadenX | shiftConstraintNarrowX;
 	}
 
 	private double getShift(String axis) {

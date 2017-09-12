@@ -95,10 +95,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 */
 	public static final int SHIFT_CONSTRAINT_NONE = 0;
 	public static final int SHIFT_CONSTRAINT_SELECTION = 1 << 0;
-	public static final int SHIFT_CONSTRAINT_CLINCH_X = 1 << 1;
-	public static final int SHIFT_CONSTRAINT_STRETCH_X = 1 << 2;
-	public static final int SHIFT_CONSTRAINT_BROADEN_X = 1 << 3;
-	public static final int SHIFT_CONSTRAINT_NARROW_X = 1 << 4;
+	public static final int SHIFT_CONSTRAINT_DELETE_X = 1 << 1;
+	public static final int SHIFT_CONSTRAINT_DELETE_Y = 1 << 2;
+	public static final int SHIFT_CONSTRAINT_CLINCH_X = 1 << 3;
+	public static final int SHIFT_CONSTRAINT_STRETCH_X = 1 << 4;
+	public static final int SHIFT_CONSTRAINT_BROADEN_X = 1 << 5;
+	public static final int SHIFT_CONSTRAINT_NARROW_X = 1 << 6;
 	//
 	private boolean supportDataShift;
 	private static final long DELTA_MOVE_TIME = 350;
