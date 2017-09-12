@@ -14,8 +14,11 @@ package org.eclipse.eavp.service.swtchart.demos.parts;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 
 import javax.inject.Inject;
 
@@ -28,6 +31,7 @@ import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISecondaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.core.SecondaryAxisSettings;
+import org.eclipse.eavp.service.swtchart.core.SeriesData;
 import org.eclipse.eavp.service.swtchart.demos.Activator;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesData;
@@ -46,6 +50,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.swtchart.IAxis.Position;
+import org.swtchart.ILineSeries.PlotSymbolType;
+import org.swtchart.ISeries;
 import org.swtchart.LineStyle;
 import org.swtchart.Range;
 
@@ -58,6 +64,10 @@ public class LineSeries_Selection_Part extends Composite {
 	private Text textX;
 	private Text textY;
 	//
+	private static final String DATA_POINT_SERIES = "DATA_POINT_SERIES";
+	private NavigableSet<Double> xValues;
+	private HashMap<Double, Double> yValues;
+	private ISeriesData seriesDataPoint;
 	private LineChart lineChart;
 
 	@Inject
@@ -127,10 +137,24 @@ public class LineSeries_Selection_Part extends Composite {
 				BaseChart baseChart = lineChart.getBaseChart();
 				double x = baseChart.getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
 				double y = baseChart.getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
+				//
 				DecimalFormat decimalFormatX = baseChart.getDecimalFormat(IExtendedChart.X_AXIS, BaseChart.ID_PRIMARY_X_AXIS);
 				DecimalFormat decimalFormatY = baseChart.getDecimalFormat(IExtendedChart.Y_AXIS, BaseChart.ID_PRIMARY_Y_AXIS);
 				textX.setText(decimalFormatX.format(x));
 				textY.setText(decimalFormatY.format(y));
+				//
+				try {
+					ISeries series = baseChart.getSeriesSet().getSeries(DATA_POINT_SERIES);
+					double xSelected = xValues.floor(x);
+					double ySelected = yValues.get(xSelected);
+					double[] xSeries = new double[]{xSelected};
+					double[] ySeries = new double[]{ySelected};
+					series.setXSeries(xSeries);
+					series.setYSeries(ySeries);
+					baseChart.redraw();
+				} catch(Exception e) {
+					//
+				}
 			}
 		});
 		applyChartSettings();
@@ -211,10 +235,34 @@ public class LineSeries_Selection_Part extends Composite {
 		 * Create series.
 		 */
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
-		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_3);
+		ISeriesData seriesDataLine = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_3);
+		double[] xSeries = seriesDataLine.getXSeries();
+		double[] ySeries = seriesDataLine.getYSeries();
+		xValues = new TreeSet<Double>();
+		yValues = new HashMap<Double, Double>();
+		for(int i = 0; i < xSeries.length; i++) {
+			double x = xSeries[i];
+			xValues.add(x);
+			yValues.put(x, ySeries[i]);
+		}
+		/*
+		 * Line Series
+		 */
+		ILineSeriesData lineSeriesData;
+		ILineSeriesSettings lineSerieSettings;
 		//
-		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesData = new LineSeriesData(seriesDataLine);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setEnableArea(true);
+		lineSeriesDataList.add(lineSeriesData);
+		/*
+		 * Selected Point
+		 */
+		seriesDataPoint = new SeriesData(new double[]{0.0}, new double[]{0.0}, DATA_POINT_SERIES);
+		lineSeriesData = new LineSeriesData(seriesDataPoint);
+		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+		lineSerieSettings.setSymbolSize(5);
+		lineSerieSettings.setSymbolType(PlotSymbolType.CROSS);
 		lineSerieSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
