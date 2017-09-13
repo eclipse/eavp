@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.core;
+package org.eclipse.eavp.service.swtchart.events;
 
 import org.eclipse.swt.widgets.Event;
 
