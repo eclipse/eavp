@@ -127,6 +127,7 @@ public abstract class VizConnectionManager<T>
 		Future<ConnectionState> state = null;
 
 		try {
+
 			// Ensure the connection's basic preferences are set.
 			connection.setName(name);
 			connection.setHost(split[0]);

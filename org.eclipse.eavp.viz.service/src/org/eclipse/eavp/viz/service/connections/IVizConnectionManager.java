@@ -52,7 +52,7 @@ public interface IVizConnectionManager<T> {
 	 */
 	public Future<ConnectionState> addConnection(String name,
 			String preferences);
-	
+
 	/**
 	 * Gets the viz connection with the specified name. Names should be
 	 * retrieved from either {@link #getConnections()} or
@@ -85,7 +85,7 @@ public interface IVizConnectionManager<T> {
 	 *             If the specified host is {@code null}.
 	 */
 	Set<String> getConnectionsForHost(String host) throws NullPointerException;
-	
+
 	/**
 	 * Removes a connection based on the specified name. The connection will be
 	 * disconnected.
@@ -93,5 +93,5 @@ public interface IVizConnectionManager<T> {
 	 * @param name
 	 *            The name of the connection to remove.
 	 */
-	public void removeConnection(String name);
+	void removeConnection(String name);
 }

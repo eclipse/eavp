@@ -25,7 +25,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
-import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.connections.VizConnection;
 import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
 import org.junit.Before;
@@ -43,7 +42,7 @@ public class VizConnectionManagerTester {
 	/**
 	 * The connection manager that will be tested.
 	 */
-	private IVizConnectionManager<FakeClient> manager;
+	private VizConnectionManager<FakeClient> manager;
 
 	/**
 	 * The fake connections (which wrap the custom connection API) created by

@@ -115,56 +115,12 @@ public class FakeVizConnection extends VizConnection<FakeClient> {
 	@Override
 	protected Future<ConnectionState> startConnectThread() {
 
-		//
-		//
-		// // Return a connected state
-		// Future<ConnectionState> future = new Future<ConnectionState>() {
-		// @Override
-		// public boolean cancel(boolean mayInterruptIfRunning) {
-		// return false;
-		// }
-		//
-		// @Override
-		// public ConnectionState get()
-		// throws InterruptedException, ExecutionException {
-		// return ConnectionState.Connected;
-		// }
-		//
-		// @Override
-		// public ConnectionState get(long timeout, TimeUnit unit)
-		// throws InterruptedException, ExecutionException,
-		// TimeoutException {
-		// return ConnectionState.Connected;
-		// }
-		//
-		// @Override
-		// public boolean isCancelled() {
-		// return false;
-		// }
-		//
-		// @Override
-		// public boolean isDone() {
-		// return true;
-		// }
-		// };
-		//
-		// try {
-		// state = future.get();
-		// notifyListeners(state, this.getStatusMessage());
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (ExecutionException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// return future;
-
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadExecutor();
 		}
 
 		return executorService.submit(connectionStatusCallable);
+
 	}
 
 	/*
