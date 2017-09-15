@@ -30,7 +30,7 @@ public class ZoomEvent extends AbstractHandledEventProcessor implements IHandled
 	@Override
 	public int getButton() {
 
-		return BaseChart.MOUSE_WHEEL;
+		return BaseChart.BUTTON_WHEEL;
 	}
 
 	@Override

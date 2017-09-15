@@ -25,16 +25,6 @@ import java.util.Stack;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.events.IEventProcessor;
 import org.eclipse.eavp.service.swtchart.events.IHandledEventProcessor;
-import org.eclipse.eavp.service.swtchart.events.MouseDownEvent;
-import org.eclipse.eavp.service.swtchart.events.MouseMoveCursorEvent;
-import org.eclipse.eavp.service.swtchart.events.MouseMoveSelectionEvent;
-import org.eclipse.eavp.service.swtchart.events.MouseMoveShiftEvent;
-import org.eclipse.eavp.service.swtchart.events.MouseUpEvent;
-import org.eclipse.eavp.service.swtchart.events.ResetSeriesEvent;
-import org.eclipse.eavp.service.swtchart.events.SelectDataPointEvent;
-import org.eclipse.eavp.service.swtchart.events.SelectHideSeriesEvent;
-import org.eclipse.eavp.service.swtchart.events.UndoRedoEvent;
-import org.eclipse.eavp.service.swtchart.events.ZoomEvent;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
@@ -68,25 +58,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int EVENT_KEY_DOWN = 6;
 	public static final int EVENT_KEY_UP = 7;
 	//
-	public static final int MOUSE_WHEEL = -1;
-	//
-	public static final int BUTTON_NULL = 0;
 	public static final int BUTTON_LEFT = 1;
 	public static final int BUTTON_MIDDLE = 2;
 	public static final int BUTTON_RIGHT = 3; // Used by the menu
+	public static final int BUTTON_WHEEL = 4;
+	public static final int BUTTON_NONE = 5;
 	//
 	// private static final int KEY_CODE_S = 115;
 	public static final int KEY_CODE_Z = 122;
 	//
 	private Map<Integer, Map<Integer, Map<Integer, IEventProcessor>>> registeredEvents;
-	//
-	private Map<Integer, Map<Integer, IEventProcessor>> mouseDoubleClickEvents;
-	private Map<Integer, Map<Integer, IEventProcessor>> mouseWheelEvents;
-	private Map<Integer, Map<Integer, IEventProcessor>> mouseDownEvents;
-	private Map<Integer, Map<Integer, IEventProcessor>> mouseMoveEvents;
-	private Map<Integer, Map<Integer, IEventProcessor>> mouseUpEvents;
-	private Map<Integer, Map<Integer, IEventProcessor>> keyDownEvents;
-	private Map<Integer, Map<Integer, IEventProcessor>> keyUpEvents;
 	/*
 	 * Settings
 	 */
@@ -170,6 +151,53 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		redoSelection = null;
 		//
 		dataShiftHistory = new HashMap<String, List<double[]>>();
+	}
+
+	private void initializeEventProcessors() {
+
+		registeredEvents = new HashMap<Integer, Map<Integer, Map<Integer, IEventProcessor>>>();
+		initializeEvents();
+	}
+
+	private void initializeEvents() {
+
+		registeredEvents.put(EVENT_MOUSE_DOUBLE_CLICK, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_WHEEL, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_MOVE, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_KEY_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_KEY_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+	}
+
+	public void clearEventProcessors() {
+
+		registeredEvents.clear();
+		initializeEvents();
+	}
+
+	public void addEventProcessor(IHandledEventProcessor handledEventProcessor) {
+
+		/*
+		 * Example
+		 * Event.: EVENT_MOUSE_DOUBLE_CLICK
+		 */
+		Map<Integer, Map<Integer, IEventProcessor>> eventProcessors = registeredEvents.get(handledEventProcessor.getEvent());
+		/*
+		 * Example
+		 * Button: BUTTON_LEFT
+		 */
+		int button = handledEventProcessor.getButton();
+		Map<Integer, IEventProcessor> buttonEventProcessors = eventProcessors.get(button);
+		if(buttonEventProcessors == null) {
+			buttonEventProcessors = new HashMap<Integer, IEventProcessor>();
+			eventProcessors.put(button, buttonEventProcessors);
+		}
+		/*
+		 * Example
+		 * StateMask: SWT.CTRL
+		 */
+		buttonEventProcessors.put(handledEventProcessor.getStateMask(), handledEventProcessor);
 	}
 
 	public void setChartSettings(IChartSettings chartSettings) {
@@ -351,60 +379,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return primaryValue;
 	}
 
-	private void initializeEventProcessors() {
-
-		registeredEvents = new HashMap<Integer, Map<Integer, Map<Integer, IEventProcessor>>>();
-		registeredEvents.put(EVENT_MOUSE_DOUBLE_CLICK, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_WHEEL, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_MOVE, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_KEY_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_KEY_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		//
-		mouseDoubleClickEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseDoubleClickEvents.put(BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseDoubleClickEvents.get(BUTTON_LEFT).put(SWT.CTRL, new SelectHideSeriesEvent(SWT.ALT));
-		mouseDoubleClickEvents.get(BUTTON_LEFT).put(SWT.SHIFT, new ResetSeriesEvent());
-		mouseDoubleClickEvents.get(BUTTON_LEFT).put(SWT.NONE, new SelectDataPointEvent());
-		//
-		mouseWheelEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseWheelEvents.put(MOUSE_WHEEL, new HashMap<Integer, IEventProcessor>());
-		mouseWheelEvents.get(MOUSE_WHEEL).put(SWT.NONE, new ZoomEvent());
-		//
-		mouseDownEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseDownEvents.put(BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseDownEvents.get(BUTTON_LEFT).put(SWT.NONE, new MouseDownEvent()); // Start Selection
-		//
-		mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseMoveEvents.put(BUTTON_NULL, new HashMap<Integer, IEventProcessor>());
-		mouseMoveEvents.get(BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveSelectionEvent());
-		mouseMoveEvents.get(BUTTON_NULL).put(SWT.CTRL, new MouseMoveShiftEvent());
-		mouseMoveEvents.get(BUTTON_NULL).put(SWT.NONE, new MouseMoveCursorEvent());
-		//
-		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseUpEvents.put(BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseUpEvents.get(BUTTON_LEFT).put(SWT.BUTTON1, new MouseUpEvent()); // Stop Selection
-		//
-		keyDownEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		//
-		keyUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		keyUpEvents.put(KEY_CODE_Z, new HashMap<Integer, IEventProcessor>());
-		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoRedoEvent(SWT.SHIFT));
-	}
-
-	public void clearEventProcessors() {
-
-		registeredEvents.clear();
-	}
-
-	public void addEventProcessor(IHandledEventProcessor handledEventProcessor) {
-
-		Map<Integer, Map<Integer, IEventProcessor>> eventProcessors = registeredEvents.get(handledEventProcessor.getEvent());
-		Map<Integer, IEventProcessor> buttonEventProcessors = eventProcessors.get(handledEventProcessor.getButton());
-		buttonEventProcessors.put(handledEventProcessor.getStateMask(), handledEventProcessor);
-	}
-
 	public boolean addCustomRangeSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
 
 		return customRangeSelectionHandlers.add(customSelectionHandler);
@@ -475,44 +449,43 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseDownEvent(Event event) {
 
-		handleEvent(mouseDownEvents.get(event.button), event);
+		handleEvent(registeredEvents.get(EVENT_MOUSE_DOWN).get(event.button), event);
 	}
 
 	@Override
 	public void handleMouseMoveEvent(Event event) {
 
-		// handleEvent(registeredEvents.get(EVENT_MOUSE_MOVE).get(event.button), event);
-		handleEvent(mouseMoveEvents.get(event.button), event);
+		handleEvent(registeredEvents.get(EVENT_MOUSE_MOVE).get(BUTTON_NONE), event);
 	}
 
 	@Override
 	public void handleMouseUpEvent(Event event) {
 
-		handleEvent(mouseUpEvents.get(event.button), event);
+		handleEvent(registeredEvents.get(EVENT_MOUSE_UP).get(event.button), event);
 	}
 
 	@Override
 	public void handleMouseWheel(Event event) {
 
-		handleEvent(mouseWheelEvents.get(MOUSE_WHEEL), event);
+		handleEvent(registeredEvents.get(EVENT_MOUSE_WHEEL).get(BUTTON_WHEEL), event);
 	}
 
 	@Override
 	public void handleMouseDoubleClick(Event event) {
 
-		handleEvent(mouseDoubleClickEvents.get(event.button), event);
+		handleEvent(registeredEvents.get(EVENT_MOUSE_DOUBLE_CLICK).get(event.button), event);
 	}
 
 	@Override
 	public void handleKeyDownEvent(Event event) {
 
-		handleEvent(keyDownEvents.get(event.keyCode), event);
+		handleEvent(registeredEvents.get(EVENT_KEY_DOWN).get(event.keyCode), event);
 	}
 
 	@Override
 	public void handleKeyUpEvent(Event event) {
 
-		handleEvent(keyUpEvents.get(event.keyCode), event);
+		handleEvent(registeredEvents.get(EVENT_KEY_UP).get(event.keyCode), event);
 	}
 
 	private void handleEvent(Map<Integer, IEventProcessor> eventProcessors, Event event) {

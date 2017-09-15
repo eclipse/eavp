@@ -18,6 +18,6 @@ public abstract class AbstractHandledEventProcessor implements IHandledEventProc
 	@Override
 	public int getButton() {
 
-		return BaseChart.BUTTON_NULL;
+		return BaseChart.BUTTON_NONE;
 	}
 }

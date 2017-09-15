@@ -18,6 +18,16 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.events.IHandledEventProcessor;
+import org.eclipse.eavp.service.swtchart.events.MouseDownEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseMoveCursorEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseMoveSelectionEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseMoveShiftEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseUpEvent;
+import org.eclipse.eavp.service.swtchart.events.ResetSeriesEvent;
+import org.eclipse.eavp.service.swtchart.events.SelectDataPointEvent;
+import org.eclipse.eavp.service.swtchart.events.SelectHideSeriesEvent;
+import org.eclipse.eavp.service.swtchart.events.UndoRedoEvent;
+import org.eclipse.eavp.service.swtchart.events.ZoomEvent;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.eavp.service.swtchart.menu.RedoSelectionHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
@@ -165,9 +175,16 @@ public class ChartSettings implements IChartSettings {
 		 * Events processors ... Mouse Move, Key Up ...
 		 */
 		handledEventProcessors = new HashSet<IHandledEventProcessor>();
-		// handledEventProcessors.add(new MouseMoveCursorEvent());
-		// handledEventProcessors.add(new MouseMoveSelectionEvent());
-		// handledEventProcessors.add(new MouseMoveShiftEvent());
+		handledEventProcessors.add(new SelectHideSeriesEvent(SWT.ALT));
+		handledEventProcessors.add(new ResetSeriesEvent());
+		handledEventProcessors.add(new SelectDataPointEvent());
+		handledEventProcessors.add(new ZoomEvent());
+		handledEventProcessors.add(new MouseDownEvent());
+		handledEventProcessors.add(new MouseMoveSelectionEvent());
+		handledEventProcessors.add(new MouseMoveShiftEvent());
+		handledEventProcessors.add(new MouseMoveCursorEvent());
+		handledEventProcessors.add(new MouseUpEvent());
+		handledEventProcessors.add(new UndoRedoEvent(SWT.SHIFT));
 		//
 		supportDataShift = false;
 	}
