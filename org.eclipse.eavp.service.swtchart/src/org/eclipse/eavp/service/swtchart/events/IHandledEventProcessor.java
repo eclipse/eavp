@@ -11,11 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.events;
 
-import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
-
-public interface IHandledEvent extends IEventProcessor {
-
-	ScrollableChart getScrollableChart();
+public interface IHandledEventProcessor extends IEventProcessor {
 
 	int getEvent();
 

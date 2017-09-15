@@ -15,35 +15,46 @@ import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 
-public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
+public class UndoRedoEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
+
+	private int redoMask;
+
+	public UndoRedoEvent(int redoMask) {
+		this.redoMask = redoMask;
+	}
 
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_MOVE;
+		return BaseChart.EVENT_KEY_UP;
+	}
+
+	@Override
+	public int getButton() {
+
+		return BaseChart.KEY_CODE_Z;
 	}
 
 	@Override
 	public int getStateMask() {
 
-		return SWT.BUTTON1;
+		return SWT.CTRL;
 	}
 
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		/*
-		 * Set Selection Range
-		 */
-		baseChart.getUserSelection().setStopCoordinate(event.x, event.y);
-		baseChart.increaseRedrawCounter();
-		if(baseChart.isRedraw()) {
+		if((event.stateMask & redoMask) == redoMask) {
 			/*
-			 * Rectangle is drawn here:
-			 * void paintControl(PaintEvent e)
+			 * Redo
 			 */
-			baseChart.redraw();
-			baseChart.resetRedrawCounter();
+			baseChart.redoSelection();
+		} else {
+			/*
+			 * Undo
+			 */
+			baseChart.undoSelection();
 		}
+		baseChart.redraw();
 	}
 }

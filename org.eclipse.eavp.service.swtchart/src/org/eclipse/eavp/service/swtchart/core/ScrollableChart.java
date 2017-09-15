@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.RegistryFactory;
+import org.eclipse.eavp.service.swtchart.events.IHandledEventProcessor;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.internal.marker.AxisZeroMarker;
 import org.eclipse.eavp.service.swtchart.internal.marker.LegendMarker;
@@ -74,8 +75,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.eavp.service.swtchart.menuitems";
 	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry";
 	//
-	private IChartSettings chartSettings;
-	//
 	private Map<String, Set<IMenuEntry>> categoryMenuEntriesMap;
 	private Map<String, IMenuEntry> menuEntryMap;
 	//
@@ -109,7 +108,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
 		//
-		chartSettings = new ChartSettings();
 		categoryMenuEntriesMap = new HashMap<String, Set<IMenuEntry>>();
 		menuEntryMap = new HashMap<String, IMenuEntry>();
 		linkedScrollableCharts = new ArrayList<ScrollableChart>();
@@ -125,6 +123,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			/*
 			 * Rectangle (Double Click -> show Range Info)
 			 */
+			IChartSettings chartSettings = baseChart.getChartSettings();
 			if(!rangeSelector.isVisible() && chartSettings.isEnableRangeSelector()) {
 				if(showRangeSelectorHint) {
 					int lineWidth = 1;
@@ -169,7 +168,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public IChartSettings getChartSettings() {
 
-		return chartSettings;
+		return baseChart.getChartSettings();
 	}
 
 	public void addLinkedScrollableChart(ScrollableChart scrollableChart) {
@@ -185,7 +184,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public void applySettings(IChartSettings chartSettings) {
 
-		this.chartSettings = chartSettings;
+		baseChart.setChartSettings(chartSettings);
 		/*
 		 * Modify the chart and adjust the series.
 		 */
@@ -522,6 +521,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void modifyChart() {
 
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		setSliderVisibility();
 		setRangeInfoVisibility(chartSettings.isEnableRangeSelector());
 		//
@@ -548,16 +548,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		addSecondaryAxesX(chartSettings);
 		addSecondaryAxesY(chartSettings);
 		/*
-		 * Range Info / Data Shift
+		 * Range Info
 		 */
 		rangeSelector.resetRanges();
-		baseChart.setSupportDataShift(chartSettings.isSupportDataShift());
 		/*
 		 * Additional actions.
 		 */
 		setCustomPaintListener();
 		updateRangeHintPaintListener();
 		setMenuItems();
+		setEventProcessors();
 	}
 
 	private void setCustomPaintListener() {
@@ -572,6 +572,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setPositionMarker() {
 
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(positionMarker != null) {
 			plotArea.removeCustomPaintListener(positionMarker);
@@ -591,6 +592,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setPlotCenterMarker() {
 
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(plotCenterMarker != null) {
 			plotArea.removeCustomPaintListener(plotCenterMarker);
@@ -610,6 +612,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setLegendMarker() {
 
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(legendMarker != null) {
 			plotArea.removeCustomPaintListener(legendMarker);
@@ -629,6 +632,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setAxisZeroMarker() {
 
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(axisZeroMarker != null) {
 			plotArea.removeCustomPaintListener(axisZeroMarker);
@@ -648,6 +652,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void setSeriesLabelMarker() {
 
 		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(seriesLabelMarker != null) {
 			plotArea.removeCustomPaintListener(seriesLabelMarker);
@@ -694,6 +699,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Create the menu if requested.
 		 */
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		if(chartSettings.isCreateMenu()) {
 			addMenuItemsFromChartSettings();
 			addMenuItemsFromExtensionPoint();
@@ -708,8 +714,23 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void addMenuItemsFromChartSettings() {
 
+		IChartSettings chartSettings = baseChart.getChartSettings();
 		for(IMenuEntry menuEntry : chartSettings.getMenuEntries()) {
 			addMenuEntry(menuEntry);
+		}
+	}
+
+	private void setEventProcessors() {
+
+		baseChart.clearEventProcessors();
+		addHandledEventProcessorsFromChartSettings();
+	}
+
+	private void addHandledEventProcessorsFromChartSettings() {
+
+		IChartSettings chartSettings = baseChart.getChartSettings();
+		for(IHandledEventProcessor handledEventProcessor : chartSettings.getHandledEventProcessors()) {
+			baseChart.addEventProcessor(handledEventProcessor);
 		}
 	}
 
@@ -738,6 +759,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * pack(); doesn't work???!!! Why? It should!
 		 * Exclude and layout did the trick.
 		 */
+		IChartSettings chartSettings = baseChart.getChartSettings();
+		//
 		GridData gridDataVertical = (GridData)sliderVertical.getLayoutData();
 		gridDataVertical.exclude = !chartSettings.isVerticalSliderVisible();
 		sliderVertical.setVisible(chartSettings.isVerticalSliderVisible());
@@ -1099,6 +1122,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 
+				IChartSettings chartSettings = baseChart.getChartSettings();
 				if(chartSettings.isEnableRangeSelector()) {
 					if(!rangeSelector.isVisible()) {
 						if(e.y <= 47) {

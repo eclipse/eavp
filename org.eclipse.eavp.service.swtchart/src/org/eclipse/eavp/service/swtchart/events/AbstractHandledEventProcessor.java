@@ -11,19 +11,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.events;
 
-import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
+import org.eclipse.eavp.service.swtchart.core.BaseChart;
 
-public abstract class AbstractHandledEvent implements IHandledEvent {
-
-	private ScrollableChart scrollableChart;
-
-	public AbstractHandledEvent(ScrollableChart scrollableChart) {
-		this.scrollableChart = scrollableChart;
-	}
+public abstract class AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	@Override
-	public ScrollableChart getScrollableChart() {
+	public int getButton() {
 
-		return scrollableChart;
+		return BaseChart.BUTTON_NULL;
 	}
 }

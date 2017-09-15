@@ -24,16 +24,25 @@ import java.util.Stack;
 
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.events.IEventProcessor;
+import org.eclipse.eavp.service.swtchart.events.IHandledEventProcessor;
+import org.eclipse.eavp.service.swtchart.events.MouseDownEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseMoveCursorEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseMoveSelectionEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseMoveShiftEvent;
+import org.eclipse.eavp.service.swtchart.events.MouseUpEvent;
+import org.eclipse.eavp.service.swtchart.events.ResetSeriesEvent;
+import org.eclipse.eavp.service.swtchart.events.SelectDataPointEvent;
+import org.eclipse.eavp.service.swtchart.events.SelectHideSeriesEvent;
+import org.eclipse.eavp.service.swtchart.events.UndoRedoEvent;
+import org.eclipse.eavp.service.swtchart.events.ZoomEvent;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.swtchart.IAxis;
 import org.swtchart.IAxis.Position;
@@ -59,15 +68,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int EVENT_KEY_DOWN = 6;
 	public static final int EVENT_KEY_UP = 7;
 	//
-	public static final int BUTTON_NULL = 0;
-	//
 	public static final int MOUSE_WHEEL = -1;
-	public static final int MOUSE_BUTTON_LEFT = 1;
-	public static final int MOUSE_BUTTON_MIDDLE = 2;
-	public static final int MOUSE_BUTTON_RIGHT = 3; // Used by the menu
+	//
+	public static final int BUTTON_NULL = 0;
+	public static final int BUTTON_LEFT = 1;
+	public static final int BUTTON_MIDDLE = 2;
+	public static final int BUTTON_RIGHT = 3; // Used by the menu
 	//
 	// private static final int KEY_CODE_S = 115;
-	private static final int KEY_CODE_Z = 122;
+	public static final int KEY_CODE_Z = 122;
 	//
 	private Map<Integer, Map<Integer, Map<Integer, IEventProcessor>>> registeredEvents;
 	//
@@ -76,13 +85,18 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseDownEvents;
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseMoveEvents;
 	private Map<Integer, Map<Integer, IEventProcessor>> mouseUpEvents;
+	private Map<Integer, Map<Integer, IEventProcessor>> keyDownEvents;
 	private Map<Integer, Map<Integer, IEventProcessor>> keyUpEvents;
+	/*
+	 * Settings
+	 */
+	private IChartSettings chartSettings;
 	/*
 	 * Prevent accidental zooming.
 	 * At least 30% of the chart width or height needs to be selected.
 	 */
 	private static final int MIN_SELECTION_PERCENTAGE = 30;
-	private static final long DELTA_CLICK_TIME = 100;
+	public static final long DELTA_CLICK_TIME = 100;
 	/*
 	 * To prevent that the data is redrawn on mouse events too
 	 * often, a trigger determines e.g. that the redraw event
@@ -96,8 +110,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private List<ICustomSelectionHandler> customPointSelectionHandlers;
 	private long clickStartTime;
 	private Set<String> selectedSeriesIds;
-	//
-	private Cursor defaultCursor;
 	/*
 	 * Do/Undo -1
 	 */
@@ -115,217 +127,122 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int SHIFT_CONSTRAINT_BROADEN_X = 1 << 5;
 	public static final int SHIFT_CONSTRAINT_NARROW_X = 1 << 6;
 	//
-	private boolean supportDataShift;
-	private static final long DELTA_MOVE_TIME = 350;
+	public static final long DELTA_MOVE_TIME = 350;
 	private long moveStartTime = 0;
 	private int xMoveStart = 0;
 	private int yMoveStart = 0;
 	private Map<String, List<double[]>> dataShiftHistory;
 
-	private class SelectHideSeriesEventProcessor implements IEventProcessor {
-
-		private int hideMask;
-
-		public SelectHideSeriesEventProcessor(int hideMask) {
-			this.hideMask = hideMask;
-		}
-
-		@Override
-		public void handleEvent(Event event) {
-
-			if((event.stateMask & hideMask) == hideMask) {
-				/*
-				 * Hide
-				 */
-				String selectedSeriesId = getSelectedSeriedId(event);
-				if(selectedSeriesId.equals("")) {
-					resetSeriesSettings();
-				} else {
-					hideSeries(selectedSeriesId);
-					redraw();
-				}
-			} else {
-				/*
-				 * Select
-				 */
-				String selectedSeriesId = getSelectedSeriedId(event);
-				if(selectedSeriesId.equals("")) {
-					resetSeriesSettings();
-				} else {
-					selectSeries(selectedSeriesId);
-					redraw();
-				}
-			}
-		}
+	public BaseChart(Composite parent, int style) {
+		super(parent, style);
+		//
+		chartSettings = new ChartSettings();
+		/*
+		 * Rectangle range selection.
+		 */
+		userSelection = new UserSelection();
+		customRangeSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
+		customPointSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
+		selectedSeriesIds = new HashSet<String>();
+		initializeEventProcessors();
+		/*
+		 * Create the default x and y axis.
+		 */
+		IAxisSet axisSet = getAxisSet();
+		//
+		IAxis xAxisPrimary = axisSet.getXAxis(ID_PRIMARY_X_AXIS);
+		xAxisPrimary.getTitle().setText(DEFAULT_TITLE_X_AXIS);
+		xAxisPrimary.setPosition(Position.Primary);
+		xAxisPrimary.getTick().setFormat(new DecimalFormat());
+		xAxisPrimary.enableLogScale(false);
+		xAxisPrimary.enableCategory(false);
+		xAxisPrimary.enableCategory(false);
+		xAxisPrimary.setCategorySeries(new String[]{});
+		//
+		IAxis yAxisPrimary = axisSet.getYAxis(ID_PRIMARY_Y_AXIS);
+		yAxisPrimary.getTitle().setText(DEFAULT_TITLE_Y_AXIS);
+		yAxisPrimary.setPosition(Position.Primary);
+		yAxisPrimary.getTick().setFormat(new DecimalFormat());
+		yAxisPrimary.enableLogScale(false);
+		yAxisPrimary.enableCategory(false);
+		//
+		handledSelectionEvents = new Stack<double[]>();
+		redoSelection = null;
+		//
+		dataShiftHistory = new HashMap<String, List<double[]>>();
 	}
 
-	private class SelectDataPointEventProcessor implements IEventProcessor {
+	public void setChartSettings(IChartSettings chartSettings) {
 
-		@Override
-		public void handleEvent(Event event) {
-
-			// double x = getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
-			// double y = getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
-			fireUpdateCustomPointSelectionHandlers(event);
-		}
+		this.chartSettings = chartSettings;
 	}
 
-	private class ResetSeriesEventProcessor implements IEventProcessor {
+	public IChartSettings getChartSettings() {
 
-		@Override
-		public void handleEvent(Event event) {
-
-			adjustRange(true);
-			fireUpdateCustomRangeSelectionHandlers(event);
-			redraw();
-		}
+		return chartSettings;
 	}
 
-	private class ZoomEventProcessor implements IEventProcessor {
+	public long getMoveStartTime() {
 
-		@Override
-		public void handleEvent(Event event) {
-
-			IAxis xAxis = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS);
-			IAxis yAxis = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS);
-			//
-			RangeRestriction rangeRestriction = getRangeRestriction();
-			if(isZoomXAndY(rangeRestriction)) {
-				/*
-				 * X and Y zoom.
-				 */
-				zoomX(xAxis, event);
-				zoomY(yAxis, event);
-			} else {
-				/*
-				 * X or Y zoom.
-				 */
-				if(rangeRestriction.isXZoomOnly()) {
-					zoomX(xAxis, event);
-				} else if(rangeRestriction.isYZoomOnly()) {
-					zoomY(yAxis, event);
-				}
-			}
-			/*
-			 * Adjust the range if it shall not exceed the initial
-			 * min and max values.
-			 */
-			if(rangeRestriction.isRestrictZoom()) {
-				/*
-				 * Adjust the primary axes.
-				 * The secondary axes are adjusted by setting the range.
-				 */
-				Range rangeX = xAxis.getRange();
-				Range rangeY = yAxis.getRange();
-				setRange(xAxis, rangeX.lower, rangeX.upper, true);
-				setRange(yAxis, rangeY.lower, rangeY.upper, true);
-			} else {
-				/*
-				 * Update the secondary axes.
-				 */
-				adjustSecondaryXAxes();
-				adjustSecondaryYAxes();
-			}
-			//
-			fireUpdateCustomRangeSelectionHandlers(event);
-			redraw();
-		}
+		return moveStartTime;
 	}
 
-	private class MouseDownEventProcessor implements IEventProcessor {
+	public void setMoveStartTime(long moveStartTime) {
 
-		@Override
-		public void handleEvent(Event event) {
-
-			userSelection.setStartCoordinate(event.x, event.y);
-			clickStartTime = System.currentTimeMillis();
-		}
+		this.moveStartTime = moveStartTime;
 	}
 
-	private class MouseMoveSelectionEventProcessor implements IEventProcessor {
+	public int getXMoveStart() {
 
-		@Override
-		public void handleEvent(Event event) {
-
-			userSelection.setStopCoordinate(event.x, event.y);
-			redrawCounter++;
-			if(redrawCounter >= redrawFrequency) {
-				/*
-				 * Rectangle is drawn here:
-				 * void paintControl(PaintEvent e)
-				 */
-				redraw();
-				redrawCounter = 0;
-			}
-		}
+		return xMoveStart;
 	}
 
-	private class MouseMoveCursorEventProcessor implements IEventProcessor {
+	public void setXMoveStart(int xMoveStart) {
 
-		@Override
-		public void handleEvent(Event event) {
-
-			String selectedSeriesId = getSelectedSeriedId(event);
-			if(selectedSeriesId.equals("")) {
-				setCursor(defaultCursor);
-			} else {
-				setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
-			}
-		}
+		this.xMoveStart = xMoveStart;
 	}
 
-	private class MouseMoveShiftEventProcessor implements IEventProcessor {
+	public int getYMoveStart() {
 
-		@Override
-		public void handleEvent(Event event) {
-
-			if(supportDataShift && selectedSeriesIds.size() > 0) {
-				/*
-				 * Only shift if series have been selected.
-				 */
-				if(moveStartTime == 0) {
-					/*
-					 * Start
-					 */
-					setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_SIZENWSE));
-					moveStartTime = System.currentTimeMillis();
-					xMoveStart = event.x;
-					yMoveStart = event.y;
-				} else {
-					long deltaTime = System.currentTimeMillis() - moveStartTime;
-					if(deltaTime <= DELTA_MOVE_TIME) {
-						/*
-						 * Shift
-						 */
-						moveStartTime = System.currentTimeMillis();
-						//
-						double shiftX = getShiftValue(xMoveStart, event.x, IExtendedChart.X_AXIS);
-						double shiftY = getShiftValue(yMoveStart, event.y, IExtendedChart.Y_AXIS);
-						//
-						for(String selectedSeriesId : selectedSeriesIds) {
-							ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-							if(dataSeries != null) {
-								shiftSeries(selectedSeriesId, shiftX, shiftY);
-							}
-						}
-						redraw();
-						//
-						xMoveStart = event.x;
-						yMoveStart = event.y;
-					} else {
-						/*
-						 * Default
-						 */
-						moveStartTime = 0;
-						xMoveStart = 0;
-						yMoveStart = 0;
-					}
-				}
-			}
-		}
+		return yMoveStart;
 	}
 
-	private double getShiftValue(int positionStart, int positionStop, String orientation) {
+	public void setYMoveStart(int yMoveStart) {
+
+		this.yMoveStart = yMoveStart;
+	}
+
+	public UserSelection getUserSelection() {
+
+		return userSelection;
+	}
+
+	public void increaseRedrawCounter() {
+
+		redrawCounter++;
+	}
+
+	public void resetRedrawCounter() {
+
+		redrawCounter = 0;
+	}
+
+	public long getClickStartTime() {
+
+		return clickStartTime;
+	}
+
+	public void setClickStartTime(long clickStartTime) {
+
+		this.clickStartTime = clickStartTime;
+	}
+
+	public boolean isRedraw() {
+
+		return (redrawCounter >= redrawFrequency);
+	}
+
+	public double getShiftValue(int positionStart, int positionStop, String orientation) {
 
 		double shiftValue = 0.0d;
 		double start;
@@ -363,83 +280,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			shiftValue = (start + delta * percentageStop) - (start + delta * percentageStart);
 		}
 		return shiftValue;
-	}
-
-	private class MouseUpEventProcessor implements IEventProcessor {
-
-		@Override
-		public void handleEvent(Event event) {
-
-			long deltaTime = System.currentTimeMillis() - clickStartTime;
-			if(deltaTime >= DELTA_CLICK_TIME) {
-				handleUserSelection(event);
-			}
-		}
-	}
-
-	private class UndoRedoEventProcessor implements IEventProcessor {
-
-		private int redoMask;
-
-		public UndoRedoEventProcessor(int redoMask) {
-			this.redoMask = redoMask;
-		}
-
-		@Override
-		public void handleEvent(Event event) {
-
-			if((event.stateMask & redoMask) == redoMask) {
-				/*
-				 * Redo
-				 */
-				redoSelection();
-			} else {
-				/*
-				 * Undo
-				 */
-				undoSelection();
-			}
-			redraw();
-		}
-	}
-
-	public BaseChart(Composite parent, int style) {
-		super(parent, style);
-		defaultCursor = getCursor();
-		/*
-		 * Rectangle range selection.
-		 */
-		userSelection = new UserSelection();
-		customRangeSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
-		customPointSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
-		selectedSeriesIds = new HashSet<String>();
-		initializeEventProcessors();
-		/*
-		 * Create the default x and y axis.
-		 */
-		IAxisSet axisSet = getAxisSet();
-		//
-		IAxis xAxisPrimary = axisSet.getXAxis(ID_PRIMARY_X_AXIS);
-		xAxisPrimary.getTitle().setText(DEFAULT_TITLE_X_AXIS);
-		xAxisPrimary.setPosition(Position.Primary);
-		xAxisPrimary.getTick().setFormat(new DecimalFormat());
-		xAxisPrimary.enableLogScale(false);
-		xAxisPrimary.enableCategory(false);
-		xAxisPrimary.enableCategory(false);
-		xAxisPrimary.setCategorySeries(new String[]{});
-		//
-		IAxis yAxisPrimary = axisSet.getYAxis(ID_PRIMARY_Y_AXIS);
-		yAxisPrimary.getTitle().setText(DEFAULT_TITLE_Y_AXIS);
-		yAxisPrimary.setPosition(Position.Primary);
-		yAxisPrimary.getTick().setFormat(new DecimalFormat());
-		yAxisPrimary.enableLogScale(false);
-		yAxisPrimary.enableCategory(false);
-		//
-		handledSelectionEvents = new Stack<double[]>();
-		redoSelection = null;
-		//
-		supportDataShift = false;
-		dataShiftHistory = new HashMap<String, List<double[]>>();
 	}
 
 	@Override
@@ -511,42 +351,58 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return primaryValue;
 	}
 
-	public void setSupportDataShift(boolean supportDataShift) {
-
-		this.supportDataShift = supportDataShift;
-	}
-
 	private void initializeEventProcessors() {
 
 		registeredEvents = new HashMap<Integer, Map<Integer, Map<Integer, IEventProcessor>>>();
+		registeredEvents.put(EVENT_MOUSE_DOUBLE_CLICK, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_WHEEL, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_MOVE, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_KEY_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_KEY_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
 		//
 		mouseDoubleClickEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseDoubleClickEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.CTRL, new SelectHideSeriesEventProcessor(SWT.SHIFT));
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.SHIFT, new ResetSeriesEventProcessor());
-		mouseDoubleClickEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new SelectDataPointEventProcessor());
+		mouseDoubleClickEvents.put(BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		mouseDoubleClickEvents.get(BUTTON_LEFT).put(SWT.CTRL, new SelectHideSeriesEvent(SWT.ALT));
+		mouseDoubleClickEvents.get(BUTTON_LEFT).put(SWT.SHIFT, new ResetSeriesEvent());
+		mouseDoubleClickEvents.get(BUTTON_LEFT).put(SWT.NONE, new SelectDataPointEvent());
 		//
 		mouseWheelEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseWheelEvents.put(MOUSE_WHEEL, new HashMap<Integer, IEventProcessor>());
-		mouseWheelEvents.get(MOUSE_WHEEL).put(SWT.NONE, new ZoomEventProcessor());
+		mouseWheelEvents.get(MOUSE_WHEEL).put(SWT.NONE, new ZoomEvent());
 		//
 		mouseDownEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseDownEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseDownEvents.get(MOUSE_BUTTON_LEFT).put(SWT.NONE, new MouseDownEventProcessor()); // Start Selection
+		mouseDownEvents.put(BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		mouseDownEvents.get(BUTTON_LEFT).put(SWT.NONE, new MouseDownEvent()); // Start Selection
 		//
 		mouseMoveEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		mouseMoveEvents.put(BUTTON_NULL, new HashMap<Integer, IEventProcessor>());
-		mouseMoveEvents.get(BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveSelectionEventProcessor()); // Set Selection Range
-		mouseMoveEvents.get(BUTTON_NULL).put(SWT.CTRL, new MouseMoveShiftEventProcessor()); // Shift the selected series
-		mouseMoveEvents.get(BUTTON_NULL).put(SWT.NONE, new MouseMoveCursorEventProcessor());
+		mouseMoveEvents.get(BUTTON_NULL).put(SWT.BUTTON1, new MouseMoveSelectionEvent());
+		mouseMoveEvents.get(BUTTON_NULL).put(SWT.CTRL, new MouseMoveShiftEvent());
+		mouseMoveEvents.get(BUTTON_NULL).put(SWT.NONE, new MouseMoveCursorEvent());
 		//
 		mouseUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
-		mouseUpEvents.put(MOUSE_BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
-		mouseUpEvents.get(MOUSE_BUTTON_LEFT).put(SWT.BUTTON1, new MouseUpEventProcessor()); // Stop Selection
+		mouseUpEvents.put(BUTTON_LEFT, new HashMap<Integer, IEventProcessor>());
+		mouseUpEvents.get(BUTTON_LEFT).put(SWT.BUTTON1, new MouseUpEvent()); // Stop Selection
+		//
+		keyDownEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		//
 		keyUpEvents = new HashMap<Integer, Map<Integer, IEventProcessor>>();
 		keyUpEvents.put(KEY_CODE_Z, new HashMap<Integer, IEventProcessor>());
-		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoRedoEventProcessor(SWT.SHIFT));
+		keyUpEvents.get(KEY_CODE_Z).put(SWT.CTRL, new UndoRedoEvent(SWT.SHIFT));
+	}
+
+	public void clearEventProcessors() {
+
+		registeredEvents.clear();
+	}
+
+	public void addEventProcessor(IHandledEventProcessor handledEventProcessor) {
+
+		Map<Integer, Map<Integer, IEventProcessor>> eventProcessors = registeredEvents.get(handledEventProcessor.getEvent());
+		Map<Integer, IEventProcessor> buttonEventProcessors = eventProcessors.get(handledEventProcessor.getButton());
+		buttonEventProcessors.put(handledEventProcessor.getStateMask(), handledEventProcessor);
 	}
 
 	public boolean addCustomRangeSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
@@ -625,6 +481,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseMoveEvent(Event event) {
 
+		// handleEvent(registeredEvents.get(EVENT_MOUSE_MOVE).get(event.button), event);
 		handleEvent(mouseMoveEvents.get(event.button), event);
 	}
 
@@ -644,6 +501,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void handleMouseDoubleClick(Event event) {
 
 		handleEvent(mouseDoubleClickEvents.get(event.button), event);
+	}
+
+	@Override
+	public void handleKeyDownEvent(Event event) {
+
+		handleEvent(keyDownEvents.get(event.keyCode), event);
 	}
 
 	@Override
@@ -687,7 +550,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Handle the event.
 		 */
 		if(eventProcessor != null) {
-			eventProcessor.handleEvent(event);
+			eventProcessor.handleEvent(this, event);
 		}
 	}
 
@@ -795,40 +658,38 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY, int shiftConstraints) {
 
-		if(supportDataShift) {
-			ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-			if(dataSeries != null) {
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries != null) {
+			//
+			if(shiftX != 0.0d || shiftY != 0.0d) {
 				//
-				if(shiftX != 0.0d || shiftY != 0.0d) {
-					//
-					double seriesMinX = Double.MAX_VALUE;
-					double seriesMaxX = Double.MIN_VALUE;
-					double seriesMinY = Double.MAX_VALUE;
-					double seriesMaxY = Double.MIN_VALUE;
-					//
-					if(shiftX != 0.0d) {
-						double[] xSeriesShifted = adjustArray(dataSeries.getXSeries(), shiftX);
-						dataSeries.setXSeries(xSeriesShifted);
-						seriesMinX = xSeriesShifted[0];
-						seriesMaxX = xSeriesShifted[xSeriesShifted.length - 1];
-					}
-					//
-					if(shiftY != 0.0d) {
-						double[] ySeriesShifted = adjustArray(dataSeries.getYSeries(), shiftY);
-						dataSeries.setYSeries(ySeriesShifted);
-						seriesMinY = ySeriesShifted[0];
-						seriesMaxY = ySeriesShifted[ySeriesShifted.length - 1];
-					}
-					/*
-					 * Track the shifts.
-					 */
-					Range rangeX = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
-					Range rangeY = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
-					List<double[]> shiftRecord = getShiftRecord(selectedSeriesId);
-					shiftRecord.add(new double[]{rangeX.lower, rangeX.upper, shiftX, rangeY.lower, rangeY.upper, shiftY, shiftConstraints});
-					//
-					updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
+				double seriesMinX = Double.MAX_VALUE;
+				double seriesMaxX = Double.MIN_VALUE;
+				double seriesMinY = Double.MAX_VALUE;
+				double seriesMaxY = Double.MIN_VALUE;
+				//
+				if(shiftX != 0.0d) {
+					double[] xSeriesShifted = adjustArray(dataSeries.getXSeries(), shiftX);
+					dataSeries.setXSeries(xSeriesShifted);
+					seriesMinX = xSeriesShifted[0];
+					seriesMaxX = xSeriesShifted[xSeriesShifted.length - 1];
 				}
+				//
+				if(shiftY != 0.0d) {
+					double[] ySeriesShifted = adjustArray(dataSeries.getYSeries(), shiftY);
+					dataSeries.setYSeries(ySeriesShifted);
+					seriesMinY = ySeriesShifted[0];
+					seriesMaxY = ySeriesShifted[ySeriesShifted.length - 1];
+				}
+				/*
+				 * Track the shifts.
+				 */
+				Range rangeX = getAxisSet().getXAxis(ID_PRIMARY_X_AXIS).getRange();
+				Range rangeY = getAxisSet().getYAxis(ID_PRIMARY_Y_AXIS).getRange();
+				List<double[]> shiftRecord = getShiftRecord(selectedSeriesId);
+				shiftRecord.add(new double[]{rangeX.lower, rangeX.upper, shiftX, rangeY.lower, rangeY.upper, shiftY, shiftConstraints});
+				//
+				updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
 			}
 		}
 	}
@@ -916,7 +777,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return axisScaleConverter;
 	}
 
-	protected void fireUpdateCustomRangeSelectionHandlers(Event event) {
+	public void fireUpdateCustomRangeSelectionHandlers(Event event) {
 
 		/*
 		 * Handle the custom user selection handlers.
@@ -930,7 +791,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	protected void fireUpdateCustomPointSelectionHandlers(Event event) {
+	public void fireUpdateCustomPointSelectionHandlers(Event event) {
 
 		/*
 		 * Handle the custom user selection handlers.
@@ -944,7 +805,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private void zoomX(IAxis xAxis, Event event) {
+	public void zoomX(IAxis xAxis, Event event) {
 
 		/*
 		 * X Axis
@@ -959,7 +820,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		trackRedoSelection();
 	}
 
-	private void zoomY(IAxis yAxis, Event event) {
+	public void zoomY(IAxis yAxis, Event event) {
 
 		/*
 		 * Y Axis
@@ -974,7 +835,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		trackRedoSelection();
 	}
 
-	private void hideSeries(String selectedSeriesId) {
+	public void hideSeries(String selectedSeriesId) {
 
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		selectedSeriesIds.remove(selectedSeriesId);
@@ -1016,7 +877,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return false;
 	}
 
-	private void handleUserSelection(Event event) {
+	public void handleUserSelection(Event event) {
 
 		int minSelectedWidth;
 		int minSelectedHeight;
@@ -1193,7 +1054,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return axisSettings;
 	}
 
-	private boolean isZoomXAndY(RangeRestriction rangeRestriction) {
+	public boolean isZoomXAndY(RangeRestriction rangeRestriction) {
 
 		boolean zoomXAndY = false;
 		if(!rangeRestriction.isXZoomOnly() && !rangeRestriction.isYZoomOnly()) {

@@ -15,35 +15,31 @@ import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 
-public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
+public class ResetSeriesEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_MOVE;
+		return BaseChart.EVENT_MOUSE_DOUBLE_CLICK;
+	}
+
+	@Override
+	public int getButton() {
+
+		return BaseChart.BUTTON_LEFT;
 	}
 
 	@Override
 	public int getStateMask() {
 
-		return SWT.BUTTON1;
+		return SWT.SHIFT;
 	}
 
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		/*
-		 * Set Selection Range
-		 */
-		baseChart.getUserSelection().setStopCoordinate(event.x, event.y);
-		baseChart.increaseRedrawCounter();
-		if(baseChart.isRedraw()) {
-			/*
-			 * Rectangle is drawn here:
-			 * void paintControl(PaintEvent e)
-			 */
-			baseChart.redraw();
-			baseChart.resetRedrawCounter();
-		}
+		baseChart.adjustRange(true);
+		baseChart.fireUpdateCustomRangeSelectionHandlers(event);
+		baseChart.redraw();
 	}
 }

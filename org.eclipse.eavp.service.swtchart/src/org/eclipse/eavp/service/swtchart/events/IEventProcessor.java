@@ -11,9 +11,10 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.events;
 
+import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.widgets.Event;
 
 public interface IEventProcessor {
 
-	void handleEvent(Event event);
+	void handleEvent(BaseChart baseChart, Event event);
 }

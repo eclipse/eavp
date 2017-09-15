@@ -15,12 +15,18 @@ import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 
-public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
+public class MouseUpEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_MOVE;
+		return BaseChart.EVENT_MOUSE_UP;
+	}
+
+	@Override
+	public int getButton() {
+
+		return BaseChart.BUTTON_LEFT;
 	}
 
 	@Override
@@ -32,18 +38,9 @@ public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor imple
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		/*
-		 * Set Selection Range
-		 */
-		baseChart.getUserSelection().setStopCoordinate(event.x, event.y);
-		baseChart.increaseRedrawCounter();
-		if(baseChart.isRedraw()) {
-			/*
-			 * Rectangle is drawn here:
-			 * void paintControl(PaintEvent e)
-			 */
-			baseChart.redraw();
-			baseChart.resetRedrawCounter();
+		long deltaTime = System.currentTimeMillis() - baseChart.getClickStartTime();
+		if(deltaTime >= BaseChart.DELTA_CLICK_TIME) {
+			baseChart.handleUserSelection(event);
 		}
 	}
 }

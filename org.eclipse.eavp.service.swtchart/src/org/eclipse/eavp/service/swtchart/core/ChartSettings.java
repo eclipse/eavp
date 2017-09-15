@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.eavp.service.swtchart.events.IHandledEventProcessor;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.eavp.service.swtchart.menu.RedoSelectionHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
@@ -82,6 +83,8 @@ public class ChartSettings implements IChartSettings {
 	//
 	private boolean createMenu;
 	private Set<IMenuEntry> menuEntries;
+	//
+	private Set<IHandledEventProcessor> handledEventProcessors;
 	//
 	private boolean supportDataShift;
 
@@ -158,6 +161,13 @@ public class ChartSettings implements IChartSettings {
 		menuEntries.add(new PrinterExportHandler());
 		menuEntries.add(new UndoSelectionHandler());
 		menuEntries.add(new RedoSelectionHandler());
+		/*
+		 * Events processors ... Mouse Move, Key Up ...
+		 */
+		handledEventProcessors = new HashSet<IHandledEventProcessor>();
+		// handledEventProcessors.add(new MouseMoveCursorEvent());
+		// handledEventProcessors.add(new MouseMoveSelectionEvent());
+		// handledEventProcessors.add(new MouseMoveShiftEvent());
 		//
 		supportDataShift = false;
 	}
@@ -567,5 +577,29 @@ public class ChartSettings implements IChartSettings {
 	public void setSupportDataShift(boolean supportDataShift) {
 
 		this.supportDataShift = supportDataShift;
+	}
+
+	@Override
+	public void addHandledEventProcessor(IHandledEventProcessor handledEventProcessor) {
+
+		handledEventProcessors.add(handledEventProcessor);
+	}
+
+	@Override
+	public void removeHandledEventProcessor(IHandledEventProcessor handledEventProcessor) {
+
+		handledEventProcessors.remove(handledEventProcessor);
+	}
+
+	@Override
+	public Set<IHandledEventProcessor> getHandledEventProcessors() {
+
+		return Collections.unmodifiableSet(handledEventProcessors);
+	}
+
+	@Override
+	public void clearHandledEventProcessors() {
+
+		handledEventProcessors.clear();
 	}
 }

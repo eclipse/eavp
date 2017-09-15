@@ -14,6 +14,7 @@ package org.eclipse.eavp.service.swtchart.core;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.eavp.service.swtchart.events.IHandledEventProcessor;
 import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
 import org.eclipse.swt.graphics.Color;
 
@@ -163,4 +164,12 @@ public interface IChartSettings {
 	boolean isSupportDataShift();
 
 	void setSupportDataShift(boolean supportDataShift);
+
+	void addHandledEventProcessor(IHandledEventProcessor handledEventProcessor);
+
+	void removeHandledEventProcessor(IHandledEventProcessor handledEventProcessor);
+
+	Set<IHandledEventProcessor> getHandledEventProcessors();
+
+	void clearHandledEventProcessors();
 }
