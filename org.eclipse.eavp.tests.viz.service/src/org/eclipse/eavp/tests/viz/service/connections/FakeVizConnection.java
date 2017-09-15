@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.tests.viz.service.connections;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -106,21 +107,79 @@ public class FakeVizConnection extends VizConnection<FakeClient> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#startConnectThread()
+	 * 
+	 * @see
+	 * org.eclipse.eavp.viz.service.connections.VizConnection#startConnectThread
+	 * ()
 	 */
 	@Override
 	protected Future<ConnectionState> startConnectThread() {
-		// TODO Auto-generated method stub
-		return null;
+
+		//
+		//
+		// // Return a connected state
+		// Future<ConnectionState> future = new Future<ConnectionState>() {
+		// @Override
+		// public boolean cancel(boolean mayInterruptIfRunning) {
+		// return false;
+		// }
+		//
+		// @Override
+		// public ConnectionState get()
+		// throws InterruptedException, ExecutionException {
+		// return ConnectionState.Connected;
+		// }
+		//
+		// @Override
+		// public ConnectionState get(long timeout, TimeUnit unit)
+		// throws InterruptedException, ExecutionException,
+		// TimeoutException {
+		// return ConnectionState.Connected;
+		// }
+		//
+		// @Override
+		// public boolean isCancelled() {
+		// return false;
+		// }
+		//
+		// @Override
+		// public boolean isDone() {
+		// return true;
+		// }
+		// };
+		//
+		// try {
+		// state = future.get();
+		// notifyListeners(state, this.getStatusMessage());
+		// } catch (InterruptedException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (ExecutionException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// return future;
+
+		if (executorService == null) {
+			executorService = Executors.newSingleThreadExecutor();
+		}
+
+		return executorService.submit(connectionStatusCallable);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#startDisconnectThread()
+	 * 
+	 * @see org.eclipse.eavp.viz.service.connections.VizConnection#
+	 * startDisconnectThread()
 	 */
 	@Override
 	protected Future<ConnectionState> startDisconnectThread() {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (executorService == null) {
+			executorService = Executors.newSingleThreadExecutor();
+		}
+
+		return executorService.submit(disconnectionStatusCallable);
 	}
 }

@@ -18,15 +18,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.eavp.viz.service.connections.ConnectionState;
 import org.eclipse.eavp.viz.service.connections.IVizConnection;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
@@ -86,7 +82,7 @@ public class VizConnectionManagerTester {
 				return fakeConnection;
 			}
 		};
-		
+
 		return;
 	}
 
@@ -151,6 +147,7 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
+		manager.addConnection(name, host + "," + port + "," + path);
 
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
@@ -191,6 +188,7 @@ public class VizConnectionManagerTester {
 		name = "trevor something";
 		port = 9001;
 		path = "";
+		manager.addConnection(name, host + "," + port + "," + path);
 
 		// Make sure that the connection was added to the manager.
 		// Check getConnections()
@@ -247,11 +245,13 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		manager.
+		manager.addConnection(connection1, host + "," + port + "," + path);
+
 		// Add the second connection.
 		connection2 = "trevor something";
 		port = 9001;
 		path = "/home/music/different/path";
+		manager.addConnection(connection2, host + "," + port + "," + path);
 
 		// Get the reference for the first connection
 		IVizConnection<FakeClient> conn1 = manager.getConnection(connection1);
@@ -268,6 +268,7 @@ public class VizConnectionManagerTester {
 
 		// Remove the first connection from the store.
 		// There can be only one.
+		manager.removeConnection(connection1);
 		assertNull(manager.getConnection(connection1));
 		assertNotNull(manager.getConnection(connection2));
 		assertEquals(1, manager.getConnections().size());
@@ -279,6 +280,7 @@ public class VizConnectionManagerTester {
 
 		// Remove the second connection from the store.
 		// There can be only none.
+		manager.removeConnection(connection2);
 		assertNull(manager.getConnection(connection1));
 		assertNull(manager.getConnection(connection2));
 		assertEquals(0, manager.getConnections().size());
@@ -289,10 +291,12 @@ public class VizConnectionManagerTester {
 		assertFalse(manager.getConnectionsForHost(host).contains(connection2));
 
 		// Add a connection with a duplicate name
+		manager.addConnection(connection1, host + "," + port + "," + path);
 		String duplicate = "magic sword";
 		host = "duplicate host";
 		port = 9002;
 		path = "duplicate/path";
+		manager.addConnection(duplicate, host + "," + port + "," + path);
 
 		// The only connection in the manager should be conn1, with its
 		// properties updated to those of the duplicate connection
@@ -336,7 +340,8 @@ public class VizConnectionManagerTester {
 		host = "electrodungeon";
 		port = 9000;
 		path = "/home/music";
-		
+		manager.addConnection(connection1, host + "," + port + "," + path);
+
 		// Check the first connection's properties.
 		connection = manager.getConnection(connection1);
 		assertEquals(connection1, connection.getName());
@@ -366,6 +371,7 @@ public class VizConnectionManagerTester {
 		connection2 = "trevor something";
 		port = 9001;
 		path = "";
+		manager.addConnection(connection2, host + "," + port + "," + path);
 
 		// Both have been added.
 		assertNotNull(manager.getConnection(connection1));
@@ -379,6 +385,7 @@ public class VizConnectionManagerTester {
 
 		// Update the first connection.
 		host = "electrodungeonmaster";
+		manager.addConnection(connection1, host + "," + port + "," + path);
 
 		// Check the first connections properties. They should have changed.
 		connection = manager.getConnection(connection1);
@@ -386,6 +393,9 @@ public class VizConnectionManagerTester {
 		assertEquals(host, connection.getHost());
 		assertEquals(port, connection.getPort());
 		assertEquals(path, connection.getPath());
+
+		// Add a listener to the second connection
+		connection.addListener(listener);
 
 		// Check querying connections by host.
 		// "electrodungeon" should now only have one connection.
@@ -408,127 +418,4 @@ public class VizConnectionManagerTester {
 		return;
 	}
 
-	/**
-	 * Checks that the preference store can be set and loaded.
-	 */
-	@Test
-	public void checkSetPreferenceStore() {
-
-		// Set up a preference node for a first connection.
-		final String nodeId1 = NODE_ID;
-		IVizConnection<FakeClient> connection1;
-		String connection1Name;
-		String connection1Host;
-		int connection1Port;
-		String connection1Path;
-		// Set up a preference node for a second connection.
-		final String nodeId2 = NODE_ID + "2";
-		IVizConnection<FakeClient> connection2;
-		String connection2Name;
-		String connection2Host;
-		int connection2Port;
-		String connection2Path;
-
-		// Use a fake listener to determine that the first connection won't be
-		// disconnected even though it is removed from the manager.
-		FakeVizConnectionListener listener = new FakeVizConnectionListener();
-
-		// Add a connection to the first preference node.
-		connection1Name = "magic sword";
-		connection1Host = "electrodungeon";
-		connection1Port = 9000;
-		connection1Path = "/home/music";
-
-		// Add a connection to the second preference node.
-		connection2Name = "trevor something";
-		connection2Host = "electrodungeon";
-		connection2Port = 9001;
-		connection2Path = "/home/music/different/path";
-
-		// Make sure that the first connection was added to the manager.
-		// Check getConnections()
-		assertEquals(1, manager.getConnections().size());
-		assertTrue(manager.getConnections().contains(connection1Name));
-		// Check getConnectionsForHost(String)
-		assertEquals(1, manager.getConnectionsForHost(connection1Host).size());
-		assertTrue(manager.getConnectionsForHost(connection1Host)
-				.contains(connection1Name));
-		// Check getConnection(String)
-		assertNotNull(manager.getConnection(connection1Name));
-
-		// Check the first connection's properties.
-		connection1 = manager.getConnection(connection1Name);
-		assertEquals(connection1Name, connection1.getName());
-		assertEquals(connection1Host, connection1.getHost());
-		assertEquals(connection1Port, connection1.getPort());
-		assertEquals(connection1Path, connection1.getPath());
-
-		// The second connection should not yet exist.
-		assertNull(manager.getConnection(connection2Name));
-
-		// The connection should have been initialized. However, this is done on
-		// a separate thread. We should give the CPU some leeway to establish
-		// the connection.
-		long sleepTime = 0;
-		long threshold = 2000;
-		long interval = 50;
-		while (connection1.getState() != ConnectionState.Connected
-				&& sleepTime < threshold) {
-			try {
-				Thread.sleep(interval);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			sleepTime += interval;
-		}
-
-		assertEquals(ConnectionState.Connected, connection1.getState());
-
-		// Add the listener to the first connection.
-		connection1.addListener(listener);
-
-		// Make sure that the first connection was added to the manager.
-		// Check getConnections()
-		assertEquals(1, manager.getConnections().size());
-		assertTrue(manager.getConnections().contains(connection2Name));
-		// Check getConnectionsForHost(String)
-		assertEquals(1, manager.getConnectionsForHost(connection2Host).size());
-		assertTrue(manager.getConnectionsForHost(connection2Host)
-				.contains(connection2Name));
-		// Check getConnection(String)
-		assertNotNull(manager.getConnection(connection2Name));
-
-		// Check the second connection's properties.
-		connection2 = manager.getConnection(connection2Name);
-		assertEquals(connection2Name, connection2.getName());
-		assertEquals(connection2Host, connection2.getHost());
-		assertEquals(connection2Port, connection2.getPort());
-		assertEquals(connection2Path, connection2.getPath());
-
-		// The first connection should not exist in the manager.
-		assertNull(manager.getConnection(connection1Name));
-
-		// The connection should have been initialized. However, this is done on
-		// a separate thread. We should give the CPU some leeway to establish
-		// the connection.
-		sleepTime = 0;
-		threshold = 2000;
-		interval = 50;
-		while (connection2.getState() != ConnectionState.Connected
-				&& sleepTime < threshold) {
-			try {
-				Thread.sleep(interval);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			sleepTime += interval;
-		}
-		assertEquals(ConnectionState.Connected, connection2.getState());
-
-		// The first connection should still be connected.
-		assertFalse(listener.wasNotified());
-		assertEquals(ConnectionState.Connected, connection1.getState());
-
-		return;
-	}
 }

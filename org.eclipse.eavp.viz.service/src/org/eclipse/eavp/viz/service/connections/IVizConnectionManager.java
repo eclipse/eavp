@@ -12,6 +12,7 @@
 package org.eclipse.eavp.viz.service.connections;
 
 import java.util.Set;
+import java.util.concurrent.Future;
 
 /**
  * An implementation of this interface manages multiple {@link IVizConnection}s
@@ -37,6 +38,21 @@ public interface IVizConnectionManager<T> {
 	 */
 	static final String DEFAULT_CONNECTION_PREFERENCE_DELIMITER = ",";
 
+	/**
+	 * Adds a new connection based on the specified name and preference value.
+	 * The connection will attempt to connect.
+	 * 
+	 * @param name
+	 *            The name of the connection (a preference name in the store).
+	 * @param preferences
+	 *            The preference value for the connection. This value should
+	 *            come straight from the {@link #preferenceStore}.
+	 * 
+	 * @return The Future state of the connection being added.
+	 */
+	public Future<ConnectionState> addConnection(String name,
+			String preferences);
+	
 	/**
 	 * Gets the viz connection with the specified name. Names should be
 	 * retrieved from either {@link #getConnections()} or
@@ -69,4 +85,13 @@ public interface IVizConnectionManager<T> {
 	 *             If the specified host is {@code null}.
 	 */
 	Set<String> getConnectionsForHost(String host) throws NullPointerException;
+	
+	/**
+	 * Removes a connection based on the specified name. The connection will be
+	 * disconnected.
+	 * 
+	 * @param name
+	 *            The name of the connection to remove.
+	 */
+	public void removeConnection(String name);
 }

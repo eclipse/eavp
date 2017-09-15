@@ -55,12 +55,12 @@ public class AbstractSWTTester extends AbstractICEUITester<SWTBot> {
 	 * performing UI tests that simulate user interaction with workbench-based
 	 * plug-ins.
 	 */
-	private static SWTBot bot;
+	protected static SWTBot bot;
 
 	/**
 	 * The shell used when creating an {@code SWTBot} for unit tests.
 	 */
-	private static Shell shell;
+	protected static Shell shell;
 
 	/*
 	 * (non-Javadoc)

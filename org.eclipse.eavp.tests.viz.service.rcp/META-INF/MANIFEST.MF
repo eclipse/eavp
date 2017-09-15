@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ICE Visualization Service Test Bundle
+Bundle-Name: RCP Visualization Service Test Bundle
 Bundle-SymbolicName: org.eclipse.eavp.tests.viz.service.rcp
 Bundle-Version: 0.1.1.qualifier
 Bundle-Vendor: Oak Ridge National Laboratory
@@ -10,6 +10,10 @@ Import-Package: ca.odell.glazedlists,
  ca.odell.glazedlists.gui,
  org.eclipse.core.filesystem,
  org.eclipse.core.resources,
+ org.eclipse.eavp.tests.viz.service,
+ org.eclipse.eavp.tests.viz.service.connections,
+ org.eclipse.eavp.tests.viz.service.drawhandler,
+ org.eclipse.eavp.tests.viz.service.utils,
  org.eclipse.eavp.viz.datastructures.VizObject,
  org.eclipse.eavp.viz.datastructures.ui,
  org.eclipse.eavp.viz.modeling,
@@ -21,8 +25,13 @@ Import-Package: ca.odell.glazedlists,
  org.eclipse.eavp.viz.service.csv,
  org.eclipse.eavp.viz.service.drawhandler,
  org.eclipse.eavp.viz.service.internal,
+ org.eclipse.eavp.viz.service.rcp,
  org.eclipse.eavp.viz.service.rcp.connection,
+ org.eclipse.eavp.viz.service.rcp.connections.preferences,
  org.eclipse.eavp.viz.service.rcp.csv,
+ org.eclipse.eavp.viz.service.rcp.csv.series,
+ org.eclipse.eavp.viz.service.rcp.internal,
+ org.eclipse.eavp.viz.service.rcp.preferences,
  org.eclipse.eavp.viz.service.rcp.widgets,
  org.eclipse.eavp.viz.service.styles,
  org.eclipse.emf.common.util,

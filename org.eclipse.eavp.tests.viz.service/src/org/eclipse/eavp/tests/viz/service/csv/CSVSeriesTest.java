@@ -19,9 +19,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.eavp.viz.service.ISeries;
-import org.eclipse.eavp.viz.service.ISeriesStyle;
 import org.eclipse.eavp.viz.service.csv.CSVSeries;
-import org.eclipse.eavp.viz.service.styles.AbstractSeriesStyle;
 import org.junit.Test;
 
 /**
@@ -40,7 +38,6 @@ public class CSVSeriesTest {
 		// values
 		CSVSeries series = new CSVSeries();
 		assertNotNull(series);
-		assertNotNull(series.getStyle());
 		assertNotNull(series.getLabel());
 		assertTrue(0.0 == series.getTime());
 
@@ -135,29 +132,6 @@ public class CSVSeriesTest {
 		series.setLabel("something else");
 		series.setTime(3.0);
 		assertEquals(parent, series.getParentSeries());
-	}
-
-	@Test
-	public void testGetStyle() {
-		// Create a series and get its style
-		CSVSeries series = getSeries("stylin");
-		ISeriesStyle style = series.getStyle();
-		// The style should never be null. This should be the default
-		assertNotNull(style);
-		// Make sure that the default does not have a color associated with it
-		assertNull(style.getProperty("COLOR"));
-
-		// Make sure the new style assignment stays
-		AbstractSeriesStyle style2 = new AbstractSeriesStyle() {};
-		series.setStyle(style2);
-		assertEquals(style2, series.getStyle());
-		// Make sure changes to the series do not effect the style
-		series.add(4394.32);
-		series.setLabel("Hello..");
-		series.setTime(3.424);
-		series.setUnit("Some Unit");
-		assertEquals(style2, series.getStyle());
-
 	}
 
 	@Test

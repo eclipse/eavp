@@ -44,7 +44,7 @@ public abstract class ConnectionPlotComposite<T> extends PlotComposite
 	/**
 	 * The current connection associated with this plot.
 	 */
-	private IVizConnection<T> connection;
+	protected IVizConnection<T> connection;
 
 	/**
 	 * A link to the visualization connection preferences.

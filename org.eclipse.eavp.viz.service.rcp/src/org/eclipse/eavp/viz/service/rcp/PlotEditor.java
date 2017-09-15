@@ -501,18 +501,21 @@ public class PlotEditor extends MultiPageEditorPart {
 				int index = addPage(mainPage);
 				setPageText(index, "Plot");
 
-//				// Add any additional pages the service provides
-//				int numPages = plot.getNumAdditionalPages();
-//				for (int i = 1; i <= numPages; i++) {
-//					String name = plot.createAdditionalPage(this,
-//							(FileEditorInput) editorInput, i);
-//					setPageText(i, name);
-//				}
+				// Get the handler from the plot
+
+				// Add any additional pages the service provides
+				RCPDrawHandler handler = (RCPDrawHandler) plot.getDrawHandler();
+				int numPages = handler.getNumAdditionalPages();
+				for (int i = 1; i <= numPages; i++) {
+					String name = handler.createAdditionalPage(this,
+							(FileEditorInput) editorInput, i);
+					setPageText(i, name);
+				}
 			}
 		}
 		// If the input is plot input, we can just get the plot from it.
 		else if (editorInput instanceof PlotEditorInput) {
-			plot = (RCPPlot) ((PlotEditorInput) editorInput).getPlot();
+			plot = ((PlotEditorInput) editorInput).getPlot();
 		}
 
 		// If no plot could be created, close the editor.

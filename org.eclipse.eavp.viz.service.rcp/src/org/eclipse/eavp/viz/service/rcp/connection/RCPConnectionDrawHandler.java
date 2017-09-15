@@ -20,6 +20,7 @@ import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,13 +104,22 @@ abstract public class RCPConnectionDrawHandler<T>
 									+ e1.toString());
 				}
 				plotComposite.refresh();
-				// Its reference should be unset when disposed.
-				plotComposite.addDisposeListener(new DisposeListener() {
+
+				// Create a new DisposeListener on the UI thread.
+				PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 					@Override
-					public void widgetDisposed(DisposeEvent e) {
-						plotComposite = null;
+					public void run() {
+
+						// Its reference should be unset when disposed.
+						plotComposite.addDisposeListener(new DisposeListener() {
+							@Override
+							public void widgetDisposed(DisposeEvent e) {
+								plotComposite = null;
+							}
+						});
 					}
 				});
+
 			}
 			// Otherwise, ignore the parent argument and trigger a normal
 			// refresh.

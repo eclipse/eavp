@@ -113,7 +113,10 @@ public class CSVSeries extends TransformedList<Double, Double>
 		// other parent by reference
 		parent = other.parent;
 		// All series should inherit from this class, so this SHOULD be ok
-		((AbstractSeriesStyle) style).copy((AbstractSeriesStyle) other.style);
+		if (style != null) {
+			((AbstractSeriesStyle) style)
+					.copy((AbstractSeriesStyle) other.style);
+		}
 		time = other.time;
 		unit = other.unit;
 		this.clear();
@@ -145,8 +148,8 @@ public class CSVSeries extends TransformedList<Double, Double>
 						&& label == series.label
 						&& (parent == null ? series.parent == null
 								: parent.equals(series.parent))
-						&& style.equals(series.style) && time == series.time
-						&& unit.equals(series.unit);
+						&& (style == null || style.equals(series.style))
+						&& time == series.time && unit.equals(series.unit);
 
 			}
 		}

@@ -16,10 +16,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,11 +91,17 @@ public abstract class VizConnectionManager<T>
 	 * 
 	 * @return The Future state of the connection being added.
 	 */
-	protected Future<ConnectionState> addConnection(String name,
+	@Override
+	public Future<ConnectionState> addConnection(String name,
 			String preferences) {
 		logger.debug("VizConnectionManager message: " + "Adding connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
+
+		// Update the connection if it already exists
+		if (connectionsByName.containsKey(name)) {
+			return updateConnection(name, preferences);
+		}
 
 		// The connection to be added
 		VizConnection<T> connection = null;
@@ -232,7 +241,8 @@ public abstract class VizConnectionManager<T>
 	 * @param name
 	 *            The name of the connection to remove.
 	 */
-	protected void removeConnection(String name) {
+	@Override
+	public void removeConnection(String name) {
 		logger.debug("VizConnectionManager message: " + "Removing connection \""
 				+ name + "\".");
 
@@ -266,8 +276,10 @@ public abstract class VizConnectionManager<T>
 	 * @param preferences
 	 *            The <i>new</i> preference value for the connection. This value
 	 *            should come straight from the {@link #preferenceStore}.
+	 * @return A future reference to the connection state after the update
 	 */
-	protected void updateConnection(String name, String preferences) {
+	protected Future<ConnectionState> updateConnection(String name,
+			String preferences) {
 		logger.debug("VizConnectionManager message: " + "Updating connection \""
 				+ name + "\" using the preference string \"" + preferences
 				+ "\".");
@@ -303,29 +315,73 @@ public abstract class VizConnectionManager<T>
 
 		// If the update requires a reset, reset the connection.
 		if (requiresReset) {
+
 			final Future<ConnectionState> disconnectRequest = connection
 					.disconnect();
 			final ExecutorService executor = Executors
 					.newSingleThreadExecutor();
-			executor.submit(new Runnable() {
-				@Override
-				public void run() {
-					// Wait for the disconnect request to complete or fail.
-					try {
-						disconnectRequest.get();
-					} catch (InterruptedException | ExecutionException e) {
-						e.printStackTrace();
-					}
-					// Try to re-connect.
-					connection.connect();
+			try {
+				return executor.submit(new Callable<Future<ConnectionState>>() {
 
-					// Stop the executor service.
-					executor.shutdown();
-				}
-			});
+					@Override
+					public Future<ConnectionState> call() throws Exception {
+						try {
+							disconnectRequest.get();
+						} catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
+						// Try to re-connect.
+						Future<ConnectionState> state = connection.connect();
+
+						// Stop the executor service.
+						executor.shutdown();
+
+						return state;
+					}
+				}).get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
-		return;
+		// If there was no update, return the current connection state
+
+		// Get a final reference to the current connection state
+		final ConnectionState oldState = connection.getState();
+
+		return new Future<ConnectionState>() {
+			@Override
+			public boolean cancel(boolean mayInterruptIfRunning) {
+				return false;
+			}
+
+			@Override
+			public ConnectionState get()
+					throws InterruptedException, ExecutionException {
+				return oldState;
+			}
+
+			@Override
+			public ConnectionState get(long timeout, TimeUnit unit)
+					throws InterruptedException, ExecutionException,
+					TimeoutException {
+				return oldState;
+			}
+
+			@Override
+			public boolean isCancelled() {
+				return false;
+			}
+
+			@Override
+			public boolean isDone() {
+				return true;
+			}
+		};
 	}
 
 	/**

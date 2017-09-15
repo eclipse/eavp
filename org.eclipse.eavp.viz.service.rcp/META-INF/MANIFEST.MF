@@ -60,5 +60,7 @@ Import-Package: ca.odell.glazedlists,
 Export-Package: org.eclipse.eavp.viz.service.rcp,
  org.eclipse.eavp.viz.service.rcp.connection,
  org.eclipse.eavp.viz.service.rcp.connections.preferences,
+ org.eclipse.eavp.viz.service.rcp.internal,
+ org.eclipse.eavp.viz.service.rcp.preferences,
  org.eclipse.eavp.viz.service.rcp.widgets
 Service-Component: OSGI-INF/vizFactory.xml, OSGI-INF/DrawHandlerFactoryHolder.xml

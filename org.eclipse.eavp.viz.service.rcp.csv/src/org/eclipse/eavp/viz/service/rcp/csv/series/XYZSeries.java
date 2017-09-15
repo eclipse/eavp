@@ -42,4 +42,15 @@ public class XYZSeries extends CSVSeries {
 		style = new XYZSeriesStyle(color);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+		XYZSeries clone = new XYZSeries((Color) style.getProperty("color"));
+		clone.copy(this);
+		return clone;
+	}
 }

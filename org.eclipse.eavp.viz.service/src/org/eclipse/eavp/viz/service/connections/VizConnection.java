@@ -670,7 +670,7 @@ public abstract class VizConnection<T> implements IVizConnection<T> {
 	 * @param message
 	 *            The message to send to the listeners.
 	 */
-	private void notifyListeners(ConnectionState state, String message) {
+	protected void notifyListeners(ConnectionState state, String message) {
 		/*
 		 * Notifications should be sent out in the order in which they occur.
 		 * This is achieved by using a single thread to delegate notifications

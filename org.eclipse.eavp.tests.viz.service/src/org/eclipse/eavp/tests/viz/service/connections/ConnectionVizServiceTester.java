@@ -12,28 +12,15 @@
 package org.eclipse.eavp.tests.viz.service.connections;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Set;
 
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.eavp.viz.modeling.factory.IControllerProviderFactory;
 import org.eclipse.eavp.viz.service.IPlot;
-import org.eclipse.eavp.viz.service.IRenderElementHolder;
-import org.eclipse.eavp.viz.service.IVizCanvas;
-import org.eclipse.eavp.viz.service.connections.ConnectionPlot;
 import org.eclipse.eavp.viz.service.connections.ConnectionVizService;
-import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
-import org.eclipse.eavp.viz.service.connections.VizConnection;
-import org.eclipse.eavp.viz.service.connections.VizConnectionManager;
-import org.eclipse.january.geometry.Geometry;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +36,7 @@ public class ConnectionVizServiceTester {
 	/**
 	 * The viz service that will be tested.
 	 */
-	private ConnectionVizService<FakeClient> service;
+	private FakeConnectionVizService service;
 
 	/**
 	 * A string containing the characters "localhost".
@@ -81,63 +68,7 @@ public class ConnectionVizServiceTester {
 		path = "";
 
 		// Create a connection viz service.
-		service = new ConnectionVizService<FakeClient>() {
-
-			@Override
-			public String getName() {
-				return "Fake Connection Viz Service";
-			}
-
-			@Override
-			public String getVersion() {
-				return "0.0";
-			}
-
-			@Override
-			protected IVizConnectionManager<FakeClient> createConnectionManager() {
-				return new VizConnectionManager<FakeClient>() {
-					@Override
-					protected VizConnection<FakeClient> createConnection(
-							String name, String preferences) {
-						return new FakeVizConnection();
-					}
-				};
-			}
-
-			@Override
-			protected ConnectionPlot<FakeClient> createConnectionPlot() {
-				return new ConnectionPlot<FakeClient>() {
-
-					@Override
-					public IRenderElementHolder getRenderElementHolder(
-							Geometry geometry) {
-						return null;
-					}
-				};
-			}
-
-			@Override
-			protected String getConnectionPreferencesNodeId() {
-				return NODE_ID;
-			}
-
-			@Override
-			protected Set<String> findSupportedExtensions() {
-				Set<String> extensions = new HashSet<String>();
-				extensions.add("csv");
-				return extensions;
-			}
-
-			@Override
-			public IControllerProviderFactory getControllerProviderFactory() {
-				return null;
-			}
-
-			@Override
-			public IVizCanvas createCanvas(Geometry geometry) throws Exception {
-				return null;
-			}
-		};
+		service = new FakeConnectionVizService();
 
 		// Add a remote connection after creating the service.
 		name = "magic sword";
@@ -175,8 +106,24 @@ public class ConnectionVizServiceTester {
 			fail("ConnectionVizServiceTester error: " + "Invalid URI.");
 		}
 
-		// Creating a plot with a valid URI should work (since the fake
-		// infrastructure does not do any more validation on the file).
+		// Creating a plot with a valid URI should fail when trying to find
+		// a connection, as there are none configured.
+		try {
+			plot = service.createPlot(uri);
+		} catch (Exception e) {
+			if (!"ConnectionVizService error: No configured connection to host \"localhost\"."
+					.equals(e.getMessage())) {
+				fail("ConnectionVizServiceTester error: "
+						+ "Unexpected exception when creating plot. "
+						+ "See stacktrace below:");
+				e.printStackTrace();
+			}
+		}
+		assertNull(plot);
+
+		// Add a valid conenction then create the plot.
+		service.addConnection("local", "localhost,0,ignore");
+
 		try {
 			plot = service.createPlot(uri);
 		} catch (Exception e) {
@@ -186,6 +133,7 @@ public class ConnectionVizServiceTester {
 			e.printStackTrace();
 		}
 		assertNotNull(plot);
+
 		// ---------------------------------------------------- //
 
 		// ---- Try a valid remote URI. ---- //
@@ -199,17 +147,20 @@ public class ConnectionVizServiceTester {
 			e.printStackTrace();
 		}
 
-		// Creating a plot with a valid URI should work (since the fake
-		// infrastructure does not do any more validation on the file).
+		service.addConnection("electrodungeon", host + ",0,ignore");
+
+		// Creating a plot with a valid URI should work with the connection
+		// added
 		try {
 			plot = service.createPlot(uri);
 		} catch (Exception e) {
 			fail("ConnectionVizServiceTester error: "
 					+ "Unexpected exception when creating plot. "
 					+ "See stacktrace below:");
-			e.printStackTrace();
 		}
+
 		assertNotNull(plot);
+
 		// --------------------------------- //
 
 		// ---- Try a URI for an unknown host. ---- //
@@ -239,6 +190,8 @@ public class ConnectionVizServiceTester {
 		host = "megadrive";
 		String port = "9000";
 		path = "/home/music";
+
+		service.addConnection(host, host + ",0,ignore");
 
 		// ---- Try a URI for the new host. ---- //
 		try {
