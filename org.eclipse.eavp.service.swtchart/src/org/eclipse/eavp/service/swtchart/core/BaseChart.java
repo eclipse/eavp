@@ -100,13 +100,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 * Shift series
 	 */
 	public static final int SHIFT_CONSTRAINT_NONE = 0;
-	public static final int SHIFT_CONSTRAINT_SELECTION = 1 << 0;
+	public static final int SHIFT_CONSTRAINT_RANGE_SELECTION = 1 << 0;
 	public static final int SHIFT_CONSTRAINT_DELETE_X = 1 << 1;
 	public static final int SHIFT_CONSTRAINT_DELETE_Y = 1 << 2;
 	public static final int SHIFT_CONSTRAINT_CLINCH_X = 1 << 3;
 	public static final int SHIFT_CONSTRAINT_STRETCH_X = 1 << 4;
 	public static final int SHIFT_CONSTRAINT_BROADEN_X = 1 << 5;
 	public static final int SHIFT_CONSTRAINT_NARROW_X = 1 << 6;
+	//
+	private int shiftConstraints = SHIFT_CONSTRAINT_NONE;
 	//
 	public static final long DELTA_MOVE_TIME = 350;
 	private long moveStartTime = 0;
@@ -624,12 +626,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY) {
+	public void setShiftConstraints(int shiftConstraints) {
 
-		shiftSeries(selectedSeriesId, shiftX, shiftY, SHIFT_CONSTRAINT_NONE);
+		this.shiftConstraints = shiftConstraints;
 	}
 
-	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY, int shiftConstraints) {
+	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY) {
 
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries != null) {
@@ -642,14 +644,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				double seriesMaxY = Double.MIN_VALUE;
 				//
 				if(shiftX != 0.0d) {
-					double[] xSeriesShifted = adjustArray(dataSeries.getXSeries(), shiftX);
+					/*
+					 * Shift X
+					 */
+					double[] xSeriesShifted = adjustArray(dataSeries.getXSeries(), shiftX, IExtendedChart.X_AXIS);
 					dataSeries.setXSeries(xSeriesShifted);
 					seriesMinX = xSeriesShifted[0];
 					seriesMaxX = xSeriesShifted[xSeriesShifted.length - 1];
 				}
 				//
 				if(shiftY != 0.0d) {
-					double[] ySeriesShifted = adjustArray(dataSeries.getYSeries(), shiftY);
+					/*
+					 * Shift Y
+					 */
+					double[] ySeriesShifted = adjustArray(dataSeries.getYSeries(), shiftY, IExtendedChart.Y_AXIS);
 					dataSeries.setYSeries(ySeriesShifted);
 					seriesMinY = ySeriesShifted[0];
 					seriesMaxY = ySeriesShifted[ySeriesShifted.length - 1];
@@ -677,12 +685,63 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return shiftRecord;
 	}
 
-	private double[] adjustArray(double[] series, double shift) {
+	private double[] adjustArray(double[] series, double shift, String axisOrientation) {
+
+		if(shiftConstraints == SHIFT_CONSTRAINT_NONE) {
+			series = adjustArrayWithoutConstraints(series, shift);
+		} else {
+			/*
+			 * Take the constraints into consideration.
+			 */
+			boolean deleteShiftedData = isDeleteShiftedData(axisOrientation);
+			if(deleteShiftedData) {
+				series = adjustArrayWithConstraints(series, shift, axisOrientation);
+			} else {
+				series = adjustArrayWithoutConstraints(series, shift);
+			}
+		}
+		return series;
+	}
+
+	private double[] adjustArrayWithoutConstraints(double[] series, double shift) {
 
 		for(int i = 0; i < series.length; i++) {
 			series[i] += shift;
 		}
 		return series;
+	}
+
+	private double[] adjustArrayWithConstraints(double[] series, double shift, String axisOrientation) {
+
+		double lowerBorder = 0.0d;
+		/*
+		 * Shift the data.
+		 */
+		for(int i = 0; i < series.length; i++) {
+			double valueShifted = series[i] + shift;
+			if(valueShifted >= lowerBorder) {
+				/*
+				 * Valid
+				 */
+				series[i] = valueShifted;
+			} else {
+				/*
+				 * Invalid
+				 */
+				series[i] = 0;
+			}
+		}
+		//
+		return series;
+	}
+
+	private boolean isDeleteShiftedData(String axisOrientation) {
+
+		if(axisOrientation.equals(IExtendedChart.X_AXIS)) {
+			return ((shiftConstraints & SHIFT_CONSTRAINT_DELETE_X) == SHIFT_CONSTRAINT_DELETE_X) && chartSettings.getRangeRestriction().isZeroX();
+		} else {
+			return ((shiftConstraints & SHIFT_CONSTRAINT_DELETE_Y) == SHIFT_CONSTRAINT_DELETE_Y) && chartSettings.getRangeRestriction().isZeroY();
+		}
 	}
 
 	public String[] getAxisLabels(String axisOrientation) {
