@@ -412,6 +412,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return Collections.unmodifiableSet(selectedSeriesIds);
 	}
 
+	public boolean isSeriesContained(String seriesId) {
+
+		if(getSeriesSet().getSeries(seriesId) == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	@Override
 	public void paintControl(PaintEvent e) {
 
