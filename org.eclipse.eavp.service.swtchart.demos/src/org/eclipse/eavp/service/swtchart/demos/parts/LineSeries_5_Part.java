@@ -50,15 +50,15 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		//
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		ILineSeriesSettings lineSeriesSettings;
 		/*
 		 * Positive
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_5_POSITIVE);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		lineSerieSettings.setEnableArea(false);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		lineSeriesSettings.setEnableArea(false);
 		lineSeriesDataList.add(lineSeriesData);
 		addSeriesData(lineSeriesDataList);
 		/*
@@ -66,9 +66,9 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_5_NEGATIVE);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		lineSerieSettings.setEnableArea(false);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		lineSeriesSettings.setEnableArea(false);
 		lineSeriesDataList.add(lineSeriesData);
 		addSeriesData(lineSeriesDataList);
 		/*

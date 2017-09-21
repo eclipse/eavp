@@ -82,29 +82,29 @@ public class MeasurementSeries_1_Part extends LineChart {
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		ILineSeriesSettings lineSeriesSettings;
 		/*
 		 * Readings
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.MEASUREMENT_SERIES_1_READINGS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(false);
-		lineSerieSettings.setLineStyle(LineStyle.NONE);
-		lineSerieSettings.setSymbolSize(5);
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		lineSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(false);
+		lineSeriesSettings.setLineStyle(LineStyle.NONE);
+		lineSeriesSettings.setSymbolSize(5);
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Regression
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.MEASUREMENT_SERIES_1_REGRESSION);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(false);
-		lineSerieSettings.setLineStyle(LineStyle.SOLID);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		lineSerieSettings.setSymbolType(PlotSymbolType.NONE);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(false);
+		lineSeriesSettings.setLineStyle(LineStyle.SOLID);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

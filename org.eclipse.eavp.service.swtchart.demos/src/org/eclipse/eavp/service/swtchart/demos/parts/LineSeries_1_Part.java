@@ -62,35 +62,35 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		//
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		ILineSeriesSettings lineSeriesSettings;
 		/*
 		 * Chromatogram [0]
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Baseline [1]
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_BASELINE);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
-		lineSerieSettings.setSymbolType(PlotSymbolType.NONE);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Selected Scans [2]
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_SCANS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineStyle(LineStyle.NONE);
-		lineSerieSettings.setSymbolType(PlotSymbolType.CROSS);
-		lineSerieSettings.setSymbolSize(5);
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setLineStyle(LineStyle.NONE);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.CROSS);
+		lineSeriesSettings.setSymbolSize(5);
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Active Peaks [3]
@@ -98,93 +98,93 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		indexSeries = 3;
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_ACTIVE_PEAKS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(false);
-		lineSerieSettings.setLineStyle(LineStyle.NONE);
-		lineSerieSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
-		lineSerieSettings.setSymbolSize(5);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(false);
+		lineSeriesSettings.setLineStyle(LineStyle.NONE);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
+		lineSeriesSettings.setSymbolSize(5);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Inactive Peaks
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_INACTIVE_PEAKS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(false);
-		lineSerieSettings.setLineStyle(LineStyle.NONE);
-		lineSerieSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
-		lineSerieSettings.setSymbolSize(5);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(false);
+		lineSeriesSettings.setLineStyle(LineStyle.NONE);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
+		lineSeriesSettings.setSymbolSize(5);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Peak 1
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_1);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
-		lineSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
-		lineSerieSettings.setSymbolSize(2);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		lineSeriesSettings.setSymbolSize(2);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Background 1
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_1_BACKGROUND);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
-		lineSerieSettings.setSymbolType(PlotSymbolType.NONE);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Peak 2
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_2);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
-		lineSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
-		lineSerieSettings.setSymbolSize(2);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		lineSeriesSettings.setSymbolSize(2);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Background 2
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_2_BACKGROUND);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
-		lineSerieSettings.setSymbolType(PlotSymbolType.NONE);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Identified Scans
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_IDENTIFIED_SCANS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineStyle(LineStyle.NONE);
-		lineSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
-		lineSerieSettings.setSymbolSize(3);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setLineStyle(LineStyle.NONE);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
+		lineSeriesSettings.setSymbolSize(3);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Identified Scans Selected.
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_IDENTIFIED_SCANS_SELECTED);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineStyle(LineStyle.NONE);
-		lineSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
-		lineSerieSettings.setSymbolSize(5);
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setLineStyle(LineStyle.NONE);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
+		lineSeriesSettings.setSymbolSize(5);
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

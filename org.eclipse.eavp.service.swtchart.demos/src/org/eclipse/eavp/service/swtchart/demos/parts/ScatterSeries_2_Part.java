@@ -100,11 +100,11 @@ public class ScatterSeries_2_Part extends ScatterChart {
 			String fileName = SeriesConverter.SCATTER_SERIES + "2_" + i;
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(fileName, id);
 			IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
-			IScatterSeriesSettings scatterSerieSettings = scatterSeriesData.getScatterSeriesSettings();
-			scatterSerieSettings.setDescription(id);
-			scatterSerieSettings.setSymbolSize(SYMBOL_SIZE);
-			scatterSerieSettings.setSymbolColor(colors.get(i));
-			scatterSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
+			IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+			scatterSeriesSettings.setDescription(id);
+			scatterSeriesSettings.setSymbolSize(SYMBOL_SIZE);
+			scatterSeriesSettings.setSymbolColor(colors.get(i));
+			scatterSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 			scatterSeriesDataList.add(scatterSeriesData);
 		}
 		addSeriesData(scatterSeriesDataList);

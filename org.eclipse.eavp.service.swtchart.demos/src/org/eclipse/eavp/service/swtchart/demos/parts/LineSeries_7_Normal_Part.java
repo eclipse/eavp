@@ -51,15 +51,15 @@ public class LineSeries_7_Normal_Part extends ChromatogramChart {
 		//
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		ILineSeriesSettings lineSeriesSettings;
 		/*
 		 * Normal
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_7);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		lineSerieSettings.setEnableArea(true);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		lineSeriesSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		addSeriesData(lineSeriesDataList);
 		/*

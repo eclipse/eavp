@@ -84,8 +84,8 @@ public class LineSeries_6_Part extends LineChart {
 		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_6);
 		//
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(false);
+		ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(false);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

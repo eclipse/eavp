@@ -249,21 +249,21 @@ public class LineSeries_Selection_Part extends Composite {
 		 * Line Series
 		 */
 		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		ILineSeriesSettings lineSeriesSettings;
 		//
 		lineSeriesData = new LineSeriesData(seriesDataLine);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Selected Point
 		 */
 		seriesDataPoint = new SeriesData(new double[]{0.0}, new double[]{0.0}, DATA_POINT_SERIES);
 		lineSeriesData = new LineSeriesData(seriesDataPoint);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setSymbolSize(5);
-		lineSerieSettings.setSymbolType(PlotSymbolType.CROSS);
-		lineSerieSettings.setEnableArea(true);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setSymbolSize(5);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.CROSS);
+		lineSeriesSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

@@ -516,9 +516,9 @@ public class LineSeries_Edit_Part extends Composite {
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES + "4_" + i);
 			items[i] = seriesData.getId();
 			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-			ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-			lineSerieSettings.setLineColor(colors.get(i));
-			lineSerieSettings.setEnableArea(false);
+			ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+			lineSeriesSettings.setLineColor(colors.get(i));
+			lineSeriesSettings.setEnableArea(false);
 			lineSeriesDataList.add(lineSeriesData);
 		}
 		chromatogramChart.addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);

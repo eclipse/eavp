@@ -66,9 +66,9 @@ public class LineSeries_4_Part extends ChromatogramChart {
 		for(int i = 1; i <= 5; i++) {
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES + "4_" + i);
 			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-			ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-			lineSerieSettings.setLineColor(colors.get(i));
-			lineSerieSettings.setEnableArea(false);
+			ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+			lineSeriesSettings.setLineColor(colors.get(i));
+			lineSeriesSettings.setEnableArea(false);
 			lineSeriesDataList.add(lineSeriesData);
 		}
 		addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);

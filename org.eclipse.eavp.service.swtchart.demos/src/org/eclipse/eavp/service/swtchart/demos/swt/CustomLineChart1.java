@@ -115,8 +115,8 @@ public class CustomLineChart1 extends LineChart {
 		ISeriesData seriesData = SeriesConverter.getSeriesXY(seriesXY);
 		//
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
+		ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

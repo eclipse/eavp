@@ -99,11 +99,11 @@ public class ScatterSeries_3_Part extends ScatterChart {
 				double[] ySeries = new double[]{y};
 				ISeriesData seriesData = new SeriesData(xSeries, ySeries, id);
 				IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
-				IScatterSeriesSettings scatterSerieSettings = scatterSeriesData.getScatterSeriesSettings();
-				scatterSerieSettings.setDescription(id);
-				scatterSerieSettings.setSymbolSize(getRandomValue(30.0d));
-				scatterSerieSettings.setSymbolColor(colors.get(y));
-				scatterSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
+				IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+				scatterSeriesSettings.setDescription(id);
+				scatterSeriesSettings.setSymbolSize(getRandomValue(30.0d));
+				scatterSeriesSettings.setSymbolColor(colors.get(y));
+				scatterSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 				scatterSeriesDataList.add(scatterSeriesData);
 			}
 		}

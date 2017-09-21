@@ -152,9 +152,9 @@ public class LineSeries_Random_Part extends Composite {
 				List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 				ISeriesData seriesData = getRandomSeriesData();
 				ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-				ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-				lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-				lineSerieSettings.setEnableArea(true);
+				ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+				lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				lineSeriesSettings.setEnableArea(true);
 				lineSeriesDataList.add(lineSeriesData);
 				chromatogramChart.addSeriesData(lineSeriesDataList);
 			}
@@ -168,9 +168,9 @@ public class LineSeries_Random_Part extends Composite {
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 		ISeriesData seriesData = getRandomSeriesData();
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-		ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		lineSerieSettings.setEnableArea(true);
+		ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		lineSeriesSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		chromatogramChart.addSeriesData(lineSeriesDataList);
 	}

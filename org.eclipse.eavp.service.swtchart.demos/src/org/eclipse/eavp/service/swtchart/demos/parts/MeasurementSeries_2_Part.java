@@ -90,7 +90,7 @@ public class MeasurementSeries_2_Part extends LineChart {
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		ILineSeriesSettings lineSeriesSettings;
 		//
 		for(int i = 1; i <= 3; i++) {
 			/*
@@ -98,23 +98,23 @@ public class MeasurementSeries_2_Part extends LineChart {
 			 */
 			seriesData = SeriesConverter.getSeriesXY("Measurement2_Readings_" + i);
 			lineSeriesData = new LineSeriesData(seriesData);
-			lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-			lineSerieSettings.setEnableArea(false);
-			lineSerieSettings.setLineStyle(LineStyle.NONE);
-			lineSerieSettings.setSymbolSize(5);
-			lineSerieSettings.setSymbolColor(colors.get(i));
-			lineSerieSettings.setSymbolType(PlotSymbolType.CIRCLE);
+			lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+			lineSeriesSettings.setEnableArea(false);
+			lineSeriesSettings.setLineStyle(LineStyle.NONE);
+			lineSeriesSettings.setSymbolSize(5);
+			lineSeriesSettings.setSymbolColor(colors.get(i));
+			lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 			lineSeriesDataList.add(lineSeriesData);
 			/*
 			 * Regression
 			 */
 			seriesData = SeriesConverter.getSeriesXY("Measurement2_Regression_" + i);
 			lineSeriesData = new LineSeriesData(seriesData);
-			lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-			lineSerieSettings.setEnableArea(false);
-			lineSerieSettings.setLineStyle(LineStyle.SOLID);
-			lineSerieSettings.setLineColor(colors.get(i));
-			lineSerieSettings.setSymbolType(PlotSymbolType.NONE);
+			lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+			lineSeriesSettings.setEnableArea(false);
+			lineSeriesSettings.setLineStyle(LineStyle.SOLID);
+			lineSeriesSettings.setLineColor(colors.get(i));
+			lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
 			lineSeriesDataList.add(lineSeriesData);
 		}
 		/*

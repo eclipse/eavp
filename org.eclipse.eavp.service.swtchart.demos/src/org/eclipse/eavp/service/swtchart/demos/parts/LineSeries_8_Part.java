@@ -62,14 +62,14 @@ public class LineSeries_8_Part extends ChromatogramChart {
 		//
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
-		ILineSeriesSettings lineSerieSettings;
+		ILineSeriesSettings lineSeriesSettings;
 		/*
 		 * Chromatogram [0]
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(true);
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(true);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Active Peaks [1]
@@ -77,13 +77,13 @@ public class LineSeries_8_Part extends ChromatogramChart {
 		indexSeries = 1;
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_ACTIVE_PEAKS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSerieSettings = lineSeriesData.getLineSeriesSettings();
-		lineSerieSettings.setEnableArea(false);
-		lineSerieSettings.setLineStyle(LineStyle.NONE);
-		lineSerieSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
-		lineSerieSettings.setSymbolSize(5);
-		lineSerieSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
-		lineSerieSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings.setEnableArea(false);
+		lineSeriesSettings.setLineStyle(LineStyle.NONE);
+		lineSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
+		lineSeriesSettings.setSymbolSize(5);
+		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

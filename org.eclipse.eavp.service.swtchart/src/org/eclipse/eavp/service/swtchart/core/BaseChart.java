@@ -553,10 +553,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void selectSeries(String selectedSeriesId) {
 
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-		ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
-		selectedSeriesIds.add(selectedSeriesId);
-		applySeriesSettings(dataSeries, seriesSettings.getSeriesSettingsHighlight());
+		if(isSeriesContained(selectedSeriesId)) {
+			ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+			ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
+			selectedSeriesIds.add(selectedSeriesId);
+			applySeriesSettings(dataSeries, seriesSettings.getSeriesSettingsHighlight());
+		}
 	}
 
 	private void applySeriesSettings(ISeries dataSeries, ISeriesSettings seriesSettings) {
