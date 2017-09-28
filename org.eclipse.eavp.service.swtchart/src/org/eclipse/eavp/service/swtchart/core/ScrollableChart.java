@@ -416,6 +416,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.redraw();
 	}
 
+	public RangeSelector getRangeSelector() {
+
+		return rangeSelector;
+	}
+
 	protected ISeriesData calculateSeries(ISeriesData seriesData) {
 
 		return calculateSeries(seriesData, NO_COMPRESS_TO_LENGTH); // No compression.
@@ -1026,7 +1031,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void displayRangeInfo(IAxis xAxis, IAxis yAxis) {
 
-		rangeSelector.adjustRanges();
+		rangeSelector.adjustRanges(true);
 	}
 
 	private void initialize() {
@@ -1111,6 +1116,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			public void handleUserSelection(Event event) {
 
 				setSliderSelection(false);
+				if(getChartSettings().isEnableRangeSelector()) {
+					rangeSelector.adjustRanges(false);
+				}
 				updateLinkedCharts();
 			}
 		});
@@ -1213,6 +1221,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * methods are accessible.
 			 */
 			linkedScrollableChart.setSliderSelection(false);
+			if(linkedScrollableChart.getChartSettings().isEnableRangeSelector()) {
+				linkedScrollableChart.getRangeSelector().adjustRanges(false);
+			}
 		}
 	}
 

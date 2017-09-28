@@ -76,7 +76,7 @@ public class RangeSelector extends Composite {
 		}
 	}
 
-	public void adjustRanges() {
+	public void adjustRanges(boolean redraw) {
 
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		//
@@ -101,7 +101,9 @@ public class RangeSelector extends Composite {
 			/*
 			 * Redraw the base chart.
 			 */
-			baseChart.redraw();
+			if(redraw) {
+				baseChart.redraw();
+			}
 		}
 	}
 
