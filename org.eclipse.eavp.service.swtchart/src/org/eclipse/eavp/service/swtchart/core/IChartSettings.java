@@ -24,6 +24,10 @@ public interface IChartSettings {
 
 	void setEnableRangeSelector(boolean enableRangeSelector);
 
+	boolean isShowRangeSelectorInitially();
+
+	void setShowRangeSelectorInitially(boolean showRangeSelectorInitially);
+
 	int getRangeSelectorDefaultAxisX();
 
 	void setRangeSelectorDefaultAxisX(int rangeSelectorDefaultAxisX);

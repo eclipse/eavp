@@ -529,6 +529,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		IChartSettings chartSettings = baseChart.getChartSettings();
 		setSliderVisibility();
 		setRangeInfoVisibility(chartSettings.isEnableRangeSelector());
+		showRangeSelectorHint = chartSettings.isShowRangeSelectorInitially();
 		//
 		ITitle title = baseChart.getTitle();
 		title.setText(chartSettings.getTitle());

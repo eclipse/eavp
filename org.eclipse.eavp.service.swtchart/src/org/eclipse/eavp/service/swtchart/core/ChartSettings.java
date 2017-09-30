@@ -54,6 +54,7 @@ import org.eclipse.swt.widgets.Display;
 public class ChartSettings implements IChartSettings {
 
 	private boolean enableRangeSelector;
+	private boolean showRangeSelectorInitially;
 	private Color colorHintRangeSelector;
 	private int rangeSelectorDefaultAxisX;
 	private int rangeSelectorDefaultAxisY;
@@ -105,6 +106,7 @@ public class ChartSettings implements IChartSettings {
 		 * Set the chart.
 		 */
 		enableRangeSelector = false;
+		showRangeSelectorInitially = true;
 		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
 		rangeSelectorDefaultAxisX = 0;
 		rangeSelectorDefaultAxisY = 0;
@@ -199,6 +201,18 @@ public class ChartSettings implements IChartSettings {
 	public void setEnableRangeSelector(boolean enableRangeSelector) {
 
 		this.enableRangeSelector = enableRangeSelector;
+	}
+
+	@Override
+	public boolean isShowRangeSelectorInitially() {
+
+		return showRangeSelectorInitially;
+	}
+
+	@Override
+	public void setShowRangeSelectorInitially(boolean showRangeSelectorInitially) {
+
+		this.showRangeSelectorInitially = showRangeSelectorInitially;
 	}
 
 	@Override

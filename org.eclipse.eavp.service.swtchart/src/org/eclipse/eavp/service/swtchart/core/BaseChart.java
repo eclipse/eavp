@@ -13,6 +13,7 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -635,6 +636,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		} else {
 			return null;
 		}
+	}
+
+	public boolean isDataShifted() {
+
+		for(Collection<double[]> dataShifts : dataShiftHistory.values()) {
+			if(dataShifts != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void setShiftConstraints(int shiftConstraints) {
