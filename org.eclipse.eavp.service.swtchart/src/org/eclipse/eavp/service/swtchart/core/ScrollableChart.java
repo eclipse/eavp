@@ -184,10 +184,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public void applySettings(IChartSettings chartSettings) {
 
-		baseChart.setChartSettings(chartSettings);
 		/*
 		 * Modify the chart and adjust the series.
 		 */
+		baseChart.setChartSettings(chartSettings);
 		baseChart.suspendUpdate(true);
 		modifyChart();
 		ISeriesSet seriesSet = baseChart.getSeriesSet();

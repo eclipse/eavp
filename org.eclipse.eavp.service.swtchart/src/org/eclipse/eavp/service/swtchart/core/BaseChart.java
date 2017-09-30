@@ -13,6 +13,7 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EmptyStackException;
@@ -763,6 +764,25 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			return ((shiftConstraints & SHIFT_CONSTRAINT_DELETE_X) == SHIFT_CONSTRAINT_DELETE_X) && chartSettings.getRangeRestriction().isZeroX();
 		} else {
 			return ((shiftConstraints & SHIFT_CONSTRAINT_DELETE_Y) == SHIFT_CONSTRAINT_DELETE_Y) && chartSettings.getRangeRestriction().isZeroY();
+		}
+	}
+
+	public void multiplySeriesY(String selectedSeriesId, double factor) {
+
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries != null) {
+			double[] xSeries = dataSeries.getXSeries();
+			double[] ySeries = dataSeries.getYSeries();
+			//
+			for(int i = 0; i < ySeries.length; i++) {
+				ySeries[i] *= factor;
+			}
+			dataSeries.setYSeries(ySeries);
+			//
+			double seriesMinY = Arrays.stream(ySeries).min().getAsDouble();
+			double seriesMaxY = Arrays.stream(ySeries).max().getAsDouble();
+			//
+			updateCoordinates(xSeries[0], xSeries[xSeries.length - 1], seriesMinY, seriesMaxY);
 		}
 	}
 
