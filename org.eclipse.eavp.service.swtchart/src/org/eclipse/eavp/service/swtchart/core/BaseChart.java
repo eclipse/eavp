@@ -91,6 +91,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private UserSelection userSelection;
 	private List<ICustomSelectionHandler> customRangeSelectionHandlers;
 	private List<ICustomSelectionHandler> customPointSelectionHandlers;
+	private List<ISeriesModificationListener> seriesModificationListeners;
 	private long clickStartTime;
 	private Set<String> selectedSeriesIds;
 	/*
@@ -128,6 +129,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		userSelection = new UserSelection();
 		customRangeSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
 		customPointSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
+		seriesModificationListeners = new ArrayList<ISeriesModificationListener>();
 		selectedSeriesIds = new HashSet<String>();
 		initializeEventProcessors();
 		/*
@@ -401,6 +403,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public boolean removeCustomPointSelectionHandler(ICustomSelectionHandler customSelectionHandler) {
 
 		return customPointSelectionHandlers.remove(customSelectionHandler);
+	}
+
+	public boolean addSeriesModificationListener(ISeriesModificationListener seriesModificationListener) {
+
+		return seriesModificationListeners.add(seriesModificationListener);
+	}
+
+	public boolean removeSeriesModificationListener(ISeriesModificationListener seriesModificationListener) {
+
+		return seriesModificationListeners.remove(seriesModificationListener);
 	}
 
 	/**
@@ -694,6 +706,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				shiftRecord.add(new double[]{rangeX.lower, rangeX.upper, shiftX, rangeY.lower, rangeY.upper, shiftY, shiftConstraints});
 				//
 				updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
+				fireSeriesModificationEvent();
 			}
 		}
 	}
@@ -767,23 +780,43 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	public void multiplySeriesY(String selectedSeriesId, double factor) {
+	/**
+	 * axisId = IExtendedChart.X_AXIS or IExtendedChart.Y_AXIS.
+	 * 
+	 * @param selectedSeriesId
+	 * @param axisId
+	 * @param factor
+	 */
+	public void multiplySeries(String selectedSeriesId, String axisId, double factor) {
 
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries != null) {
+			//
 			double[] xSeries = dataSeries.getXSeries();
 			double[] ySeries = dataSeries.getYSeries();
 			//
-			for(int i = 0; i < ySeries.length; i++) {
-				ySeries[i] *= factor;
+			if(IExtendedChart.X_AXIS.equals(axisId)) {
+				dataSeries.setXSeries(multiplySeries(xSeries, factor));
+			} else if(IExtendedChart.Y_AXIS.equals(axisId)) {
+				dataSeries.setYSeries(multiplySeries(ySeries, factor));
 			}
-			dataSeries.setYSeries(ySeries);
 			//
+			double seriesMinX = Arrays.stream(xSeries).min().getAsDouble();
+			double seriesMaxX = Arrays.stream(xSeries).max().getAsDouble();
 			double seriesMinY = Arrays.stream(ySeries).min().getAsDouble();
 			double seriesMaxY = Arrays.stream(ySeries).max().getAsDouble();
 			//
-			updateCoordinates(xSeries[0], xSeries[xSeries.length - 1], seriesMinY, seriesMaxY);
+			updateCoordinates(seriesMinX, seriesMaxX, seriesMinY, seriesMaxY);
+			fireSeriesModificationEvent();
 		}
+	}
+
+	private double[] multiplySeries(double[] series, double factor) {
+
+		for(int i = 0; i < series.length; i++) {
+			series[i] *= factor;
+		}
+		return series;
 	}
 
 	public String[] getAxisLabels(String axisOrientation) {
@@ -873,6 +906,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		for(ICustomSelectionHandler customSelectionHandler : customPointSelectionHandlers) {
 			try {
 				customSelectionHandler.handleUserSelection(event);
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+		}
+	}
+
+	private void fireSeriesModificationEvent() {
+
+		for(ISeriesModificationListener seriesModificationListener : seriesModificationListeners) {
+			try {
+				seriesModificationListener.handleSeriesModificationEvent();
 			} catch(Exception e) {
 				System.out.println(e);
 			}
