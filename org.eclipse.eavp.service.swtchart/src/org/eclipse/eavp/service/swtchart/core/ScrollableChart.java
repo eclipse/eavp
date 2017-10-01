@@ -527,9 +527,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void modifyChart() {
 
 		IChartSettings chartSettings = baseChart.getChartSettings();
-		setSliderVisibility();
-		setRangeInfoVisibility(chartSettings.isEnableRangeSelector());
-		showRangeSelectorHint = chartSettings.isShowRangeSelectorInitially();
+		setSliderVisibility(chartSettings);
+		setRangeInfoVisibility(chartSettings);
 		//
 		ITitle title = baseChart.getTitle();
 		title.setText(chartSettings.getTitle());
@@ -759,14 +758,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private void setSliderVisibility() {
+	private void setSliderVisibility(IChartSettings chartSettings) {
 
 		/*
 		 * pack(); doesn't work???!!! Why? It should!
 		 * Exclude and layout did the trick.
 		 */
-		IChartSettings chartSettings = baseChart.getChartSettings();
-		//
 		GridData gridDataVertical = (GridData)sliderVertical.getLayoutData();
 		gridDataVertical.exclude = !chartSettings.isVerticalSliderVisible();
 		sliderVertical.setVisible(chartSettings.isVerticalSliderVisible());
@@ -778,8 +775,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		layout(false);
 	}
 
-	private void setRangeInfoVisibility(boolean isVisible) {
+	private void setRangeInfoVisibility(IChartSettings chartSettings) {
 
+		// chartSettings.isShowRangeSelectorInitially();
+		boolean isVisible = chartSettings.isEnableRangeSelector();
+		//
 		GridData gridData = (GridData)rangeSelector.getLayoutData();
 		gridData.exclude = !isVisible;
 		rangeSelector.setVisible(isVisible);
