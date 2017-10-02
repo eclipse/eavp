@@ -69,6 +69,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	// private static final int KEY_CODE_S = 115;
 	public static final int KEY_CODE_Z = 122;
 	//
+	public static final String SELECTED_SERIES_NONE = "None";
+	//
 	private Map<Integer, Map<Integer, Map<Integer, IEventProcessor>>> registeredEvents;
 	/*
 	 * Settings
@@ -88,10 +90,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private int redrawFrequency = 1;
 	private int redrawCounter = 0;
 	//
-	private UserSelection userSelection;
 	private List<ICustomSelectionHandler> customRangeSelectionHandlers;
 	private List<ICustomSelectionHandler> customPointSelectionHandlers;
 	private List<ISeriesModificationListener> seriesModificationListeners;
+	private List<ISeriesSelectionListener> seriesSelectionListeners;
+	//
+	private UserSelection userSelection;
 	private long clickStartTime;
 	private Set<String> selectedSeriesIds;
 	/*
@@ -130,6 +134,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		customRangeSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
 		customPointSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
 		seriesModificationListeners = new ArrayList<ISeriesModificationListener>();
+		seriesSelectionListeners = new ArrayList<ISeriesSelectionListener>();
 		selectedSeriesIds = new HashSet<String>();
 		initializeEventProcessors();
 		/*
@@ -415,6 +420,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return seriesModificationListeners.remove(seriesModificationListener);
 	}
 
+	public boolean addSeriesSelectionListener(ISeriesSelectionListener seriesSelectionListener) {
+
+		return seriesSelectionListeners.add(seriesSelectionListener);
+	}
+
+	public boolean removeSeriesSelectionListener(ISeriesSelectionListener seriesSelectionListener) {
+
+		return seriesSelectionListeners.remove(seriesSelectionListener);
+	}
+
 	/**
 	 * Returns the set of selected series ids.
 	 * The list is unmodifiable.
@@ -563,6 +578,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		selectedSeriesIds.clear();
 		redraw();
+		fireSeriesSelectionEvent(SELECTED_SERIES_NONE);
 	}
 
 	public void selectSeries(String selectedSeriesId) {
@@ -572,6 +588,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
 			selectedSeriesIds.add(selectedSeriesId);
 			applySeriesSettings(dataSeries, seriesSettings.getSeriesSettingsHighlight());
+			fireSeriesSelectionEvent(selectedSeriesId);
 		}
 	}
 
@@ -923,6 +940,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	private void fireSeriesSelectionEvent(String seriedId) {
+
+		for(ISeriesSelectionListener seriesSelectionListener : seriesSelectionListeners) {
+			try {
+				seriesSelectionListener.handleSeriesSelectionEvent(seriedId);
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+		}
+	}
+
 	public void zoomX(IAxis xAxis, Event event) {
 
 		/*
@@ -959,6 +987,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		selectedSeriesIds.remove(selectedSeriesId);
 		dataSeries.setVisible(false);
 		dataSeries.setVisibleInLegend(false);
+		fireSeriesSelectionEvent(SELECTED_SERIES_NONE);
 	}
 
 	public String getSelectedSeriedId(Event event) {

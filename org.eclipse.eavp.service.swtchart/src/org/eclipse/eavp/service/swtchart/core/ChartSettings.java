@@ -177,7 +177,7 @@ public class ChartSettings implements IChartSettings {
 		 * Events processors ... Mouse Move, Key Up ...
 		 */
 		handledEventProcessors = new HashSet<IHandledEventProcessor>();
-		handledEventProcessors.add(new SelectHideSeriesEvent(SWT.ALT));
+		handledEventProcessors.add(new SelectHideSeriesEvent());
 		handledEventProcessors.add(new ResetSeriesEvent());
 		handledEventProcessors.add(new SelectDataPointEvent());
 		handledEventProcessors.add(new ZoomEvent());
@@ -186,7 +186,7 @@ public class ChartSettings implements IChartSettings {
 		handledEventProcessors.add(new MouseMoveShiftEvent());
 		handledEventProcessors.add(new MouseMoveCursorEvent());
 		handledEventProcessors.add(new MouseUpEvent());
-		handledEventProcessors.add(new UndoRedoEvent(SWT.SHIFT));
+		handledEventProcessors.add(new UndoRedoEvent());
 		//
 		supportDataShift = false;
 	}

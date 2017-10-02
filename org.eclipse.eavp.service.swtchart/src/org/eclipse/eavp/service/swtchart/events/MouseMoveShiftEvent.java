@@ -22,6 +22,8 @@ import org.swtchart.ISeries;
 
 public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
+	private int shiftMask = SWT.SHIFT;
+
 	@Override
 	public int getEvent() {
 
@@ -37,51 +39,53 @@ public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implement
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		/*
-		 * Shift the selected series
-		 */
-		boolean supportDataShift = baseChart.getChartSettings().isSupportDataShift();
-		Set<String> selectedSeriesIds = baseChart.getSelectedSeriesIds();
-		if(supportDataShift && selectedSeriesIds.size() > 0) {
+		if((event.stateMask & shiftMask) == shiftMask) {
 			/*
-			 * Only shift if series have been selected.
+			 * Shift the selected series
 			 */
-			if(baseChart.getMoveStartTime() == 0) {
+			boolean supportDataShift = baseChart.getChartSettings().isSupportDataShift();
+			Set<String> selectedSeriesIds = baseChart.getSelectedSeriesIds();
+			if(supportDataShift && selectedSeriesIds.size() > 0) {
 				/*
-				 * Start
+				 * Only shift if series have been selected.
 				 */
-				baseChart.setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_SIZENWSE));
-				baseChart.setMoveStartTime(System.currentTimeMillis());
-				baseChart.setXMoveStart(event.x);
-				baseChart.setYMoveStart(event.y);
-			} else {
-				long deltaTime = System.currentTimeMillis() - baseChart.getMoveStartTime();
-				if(deltaTime <= BaseChart.DELTA_MOVE_TIME) {
+				if(baseChart.getMoveStartTime() == 0) {
 					/*
-					 * Shift
+					 * Start
 					 */
+					baseChart.setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_SIZENWSE));
 					baseChart.setMoveStartTime(System.currentTimeMillis());
-					//
-					double shiftX = baseChart.getShiftValue(baseChart.getXMoveStart(), event.x, IExtendedChart.X_AXIS);
-					double shiftY = baseChart.getShiftValue(baseChart.getYMoveStart(), event.y, IExtendedChart.Y_AXIS);
-					//
-					for(String selectedSeriesId : selectedSeriesIds) {
-						ISeries dataSeries = baseChart.getSeriesSet().getSeries(selectedSeriesId);
-						if(dataSeries != null) {
-							baseChart.shiftSeries(selectedSeriesId, shiftX, shiftY);
-						}
-					}
-					baseChart.redraw();
-					//
 					baseChart.setXMoveStart(event.x);
 					baseChart.setYMoveStart(event.y);
 				} else {
-					/*
-					 * Default
-					 */
-					baseChart.setMoveStartTime(0);
-					baseChart.setXMoveStart(0);
-					baseChart.setYMoveStart(0);
+					long deltaTime = System.currentTimeMillis() - baseChart.getMoveStartTime();
+					if(deltaTime <= BaseChart.DELTA_MOVE_TIME) {
+						/*
+						 * Shift
+						 */
+						baseChart.setMoveStartTime(System.currentTimeMillis());
+						//
+						double shiftX = baseChart.getShiftValue(baseChart.getXMoveStart(), event.x, IExtendedChart.X_AXIS);
+						double shiftY = baseChart.getShiftValue(baseChart.getYMoveStart(), event.y, IExtendedChart.Y_AXIS);
+						//
+						for(String selectedSeriesId : selectedSeriesIds) {
+							ISeries dataSeries = baseChart.getSeriesSet().getSeries(selectedSeriesId);
+							if(dataSeries != null) {
+								baseChart.shiftSeries(selectedSeriesId, shiftX, shiftY);
+							}
+						}
+						baseChart.redraw();
+						//
+						baseChart.setXMoveStart(event.x);
+						baseChart.setYMoveStart(event.y);
+					} else {
+						/*
+						 * Default
+						 */
+						baseChart.setMoveStartTime(0);
+						baseChart.setXMoveStart(0);
+						baseChart.setYMoveStart(0);
+					}
 				}
 			}
 		}

@@ -17,11 +17,7 @@ import org.eclipse.swt.widgets.Event;
 
 public class UndoRedoEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
-	private int redoMask;
-
-	public UndoRedoEvent(int redoMask) {
-		this.redoMask = redoMask;
-	}
+	private int redoMask = SWT.SHIFT;
 
 	@Override
 	public int getEvent() {

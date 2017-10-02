@@ -17,11 +17,7 @@ import org.eclipse.swt.widgets.Event;
 
 public class SelectHideSeriesEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
-	private int hideMask;
-
-	public SelectHideSeriesEvent(int hideMask) {
-		this.hideMask = hideMask;
-	}
+	private int hideMask = SWT.ALT;
 
 	@Override
 	public int getEvent() {
