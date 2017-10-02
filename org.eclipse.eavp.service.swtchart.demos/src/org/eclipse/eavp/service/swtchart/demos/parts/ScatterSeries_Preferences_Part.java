@@ -162,6 +162,7 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		//
 		IChartSettings chartSettings = scatterChart.getChartSettings();
 		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
+		chartSettings.setShowRangeSelectorInitially(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_SHOW_RANGE_SELECTOR_INITIALLY));
 		chartSettings.setColorHintRangeSelector(colorHintRangeSelector);
 		chartSettings.setRangeSelectorDefaultAxisX(preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X));
 		chartSettings.setRangeSelectorDefaultAxisY(preferenceStore.getInt(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y));

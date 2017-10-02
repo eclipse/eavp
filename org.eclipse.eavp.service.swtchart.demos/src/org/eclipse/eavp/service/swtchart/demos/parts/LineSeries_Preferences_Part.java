@@ -173,6 +173,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		//
 		IChartSettings chartSettings = lineChart.getChartSettings();
 		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
+		chartSettings.setShowRangeSelectorInitially(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_RANGE_SELECTOR_INITIALLY));
 		chartSettings.setColorHintRangeSelector(colorHintRangeSelector);
 		chartSettings.setRangeSelectorDefaultAxisX(preferenceStore.getInt(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X));
 		chartSettings.setRangeSelectorDefaultAxisY(preferenceStore.getInt(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y));

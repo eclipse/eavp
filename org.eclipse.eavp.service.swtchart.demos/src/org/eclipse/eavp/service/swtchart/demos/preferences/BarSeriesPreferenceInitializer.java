@@ -24,6 +24,7 @@ public class BarSeriesPreferenceInitializer extends AbstractPreferenceInitialize
 		 * Bar Series
 		 */
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR, BarSeriesPreferenceConstants.DEF_ENABLE_RANGE_SELECTOR);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SHOW_RANGE_SELECTOR_INITIALLY, BarSeriesPreferenceConstants.DEF_SHOW_RANGE_SELECTOR_INITIALLY);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR, BarSeriesPreferenceConstants.DEF_COLOR_HINT_RANGE_SELECTOR);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X, BarSeriesPreferenceConstants.DEF_RANGE_SELECTOR_DEFAULT_AXIS_X);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y, BarSeriesPreferenceConstants.DEF_RANGE_SELECTOR_DEFAULT_AXIS_Y);

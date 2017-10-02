@@ -190,10 +190,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.setChartSettings(chartSettings);
 		baseChart.suspendUpdate(true);
 		modifyChart();
-		ISeriesSet seriesSet = baseChart.getSeriesSet();
-		if(seriesSet.getSeries().length > 0) {
-			adjustRange(true);
-		}
+		adjustSeries();
 		baseChart.suspendUpdate(false);
 		baseChart.redraw();
 	}
@@ -565,6 +562,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		setEventProcessors();
 	}
 
+	private void adjustSeries() {
+
+		ISeriesSet seriesSet = baseChart.getSeriesSet();
+		if(seriesSet.getSeries().length > 0) {
+			adjustRange(true);
+		}
+	}
+
 	private void setCustomPaintListener() {
 
 		setPositionMarker();
@@ -674,26 +679,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private void updateRangeHintPaintListener() {
-
-		if(rangeHintPaintListener != null) {
-			baseChart.removePaintListener(rangeHintPaintListener);
-		}
-		//
-		rangeHintPaintListener = new RangeHintPaintListener();
-		baseChart.addPaintListener(rangeHintPaintListener);
-	}
-
-	private void showRangeSelector(boolean showRangeSelector) {
-
-		GridData gridData = (GridData)rangeSelector.getLayoutData();
-		gridData.exclude = !showRangeSelector;
-		rangeSelector.setVisible(showRangeSelector);
-		Composite parent = rangeSelector.getParent();
-		parent.layout(false);
-		parent.redraw();
-	}
-
 	private void setMenuItems() {
 
 		/*
@@ -775,15 +760,31 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		layout(false);
 	}
 
+	private void updateRangeHintPaintListener() {
+
+		if(rangeHintPaintListener != null) {
+			baseChart.removePaintListener(rangeHintPaintListener);
+		}
+		//
+		rangeHintPaintListener = new RangeHintPaintListener();
+		baseChart.addPaintListener(rangeHintPaintListener);
+	}
+
+	private void showRangeSelector(boolean showRangeSelector) {
+
+		GridData gridData = (GridData)rangeSelector.getLayoutData();
+		gridData.exclude = !showRangeSelector;
+		rangeSelector.setVisible(showRangeSelector);
+		layout(true);
+	}
+
 	private void setRangeInfoVisibility(IChartSettings chartSettings) {
 
-		// chartSettings.isShowRangeSelectorInitially();
-		boolean isVisible = chartSettings.isEnableRangeSelector();
-		//
+		boolean isVisible = chartSettings.isEnableRangeSelector() && chartSettings.isShowRangeSelectorInitially();
 		GridData gridData = (GridData)rangeSelector.getLayoutData();
 		gridData.exclude = !isVisible;
 		rangeSelector.setVisible(isVisible);
-		layout(false);
+		layout(true);
 	}
 
 	private void resetSlider() {

@@ -24,6 +24,8 @@ public class BarSeriesPreferenceConstants {
 	//
 	public static final String P_ENABLE_RANGE_SELECTOR = "enableRangeSelector" + POSTFIX;
 	public static final boolean DEF_ENABLE_RANGE_SELECTOR = true;
+	public static final String P_SHOW_RANGE_SELECTOR_INITIALLY = "showRangeSelectorInitially" + POSTFIX;
+	public static final boolean DEF_SHOW_RANGE_SELECTOR_INITIALLY = true;
 	public static final String P_COLOR_HINT_RANGE_SELECTOR = "colorHintRangeSelector" + POSTFIX;
 	public static final String DEF_COLOR_HINT_RANGE_SELECTOR = "255,0,0";
 	public static final String P_RANGE_SELECTOR_DEFAULT_AXIS_X = "rangeSelectorDefaultAxisX" + POSTFIX;

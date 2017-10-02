@@ -36,6 +36,7 @@ public class ScatterSeriesPreferencePage extends FieldEditorPreferencePage imple
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		//
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR, "Enable Range Selector", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_SHOW_RANGE_SELECTOR_INITIALLY, "Show Range Selector Initially", getFieldEditorParent()));
 		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR, "Color Hint Range Selector:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X, "Range Selector Default Axis X (Index):", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y, "Range Selector Default Axis Y (Index):", getFieldEditorParent()));

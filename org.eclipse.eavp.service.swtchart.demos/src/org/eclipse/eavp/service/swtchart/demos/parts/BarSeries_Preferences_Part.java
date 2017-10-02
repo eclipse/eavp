@@ -171,6 +171,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		//
 		IChartSettings chartSettings = barChart.getChartSettings();
 		chartSettings.setEnableRangeSelector(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR));
+		chartSettings.setShowRangeSelectorInitially(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_RANGE_SELECTOR_INITIALLY));
 		chartSettings.setColorHintRangeSelector(colorHintRangeSelector);
 		chartSettings.setRangeSelectorDefaultAxisX(preferenceStore.getInt(BarSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X));
 		chartSettings.setRangeSelectorDefaultAxisY(preferenceStore.getInt(BarSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y));

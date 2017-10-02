@@ -37,6 +37,7 @@ public class LineSeriesPreferencePage extends FieldEditorPreferencePage implemen
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
 		//
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_ENABLE_RANGE_SELECTOR, "Enable Range Selector", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SHOW_RANGE_SELECTOR_INITIALLY, "Show Range Selector Initially", getFieldEditorParent()));
 		addField(new ColorFieldEditor(LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR, "Color Hint Range Selector:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_X, "Range Selector Default Axis X (Index):", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_RANGE_SELECTOR_DEFAULT_AXIS_Y, "Range Selector Default Axis Y (Index):", getFieldEditorParent()));
