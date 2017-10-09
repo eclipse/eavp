@@ -30,13 +30,20 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	//
 	private Combo comboScaleX;
 	private Combo comboScaleY;
+	private Combo comboExportOption;
 	//
 	private int indexAxisX;
 	private int indexAxisY;
+	private boolean exportVisibleOnly;
+	//
+	private static final String ALL = "all";
+	private static final String VISIBLE = "visible";
+	private String[] exportOptions;
 
 	public ExportSettingsDialog(Shell parent, BaseChart baseChart) {
 		super(parent);
 		this.baseChart = baseChart;
+		exportOptions = new String[]{ALL, VISIBLE};
 	}
 
 	@Override
@@ -58,6 +65,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 		//
 		createSelectionAxisX(container);
 		createSelectionAxisY(container);
+		createExportOptionSelection(container);
 		//
 		return composite;
 	}
@@ -90,6 +98,19 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 		}
 	}
 
+	private void createExportOptionSelection(Composite container) {
+
+		Label label = new Label(container, SWT.NONE);
+		label.setText("Export Option:");
+		//
+		comboExportOption = new Combo(container, SWT.READ_ONLY);
+		comboExportOption.setItems(exportOptions);
+		comboExportOption.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		if(exportOptions.length > 0) {
+			comboExportOption.select(0);
+		}
+	}
+
 	@Override
 	protected boolean isResizable() {
 
@@ -100,6 +121,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 		indexAxisX = comboScaleX.getSelectionIndex();
 		indexAxisY = comboScaleY.getSelectionIndex();
+		exportVisibleOnly = (VISIBLE.equals(comboExportOption.getText().trim())) ? true : false;
 	}
 
 	@Override
@@ -117,5 +139,10 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	public int getIndexAxisSelectionY() {
 
 		return indexAxisY;
+	}
+
+	public boolean isExportVisibleOnly() {
+
+		return exportVisibleOnly;
 	}
 }

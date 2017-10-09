@@ -96,12 +96,24 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 					PrintWriter printWriter = null;
 					try {
 						printWriter = new PrintWriter(new File(fileName));
+						/*
+						 * Axis settings.
+						 */
+						AxisSettings axisSettings = new AxisSettings();
+						axisSettings.setIndexAxisX(indexAxisX);
+						axisSettings.setIndexAxisY(indexAxisY);
+						axisSettings.setAxisSettingsX(axisSettingsX);
+						axisSettings.setAxisScaleConverterX(axisScaleConverterX);
+						axisSettings.setAxisSettingsY(axisSettingsY);
+						axisSettings.setAxisScaleConverterY(axisScaleConverterY);
+						axisSettings.setExportVisibleOnly(exportSettingsDialog.isExportVisibleOnly());
+						//
 						if(scrollableChart instanceof LineChart) {
-							printLinePlot(printWriter, scrollableChart, indexAxisX, indexAxisY, axisSettingsX, axisScaleConverterX, axisSettingsY, axisScaleConverterY);
+							printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
 						} else if(scrollableChart instanceof BarChart) {
-							printBarPlot(printWriter, scrollableChart, indexAxisX, indexAxisY, axisSettingsX, axisScaleConverterX, axisSettingsY, axisScaleConverterY);
+							printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
 						} else if(scrollableChart instanceof ScatterChart) {
-							printScatterPlot(printWriter, scrollableChart, indexAxisX, indexAxisY, axisSettingsX, axisScaleConverterX, axisSettingsY, axisScaleConverterY);
+							printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
 						}
 						//
 						printWriter.flush();
@@ -119,11 +131,23 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		}
 	}
 
-	private void printLinePlot(PrintWriter printWriter, ScrollableChart scrollableChart, int indexAxisX, int indexAxisY, IAxisSettings axisSettingsX, IAxisScaleConverter axisScaleConverterX, IAxisSettings axisSettingsY, IAxisScaleConverter axisScaleConverterY) {
+	private void printLinePlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
 
+		int indexAxisX = axisSettings.getIndexAxisX();
+		int indexAxisY = axisSettings.getIndexAxisY();
+		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
+		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
+		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
+		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
+		// boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
 		int seriesSize = series.length;
+		/*
+		 * Read from script.
+		 */
+		printExecuteInfo(fileName, printWriter);
 		/*
 		 * Header
 		 */
@@ -238,10 +262,21 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		}
 	}
 
-	private void printBarPlot(PrintWriter printWriter, ScrollableChart scrollableChart, int indexAxisX, int indexAxisY, IAxisSettings axisSettingsX, IAxisScaleConverter axisScaleConverterX, IAxisSettings axisSettingsY, IAxisScaleConverter axisScaleConverterY) {
+	private void printBarPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
 
+		int indexAxisX = axisSettings.getIndexAxisX();
+		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
+		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
+		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
+		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
+		// boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
+		/*
+		 * Read from script.
+		 */
+		printExecuteInfo(fileName, printWriter);
 		/*
 		 * Header
 		 */
@@ -304,10 +339,22 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		}
 	}
 
-	private void printScatterPlot(PrintWriter printWriter, ScrollableChart scrollableChart, int indexAxisX, int indexAxisY, IAxisSettings axisSettingsX, IAxisScaleConverter axisScaleConverterX, IAxisSettings axisSettingsY, IAxisScaleConverter axisScaleConverterY) {
+	private void printScatterPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
 
+		int indexAxisX = axisSettings.getIndexAxisX();
+		int indexAxisY = axisSettings.getIndexAxisY();
+		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
+		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
+		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
+		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
+		// boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
+		/*
+		 * Read from script.
+		 */
+		printExecuteInfo(fileName, printWriter);
 		/*
 		 * Header
 		 */
@@ -372,5 +419,13 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 				}
 			}
 		}
+	}
+
+	private void printExecuteInfo(String fileName, PrintWriter printWriter) {
+
+		printWriter.println("#-----------------------------------");
+		printWriter.println("# source('" + fileName + "')");
+		printWriter.println("#-----------------------------------");
+		printWriter.println("");
 	}
 }
