@@ -159,8 +159,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int index = 1;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
-				if(exportVisibleOnly && dataSeries.isVisible()) {
-					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
+				if(exportVisibleOnly) {
+					if(dataSeries.isVisible()) {
+						printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
+					}
 				} else {
 					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 				}
@@ -192,14 +194,17 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 			printWriter.println("");
 		}
 		//
+		int size;
+		//
 		int k;
 		printWriter.println("legend('topleft',");
 		printWriter.println("		c(");
 		k = 0;
+		size = series.length;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
 				printWriter.print("			'Series " + dataSeries.getDescription() + "'");
-				if(k < seriesSize - 1) {
+				if(k < size - 1) {
 					printWriter.print(",");
 				}
 				printWriter.println();
@@ -209,10 +214,11 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("		),");
 		printWriter.println("		col=c(");
 		k = 0;
+		size = series.length;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
 				printWriter.print("			colorList[(" + (k + 1) + "+8)%%9+1]");
-				if(k < seriesSize - 1) {
+				if(k < size - 1) {
 					printWriter.print(",");
 				}
 				printWriter.println();
@@ -292,8 +298,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int widthPlotArea = baseChart.getPlotArea().getBounds().width;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
-				if(exportVisibleOnly && dataSeries.isVisible()) {
-					printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
+				if(exportVisibleOnly) {
+					if(dataSeries.isVisible()) {
+						printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
+					}
 				} else {
 					printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
 				}
@@ -380,8 +388,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int widthPlotArea = baseChart.getPlotArea().getBounds().width;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
-				if(exportVisibleOnly && dataSeries.isVisible()) {
-					printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
+				if(exportVisibleOnly) {
+					if(dataSeries.isVisible()) {
+						printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
+					}
 				} else {
 					printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
 				}
@@ -457,8 +467,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int counter = 0;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
-				if(isExportVisibleOnly && dataSeries.isVisible()) {
-					counter++;
+				if(isExportVisibleOnly) {
+					if(dataSeries.isVisible()) {
+						counter++;
+					}
 				} else {
 					counter++;
 				}

@@ -73,7 +73,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private void createSelectionAxisX(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText("X Axis");
+		label.setText("X Axis:");
 		//
 		String[] axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		comboScaleX = new Combo(container, SWT.READ_ONLY);
@@ -87,7 +87,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private void createSelectionAxisY(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText("Y Axis");
+		label.setText("Y Axis:");
 		//
 		String[] axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
 		comboScaleY = new Combo(container, SWT.READ_ONLY);
@@ -101,7 +101,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private void createExportOptionSelection(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText("Export Option:");
+		label.setText("Export:");
 		//
 		comboExportOption = new Combo(container, SWT.READ_ONLY);
 		comboExportOption.setItems(exportOptions);
@@ -121,7 +121,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 		indexAxisX = comboScaleX.getSelectionIndex();
 		indexAxisY = comboScaleY.getSelectionIndex();
-		exportVisibleOnly = (SERIES_VISIBLE.equals(comboExportOption.getText().trim())) ? true : false;
+		exportVisibleOnly = SERIES_VISIBLE.equals(comboExportOption.getText().trim());
 	}
 
 	@Override
