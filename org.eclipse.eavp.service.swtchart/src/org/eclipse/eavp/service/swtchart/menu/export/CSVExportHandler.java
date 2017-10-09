@@ -11,13 +11,13 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.menu.export;
 
-public class TSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
+public class CSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = "*.tsv";
-	private static final String NAME = "Tab Separated Values (" + FILE_EXTENSION + ")";
+	private static final String FILE_EXTENSION = "*.csv";
+	private static final String NAME = "Comma Separated Values (" + FILE_EXTENSION + ")";
 	//
-	private static final String TITLE = "Save As Tab Separated Text";
-	private static final String DELIMITER = "\t";
+	private static final String TITLE = "Save As Comma Separated Text";
+	private static final String DELIMITER = ",";
 
 	@Override
 	public String getName() {
@@ -25,7 +25,7 @@ public class TSVExportHandler extends AbstractSeparatedValueHandler implements I
 		return NAME;
 	}
 
-	public TSVExportHandler() {
+	public CSVExportHandler() {
 		super(TITLE, FILE_EXTENSION, DELIMITER);
 	}
 }
