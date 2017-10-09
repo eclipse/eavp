@@ -76,7 +76,7 @@ public class PreferenceSupport {
 			{"Stretched", BarWidthStyle.STRETCHED.toString()}//
 	};
 	//
-	public static String[][] EXTEND_TYPE = new String[][]{//
+	public static String[][] EXTEND_TYPES = new String[][]{//
 			{"Relative", RangeRestriction.ExtendType.RELATIVE.toString()}, //
 			{"Absolute", RangeRestriction.ExtendType.ABSOLUTE.toString()}//
 	};

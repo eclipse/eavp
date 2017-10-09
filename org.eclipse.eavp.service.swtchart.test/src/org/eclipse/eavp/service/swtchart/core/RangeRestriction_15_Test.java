@@ -22,7 +22,7 @@ public class RangeRestriction_15_Test extends TestCase {
 
 		super.setUp();
 		rangeRestriction = new RangeRestriction();
-		rangeRestriction.setExtendType(RangeRestriction.ExtendType.RELATIVE);
+		rangeRestriction.setExtendTypeX(RangeRestriction.ExtendType.RELATIVE);
 		rangeRestriction.setExtendMaxX(2.98d);
 	}
 

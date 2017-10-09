@@ -74,12 +74,14 @@ public class BarSeriesPreferenceConstants {
 	public static final boolean DEF_Y_ZOOM_ONLY = false;
 	public static final String P_FORCE_ZERO_MIN_Y = "forceZeroMinY" + POSTFIX;
 	public static final boolean DEF_FORCE_ZERO_MIN_Y = false;
-	public static final String P_EXTEND_TYPE = "extendType" + POSTFIX;
-	public static final String DEF_EXTEND_TYPE = RangeRestriction.ExtendType.RELATIVE.toString();
+	public static final String P_EXTEND_TYPE_X = "extendTypeX" + POSTFIX;
+	public static final String DEF_EXTEND_TYPE_X = RangeRestriction.ExtendType.RELATIVE.toString();
 	public static final String P_EXTEND_MIN_X = "extendMinX" + POSTFIX;
 	public static final double DEF_EXTEND_MIN_X = 0.05d;
 	public static final String P_EXTEND_MAX_X = "extendMaxX" + POSTFIX;
 	public static final double DEF_EXTEND_MAX_X = 0.05d;
+	public static final String P_EXTEND_TYPE_Y = "extendTypeY" + POSTFIX;
+	public static final String DEF_EXTEND_TYPE_Y = RangeRestriction.ExtendType.RELATIVE.toString();
 	public static final String P_EXTEND_MIN_Y = "extendMinY" + POSTFIX;
 	public static final double DEF_EXTEND_MIN_Y = 0.0d;
 	public static final String P_EXTEND_MAX_Y = "extendMaxY" + POSTFIX;

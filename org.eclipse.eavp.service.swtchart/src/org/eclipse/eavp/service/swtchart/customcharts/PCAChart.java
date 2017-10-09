@@ -102,7 +102,8 @@ public class PCAChart extends ScatterChart {
 		rangeRestriction.setZeroX(false);
 		rangeRestriction.setZeroY(false);
 		rangeRestriction.setRestrictZoom(false);
-		rangeRestriction.setExtendType(RangeRestriction.ExtendType.RELATIVE);
+		rangeRestriction.setExtendTypeX(RangeRestriction.ExtendType.RELATIVE);
+		rangeRestriction.setExtendTypeY(RangeRestriction.ExtendType.RELATIVE);
 		rangeRestriction.setExtend(0.25d);
 		chartSettings.setShowAxisZeroMarker(true);
 		chartSettings.setColorAxisZeroMarker(COLOR_BLACK);

@@ -46,9 +46,10 @@ public class BarSeriesPreferenceInitializer extends AbstractPreferenceInitialize
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_X_ZOOM_ONLY, BarSeriesPreferenceConstants.DEF_X_ZOOM_ONLY);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_Y_ZOOM_ONLY, BarSeriesPreferenceConstants.DEF_Y_ZOOM_ONLY);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y, BarSeriesPreferenceConstants.DEF_FORCE_ZERO_MIN_Y);
-		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_EXTEND_TYPE, BarSeriesPreferenceConstants.DEF_EXTEND_TYPE);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_EXTEND_TYPE_X, BarSeriesPreferenceConstants.DEF_EXTEND_TYPE_X);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_EXTEND_MIN_X, BarSeriesPreferenceConstants.DEF_EXTEND_MIN_X);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_EXTEND_MAX_X, BarSeriesPreferenceConstants.DEF_EXTEND_MAX_X);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_EXTEND_TYPE_Y, BarSeriesPreferenceConstants.DEF_EXTEND_TYPE_Y);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_EXTEND_MIN_Y, BarSeriesPreferenceConstants.DEF_EXTEND_MIN_Y);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_EXTEND_MAX_Y, BarSeriesPreferenceConstants.DEF_EXTEND_MAX_Y);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SHOW_POSITION_MARKER, BarSeriesPreferenceConstants.DEF_SHOW_POSITION_MARKER);

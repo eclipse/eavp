@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
+import org.eclipse.eavp.service.swtchart.core.RangeRestriction.ExtendType;
 import org.eclipse.eavp.service.swtchart.exceptions.SeriesException;
 import org.eclipse.swt.widgets.Composite;
 import org.swtchart.IAxis;
@@ -185,7 +186,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minX) ? minX : range.lower;
 				}
-				extendRange(range, extendedMinX, extendedMaxX, rangeRestriction.getExtendMinX(), rangeRestriction.getExtendMaxX());
+				extendRange(IExtendedChart.X_AXIS, range, extendedMinX, extendedMaxX, rangeRestriction.getExtendMinX(), rangeRestriction.getExtendMaxX());
 			} else {
 				/*
 				 * Y-AXIS
@@ -200,7 +201,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 					}
 				}
 				//
-				extendRange(range, extendedMinY, extendedMaxY, rangeRestriction.getExtendMinY(), rangeRestriction.getExtendMaxY());
+				extendRange(IExtendedChart.Y_AXIS, range, extendedMinY, extendedMaxY, rangeRestriction.getExtendMinY(), rangeRestriction.getExtendMaxY());
 			}
 			/*
 			 * Adjust the range.
@@ -209,13 +210,13 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
-	private void extendRange(Range range, double min, double max, double extendMin, double extendMax) {
+	private void extendRange(String axis, Range range, double min, double max, double extendMin, double extendMax) {
 
 		/*
 		 * Calculate the extension value.
 		 */
-		double lowerExtension = getExtensionValue(range.lower, extendMin);
-		double upperExtension = getExtensionValue(range.upper, extendMax);
+		double lowerExtension = getExtensionValue(axis, range.lower, extendMin);
+		double upperExtension = getExtensionValue(axis, range.upper, extendMax);
 		/*
 		 * Min
 		 */
@@ -469,7 +470,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		 * Min X
 		 */
 		extendedMinX = minX;
-		extensionValue = getExtensionValue(extendedMinX, rangeRestriction.getExtendMinX());
+		extensionValue = getExtensionValue(IExtendedChart.X_AXIS, extendedMinX, rangeRestriction.getExtendMinX());
 		if(extendedMinX > 0.0d) {
 			extendedMinX -= extensionValue;
 		} else {
@@ -479,7 +480,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		 * Max X
 		 */
 		extendedMaxX = maxX;
-		extensionValue = getExtensionValue(extendedMaxX, rangeRestriction.getExtendMaxX());
+		extensionValue = getExtensionValue(IExtendedChart.X_AXIS, extendedMaxX, rangeRestriction.getExtendMaxX());
 		if(extendedMaxX > 0.0d) {
 			extendedMaxX += extensionValue;
 		} else {
@@ -489,7 +490,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		 * Min Y
 		 */
 		extendedMinY = minY;
-		extensionValue = getExtensionValue(extendedMinY, rangeRestriction.getExtendMinY());
+		extensionValue = getExtensionValue(IExtendedChart.Y_AXIS, extendedMinY, rangeRestriction.getExtendMinY());
 		if(extendedMinY > 0.0d) {
 			extendedMinY -= extensionValue;
 		} else {
@@ -499,7 +500,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		 * Max Y
 		 */
 		extendedMaxY = maxY;
-		extensionValue = getExtensionValue(extendedMaxY, rangeRestriction.getExtendMaxY());
+		extensionValue = getExtensionValue(IExtendedChart.Y_AXIS, extendedMaxY, rangeRestriction.getExtendMaxY());
 		if(extendedMaxY > 0.0d) {
 			extendedMaxY += extensionValue;
 		} else {
@@ -507,19 +508,31 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
-	private double getExtensionValue(double base, double extend) {
+	/**
+	 * Use IExtendedChart.X_AXIS or IExtendedChart.Y_AXIS.
+	 * 
+	 * @param axis
+	 * @param base
+	 * @param extend
+	 * @return double
+	 */
+	private double getExtensionValue(String axis, double base, double extend) {
 
-		double extensionValue;
+		ExtendType extendType;
+		if(IExtendedChart.X_AXIS.equals(axis)) {
+			extendType = rangeRestriction.getExtendTypeX();
+		} else {
+			extendType = rangeRestriction.getExtendTypeY();
+		}
 		//
-		switch(rangeRestriction.getExtendType()) {
+		double extensionValue = 0.0d;
+		switch(extendType) {
 			case RELATIVE:
 				extensionValue = base * extend;
 				break;
 			case ABSOLUTE:
 				extensionValue = extend;
 				break;
-			default:
-				extensionValue = 0.0d;
 		}
 		//
 		return extensionValue;

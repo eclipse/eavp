@@ -196,9 +196,10 @@ public class LineSeries_Preferences_Part extends Composite {
 		rangeRestriction.setXZoomOnly(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_X_ZOOM_ONLY));
 		rangeRestriction.setYZoomOnly(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
 		rangeRestriction.setForceZeroMinY(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y));
-		rangeRestriction.setExtendType(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_EXTEND_TYPE)));
+		rangeRestriction.setExtendTypeX(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_EXTEND_TYPE_X)));
 		rangeRestriction.setExtendMinX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MIN_X));
 		rangeRestriction.setExtendMaxX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MAX_X));
+		rangeRestriction.setExtendTypeY(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_EXTEND_TYPE_Y)));
 		rangeRestriction.setExtendMinY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MIN_Y));
 		rangeRestriction.setExtendMaxY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MAX_Y));
 		//

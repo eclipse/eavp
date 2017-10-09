@@ -14,8 +14,8 @@ package org.eclipse.eavp.service.swtchart.core;
 public class RangeRestriction {
 
 	public enum ExtendType {
-		ABSOLUTE, // The absolute primary axis value is used.
-		RELATIVE // A percentage values is used.
+		RELATIVE, // A percentage values is used.
+		ABSOLUTE // The absolute primary axis value is used.
 	}
 
 	public static final int NONE = 1; // No flag is set.
@@ -26,9 +26,10 @@ public class RangeRestriction {
 	public static final int Y_ZOOM_ONLY = 32; // When doing a user selection, only zoom y.
 	public static final int FORCE_ZERO_MIN_Y = 64; // Instead of starting with the lowest Y values, 0 is set.
 	//
-	private ExtendType extendType;
+	private ExtendType extendTypeX;
 	private double extendMinX;
 	private double extendMaxX;
+	private ExtendType extendTypeY;
 	private double extendMinY;
 	private double extendMaxY;
 	//
@@ -40,9 +41,10 @@ public class RangeRestriction {
 
 	public RangeRestriction(int selection) {
 		this.selection = selection;
-		extendType = ExtendType.RELATIVE;
+		extendTypeX = ExtendType.RELATIVE;
 		extendMinX = 0.0d;
 		extendMaxX = 0.0d;
+		extendTypeY = ExtendType.RELATIVE;
 		extendMinY = 0.0d;
 		extendMaxY = 0.0d;
 	}
@@ -139,14 +141,14 @@ public class RangeRestriction {
 		flagSelection(forceZeroMinY, FORCE_ZERO_MIN_Y);
 	}
 
-	public ExtendType getExtendType() {
+	public ExtendType getExtendTypeX() {
 
-		return extendType;
+		return extendTypeX;
 	}
 
-	public void setExtendType(ExtendType extendType) {
+	public void setExtendTypeX(ExtendType extendTypeX) {
 
-		this.extendType = extendType;
+		this.extendTypeX = extendTypeX;
 	}
 
 	public double getExtendMinX() {
@@ -169,6 +171,16 @@ public class RangeRestriction {
 		this.extendMaxX = extendMaxX;
 	}
 
+	public ExtendType getExtendTypeY() {
+
+		return extendTypeY;
+	}
+
+	public void setExtendTypeY(ExtendType extendTypeY) {
+
+		this.extendTypeY = extendTypeY;
+	}
+
 	public double getExtendMinY() {
 
 		return extendMinY;
@@ -189,6 +201,11 @@ public class RangeRestriction {
 		this.extendMaxY = extendMaxY;
 	}
 
+	/**
+	 * Have a look at the extend types.
+	 * 
+	 * @param extend
+	 */
 	public void setExtend(double extend) {
 
 		this.extendMinX = extend;

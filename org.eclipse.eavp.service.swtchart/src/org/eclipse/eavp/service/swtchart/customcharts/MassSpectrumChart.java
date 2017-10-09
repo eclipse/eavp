@@ -102,9 +102,10 @@ public class MassSpectrumChart extends BarChart {
 		rangeRestriction.setZeroX(false);
 		rangeRestriction.setZeroY(false);
 		rangeRestriction.setRestrictZoom(true);
-		rangeRestriction.setExtendType(RangeRestriction.ExtendType.RELATIVE);
-		rangeRestriction.setExtendMinX(0.05d);
-		rangeRestriction.setExtendMaxX(0.05d);
+		rangeRestriction.setExtendTypeX(RangeRestriction.ExtendType.ABSOLUTE);
+		rangeRestriction.setExtendMinX(2.0d);
+		rangeRestriction.setExtendMaxX(2.0d);
+		rangeRestriction.setExtendTypeY(RangeRestriction.ExtendType.RELATIVE);
 		rangeRestriction.setExtendMaxY(0.1d);
 		//
 		setPrimaryAxisSet(chartSettings);

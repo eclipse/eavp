@@ -185,9 +185,10 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		rangeRestriction.setXZoomOnly(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_X_ZOOM_ONLY));
 		rangeRestriction.setYZoomOnly(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
 		rangeRestriction.setForceZeroMinY(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y));
-		rangeRestriction.setExtendType(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_EXTEND_TYPE)));
+		rangeRestriction.setExtendTypeX(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_EXTEND_TYPE_X)));
 		rangeRestriction.setExtendMinX(preferenceStore.getDouble(ScatterSeriesPreferenceConstants.P_EXTEND_MIN_X));
 		rangeRestriction.setExtendMaxX(preferenceStore.getDouble(ScatterSeriesPreferenceConstants.P_EXTEND_MAX_X));
+		rangeRestriction.setExtendTypeY(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_EXTEND_TYPE_Y)));
 		rangeRestriction.setExtendMinY(preferenceStore.getDouble(ScatterSeriesPreferenceConstants.P_EXTEND_MIN_Y));
 		rangeRestriction.setExtendMaxY(preferenceStore.getDouble(ScatterSeriesPreferenceConstants.P_EXTEND_MAX_Y));
 		//
