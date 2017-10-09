@@ -34,6 +34,7 @@ import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetSelectedSeriesHandler;
 import org.eclipse.eavp.service.swtchart.menu.UndoSelectionHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.BMPExportHandler;
+import org.eclipse.eavp.service.swtchart.menu.export.CSVExportHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.JPGExportHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.LaTeXTableExportHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.PNGExportHandler;
@@ -168,6 +169,7 @@ public class ChartSettings implements IChartSettings {
 		menuEntries.add(new PNGExportHandler());
 		menuEntries.add(new BMPExportHandler());
 		menuEntries.add(new TSVExportHandler());
+		menuEntries.add(new CSVExportHandler());
 		menuEntries.add(new LaTeXTableExportHandler());
 		menuEntries.add(new RScriptExportHandler());
 		menuEntries.add(new PrinterExportHandler());

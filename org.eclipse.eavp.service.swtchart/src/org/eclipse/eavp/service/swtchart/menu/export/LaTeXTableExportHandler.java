@@ -75,7 +75,6 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 					 * X Axis Settings
 					 */
 					IAxisSettings axisSettingsX = baseChart.getXAxisSettings(indexAxisX);
-					DecimalFormat decimalFormatX = axisSettingsX.getDecimalFormat();
 					IAxisScaleConverter axisScaleConverterX = null;
 					if(axisSettingsX instanceof ISecondaryAxisSettings) {
 						ISecondaryAxisSettings secondaryAxisSettings = (ISecondaryAxisSettings)axisSettingsX;
@@ -85,7 +84,6 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 					 * Y Axis Settings
 					 */
 					IAxisSettings axisSettingsY = baseChart.getYAxisSettings(indexAxisY);
-					DecimalFormat decimalFormatY = axisSettingsY.getDecimalFormat();
 					IAxisScaleConverter axisScaleConverterY = null;
 					if(axisSettingsY instanceof ISecondaryAxisSettings) {
 						ISecondaryAxisSettings secondaryAxisSettings = (ISecondaryAxisSettings)axisSettingsY;
@@ -109,40 +107,31 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 						printWriter.print(axisSettingsY.getLabel());
 						printWriter.println(LINE_END);
 						/*
+						 * Axis settings.
+						 */
+						boolean exportVisibleOnly = exportSettingsDialog.isExportVisibleOnly();
+						AxisSettings axisSettings = new AxisSettings();
+						axisSettings.setIndexAxisX(indexAxisX);
+						axisSettings.setIndexAxisY(indexAxisY);
+						axisSettings.setAxisSettingsX(axisSettingsX);
+						axisSettings.setAxisScaleConverterX(axisScaleConverterX);
+						axisSettings.setAxisSettingsY(axisSettingsY);
+						axisSettings.setAxisScaleConverterY(axisScaleConverterY);
+						axisSettings.setExportVisibleOnly(exportVisibleOnly);
+						/*
 						 * Data
 						 */
 						int widthPlotArea = baseChart.getPlotArea().getBounds().width;
 						ISeries[] series = baseChart.getSeriesSet().getSeries();
 						for(ISeries dataSeries : series) {
 							if(dataSeries != null) {
-								/*
-								 * Series
-								 */
-								printWriter.println(TAB + HORIZONTAL_LINE);
-								printWriter.println(TAB + dataSeries.getId() + DELIMITER + LINE_END);
-								printWriter.println(TAB + HORIZONTAL_LINE);
-								//
-								double[] xSeries = dataSeries.getXSeries();
-								double[] ySeries = dataSeries.getYSeries();
-								int size = dataSeries.getXSeries().length;
-								//
-								for(int i = 0; i < size; i++) {
-									/*
-									 * Only export if the data point is visible.
-									 */
-									Point point = dataSeries.getPixelCoordinates(i);
-									if(point.x >= 0 && point.x <= widthPlotArea) {
-										printWriter.print(TAB);
-										printValue(printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, decimalFormatX, axisScaleConverterX);
-										printWriter.print(DELIMITER);
-										printValue(printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, decimalFormatY, axisScaleConverterY);
-										printWriter.println(LINE_END);
+								if(exportVisibleOnly) {
+									if(dataSeries.isVisible()) {
+										exportSeries(dataSeries, widthPlotArea, axisSettings, printWriter);
 									}
+								} else {
+									exportSeries(dataSeries, widthPlotArea, axisSettings, printWriter);
 								}
-								//
-								printWriter.print(TAB);
-								printWriter.print(DELIMITER);
-								printWriter.println(LINE_END);
 							}
 						}
 						//
@@ -161,6 +150,46 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 				}
 			}
 		}
+	}
+
+	private void exportSeries(ISeries dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
+
+		int indexAxisX = axisSettings.getIndexAxisX();
+		int indexAxisY = axisSettings.getIndexAxisY();
+		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
+		DecimalFormat decimalFormatX = axisSettingsX.getDecimalFormat();
+		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
+		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
+		DecimalFormat decimalFormatY = axisSettingsY.getDecimalFormat();
+		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
+		/*
+		 * Series
+		 */
+		printWriter.println(TAB + HORIZONTAL_LINE);
+		printWriter.println(TAB + dataSeries.getId() + DELIMITER + LINE_END);
+		printWriter.println(TAB + HORIZONTAL_LINE);
+		//
+		double[] xSeries = dataSeries.getXSeries();
+		double[] ySeries = dataSeries.getYSeries();
+		int size = dataSeries.getXSeries().length;
+		//
+		for(int i = 0; i < size; i++) {
+			/*
+			 * Only export if the data point is visible.
+			 */
+			Point point = dataSeries.getPixelCoordinates(i);
+			if(point.x >= 0 && point.x <= widthPlotArea) {
+				printWriter.print(TAB);
+				printValue(printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, decimalFormatX, axisScaleConverterX);
+				printWriter.print(DELIMITER);
+				printValue(printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, decimalFormatY, axisScaleConverterY);
+				printWriter.println(LINE_END);
+			}
+		}
+		//
+		printWriter.print(TAB);
+		printWriter.print(DELIMITER);
+		printWriter.println(LINE_END);
 	}
 
 	private void printValue(PrintWriter printWriter, double value, int indexAxis, int indexPrimaryAxis, DecimalFormat decimalFormat, IAxisScaleConverter axisScaleConverter) {
