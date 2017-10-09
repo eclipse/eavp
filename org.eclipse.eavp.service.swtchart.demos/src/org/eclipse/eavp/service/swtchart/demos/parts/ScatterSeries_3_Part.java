@@ -56,10 +56,11 @@ public class ScatterSeries_3_Part extends ScatterChart {
 		 */
 		IChartSettings chartSettings = getChartSettings();
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
-		rangeRestriction.setFactorExtendMinX(0.25d);
-		rangeRestriction.setFactorExtendMaxX(0.1d);
-		rangeRestriction.setFactorExtendMinY(0.25d);
-		rangeRestriction.setFactorExtendMaxY(0.1d);
+		rangeRestriction.setExtendType(RangeRestriction.ExtendType.RELATIVE);
+		rangeRestriction.setExtendMinX(0.25d);
+		rangeRestriction.setExtendMaxX(0.1d);
+		rangeRestriction.setExtendMinY(0.25d);
+		rangeRestriction.setExtendMaxY(0.1d);
 		rangeRestriction.setRestrictZoom(false);
 		chartSettings.setCreateMenu(true);
 		//

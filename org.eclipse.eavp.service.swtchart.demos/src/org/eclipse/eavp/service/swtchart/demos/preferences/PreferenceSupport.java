@@ -13,6 +13,7 @@ package org.eclipse.eavp.service.swtchart.demos.preferences;
 
 import java.util.Locale;
 
+import org.eclipse.eavp.service.swtchart.core.RangeRestriction;
 import org.eclipse.swt.SWT;
 import org.swtchart.IAxis.Position;
 import org.swtchart.IBarSeries.BarWidthStyle;
@@ -73,5 +74,10 @@ public class PreferenceSupport {
 	public static String[][] BAR_WIDTH_STYLES = new String[][]{//
 			{"Fixed", BarWidthStyle.FIXED.toString()}, //
 			{"Stretched", BarWidthStyle.STRETCHED.toString()}//
+	};
+	//
+	public static String[][] EXTEND_TYPE = new String[][]{//
+			{"Relative", RangeRestriction.ExtendType.RELATIVE.toString()}, //
+			{"Absolute", RangeRestriction.ExtendType.ABSOLUTE.toString()}//
 	};
 }

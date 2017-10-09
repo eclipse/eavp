@@ -58,10 +58,11 @@ public class ScatterSeriesPreferencePage extends FieldEditorPreferencePage imple
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_X_ZOOM_ONLY, "X Zoom Only", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_Y_ZOOM_ONLY, "Y Zoom Only", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y, "Force Zero Min Y", getFieldEditorParent()));
-		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X, "Factor Extend Min X:", getFieldEditorParent()));
-		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
-		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y, "Factor Extend Min Y:", getFieldEditorParent()));
-		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X, "Factor Extend Max X:", getFieldEditorParent()));
+		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_EXTEND_TYPE, "Extend Type:", PreferenceSupport.EXTEND_TYPE, getFieldEditorParent()));
+		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_EXTEND_MIN_X, "Extend Min X:", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_EXTEND_MAX_X, "Extend Max X:", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_EXTEND_MIN_Y, "Extend Min Y:", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_EXTEND_MAX_X, "Extend Max X:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_SHOW_POSITION_MARKER, "Show Position Marker", getFieldEditorParent()));
 		addField(new ColorFieldEditor(ScatterSeriesPreferenceConstants.P_COLOR_POSITION_MARKER, "Color Position Marker:", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_SHOW_PLOT_CENTER_MARKER, "Show Plot Center Marker", getFieldEditorParent()));

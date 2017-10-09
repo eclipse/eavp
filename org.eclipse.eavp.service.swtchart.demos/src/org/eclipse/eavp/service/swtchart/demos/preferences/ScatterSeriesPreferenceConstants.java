@@ -13,6 +13,7 @@ package org.eclipse.eavp.service.swtchart.demos.preferences;
 
 import java.util.Locale;
 
+import org.eclipse.eavp.service.swtchart.core.RangeRestriction;
 import org.eclipse.swt.SWT;
 import org.swtchart.IAxis.Position;
 import org.swtchart.ILineSeries.PlotSymbolType;
@@ -73,14 +74,16 @@ public class ScatterSeriesPreferenceConstants {
 	public static final boolean DEF_Y_ZOOM_ONLY = false;
 	public static final String P_FORCE_ZERO_MIN_Y = "forceZeroMinY" + POSTFIX;
 	public static final boolean DEF_FORCE_ZERO_MIN_Y = false;
-	public static final String P_FACTOR_EXTEND_MIN_X = "factorExtendMinX" + POSTFIX;
-	public static final double DEF_FACTOR_EXTEND_MIN_X = 0.1d;
-	public static final String P_FACTOR_EXTEND_MAX_X = "factorExtendMaxX" + POSTFIX;
-	public static final double DEF_FACTOR_EXTEND_MAX_X = 0.1d;
-	public static final String P_FACTOR_EXTEND_MIN_Y = "factorExtendMinY" + POSTFIX;
-	public static final double DEF_FACTOR_EXTEND_MIN_Y = 0.1d;
-	public static final String P_FACTOR_EXTEND_MAX_Y = "factorExtendMaxY" + POSTFIX;
-	public static final double DEF_FACTOR_EXTEND_MAX_Y = 0.1d;
+	public static final String P_EXTEND_TYPE = "extendType" + POSTFIX;
+	public static final String DEF_EXTEND_TYPE = RangeRestriction.ExtendType.RELATIVE.toString();
+	public static final String P_EXTEND_MIN_X = "extendMinX" + POSTFIX;
+	public static final double DEF_EXTEND_MIN_X = 0.1d;
+	public static final String P_EXTEND_MAX_X = "extendMaxX" + POSTFIX;
+	public static final double DEF_EXTEND_MAX_X = 0.1d;
+	public static final String P_EXTEND_MIN_Y = "extendMinY" + POSTFIX;
+	public static final double DEF_EXTEND_MIN_Y = 0.1d;
+	public static final String P_EXTEND_MAX_Y = "extendMaxY" + POSTFIX;
+	public static final double DEF_EXTEND_MAX_Y = 0.1d;
 	//
 	public static final String P_SHOW_POSITION_MARKER = "showPositionMarker" + POSTFIX;
 	public static final boolean DEF_SHOW_POSITION_MARKER = true;

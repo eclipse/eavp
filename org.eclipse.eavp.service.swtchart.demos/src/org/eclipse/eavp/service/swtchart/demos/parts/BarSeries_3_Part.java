@@ -41,7 +41,8 @@ public class BarSeries_3_Part extends MassSpectrumChart {
 
 		IChartSettings chartSettings = getChartSettings();
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
-		rangeRestriction.setFactorExtendMinY(0.1d);
+		rangeRestriction.setExtendType(RangeRestriction.ExtendType.RELATIVE);
+		rangeRestriction.setExtendMinY(0.1d);
 		applySettings(chartSettings);
 		//
 		setNumberOfHighestIntensitiesToLabel(5);

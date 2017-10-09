@@ -13,6 +13,11 @@ package org.eclipse.eavp.service.swtchart.core;
 
 public class RangeRestriction {
 
+	public enum ExtendType {
+		ABSOLUTE, // The absolute primary axis value is used.
+		RELATIVE // A percentage values is used.
+	}
+
 	public static final int NONE = 1; // No flag is set.
 	public static final int ZERO_X = 2; // Only values x >= 0 are displayed.
 	public static final int ZERO_Y = 4; // Only values y >= 0 are displayed.
@@ -21,10 +26,11 @@ public class RangeRestriction {
 	public static final int Y_ZOOM_ONLY = 32; // When doing a user selection, only zoom y.
 	public static final int FORCE_ZERO_MIN_Y = 64; // Instead of starting with the lowest Y values, 0 is set.
 	//
-	private double factorExtendMinX;
-	private double factorExtendMaxX;
-	private double factorExtendMinY;
-	private double factorExtendMaxY;
+	private ExtendType extendType;
+	private double extendMinX;
+	private double extendMaxX;
+	private double extendMinY;
+	private double extendMaxY;
 	//
 	private int selection;
 
@@ -34,10 +40,11 @@ public class RangeRestriction {
 
 	public RangeRestriction(int selection) {
 		this.selection = selection;
-		factorExtendMinX = 0.0d;
-		factorExtendMaxX = 0.0d;
-		factorExtendMinY = 0.0d;
-		factorExtendMaxY = 0.0d;
+		extendType = ExtendType.RELATIVE;
+		extendMinX = 0.0d;
+		extendMaxX = 0.0d;
+		extendMinY = 0.0d;
+		extendMaxY = 0.0d;
 	}
 
 	public boolean isZeroX() {
@@ -132,52 +139,62 @@ public class RangeRestriction {
 		flagSelection(forceZeroMinY, FORCE_ZERO_MIN_Y);
 	}
 
-	public double getFactorExtendMinX() {
+	public ExtendType getExtendType() {
 
-		return factorExtendMinX;
+		return extendType;
 	}
 
-	public void setFactorExtendMinX(double factorExtendMinX) {
+	public void setExtendType(ExtendType extendType) {
 
-		this.factorExtendMinX = factorExtendMinX;
+		this.extendType = extendType;
 	}
 
-	public double getFactorExtendMaxX() {
+	public double getExtendMinX() {
 
-		return factorExtendMaxX;
+		return extendMinX;
 	}
 
-	public void setFactorExtendMaxX(double factorExtendMaxX) {
+	public void setExtendMinX(double extendMinX) {
 
-		this.factorExtendMaxX = factorExtendMaxX;
+		this.extendMinX = extendMinX;
 	}
 
-	public double getFactorExtendMinY() {
+	public double getExtendMaxX() {
 
-		return factorExtendMinY;
+		return extendMaxX;
 	}
 
-	public void setFactorExtendMinY(double factorExtendMinY) {
+	public void setExtendMaxX(double extendMaxX) {
 
-		this.factorExtendMinY = factorExtendMinY;
+		this.extendMaxX = extendMaxX;
 	}
 
-	public double getFactorExtendMaxY() {
+	public double getExtendMinY() {
 
-		return factorExtendMaxY;
+		return extendMinY;
 	}
 
-	public void setFactorExtendMaxY(double factorExtendMaxY) {
+	public void setExtendMinY(double extendMinY) {
 
-		this.factorExtendMaxY = factorExtendMaxY;
+		this.extendMinY = extendMinY;
 	}
 
-	public void setFactorExtend(double factorExtend) {
+	public double getExtendMaxY() {
 
-		this.factorExtendMinX = factorExtend;
-		this.factorExtendMaxX = factorExtend;
-		this.factorExtendMinY = factorExtend;
-		this.factorExtendMaxY = factorExtend;
+		return extendMaxY;
+	}
+
+	public void setExtendMaxY(double extendMaxY) {
+
+		this.extendMaxY = extendMaxY;
+	}
+
+	public void setExtend(double extend) {
+
+		this.extendMinX = extend;
+		this.extendMaxX = extend;
+		this.extendMinY = extend;
+		this.extendMaxY = extend;
 	}
 
 	private boolean isFlagSet(int constant) {

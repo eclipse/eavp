@@ -185,7 +185,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				} else {
 					range.lower = (range.lower < minX) ? minX : range.lower;
 				}
-				extendRange(range, extendedMinX, extendedMaxX, rangeRestriction.getFactorExtendMinX(), rangeRestriction.getFactorExtendMaxX());
+				extendRange(range, extendedMinX, extendedMaxX, rangeRestriction.getExtendMinX(), rangeRestriction.getExtendMaxX());
 			} else {
 				/*
 				 * Y-AXIS
@@ -200,7 +200,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 					}
 				}
 				//
-				extendRange(range, extendedMinY, extendedMaxY, rangeRestriction.getFactorExtendMinY(), rangeRestriction.getFactorExtendMaxY());
+				extendRange(range, extendedMinY, extendedMaxY, rangeRestriction.getExtendMinY(), rangeRestriction.getExtendMaxY());
 			}
 			/*
 			 * Adjust the range.
@@ -209,18 +209,23 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
-	private void extendRange(Range range, double min, double max, double factorExtendMin, double factorExtendMax) {
+	private void extendRange(Range range, double min, double max, double extendMin, double extendMax) {
 
+		/*
+		 * Calculate the extension value.
+		 */
+		double lowerExtension = getExtensionValue(range.lower, extendMin);
+		double upperExtension = getExtensionValue(range.upper, extendMax);
 		/*
 		 * Min
 		 */
-		if(factorExtendMin != 0.0d) {
+		if(lowerExtension != 0.0d) {
 			if(range.lower != min) {
 				double lowerCalculated;
 				if(range.lower > 0.0d) {
-					lowerCalculated = range.lower - range.lower * factorExtendMin;
+					lowerCalculated = range.lower - lowerExtension;
 				} else {
-					lowerCalculated = range.lower + range.lower * factorExtendMin;
+					lowerCalculated = range.lower + lowerExtension;
 				}
 				//
 				if(lowerCalculated <= min) {
@@ -235,13 +240,13 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		/*
 		 * Max
 		 */
-		if(factorExtendMax != 0.0d) {
+		if(upperExtension != 0.0d) {
 			if(range.upper != max) {
 				double upperCalculated;
 				if(range.upper > 0.0d) {
-					upperCalculated = range.upper + range.upper * factorExtendMax;
+					upperCalculated = range.upper + upperExtension;
 				} else {
-					upperCalculated = range.upper - range.upper * factorExtendMax;
+					upperCalculated = range.upper - upperExtension;
 				}
 				//
 				if(upperCalculated >= max) {
@@ -459,41 +464,64 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 
 	private void calculateExtendedCoordinates() {
 
+		double extensionValue;
 		/*
 		 * Min X
 		 */
 		extendedMinX = minX;
+		extensionValue = getExtensionValue(extendedMinX, rangeRestriction.getExtendMinX());
 		if(extendedMinX > 0.0d) {
-			extendedMinX -= extendedMinX * rangeRestriction.getFactorExtendMinX();
+			extendedMinX -= extensionValue;
 		} else {
-			extendedMinX += extendedMinX * rangeRestriction.getFactorExtendMinX();
+			extendedMinX += extensionValue;
 		}
 		/*
 		 * Max X
 		 */
 		extendedMaxX = maxX;
+		extensionValue = getExtensionValue(extendedMaxX, rangeRestriction.getExtendMaxX());
 		if(extendedMaxX > 0.0d) {
-			extendedMaxX += extendedMaxX * rangeRestriction.getFactorExtendMaxX();
+			extendedMaxX += extensionValue;
 		} else {
-			extendedMaxX -= extendedMaxX * rangeRestriction.getFactorExtendMaxX();
+			extendedMaxX -= extensionValue;
 		}
 		/*
 		 * Min Y
 		 */
 		extendedMinY = minY;
+		extensionValue = getExtensionValue(extendedMinY, rangeRestriction.getExtendMinY());
 		if(extendedMinY > 0.0d) {
-			extendedMinY -= extendedMinY * rangeRestriction.getFactorExtendMinY();
+			extendedMinY -= extensionValue;
 		} else {
-			extendedMinY += extendedMinY * rangeRestriction.getFactorExtendMinY();
+			extendedMinY += extensionValue;
 		}
 		/*
 		 * Max Y
 		 */
 		extendedMaxY = maxY;
+		extensionValue = getExtensionValue(extendedMaxY, rangeRestriction.getExtendMaxY());
 		if(extendedMaxY > 0.0d) {
-			extendedMaxY += extendedMaxY * rangeRestriction.getFactorExtendMaxY();
+			extendedMaxY += extensionValue;
 		} else {
-			extendedMaxY -= extendedMaxY * rangeRestriction.getFactorExtendMaxY();
+			extendedMaxY -= extensionValue;
 		}
+	}
+
+	private double getExtensionValue(double base, double extend) {
+
+		double extensionValue;
+		//
+		switch(rangeRestriction.getExtendType()) {
+			case RELATIVE:
+				extensionValue = base * extend;
+				break;
+			case ABSOLUTE:
+				extensionValue = extend;
+				break;
+			default:
+				extensionValue = 0.0d;
+		}
+		//
+		return extensionValue;
 	}
 }

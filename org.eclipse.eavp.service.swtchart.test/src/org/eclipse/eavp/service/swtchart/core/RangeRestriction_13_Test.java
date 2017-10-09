@@ -32,21 +32,21 @@ public class RangeRestriction_13_Test extends TestCase {
 
 	public void test1() {
 
-		assertEquals(0.0d, rangeRestriction.getFactorExtendMinX());
+		assertEquals(0.0d, rangeRestriction.getExtendMinX());
 	}
 
 	public void test2() {
 
-		assertEquals(0.0d, rangeRestriction.getFactorExtendMaxX());
+		assertEquals(0.0d, rangeRestriction.getExtendMaxX());
 	}
 
 	public void test3() {
 
-		assertEquals(0.0d, rangeRestriction.getFactorExtendMinY());
+		assertEquals(0.0d, rangeRestriction.getExtendMinY());
 	}
 
 	public void test4() {
 
-		assertEquals(0.0d, rangeRestriction.getFactorExtendMaxY());
+		assertEquals(0.0d, rangeRestriction.getExtendMaxY());
 	}
 }

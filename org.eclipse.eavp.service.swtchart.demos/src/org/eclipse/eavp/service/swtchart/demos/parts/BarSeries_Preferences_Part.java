@@ -38,6 +38,7 @@ import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferenceCo
 import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesPrimaryAxesPreferencePage;
 import org.eclipse.eavp.service.swtchart.demos.preferences.BarSeriesSecondaryAxesPreferencePage;
+import org.eclipse.eavp.service.swtchart.demos.preferences.ScatterSeriesPreferenceConstants;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferencePage;
@@ -194,10 +195,11 @@ public class BarSeries_Preferences_Part extends Composite {
 		rangeRestriction.setXZoomOnly(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_X_ZOOM_ONLY));
 		rangeRestriction.setYZoomOnly(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
 		rangeRestriction.setForceZeroMinY(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y));
-		rangeRestriction.setFactorExtendMinX(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X));
-		rangeRestriction.setFactorExtendMaxX(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X));
-		rangeRestriction.setFactorExtendMinY(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y));
-		rangeRestriction.setFactorExtendMaxY(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_Y));
+		rangeRestriction.setExtendType(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_EXTEND_TYPE)));
+		rangeRestriction.setExtendMinX(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_EXTEND_MIN_X));
+		rangeRestriction.setExtendMaxX(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_EXTEND_MAX_X));
+		rangeRestriction.setExtendMinY(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_EXTEND_MIN_Y));
+		rangeRestriction.setExtendMaxY(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_EXTEND_MAX_Y));
 		//
 		chartSettings.setShowPositionMarker(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SHOW_POSITION_MARKER));
 		chartSettings.setColorPositionMarker(colorPositionMarker);

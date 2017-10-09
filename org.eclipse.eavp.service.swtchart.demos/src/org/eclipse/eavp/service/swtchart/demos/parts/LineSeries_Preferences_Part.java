@@ -196,10 +196,11 @@ public class LineSeries_Preferences_Part extends Composite {
 		rangeRestriction.setXZoomOnly(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_X_ZOOM_ONLY));
 		rangeRestriction.setYZoomOnly(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
 		rangeRestriction.setForceZeroMinY(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y));
-		rangeRestriction.setFactorExtendMinX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_X));
-		rangeRestriction.setFactorExtendMaxX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_X));
-		rangeRestriction.setFactorExtendMinY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MIN_Y));
-		rangeRestriction.setFactorExtendMaxY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_FACTOR_EXTEND_MAX_Y));
+		rangeRestriction.setExtendType(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(LineSeriesPreferenceConstants.P_EXTEND_TYPE)));
+		rangeRestriction.setExtendMinX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MIN_X));
+		rangeRestriction.setExtendMaxX(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MAX_X));
+		rangeRestriction.setExtendMinY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MIN_Y));
+		rangeRestriction.setExtendMaxY(preferenceStore.getDouble(LineSeriesPreferenceConstants.P_EXTEND_MAX_Y));
 		//
 		chartSettings.setShowPositionMarker(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_SHOW_POSITION_MARKER));
 		chartSettings.setColorPositionMarker(colorPositionMarker);

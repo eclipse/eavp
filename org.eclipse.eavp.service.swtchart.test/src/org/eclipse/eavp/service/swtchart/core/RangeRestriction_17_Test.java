@@ -22,7 +22,8 @@ public class RangeRestriction_17_Test extends TestCase {
 
 		super.setUp();
 		rangeRestriction = new RangeRestriction();
-		rangeRestriction.setFactorExtendMaxY(2.98d);
+		rangeRestriction.setExtendType(RangeRestriction.ExtendType.RELATIVE);
+		rangeRestriction.setExtendMaxY(2.98d);
 	}
 
 	@Override
@@ -33,21 +34,21 @@ public class RangeRestriction_17_Test extends TestCase {
 
 	public void test1() {
 
-		assertEquals(0.0d, rangeRestriction.getFactorExtendMinX());
+		assertEquals(0.0d, rangeRestriction.getExtendMinX());
 	}
 
 	public void test2() {
 
-		assertEquals(0.0d, rangeRestriction.getFactorExtendMaxX());
+		assertEquals(0.0d, rangeRestriction.getExtendMaxX());
 	}
 
 	public void test3() {
 
-		assertEquals(0.0d, rangeRestriction.getFactorExtendMinY());
+		assertEquals(0.0d, rangeRestriction.getExtendMinY());
 	}
 
 	public void test4() {
 
-		assertEquals(2.98d, rangeRestriction.getFactorExtendMaxY());
+		assertEquals(2.98d, rangeRestriction.getExtendMaxY());
 	}
 }
