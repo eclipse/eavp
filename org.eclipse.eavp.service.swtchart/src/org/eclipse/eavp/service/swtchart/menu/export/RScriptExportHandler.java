@@ -133,17 +133,12 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 
 	private void printLinePlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
 
-		int indexAxisX = axisSettings.getIndexAxisX();
-		int indexAxisY = axisSettings.getIndexAxisY();
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
-		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
-		// boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
-		int seriesSize = series.length;
 		/*
 		 * Read from script.
 		 */
@@ -151,6 +146,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		/*
 		 * Header
 		 */
+		int seriesSize = getSeriesSize(series, exportVisibleOnly);
 		printWriter.println("# Header");
 		printWriter.println("xValueList<-vector(\"list\", " + seriesSize + ")");
 		printWriter.println("yValueList<-vector(\"list\", " + seriesSize + ")");
@@ -163,25 +159,11 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int index = 1;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
-				/*
-				 * Series
-				 */
-				double[] xSeries = dataSeries.getXSeries();
-				double[] ySeries = dataSeries.getYSeries();
-				int size = dataSeries.getXSeries().length;
-				//
-				for(int i = 0; i < size; i++) {
-					/*
-					 * Only export if the data point is visible.
-					 */
-					Point point = dataSeries.getPixelCoordinates(i);
-					if(point.x >= 0 && point.x <= widthPlotArea) {
-						printValueLinePlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX);
-						printValueLinePlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
-					}
+				if(exportVisibleOnly && dataSeries.isVisible()) {
+					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
+				} else {
+					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 				}
-				//
-				index++;
 			}
 		}
 		printWriter.println("");
@@ -243,6 +225,29 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("");
 	}
 
+	private void printLineData(ISeries dataSeries, int widthPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter) {
+
+		int indexAxisX = axisSettings.getIndexAxisX();
+		int indexAxisY = axisSettings.getIndexAxisY();
+		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
+		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
+		//
+		double[] xSeries = dataSeries.getXSeries();
+		double[] ySeries = dataSeries.getYSeries();
+		int size = dataSeries.getXSeries().length;
+		//
+		for(int i = 0; i < size; i++) {
+			/*
+			 * Only export if the data point is visible.
+			 */
+			Point point = dataSeries.getPixelCoordinates(i);
+			if(point.x >= 0 && point.x <= widthPlotArea) {
+				printValueLinePlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX);
+				printValueLinePlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
+			}
+		}
+	}
+
 	private void printValueLinePlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter) {
 
 		if(indexAxis == indexPrimaryAxis || axisScaleConverter == null) {
@@ -264,12 +269,9 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 
 	private void printBarPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
 
-		int indexAxisX = axisSettings.getIndexAxisX();
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
-		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
-		// boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
@@ -290,22 +292,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int widthPlotArea = baseChart.getPlotArea().getBounds().width;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
-				/*
-				 * Series
-				 */
-				double[] xSeries = dataSeries.getXSeries();
-				double[] ySeries = dataSeries.getYSeries();
-				int size = dataSeries.getXSeries().length;
-				//
-				for(int i = 0; i < size; i++) {
-					/*
-					 * Only export if the data point is visible.
-					 */
-					Point point = dataSeries.getPixelCoordinates(i);
-					if(point.x >= 0 && point.x <= widthPlotArea) {
-						boolean isPrimaryAxis = (indexAxisX == BaseChart.ID_PRIMARY_X_AXIS);
-						printValueBarPlot(printWriter, xSeries[i], ySeries[i], isPrimaryAxis, axisScaleConverterX, axisScaleConverterY);
-					}
+				if(exportVisibleOnly && dataSeries.isVisible()) {
+					printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
+				} else {
+					printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
 				}
 			}
 		}
@@ -328,6 +318,30 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("axis(1, at = seq(lower_x+0.5, upper_x+0.5, 10), labels=seq(lower_x, upper_x, 10), tick = TRUE )");
 	}
 
+	private void printBarData(ISeries dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
+
+		int indexAxisX = axisSettings.getIndexAxisX();
+		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
+		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
+		/*
+		 * Series
+		 */
+		double[] xSeries = dataSeries.getXSeries();
+		double[] ySeries = dataSeries.getYSeries();
+		int size = dataSeries.getXSeries().length;
+		//
+		for(int i = 0; i < size; i++) {
+			/*
+			 * Only export if the data point is visible.
+			 */
+			Point point = dataSeries.getPixelCoordinates(i);
+			if(point.x >= 0 && point.x <= widthPlotArea) {
+				boolean isPrimaryAxis = (indexAxisX == BaseChart.ID_PRIMARY_X_AXIS);
+				printValueBarPlot(printWriter, xSeries[i], ySeries[i], isPrimaryAxis, axisScaleConverterX, axisScaleConverterY);
+			}
+		}
+	}
+
 	private void printValueBarPlot(PrintWriter printWriter, double valueX, double valueY, boolean isPrimaryAxis, IAxisScaleConverter axisScaleConverterX, IAxisScaleConverter axisScaleConverterY) {
 
 		if(isPrimaryAxis || axisScaleConverterX == null || axisScaleConverterY == null) {
@@ -341,13 +355,9 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 
 	private void printScatterPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
 
-		int indexAxisX = axisSettings.getIndexAxisX();
-		int indexAxisY = axisSettings.getIndexAxisY();
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
-		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
-		// boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries[] series = baseChart.getSeriesSet().getSeries();
@@ -370,23 +380,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int widthPlotArea = baseChart.getPlotArea().getBounds().width;
 		for(ISeries dataSeries : series) {
 			if(dataSeries != null) {
-				/*
-				 * Series
-				 */
-				double[] xSeries = dataSeries.getXSeries();
-				double[] ySeries = dataSeries.getYSeries();
-				int size = dataSeries.getXSeries().length;
-				//
-				for(int i = 0; i < size; i++) {
-					/*
-					 * Only export if the data point is visible.
-					 */
-					Point point = dataSeries.getPixelCoordinates(i);
-					if(point.x >= 0 && point.x <= widthPlotArea) {
-						printWriter.println("scatter_labels<-c(scatter_labels,'" + dataSeries.getId() + "')");
-						printValueScatterPlot(AXIS_X, printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX);
-						printValueScatterPlot(AXIS_Y, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
-					}
+				if(exportVisibleOnly && dataSeries.isVisible()) {
+					printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
+				} else {
+					printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
 				}
 			}
 		}
@@ -400,6 +397,32 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("text(plot_data[,1], plot_data[,2], scatter_labels, pos=3)");
 		printWriter.println("abline(h=0)");
 		printWriter.println("abline(v=0)");
+	}
+
+	private void printScatterData(ISeries dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
+
+		int indexAxisX = axisSettings.getIndexAxisX();
+		int indexAxisY = axisSettings.getIndexAxisY();
+		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
+		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
+		/*
+		 * Series
+		 */
+		double[] xSeries = dataSeries.getXSeries();
+		double[] ySeries = dataSeries.getYSeries();
+		int size = dataSeries.getXSeries().length;
+		//
+		for(int i = 0; i < size; i++) {
+			/*
+			 * Only export if the data point is visible.
+			 */
+			Point point = dataSeries.getPixelCoordinates(i);
+			if(point.x >= 0 && point.x <= widthPlotArea) {
+				printWriter.println("scatter_labels<-c(scatter_labels,'" + dataSeries.getId() + "')");
+				printValueScatterPlot(AXIS_X, printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX);
+				printValueScatterPlot(AXIS_Y, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
+			}
+		}
 	}
 
 	private void printValueScatterPlot(String axis, PrintWriter printWriter, double value, int indexAxis, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter) {
@@ -427,5 +450,20 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("# source('" + fileName + "')");
 		printWriter.println("#-----------------------------------");
 		printWriter.println("");
+	}
+
+	private int getSeriesSize(ISeries[] series, boolean isExportVisibleOnly) {
+
+		int counter = 0;
+		for(ISeries dataSeries : series) {
+			if(dataSeries != null) {
+				if(isExportVisibleOnly && dataSeries.isVisible()) {
+					counter++;
+				} else {
+					counter++;
+				}
+			}
+		}
+		return counter;
 	}
 }

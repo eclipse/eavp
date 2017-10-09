@@ -36,14 +36,14 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private int indexAxisY;
 	private boolean exportVisibleOnly;
 	//
-	private static final String ALL = "all";
-	private static final String VISIBLE = "visible";
+	private static final String SERIES_ALL = "All Series";
+	private static final String SERIES_VISIBLE = "Visible Series";
 	private String[] exportOptions;
 
 	public ExportSettingsDialog(Shell parent, BaseChart baseChart) {
 		super(parent);
 		this.baseChart = baseChart;
-		exportOptions = new String[]{ALL, VISIBLE};
+		exportOptions = new String[]{SERIES_ALL, SERIES_VISIBLE};
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 		indexAxisX = comboScaleX.getSelectionIndex();
 		indexAxisY = comboScaleY.getSelectionIndex();
-		exportVisibleOnly = (VISIBLE.equals(comboExportOption.getText().trim())) ? true : false;
+		exportVisibleOnly = (SERIES_VISIBLE.equals(comboExportOption.getText().trim())) ? true : false;
 	}
 
 	@Override
