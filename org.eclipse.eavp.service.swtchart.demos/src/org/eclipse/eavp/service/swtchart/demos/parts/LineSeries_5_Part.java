@@ -60,7 +60,6 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setEnableArea(false);
 		lineSeriesDataList.add(lineSeriesData);
-		addSeriesData(lineSeriesDataList);
 		/*
 		 * Negative
 		 */
@@ -69,8 +68,9 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		lineSeriesSettings.setEnableArea(false);
+		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
-		addSeriesData(lineSeriesDataList);
 		/*
 		 * Set series.
 		 */

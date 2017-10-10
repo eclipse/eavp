@@ -156,6 +156,8 @@ public class LineSeries_Random_Part extends Composite {
 				lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 				lineSeriesSettings.setEnableArea(true);
 				lineSeriesDataList.add(lineSeriesData);
+				ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+				lineSeriesSettingsHighlight.setLineWidth(2);
 				chromatogramChart.addSeriesData(lineSeriesDataList);
 			}
 		});
@@ -171,6 +173,8 @@ public class LineSeries_Random_Part extends Composite {
 		ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setEnableArea(true);
+		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
 		chromatogramChart.addSeriesData(lineSeriesDataList);
 	}

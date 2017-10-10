@@ -70,6 +70,8 @@ public class LineSeries_8_Part extends ChromatogramChart {
 		lineSeriesData = new LineSeriesData(seriesData);
 		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setEnableArea(true);
+		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Active Peaks [1]

@@ -289,7 +289,7 @@ public class LineSeriesPreferenceConstants {
 	public static final String P_LINE_STYLE_SERIES_2_HIGHLIGHT = "lineStyleSeries2Highlight" + POSTFIX;
 	public static final String DEF_LINE_STYLE_SERIES_2_HIGHLIGHT = LineStyle.SOLID.toString();
 	public static final String P_LINE_WIDTH_SERIES_2_HIGHLIGHT = "lineWidthSeries2Highlight" + POSTFIX;
-	public static final int DEF_LINE_WIDTH_SERIES_2_HIGHLIGHT = 1;
+	public static final int DEF_LINE_WIDTH_SERIES_2_HIGHLIGHT = 2;
 	public static final String P_SYMBOL_COLOR_SERIES_2_HIGHLIGHT = "symbolColorSeries2Highlight" + POSTFIX;
 	public static final String DEF_SYMBOL_COLOR_SERIES_2_HIGHLIGHT = "0,0,0";
 	public static final String P_SYMBOL_SIZE_SERIES_2_HIGHLIGHT = "symbolSizeSeries2Highlight" + POSTFIX;

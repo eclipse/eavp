@@ -519,8 +519,11 @@ public class LineSeries_Edit_Part extends Composite {
 			ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 			lineSeriesSettings.setLineColor(colors.get(i));
 			lineSeriesSettings.setEnableArea(false);
+			ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+			lineSeriesSettingsHighlight.setLineWidth(2);
 			lineSeriesDataList.add(lineSeriesData);
 		}
+		//
 		chromatogramChart.addSeriesData(lineSeriesDataList, LineChart.MEDIUM_COMPRESSION);
 		comboSelectSeries.setItems(items);
 		comboSelectSeries.select(1); // LineSeries4_1

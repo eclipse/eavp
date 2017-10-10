@@ -254,6 +254,8 @@ public class LineSeries_Selection_Part extends Composite {
 		lineSeriesData = new LineSeriesData(seriesDataLine);
 		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setEnableArea(true);
+		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Selected Point

@@ -83,6 +83,7 @@ public class MeasurementSeries_3_Part extends LineChart {
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
 		ILineSeriesSettings lineSeriesSettings;
+		ILineSeriesSettings lineSeriesSettingsHighlight;
 		/*
 		 * Readings
 		 */
@@ -94,6 +95,8 @@ public class MeasurementSeries_3_Part extends LineChart {
 		lineSeriesSettings.setSymbolSize(5);
 		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
+		lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Regression
@@ -105,6 +108,8 @@ public class MeasurementSeries_3_Part extends LineChart {
 		lineSeriesSettings.setLineStyle(LineStyle.SOLID);
 		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
+		lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

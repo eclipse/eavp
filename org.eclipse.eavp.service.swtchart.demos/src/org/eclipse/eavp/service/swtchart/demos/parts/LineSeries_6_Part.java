@@ -60,6 +60,7 @@ public class LineSeries_6_Part extends LineChart {
 		chartSettings.getRangeRestriction().setZeroX(false);
 		chartSettings.getRangeRestriction().setZeroY(true);
 		chartSettings.getRangeRestriction().setRestrictZoom(false);
+		chartSettings.setCreateMenu(true);
 		/*
 		 * Primary X-Axis
 		 */
@@ -86,6 +87,8 @@ public class LineSeries_6_Part extends LineChart {
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 		ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setEnableArea(false);
+		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

@@ -60,8 +60,9 @@ public class LineSeries_7_Normal_Part extends ChromatogramChart {
 		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setEnableArea(true);
+		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
-		addSeriesData(lineSeriesDataList);
 		/*
 		 * Set series.
 		 */

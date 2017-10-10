@@ -127,6 +127,8 @@ public class LineSeries_3_Part extends LineChart {
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 		ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setEnableArea(true);
+		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+		lineSeriesSettingsHighlight.setLineWidth(2);
 		lineSeriesDataList.add(lineSeriesData);
 		/*
 		 * Set series.

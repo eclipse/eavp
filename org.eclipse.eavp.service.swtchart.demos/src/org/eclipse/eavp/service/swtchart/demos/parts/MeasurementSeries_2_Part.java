@@ -91,6 +91,7 @@ public class MeasurementSeries_2_Part extends LineChart {
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
 		ILineSeriesSettings lineSeriesSettings;
+		ILineSeriesSettings lineSeriesSettingsHighlight;
 		//
 		for(int i = 1; i <= 3; i++) {
 			/*
@@ -104,6 +105,8 @@ public class MeasurementSeries_2_Part extends LineChart {
 			lineSeriesSettings.setSymbolSize(5);
 			lineSeriesSettings.setSymbolColor(colors.get(i));
 			lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
+			lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+			lineSeriesSettingsHighlight.setLineWidth(2);
 			lineSeriesDataList.add(lineSeriesData);
 			/*
 			 * Regression
@@ -115,6 +118,8 @@ public class MeasurementSeries_2_Part extends LineChart {
 			lineSeriesSettings.setLineStyle(LineStyle.SOLID);
 			lineSeriesSettings.setLineColor(colors.get(i));
 			lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
+			lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
+			lineSeriesSettingsHighlight.setLineWidth(2);
 			lineSeriesDataList.add(lineSeriesData);
 		}
 		/*
