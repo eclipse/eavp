@@ -984,10 +984,21 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void hideSeries(String selectedSeriesId) {
 
 		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-		selectedSeriesIds.remove(selectedSeriesId);
-		dataSeries.setVisible(false);
-		dataSeries.setVisibleInLegend(false);
-		fireSeriesSelectionEvent(SELECTED_SERIES_NONE);
+		if(dataSeries != null) {
+			selectedSeriesIds.remove(selectedSeriesId);
+			dataSeries.setVisible(false);
+			dataSeries.setVisibleInLegend(false);
+			fireSeriesSelectionEvent(SELECTED_SERIES_NONE);
+		}
+	}
+
+	public void showSeries(String selectedSeriesId) {
+
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries != null) {
+			dataSeries.setVisible(true);
+			dataSeries.setVisibleInLegend(true);
+		}
 	}
 
 	public String getSelectedSeriedId(Event event) {
