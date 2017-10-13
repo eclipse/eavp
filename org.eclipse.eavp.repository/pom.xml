@@ -57,9 +57,6 @@
 	                            <target.eclipse.version>${target.eclipse.version}</target.eclipse.version>
 	                        </symbols>
 	                        <siteTemplateFolder>siteTemplateFolder/</siteTemplateFolder>
-							<associateSites>
-								<site>http://download.eclipse.org/technology/nebula/archives/Q42015/release</site>
-							</associateSites>
 						</configuration>
 					</execution>
 				</executions>
