@@ -9,7 +9,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.eavp.service.swtchart.demos.preferences;
+package org.eclipse.eavp.service.swtchart.preferences;
 
 import java.util.Locale;
 

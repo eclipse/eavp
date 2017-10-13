@@ -12,6 +12,7 @@
 package org.eclipse.eavp.service.swtchart.demos.preferences;
 
 import org.eclipse.eavp.service.swtchart.demos.Activator;
+import org.eclipse.eavp.service.swtchart.preferences.PreferenceSupport;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
