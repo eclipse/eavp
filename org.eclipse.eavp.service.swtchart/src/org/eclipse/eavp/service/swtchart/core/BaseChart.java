@@ -93,7 +93,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private List<ICustomSelectionHandler> customRangeSelectionHandlers;
 	private List<ICustomSelectionHandler> customPointSelectionHandlers;
 	private List<ISeriesModificationListener> seriesModificationListeners;
-	private List<ISeriesSelectionListener> seriesSelectionListeners;
+	private List<ISeriesStatusListener> seriesStatusListeners;
 	//
 	private UserSelection userSelection;
 	private long clickStartTime;
@@ -134,7 +134,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		customRangeSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
 		customPointSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
 		seriesModificationListeners = new ArrayList<ISeriesModificationListener>();
-		seriesSelectionListeners = new ArrayList<ISeriesSelectionListener>();
+		seriesStatusListeners = new ArrayList<ISeriesStatusListener>();
 		selectedSeriesIds = new HashSet<String>();
 		initializeEventProcessors();
 		/*
@@ -420,14 +420,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return seriesModificationListeners.remove(seriesModificationListener);
 	}
 
-	public boolean addSeriesSelectionListener(ISeriesSelectionListener seriesSelectionListener) {
+	public boolean addSeriesStatusListener(ISeriesStatusListener seriesSelectionListener) {
 
-		return seriesSelectionListeners.add(seriesSelectionListener);
+		return seriesStatusListeners.add(seriesSelectionListener);
 	}
 
-	public boolean removeSeriesSelectionListener(ISeriesSelectionListener seriesSelectionListener) {
+	public boolean removeSeriesStatusListener(ISeriesStatusListener seriesSelectionListener) {
 
-		return seriesSelectionListeners.remove(seriesSelectionListener);
+		return seriesStatusListeners.remove(seriesSelectionListener);
 	}
 
 	/**
@@ -567,7 +567,48 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	public void selectSeries(String selectedSeriesId) {
+
+		selectSeries(selectedSeriesId, true);
+	}
+
+	public void selectSeries(String selectedSeriesId, boolean fireUpdate) {
+
+		if(isSeriesContained(selectedSeriesId)) {
+			ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+			ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
+			selectedSeriesIds.add(selectedSeriesId);
+			applySeriesSettings(dataSeries, seriesSettings.getSeriesSettingsHighlight());
+			if(fireUpdate) {
+				fireSeriesStatusEvent(selectedSeriesId, ISeriesStatusListener.SELECT);
+			}
+		}
+	}
+
+	public void hideSeries(String selectedSeriesId) {
+
+		hideSeries(selectedSeriesId, true);
+	}
+
+	public void hideSeries(String selectedSeriesId, boolean fireUpdate) {
+
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries != null) {
+			selectedSeriesIds.remove(selectedSeriesId);
+			dataSeries.setVisible(false);
+			dataSeries.setVisibleInLegend(false);
+			if(fireUpdate) {
+				fireSeriesStatusEvent(selectedSeriesId, ISeriesStatusListener.HIDE);
+			}
+		}
+	}
+
 	public void resetSeriesSettings() {
+
+		resetSeriesSettings(true);
+	}
+
+	public void resetSeriesSettings(boolean fireUpdate) {
 
 		ISeries[] series = getSeriesSet().getSeries();
 		//
@@ -578,17 +619,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		selectedSeriesIds.clear();
 		redraw();
-		fireSeriesSelectionEvent(SELECTED_SERIES_NONE);
+		if(fireUpdate) {
+			fireSeriesStatusEvent(SELECTED_SERIES_NONE, ISeriesStatusListener.RESET);
+		}
 	}
 
-	public void selectSeries(String selectedSeriesId) {
+	public void showSeries(String selectedSeriesId) {
 
-		if(isSeriesContained(selectedSeriesId)) {
-			ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-			ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
-			selectedSeriesIds.add(selectedSeriesId);
-			applySeriesSettings(dataSeries, seriesSettings.getSeriesSettingsHighlight());
-			fireSeriesSelectionEvent(selectedSeriesId);
+		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		if(dataSeries != null) {
+			dataSeries.setVisible(true);
+			dataSeries.setVisibleInLegend(true);
 		}
 	}
 
@@ -940,11 +981,21 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private void fireSeriesSelectionEvent(String seriedId) {
+	private void fireSeriesStatusEvent(String seriedId, int status) {
 
-		for(ISeriesSelectionListener seriesSelectionListener : seriesSelectionListeners) {
+		for(ISeriesStatusListener seriesStatusListener : seriesStatusListeners) {
 			try {
-				seriesSelectionListener.handleSeriesSelectionEvent(seriedId);
+				switch(status) {
+					case ISeriesStatusListener.SELECT:
+						seriesStatusListener.handleSeriesSelectionEvent(seriedId);
+						break;
+					case ISeriesStatusListener.HIDE:
+						seriesStatusListener.handleSeriesHideEvent(seriedId);
+						break;
+					case ISeriesStatusListener.RESET:
+						seriesStatusListener.handleSeriesResetEvent(seriedId);
+						break;
+				}
 			} catch(Exception e) {
 				System.out.println(e);
 			}
@@ -979,26 +1030,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			yAxis.zoomOut(coordinateY);
 		}
 		trackRedoSelection();
-	}
-
-	public void hideSeries(String selectedSeriesId) {
-
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-		if(dataSeries != null) {
-			selectedSeriesIds.remove(selectedSeriesId);
-			dataSeries.setVisible(false);
-			dataSeries.setVisibleInLegend(false);
-			fireSeriesSelectionEvent(SELECTED_SERIES_NONE);
-		}
-	}
-
-	public void showSeries(String selectedSeriesId) {
-
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
-		if(dataSeries != null) {
-			dataSeries.setVisible(true);
-			dataSeries.setVisibleInLegend(true);
-		}
 	}
 
 	public String getSelectedSeriedId(Event event) {

@@ -11,7 +11,20 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.core;
 
-public interface ISeriesSelectionListener {
+public class SeriesStatusAdapter implements ISeriesStatusListener {
 
-	void handleSeriesSelectionEvent(String seriedId);
+	@Override
+	public void handleSeriesSelectionEvent(String seriesId) {
+
+	}
+
+	@Override
+	public void handleSeriesHideEvent(String seriesId) {
+
+	}
+
+	@Override
+	public void handleSeriesResetEvent(String seriesId) {
+
+	}
 }
