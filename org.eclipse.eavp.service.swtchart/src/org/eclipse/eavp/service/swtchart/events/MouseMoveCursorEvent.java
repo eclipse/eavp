@@ -36,7 +36,7 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		String selectedSeriesId = baseChart.getSelectedSeriedId(event);
+		String selectedSeriesId = baseChart.getSelectedseriesId(event);
 		if(selectedSeriesId.equals("")) {
 			baseChart.setCursor(defaultCursor);
 		} else {

@@ -981,19 +981,19 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private void fireSeriesStatusEvent(String seriedId, int status) {
+	private void fireSeriesStatusEvent(String seriesId, int status) {
 
 		for(ISeriesStatusListener seriesStatusListener : seriesStatusListeners) {
 			try {
 				switch(status) {
 					case ISeriesStatusListener.SELECT:
-						seriesStatusListener.handleSeriesSelectionEvent(seriedId);
+						seriesStatusListener.handleSeriesSelectionEvent(seriesId);
 						break;
 					case ISeriesStatusListener.HIDE:
-						seriesStatusListener.handleSeriesHideEvent(seriedId);
+						seriesStatusListener.handleSeriesHideEvent(seriesId);
 						break;
 					case ISeriesStatusListener.RESET:
-						seriesStatusListener.handleSeriesResetEvent(seriedId);
+						seriesStatusListener.handleSeriesResetEvent(seriesId);
 						break;
 				}
 			} catch(Exception e) {
@@ -1032,7 +1032,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		trackRedoSelection();
 	}
 
-	public String getSelectedSeriedId(Event event) {
+	public String getSelectedseriesId(Event event) {
 
 		ISeries[] series = getSeriesSet().getSeries();
 		String selectedSeriesId = "";
