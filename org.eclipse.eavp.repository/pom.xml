@@ -58,7 +58,8 @@
 	                        </symbols>
 	                        <siteTemplateFolder>siteTemplateFolder/</siteTemplateFolder>
 							<associateSites>
-								<site>http://download.eclipse.org/technology/nebula/archives/Q42015/release</site>
+								<site>http://download.eclipse.org/nebula/releases/latest/</site>
+								<site>http://download.eclipse.org/january/builds/january-forms-master/latest/repository/</site>
 							</associateSites>
 						</configuration>
 					</execution>
