@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ICE Viz Component
 Bundle-SymbolicName: org.eclipse.eavp.geometry.view.javafx;singleton:=true
-Bundle-Version: 0.1.1.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Oak Ridge National Laboratory
 Import-Package: ca.odell.glazedlists,

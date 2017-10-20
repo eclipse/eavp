@@ -8,7 +8,7 @@
   <parent>
   	<groupId>org.eclipse.eavp</groupId>
   	<artifactId>org.eclipse.eavp.build</artifactId>
-  	<version>0.1.1-SNAPSHOT</version>
+  	<version>0.2.0-SNAPSHOT</version>
   	<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
   </parent>
   <modules>
@@ -17,7 +17,7 @@
   	<module>../org.eclipse.eavp.tests.geometry.view.javafx</module>
   	<module>../org.eclipse.eavp.geometry.view.model</module>
   	<module>../org.eclipse.eavp.tests.geometry.view.model</module>
-  	<module>../org.eclipse.eavp.target.neon</module>
+  	<module>../org.eclipse.eavp.target.oxygen</module>
   	<module>../org.eclipse.eavp.viz</module>
   	<module>../org.eclipse.eavp.viz.service</module>
   	<module>../org.eclipse.eavp.viz.service.geometry</module>
