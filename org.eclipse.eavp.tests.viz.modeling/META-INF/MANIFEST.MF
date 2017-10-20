@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EAVP Modeling Structures Plugin Test Bundle
 Bundle-SymbolicName: org.eclipse.eavp.tests.viz.modeling
-Bundle-Version: 0.1.1.qualifier
+Bundle-Version: 0.2.0.qualifier
 Fragment-Host: org.eclipse.eavp.viz.modeling
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: junit.framework;version="4.12.0",

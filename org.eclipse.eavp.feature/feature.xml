@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.eavp.feature"
       label="Eclipse Advanced Visualization Project Feature"
-      version="0.1.1.qualifier"
+      version="0.2.0.qualifier"
       provider-name="Oak Ridge National Laboratory">
 
    <description url="https://www.eclipse.org/eavp">
