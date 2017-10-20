@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Geometrry Visualization Resources Plugin Test Bundle
 Bundle-SymbolicName: org.eclipse.eavp.tests.viz.service.geometry
-Bundle-Version: 0.1.1.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.apache.log4j,
  org.eclipse.e4.core.di,

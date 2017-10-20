@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Mesh Visualization Resources Plugin Test Bundle
 Bundle-SymbolicName: org.eclipse.eavp.tests.viz.service.mesh
-Bundle-Version: 0.1.1.qualifier
+Bundle-Version: 0.2.0.qualifier
 Fragment-Host: org.eclipse.eavp.viz.service.mesh
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit
