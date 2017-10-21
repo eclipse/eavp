@@ -15,10 +15,10 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;

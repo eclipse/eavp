@@ -225,6 +225,18 @@ public abstract class AbstractPlot implements IPlot {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.eavp.viz.service.IPlot#isMultiSeriesEnabled()
+	 */
+	@Override
+	public boolean isMultiSeriesEnabled() {
+
+		// Assume multiple series are disallowed by default
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.eavp.viz.service.IVizCanvas#isSourceRemote()
 	 */
 	@Override

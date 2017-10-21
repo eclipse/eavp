@@ -14,9 +14,9 @@ package org.eclipse.eavp.viz.service.paraview.connections;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.PortEntryContentProvider;

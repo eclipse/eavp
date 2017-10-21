@@ -8,4 +8,6 @@
          This category contains the feature and plugins for the Eclipse Advanced Visualization Project.
       </description>
    </category-def>
+   <repository-reference location="http://download.eclipse.org/january/builds/january-forms-master/latest/repository/" enabled="true" />
+   <repository-reference location="http://download.eclipse.org/nebula/releases/1.3.0/" enabled="true" />
 </site>

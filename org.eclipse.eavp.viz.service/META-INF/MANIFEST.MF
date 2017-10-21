@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ICE Visualization Service
 Bundle-SymbolicName: org.eclipse.eavp.viz.service;singleton:=true
-Bundle-Version: 0.1.1.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Oak Ridge National Laboratory
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-ExtensibleAPI: true
@@ -23,8 +23,8 @@ Import-Package: ca.odell.glazedlists,
  org.eclipse.draw2d,
  org.eclipse.e4.ui.workbench,
  org.eclipse.eavp.geometry.view.model,
- org.eclipse.eavp.viz.datastructures,
  org.eclipse.eavp.viz.datastructures.VizObject,
+ org.eclipse.eavp.viz.datastructures.ui,
  org.eclipse.eavp.viz.modeling.base,
  org.eclipse.eavp.viz.modeling.factory,
  org.eclipse.eavp.viz.service.color,

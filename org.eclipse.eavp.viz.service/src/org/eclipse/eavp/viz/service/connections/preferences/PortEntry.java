@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.connections.preferences;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * This class provides an {@link Entry} that is a "continuous" {@code Entry}

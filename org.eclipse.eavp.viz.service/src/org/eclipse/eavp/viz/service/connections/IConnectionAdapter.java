@@ -13,8 +13,8 @@ package org.eclipse.eavp.viz.service.connections;
 
 import java.util.List;
 
-import org.eclipse.eavp.viz.datastructures.VizEntry;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.eclipse.eavp.viz.service.connections.preferences.ConnectionTable;
 
 /**

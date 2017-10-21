@@ -18,13 +18,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.eavp.viz.datastructures.BasicVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizAllowedValueType;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
-import org.eclipse.eavp.viz.datastructures.VizTableComponent;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateable;
 import org.eclipse.eavp.viz.datastructures.VizObject.IVizUpdateableListener;
+import org.eclipse.eavp.viz.datastructures.ui.BasicVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizAllowedValueType;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizTableComponent;
 
 /**
  * This class manages a list of uniquely-keyed connections within an ICE

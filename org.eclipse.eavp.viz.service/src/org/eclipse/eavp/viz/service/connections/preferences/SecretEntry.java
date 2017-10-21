@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.eavp.viz.service.connections.preferences;
 
-import org.eclipse.eavp.viz.datastructures.IVizEntryContentProvider;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.IVizEntryContentProvider;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 
 /**
  * A {@code SecretEntry} is simply an {@link Entry} whose secret flag is set to

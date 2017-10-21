@@ -8,59 +8,41 @@
   <parent>
   	<groupId>org.eclipse.eavp</groupId>
   	<artifactId>org.eclipse.eavp.build</artifactId>
-  	<version>0.1.1-SNAPSHOT</version>
+  	<version>0.2.0-SNAPSHOT</version>
   	<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
   </parent>
   <modules>
   	<module>../org.eclipse.eavp.parent</module>
   	<module>../org.eclipse.eavp.geometry.view.javafx</module>
-  	<module>../org.eclipse.eavp.geometry.view.javafx.test</module>
+  	<module>../org.eclipse.eavp.tests.geometry.view.javafx</module>
   	<module>../org.eclipse.eavp.geometry.view.model</module>
-  	<module>../org.eclipse.eavp.geometry.view.model.tests</module>
-  	<module>../org.eclipse.eavp.target.neon</module>
+  	<module>../org.eclipse.eavp.tests.geometry.view.model</module>
+  	<module>../org.eclipse.eavp.target.oxygen</module>
   	<module>../org.eclipse.eavp.viz</module>
   	<module>../org.eclipse.eavp.viz.service</module>
   	<module>../org.eclipse.eavp.viz.service.geometry</module>
-  	<module>../org.eclipse.eavp.viz.service.geometry.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.service.geometry</module>
   	<module>../org.eclipse.eavp.viz.service.javafx</module>
   	<module>../org.eclipse.eavp.viz.service.javafx.geometry</module>
-  	<module>../org.eclipse.eavp.viz.service.javafx.geometry.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.service.javafx.geometry</module>
   	<module>../org.eclipse.eavp.viz.service.javafx.mesh</module>
-  	<module>../org.eclipse.eavp.viz.service.javafx.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.service.javafx</module>
   	<module>../org.eclipse.eavp.viz.service.mesh</module>
-  	<module>../org.eclipse.eavp.viz.service.mesh.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.service.mesh</module>
   	<module>../org.eclipse.eavp.viz.service.paraview</module>
-  	<module>../org.eclipse.eavp.viz.service.paraview.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.service.paraview</module>
   	<module>../org.eclipse.eavp.viz.service.paraview.web</module>
-  	<module>../org.eclipse.eavp.viz.service.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.service</module>
   	<module>../org.eclipse.eavp.viz.service.visit</module>
-  	<module>../org.eclipse.eavp.viz.service.visit.test</module>
-  	<module>../org.eclipse.eavp.viz.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.service.visit</module>
+  	<module>../org.eclipse.eavp.tests.viz</module>
   	<module>../org.eclipse.eavp.viz.datastructures</module>
-  	<module>../org.eclipse.eavp.viz.datastructures.test</module>
+  	<module>../org.eclipse.eavp.tests.viz.datastructures</module>
+  	<module>../org.eclipse.eavp.viz.datastructures.ui</module>
+  	<module>../org.eclipse.eavp.tests.viz.datastructures.ui</module>
   	<module>../org.eclipse.eavp.viz.modeling</module>
-  	<module>../org.eclipse.eavp.viz.modeling.test</module>
-  	<module>../org.eclipse.eavp.viz.service.javafx.mesh.test</module>
-  	<module>../org.eclipse.january.geometry</module>
-  	<module>../org.eclipse.january.geometry.ide</module>
-  	<module>../org.eclipse.january.geometry.ui</module>
-  	<module>../org.eclipse.january.geometry.model.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.ui</module>
-  	<module>../org.eclipse.january.geometry.xtext.iges.ui.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.mtl</module>
-  	<module>../org.eclipse.january.geometry.xtext.mtl.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.mtl.ui</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj.test</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.obj.ui</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk.tests</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk.ide</module>
-  	<module>../org.eclipse.january.geometry.xtext.vtk.ui</module>
+  	<module>../org.eclipse.eavp.tests.viz.modeling</module>
+  	<module>../org.eclipse.eavp.tests.viz.service.javafx.mesh</module>
   	<module>../org.eclipse.eavp.feature</module>  	
   	<module>../org.eclipse.eavp.repository</module>
   </modules>

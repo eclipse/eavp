@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.eclipse.eavp</groupId>
 		<artifactId>org.eclipse.eavp.build</artifactId>
-		<version>0.1.1-SNAPSHOT</version>
+		<version>0.2.0-SNAPSHOT</version>
 		<relativePath>../org.eclipse.eavp.parent/pom.xml</relativePath>
 	</parent>
 
@@ -36,12 +36,12 @@
 			
 			<!-- Configure jboss repository-utils to use our index.html and add the nebula update
 			     site to the repository references. This shouldn't be needed once nebula is included
-			     in the simrel repo
-			-->
+			     in the simrel repo -->
+			
 			<plugin>
 				<groupId>org.jboss.tools.tycho-plugins</groupId>
 				<artifactId>repository-utils</artifactId>
-				<version>0.23.3</version>
+				<version>1.0.0</version>
 				<executions>
 					<execution>
 						<id>generate-facade</id>
@@ -58,7 +58,8 @@
 	                        </symbols>
 	                        <siteTemplateFolder>siteTemplateFolder/</siteTemplateFolder>
 							<associateSites>
-								<site>http://download.eclipse.org/technology/nebula/archives/Q42015/release</site>
+								<site>http://download.eclipse.org/january/builds/january-forms-master/latest/repository/</site>
+								<site>http://download.eclipse.org/nebula/releases/1.3.0/</site>
 							</associateSites>
 						</configuration>
 					</execution>

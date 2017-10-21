@@ -14,8 +14,6 @@ package org.eclipse.eavp.viz.datastructures.VizObject;
 
 import java.util.ArrayList;
 
-import org.eclipse.eavp.viz.datastructures.VizIdentifiable;
-
 /**
  * <p>
  * The IVizUpdateable interface provides a single update operation that may be used

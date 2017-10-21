@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.eavp.viz.datastructures.VizEntry;
+import org.eclipse.eavp.viz.datastructures.ui.VizEntry;
 import org.eclipse.eavp.viz.service.connections.IVizConnectionManager;
 import org.eclipse.eavp.viz.service.preferences.AbstractVizPreferencePage;
 import org.eclipse.eavp.viz.service.preferences.CustomScopedPreferenceStore;

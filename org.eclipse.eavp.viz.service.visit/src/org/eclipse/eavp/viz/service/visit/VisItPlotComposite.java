@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.eavp.viz.datastructures.VizActionTree;
+import org.eclipse.eavp.viz.datastructures.ui.VizActionTree;
 import org.eclipse.eavp.viz.service.IPlot;
 import org.eclipse.eavp.viz.service.IPlotListener;
 import org.eclipse.eavp.viz.service.ISeries;
