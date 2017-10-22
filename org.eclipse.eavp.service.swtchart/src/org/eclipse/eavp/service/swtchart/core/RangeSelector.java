@@ -216,7 +216,7 @@ public class RangeSelector extends Composite {
 		} else {
 			buttonHide.setText("Hide");
 		}
-		buttonHide.setToolTipText("Hide the range info UI.");
+		buttonHide.setToolTipText("Hide the range selector UI.");
 		buttonHide.setLayoutData(getButtonGridData());
 		buttonHide.addSelectionListener(new SelectionAdapter() {
 

@@ -82,9 +82,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private Slider sliderHorizontal;
 	private RangeSelector rangeSelector;
 	private BaseChart baseChart;
-	//
+	/*
+	 * With enableRangeSelectorHint the gc draws an info
+	 * that the range selector can be activated by using a
+	 * mouse double click. It's implemented and works fine,
+	 * but is a bit crappy when a chart title is used. So, it is
+	 * deactivated for now, but not removed.
+	 */
+	private boolean enableRangeSelectorHint = false;
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
-	private boolean showRangeSelectorHint = true;
+	private boolean showRangeSelectorHint = enableRangeSelectorHint;
 	private RangeHintPaintListener rangeHintPaintListener;
 	/*
 	 * This list contains all scrollable charts
@@ -775,7 +782,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		GridData gridData = (GridData)rangeSelector.getLayoutData();
 		gridData.exclude = !showRangeSelector;
 		rangeSelector.setVisible(showRangeSelector);
-		layout(true);
+		Composite parent = rangeSelector.getParent();
+		parent.layout(false);
+		parent.redraw();
 	}
 
 	private void setRangeInfoVisibility(IChartSettings chartSettings) {
@@ -1139,7 +1148,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 							/*
 							 * Show the range info composite.
 							 */
-							showRangeSelectorHint = true;
+							showRangeSelectorHint = enableRangeSelectorHint;
 							showRangeSelector(showRangeSelectorHint);
 						}
 					}
