@@ -139,7 +139,6 @@ public class PCAChart extends ScatterChart {
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX);
 		//
 		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(yAxisTitle, new PassThroughConverter());
-		secondaryAxisSettingsY.setTitle("");
 		secondaryAxisSettingsY.setPosition(Position.Secondary);
 		secondaryAxisSettingsY.setDecimalFormat(decimalFormat);
 		secondaryAxisSettingsY.setColor(COLOR_BLACK);
