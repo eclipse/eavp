@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
-import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
@@ -47,8 +46,6 @@ public class BarSeries_1_2_Part extends MassSpectrumChart {
 		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.BAR_SERIES_1);
 		//
 		IBarSeriesData barSeriesData = new BarSeriesData(seriesData);
-		IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
-		barSeriesSettings.setDescription("");
 		barSeriesDataList.add(barSeriesData);
 		/*
 		 * Set series.

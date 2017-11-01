@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import org.eclipse.eavp.service.swtchart.barcharts.BarChart;
 import org.eclipse.eavp.service.swtchart.barcharts.BarSeriesData;
 import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesData;
-import org.eclipse.eavp.service.swtchart.barcharts.IBarSeriesSettings;
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.IPrimaryAxisSettings;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
@@ -67,8 +66,6 @@ public class BarSeries_2_1_Part extends BarChart {
 		ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.BAR_SERIES_2);
 		//
 		IBarSeriesData barSeriesData = new BarSeriesData(seriesData);
-		IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
-		barSeriesSettings.setDescription("");
 		barSeriesDataList.add(barSeriesData);
 		/*
 		 * Set series.
