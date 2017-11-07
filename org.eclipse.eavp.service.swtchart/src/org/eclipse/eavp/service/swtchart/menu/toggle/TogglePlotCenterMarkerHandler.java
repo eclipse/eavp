@@ -13,17 +13,17 @@ package org.eclipse.eavp.service.swtchart.menu.toggle;
 
 import org.eclipse.eavp.service.swtchart.core.IChartSettings;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
-import org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry;
-import org.eclipse.eavp.service.swtchart.menu.IMenuCategories;
-import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.AbstractChartMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuCategories;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuEntry;
 import org.eclipse.swt.widgets.Shell;
 
-public class TogglePlotCenterMarkerHandler extends AbstractMenuEntry implements IMenuEntry {
+public class TogglePlotCenterMarkerHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
 	@Override
 	public String getCategory() {
 
-		return IMenuCategories.TOGGLE_VISIBILITY;
+		return IChartMenuCategories.TOGGLE_VISIBILITY;
 	}
 
 	@Override

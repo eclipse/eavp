@@ -31,7 +31,7 @@ import org.eclipse.eavp.service.swtchart.internal.marker.LegendMarker;
 import org.eclipse.eavp.service.swtchart.internal.marker.PlotCenterMarker;
 import org.eclipse.eavp.service.swtchart.internal.marker.PositionMarker;
 import org.eclipse.eavp.service.swtchart.internal.marker.SeriesLabelMarker;
-import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuEntry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.events.MouseAdapter;
@@ -75,8 +75,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.eavp.service.swtchart.menuitems";
 	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry";
 	//
-	private Map<String, Set<IMenuEntry>> categoryMenuEntriesMap;
-	private Map<String, IMenuEntry> menuEntryMap;
+	private Map<String, Set<IChartMenuEntry>> categoryMenuEntriesMap;
+	private Map<String, IChartMenuEntry> menuEntryMap;
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
@@ -115,8 +115,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public ScrollableChart(Composite parent, int style) {
 		super(parent, style);
 		//
-		categoryMenuEntriesMap = new HashMap<String, Set<IMenuEntry>>();
-		menuEntryMap = new HashMap<String, IMenuEntry>();
+		categoryMenuEntriesMap = new HashMap<String, Set<IChartMenuEntry>>();
+		menuEntryMap = new HashMap<String, IChartMenuEntry>();
 		linkedScrollableCharts = new ArrayList<ScrollableChart>();
 		//
 		initialize();
@@ -712,7 +712,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void addMenuItemsFromChartSettings() {
 
 		IChartSettings chartSettings = baseChart.getChartSettings();
-		for(IMenuEntry menuEntry : chartSettings.getMenuEntries()) {
+		for(IChartMenuEntry menuEntry : chartSettings.getMenuEntries()) {
 			addMenuEntry(menuEntry);
 		}
 	}
@@ -741,7 +741,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			IConfigurationElement[] configurationElements = extensionRegistry.getConfigurationElementsFor(EXTENSION_POINT_MENU_ITEMS);
 			for(IConfigurationElement element : configurationElements) {
 				try {
-					IMenuEntry menuEntry = (IMenuEntry)element.createExecutableExtension(EXTENSION_POINT_MENU_ENTRY);
+					IChartMenuEntry menuEntry = (IChartMenuEntry)element.createExecutableExtension(EXTENSION_POINT_MENU_ENTRY);
 					addMenuEntry(menuEntry);
 				} catch(CoreException e) {
 					System.out.println(e);
@@ -1247,7 +1247,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Get the entry and execute it.
 		 */
 		MenuItem menuItem = (MenuItem)e.widget;
-		IMenuEntry menuEntry = menuEntryMap.get(menuItem.getText());
+		IChartMenuEntry menuEntry = menuEntryMap.get(menuItem.getText());
 		if(menuEntry != null) {
 			menuEntry.execute(getShell(), this);
 		}
@@ -1261,16 +1261,16 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		createMenuItems(menu);
 	}
 
-	private void addMenuEntry(IMenuEntry menuEntry) {
+	private void addMenuEntry(IChartMenuEntry menuEntry) {
 
 		if(menuEntry != null) {
 			String category = menuEntry.getCategory();
-			Set<IMenuEntry> menuEntries = categoryMenuEntriesMap.get(category);
+			Set<IChartMenuEntry> menuEntries = categoryMenuEntriesMap.get(category);
 			/*
 			 * Create set if not existent.
 			 */
 			if(menuEntries == null) {
-				menuEntries = new HashSet<IMenuEntry>();
+				menuEntries = new HashSet<IChartMenuEntry>();
 				categoryMenuEntriesMap.put(category, menuEntries);
 			}
 			/*
@@ -1295,7 +1295,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private void createMenuCategory(Menu menu, String category, Set<IMenuEntry> menuEntries) {
+	private void createMenuCategory(Menu menu, String category, Set<IChartMenuEntry> menuEntries) {
 
 		Menu subMenu;
 		MenuItem menuItem;
@@ -1321,10 +1321,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private List<String> getSortedNames(Set<IMenuEntry> menuEntries) {
+	private List<String> getSortedNames(Set<IChartMenuEntry> menuEntries) {
 
 		List<String> names = new ArrayList<String>();
-		for(IMenuEntry menuEntry : menuEntries) {
+		for(IChartMenuEntry menuEntry : menuEntries) {
 			if(menuEntry.isEnabled(this)) {
 				names.add(menuEntry.getName());
 			}

@@ -11,14 +11,14 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.menu.export;
 
-import org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry;
-import org.eclipse.eavp.service.swtchart.menu.IMenuCategories;
+import org.eclipse.eavp.service.swtchart.menu.AbstractChartMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuCategories;
 
-public abstract class AbstractSeriesExportHandler extends AbstractMenuEntry implements ISeriesExportConverter {
+public abstract class AbstractSeriesExportHandler extends AbstractChartMenuEntry implements ISeriesExportConverter {
 
 	@Override
 	public String getCategory() {
 
-		return IMenuCategories.EXPORT_CONVERTER;
+		return IChartMenuCategories.EXPORT_CONVERTER;
 	}
 }

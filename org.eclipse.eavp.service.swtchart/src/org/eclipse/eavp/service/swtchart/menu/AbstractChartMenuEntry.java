@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.menu;
 
-public abstract class AbstractMenuEntry implements IMenuEntry {
+public abstract class AbstractChartMenuEntry implements IChartMenuEntry {
 
 	@Override
 	public int hashCode() {
@@ -32,7 +32,7 @@ public abstract class AbstractMenuEntry implements IMenuEntry {
 			return false;
 		if(getClass() != obj.getClass())
 			return false;
-		AbstractMenuEntry other = (AbstractMenuEntry)obj;
+		AbstractChartMenuEntry other = (AbstractChartMenuEntry)obj;
 		if(getCategory() == null) {
 			if(other.getCategory() != null)
 				return false;
@@ -49,6 +49,6 @@ public abstract class AbstractMenuEntry implements IMenuEntry {
 	@Override
 	public String toString() {
 
-		return "MenuEntry [category=" + getCategory() + ", name=" + getName() + "]";
+		return "ChartMenuEntry [category=" + getCategory() + ", name=" + getName() + "]";
 	}
 }

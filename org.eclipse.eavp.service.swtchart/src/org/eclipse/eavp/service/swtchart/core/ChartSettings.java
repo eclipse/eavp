@@ -28,7 +28,7 @@ import org.eclipse.eavp.service.swtchart.events.SelectDataPointEvent;
 import org.eclipse.eavp.service.swtchart.events.SelectHideSeriesEvent;
 import org.eclipse.eavp.service.swtchart.events.UndoRedoEvent;
 import org.eclipse.eavp.service.swtchart.events.ZoomEvent;
-import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuEntry;
 import org.eclipse.eavp.service.swtchart.menu.RedoSelectionHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetChartHandler;
 import org.eclipse.eavp.service.swtchart.menu.ResetSelectedSeriesHandler;
@@ -94,8 +94,7 @@ public class ChartSettings implements IChartSettings {
 	private Color colorSeriesLabelMarker;
 	//
 	private boolean createMenu;
-	private Set<IMenuEntry> menuEntries;
-	//
+	private Set<IChartMenuEntry> menuEntries;
 	private Set<IHandledEventProcessor> handledEventProcessors;
 	//
 	private boolean supportDataShift;
@@ -155,7 +154,7 @@ public class ChartSettings implements IChartSettings {
 		 * Default menu entries.
 		 */
 		createMenu = false;
-		menuEntries = new HashSet<IMenuEntry>();
+		menuEntries = new HashSet<IChartMenuEntry>();
 		menuEntries.add(new ResetChartHandler());
 		menuEntries.add(new ResetSelectedSeriesHandler());
 		menuEntries.add(new ToggleRangeSelectorHandler());
@@ -577,19 +576,19 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
-	public void addMenuEntry(IMenuEntry menuEntry) {
+	public void addMenuEntry(IChartMenuEntry menuEntry) {
 
 		menuEntries.add(menuEntry);
 	}
 
 	@Override
-	public void removeMenuEntry(IMenuEntry menuEntry) {
+	public void removeMenuEntry(IChartMenuEntry menuEntry) {
 
 		menuEntries.remove(menuEntry);
 	}
 
 	@Override
-	public Set<IMenuEntry> getMenuEntries() {
+	public Set<IChartMenuEntry> getMenuEntries() {
 
 		return Collections.unmodifiableSet(menuEntries);
 	}

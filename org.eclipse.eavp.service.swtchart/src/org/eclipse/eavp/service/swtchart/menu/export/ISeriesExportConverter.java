@@ -11,9 +11,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.service.swtchart.menu.export;
 
-import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuEntry;
 
-public interface ISeriesExportConverter extends IMenuEntry {
+public interface ISeriesExportConverter extends IChartMenuEntry {
 
 	String MESSAGE_OK = "The data has been exported successully.";
 	String MESSAGE_ERROR = "Sorry, something has gone wrong to export the data.";

@@ -14,12 +14,12 @@ package org.eclipse.eavp.service.swtchart.menu;
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.swt.widgets.Shell;
 
-public class ResetChartHandler extends AbstractMenuEntry implements IMenuEntry {
+public class ResetChartHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
 	@Override
 	public String getCategory() {
 
-		return IMenuCategories.STANDARD_OPERATION;
+		return IChartMenuCategories.STANDARD_OPERATION;
 	}
 
 	@Override

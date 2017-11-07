@@ -12,17 +12,17 @@
 package org.eclipse.eavp.service.swtchart.demos.menu;
 
 import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
-import org.eclipse.eavp.service.swtchart.menu.AbstractMenuEntry;
-import org.eclipse.eavp.service.swtchart.menu.IMenuCategories;
-import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.AbstractChartMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuCategories;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuEntry;
 import org.eclipse.swt.widgets.Shell;
 
-public class ResetXAxisHandler extends AbstractMenuEntry implements IMenuEntry {
+public class ResetXAxisHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
 	@Override
 	public String getCategory() {
 
-		return IMenuCategories.RANGE_SELECTION;
+		return IChartMenuCategories.RANGE_SELECTION;
 	}
 
 	@Override

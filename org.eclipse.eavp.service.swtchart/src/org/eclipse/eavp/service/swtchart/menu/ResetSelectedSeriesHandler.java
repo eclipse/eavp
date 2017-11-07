@@ -16,12 +16,12 @@ import org.eclipse.eavp.service.swtchart.core.ScrollableChart;
 import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.swt.widgets.Shell;
 
-public class ResetSelectedSeriesHandler extends AbstractMenuEntry implements IMenuEntry {
+public class ResetSelectedSeriesHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
 	@Override
 	public String getCategory() {
 
-		return IMenuCategories.RANGE_SELECTION;
+		return IChartMenuCategories.RANGE_SELECTION;
 	}
 
 	@Override

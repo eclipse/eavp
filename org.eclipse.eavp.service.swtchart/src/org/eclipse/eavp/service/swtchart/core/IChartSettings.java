@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.eavp.service.swtchart.events.IHandledEventProcessor;
-import org.eclipse.eavp.service.swtchart.menu.IMenuEntry;
+import org.eclipse.eavp.service.swtchart.menu.IChartMenuEntry;
 import org.eclipse.swt.graphics.Color;
 
 public interface IChartSettings {
@@ -157,11 +157,11 @@ public interface IChartSettings {
 
 	void setCreateMenu(boolean createMenu);
 
-	void addMenuEntry(IMenuEntry menuEntry);
+	void addMenuEntry(IChartMenuEntry menuEntry);
 
-	void removeMenuEntry(IMenuEntry menuEntry);
+	void removeMenuEntry(IChartMenuEntry menuEntry);
 
-	Set<IMenuEntry> getMenuEntries();
+	Set<IChartMenuEntry> getMenuEntries();
 
 	void clearMenuEntries();
 
