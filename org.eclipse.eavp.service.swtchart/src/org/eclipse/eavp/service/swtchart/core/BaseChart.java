@@ -121,8 +121,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int KEY_CODE_z = 122;
 	//
 	public static final String SELECTED_SERIES_NONE = "None";
-	//
-	private Map<Integer, Map<Integer, Map<Integer, IEventProcessor>>> registeredEvents;
+	/*
+	 * see: IHandledEventProcessor
+	 * Map<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>>
+	 * Map<Event, Map<Button, Map<StateMask, List<IEventProcessor>>>>
+	 * e.g.:
+	 * Integer: EVENT_MOUSE_DOUBLE_CLICK (Event)
+	 * Integer: BUTTON_NONE (Button)
+	 * Integer: SWT.CTRL (StateMask)
+	 */
+	private Map<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>> registeredEvents;
 	/*
 	 * Settings
 	 */
@@ -217,19 +225,19 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private void initializeEventProcessors() {
 
-		registeredEvents = new HashMap<Integer, Map<Integer, Map<Integer, IEventProcessor>>>();
+		registeredEvents = new HashMap<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>>();
 		initializeEvents();
 	}
 
 	private void initializeEvents() {
 
-		registeredEvents.put(EVENT_MOUSE_DOUBLE_CLICK, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_WHEEL, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_MOVE, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_MOUSE_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_KEY_DOWN, new HashMap<Integer, Map<Integer, IEventProcessor>>());
-		registeredEvents.put(EVENT_KEY_UP, new HashMap<Integer, Map<Integer, IEventProcessor>>());
+		registeredEvents.put(EVENT_MOUSE_DOUBLE_CLICK, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
+		registeredEvents.put(EVENT_MOUSE_WHEEL, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
+		registeredEvents.put(EVENT_MOUSE_DOWN, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
+		registeredEvents.put(EVENT_MOUSE_MOVE, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
+		registeredEvents.put(EVENT_MOUSE_UP, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
+		registeredEvents.put(EVENT_KEY_DOWN, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
+		registeredEvents.put(EVENT_KEY_UP, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
 	}
 
 	public void clearEventProcessors() {
@@ -244,22 +252,28 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Example
 		 * Event.: EVENT_MOUSE_DOUBLE_CLICK
 		 */
-		Map<Integer, Map<Integer, IEventProcessor>> eventProcessors = registeredEvents.get(handledEventProcessor.getEvent());
+		Map<Integer, Map<Integer, List<IEventProcessor>>> eventProcessors = registeredEvents.get(handledEventProcessor.getEvent());
 		/*
 		 * Example
 		 * Button: BUTTON_LEFT
 		 */
 		int button = handledEventProcessor.getButton();
-		Map<Integer, IEventProcessor> buttonEventProcessors = eventProcessors.get(button);
+		Map<Integer, List<IEventProcessor>> buttonEventProcessors = eventProcessors.get(button);
 		if(buttonEventProcessors == null) {
-			buttonEventProcessors = new HashMap<Integer, IEventProcessor>();
+			buttonEventProcessors = new HashMap<Integer, List<IEventProcessor>>();
 			eventProcessors.put(button, buttonEventProcessors);
 		}
 		/*
 		 * Example
 		 * StateMask: SWT.CTRL
 		 */
-		buttonEventProcessors.put(handledEventProcessor.getStateMask(), handledEventProcessor);
+		int stateMask = handledEventProcessor.getStateMask();
+		List<IEventProcessor> handledEventProcessors = buttonEventProcessors.get(stateMask);
+		if(handledEventProcessors == null) {
+			handledEventProcessors = new ArrayList<IEventProcessor>();
+		}
+		handledEventProcessors.add(handledEventProcessor);
+		buttonEventProcessors.put(stateMask, handledEventProcessors);
 	}
 
 	public void setChartSettings(IChartSettings chartSettings) {
@@ -579,23 +593,22 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		handleEvent(registeredEvents.get(EVENT_KEY_UP).get(event.keyCode), event);
 	}
 
-	private void handleEvent(Map<Integer, IEventProcessor> eventProcessors, Event event) {
+	private void handleEvent(Map<Integer, List<IEventProcessor>> eventProcessorMap, Event event) {
 
-		IEventProcessor eventProcessor = null;
-		//
-		if(eventProcessors != null) {
+		if(eventProcessorMap != null) {
 			if(event.stateMask == SWT.NONE) {
 				/*
 				 * Default processor.
 				 * The stateMask == 0 is handled differently.
 				 */
-				eventProcessor = eventProcessors.get(SWT.NONE);
+				List<IEventProcessor> eventProcessors = eventProcessorMap.get(SWT.NONE);
+				handleEventProcessors(eventProcessors, event);
 			} else {
 				/*
 				 * Handle all other stateMasks.
 				 */
 				exitloop:
-				for(int eventMask : eventProcessors.keySet()) {
+				for(int eventMask : eventProcessorMap.keySet()) {
 					/*
 					 * Skip the default processor.
 					 */
@@ -604,17 +617,26 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 					}
 					//
 					if((event.stateMask & eventMask) == eventMask) {
-						eventProcessor = eventProcessors.get(eventMask);
+						List<IEventProcessor> eventProcessors = eventProcessorMap.get(eventMask);
+						handleEventProcessors(eventProcessors, event);
 						break exitloop;
 					}
 				}
 			}
 		}
-		/*
-		 * Handle the event.
-		 */
-		if(eventProcessor != null) {
-			eventProcessor.handleEvent(this, event);
+	}
+
+	private void handleEventProcessors(List<IEventProcessor> eventProcessors, Event event) {
+
+		if(eventProcessors != null) {
+			for(IEventProcessor eventProcessor : eventProcessors) {
+				/*
+				 * Handle the event.
+				 */
+				if(eventProcessor != null) {
+					eventProcessor.handleEvent(this, event);
+				}
+			}
 		}
 	}
 
