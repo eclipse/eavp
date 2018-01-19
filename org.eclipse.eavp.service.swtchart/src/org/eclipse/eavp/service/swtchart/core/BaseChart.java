@@ -66,8 +66,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public static final int BUTTON_WHEEL = 4;
 	public static final int BUTTON_NONE = 5;
 	//
-	// private static final int KEY_CODE_S = 115;
-	public static final int KEY_CODE_Z = 122;
+	public static final int KEY_CODE_S = 83;
+	public static final int KEY_CODE_s = 115;
+	public static final int KEY_CODE_d = 100;
+	public static final int KEY_CODE_z = 122;
 	//
 	public static final String SELECTED_SERIES_NONE = "None";
 	//

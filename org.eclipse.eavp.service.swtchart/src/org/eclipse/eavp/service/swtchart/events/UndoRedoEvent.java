@@ -28,7 +28,7 @@ public class UndoRedoEvent extends AbstractHandledEventProcessor implements IHan
 	@Override
 	public int getButton() {
 
-		return BaseChart.KEY_CODE_Z;
+		return BaseChart.KEY_CODE_z;
 	}
 
 	@Override
