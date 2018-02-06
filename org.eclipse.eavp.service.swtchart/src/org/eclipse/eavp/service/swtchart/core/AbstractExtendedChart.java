@@ -13,6 +13,7 @@ package org.eclipse.eavp.service.swtchart.core;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -116,10 +117,17 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	public void removeXAxisSettings() {
 
 		Set<Integer> keySet = xAxisSettingsMap.keySet();
+		Set<Integer> removeKeys = new HashSet<>();
 		for(int key : keySet) {
 			if(key != BaseChart.ID_PRIMARY_X_AXIS) {
-				xAxisSettingsMap.remove(key);
+				removeKeys.add(key);
 			}
+		}
+		/*
+		 * Remove the keys.
+		 */
+		for(int key : removeKeys) {
+			xAxisSettingsMap.remove(key);
 		}
 	}
 
@@ -131,10 +139,17 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	public void removeYAxisSettings() {
 
 		Set<Integer> keySet = yAxisSettingsMap.keySet();
+		Set<Integer> removeKeys = new HashSet<>();
 		for(int key : keySet) {
 			if(key != BaseChart.ID_PRIMARY_Y_AXIS) {
-				yAxisSettingsMap.remove(key);
+				removeKeys.add(key);
 			}
+		}
+		/*
+		 * Remove the keys.
+		 */
+		for(int key : removeKeys) {
+			yAxisSettingsMap.remove(key);
 		}
 	}
 
