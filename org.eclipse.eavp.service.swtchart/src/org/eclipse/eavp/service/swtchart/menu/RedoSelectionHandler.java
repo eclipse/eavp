@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Shell;
 
 public class RedoSelectionHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
+	public static final String NAME = "Redo Selection";
+
 	@Override
 	public String getCategory() {
 
@@ -25,7 +27,7 @@ public class RedoSelectionHandler extends AbstractChartMenuEntry implements ICha
 	@Override
 	public String getName() {
 
-		return "Redo Selection";
+		return NAME;
 	}
 
 	@Override

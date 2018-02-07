@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class PrinterExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
-	private static final String NAME = "Print";
+	public static final String NAME = "Print";
 	private static final String TITLE = "Save Selection";
 
 	@Override

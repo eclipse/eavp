@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 public class JPGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.jpg";
-	private static final String NAME = "Image (" + FILE_EXTENSION + ")";
+	public static final String NAME = "Image (" + FILE_EXTENSION + ")";
 	private static final String TITLE = "Save As Image";
 
 	@Override

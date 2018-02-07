@@ -594,6 +594,18 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
+	public IChartMenuEntry getChartMenuEntry(String name) {
+
+		for(IChartMenuEntry chartMenuEntry : menuEntries) {
+			if(chartMenuEntry.getName().equals(name)) {
+				return chartMenuEntry;
+			}
+		}
+		//
+		return null;
+	}
+
+	@Override
 	public void clearMenuEntries() {
 
 		menuEntries.clear();

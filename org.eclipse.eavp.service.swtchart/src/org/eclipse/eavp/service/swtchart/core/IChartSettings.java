@@ -163,6 +163,8 @@ public interface IChartSettings {
 
 	Set<IChartMenuEntry> getMenuEntries();
 
+	IChartMenuEntry getChartMenuEntry(String name);
+
 	void clearMenuEntries();
 
 	boolean isSupportDataShift();

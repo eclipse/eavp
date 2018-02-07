@@ -32,7 +32,7 @@ import org.swtchart.ISeries;
 public class LaTeXTableExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.tex";
-	private static final String NAME = "LaTeX Table (" + FILE_EXTENSION + ")";
+	public static final String NAME = "LaTeX Table (" + FILE_EXTENSION + ")";
 	//
 	private static final String TITLE = "Save As LaTeX Table";
 	private static final String TAB = "\t";

@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 public class BMPExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.bmp";
-	private static final String NAME = "Image (" + FILE_EXTENSION + ")";
+	public static final String NAME = "Image (" + FILE_EXTENSION + ")";
 	private static final String TITLE = "Save As Image";
 
 	@Override

@@ -34,7 +34,7 @@ import org.swtchart.ISeries;
 public class RScriptExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.R";
-	private static final String NAME = "Image R-Script (" + FILE_EXTENSION + ")";
+	public static final String NAME = "Image R-Script (" + FILE_EXTENSION + ")";
 	//
 	private static final String TITLE = "Save As R-Script Image";
 	//

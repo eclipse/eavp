@@ -14,7 +14,7 @@ package org.eclipse.eavp.service.swtchart.menu.export;
 public class CSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.csv";
-	private static final String NAME = "Comma Separated Values (" + FILE_EXTENSION + ")";
+	public static final String NAME = "Comma Separated Values (" + FILE_EXTENSION + ")";
 	//
 	private static final String TITLE = "Save As Comma Separated Text";
 	private static final String DELIMITER = ",";

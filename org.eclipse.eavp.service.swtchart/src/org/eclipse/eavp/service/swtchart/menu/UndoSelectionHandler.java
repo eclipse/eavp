@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Shell;
 
 public class UndoSelectionHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
+	public static final String NAME = "Undo Selection";
+
 	@Override
 	public String getCategory() {
 
@@ -25,7 +27,7 @@ public class UndoSelectionHandler extends AbstractChartMenuEntry implements ICha
 	@Override
 	public String getName() {
 
-		return "Undo Selection";
+		return NAME;
 	}
 
 	@Override

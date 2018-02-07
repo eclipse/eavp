@@ -14,7 +14,7 @@ package org.eclipse.eavp.service.swtchart.menu.export;
 public class TSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.tsv";
-	private static final String NAME = "Tab Separated Values (" + FILE_EXTENSION + ")";
+	public static final String NAME = "Tab Separated Values (" + FILE_EXTENSION + ")";
 	//
 	private static final String TITLE = "Save As Tab Separated Text";
 	private static final String DELIMITER = "\t";

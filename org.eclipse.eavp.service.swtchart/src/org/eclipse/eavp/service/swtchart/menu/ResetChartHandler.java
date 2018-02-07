@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Shell;
 
 public class ResetChartHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
+	public static final String NAME = "Reset Chart (1:1)";
+
 	@Override
 	public String getCategory() {
 
@@ -25,7 +27,7 @@ public class ResetChartHandler extends AbstractChartMenuEntry implements IChartM
 	@Override
 	public String getName() {
 
-		return "Reset Chart (1:1)";
+		return NAME;
 	}
 
 	@Override
