@@ -57,6 +57,11 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		}
 	}
 
+	public void clear() {
+
+		labels.clear();
+	}
+
 	@Override
 	public void paintControl(PaintEvent e) {
 
