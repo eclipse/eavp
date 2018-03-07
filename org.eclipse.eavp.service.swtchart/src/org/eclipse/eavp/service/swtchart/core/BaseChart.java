@@ -1015,6 +1015,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return axisScaleConverter;
 	}
 
+	/**
+	 * A dummy event is created.
+	 * If possible, use the method fireUpdateCustomRangeSelectionHandlers(Event event).
+	 */
+	protected void fireUpdateCustomRangeSelectionHandlers() {
+
+		Event event = new Event();
+		fireUpdateCustomRangeSelectionHandlers(event);
+	}
+
 	public void fireUpdateCustomRangeSelectionHandlers(Event event) {
 
 		/*
@@ -1027,6 +1037,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				System.out.println(e);
 			}
 		}
+	}
+
+	/**
+	 * A dummy event is created.
+	 * If possible, use the method fireUpdateCustomPointSelectionHandlers(Event event).
+	 */
+	protected void fireUpdateCustomPointSelectionHandlers() {
+
+		Event event = new Event();
+		fireUpdateCustomPointSelectionHandlers(event);
 	}
 
 	public void fireUpdateCustomPointSelectionHandlers(Event event) {

@@ -247,6 +247,7 @@ public class RangeSelector extends Composite {
 			if(rangeX != null && rangeY != null) {
 				scrollableChart.setRange(IExtendedChart.X_AXIS, rangeX);
 				scrollableChart.setRange(IExtendedChart.Y_AXIS, rangeY);
+				fireUpdateRangeSelection();
 			}
 		} catch(ParseException e) {
 			System.out.println(e);
@@ -256,6 +257,13 @@ public class RangeSelector extends Composite {
 	private void resetRange() {
 
 		scrollableChart.adjustRange(true);
+		fireUpdateRangeSelection();
+	}
+
+	private void fireUpdateRangeSelection() {
+
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		baseChart.fireUpdateCustomRangeSelectionHandlers();
 	}
 
 	private Range getRange(String axis) throws ParseException {
