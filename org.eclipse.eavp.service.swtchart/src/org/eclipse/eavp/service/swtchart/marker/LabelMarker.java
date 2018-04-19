@@ -50,10 +50,25 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		this.labels = (labels != null) ? labels : new HashMap<Integer, String>();
 		this.indexSeries = indexSeries;
 		if(orientation == SWT.VERTICAL) {
+			disposeTransform();
 			transform = new Transform(Display.getDefault());
 			transform.rotate(-90);
 		} else {
 			transform = null;
+		}
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+
+		super.finalize();
+		disposeTransform();
+	}
+
+	private void disposeTransform() {
+
+		if(transform != null) {
+			transform.dispose();
 		}
 	}
 
