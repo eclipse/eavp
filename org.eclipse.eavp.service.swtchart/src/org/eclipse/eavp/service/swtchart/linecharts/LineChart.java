@@ -30,6 +30,7 @@ public class LineChart extends ScrollableChart {
 	public static final String COMPRESSION_MEDIUM = "Medium";
 	public static final String COMPRESSION_LOW = "Low";
 	public static final String COMPRESSION_NONE = "None";
+	public static final String COMPRESSION_AUTO = "Auto";
 	/*
 	 * The compression number is dependent on the display width.
 	 */
