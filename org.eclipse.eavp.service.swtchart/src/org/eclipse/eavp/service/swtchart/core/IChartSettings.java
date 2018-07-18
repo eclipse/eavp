@@ -20,6 +20,10 @@ import org.eclipse.swt.graphics.Color;
 
 public interface IChartSettings {
 
+	void setEnableTooltips(boolean enable);
+
+	boolean isEnableTooltips();
+
 	boolean isEnableRangeSelector();
 
 	void setEnableRangeSelector(boolean enableRangeSelector);

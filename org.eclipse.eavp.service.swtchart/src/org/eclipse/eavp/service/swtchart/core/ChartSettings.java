@@ -42,6 +42,7 @@ import org.eclipse.eavp.service.swtchart.menu.export.PrinterExportHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.RScriptExportHandler;
 import org.eclipse.eavp.service.swtchart.menu.export.TSVExportHandler;
 import org.eclipse.eavp.service.swtchart.menu.toggle.ToggleAxisZeroMarkerHandler;
+import org.eclipse.eavp.service.swtchart.menu.toggle.ToggleLabelTooltipsHandler;
 import org.eclipse.eavp.service.swtchart.menu.toggle.ToggleLegendMarkerHandler;
 import org.eclipse.eavp.service.swtchart.menu.toggle.TogglePlotCenterMarkerHandler;
 import org.eclipse.eavp.service.swtchart.menu.toggle.TogglePositionMarkerHandler;
@@ -98,6 +99,7 @@ public class ChartSettings implements IChartSettings {
 	private Set<IHandledEventProcessor> handledEventProcessors;
 	//
 	private boolean supportDataShift;
+	private boolean enableTooltips;
 
 	public ChartSettings() {
 		//
@@ -164,6 +166,7 @@ public class ChartSettings implements IChartSettings {
 		menuEntries.add(new TogglePlotCenterMarkerHandler());
 		menuEntries.add(new ToggleAxisZeroMarkerHandler());
 		menuEntries.add(new ToggleSeriesLabelMarkerHandler());
+		menuEntries.add(new ToggleLabelTooltipsHandler());
 		menuEntries.add(new JPGExportHandler());
 		menuEntries.add(new PNGExportHandler());
 		menuEntries.add(new BMPExportHandler());
@@ -645,5 +648,17 @@ public class ChartSettings implements IChartSettings {
 	public void clearHandledEventProcessors() {
 
 		handledEventProcessors.clear();
+	}
+
+	@Override
+	public void setEnableTooltips(boolean enable) {
+
+		enableTooltips = enable;
+	}
+
+	@Override
+	public boolean isEnableTooltips() {
+
+		return enableTooltips;
 	}
 }
