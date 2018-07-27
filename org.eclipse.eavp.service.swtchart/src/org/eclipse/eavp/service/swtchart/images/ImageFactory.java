@@ -38,10 +38,12 @@ public class ImageFactory<T extends ScrollableChart> {
 		imageSupplier = new ImageSupplier();
 		//
 		Display display = Display.getDefault();
-		width = (width > display.getBounds().width) ? display.getBounds().width : width;
-		height = (height > display.getBounds().height) ? display.getBounds().height : height;
-		Shell shell = t.getShell();
-		shell.setSize(width, height);
+		if(display != null) {
+			width = (width > display.getBounds().width) ? display.getBounds().width : width;
+			height = (height > display.getBounds().height) ? display.getBounds().height : height;
+			Shell shell = t.getShell();
+			shell.setSize(width, height);
+		}
 	}
 
 	public T getChart() {
