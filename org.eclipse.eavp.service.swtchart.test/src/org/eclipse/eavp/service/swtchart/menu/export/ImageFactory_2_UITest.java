@@ -24,7 +24,6 @@ import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.eavp.service.swtchart.images.ImageFactory;
 import org.eclipse.eavp.service.swtchart.menu.SeriesConverter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 
 import junit.framework.TestCase;
 
@@ -53,7 +52,7 @@ public class ImageFactory_2_UITest extends TestCase {
 			 * Modify the chart.
 			 */
 			MassSpectrumChart massSpectrumChart = imageFactory.getChart();
-			massSpectrumChart.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			massSpectrumChart.setBackground(massSpectrumChart.getBaseChart().getDisplay().getSystemColor(SWT.COLOR_WHITE));
 			List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_BAR_SERIES_1));
 			//

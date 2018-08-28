@@ -16,7 +16,6 @@ import java.util.Set;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.IExtendedChart;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.swtchart.ISeries;
 
@@ -53,7 +52,7 @@ public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implement
 					/*
 					 * Start
 					 */
-					baseChart.setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_SIZENWSE));
+					baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_SIZENWSE));
 					baseChart.setMoveStartTime(System.currentTimeMillis());
 					baseChart.setXMoveStart(event.x);
 					baseChart.setYMoveStart(event.y);

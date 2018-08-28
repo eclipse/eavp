@@ -14,16 +14,16 @@ package org.eclipse.eavp.service.swtchart.marker;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 public abstract class AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
 	private BaseChart baseChart;
-	private Color foregroundColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private Color foregroundColor;
 	private boolean draw = true;
 
 	public AbstractBaseChartPaintListener(BaseChart baseChart) {
 		this.baseChart = baseChart;
+		foregroundColor = baseChart.getDisplay().getSystemColor(SWT.COLOR_BLACK);
 	}
 
 	@Override

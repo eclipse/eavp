@@ -36,7 +36,6 @@ import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
 import org.swtchart.LineStyle;
 
@@ -45,7 +44,7 @@ public class LineSeries_3_Part extends LineChart {
 	@Inject
 	public LineSeries_3_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -75,7 +74,7 @@ public class LineSeries_3_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("Retention Time (milliseconds)");
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsX.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsX.setPosition(Position.Secondary);
 		primaryAxisSettingsX.setVisible(false);
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.NONE);
@@ -85,7 +84,7 @@ public class LineSeries_3_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Intensity");
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.0#E0"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsY.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.NONE);
 		/*
 		 * Secondary X-Axes
@@ -93,14 +92,14 @@ public class LineSeries_3_Part extends LineChart {
 		ISecondaryAxisSettings secondaryAxisSettingsX1 = new SecondaryAxisSettings("Scan Number", new MillisecondsToScanNumberConverter(50, 50));
 		secondaryAxisSettingsX1.setPosition(Position.Primary);
 		secondaryAxisSettingsX1.setDecimalFormat(new DecimalFormat(("0"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		secondaryAxisSettingsX1.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		secondaryAxisSettingsX1.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		secondaryAxisSettingsX1.setExtraSpaceTitle(0);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX1);
 		//
 		ISecondaryAxisSettings secondaryAxisSettingsX2 = new SecondaryAxisSettings("Minutes", new MillisecondsToMinuteConverter());
 		secondaryAxisSettingsX2.setPosition(Position.Primary);
 		secondaryAxisSettingsX2.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		secondaryAxisSettingsX2.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		secondaryAxisSettingsX2.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		secondaryAxisSettingsX2.setExtraSpaceTitle(0);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX2);
 		/*
@@ -109,7 +108,7 @@ public class LineSeries_3_Part extends LineChart {
 		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Relative Intensity [%]", new RelativeIntensityConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY1.setPosition(Position.Secondary);
 		secondaryAxisSettingsY1.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		secondaryAxisSettingsY1.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		secondaryAxisSettingsY1.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY1);
 		/*
 		 * Add menu items.

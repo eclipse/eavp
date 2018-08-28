@@ -32,7 +32,6 @@ import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
@@ -41,7 +40,7 @@ public class MeasurementSeries_2_Part extends LineChart {
 	@Inject
 	public MeasurementSeries_2_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -67,7 +66,7 @@ public class MeasurementSeries_2_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("Concentration [mg/g]");
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsX.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.DOT);
 		/*
 		 * Primary Y-Axis
@@ -75,7 +74,7 @@ public class MeasurementSeries_2_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Area");
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsY.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.DOT);
 		//
 		applySettings(chartSettings);
@@ -83,9 +82,9 @@ public class MeasurementSeries_2_Part extends LineChart {
 		 * Create series.
 		 */
 		Map<Integer, Color> colors = new HashMap<Integer, Color>();
-		colors.put(1, Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		colors.put(2, Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		colors.put(3, Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		colors.put(1, getDisplay().getSystemColor(SWT.COLOR_BLACK));
+		colors.put(2, getDisplay().getSystemColor(SWT.COLOR_RED));
+		colors.put(3, getDisplay().getSystemColor(SWT.COLOR_GRAY));
 		//
 		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 		ISeriesData seriesData;

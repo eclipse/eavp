@@ -33,7 +33,6 @@ import org.eclipse.eavp.service.swtchart.scattercharts.ScatterSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries.PlotSymbolType;
 
 public class ScatterSeries_3_Part extends ScatterChart {
@@ -41,7 +40,7 @@ public class ScatterSeries_3_Part extends ScatterChart {
 	@Inject
 	public ScatterSeries_3_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -68,29 +67,29 @@ public class ScatterSeries_3_Part extends ScatterChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("1st Dimension");
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsX.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("2nd Dimension");
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.000"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsY.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		//
 		applySettings(chartSettings);
 		/*
 		 * Create series.
 		 */
 		Map<Integer, Color> colors = new HashMap<Integer, Color>();
-		colors.put(1, Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		colors.put(2, Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
-		colors.put(3, Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
-		colors.put(4, Display.getDefault().getSystemColor(SWT.COLOR_YELLOW));
-		colors.put(5, Display.getDefault().getSystemColor(SWT.COLOR_CYAN));
-		colors.put(6, Display.getDefault().getSystemColor(SWT.COLOR_BLUE));
-		colors.put(7, Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		colors.put(8, Display.getDefault().getSystemColor(SWT.COLOR_DARK_MAGENTA));
-		colors.put(9, Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN));
-		colors.put(10, Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN));
-		colors.put(11, Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		colors.put(1, getDisplay().getSystemColor(SWT.COLOR_RED));
+		colors.put(2, getDisplay().getSystemColor(SWT.COLOR_GRAY));
+		colors.put(3, getDisplay().getSystemColor(SWT.COLOR_GREEN));
+		colors.put(4, getDisplay().getSystemColor(SWT.COLOR_YELLOW));
+		colors.put(5, getDisplay().getSystemColor(SWT.COLOR_CYAN));
+		colors.put(6, getDisplay().getSystemColor(SWT.COLOR_BLUE));
+		colors.put(7, getDisplay().getSystemColor(SWT.COLOR_BLACK));
+		colors.put(8, getDisplay().getSystemColor(SWT.COLOR_DARK_MAGENTA));
+		colors.put(9, getDisplay().getSystemColor(SWT.COLOR_DARK_CYAN));
+		colors.put(10, getDisplay().getSystemColor(SWT.COLOR_DARK_GREEN));
+		colors.put(11, getDisplay().getSystemColor(SWT.COLOR_DARK_RED));
 		//
 		List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
 		for(int i = 1; i <= 5; i++) {

@@ -55,7 +55,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
@@ -119,7 +118,7 @@ public class LineSeries_Preferences_Part extends Composite {
 				preferenceManager.addToRoot(new PreferenceNode("3", preferenceSecondaryAxesPage));
 				preferenceManager.addToRoot(new PreferenceNode("4", preferenceDataPage));
 				//
-				PreferenceDialog preferenceDialog = new PreferenceDialog(Display.getDefault().getActiveShell(), preferenceManager);
+				PreferenceDialog preferenceDialog = new PreferenceDialog(e.display.getActiveShell(), preferenceManager);
 				preferenceDialog.create();
 				preferenceDialog.setMessage("Settings");
 				if(preferenceDialog.open() == PreferenceDialog.OK) {
@@ -150,7 +149,7 @@ public class LineSeries_Preferences_Part extends Composite {
 	private void applyChartSettings() throws Exception {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		//
 		Color colorHintRangeSelector = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR));
 		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, LineSeriesPreferenceConstants.P_TITLE_COLOR));
@@ -365,7 +364,7 @@ public class LineSeries_Preferences_Part extends Composite {
 
 		Color color = colors.get(rgb);
 		if(color == null) {
-			color = new Color(Display.getDefault(), rgb);
+			color = new Color(getDisplay(), rgb);
 			colors.put(rgb, color);
 		}
 		return color;

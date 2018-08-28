@@ -18,7 +18,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 public class LineSeriesLinked_1_Part {
 
@@ -33,7 +32,7 @@ public class LineSeriesLinked_1_Part {
 
 	private void initialize(Composite parent) throws Exception {
 
-		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		//
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));

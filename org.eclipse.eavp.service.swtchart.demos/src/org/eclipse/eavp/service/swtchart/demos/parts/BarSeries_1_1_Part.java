@@ -24,14 +24,13 @@ import org.eclipse.eavp.service.swtchart.customcharts.MassSpectrumChart;
 import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 public class BarSeries_1_1_Part extends MassSpectrumChart {
 
 	@Inject
 	public BarSeries_1_1_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		initialize();
 	}
 

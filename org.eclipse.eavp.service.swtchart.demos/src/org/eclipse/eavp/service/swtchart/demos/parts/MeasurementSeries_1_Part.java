@@ -29,7 +29,6 @@ import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries.PlotSymbolType;
 import org.swtchart.LineStyle;
 
@@ -38,7 +37,7 @@ public class MeasurementSeries_1_Part extends LineChart {
 	@Inject
 	public MeasurementSeries_1_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -64,7 +63,7 @@ public class MeasurementSeries_1_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("Concentration [mg/g]");
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsX.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.DOT);
 		/*
 		 * Primary Y-Axis
@@ -72,7 +71,7 @@ public class MeasurementSeries_1_Part extends LineChart {
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle("Area");
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
-		primaryAxisSettingsY.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.DOT);
 		//
 		applySettings(chartSettings);
@@ -93,7 +92,7 @@ public class MeasurementSeries_1_Part extends LineChart {
 		lineSeriesSettings.setEnableArea(false);
 		lineSeriesSettings.setLineStyle(LineStyle.NONE);
 		lineSeriesSettings.setSymbolSize(5);
-		lineSeriesSettings.setSymbolColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		lineSeriesSettings.setSymbolColor(getDisplay().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 		lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
 		lineSeriesSettingsHighlight.setLineWidth(2);
@@ -106,7 +105,7 @@ public class MeasurementSeries_1_Part extends LineChart {
 		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
 		lineSeriesSettings.setEnableArea(false);
 		lineSeriesSettings.setLineStyle(LineStyle.SOLID);
-		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
 		lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
 		lineSeriesSettingsHighlight.setLineWidth(2);

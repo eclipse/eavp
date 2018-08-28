@@ -35,7 +35,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -47,11 +46,11 @@ import org.swtchart.ISeries;
 
 public class ScatterSeries_Edit_Part extends Composite {
 
-	private Color COLOR_RED = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-	private Color COLOR_BLUE = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-	private Color COLOR_MAGENTA = Display.getDefault().getSystemColor(SWT.COLOR_MAGENTA);
-	private Color COLOR_CYAN = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-	private Color COLOR_GRAY = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
+	private Color COLOR_RED = getDisplay().getSystemColor(SWT.COLOR_RED);
+	private Color COLOR_BLUE = getDisplay().getSystemColor(SWT.COLOR_BLUE);
+	private Color COLOR_MAGENTA = getDisplay().getSystemColor(SWT.COLOR_MAGENTA);
+	private Color COLOR_CYAN = getDisplay().getSystemColor(SWT.COLOR_CYAN);
+	private Color COLOR_GRAY = getDisplay().getSystemColor(SWT.COLOR_GRAY);
 	//
 	private int SYMBOL_SIZE = 8;
 	//
@@ -134,7 +133,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 	@Inject
 	public ScatterSeries_Edit_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -147,7 +146,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 		this.setLayout(new GridLayout(1, true));
 		tabFolder = new TabFolder(this, SWT.BOTTOM);
 		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tabFolder.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		tabFolder.setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -172,7 +171,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
 		tabItem.setText("Chart");
 		Composite composite = new Composite(tabFolder, SWT.NONE);
-		composite.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		composite.setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		composite.setLayout(new GridLayout(1, true));
 		createChartSection(composite);
 		tabItem.setControl(composite);
@@ -221,7 +220,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 		 * Buttons
 		 */
 		Composite compositeButtons = new Composite(parent, SWT.NONE);
-		compositeButtons.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		compositeButtons.setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		GridData gridDataComposite = new GridData(GridData.FILL_HORIZONTAL);
 		gridDataComposite.horizontalAlignment = SWT.END;
 		compositeButtons.setLayoutData(gridDataComposite);

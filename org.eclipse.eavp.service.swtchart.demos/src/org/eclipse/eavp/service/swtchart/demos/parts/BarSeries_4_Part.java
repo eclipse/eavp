@@ -27,7 +27,6 @@ import org.eclipse.eavp.service.swtchart.demos.support.SeriesConverter;
 import org.eclipse.eavp.service.swtchart.marker.LabelMarker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.IPlotArea;
 
 public class BarSeries_4_Part extends BarChart {
@@ -37,7 +36,7 @@ public class BarSeries_4_Part extends BarChart {
 	@Inject
 	public BarSeries_4_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		initialize();
 	}
 

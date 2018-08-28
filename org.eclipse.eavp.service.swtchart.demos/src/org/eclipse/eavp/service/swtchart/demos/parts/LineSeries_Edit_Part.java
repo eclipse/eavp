@@ -41,7 +41,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -78,7 +77,7 @@ public class LineSeries_Edit_Part extends Composite {
 	@Inject
 	public LineSeries_Edit_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -502,11 +501,11 @@ public class LineSeries_Edit_Part extends Composite {
 		chromatogramChart.deleteSeries();
 		//
 		Map<Integer, Color> colors = new HashMap<Integer, Color>();
-		colors.put(1, Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		colors.put(2, Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		colors.put(3, Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
-		colors.put(4, Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
-		colors.put(5, Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
+		colors.put(1, getDisplay().getSystemColor(SWT.COLOR_RED));
+		colors.put(2, getDisplay().getSystemColor(SWT.COLOR_BLACK));
+		colors.put(3, getDisplay().getSystemColor(SWT.COLOR_GRAY));
+		colors.put(4, getDisplay().getSystemColor(SWT.COLOR_DARK_RED));
+		colors.put(5, getDisplay().getSystemColor(SWT.COLOR_GRAY));
 		//
 		String[] items = new String[6];
 		items[0] = "No Selection";

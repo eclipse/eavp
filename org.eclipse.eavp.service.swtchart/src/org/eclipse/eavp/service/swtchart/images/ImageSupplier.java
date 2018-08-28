@@ -16,7 +16,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.widgets.Display;
 
 public class ImageSupplier {
 
@@ -29,7 +28,7 @@ public class ImageSupplier {
 
 	public ImageData getImageData(BaseChart baseChart) {
 
-		Image image = new Image(Display.getDefault(), baseChart.getBounds());
+		Image image = new Image(baseChart.getDisplay(), baseChart.getBounds());
 		GC gc = new GC(image);
 		baseChart.print(gc);
 		gc.dispose();

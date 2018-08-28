@@ -14,18 +14,13 @@ package org.eclipse.eavp.service.swtchart.events;
 import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Cursor;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ToolTip;
 
 public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
-	private Cursor defaultCursor = Display.getDefault().getSystemCursor(SWT.CURSOR_ARROW);
-	private ToolTip tip;
-
-	public MouseMoveCursorEvent() {
-		tip = new ToolTip(Display.getDefault().getActiveShell(), SWT.NONE);
-	}
+	private Cursor defaultCursor = null;
+	private ToolTip tooltip = null;
 
 	@Override
 	public int getEvent() {
@@ -42,16 +37,24 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
+		if(defaultCursor == null) {
+			defaultCursor = baseChart.getDisplay().getSystemCursor(SWT.CURSOR_ARROW);
+		}
+		//
+		if(tooltip == null) {
+			tooltip = new ToolTip(baseChart.getShell(), SWT.NONE);
+		}
+		//
 		String selectedSeriesId = baseChart.getSelectedseriesId(event);
 		if(selectedSeriesId.equals("")) {
 			baseChart.setCursor(defaultCursor);
-			tip.setVisible(false);
+			tooltip.setVisible(false);
 		} else {
-			baseChart.setCursor(Display.getDefault().getSystemCursor(SWT.CURSOR_HAND));
+			baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 			if(baseChart.getChartSettings().isEnableTooltips()) {
-				tip.setMessage(selectedSeriesId);
-				tip.setVisible(true);
-				tip.setAutoHide(false);
+				tooltip.setMessage(selectedSeriesId);
+				tooltip.setVisible(true);
+				tooltip.setAutoHide(false);
 			}
 		}
 	}

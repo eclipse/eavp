@@ -153,7 +153,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 					/*
 					 * Hide the rectangle after x milliseconds.
 					 */
-					Display.getDefault().asyncExec(new Runnable() {
+					getBaseChart().getDisplay().asyncExec(new Runnable() {
 
 						@Override
 						public void run() {

@@ -27,12 +27,11 @@ import org.eclipse.eavp.service.swtchart.scattercharts.ScatterChart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.IAxis.Position;
 
 public class PCAChart extends ScatterChart {
 
-	private Color COLOR_BLACK = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private Color COLOR_BLACK = getDisplay().getSystemColor(SWT.COLOR_BLACK);
 	//
 	private int symbolSize = 0;
 	private String chartTitle = "";

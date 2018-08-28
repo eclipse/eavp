@@ -26,23 +26,22 @@ import org.eclipse.eavp.service.swtchart.scattercharts.ScatterSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries.PlotSymbolType;
 
 public class ScatterSeries_1_Part extends PCAChart {
 
-	private Color COLOR_RED = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-	private Color COLOR_BLUE = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-	private Color COLOR_MAGENTA = Display.getDefault().getSystemColor(SWT.COLOR_MAGENTA);
-	private Color COLOR_CYAN = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-	private Color COLOR_GRAY = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
+	private Color COLOR_RED = getDisplay().getSystemColor(SWT.COLOR_RED);
+	private Color COLOR_BLUE = getDisplay().getSystemColor(SWT.COLOR_BLUE);
+	private Color COLOR_MAGENTA = getDisplay().getSystemColor(SWT.COLOR_MAGENTA);
+	private Color COLOR_CYAN = getDisplay().getSystemColor(SWT.COLOR_CYAN);
+	private Color COLOR_GRAY = getDisplay().getSystemColor(SWT.COLOR_GRAY);
 	//
 	private int SYMBOL_SIZE = 8;
 
 	@Inject
 	public ScatterSeries_1_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		initialize();
 	}
 

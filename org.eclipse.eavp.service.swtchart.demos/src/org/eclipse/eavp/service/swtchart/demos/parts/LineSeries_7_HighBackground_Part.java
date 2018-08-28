@@ -26,14 +26,13 @@ import org.eclipse.eavp.service.swtchart.linecharts.LineChart;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 public class LineSeries_7_HighBackground_Part extends ChromatogramChart {
 
 	@Inject
 	public LineSeries_7_HighBackground_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {
@@ -62,7 +61,7 @@ public class LineSeries_7_HighBackground_Part extends ChromatogramChart {
 		}
 		lineSeriesData = new LineSeriesData(seriesData);
 		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
-		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setEnableArea(true);
 		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
 		lineSeriesSettingsHighlight.setLineWidth(2);

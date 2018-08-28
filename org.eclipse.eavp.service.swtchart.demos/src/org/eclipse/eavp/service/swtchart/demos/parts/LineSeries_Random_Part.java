@@ -43,14 +43,14 @@ public class LineSeries_Random_Part extends Composite {
 	private Button buttonReset;
 	private ChromatogramChart chromatogramChart;
 	//
-	private Display display = Display.getDefault();
+	private Display display = getDisplay();
 	private Acquisition acquisition;
 	private Recording recording;
 
 	@Inject
 	public LineSeries_Random_Part(Composite parent) {
 		super(parent, SWT.NONE);
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 			acquisition = new Acquisition();
@@ -153,7 +153,7 @@ public class LineSeries_Random_Part extends Composite {
 				ISeriesData seriesData = getRandomSeriesData();
 				ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 				ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
-				lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_RED));
 				lineSeriesSettings.setEnableArea(true);
 				lineSeriesDataList.add(lineSeriesData);
 				ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
@@ -171,7 +171,7 @@ public class LineSeries_Random_Part extends Composite {
 		ISeriesData seriesData = getRandomSeriesData();
 		ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 		ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
-		lineSeriesSettings.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setEnableArea(true);
 		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
 		lineSeriesSettingsHighlight.setLineWidth(2);

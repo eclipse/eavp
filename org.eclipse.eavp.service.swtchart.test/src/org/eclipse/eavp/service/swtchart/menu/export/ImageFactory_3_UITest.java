@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.eavp.service.swtchart.TestPathHelper;
+import org.eclipse.eavp.service.swtchart.core.BaseChart;
 import org.eclipse.eavp.service.swtchart.core.ISeriesData;
 import org.eclipse.eavp.service.swtchart.customcharts.PCAChart;
 import org.eclipse.eavp.service.swtchart.images.ImageFactory;
@@ -24,20 +25,12 @@ import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesData;
 import org.eclipse.eavp.service.swtchart.scattercharts.IScatterSeriesSettings;
 import org.eclipse.eavp.service.swtchart.scattercharts.ScatterSeriesData;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 import org.swtchart.ILineSeries.PlotSymbolType;
 
 import junit.framework.TestCase;
 
 public class ImageFactory_3_UITest extends TestCase {
 
-	private Color COLOR_RED = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-	private Color COLOR_BLUE = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-	private Color COLOR_MAGENTA = Display.getDefault().getSystemColor(SWT.COLOR_MAGENTA);
-	private Color COLOR_CYAN = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-	private Color COLOR_GRAY = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
-	//
 	private int SYMBOL_SIZE = 8;
 
 	@Override
@@ -63,7 +56,8 @@ public class ImageFactory_3_UITest extends TestCase {
 			 * Modify the chart.
 			 */
 			PCAChart pcaChart = imageFactory.getChart();
-			pcaChart.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			BaseChart baseChart = pcaChart.getBaseChart();
+			pcaChart.setBackground(baseChart.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 			List<ISeriesData> scatterSeriesList = SeriesConverter.getSeriesScatter(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_SCATTER_SERIES_1));
 			List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
 			//
@@ -78,19 +72,19 @@ public class ImageFactory_3_UITest extends TestCase {
 				scatterSeriesSettings.setSymbolSize(SYMBOL_SIZE);
 				//
 				if(x > 0 && y > 0) {
-					scatterSeriesSettings.setSymbolColor(COLOR_RED);
+					scatterSeriesSettings.setSymbolColor(baseChart.getDisplay().getSystemColor(SWT.COLOR_RED));
 					scatterSeriesSettings.setSymbolType(PlotSymbolType.SQUARE);
 				} else if(x > 0 && y < 0) {
-					scatterSeriesSettings.setSymbolColor(COLOR_BLUE);
+					scatterSeriesSettings.setSymbolColor(baseChart.getDisplay().getSystemColor(SWT.COLOR_BLUE));
 					scatterSeriesSettings.setSymbolType(PlotSymbolType.TRIANGLE);
 				} else if(x < 0 && y > 0) {
-					scatterSeriesSettings.setSymbolColor(COLOR_MAGENTA);
+					scatterSeriesSettings.setSymbolColor(baseChart.getDisplay().getSystemColor(SWT.COLOR_MAGENTA));
 					scatterSeriesSettings.setSymbolType(PlotSymbolType.DIAMOND);
 				} else if(x < 0 && y < 0) {
-					scatterSeriesSettings.setSymbolColor(COLOR_CYAN);
+					scatterSeriesSettings.setSymbolColor(baseChart.getDisplay().getSystemColor(SWT.COLOR_CYAN));
 					scatterSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
 				} else {
-					scatterSeriesSettings.setSymbolColor(COLOR_GRAY);
+					scatterSeriesSettings.setSymbolColor(baseChart.getDisplay().getSystemColor(SWT.COLOR_GRAY));
 					scatterSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 				}
 				//

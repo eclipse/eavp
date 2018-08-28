@@ -37,7 +37,7 @@ public class ImageFactory<T extends ScrollableChart> {
 		t = clazz.newInstance();
 		imageSupplier = new ImageSupplier();
 		//
-		Display display = Display.getDefault();
+		Display display = ((ScrollableChart)t).getBaseChart().getDisplay();
 		if(display != null) {
 			width = (width > display.getBounds().width) ? display.getBounds().width : width;
 			height = (height > display.getBounds().height) ? display.getBounds().height : height;

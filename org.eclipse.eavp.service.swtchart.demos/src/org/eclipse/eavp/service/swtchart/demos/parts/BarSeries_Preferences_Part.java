@@ -119,7 +119,8 @@ public class BarSeries_Preferences_Part extends Composite {
 				preferenceManager.addToRoot(new PreferenceNode("3", preferenceSecondaryAxesPage));
 				preferenceManager.addToRoot(new PreferenceNode("4", preferenceDataPage));
 				//
-				PreferenceDialog preferenceDialog = new PreferenceDialog(Display.getDefault().getActiveShell(), preferenceManager);
+				//
+				PreferenceDialog preferenceDialog = new PreferenceDialog(e.display.getActiveShell(), preferenceManager);
 				preferenceDialog.create();
 				preferenceDialog.setMessage("Settings");
 				if(preferenceDialog.open() == PreferenceDialog.OK) {
@@ -127,7 +128,7 @@ public class BarSeries_Preferences_Part extends Composite {
 						applyChartSettings();
 						applySeriesSettings();
 					} catch(Exception e1) {
-						MessageDialog.openError(Display.getDefault().getActiveShell(), "Settings", "Something has gone wrong to apply the chart settings.");
+						MessageDialog.openError(e.display.getActiveShell(), "Settings", "Something has gone wrong to apply the chart settings.");
 					}
 				}
 			}
@@ -150,7 +151,7 @@ public class BarSeries_Preferences_Part extends Composite {
 	private void applyChartSettings() throws Exception {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		//
 		Color colorHintRangeSelector = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_COLOR_HINT_RANGE_SELECTOR));
 		Color colorTitle = getColor(PreferenceConverter.getColor(preferenceStore, BarSeriesPreferenceConstants.P_TITLE_COLOR));
@@ -300,7 +301,7 @@ public class BarSeries_Preferences_Part extends Composite {
 
 		Color color = colors.get(rgb);
 		if(color == null) {
-			color = new Color(Display.getDefault(), rgb);
+			color = new Color(getDisplay(), rgb);
 			colors.put(rgb, color);
 		}
 		return color;

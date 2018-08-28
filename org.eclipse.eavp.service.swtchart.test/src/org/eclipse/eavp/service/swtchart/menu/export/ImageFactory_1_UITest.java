@@ -24,7 +24,6 @@ import org.eclipse.eavp.service.swtchart.linecharts.ILineSeriesSettings;
 import org.eclipse.eavp.service.swtchart.linecharts.LineSeriesData;
 import org.eclipse.eavp.service.swtchart.menu.SeriesConverter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 
 import junit.framework.TestCase;
 
@@ -53,7 +52,7 @@ public class ImageFactory_1_UITest extends TestCase {
 			 * Modify the chart.
 			 */
 			ChromatogramChart chromatogramChart = imageFactory.getChart();
-			chromatogramChart.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			chromatogramChart.setBackground(chromatogramChart.getBaseChart().getDisplay().getSystemColor(SWT.COLOR_WHITE));
 			List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
 			//
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_LINE_SERIES_1));
