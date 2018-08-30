@@ -46,6 +46,7 @@ import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferenceNode;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -121,7 +122,7 @@ public class LineSeries_Preferences_Part extends Composite {
 				PreferenceDialog preferenceDialog = new PreferenceDialog(e.display.getActiveShell(), preferenceManager);
 				preferenceDialog.create();
 				preferenceDialog.setMessage("Settings");
-				if(preferenceDialog.open() == PreferenceDialog.OK) {
+				if(preferenceDialog.open() == Window.OK) {
 					try {
 						applyChartSettings();
 						applySeriesSettings();
