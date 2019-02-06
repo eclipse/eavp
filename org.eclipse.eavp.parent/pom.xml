@@ -26,6 +26,15 @@
 	<version>0.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.eclipse.eavp</groupId>
+				<artifactId>org.eclipse.eavp</artifactId>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>eclipse-repo</id>
@@ -125,28 +134,6 @@
 
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-							<includePackedArtifacts>true</includePackedArtifacts>
-						</configuration>
-					</plugin>
-
-					<plugin>
-						<groupId>org.eclipse.tycho.extras</groupId>
-						<artifactId>tycho-pack200a-plugin</artifactId>
-						<version>${tycho-extras-version}</version>
-						<executions>
-							<execution>
-								<id>pack200-normalize</id>
-								<goals>
-									<goal>normalize</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 
 					<plugin>
 						<groupId>org.eclipse.cbi.maven.plugins</groupId>
@@ -162,37 +149,8 @@
 						</executions>
 					</plugin>
 
-					<plugin>
-						<groupId>org.eclipse.tycho.extras</groupId>
-						<artifactId>tycho-pack200b-plugin</artifactId>
-						<version>${tycho-extras-version}</version>
-						<executions>
-							<execution>
-								<id>pack200-pack</id>
-								<goals>
-									<goal>pack</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-p2-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<executions>
-							<execution>
-								<id>p2-metadata</id>
-								<goals>
-									<goal>p2-metadata</goal>
-								</goals>
-								<phase>package</phase>
-							</execution>
-						</executions>
-						<configuration>
-							<defaultP2Metadata>false</defaultP2Metadata>
-						</configuration>
-					</plugin>
+	
 					
 					    <!-- xtend-maven-plugin is in pluginManagement instead of in plugins
        so that it doesn't run before the exec-maven-plugin's *.mwe2 gen;
@@ -218,12 +176,6 @@
       </configuration>
     </plugin>
     
-      <plugin>
-    <groupId>org.eclipse.tycho</groupId>
-    <artifactId>tycho-maven-plugin</artifactId>
-    <version>${tycho-version}</version>
-    <extensions>true</extensions>
-  </plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -231,94 +183,12 @@
 
 	<!-- This is the main build part that sets up all of the rules. -->
 	<build>
-		<plugins>
-
-			<!-- Setup all the tycho build extensions -->
-			<plugin>
-				<!-- enable tycho build extension -->
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<includes>
-						<include>**/*Tester.class</include>
-						<include>**/*Test.class</include>
-					</includes>
-					<argLine>${ui.test.vmargs}</argLine>
-				</configuration>
-			</plugin>
-
-			<!-- This configures the target platform and the supported architectures. -->
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<pomDependencies>consider</pomDependencies>
-					<environments>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86_64</arch>
-						</environment>
-					</environments>
-					<target>
-						<artifact>
-							<groupId>org.eclipse.eavp</groupId>
-							<artifactId>org.eclipse.eavp.target.oxygen</artifactId>
-							<version>0.2.0-SNAPSHOT</version>
-							<classifier>oxygen</classifier>
-						</artifact>
-					</target>
-					<filters>
-						<!-- Restrict javax.ws.rs version -->
-						<filter>
-							<type>eclipse-plugin</type>
-							<id>javax.ws.rs</id>
-							<restrictTo>
-								<version>1.1.1.v20130318-1750</version>
-							</restrictTo>
-						</filter>
-					</filters>
-				</configuration>
-			</plugin>
-
-			<!-- This updates the version numbers of the POM, bundles, etc. -->
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-versions-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<!-- <executions> <execution> <id>versions</id> <phase>validate</phase> 
-					<goals> <goal>set-version</goal> <goal>update-pom</goal> </goals> </execution> 
-					</executions> -->
-			</plugin>
-		</plugins>
+	    <plugins>
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-war-plugin</artifactId>
+	      </plugin>
+	    </plugins>
 	</build>
 
 </project>

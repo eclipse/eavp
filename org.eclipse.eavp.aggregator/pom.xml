@@ -13,7 +13,9 @@
   </parent>
   <modules>
   	<module>../org.eclipse.eavp.parent</module>
-  	<module>../org.eclipse.eavp.geometry.view.javafx</module>
+  	<module>../org.eclipse.eavp.micro</module>
+  	<module>../org.eclipse.eavp.micro.vaadin.csv</module>
+  	<!--  <module>../org.eclipse.eavp.geometry.view.javafx</module>
   	<module>../org.eclipse.eavp.tests.geometry.view.javafx</module>
   	<module>../org.eclipse.eavp.geometry.view.model</module>
   	<module>../org.eclipse.eavp.tests.geometry.view.model</module>
@@ -44,6 +46,6 @@
   	<module>../org.eclipse.eavp.tests.viz.modeling</module>
   	<module>../org.eclipse.eavp.tests.viz.service.javafx.mesh</module>
   	<module>../org.eclipse.eavp.feature</module>  	
-  	<module>../org.eclipse.eavp.repository</module>
+  	<module>../org.eclipse.eavp.repository</module> -->
   </modules>
 </project>

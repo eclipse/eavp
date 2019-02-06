@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ 
+html, body{
+    padding: 0;
+    margin: 0 auto;
+    height: 100%;
+}
+
+#drop_zone {
+    width: 350px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+</style>
+<meta charset="UTF-8">
+<title>Eclipse Advanced Visualization Project</title>
+<script type="text/javascript">
+
+
+<!-- This function shows how to perform a get request for EAVP programatically -->
+function httpGet(formData, theUrl)
+{
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    
+    if (this.readyState == 4 && this.status == 200) {
+
+	  <!-- This block shows how to initialize the EAVP div-->
+      var plot = document.getElementById("plot");
+      plot.innerHTML = this.responseText <!-- The responseText contains the html code for the EAVP visualization -->
+      var scripts = plot.getElementsByTagName('script') <!-- The scripts that come along with the div must be run manually. -->
+      for (var ix = 0; ix < scripts.length; ix++) {
+    	eval(scripts[ix].text);
+	  }
+    }
+  };
+  xhttp.open("POST", theUrl, true);
+  xhttp.overrideMimeType('text/plain; charset=x-user-defined-binary');
+  
+  <!-- This block shows how to read the contents of a file in html and submit them, in case you wat to process the data yourself instead of giving EAVP a file.-->
+  var reader = new FileReader(); 
+    reader.onload = function(evt) {
+    xhttp.send(evt.target.result);
+  };
+  reader.readAsBinaryString(formData);
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drop_handler(ev) {
+    ev.preventDefault();
+    
+    <!-- Note the url for the EAVP API. Change the port number if your microservice is running on a port other than 8090. --> 
+    httpGet(ev.dataTransfer.files[0], "http://localhost:8080/org.eclipse.eavp.micro-1.0-SNAPSHOT/api?filename=" + ev.dataTransfer.files[0].name);
+}
+</script>
+</head>
+
+<body>
+<div id="drop_zone" ondrop="drop_handler(event)" ondragover="allowDrop(event)">
+  <strong>TODO: Make this a list of files and move to left.</strong>
+</div>
+<div id="plot" style="height:100%"></div>
+</body>
+
+</html>
