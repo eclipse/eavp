@@ -91,16 +91,12 @@ public class FileServerService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void upload(@PathParam("path") List<PathSegment> path, String input) {
 		
-		System.out.println("Here");
-		
 		//Construc the path for the file
 		String filePath = "/files";
 		
 		for (PathSegment segment : path) {
 			filePath += "/" + segment.getPath();
 		}
-		
-		System.out.println(filePath);
 		
 		try {
 			

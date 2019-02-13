@@ -235,7 +235,7 @@ public class FileParsingService {
 				// If there are no names for rows, or this is not the first
 				// column, add the value
 				if (!rowNames || j > 0) {
-
+					
 					// Check to see if value is numeric
 					if (isNotNumeric(row[j])) {
 						row[j] = Double.toString(NaNReplacementValue);

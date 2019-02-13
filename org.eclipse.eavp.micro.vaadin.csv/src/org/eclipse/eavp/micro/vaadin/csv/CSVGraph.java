@@ -127,7 +127,7 @@ public class CSVGraph extends DCharts {
 	 */
 	public CSVGraph(CSVGrid grid) {
 		super();
-
+		
 		// Initialize all DChart class variables
 		data = grid;
 		Axes axes = new Axes();
@@ -581,6 +581,15 @@ public class CSVGraph extends DCharts {
 	public Options getLocalOptions() {
 		return localOptions;
 	}
+	
+	/**
+	 * Getter method for the graphed series
+	 * 
+	 * @return The series
+	 */
+	public DataSeries getSeries() {
+		return series;
+	}
 
 	/**
 	 * Get the series with the given name.
@@ -600,6 +609,15 @@ public class CSVGraph extends DCharts {
 		} else {
 			return data.getColumns().get((data.getColumnNames().indexOf(name)));
 		}
+	}
+	
+	/**
+	 * Getter method for the map from series names to graph series with configured display options.
+	 * 
+	 * @return The series display options
+	 */
+	public HashMap<String, XYseries> getSeriesDisplayOptions(){
+		return seriesDisplayOptions;
 	}
 
 	/**
@@ -829,15 +847,17 @@ public class CSVGraph extends DCharts {
 	}
 
 	/**
-	 * Set the options for how series of a given name will be displayed.
+	 * Set the options for how series of a given name will be displayed. Values are to be of the form "option=value,option=value,option=value..."
 	 * 
-	 * Suppored options are:
+	 * Supported options are:
 	 * 
-	 * showline: false will display only the points.
+	 * showline: false will remove the line connecting the points.
+	 * 
+	 * showmarkers: false remove the markers at each data point
 	 * 
 	 * @param options
 	 *            The map of series names to options. The key is the name of a
-	 *            column or row. The value is an array list of series names
+	 *            column or row. The value is a string representing the options.
 	 */
 	public void setSeriesDisplayOptions(HashMap<String, String> options) {
 

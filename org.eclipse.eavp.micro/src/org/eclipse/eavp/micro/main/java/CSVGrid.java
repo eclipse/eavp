@@ -288,6 +288,7 @@ public class CSVGrid {
 	 */
 	public void setColumns(ArrayList<ArrayList<Double>> columns) {
 		this.columns = columns;
+		checkCanLogY();
 	}
 
 	/**
@@ -295,6 +296,7 @@ public class CSVGrid {
 	 */
 	public void setRows(ArrayList<ArrayList<Double>> rows) {
 		this.rows = rows;
+		checkCanLogX();
 	}
 	
 	/**

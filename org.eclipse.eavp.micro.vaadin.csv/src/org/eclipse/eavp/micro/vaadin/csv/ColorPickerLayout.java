@@ -51,10 +51,9 @@ public class ColorPickerLayout extends HorizontalLayout {
 			// If the value is of the format #XXXXXX create the color with red,
 			// green, and blue values.
 			if (value.length() == 7) {
-				int red = Integer.parseInt(value.substring(1, 2));
-				int green = Integer.parseInt(value.substring(3, 4));
-				int blue = Integer.parseInt(value.substring(5, 6));
-
+				int red = Integer.parseInt(value.substring(1, 3));
+				int green = Integer.parseInt(value.substring(3, 5));
+				int blue = Integer.parseInt(value.substring(5, 7));
 				picker.setValue(new Color(red, green, blue));
 			} else if (value.length() == 9) {
 

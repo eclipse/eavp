@@ -132,10 +132,6 @@ public class VisualizationService {
 	 */
 	public String selectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
 			String input) {
-
-		if(true) {
-			return "test";
-		}
 		
 		// csv, dat, and txt files should be handled by the plotting service.
 		if (name.endsWith("csv") || name.endsWith(".dat") || name.endsWith(".txt")) {
