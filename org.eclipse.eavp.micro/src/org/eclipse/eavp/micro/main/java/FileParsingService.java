@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.micro.main.java;
 
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.NumberFormat;
@@ -36,12 +37,15 @@ public class FileParsingService {
 
 	@POST
 	@Path("/csv/csvgrid/fulljson")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String plot(@QueryParam("filename") String name, String input) {
+	public String plot(@QueryParam("filename") String name, InputStream inputStream) {
 
 		// The grid being constructed
 		CSVGrid grid = new CSVGrid();
+		
+		//Convert the input into a string
+		String input = InputStreamUtils.readStringStream(inputStream);
 
 		if (input == null) {
 			// TODO Read local file

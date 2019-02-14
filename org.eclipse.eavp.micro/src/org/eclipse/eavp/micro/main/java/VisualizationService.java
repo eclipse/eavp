@@ -90,7 +90,7 @@ public class VisualizationService {
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	public String getSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
-			String input) {
+			InputStream input) {
 		return selectService(name, path, input);
 	}
 
@@ -108,10 +108,10 @@ public class VisualizationService {
 	 *         detected service used to visualize the given file,
 	 **/
 	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.TEXT_HTML)
 	public String postSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
-			String input) {
+			InputStream input) {
 		return selectService(name, path, input);
 	}
 
@@ -131,7 +131,7 @@ public class VisualizationService {
 	 *         message if the file could not be visualized.
 	 */
 	public String selectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
-			String input) {
+			InputStream input) {
 		
 		// csv, dat, and txt files should be handled by the plotting service.
 		if (name.endsWith("csv") || name.endsWith(".dat") || name.endsWith(".txt")) {
@@ -158,7 +158,7 @@ public class VisualizationService {
 	@Path("/qclimax")
 	@Produces(MediaType.TEXT_HTML)
 	public String selectServiceQClimax(@QueryParam("filename") String name, @QueryParam("filepath") String path,
-			String input) {
+			InputStream input) {
 
 		// csv, dat, and txt files should be handled by the plotting service.
 		if (name.endsWith("csv") || name.endsWith(".dat") || name.endsWith(".txt")) {
@@ -198,10 +198,12 @@ public class VisualizationService {
 	 */
 	@POST
 	@Path("/plot/{type}")
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.TEXT_HTML)
 	public String plot(@QueryParam("filename") String name, @QueryParam("filepath") String path,
-			@QueryParam("showlinefalse") String showLineFalse, @QueryParam("showmarkersfalse") String showMarkersFalse, @PathParam("type") String type, String input) {
+			@QueryParam("showlinefalse") String showLineFalse, @QueryParam("showmarkersfalse") String showMarkersFalse, @PathParam("type") String type, InputStream inputStream) {
+		
+		String input = InputStreamUtils.readStringStream(inputStream);
 		
 		String gridJSON = getPlotJSON(name, path, input);
 
