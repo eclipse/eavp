@@ -1,0 +1,306 @@
+// If you edit this file you need to compile the theme. See README.md for details.
+
+// Global variable overrides. Must be declared before importing Valo.
+
+// Defines the plaintext font size, weight and family. Font size affects general component sizing.
+//$v-font-size: 16px;
+//$v-font-weight: 300;
+//$v-font-family: "Open Sans", sans-serif;
+
+// Defines the border used by all components.
+//$v-border: 1px solid (v-shade 0.7);
+//$v-border-radius: 4px;
+
+// Affects the color of some component elements, e.g Button, Panel title, etc
+//$v-background-color: hsl(210, 0%, 98%);
+// Affects the color of content areas, e.g  Panel and Window content, TextField input etc
+//$v-app-background-color: $v-background-color;
+
+// Affects the visual appearance of all components
+//$v-gradient: v-linear 8%;
+//$v-bevel-depth: 30%;
+//$v-shadow-opacity: 5%;
+
+// Defines colors for indicating status (focus, success, failure)
+//$v-focus-color: valo-focus-color(); // Calculates a suitable color automatically
+//$v-friendly-color: #2c9720;
+//$v-error-indicator-color: #ed473b;
+
+// For more information, see: https://vaadin.com/book/-/page/themes.valo.html
+// Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
+
+//$v-background-color: #008556 !default; //ORNL primary green
+//$v-focus-color: #84b641 !default; //ORNL secondary green, used for links 
+$v-focus-color: #008556 !default;
+//$v-font-family: "Lucidia Sans Unicode", "Lucida Grande", sans-serif !default; //generic font for non-header text
+$v-font-family: "Open Sans", sans-serif !default; //generic font for non-header text
+//for the header font, use the line below
+//font-family: "Droid Sans", "Arial", sans-serif !default;
+
+@import "../valo/valo.scss";
+
+@mixin mytheme {
+  @include valo;
+
+.ICEMANTitle {
+    font-size: 24px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+}
+
+.v-widget {
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    white-space: normal;
+}
+
+.v-button {
+	position: relative;
+    text-align: center;
+    white-space: nowrap;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    cursor: pointer;
+    height: 37px;
+    padding: 0 16px;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 4px;
+    background: #F2845C;
+}
+
+//force label and caption texts to wrap
+.v-label {
+	white-space: normal; 
+}
+
+.wrap {
+	word-wrap: break-word;
+}
+
+//make the caption for the Upload component from "FileSelectionLayout.java" wrap
+.v-caption-uploadStyle {
+	white-space: normal;
+}
+
+.v-caption-captionLeft {
+	display: inline-block;
+}
+
+/*.v-captiontext
+{
+	white-space: normal;
+}*/
+
+/*
+.v-button.button1{
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    outline: none;
+    -webkit-tap-highlight- color: transparent;
+    -webkit-touch-callout: none;
+    cursor: pointer;
+    height: 37px;
+    padding: 0 16px;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 4px;
+    background-color: #00585E;
+}
+
+.v-button.button2 {
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    cursor: pointer;
+    height: 37px;
+    padding: 0 16px;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 4px;
+    background-color: #009494;
+}
+
+.v-button.button3 {
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    cursor: pointer;
+    height: 37px;
+    padding: 0 16px;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 4px;
+    background-color: #F2845C;
+}
+*/
+
+.v-button:before {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.v-checkbox > input:checked ~ label:after {
+    color: #009494;
+    //color: $v-focus-color;
+}
+
+.v-tabsheet-framed > .v-tabsheet-tabcontainer .v-tabsheet-tabitem .v-caption {
+    border-color: #dfdfdf;
+    background-color: #DFF1F1;
+}
+
+.v-tabsheet-equal-width-tabs > .v-tabsheet-tabcontainer table, .mytheme .v-tabsheet-equal-width-tabs > .v-tabsheet-tabcontainer tbody, .mytheme .v-tabsheet-equal-width-tabs > .v-tabsheet-tabcontainer tr {
+    width: 100%;
+}
+.v-tabsheet-tabcontainer .v-tabsheet-tabs {
+    position: relative;
+}
+.v-tabsheet-tabcontainer table, .v-tabsheet-tabcontainer tbody, .v-tabsheet-tabcontainer tr {
+    display: inline-block;
+    border-spacing: 0;
+    border-collapse: collapse;
+    vertical-align: top;
+}
+.v-tabsheet-tabs {
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.layout-with-border {
+    border: 10px solid black;
+}
+
+.error-layout {
+    border: 10px solid red;
+}
+
+.v-caption-error-layout {
+	color: red;
+}
+
+//add and remove button logic
+.addButton{
+	//background: green;
+	//background: #91efef;
+	background: #00585e;
+}
+.removeButton{
+	//background: red;
+	//background: #f5bf97;
+	background: #a61010;
+}
+
+//ok and cancel button logic, including their parent layout
+.v-button-okButton{
+	margin-right: 10px;	
+}
+.v-button-cancelButton{
+	margin-left: 10px;	
+}
+.v-horizontallayout-okCancelButtonLayout{
+	margin-top: 20px;
+}
+
+//handle OClimax captions here
+.oClimaxParentLayout{
+
+	.oClimaxDataLayout{
+	
+		.v-caption {		
+			text-align: center;
+			font-family: "Droid Sans", "Arial", sans-serif;
+			font-weight: bold;
+		}
+		
+	}
+
+	/*
+	 * have this style included if window <= 1000 px
+	 */
+	.shrinkCaptions1 {
+		.v-caption {
+			font-size:10px;	
+		}	
+	}
+	/*
+	 * have this style included if window > 1000 but < 1300px
+	 * */
+	.shrinkCaptions2 {
+		.v-caption {
+			font-size:12px;	
+		}			
+	}
+
+}
+
+//remove the left padding (mainly this) and margins of the file selection components
+.noLeftMargin{
+	margin-left: 0px;
+	padding-left: 0px;	
+}
+
+.v-verticallayout-functionEditor {
+		margin: 5px 0px 5px 5px;
+		padding: 0px;
+}
+
+//styling for main labels in QClimax/Data section
+.v-label-headerLabel {
+		font-family: "Droid Sans", "Arial", sans-serif;
+		font-weight: bold;
+}
+
+//This SHOULD affect both tabsheets, but only seems to work on the QClimax-specific tabsheet
+/*
+.v-tabsheet {
+	background: #fff;
+}
+*/
+
+	.valo-menu-navigatorSelections > .v-slot > .valo-menu-item {
+  	margin-right: 0px;
+  	padding-right: 0px;
+	}
+
+
+/*
+ * Have buttons and icons in navigator displayed inline
+ * Reference <span class="valo-menu-item-wrap"> with the style "display:inline-flex;"
+ */.valo-menu-item-navItem::first-child {
+	display: inline-flex;
+	}
+	
+	.v-select-instrumentList{
+		width: 100%;
+		.v-select-select {
+			width: 100%;
+			option {
+				
+			}
+		}
+	}
+	
+	// Styling the function list in qclimax data
+	.v-panel-functionList {
+		width: 100%;
+	}
+	
+	
+
+}
+	
+

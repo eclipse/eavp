@@ -48,6 +48,7 @@ public class InputStreamUtils {
 			
 			while(size >= 0) {
 				builder.append(buffer, 0, size);
+				builder.append("\n");
 				size = reader.read(buffer, 0, 1024);
 			}
 			

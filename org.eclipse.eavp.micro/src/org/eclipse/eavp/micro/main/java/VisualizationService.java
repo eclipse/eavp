@@ -12,6 +12,7 @@
 package org.eclipse.eavp.micro.main.java;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +47,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
@@ -62,11 +64,16 @@ import java.security.NoSuchAlgorithmException;
  */
 @Path("/api")
 public class VisualizationService {
+	
+	//TODO THis should come in through HATEOS
+	private final String CSV_SERVICE_URL = "http://dracula.ornl.gov:8080";
+	private final String BASE_SERVLET_NAME = "/org.eclipse.eavp.micro-1.0-SNAPSHOT";
+	private final String CSV_SERVLET_NAME = "/org.eclipse.eavp.micro.vaadin.csv-1.0-SNAPSHOT";
 
 	/**
 	 * The next ID number to assign to a returned html div.
 	 */
-	int id = 0;
+	private int id = 0;
 
 	/**
 	 * The default constructor.
@@ -135,7 +142,7 @@ public class VisualizationService {
 		
 		// csv, dat, and txt files should be handled by the plotting service.
 		if (name.endsWith("csv") || name.endsWith(".dat") || name.endsWith(".txt")) {
-			return plot(name, path, null, null, null, input);
+			return plot(name, path, null, null, "default", input);
 		}
 
 		return "Could not render file named \"" + name + "\" with contents: " + input;
@@ -203,10 +210,10 @@ public class VisualizationService {
 	public String plot(@QueryParam("filename") String name, @QueryParam("filepath") String path,
 			@QueryParam("showlinefalse") String showLineFalse, @QueryParam("showmarkersfalse") String showMarkersFalse, @PathParam("type") String type, InputStream inputStream) {
 		
-		String input = InputStreamUtils.readStringStream(inputStream);
+		//String input = InputStreamUtils.readStringStream(inputStream);
+		//System.out.println("INPUT STRING " + input);
+		String gridJSON = getPlotJSON(name, path, inputStream);
 		
-		String gridJSON = getPlotJSON(name, path, input);
-
 		if ("default".equals(type)) {
 
 			String html =
@@ -214,7 +221,7 @@ public class VisualizationService {
 					// A hidden form that contains the JSON representation of the file
 					// and will submit it to VAADIN. Each form/iframe pair will have a
 					// unique id name to differentiate them from other EAVP divs.
-					"<form action=\"https://" + System.getenv("ICEMAN_host") + ":8913/ui/plot\" id=\"eavp-hidden-form-"
+					"<form action=\"" + CSV_SERVICE_URL + CSV_SERVLET_NAME + "/ui/plot\" id=\"eavp-hidden-form-"
 							+ id + "\" method=\"post\" target=\"eavp-frame-" + id + "\">\n"
 
 							// The hidden input field which will contain the file JSON
@@ -302,11 +309,13 @@ public class VisualizationService {
 					+ "<script language=\"javascript\">\n" + "        document.getElementById(\"eavp-hidden-form-" + id
 					+ "\").submit();\n" + "    </script>";
 
+			
+			
 			return html;
 
 		} else if ("qclimax".equals(type)) {
-			return "<form action=\"http://" + System.getenv("ICEMAN_host")
-					+ ":8913/ui/plot/qclimax\" id=\"eavp-hidden-form-" + id + "\" method=\"post\" target=\"eavp-frame-"
+			return "<form action=\"" + CSV_SERVICE_URL + CSV_SERVLET_NAME
+					+ "/ui/plot/qclimax\" id=\"eavp-hidden-form-" + id + "\" method=\"post\" target=\"eavp-frame-"
 					+ id + "\">\n"
 
 					// The hidden input field which will contain the file JSON
@@ -396,42 +405,43 @@ public class VisualizationService {
 	 * 
 	 * @return The String representation of the json for the input
 	 */
-	private String getPlotJSON(String name, String path, String input) {
-
+	private String getPlotJSON(String name, String path, InputStream input) {
+		
 		// The string containing the json representation of the csvgrid
 		String gridJSON = "";
-
-		// Read file if no POST data
-		if ((input == null || "".equals(input)) && path != null) {
-			File file = new File(URLDecoder.decode(path));
-			try {
-				input = new String(Files.readAllBytes(file.toPath()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		
+//		// Read file if no POST data
+//		if ((input == null || "".equals(input)) && path != null) {
+//			File file = new File(URLDecoder.decode(path));
+//			try {
+//				input = new String(Files.readAllBytes(file.toPath()));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 
 		try {
 
 			// We're connecting to ourselves, so disable security
 			HttpClient httpclient = HttpClients.custom().setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy()).build(), new NoopHostnameVerifier())).build();
 
-			URIBuilder builder = new URIBuilder("https://localhost:8443/fileio/csv/csvgrid/fulljson");
+			URIBuilder builder = new URIBuilder(CSV_SERVICE_URL + BASE_SERVLET_NAME + "/fileio/csv/csvgrid/fulljson");
 			builder.setParameter("filename", name);
 
 			HttpPost httppost = new HttpPost(builder.build());
 
-			// Request parameters and other properties.
-			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-			// params.add(new BasicNameValuePair("filename", name));
-			params.add(new BasicNameValuePair("input", input));
-			try {
-				httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			// Request parameters and other properties.
+//			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+//			// params.add(new BasicNameValuePair("filename", name));
+//			params.add(new BasicNameValuePair("input", input));
+//			try {
+//				httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+//			} catch (UnsupportedEncodingException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			httppost.setEntity(new InputStreamEntity(input));
 
 			// Execute and get the response.
 			HttpResponse response;
@@ -472,7 +482,7 @@ public class VisualizationService {
 		// Get the next id number
 
 		id++;
-
+		
 		return gridJSON;
 	}
 }

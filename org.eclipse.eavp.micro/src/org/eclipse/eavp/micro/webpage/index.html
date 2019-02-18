@@ -26,8 +26,10 @@ function httpGet(formData, theUrl)
 {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
+  
     
-    if (this.readyState == 4 && this.status == 200) {
+    
+    if (this.readyState == 4) {
 
 	  <!-- This block shows how to initialize the EAVP div-->
       var plot = document.getElementById("plot");
@@ -39,7 +41,7 @@ function httpGet(formData, theUrl)
     }
   };
   xhttp.open("POST", theUrl, true);
-  xhttp.overrideMimeType('text/plain; charset=x-user-defined-binary');
+  xhttp.setRequestHeader("Content-Type", "application/octet-stream");
   
   <!-- This block shows how to read the contents of a file in html and submit them, in case you wat to process the data yourself instead of giving EAVP a file.-->
   var reader = new FileReader(); 

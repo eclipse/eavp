@@ -127,7 +127,7 @@ public class CSVGraph extends DCharts {
 	 */
 	public CSVGraph(CSVGrid grid) {
 		super();
-		
+
 		// Initialize all DChart class variables
 		data = grid;
 		Axes axes = new Axes();
@@ -150,7 +150,7 @@ public class CSVGraph extends DCharts {
 
 		boolean defaultRowNames = data.getRowNames().get(0).toLowerCase().equals("row 1");
 		boolean defaultColumnNames = data.getColumnNames().get(0).toLowerCase().equals("column 1");
-		
+
 		// Graph all the rows or all the columns, whichever there are fewer of,
 		// with the first row arbitrarily taken as the independent series.
 		if ((!defaultRowNames && defaultColumnNames) || data.getRowNames().size() <= data.getColumnNames().size()) {
@@ -581,7 +581,7 @@ public class CSVGraph extends DCharts {
 	public Options getLocalOptions() {
 		return localOptions;
 	}
-	
+
 	/**
 	 * Getter method for the graphed series
 	 * 
@@ -610,13 +610,14 @@ public class CSVGraph extends DCharts {
 			return data.getColumns().get((data.getColumnNames().indexOf(name)));
 		}
 	}
-	
+
 	/**
-	 * Getter method for the map from series names to graph series with configured display options.
+	 * Getter method for the map from series names to graph series with configured
+	 * display options.
 	 * 
 	 * @return The series display options
 	 */
-	public HashMap<String, XYseries> getSeriesDisplayOptions(){
+	public HashMap<String, XYseries> getSeriesDisplayOptions() {
 		return seriesDisplayOptions;
 	}
 
@@ -847,7 +848,8 @@ public class CSVGraph extends DCharts {
 	}
 
 	/**
-	 * Set the options for how series of a given name will be displayed. Values are to be of the form "option=value,option=value,option=value..."
+	 * Set the options for how series of a given name will be displayed. Values are
+	 * to be of the form "option=value,option=value,option=value..."
 	 * 
 	 * Supported options are:
 	 * 
@@ -861,42 +863,46 @@ public class CSVGraph extends DCharts {
 	 */
 	public void setSeriesDisplayOptions(HashMap<String, String> options) {
 
-		// Add a series for each row/column name that has options set
-		for (String name : options.keySet()) {
+		// Ignore null inputs
+		if (options != null) {
 
-			// The parsed map of option names to values
-			HashMap<String, String> optionMap = new HashMap<String, String>();
+			// Add a series for each row/column name that has options set
+			for (String name : options.keySet()) {
 
-			String[] tokens = options.get(name).split(",");
+				// The parsed map of option names to values
+				HashMap<String, String> optionMap = new HashMap<String, String>();
 
-			for (int i = 0; i < tokens.length; i++) {
-				if (!tokens[i].isEmpty()) {
-					optionMap.put(tokens[i].substring(0, tokens[i].indexOf("=")),
-							tokens[i].substring(tokens[i].indexOf("=") + 1));
+				String[] tokens = options.get(name).split(",");
+
+				for (int i = 0; i < tokens.length; i++) {
+					if (!tokens[i].isEmpty()) {
+						optionMap.put(tokens[i].substring(0, tokens[i].indexOf("=")),
+								tokens[i].substring(tokens[i].indexOf("=") + 1));
+					}
 				}
+
+				// A basic series
+				XYseries series = new XYseries();
+
+				// Set the line to either show or not
+				if (optionMap.containsKey("showline") && optionMap.get("showline").equals("false")) {
+					series = series.setShowLine(false);
+				} else {
+					series = series.setShowLine(true).setLineWidth(2);
+				}
+
+				// Set the markers to either show or not
+				if (optionMap.containsKey("showmarkers") && optionMap.get("showmarkers").equals("false")) {
+					series = series.setMarkerOptions(new MarkerRenderer().setShow(false));
+				} else {
+					series = series
+							.setMarkerOptions(new MarkerRenderer().setStyle(MarkerStyles.FILLED_CIRLCE).setShow(true));
+				}
+
+				// Save the constructed series to the map
+				seriesDisplayOptions.put(name, series);
 			}
-
-			// A basic series
-			XYseries series = new XYseries();
-
-			// Set the line to either show or not
-			if (optionMap.containsKey("showline") && optionMap.get("showline").equals("false")) {
-				series = series.setShowLine(false);
-			} else {
-				series = series.setShowLine(true).setLineWidth(2);
-			}
-
-			// Set the markers to either show or not
-			if (optionMap.containsKey("showmarkers") && optionMap.get("showmarkers").equals("false")) {
-				series = series.setMarkerOptions(new MarkerRenderer().setShow(false));
-			} else {
-				series = series.setMarkerOptions(new MarkerRenderer().setStyle(MarkerStyles.FILLED_CIRLCE).setShow(true));
-			}
-
-			// Save the constructed series to the map
-			seriesDisplayOptions.put(name, series);
 		}
-
 	}
 
 	/**

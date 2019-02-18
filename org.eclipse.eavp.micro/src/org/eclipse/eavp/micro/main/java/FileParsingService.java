@@ -65,12 +65,14 @@ public class FileParsingService {
 				} else {
 					readCSVGrid(grid, rows, null);
 				}
+				
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return grid.getFullJSON();
+		return "";
+		//return grid.getFullJSON();
 	}
 
 	/**
@@ -178,13 +180,14 @@ public class FileParsingService {
 
 			// If there are column names, set them to the grid
 			if (i == 0 && columnNames) {
+
 				for (int j = 0; j < row.length; j++) {
 
 					// Doon't add the empty column name for the column of row
 					// names
-					if (j > 0 || !rowNames) {
+					//if (j > 0 || !rowNames) {
 						grid.getColumnNames().add(row[j]);
-					}
+					//}
 				}
 
 				continue;
