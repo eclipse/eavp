@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.eavp.micro.main.java;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -38,8 +39,8 @@ public class FileParsingService {
 	@POST
 	@Path("/csv/csvgrid/fulljson")
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	@Produces(MediaType.TEXT_PLAIN)
-	public String plot(@QueryParam("filename") String name, InputStream inputStream) {
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public ByteArrayInputStream plot(@QueryParam("filename") String name, InputStream inputStream) {
 
 		// The grid being constructed
 		CSVGrid grid = new CSVGrid();
@@ -72,7 +73,13 @@ public class FileParsingService {
 			}
 		}
 		
-		return grid.getFullJSON();
+		try {
+			return new ByteArrayInputStream(grid.getFullJSON().getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ByteArrayInputStream(null);
+		}
 	}
 
 	/**
@@ -186,9 +193,9 @@ public class FileParsingService {
 
 					// Doon't add the empty column name for the column of row
 					// names
-					//if (j > 0 || !rowNames) {
+					if (j > 0 || !rowNames) {
 						grid.getColumnNames().add(row[j]);
-					//}
+					}
 				}
 
 				continue;

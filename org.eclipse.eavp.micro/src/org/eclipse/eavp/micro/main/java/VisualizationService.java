@@ -95,8 +95,8 @@ public class VisualizationService {
 	 *         detected service used to visualize the given file,
 	 **/
 	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public String getSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public InputStream getSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
 		return selectService(name, path, input);
 	}
@@ -116,8 +116,8 @@ public class VisualizationService {
 	 **/
 	@POST
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	@Produces(MediaType.TEXT_HTML)
-	public String postSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public InputStream postSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
 		return selectService(name, path, input);
 	}
@@ -137,7 +137,7 @@ public class VisualizationService {
 	 *         detected service used to visualize the given file, or an error
 	 *         message if the file could not be visualized.
 	 */
-	public String selectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	public InputStream selectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
 		
 		// csv, dat, and txt files should be handled by the plotting service.
@@ -145,7 +145,13 @@ public class VisualizationService {
 			return plot(name, path, null, null, "default", input);
 		}
 
-		return "Could not render file named \"" + name + "\" with contents: " + input;
+		try {
+			return new ByteArrayInputStream(("Could not render file named \"" + name + "\" with contents: " + input).getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ByteArrayInputStream(null);
+		}
 	}
 
 	/**
@@ -163,8 +169,8 @@ public class VisualizationService {
 	 **/
 	@GET
 	@Path("/qclimax")
-	@Produces(MediaType.TEXT_HTML)
-	public String selectServiceQClimax(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public InputStream selectServiceQClimax(@QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
 
 		// csv, dat, and txt files should be handled by the plotting service.
@@ -172,7 +178,13 @@ public class VisualizationService {
 			return plot(name, path, null, null, "qclimax", input);
 		}
 
-		return "Could not render file named \"" + name + "\" with contents: " + input;
+		try {
+			return new ByteArrayInputStream(("Could not render file named \"" + name + "\" with contents: " + input).getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ByteArrayInputStream(null);
+		}
 	}
 
 	/**
@@ -206,8 +218,8 @@ public class VisualizationService {
 	@POST
 	@Path("/plot/{type}")
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	@Produces(MediaType.TEXT_HTML)
-	public String plot(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public InputStream plot(@QueryParam("filename") String name, @QueryParam("filepath") String path,
 			@QueryParam("showlinefalse") String showLineFalse, @QueryParam("showmarkersfalse") String showMarkersFalse, @PathParam("type") String type, InputStream inputStream) {
 		
 		//String input = InputStreamUtils.readStringStream(inputStream);
@@ -309,28 +321,40 @@ public class VisualizationService {
 					+ "<script language=\"javascript\">\n" + "        document.getElementById(\"eavp-hidden-form-" + id
 					+ "\").submit();\n" + "    </script>";
 
-			return html;
+			try {
+				return new ByteArrayInputStream(html.getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ByteArrayInputStream(null);
+			}
 
 		} else if ("qclimax".equals(type)) {
-			return "<form action=\"" + CSV_SERVICE_URL + CSV_SERVLET_NAME
-					+ "/ui/plot/qclimax\" id=\"eavp-hidden-form-" + id + "\" method=\"post\" target=\"eavp-frame-"
-					+ id + "\">\n"
+			try {
+				return new ByteArrayInputStream(("<form action=\"" + CSV_SERVICE_URL + CSV_SERVLET_NAME
+						+ "/ui/plot/qclimax\" id=\"eavp-hidden-form-" + id + "\" method=\"post\" target=\"eavp-frame-"
+						+ id + "\">\n"
 
-					// The hidden input field which will contain the file JSON
-					+ "<input type=\"hidden\" name=\"org.eclipse.eavp.micro.vaadin.main.Data\" value=\""
+						// The hidden input field which will contain the file JSON
+						+ "<input type=\"hidden\" name=\"org.eclipse.eavp.micro.vaadin.main.Data\" value=\""
 
-					// Encode the JSON for html embedding
-					+ gridJSON.replace("\"", "&quot;") + "\"><br>\n" + "</form>"
+						// Encode the JSON for html embedding
+						+ gridJSON.replace("\"", "&quot;") + "\"><br>\n" + "</form>"
 
-					// The iframe containing the VAADIN UI.
-					+ "<iframe style=\"width:100%; height:100%\" name=\"eavp-frame-" + id + "\"></iframe>"
+						// The iframe containing the VAADIN UI.
+						+ "<iframe style=\"width:100%; height:100%\" name=\"eavp-frame-" + id + "\"></iframe>"
 
-					// A script that will programatically submit the form to the //
-					// iframe.
-					+ "<script language=\"javascript\">\n" + "        document.getElementById(\"eavp-hidden-form-" + id
-					+ "\").submit();\n" + "    </script>";
+						// A script that will programatically submit the form to the //
+						// iframe.
+						+ "<script language=\"javascript\">\n" + "        document.getElementById(\"eavp-hidden-form-" + id
+						+ "\").submit();\n" + "    </script>").getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ByteArrayInputStream(null);
+			}
 		} else {
-			return "";
+			return new ByteArrayInputStream(null);
 		}
 	}
 	// /**
