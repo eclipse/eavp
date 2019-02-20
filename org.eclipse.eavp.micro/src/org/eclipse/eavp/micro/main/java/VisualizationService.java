@@ -309,8 +309,6 @@ public class VisualizationService {
 					+ "<script language=\"javascript\">\n" + "        document.getElementById(\"eavp-hidden-form-" + id
 					+ "\").submit();\n" + "    </script>";
 
-			
-			
 			return html;
 
 		} else if ("qclimax".equals(type)) {

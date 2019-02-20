@@ -33,7 +33,7 @@ public class InputStreamUtils {
 	public static String readStringStream(InputStream stream) {
 		
 		//Buffer to hold chunks of the stream
-		char[] buffer = new char[1024];
+		char[] buffer = new char[16384];
 		
 		//String builder that will hold the contents
 		StringBuilder builder = new StringBuilder();
@@ -44,12 +44,12 @@ public class InputStreamUtils {
 			InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
 			
 			//Loop until the stream is exhausted, adding all content to the builder
-			int size = reader.read(buffer, 0, 1024);
+			int size = reader.read(buffer, 0, 16384);
 			
 			while(size >= 0) {
 				builder.append(buffer, 0, size);
 				builder.append("\n");
-				size = reader.read(buffer, 0, 1024);
+				size = reader.read(buffer, 0, 16384);
 			}
 			
 		} catch (IOException e) {

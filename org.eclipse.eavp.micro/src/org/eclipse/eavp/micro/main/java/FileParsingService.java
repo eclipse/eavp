@@ -71,8 +71,8 @@ public class FileParsingService {
 				e.printStackTrace();
 			}
 		}
-		return "";
-		//return grid.getFullJSON();
+		
+		return grid.getFullJSON();
 	}
 
 	/**
@@ -158,6 +158,7 @@ public class FileParsingService {
 			// Count the number of names in the fist column
 			nameCount = 0;
 			for (String row : input) {
+				
 				if (isNotNumeric(row.split(delimiter)[0])) {
 					nameCount++;
 				}

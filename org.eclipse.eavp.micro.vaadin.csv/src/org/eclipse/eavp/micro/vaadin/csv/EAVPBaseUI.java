@@ -97,7 +97,7 @@ public class EAVPBaseUI extends UI {
 				// Get the POSTed JSON data from the session.
 				String json = (String) getSession().getAttribute(DATA_ATTRIBUTE_NAME);
 				HashMap<String, String> optionMap = (HashMap<String, String>) getSession().getAttribute(OPTIONS_ATTRIBUTE_NAME);
-				
+
 				// Convert the JSON into a grid
 				CSVGrid grid = new Gson().fromJson(json, CSVGrid.class);
 				
