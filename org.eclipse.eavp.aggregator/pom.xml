@@ -15,6 +15,7 @@
   	<module>../org.eclipse.eavp.parent</module>
   	<module>../org.eclipse.eavp.micro</module>
   	<module>../org.eclipse.eavp.test.micro</module>
+  	<module>../org.eclipse.eavp.micro.rdf</module>
   	<module>../org.eclipse.eavp.micro.vaadin.csv</module>
 	<module>../org.eclipse.eavp.test.micro.vaadin.csv</module>
   </modules>
