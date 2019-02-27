@@ -92,7 +92,7 @@ public class TestCSVGraph {
 		grid.getRowNames().add("fizzbuzz");
 		
 		//Create the graph
-		graph = new CSVGraph(grid);
+		graph = new CSVGraph(grid, "");
 	}
 	
 	/**

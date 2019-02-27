@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.eavp.micro.vaadin.csv;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,6 +25,8 @@ import org.dussan.vaadin.dcharts.base.renderers.MarkerRenderer;
 import org.dussan.vaadin.dcharts.base.renderers.TickRenderer;
 import org.dussan.vaadin.dcharts.data.DataSeries;
 import org.dussan.vaadin.dcharts.data.Ticks;
+import org.dussan.vaadin.dcharts.events.click.ChartDataClickEvent;
+import org.dussan.vaadin.dcharts.events.click.ChartDataClickHandler;
 import org.dussan.vaadin.dcharts.metadata.LegendPlacements;
 import org.dussan.vaadin.dcharts.metadata.SeriesToggles;
 import org.dussan.vaadin.dcharts.metadata.XYaxes;
@@ -35,6 +40,7 @@ import org.dussan.vaadin.dcharts.options.Options;
 import org.dussan.vaadin.dcharts.options.Series;
 import org.dussan.vaadin.dcharts.renderers.legend.EnhancedLegendRenderer;
 import org.eclipse.eavp.micro.main.java.CSVGrid;
+import org.eclipse.eavp.micro.main.java.InputStreamUtils;
 
 import com.vaadin.contextmenu.ContextMenu;
 import com.vaadin.contextmenu.Menu;
@@ -64,6 +70,10 @@ import com.vaadin.ui.Window;
  */
 public class CSVGraph extends DCharts {
 
+	// TODO Should be gotten through hateos
+	// The url for the RDF service
+	private static final String BASE_URL = "http://localhost:8080/org.eclipse.eavp.micro.state-1.0-SNAPSHOT/state/";
+
 	/**
 	 * The series values and names to be used in the plot.
 	 */
@@ -74,6 +84,11 @@ public class CSVGraph extends DCharts {
 	 * column/row names in data.
 	 */
 	private List<String> dependentData;
+
+	/**
+	 * The identifier to be used in calls to the rdf service.
+	 */
+	private String identifier;
 
 	/**
 	 * The name of the data row/column currently being used as the independent
@@ -124,12 +139,16 @@ public class CSVGraph extends DCharts {
 	 *
 	 * @param grid
 	 *            The CSVgrid which provides data to this plot.
+	 * @param identifier
+	 *            The unique identifier that will identify this graph's state in
+	 *            communications with the rdf service.
 	 */
-	public CSVGraph(CSVGrid grid) {
+	public CSVGraph(CSVGrid grid, String identifier) {
 		super();
 
 		// Initialize all DChart class variables
 		data = grid;
+		this.identifier = identifier;
 		Axes axes = new Axes();
 		xAxis = new XYaxis(XYaxes.X).setLabel("").setLabelRenderer(LabelRenderers.CANVAS);
 		yAxis = new XYaxis(XYaxes.Y).setLabel("").setLabelRenderer(LabelRenderers.CANVAS);
@@ -138,11 +157,14 @@ public class CSVGraph extends DCharts {
 		xLabel = "";
 		yLabel = "";
 		localOptions = new Options();
-		localOptions.addOption(new Cursor().setZoom(true).setShowCursorLegend(false).setShow(true));
 		localOptions.addOption(axes);
 		setOptions(localOptions);
 		dependentData = new ArrayList<String>();
 		seriesDisplayOptions = new HashMap<String, XYseries>();
+
+		// TODO Move this into a context menu option
+		// localOptions.addOption(new
+		// Cursor().setZoom(true).setShowCursorLegend(false).setShow(true));
 
 		// Initialize the axes
 		initializeAxis(xAxis);
@@ -431,6 +453,44 @@ public class CSVGraph extends DCharts {
 				CSVAxisWindow subWindow = new CSVAxisWindow(self, yAxis, null, "Y");
 				subWindow.center();
 				getUI().addWindow(subWindow);
+			}
+		});
+
+		// Set up point click listiner
+		setEnableChartDataClickEvent(true);
+		addHandler(new ChartDataClickHandler() {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.dussan.vaadin.dcharts.events.click.ChartDataClickHandler#onChartDataClick
+			 * (org.dussan.vaadin.dcharts.events.click.ChartDataClickEvent)
+			 */
+			@Override
+			public void onChartDataClick(ChartDataClickEvent event) {
+				
+				try {
+
+					// Open the connection
+					URL url = new URL(BASE_URL + "put?identifier=" + identifier + "&service=vaadin-csvservice");
+					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+					connection.setDoOutput(true);
+					connection.setRequestMethod("POST");
+					connection.setRequestProperty("Content-Type", "application/octet-stream");
+
+					//Get the list of coordinates
+					List list = ((List) event.getChartData().getData()[0]);
+
+					// Send the content with a point identifier to the state service
+					connection.getOutputStream().write(("POINT:" + list.get(0) + "," + list.get(1)).getBytes());
+					connection.getResponseCode();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 

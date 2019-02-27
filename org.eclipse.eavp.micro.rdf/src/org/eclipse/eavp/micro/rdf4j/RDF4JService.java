@@ -150,7 +150,7 @@ public class RDF4JService {
 		}
 
 		// If the real value couldn't be found, return an empty stream
-		return new ByteArrayInputStream(null);
+		return new ByteArrayInputStream(new byte[0]);
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class RDF4JService {
 		}
 
 		// If the real value couldn't be found, return an empty stream
-		return new ByteArrayInputStream(null);
+		return new ByteArrayInputStream(new byte[0]);
 	}
 	
 	/**
@@ -203,10 +203,12 @@ public class RDF4JService {
 	 * @param service The service which created the new artifact
 	 * @param artifact The artifact to be stored in the database
 	 */
-	@POST
+	@PUT
 	@Path("/put")
 	public void put(@QueryParam("identifier") String identifier,
 			@QueryParam("service") String service, InputStream artifact) {
+		
+		System.out.println("RDF PUT identifier: " + identifier + " service: " + service + " artifact: " + artifact);
 		
 		//Delete any previous artifact
 		delete(identifier, service);

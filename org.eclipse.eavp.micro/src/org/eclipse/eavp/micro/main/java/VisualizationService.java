@@ -96,9 +96,9 @@ public class VisualizationService {
 	 **/
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public InputStream getSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	public InputStream getSelectService(@QueryParam("identifier") String identifier, @QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
-		return selectService(name, path, input);
+		return selectService(identifier, name, path, input);
 	}
 
 	/**
@@ -117,9 +117,9 @@ public class VisualizationService {
 	@POST
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public InputStream postSelectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	public InputStream postSelectService(@QueryParam("identifier") String identifier, @QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
-		return selectService(name, path, input);
+		return selectService(identifier, name, path, input);
 	}
 
 	/**
@@ -137,12 +137,12 @@ public class VisualizationService {
 	 *         detected service used to visualize the given file, or an error
 	 *         message if the file could not be visualized.
 	 */
-	public InputStream selectService(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	public InputStream selectService(@QueryParam("identifier") String identifier, @QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
 		
 		// csv, dat, and txt files should be handled by the plotting service.
 		if (name.endsWith("csv") || name.endsWith(".dat") || name.endsWith(".txt")) {
-			return plot(name, path, null, null, "default", input);
+			return plot(identifier, name, path, null, null, "default", input);
 		}
 
 		try {
@@ -170,12 +170,12 @@ public class VisualizationService {
 	@GET
 	@Path("/qclimax")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public InputStream selectServiceQClimax(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	public InputStream selectServiceQClimax(@QueryParam("identifier") String identifier, @QueryParam("filename") String name, @QueryParam("filepath") String path,
 			InputStream input) {
 
 		// csv, dat, and txt files should be handled by the plotting service.
 		if (name.endsWith("csv") || name.endsWith(".dat") || name.endsWith(".txt")) {
-			return plot(name, path, null, null, "qclimax", input);
+			return plot(identifier, name, path, null, null, "qclimax", input);
 		}
 
 		try {
@@ -219,7 +219,7 @@ public class VisualizationService {
 	@Path("/plot/{type}")
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public InputStream plot(@QueryParam("filename") String name, @QueryParam("filepath") String path,
+	public InputStream plot(@QueryParam("identifier") String identifier, @QueryParam("filename") String name, @QueryParam("filepath") String path,
 			@QueryParam("showlinefalse") String showLineFalse, @QueryParam("showmarkersfalse") String showMarkersFalse, @PathParam("type") String type, InputStream inputStream) {
 		
 		//String input = InputStreamUtils.readStringStream(inputStream);
@@ -233,7 +233,7 @@ public class VisualizationService {
 					// A hidden form that contains the JSON representation of the file
 					// and will submit it to VAADIN. Each form/iframe pair will have a
 					// unique id name to differentiate them from other EAVP divs.
-					"<form action=\"" + CSV_SERVICE_URL + CSV_SERVLET_NAME + "/ui/plot\" id=\"eavp-hidden-form-"
+					"<form action=\"" + CSV_SERVICE_URL + CSV_SERVLET_NAME + "/ui/plot?identifier=" + identifier + "\" id=\"eavp-hidden-form-"
 							+ id + "\" method=\"post\" target=\"eavp-frame-" + id + "\">\n"
 
 							// The hidden input field which will contain the file JSON
@@ -320,7 +320,7 @@ public class VisualizationService {
 					// iframe.
 					+ "<script language=\"javascript\">\n" + "        document.getElementById(\"eavp-hidden-form-" + id
 					+ "\").submit();\n" + "    </script>";
-
+			
 			try {
 				return new ByteArrayInputStream(html.getBytes("UTF-8"));
 			} catch (UnsupportedEncodingException e) {

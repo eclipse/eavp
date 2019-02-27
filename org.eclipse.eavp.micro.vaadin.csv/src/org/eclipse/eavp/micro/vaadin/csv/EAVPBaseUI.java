@@ -102,7 +102,7 @@ public class EAVPBaseUI extends UI {
 				CSVGrid grid = new Gson().fromJson(json, CSVGrid.class);
 				
 				// Create a CSVGraph and add it to the layout
-				CSVGraph chart = new CSVGraph(grid);
+				CSVGraph chart = new CSVGraph(grid, vaadinRequest.getParameter("identifier"));
 				
 				chart.setSeriesDisplayOptions(optionMap);
 				chart.pushChanges();
@@ -174,7 +174,7 @@ public class EAVPBaseUI extends UI {
 								chart.pushChanges();
 
 								// A chart for the error graph
-								CSVGraph errorChart = new CSVGraph(grid);
+								CSVGraph errorChart = new CSVGraph(grid, "");
 								errorChart.setSizeFull();
 								errorChart.show();
 
@@ -282,17 +282,6 @@ public class EAVPBaseUI extends UI {
 		} else {
 			layout.addComponent(new Label("Request not found."));
 		}
-
-		
-		// Delete the temporary zip file and make another for use
-		File toBeDeleted = new File("output/temp/zip");
-		try {
-			FileUtils.deleteDirectory(toBeDeleted);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		new File("output/temp/zip").mkdirs();
 	}
 
 	/**

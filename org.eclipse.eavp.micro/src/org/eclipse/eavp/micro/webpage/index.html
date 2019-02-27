@@ -59,7 +59,7 @@ function drop_handler(ev) {
     ev.preventDefault();
     
     <!-- Note the url for the EAVP API. Change the port number if your microservice is running on a port other than 8090. --> 
-    httpGet(ev.dataTransfer.files[0], "http://localhost:8080/org.eclipse.eavp.micro-1.0-SNAPSHOT/api?filename=" + ev.dataTransfer.files[0].name);
+    httpGet(ev.dataTransfer.files[0], "http://localhost:8080/org.eclipse.eavp.micro-1.0-SNAPSHOT/api?filename=" + ev.dataTransfer.files[0].name + "&identifier=test");
 }
 </script>
 </head>
