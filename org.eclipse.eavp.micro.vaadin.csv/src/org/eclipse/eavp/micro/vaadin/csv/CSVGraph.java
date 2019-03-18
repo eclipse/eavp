@@ -473,7 +473,7 @@ public class CSVGraph extends DCharts {
 				try {
 
 					// Open the connection
-					URL url = new URL(BASE_URL + "put?identifier=" + identifier + "&service=vaadin-csvservice");
+					URL url = new URL(BASE_URL + "post?identifier=" + identifier + "&service=vaadin-csvservice");
 					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 					connection.setDoOutput(true);
 					connection.setRequestMethod("POST");
@@ -485,7 +485,7 @@ public class CSVGraph extends DCharts {
 					// Send the content with a point identifier to the state service
 					connection.getOutputStream().write(("POINT:" + list.get(0) + "," + list.get(1)).getBytes());
 					connection.getResponseCode();
-
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

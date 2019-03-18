@@ -66,7 +66,7 @@ import java.security.NoSuchAlgorithmException;
 public class VisualizationService {
 	
 	//TODO THis should come in through HATEOS
-	private final String CSV_SERVICE_URL = "http://dracula.ornl.gov:8080";
+	private final String CSV_SERVICE_URL = "http://localhost:8080";
 	private final String BASE_SERVLET_NAME = "/org.eclipse.eavp.micro-1.0-SNAPSHOT";
 	private final String CSV_SERVLET_NAME = "/org.eclipse.eavp.micro.vaadin.csv-1.0-SNAPSHOT";
 
